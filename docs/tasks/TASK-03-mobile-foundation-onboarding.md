@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-03 |
-| Status | Not Started |
+| Status | In Progress |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-01, TASK-02 |
