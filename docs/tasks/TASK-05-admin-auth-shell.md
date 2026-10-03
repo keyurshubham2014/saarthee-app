@@ -168,6 +168,11 @@ The guard is mounted on the `/admin` router (excluding `/admin/auth/login`) so e
 - ASSUMPTION: The app checks `expiresAt` on startup and before admin navigation and proactively returns to login when expired — 02 §4.17 says "the expiry time is kept so the app can return to login when it lapses" — no behaviour change if the server 401 path is relied on instead.
 - ASSUMPTION: Argon2id parameters use the library's current recommended defaults (verify at build time); fallback bcrypt cost 12 only if argon2 native build fails on the dev machine — record the choice in §13.
 
+- ASSUMPTION (W1 API): The login limiter counts only failed attempts (`skipSuccessfulRequests`), key = IP + SHA-256(lowercase email); 5 failures in 15 min → 429 (also for the right password until the window ends). An admin logging in successfully many times is never locked out.
+- ASSUMPTION (W1 API): Common-password list = SecLists `Passwords/Common-Credentials/10k-most-common.txt`, bundled at `apps/api/scripts/data/common-passwords-10k.txt`.
+- ASSUMPTION (W1 API): Non-interactive `admin:create` runs when `SEED_ADMIN_EMAIL` + `SEED_ADMIN_PASSWORD` are set and stdin is not a TTY; display name from `ADMIN_DISPLAY_NAME` (default "Operator"). `--reset` is always interactive.
+- ASSUMPTION (W1 API): Unknown `/admin/*` paths return 401 (guard runs first) instead of 404 — avoids revealing admin routes to unauthenticated callers.
+
 ## 6. Implementation Steps
 
 1. Verify and add candidate libraries (`jsonwebtoken`, `argon2`/`bcrypt`, `express-rate-limit` if not already added in TASK-01); record versions in §13. Extend the config schema and `.env.example` with `JWT_SECRET` (min 32 bytes), `JWT_ISSUER`, `JWT_AUDIENCE`, `JWT_EXPIRES_IN` if missing.
@@ -324,6 +329,24 @@ The guard is mounted on the `/admin` router (excluding `/admin/auth/login`) so e
 | App manual | **M-05-15** 320 px emulator + largest font: login and shell readable, no cut-off | 7.2 items |
 | Optional automated | Not applicable — 06 §8.1 lists no auth-specific safety-net test | — |
 
+### Verification log (W1, API only — 2026-10-03, `saarthee_w1` DB, `API=http://localhost:4001/api/v1`)
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| Login OK (mixed-case email) | `curl -s -X POST $API/admin/auth/login -H 'Content-Type: application/json' -d '{"email":"Admin@Saarthee.local","password":"<seed password>"}'` | 200 `{accessToken, expiresAt:"…T16:34:13.000Z" (8 h), admin:{id,email:"admin@saarthee.local",displayName:"Dev Admin"}}` |
+| /admin/me | `curl -s $API/admin/me -H "Authorization: Bearer $T"` | 200 `{id,email,displayName}` |
+| No / malformed token | no header; `Bearer abc.def.ghi` | 401 `TOKEN_REVOKED` |
+| Expired token | token signed with `expiresIn:-10` | 401 `TOKEN_EXPIRED` |
+| Unknown email | `{"email":"nobody@saarthee.local",…}` | 401 `INVALID_CREDENTIALS` "Email or password is incorrect." (dummy-hash verify runs) |
+| Bad body | `{"email":"x"}` | 400 `VALIDATION_FAILED` details email + password |
+| Login limit | 6 × wrong password for the same IP + email | `401 401 401 401 401 429`; the correct password is then also 429 with `Retry-After: 900`; `warn` "rate limited" with `emailHash` only |
+| Disabled (existing token) | `UPDATE admin_users SET is_active=false …` then `/admin/me` | 401 `TOKEN_REVOKED` |
+| Disabled (login) | disabled `ops2@saarthee.local` logs in with the right password | 403 `ADMIN_DISABLED`; re-enabled → 200 |
+| Logout-all | `curl -s -X POST $API/admin/auth/logout-all -H "Authorization: Bearer $T"` → then `/admin/me` with same token | 204, `token_version` 0→1, then 401 `TOKEN_REVOKED`; audit line `{"adminId":…,"action":"logout_all","targetId":…,"msg":"admin_action"}` |
+| admin:create | `SEED_ADMIN_EMAIL=ops2@saarthee.local SEED_ADMIN_PASSWORD=<pw> npm run -s admin:create < /dev/null` with `unbelievable` / `short1` / a valid 21-char password / again | "That password is too common. Choose another." exit 1 / "Password must be at least 12 characters." exit 1 / "Admin created (id …)" + reminder to remove SEED_* exit 0 / "An admin with that email already exists…" exit 1; stored hash `$argon2id$…` |
+| Log redaction | `grep -c -E 'admin@saarthee\|Demo-Admin\|wrong-password\|eyJ' api.log` | 0 |
+
 ## 9. Deliverables
 
 - `admin:create` script with create and `--reset` modes, bundled common-password list.
@@ -384,6 +407,7 @@ Prediction, not a constraint.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend done — `scripts/admin-create.ts` (`npm run admin:create`, `--reset`), `POST /admin/auth/login`, `requireAdmin` guard (`TOKEN_EXPIRED`/`TOKEN_REVOKED`, token_version + is_active), `GET /admin/me`, `POST /admin/auth/logout-all`, login limiter 5 failures/15 min per IP+email, admin limiter 300/min per admin, `auditLog`. New libs: `jsonwebtoken@9.0.3`, `@types/jsonwebtoken@9.0.10` (pinned exact); argon2id kept (argon2 0.45.1). Curl-verified (§8 W1 log). | TASK-05: API (w1-api) |
 
 ## 14. Completion Checklist
 

@@ -265,6 +265,10 @@ There is only one admin role, with no finer-grained permissions (03 §3.3). Ever
 - ASSUMPTION: excluding an anonymized complaint is still allowed — exclusion affects rates only, not personal data — if not, return 409 `COMPLAINT_ANONYMIZED`.
 - ASSUMPTION: the photo-retry selector is "photos linked to an anonymized complaint with `deleted_at IS NULL`" (report via `complaints.photo_id`, verification via `verifications.photo_id`) — no separate failure table exists in 04 — if one is wanted, add it in a new migration.
 
+- ASSUMPTION (W1 API): Anonymize is idempotent — a second call returns the original `anonymizedAt` and retries any photo-file deletion that failed (also retried by `npm run photos:cleanup`). Photos covered: the report photo, attached verification photos, and verification photos uploaded for the complaint but never attached.
+- ASSUMPTION (W1 API): Revoking an already revoked reminder returns 200 with the original `revokedAt`.
+- ASSUMPTION (W1 API): `record_flagged` properties are `{isExcluded, reason}` with `reason: null` on re-include; the exclusion note is never put in events or logs.
+
 ## 6. Implementation Steps
 
 1. **Filter query.** Extend the `admin-complaints` service filter builder from TASK-06:
@@ -441,6 +445,22 @@ There is only one admin role, with no finer-grained permissions (03 §3.3). Ever
 | App manual | **M-08-16** Rotate on detail and list; largest font; TalkBack on chips, warnings and the dialog | §7.2 |
 | Optional automated | Not applicable — 06 §8.1 lists no test for this area; exclusion-in-rates is covered by optional test #1 scheduled in TASK-10 | — |
 
+### Verification log (W1, API only — 2026-10-03, `saarthee_w1` DB, `API=http://localhost:4001/api/v1`, `H="Authorization: Bearer $T"`)
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| Detail | `curl -s $API/admin/complaints/<C1> -H "$H"` | 200: all summary fields + detail fields; `phoneE164` present; `reminders[]` keys exactly `channel,id,revokedAt,sentAt,sentBy` (`sentBy:"Ops Two"`); `verifications[]` `not_fixed`, `distanceFromReportM 97.89`, `distanceWarning false` (threshold unset), `sameImageAsReport false`, note; no `token`/hash anywhere in the JSON |
+| Same image | detail of seed C9 | `sameImageAsReport:[true]` |
+| Detail 404 | random UUID | 404 |
+| Verification photo | `curl -s $API/admin/verifications/<id>/photo -H "$H"` | 200 `image/jpeg` |
+| Revoke | `POST /admin/reminders/<id>/revoke` (TASK-07 log) | 200 `{revokedAt}`; verify link → 410; detail shows `revokedAt` |
+| Exclusion | `curl -s -X PATCH $API/admin/complaints/<C2>/exclusion -H "$H" -H 'Content-Type: application/json' -d '{"isExcluded":true}'` | 400 `details:[{field:"reason",issue:"Choose a reason."}]` |
+| Exclude / re-include | `-d '{"isExcluded":true,"reason":"invalid","note":"test note"}'` then `-d '{"isExcluded":false}'` | ComplaintSummary `isExcluded true, exclusionReason invalid` → DB reason/note/excluded_by/excluded_at set; re-include clears all five columns; `record_flagged` events `{"isExcluded":true,"reason":"invalid"}` and `{"isExcluded":false,"reason":null}`; audit `exclusion_changed` |
+| Anonymize confirm | `POST /admin/complaints/<id>/anonymize -d '{}'` | 400 `details:[{field:"confirm"}]` |
+| Anonymize | same with `{"confirm":true}` on a W1 test complaint with a reminder and an uploaded verification photo | 200 `{anonymizedAt}`; `phone_e164 NULL`, 0 open reminders, report + verification photos `deleted_at` set (files removed); audit `anonymized` |
+| After anonymize | report photo; new reminder; old verify link; anonymize again | 410 `PHOTO_DELETED`; 409 `COMPLAINT_ANONYMIZED`; 410 `VERIFY_TOKEN_REVOKED`; 200 same `anonymizedAt` (idempotent, retries file deletes) |
+
 ## 9. Deliverables
 - Completed filtering on `GET /admin/complaints`.
 - New endpoints:
@@ -514,6 +534,7 @@ Prediction only. Exact paths follow the patterns from TASK-01 to TASK-07.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend done — `GET /admin/complaints/{id}` (ComplaintDetail), `GET /admin/complaints/{id}/photo` + `GET /admin/verifications/{id}/photo` (410 `PHOTO_DELETED`), `POST /admin/reminders/{id}/revoke`, `PATCH /admin/complaints/{id}/exclusion` (`record_flagged`), `POST /admin/complaints/{id}/anonymize`; list filters verified. No new libraries. Curl-verified (§8 W1 log). | TASK-08: API (w1-api) |
 
 ## 14. Completion Checklist
 

@@ -6,6 +6,7 @@ import '../../../core/connectivity/connectivity_provider.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/settings/app_settings.dart';
 import '../../../core/theme/tokens.dart';
+import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../report/application/report_draft_controller.dart';
 
@@ -21,6 +22,7 @@ class HomeScreen extends ConsumerWidget {
     final offline = ref.watch(isOfflineProvider);
     final draft = ref.watch(reportDraftProvider);
     final hasDraft = draft != null;
+    final myReports = ref.watch(myReportsProvider);
 
     return Scaffold(
       body: PinnedBottomLayout(
@@ -69,6 +71,42 @@ class HomeScreen extends ConsumerWidget {
             onTap: () => context.go('/verify/enter-code'),
           ),
           const SizedBox(height: AppSpacing.xxl),
+          Semantics(
+            header: true,
+            child: Text(
+              l10n.homeMyReportsTitle,
+              style: theme.textTheme.titleMedium,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          if (myReports.isEmpty)
+            Text(l10n.homeMyReportsEmpty, style: theme.textTheme.bodyMedium)
+          else
+            for (final r in myReports)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.description_outlined,
+                      color: AppColors.inkMuted,
+                      size: 20,
+                    ),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(
+                      child: Text(
+                        l10n.homeMyReportsItem(
+                          r.ccrsNumber,
+                          r.categoryName,
+                          Formatters.date(r.createdAt),
+                        ),
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          const SizedBox(height: AppSpacing.xl),
           Align(
             alignment: Alignment.centerLeft,
             child: TextButton.icon(

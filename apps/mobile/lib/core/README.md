@@ -19,7 +19,7 @@ never import dio or `ApiClient` directly (data → application → presentation)
 `PrimaryButton` (full width, ≥56, `loading` shows in-button progress and disables),
 `SecondaryButton`, `StepScaffold`, `ChoiceCard` (+`ChoiceTone`), `StatusChip`
 (`ComplaintStatus.fixed/notFixed/waiting/filed/reminded`, icon + word), `StatusStyle`,
-`EmptyState`, `SkeletonBox`, `ErrorSummary` (+`ErrorSummaryItem`, takes focus),
+`EmptyState`, `SkeletonBox`, `AppErrorSummary` (the spec's ErrorSummary; renamed to avoid clashing with Flutter's foundation `ErrorSummary`; +`ErrorSummaryItem`, takes focus),
 `InlineFieldError`, `OfflineBanner` (optional `onRetry`, `message`),
 `IndependenceNotice`, `EvidencePhoto`, `BeforeAfterCard`
 (`BeforeAfterVariant.full/compact/citizenCheck`, `beforeOnly`, images as `ImageProvider`

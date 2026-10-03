@@ -1140,5 +1140,135 @@
   "aboutGroupHeading": "Group code",
   "aboutGroupNone": "No group code",
   "aboutChangeCode": "Change group code",
-  "aboutOperatorLogin": "Operator login"
+  "aboutOperatorLogin": "Operator login",
+  "reportCategoryTitle": "What kind of problem?",
+  "reportCategoryEmpty": "No categories are available right now.",
+  "reportCategoryLoadFailed": "We couldn't load the list of problems.",
+  "reportCategoryRequired": "Choose the kind of problem.",
+  "reportAmcTitle": "File it with AMC",
+  "reportAmcBody": "First, file your complaint with AMC. They'll give you a complaint number. Come back here when you have it — your answers so far are saved.",
+  "reportAmcChosenCategory": "You chose: {category}",
+  "@reportAmcChosenCategory": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "reportAmcWeb": "Open AMC complaint website",
+  "reportAmcWhatsapp": "Use AMC's WhatsApp",
+  "reportAmcCall": "Call {number}",
+  "@reportAmcCall": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "reportAmcHaveNumber": "I have my complaint number",
+  "reportAmcOpenFailed": "We couldn't open that. Try another option.",
+  "reportNumberTitle": "Your AMC complaint number",
+  "reportNumberLabel": "Complaint number",
+  "reportNumberHelp": "It's in the SMS or WhatsApp message AMC sent you.",
+  "reportNumberError": "Enter the complaint number you got from AMC.",
+  "reportPhotoTitle": "Photo of the problem",
+  "reportPhotoRationale": "Take a new photo of the problem. We'll also record where you are, so we can tell it's the same spot later.",
+  "reportPhotoTake": "Take photo",
+  "reportPhotoRetake": "Retake",
+  "reportPhotoUse": "Use this photo",
+  "reportPhotoLocationDenied": "We need your location to record where the photo was taken. Turn on location for Saarthee in settings.",
+  "reportPhotoLocationOff": "Your phone's location is turned off. Turn it on to continue.",
+  "reportPhotoLocationUnavailable": "We couldn't read your location. Please try again.",
+  "reportPhotoWeakGps": "Location is approximate. Move into the open and try again?",
+  "reportPhotoWeakGpsRetry": "Try location again",
+  "reportPhotoWeakGpsContinue": "Continue anyway",
+  "reportPhotoUploading": "Uploading photo",
+  "reportPhotoUploaded": "Photo uploaded",
+  "reportPhotoUploadFailed": "The photo didn't upload. It's saved on your phone.",
+  "reportPhotoRetryUpload": "Retry upload",
+  "reportPhotoRequired": "Take a photo to continue.",
+  "reportPhotoUploadRequired": "Wait for the photo to upload, or retry the upload.",
+  "reportPhotoPreviewLabel": "Preview of your photo",
+  "reportPhoneTitle": "Your WhatsApp number",
+  "reportPhoneBody": "We'll send you one message in about a week asking whether it was fixed.",
+  "reportPhoneLabel": "WhatsApp number",
+  "reportPhonePrefix": "+91",
+  "reportPhoneError": "Enter a valid 10-digit Indian mobile number.",
+  "reportConsentText": "I agree that this app may store my WhatsApp number, my photos, their location and time, and my answers, and may contact me on WhatsApp about this complaint. I can ask for my data to be deleted.",
+  "reportConsentError": "Please agree to the consent statement to continue.",
+  "reportWhyWeAsk": "Why we ask",
+  "reportWhyWeAskBody": "Your number lets us ask you, once, whether AMC fixed the problem. We never share it and never use it for anything else.",
+  "reportCheckTitle": "Check your answers",
+  "reportCheckCategory": "Kind of problem",
+  "reportCheckNumber": "AMC complaint number",
+  "reportCheckPhoto": "Photo",
+  "reportCheckPhone": "WhatsApp number",
+  "reportCheckChangeLabel": "Change {item}",
+  "@reportCheckChangeLabel": {
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "reportCheckMissing": "Not answered yet",
+  "reportErrorClock": "Your phone's clock looks wrong. Please check the date and time.",
+  "reportErrorLocation": "We couldn't read your location. Please try again.",
+  "reportErrorPhotoExpired": "Your photo upload expired. Please retake the photo.",
+  "reportDoneTitle": "Recorded. Thank you.",
+  "reportDoneBody": "In about a week, we'll send you a WhatsApp message asking whether it's been fixed. Answering takes less than a minute.",
+  "homeMyReportsTitle": "Your reports on this phone",
+  "homeMyReportsEmpty": "Reports you record will appear here.",
+  "homeMyReportsItem": "{number} · {category} · {date}",
+  "@homeMyReportsItem": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "category": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyEntryTitle": "Your complaint from {date}",
+  "@verifyEntryTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyEntryCategory": "Kind of problem",
+  "verifyEntryNumber": "AMC complaint number",
+  "verifyEntryAnsweredBefore": "You've answered before. You can update your answer.",
+  "verifyEntryNoPhoto": "The original photo is no longer available.",
+  "verifyEntryLoading": "Opening your complaint",
+  "verifyLinkInvalid": "This link isn't valid.",
+  "verifyLinkRevoked": "This link is no longer active.",
+  "verifyEnterCodeInstead": "Enter a code instead",
+  "verifyEnterCodeTitle": "Enter your follow-up code",
+  "verifyEnterCodeBody": "Paste the whole link from the WhatsApp message, or just the code after 't='.",
+  "verifyEnterCodeLabel": "Link or code",
+  "verifyEnterCodeError": "That doesn't look like a follow-up link or code. Check the WhatsApp message and try again.",
+  "verifyAnswerTitle": "Is it fixed?",
+  "verifyAnswerFixed": "Yes, it's fixed",
+  "verifyAnswerNotFixed": "No, it's not fixed",
+  "verifyAnswerRequired": "Choose an answer.",
+  "verifyPhotoTitle": "Take a photo of the same spot now",
+  "verifyPhotoReference": "Your earlier photo, to help you frame the same view",
+  "verifyNoteTitle": "What's still wrong?",
+  "verifyNoteBody": "Optional. Tell us briefly what still needs fixing.",
+  "verifyNoteLabel": "Note",
+  "verifyNoteTooLong": "Your note is too long.",
+  "verifyCheckTitle": "Check and send",
+  "verifyCheckAnswer": "Your answer",
+  "verifyCheckNote": "Your note",
+  "verifyCheckNoNote": "No note",
+  "verifyCheckPhoto": "Photo now",
+  "verifyDoneTitle": "Thank you.",
+  "verifyDoneBody": "Your answer helps show which complaints really get fixed.",
+  "verifySessionEnded": "This follow-up was closed. Open the link from WhatsApp again, or enter the code."
 }
