@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "adminSectionStart": "Admin",
+  "@adminSectionStart": {
+    "description": "Marker only. Admin keys (prefix 'admin') are inserted directly below this entry; citizen keys are appended at the end of the file."
+  },
+  "appTitle": "Saarthee",
+  "@appTitle": {
+    "description": "App name"
+  },
+  "commonSeparatorA": "—",
+  "commonSeparatorB": "·",
+  "commonSeparatorC": "…"
+}
