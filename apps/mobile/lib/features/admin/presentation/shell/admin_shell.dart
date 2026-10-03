@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../admin_l10n.dart';
 import '../../application/admin_complaints.dart';
+import '../../data/models/complaint_summary.dart';
 import '../widgets/admin_tokens.dart';
 import 'admin_session_guard.dart';
 
@@ -35,8 +36,17 @@ class AdminShell extends ConsumerWidget {
         bottomNavigationBar: NavigationBar(
           selectedIndex: navigationShell.currentIndex,
           onDestinationSelected: (index) {
-            if (index == 0) {
-              ref.invalidate(dueCountProvider);
+            // Lists refresh when their tab regains focus (02 §5.4).
+            switch (index) {
+              case 0:
+                ref.invalidate(dueCountProvider);
+                ref.invalidate(
+                  adminComplaintsProvider(ComplaintFilter.dueOnly),
+                );
+              case 1:
+                ref.invalidate(adminComplaintsProvider);
+              case 2:
+                ref.invalidate(ratesProvider);
             }
             navigationShell.goBranch(
               index,

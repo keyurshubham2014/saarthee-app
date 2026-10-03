@@ -14,8 +14,10 @@ import '../widgets/admin_widgets.dart';
 /// (ASSUMPTION per TASK-06 §5.6; PRD Q8).
 Uri whatsAppUri(String phoneE164, String message) {
   final digits = phoneE164.replaceAll(RegExp(r'[^0-9]'), '');
+  // Without a number, wa.me lets the operator pick the chat.
+  final target = digits.isEmpty ? '' : digits;
   return Uri.parse(
-    'https://wa.me/$digits?text=${Uri.encodeComponent(message)}',
+    'https://wa.me/$target?text=${Uri.encodeComponent(message)}',
   );
 }
 
@@ -117,10 +119,11 @@ class _ReminderSheetState extends State<ReminderSheet> {
         children: <Widget>[
           Text(l10n.adminReminderSheetTitle, style: theme.textTheme.titleLarge),
           const SizedBox(height: 8),
-          Text(
-            l10n.adminReminderTo(formatPhone(r.phoneE164)),
-            style: theme.textTheme.titleMedium,
-          ),
+          if (r.phoneE164.isNotEmpty)
+            Text(
+              l10n.adminReminderTo(formatPhone(r.phoneE164)),
+              style: theme.textTheme.titleMedium,
+            ),
           const SizedBox(height: 16),
           Text(
             l10n.adminReminderMessageLabel,
