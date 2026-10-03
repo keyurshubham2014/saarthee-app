@@ -91,19 +91,20 @@ class _FilledAction extends StatelessWidget {
         ? AppSpacing.pinnedButtonHeight
         : AppSpacing.buttonHeight;
     final fg = sunrise ? c.onSunrise : c.onPrimary;
-    final style = FilledButton.styleFrom(
-      minimumSize: Size(AppSpacing.touchTarget, height),
-      backgroundColor: sunrise ? c.sunrise : c.primary,
-      foregroundColor: fg,
-      disabledBackgroundColor: isLoading
-          ? (sunrise ? c.sunrisePressed : c.primaryDark)
-          : c.surfaceAlt,
-      disabledForegroundColor: isLoading ? fg : c.textDisabled,
-    ).copyWith(
-      overlayColor: WidgetStatePropertyAll(
-        (sunrise ? c.sunrisePressed : c.primaryDark).withValues(alpha: 0.4),
-      ),
-    );
+    final style =
+        FilledButton.styleFrom(
+          minimumSize: Size(AppSpacing.touchTarget, height),
+          backgroundColor: sunrise ? c.sunrise : c.primary,
+          foregroundColor: fg,
+          disabledBackgroundColor: isLoading
+              ? (sunrise ? c.sunrisePressed : c.primaryDark)
+              : c.surfaceAlt,
+          disabledForegroundColor: isLoading ? fg : c.textDisabled,
+        ).copyWith(
+          overlayColor: WidgetStatePropertyAll(
+            (sunrise ? c.sunrisePressed : c.primaryDark).withValues(alpha: 0.4),
+          ),
+        );
     return Semantics(
       button: true,
       enabled: enabled,

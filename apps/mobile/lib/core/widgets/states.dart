@@ -244,7 +244,11 @@ class SkeletonListState extends State<SkeletonList>
               shaderCallback: (rect) => LinearGradient(
                 begin: Alignment(x - 0.6, 0),
                 end: Alignment(x + 0.6, 0),
-                colors: [NeemFixed.transparent, highlight, NeemFixed.transparent],
+                colors: [
+                  NeemFixed.transparent,
+                  highlight,
+                  NeemFixed.transparent,
+                ],
               ).createShader(rect),
               child: child,
             );

@@ -334,9 +334,7 @@ class StatusTimeline extends StatelessWidget {
                         ),
                       ),
                       if (i < steps.length - 1)
-                        Expanded(
-                          child: Container(width: 2, color: c.border),
-                        ),
+                        Expanded(child: Container(width: 2, color: c.border)),
                     ],
                   ),
                 ),
@@ -502,17 +500,17 @@ class RepresentativeRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(name, style: text.titleMedium),
-                Text(
-                  [role, ward, ?party].join(' · '),
-                  style: text.bodySmall,
-                ),
+                Text([role, ward, ?party].join(' · '), style: text.bodySmall),
               ],
             ),
           ),
           if (onMessage != null)
             OutlinedButton.icon(
               onPressed: onMessage,
-              icon: const Icon(SaartheeIcons.message, size: AppSpacing.iconSmall),
+              icon: const Icon(
+                SaartheeIcons.message,
+                size: AppSpacing.iconSmall,
+              ),
               label: Text(l10n.componentMessage),
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(

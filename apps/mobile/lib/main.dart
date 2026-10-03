@@ -59,7 +59,9 @@ void registerFontLicenses() {
       ('Baloo Bhai 2', 'assets/fonts/BalooBhai2-OFL.txt'),
       ('Mukta Vaani', 'assets/fonts/MuktaVaani-OFL.txt'),
     ]) {
-      yield LicenseEntryWithLineBreaks([family], await rootBundle.loadString(asset));
+      yield LicenseEntryWithLineBreaks([
+        family,
+      ], await rootBundle.loadString(asset));
     }
   });
 }

@@ -78,9 +78,8 @@ class NoticeBanner extends StatelessWidget {
             Expanded(
               child: Text(
                 message ?? text,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: fg),
+                style: Theme.of(context).textTheme.bodyMedium
+                    ?.copyWith(color: fg),
               ),
             ),
             if (onRetry != null)

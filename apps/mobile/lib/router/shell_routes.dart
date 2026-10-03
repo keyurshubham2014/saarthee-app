@@ -57,7 +57,10 @@ final List<RouteBase> wardChildRoutes = <RouteBase>[
 
 /// Extra top-level routes inside the My Ward branch (`/me/...`).
 final List<RouteBase> meRoutes = <RouteBase>[
-  saartheeRoute(path: '/me/settings', builder: (_, _) => const SettingsScreen()),
+  saartheeRoute(
+    path: '/me/settings',
+    builder: (_, _) => const SettingsScreen(),
+  ),
   saartheeRoute(path: '/about', builder: (_, _) => const AboutScreen()),
   // TASK-04 accounts: /me, sign-in, privacy.
 ];

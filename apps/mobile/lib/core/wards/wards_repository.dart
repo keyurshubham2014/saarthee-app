@@ -70,7 +70,11 @@ class ApiWardsRepository implements WardsRepository {
     } on DioException catch (e) {
       if (AppError.from(e).isOffline) {
         await Future<void>.delayed(AppTimings.retryBackoff);
-        return dio.get<dynamic>(path, queryParameters: query, options: _options);
+        return dio.get<dynamic>(
+          path,
+          queryParameters: query,
+          options: _options,
+        );
       }
       rethrow;
     }

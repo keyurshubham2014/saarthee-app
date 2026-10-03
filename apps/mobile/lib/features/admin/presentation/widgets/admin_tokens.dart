@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/tokens.dart';
 
-/// Design tokens used by the admin screens (02 §2.1, "Indigo and marigold").
-///
-/// Values come from the core [AppColors] tokens; a theme may override them
-/// by registering an [AdminTokens] extension.
+/// Colours used by the v1 admin screens, mapped onto the Neem semantic
+/// tokens (DS §2) so the console follows light and dark themes. TASK-10
+/// replaces the console; until then the field names stay as in v1.
 @immutable
 class AdminTokens extends ThemeExtension<AdminTokens> {
   const AdminTokens({
@@ -21,21 +20,26 @@ class AdminTokens extends ThemeExtension<AdminTokens> {
     required this.indigoTint,
   });
 
-  static const AdminTokens spec = AdminTokens(
-    ink: AppColors.ink,
-    inkMuted: AppColors.inkMuted,
-    marigold: AppColors.marigold,
-    fixed: AppColors.fixed,
-    fixedTint: AppColors.fixedTint,
-    notFixed: AppColors.notFixed,
-    notFixedTint: AppColors.notFixedTint,
-    waitingTint: AppColors.waitingTint,
-    neutralTint: AppColors.surface,
-    indigoTint: AppColors.indigoTint,
+  /// Derives the admin colours from the Neem tokens.
+  factory AdminTokens.fromColors(SaartheeColors c) => AdminTokens(
+    ink: c.textPrimary,
+    inkMuted: c.textSecondary,
+    marigold: c.warningTint,
+    fixed: c.success,
+    fixedTint: c.successTint,
+    notFixed: c.error,
+    notFixedTint: c.errorTint,
+    waitingTint: c.warningTint,
+    neutralTint: c.surfaceAlt,
+    indigoTint: c.primaryContainer,
   );
 
+  /// Light-theme values.
+  static final AdminTokens spec = AdminTokens.fromColors(SaartheeColors.light);
+
   static AdminTokens of(BuildContext context) =>
-      Theme.of(context).extension<AdminTokens>() ?? spec;
+      Theme.of(context).extension<AdminTokens>() ??
+      AdminTokens.fromColors(SaartheeColors.of(context));
 
   final Color ink;
   final Color inkMuted;

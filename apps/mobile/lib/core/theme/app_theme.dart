@@ -70,10 +70,7 @@ class AppTheme {
       materialTapTargetSize: MaterialTapTargetSize.padded,
       splashFactory: InkSparkle.constantTurbulenceSeedSplashFactory,
       dividerTheme: DividerThemeData(color: c.border, thickness: 1, space: 1),
-      iconTheme: IconThemeData(
-        color: c.textPrimary,
-        size: AppSpacing.iconSize,
-      ),
+      iconTheme: IconThemeData(color: c.textPrimary, size: AppSpacing.iconSize),
       appBarTheme: AppBarTheme(
         backgroundColor: c.surface,
         foregroundColor: c.textPrimary,
@@ -281,7 +278,7 @@ class AppTheme {
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: FadeForwardsPageTransitionsBuilder(),
         },
       ),
     );

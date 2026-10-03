@@ -20,14 +20,17 @@ class InlineFieldError extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(SaartheeIcons.error, color: c.error, size: AppSpacing.iconSmall),
+            Icon(
+              SaartheeIcons.error,
+              color: c.error,
+              size: AppSpacing.iconSmall,
+            ),
             const SizedBox(width: AppSpacing.s8),
             Expanded(
               child: Text(
                 message,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: c.error),
+                style: Theme.of(context).textTheme.bodyMedium
+                    ?.copyWith(color: c.error),
               ),
             ),
           ],

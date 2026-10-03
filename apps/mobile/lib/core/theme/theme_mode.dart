@@ -8,7 +8,9 @@ import '../settings/app_settings.dart';
 class ThemeModeController extends Notifier<ThemeMode> {
   @override
   ThemeMode build() {
-    final raw = ref.watch(sharedPreferencesProvider).getString(PrefKeys.themeMode);
+    final raw = ref
+        .watch(sharedPreferencesProvider)
+        .getString(PrefKeys.themeMode);
     return ThemeMode.values.firstWhere(
       (m) => m.name == raw,
       orElse: () => ThemeMode.system,

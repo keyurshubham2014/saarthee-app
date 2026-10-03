@@ -33,9 +33,8 @@ class LocaleController extends Notifier<Locale> {
       ref.read(deviceLocaleProvider).languageCode == 'gu' ? 'gu' : 'en';
 
   /// True once the citizen chose a language (onboarding or settings).
-  bool get hasChoice => ref
-      .read(sharedPreferencesProvider)
-      .containsKey(PrefKeys.languageCode);
+  bool get hasChoice =>
+      ref.read(sharedPreferencesProvider).containsKey(PrefKeys.languageCode);
 
   Future<void> setLanguage(String code) async {
     if (!supportedLanguageCodes.contains(code)) return;

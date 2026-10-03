@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../application/admin_complaints.dart';
@@ -102,7 +105,7 @@ class _AdminCategoriesScreenState extends ConsumerState<AdminCategoriesScreen> {
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
       child: AdminMessageBanner(
         message: l10n.adminCategoriesPlaceholderNote,
-        icon: Icons.info_outline_rounded,
+        icon: SaartheeIcons.info,
         isError: false,
       ),
     );
@@ -114,7 +117,7 @@ class _AdminCategoriesScreenState extends ConsumerState<AdminCategoriesScreen> {
               children: <Widget>[
                 note,
                 AdminEmptyState(
-                  icon: Icons.category_rounded,
+                  icon: SaartheeIcons.category,
                   message: l10n.adminCategoriesEmpty,
                   actionLabel: l10n.adminAddCategory,
                   onAction: () => _edit(null, nextSort),
@@ -136,7 +139,7 @@ class _AdminCategoriesScreenState extends ConsumerState<AdminCategoriesScreen> {
                   leading: ReorderableDragStartListener(
                     index: i,
                     enabled: !_saving,
-                    child: const Icon(Icons.drag_handle_rounded),
+                    child: const Icon(SaartheeIcons.dragHandle),
                   ),
                   title: Text(c.name),
                   subtitle: Text(
@@ -211,7 +214,7 @@ class _AdminCategoriesScreenState extends ConsumerState<AdminCategoriesScreen> {
         floatingActionButton: FloatingActionButton.extended(
           key: const Key('adminAddCategory'),
           onPressed: _saving ? null : () => _edit(null, nextSort),
-          icon: const Icon(Icons.add_rounded),
+          icon: const Icon(SaartheeIcons.add),
           label: Text(l10n.adminAddCategory),
         ),
         body: SafeArea(child: AdminContentWidth(child: body)),

@@ -81,10 +81,7 @@ class LaunchGateState extends State<LaunchGate> with TickerProviderStateMixin {
                         opacity: markIn.value,
                         child: Transform.scale(scale: markScale, child: child),
                       ),
-                      child: const BrandMark(
-                        key: Key('launch.mark'),
-                        size: 96,
-                      ),
+                      child: const BrandMark(key: Key('launch.mark'), size: 96),
                     ),
                   ),
                 ),

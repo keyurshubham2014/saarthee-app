@@ -72,9 +72,8 @@ class ToneChip extends StatelessWidget {
             Flexible(
               child: Text(
                 label,
-                style: Theme.of(
-                  context,
-                ).textTheme.labelMedium?.copyWith(color: fg),
+                style: Theme.of(context).textTheme.labelMedium
+                    ?.copyWith(color: fg),
               ),
             ),
           ],
@@ -140,9 +139,8 @@ class AppFilterChip extends StatelessWidget {
       shape: const StadiumBorder(),
       side: BorderSide(color: selected ? c.primary : c.borderStrong),
       selectedColor: c.primaryContainer,
-      labelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-        color: selected ? c.onPrimaryContainer : c.textPrimary,
-      ),
+      labelStyle: Theme.of(context).textTheme.labelMedium
+          ?.copyWith(color: selected ? c.onPrimaryContainer : c.textPrimary),
       materialTapTargetSize: MaterialTapTargetSize.padded,
     );
   }
@@ -181,9 +179,8 @@ class TagLabel extends StatelessWidget {
           const SizedBox(width: AppSpacing.s4),
           Text(
             label,
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: foreground),
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: foreground),
           ),
         ],
       ),

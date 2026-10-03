@@ -104,9 +104,7 @@ final deviceLocatorProvider = Provider<DeviceLocator>(
 );
 
 /// GPS → `/geo/locate`. Throws [LocatorException] or [WardException].
-final locateWardProvider = Provider<Future<WardLocateResult> Function()>((
-  ref,
-) {
+final locateWardProvider = Provider<Future<WardLocateResult> Function()>((ref) {
   return () async {
     final pos = await ref.read(deviceLocatorProvider).currentPosition();
     return ref.read(wardsRepositoryProvider).locate(pos.lat, pos.lng);

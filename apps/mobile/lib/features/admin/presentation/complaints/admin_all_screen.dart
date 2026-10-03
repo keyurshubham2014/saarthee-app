@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -63,8 +66,8 @@ class AdminAllScreen extends ConsumerWidget {
                 minTileHeight: 56,
                 leading: Icon(
                   option.value == current
-                      ? Icons.radio_button_checked_rounded
-                      : Icons.radio_button_unchecked_rounded,
+                      ? SaartheeIcons.radioOn
+                      : SaartheeIcons.radioOff,
                 ),
                 selected: option.value == current,
                 title: Text(option.label),
@@ -274,7 +277,7 @@ class AdminAllScreen extends ConsumerWidget {
         physics: const AlwaysScrollableScrollPhysics(),
         children: <Widget>[
           AdminEmptyState(
-            icon: Icons.filter_alt_off_rounded,
+            icon: SaartheeIcons.filterOff,
             message: l10n.adminAllEmpty,
             actionLabel: filter.hasActiveFilters
                 ? l10n.adminClearFilters

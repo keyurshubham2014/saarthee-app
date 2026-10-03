@@ -32,9 +32,7 @@ class SeenOnce extends ConsumerStatefulWidget {
 }
 
 class _SeenOnceState extends ConsumerState<SeenOnce> {
-  late bool _animate = ref
-      .read(seenOnceProvider)
-      .markFirstView(widget.seenKey);
+  late bool _animate = ref.read(seenOnceProvider).markFirstView(widget.seenKey);
 
   @override
   void didUpdateWidget(SeenOnce oldWidget) {

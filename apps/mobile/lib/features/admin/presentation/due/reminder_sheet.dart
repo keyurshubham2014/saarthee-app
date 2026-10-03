@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -159,14 +162,14 @@ class _ReminderSheetState extends State<ReminderSheet> {
           ],
           AdminPrimaryButton(
             key: const Key('adminOpenWhatsApp'),
-            icon: Icons.chat_rounded,
+            icon: SaartheeIcons.chat,
             label: l10n.adminOpenWhatsApp,
             onPressed: _openWhatsApp,
           ),
           const SizedBox(height: 12),
           AdminSecondaryButton(
             key: const Key('adminCopyMessage'),
-            icon: Icons.copy_rounded,
+            icon: SaartheeIcons.copy,
             label: l10n.adminCopyMessage,
             onPressed: _copy,
           ),

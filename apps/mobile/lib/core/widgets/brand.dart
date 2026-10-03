@@ -68,7 +68,11 @@ class BrandMarkPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round
         ..strokeJoin = StrokeJoin.round,
     );
-    canvas.drawCircle(Offset(s * 0.74, s * 0.30), s * 0.085, Paint()..color = dot);
+    canvas.drawCircle(
+      Offset(s * 0.74, s * 0.30),
+      s * 0.085,
+      Paint()..color = dot,
+    );
   }
 
   @override

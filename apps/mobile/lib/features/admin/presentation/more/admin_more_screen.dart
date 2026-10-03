@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -78,7 +81,7 @@ class _AdminMoreScreenState extends ConsumerState<AdminMoreScreen> {
           minTileHeight: 56,
           leading: Icon(icon),
           title: Text(label),
-          trailing: const Icon(Icons.chevron_right_rounded),
+          trailing: const Icon(SaartheeIcons.chevronRight),
           onTap: () => context.push(path),
         );
     return Scaffold(
@@ -98,19 +101,19 @@ class _AdminMoreScreenState extends ConsumerState<AdminMoreScreen> {
                 ),
               ),
             link(
-              Icons.qr_code_rounded,
+              SaartheeIcons.qrCode,
               l10n.adminMoreInviteCodes,
               AdminPaths.inviteCodes,
               'adminMoreInviteCodes',
             ),
             link(
-              Icons.category_rounded,
+              SaartheeIcons.category,
               l10n.adminMoreCategories,
               AdminPaths.categories,
               'adminMoreCategories',
             ),
             link(
-              Icons.download_rounded,
+              SaartheeIcons.download,
               l10n.adminMoreExport,
               AdminPaths.export,
               'adminMoreExport',
@@ -129,7 +132,7 @@ class _AdminMoreScreenState extends ConsumerState<AdminMoreScreen> {
                   ],
                   AdminSecondaryButton(
                     key: const Key('adminLogout'),
-                    icon: Icons.logout_rounded,
+                    icon: SaartheeIcons.logout,
                     label: l10n.adminLogout,
                     onPressed: _busy
                         ? null
@@ -138,7 +141,7 @@ class _AdminMoreScreenState extends ConsumerState<AdminMoreScreen> {
                   const SizedBox(height: 12),
                   AdminSecondaryButton(
                     key: const Key('adminLogoutEverywhere'),
-                    icon: Icons.devices_rounded,
+                    icon: SaartheeIcons.devices,
                     label: l10n.adminLogoutEverywhere,
                     busy: _busy,
                     onPressed: _logoutEverywhere,

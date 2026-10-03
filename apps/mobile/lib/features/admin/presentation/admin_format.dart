@@ -1,10 +1,11 @@
 import 'package:intl/intl.dart';
 
+import '../../../core/config/timings.dart';
 import 'admin_l10n.dart';
 import '../data/admin_api_error.dart';
 import '../data/models/complaint_summary.dart';
 
-const Duration _istOffset = Duration(hours: 5, minutes: 30);
+const Duration _istOffset = AppTimings.istOffset;
 
 /// Converts any instant to wall-clock IST.
 DateTime toIst(DateTime instant) => instant.toUtc().add(_istOffset);

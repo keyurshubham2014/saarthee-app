@@ -100,7 +100,8 @@ class EvidencePhoto extends StatelessWidget {
               : l10n.photoSemanticLabel(time),
         ),
         const SizedBox(height: AppSpacing.s8),
-        if (time != null) meta(SaartheeIcons.schedule, l10n.photoCapturedAt(time)),
+        if (time != null)
+          meta(SaartheeIcons.schedule, l10n.photoCapturedAt(time)),
         meta(
           SaartheeIcons.location,
           accuracyMeters == null

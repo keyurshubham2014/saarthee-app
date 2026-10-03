@@ -20,7 +20,9 @@ class LanguageToggle extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final gu = ref.watch(localeProvider).languageCode == 'gu';
     final glyph = gu ? l10n.languageGlyphEn : l10n.languageGlyphGu;
-    final label = gu ? l10n.languageSwitchToEnglish : l10n.languageSwitchToGujarati;
+    final label = gu
+        ? l10n.languageSwitchToEnglish
+        : l10n.languageSwitchToGujarati;
     return HeaderCircleButton(
       key: const Key('languageToggle'),
       tooltip: label,

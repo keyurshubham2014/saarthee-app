@@ -7,7 +7,9 @@ import 'app_settings.dart';
 class MotionPreferenceNotifier extends Notifier<bool> {
   @override
   bool build() =>
-      ref.watch(sharedPreferencesProvider).getBool(PrefKeys.animationsEnabled) ??
+      ref
+          .watch(sharedPreferencesProvider)
+          .getBool(PrefKeys.animationsEnabled) ??
       true;
 
   Future<void> setEnabled(bool enabled) async {
@@ -18,9 +20,10 @@ class MotionPreferenceNotifier extends Notifier<bool> {
   }
 }
 
-final motionPreferenceProvider = NotifierProvider<MotionPreferenceNotifier, bool>(
-  MotionPreferenceNotifier.new,
-);
+final motionPreferenceProvider =
+    NotifierProvider<MotionPreferenceNotifier, bool>(
+      MotionPreferenceNotifier.new,
+    );
 
 /// The system "Remove animations" flag (`MediaQuery.disableAnimations`),
 /// kept in sync by `MotionScope`.

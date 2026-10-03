@@ -145,9 +145,12 @@ class NavPillState extends State<NavPill> with SingleTickerProviderStateMixin {
         return AnimatedBuilder(
           animation: _c,
           builder: (context, _) {
-            final x = slot * position + (slot - SaartheeNavigationBar.pillWidth) / 2;
+            final x =
+                slot * position + (slot - SaartheeNavigationBar.pillWidth) / 2;
             // Stretch up to 1.4× at mid-flight.
-            final stretch = 1 + 0.4 * (1 - (2 * _c.value - 1).abs()) * (_c.isAnimating ? 1 : 0);
+            final stretch =
+                1 +
+                0.4 * (1 - (2 * _c.value - 1).abs()) * (_c.isAnimating ? 1 : 0);
             return Stack(
               children: [
                 Positioned(

@@ -163,9 +163,7 @@ class LanguageTileState extends State<LanguageTile>
             child: ConstrainedBox(
               constraints: const BoxConstraints(minHeight: 72),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.s20,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s20),
                 child: Row(
                   children: [
                     Expanded(

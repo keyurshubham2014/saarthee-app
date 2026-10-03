@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -68,7 +71,7 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
             ? null
             : IconButton(
                 tooltip: l10n.adminBack,
-                icon: const Icon(Icons.arrow_back_rounded),
+                icon: const Icon(SaartheeIcons.back),
                 onPressed: () => context.go('/about'),
               ),
       ),
@@ -85,7 +88,7 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
                     if (_showSessionEnded && error == null) ...<Widget>[
                       AdminMessageBanner(
                         message: l10n.adminSessionEnded,
-                        icon: Icons.lock_clock_rounded,
+                        icon: SaartheeIcons.lockClock,
                         isError: false,
                       ),
                       const SizedBox(height: 16),
@@ -94,8 +97,8 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
                       AdminMessageBanner(
                         message: adminErrorMessage(l10n, error),
                         icon: error.isNetwork
-                            ? Icons.cloud_off_rounded
-                            : Icons.error_rounded,
+                            ? SaartheeIcons.offline
+                            : SaartheeIcons.error,
                         onRetry: error.isNetwork && !login.submitting
                             ? _submit
                             : null,
@@ -155,8 +158,8 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
                               : l10n.adminLoginHidePassword,
                           icon: Icon(
                             _obscure
-                                ? Icons.visibility_rounded
-                                : Icons.visibility_off_rounded,
+                                ? SaartheeIcons.visibility
+                                : SaartheeIcons.visibilityOff,
                           ),
                           onPressed: () => setState(() => _obscure = !_obscure),
                         ),

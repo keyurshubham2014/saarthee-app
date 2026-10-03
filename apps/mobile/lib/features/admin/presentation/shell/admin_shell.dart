@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,26 +59,26 @@ class AdminShell extends ConsumerWidget {
           destinations: <NavigationDestination>[
             NavigationDestination(
               key: const Key('adminTabDue'),
-              icon: dueIcon(Icons.notifications_outlined),
-              selectedIcon: dueIcon(Icons.notifications_rounded),
+              icon: dueIcon(SaartheeIcons.notifications),
+              selectedIcon: dueIcon(SaartheeIcons.notifications),
               label: l10n.adminTabDue,
             ),
             NavigationDestination(
               key: const Key('adminTabAll'),
-              icon: const Icon(Icons.list_alt_outlined),
-              selectedIcon: const Icon(Icons.list_alt_rounded),
+              icon: const Icon(SaartheeIcons.listAlt),
+              selectedIcon: const Icon(SaartheeIcons.listAlt),
               label: l10n.adminTabAll,
             ),
             NavigationDestination(
               key: const Key('adminTabRates'),
-              icon: const Icon(Icons.insights_outlined),
-              selectedIcon: const Icon(Icons.insights_rounded),
+              icon: const Icon(SaartheeIcons.insights),
+              selectedIcon: const Icon(SaartheeIcons.insights),
               label: l10n.adminTabRates,
             ),
             NavigationDestination(
               key: const Key('adminTabMore'),
-              icon: const Icon(Icons.more_horiz_rounded),
-              selectedIcon: const Icon(Icons.more_horiz_rounded),
+              icon: const Icon(SaartheeIcons.more),
+              selectedIcon: const Icon(SaartheeIcons.more),
               label: l10n.adminTabMore,
             ),
           ],

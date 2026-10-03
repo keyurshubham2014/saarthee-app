@@ -39,7 +39,10 @@ class MyWardScreen extends ConsumerWidget {
         AppSpacing.gutter,
         AppSpacing.sectionTitleBottom,
       ),
-      child: Semantics(header: true, child: Text(title, style: text.titleLarge)),
+      child: Semantics(
+        header: true,
+        child: Text(title, style: text.titleLarge),
+      ),
     );
 
     return Scaffold(

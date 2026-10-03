@@ -24,4 +24,10 @@ class AppTimings {
 
   /// Analytics flush interval.
   static const Duration eventFlushInterval = Duration(seconds: 60);
+
+  /// Fallback admin session length when the server omits `expiresAt`.
+  static const Duration adminSessionFallback = Duration(hours: 8);
+
+  /// India Standard Time offset from UTC (admin timestamps).
+  static const Duration istOffset = Duration(hours: 5, minutes: 30);
 }

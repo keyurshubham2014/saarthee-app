@@ -35,7 +35,10 @@ class SettingsScreen extends ConsumerWidget {
         AppSpacing.gutter,
         AppSpacing.s8,
       ),
-      child: Semantics(header: true, child: Text(title, style: text.titleLarge)),
+      child: Semantics(
+        header: true,
+        child: Text(title, style: text.titleLarge),
+      ),
     );
 
     Widget radio<T>({
@@ -59,7 +62,9 @@ class SettingsScreen extends ConsumerWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.gutter,
+              ),
               child: Row(
                 children: [
                   Icon(
@@ -129,7 +134,8 @@ class SettingsScreen extends ConsumerWidget {
             value: systemOff ? false : animations,
             onChanged: systemOff
                 ? null
-                : (v) => ref.read(motionPreferenceProvider.notifier).setEnabled(v),
+                : (v) =>
+                      ref.read(motionPreferenceProvider.notifier).setEnabled(v),
           ),
           section(l10n.settingsHomeWard),
           ListRow(

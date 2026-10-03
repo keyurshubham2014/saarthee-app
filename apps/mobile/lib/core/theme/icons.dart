@@ -124,4 +124,7 @@ class SaartheeIcons {
   static const IconData follow = Symbols.notifications_active_rounded;
   static const IconData inbox = Symbols.inbox_rounded;
   static const IconData park = Symbols.park_rounded;
+
+  // Admin console (v1, restyled).
+  static const IconData block = Symbols.block_rounded;
 }

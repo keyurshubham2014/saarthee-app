@@ -9,6 +9,7 @@ import '../motion/motion_check.dart';
 import '../theme/icons.dart';
 import '../theme/motion.dart';
 import '../theme/tokens.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ToastKind { success, info, error }
@@ -60,9 +61,8 @@ class SaartheeToast extends StatelessWidget {
             Expanded(
               child: Text(
                 message,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: fg),
+                style: Theme.of(context).textTheme.bodyMedium
+                    ?.copyWith(color: fg),
               ),
             ),
           ],
@@ -93,11 +93,7 @@ void showSaartheeToast(
     ).read(saartheeHapticsProvider).success();
   }
   final view = View.of(context);
-  SemanticsService.sendAnnouncement(
-    view,
-    message,
-    Directionality.of(context),
-  );
+  SemanticsService.sendAnnouncement(view, message, Directionality.of(context));
   late OverlayEntry entry;
   entry = OverlayEntry(
     builder: (_) => _ToastHost(
