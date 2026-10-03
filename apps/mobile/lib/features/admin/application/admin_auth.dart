@@ -3,32 +3,16 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/api/api_client.dart';
 import '../data/admin_api.dart';
 import '../data/admin_api_error.dart';
 import '../data/admin_repositories.dart';
 import '../data/admin_session_store.dart';
 import '../data/models/admin_session.dart';
 
-/// API base URL passed at build time (`--dart-define=API_BASE_URL=...`).
-const String adminApiBaseUrl = String.fromEnvironment(
-  'API_BASE_URL',
-  defaultValue: 'http://10.0.2.2:4000/api/v1',
-);
-
-/// Dio instance for admin calls: JSON timeouts of 15 s (02 §5.3).
-final adminDioProvider = Provider<Dio>((ref) {
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: adminApiBaseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      sendTimeout: const Duration(seconds: 15),
-      headers: <String, Object>{'Accept': 'application/json'},
-    ),
-  );
-  ref.onDispose(dio.close);
-  return dio;
-});
+/// Admin calls share the app's configured dio (base URL, timeouts and
+/// standard headers from core); the bearer token is added per call.
+final adminDioProvider = Provider<Dio>((ref) => ref.watch(dioProvider));
 
 final adminSessionStoreProvider = Provider<AdminSessionStore>(
   (ref) => AdminSessionStore(),

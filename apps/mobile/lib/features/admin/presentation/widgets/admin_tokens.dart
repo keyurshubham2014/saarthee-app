@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/tokens.dart';
+
 /// Design tokens used by the admin screens (02 §2.1, "Indigo and marigold").
 ///
-/// If the app theme registers an [AdminTokens] extension it wins; otherwise
-/// the spec values below are used. These are the only colour literals in the
-/// admin feature.
+/// Values come from the core [AppColors] tokens; a theme may override them
+/// by registering an [AdminTokens] extension.
 @immutable
 class AdminTokens extends ThemeExtension<AdminTokens> {
   const AdminTokens({
@@ -21,16 +22,16 @@ class AdminTokens extends ThemeExtension<AdminTokens> {
   });
 
   static const AdminTokens spec = AdminTokens(
-    ink: Color(0xFF1B2433),
-    inkMuted: Color(0xFF55607A),
-    marigold: Color(0xFFF2B233),
-    fixed: Color(0xFF1D6B43),
-    fixedTint: Color(0xFFE2F1E8),
-    notFixed: Color(0xFFA8321F),
-    notFixedTint: Color(0xFFF8E4E0),
-    waitingTint: Color(0xFFFDF1D6),
-    neutralTint: Color(0xFFF6F7FB),
-    indigoTint: Color(0xFFE6E9F5),
+    ink: AppColors.ink,
+    inkMuted: AppColors.inkMuted,
+    marigold: AppColors.marigold,
+    fixed: AppColors.fixed,
+    fixedTint: AppColors.fixedTint,
+    notFixed: AppColors.notFixed,
+    notFixedTint: AppColors.notFixedTint,
+    waitingTint: AppColors.waitingTint,
+    neutralTint: AppColors.surface,
+    indigoTint: AppColors.indigoTint,
   );
 
   static AdminTokens of(BuildContext context) =>
