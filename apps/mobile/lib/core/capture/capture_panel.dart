@@ -119,7 +119,9 @@ class _CapturePanelState extends ConsumerState<CapturePanel>
                   onPressed: s.canUse && !s.busy
                       ? () async {
                           await widget.onUse(s.photo!, s.fix!);
-                          c.reset();
+                          // onUse usually swaps this panel out, which disposes
+                          // the autoDispose controller; only reset if still here.
+                          if (mounted) c.reset();
                         }
                       : null,
                   child: Text(l10n.reportPhotoUse, textAlign: TextAlign.center),
