@@ -11,6 +11,9 @@ import '../features/admin/presentation/complaints/admin_all_screen.dart';
 import '../features/admin/presentation/complaints/admin_detail_screen.dart';
 import '../features/admin/presentation/due/admin_due_screen.dart';
 import '../features/admin/presentation/more/admin_more_screen.dart';
+import '../features/admin/presentation/reference/admin_categories_screen.dart';
+import '../features/admin/presentation/reference/admin_export_screen.dart';
+import '../features/admin/presentation/reference/admin_invite_codes_screen.dart';
 import '../features/admin/presentation/rates/admin_rates_screen.dart';
 import '../features/admin/presentation/shell/admin_shell.dart';
 
@@ -59,6 +62,21 @@ final List<RouteBase> adminRoutes = <RouteBase>[
     redirect: _requireAdmin,
     builder: (context, state) =>
         AdminDetailScreen(complaintId: state.pathParameters['id'] ?? ''),
+  ),
+  GoRoute(
+    path: AdminPaths.inviteCodes,
+    redirect: _requireAdmin,
+    builder: (context, state) => const AdminInviteCodesScreen(),
+  ),
+  GoRoute(
+    path: AdminPaths.categories,
+    redirect: _requireAdmin,
+    builder: (context, state) => const AdminCategoriesScreen(),
+  ),
+  GoRoute(
+    path: AdminPaths.export,
+    redirect: _requireAdmin,
+    builder: (context, state) => const AdminExportScreen(),
   ),
   StatefulShellRoute.indexedStack(
     redirect: _requireAdmin,
