@@ -160,6 +160,10 @@ Type scale: Display 28/34 Semibold · Title 22/28 Semibold · Body large 18/26 �
 - ASSUMPTION: Invite code is uppercased in the field as typed, non-alphanumerics rejected client-side — 02 §4.2 "shown uppercase" — loosen if real codes contain other characters (they cannot per 04 §3.2).
 - ASSUMPTION: Network connectivity detection via a connectivity plugin (*candidate*) plus request failures — spec specifies the banner, not the mechanism — swap if unreliable.
 
+- ASSUMPTION (W1 API): Headers implemented as `X-Install-Id` (UUID), `X-Platform` (`android`/`ios`, case-insensitive), `X-App-Version` (≤ 20 chars), `X-Request-Id` (`[A-Za-z0-9._-]{1,64}`, TASK-01). Malformed values are stored as null rather than rejecting the request — they are informational only (03 §2.1).
+- ASSUMPTION (W1 API): Event item shape is `{name, occurredAt (ISO 8601 with offset), properties?}`. `complaintId` is not accepted from the app — app events never concern a stored complaint (§5.2 says `complaint_id` null for app events). Invalid `occurredAt` or > 50 items → 400 for the whole batch; unknown names / unlisted properties are dropped silently.
+- ASSUMPTION (W1 API): `deep_link_failed.reason` must match `^[a-z0-9_]{1,40}$` (e.g. `unparseable_link`, `manual_entry`) so free text can never reach `events.properties`; other values store `{}`.
+
 ## 6. Implementation Steps
 
 1. **Backend: invite validate.** Add module `src/modules/public` route `POST /invite-codes/validate`: Zod schema (`code` 6–20 alnum), service uppercases input and looks up `invite_codes` where `is_active = true`; unknown/inactive → `INVITE_CODE_INVALID` 404; return `{valid:true, groupLabel}`. Apply 30/IP/h limiter.
@@ -292,6 +296,21 @@ Type scale: Display 28/34 Semibold · Title 22/28 Semibold · Body large 18/26 �
 | Build manual M-03-10 | `flutter build apk --release` and inspect merged manifest (no cleartext config); iOS Release Info.plist has no ATS exception | AC-11 |
 | Optional automated | Not applicable — no 06 §8.1 test targets this task | — |
 
+### Verification log (W1, API only — 2026-10-03, `saarthee_w1` DB, `API=http://localhost:4001/api/v1`)
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| M-03-01 valid | `curl -s -X POST $API/invite-codes/validate -H 'Content-Type: application/json' -d '{"code":"rwatest01"}'` | 200 `{"valid":true,"groupLabel":"Test RWA — Navrangpura"}` |
+| M-03-01 unknown | same with `{"code":"NOPE1234"}` | 404 `INVITE_CODE_INVALID`, message "That code didn't work. Check it with whoever shared it." |
+| M-03-01 bad shape | same with `{"code":"ab"}` | 400 `VALIDATION_FAILED`, `details:[{"field":"code","issue":"Use 6 to 20 letters or digits."}]` |
+| M-03-02 inactive | `UPDATE invite_codes SET is_active=false WHERE code='NETTEST01'`; validate `{"code":"nettest01"}`; re-activate | 404 `INVITE_CODE_INVALID` |
+| M-03-03 allow-list | `curl -s -X POST $API/events -H 'Content-Type: application/json' -H 'X-Install-Id: 7b1c2f0e-1d2a-4c3b-9e8f-0a1b2c3d4e5f' -H 'X-Platform: android' -H 'X-App-Version: 0.1.0' -d '{"events":[{"name":"invite_code_entered","occurredAt":"2026-10-03T14:00:00+05:30","properties":{"valid":true,"phone":"+91…"}},{"name":"report_submitted",…},{"name":"made_up_event",…}]}'` | 202 `{"accepted":1}`; `SELECT name, properties, install_id, platform, app_version FROM events ORDER BY id DESC LIMIT 2` → one row `invite_code_entered | {"valid": true} | 7b1c2f0e-… | android | 0.1.0` |
+| M-03-03 batch 51 | POST 51 `report_opened` events | 400 `VALIDATION_FAILED` |
+| M-03-04 validate limit | 31st `POST /invite-codes/validate` from one IP within the hour | 429 `RATE_LIMITED`, `Retry-After: 3600` |
+| M-03-04 health/categories limit | 120 × `GET /health` then `GET /categories` (shared budget) | 429 `RATE_LIMITED`, `Retry-After: 60` |
+| Categories | `curl -s $API/categories` | 200 `{"items":[{id,name}…]}` 6 active seeded categories in `sort_order` |
+
 ## 9. Deliverables
 
 - Flutter app scaffold in `apps/mobile` with config, router, API client, l10n, theme, fonts, shared components, error handling, event queue.
@@ -346,6 +365,7 @@ Prediction only — exact paths may differ.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend `POST /invite-codes/validate`, `POST /events` (allow-list), `GET /categories`, limiters for `/health`+`/categories` (120/IP/min shared), validate (30/IP/h), events (120/IP/min) — curl-verified (§8 W1 log). No new npm libraries. | TASK-03: API (w1-api) |
 
 ## 14. Completion Checklist
 
