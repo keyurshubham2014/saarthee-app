@@ -8,6 +8,7 @@ import '../features/admin/application/admin_auth.dart';
 import '../features/admin/presentation/admin_paths.dart';
 import '../features/admin/presentation/auth/admin_login_screen.dart';
 import '../features/admin/presentation/complaints/admin_all_screen.dart';
+import '../features/admin/presentation/complaints/admin_detail_screen.dart';
 import '../features/admin/presentation/due/admin_due_screen.dart';
 import '../features/admin/presentation/more/admin_more_screen.dart';
 import '../features/admin/presentation/rates/admin_rates_screen.dart';
@@ -52,6 +53,12 @@ final List<RouteBase> adminRoutes = <RouteBase>[
     redirect: _loginRedirect,
     builder: (context, state) =>
         AdminLoginScreen(from: state.uri.queryParameters['from']),
+  ),
+  GoRoute(
+    path: '/admin/complaints/:id',
+    redirect: _requireAdmin,
+    builder: (context, state) =>
+        AdminDetailScreen(complaintId: state.pathParameters['id'] ?? ''),
   ),
   StatefulShellRoute.indexedStack(
     redirect: _requireAdmin,
