@@ -9,12 +9,12 @@
 | Depends On | TASK-02, TASK-04 |
 | Blocks | TASK-11 |
 | Requirement IDs | REQ-F-042, REQ-F-043, REQ-F-044, REQ-F-045, REQ-F-046, REQ-F-047, REQ-D-008, REQ-D-012, REQ-S-009, REQ-S-012 |
-| Primary Spec Refs | Spec §2 (D2, D5), §3, §6 (`representatives` … `rep_messages`, `app_settings`), §7 (Representatives, Public stats, Staff, rate limits), §8 (`/ward*`, `/representatives/*`), §11 (neutrality, election mode); DS §5 (Representative row, Banners), §7 (Find my corporators), §8 |
+| Primary Spec Refs | Spec §2 (D2, D5), §3, §6 (`representatives` … `rep_messages`, `app_settings`), §7 (Representatives, Public stats, Staff, rate limits), §8 (`/ward*`, `/representatives/*`), §11 (neutrality, election mode); DS §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons), §5 (Representative row, Stat tiles, Toast, Banners), §6 (Motion: My Ward, Scorecard and dashboards), §7 (accessibility), §8 (Find my corporators), §9 |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
 
-Let any Amdavadi open **My Ward** and see who represents them — the four ward corporators, the MLA(s) and MP(s) — with only official or consented contact details, a source link and a "last checked" date for every entry. A signed-in citizen can send a message (optionally about an issue) that Saarthee emails to the representative's published address, with rate limits, a profanity screen and the citizen's phone hidden unless they choose to share it. Staff maintain the roster through a CSV import that requires a source URL per row and refuses personal numbers, plus CRUD for representatives and the ward → assembly-constituency mapping. A public ward scorecard (P1) shows how issues are handled, with a plain method note. An election mode, per city or per ward, freezes representative-authored content and hides the scorecard, with a banner.
+Let any Amdavadi open **My Ward** and see who represents them — the four ward corporators, the MLA(s) and MP(s) — with only official or consented contact details, a source link and a "last checked" date for every entry. A signed-in citizen can send a message (optionally about an issue) that Saarthee emails to the representative's published address, with rate limits, a profanity screen and the citizen's phone hidden unless they choose to share it. Staff maintain the roster through a CSV import that requires a source URL per row and refuses personal numbers, plus CRUD for representatives and the ward → assembly-constituency mapping. A public ward scorecard (P1) shows how issues are handled, with a plain method note. An election mode, per city or per ward, freezes representative-authored content and hides the scorecard, with a banner. Motion follows DS §6: representative rows rise in with a stagger, "Message sent" is confirmed by a toast with a drawn check, and scorecard numbers count up and bars grow the first time they are seen — through shared scorecard widgets that TASK-11's dashboard reuses.
 
 ## 2. Scope
 
@@ -27,8 +27,9 @@ Let any Amdavadi open **My Ward** and see who represents them — the four ward 
 - API: `GET /wards/{id}/representatives`, `GET /representatives/{id}`, `POST /representatives/{id}/messages`, `GET /wards/{id}/scorecard`, `GET /settings/public`; staff CRUD `/staff/representatives`, `/staff/constituencies`, `PUT /staff/wards/{id}/constituencies`, `GET/PUT /staff/settings/election-mode`.
 - Email delivery: `src/lib/mail` interface with `ses` (Amazon SES v2, ap-south-1) and `file` (local dev) drivers; outbox job sending queued relay messages with retry (TASK-11 adds per-message Reply-To and inbound reply tracking).
 - Election-mode helper `isElectionMode(wardId)` and middleware `assertNotElectionFrozen(wardIdResolver)` for representative-authored writes (used by TASK-11).
-- App: My Ward tab `/ward` and `/ward/:id`, `/representatives/:id`, `/representatives/:id/message` (+ sent screen), `/ward/:id/scorecard`, election banner; staff screens `/staff/representatives` (list, edit) mounted by TASK-10's shell.
+- App: My Ward tab `/ward` and `/ward/:id`, `/representatives/:id`, `/representatives/:id/message` (+ "Message sent" toast), `/ward/:id/scorecard`, election banner; staff screens `/staff/representatives` (list, edit) mounted by TASK-10's shell.
 - Fictional representatives in the v2 dev seed; tests.
+- DS §6 motion owned here (attached to REQ-F-042, REQ-F-044, REQ-F-046): My Ward representative rows rise with `stagger`; "Message sent" toast with a drawn check (`MotionCheck`); scorecard numbers `CountUp` and percentage bars grow from 0 (`long`) on first view only; reduced-motion variants. Shared scorecard widgets `ScorecardStatTile` and `ScorecardBar` in `lib/core/widgets/scorecard/` for reuse by TASK-11 (REQ-F-066).
 
 ### Out of Scope
 - Representative claim flow and verification — TASK-11 (this task only creates `rep_claims`).
@@ -38,12 +39,13 @@ Let any Amdavadi open **My Ward** and see who represents them — the four ward 
 - Services and drives sections on My Ward — TASK-12 fills the slots this task leaves.
 - Escalation ladder message composition — TASK-06 (opens `/representatives/:id/message?issueId=`).
 - Final verification of pilot-ward rosters before launch — TASK-14 (REQ-O-011).
+- Motion tokens and helpers (`SaartheeMotion`, `StaggeredColumn`, `MotionCheck`, `CountUp`, toast, reduced-motion switch) — TASK-03; dashboard motion — TASK-11 (REQ-F-066); frame-time audit — TASK-14 (REQ-N-013).
 
 ## 3. Prerequisites
 
 - TASK-02: `wards` (number, names, zone, office_address, office_phone, `population` NULL), `zones`, `GET /wards/{id}`, ward picker.
 - TASK-04: users/session (`requireUser`, `requireRole`), consents (`share_with_representatives` purpose), `ensureSignedIn()` sign-in-and-return, privacy registries `registerExportSection` / `registerErasureStep` (this task registers `rep_messages`), log redaction of `body`/`message` (REQ-S-015).
-- TASK-03: shell with My Ward tab placeholder, components (representative row base, banners), ARB.
+- TASK-03: Neem shell with My Ward tab placeholder, components (representative row base, stat tile, toast, banners), ARB; motion foundation — `SaartheeMotion` tokens (`lib/core/theme/motion.dart`), `animations` + `flutter_animate`, press-scale wrapper, haptics helper, `MotionCheck`, `CountUp`, `StaggeredColumn`, reduced-motion resolution.
 - TASK-01: issues tables (for scorecard), test harness, v2 seed module. Job runner `src/jobs` (TASK-06 contract; created here if neither TASK-06 nor TASK-08 has landed).
 - Env: `EMAIL_DRIVER=file|ses`, `EMAIL_FILE_DIR` (outside repo), `SES_REGION=ap-south-1`, `SES_FROM=relay@<domain>`, `EMAIL_OPS_ADDRESS`, `PUBLIC_WEB_BASE_URL`, `RELAY_PER_REP_DAILY=5`, `RELAY_PER_USER_DAILY=20`, `SCORECARD_WINDOW_DAYS=90`, `SCORECARD_MIN_SAMPLE=5`.
 - Founder/ops action: verify the sending domain in SES (SPF, DKIM, DMARC) and request production access before staging sends real email.
@@ -137,10 +139,25 @@ New error codes: `CONSENT_REQUIRED` 403, `REP_NO_CONTACT` 422 "We don't have an 
 |---|---|---|
 | `/ward` (My Ward tab → home ward) and `/ward/:id` | Header: "Ward 12 · Paldi" + zone, "Change ward"; election banner if active; **Corporators** (4 representative rows: initials avatar, name in UI language with the other script below, "Corporator", party as plain text, "Message" button); **MLA** and **MP** sections (if the ward spans several ACs: "Your ward is in 2 assembly constituencies." and each MLA listed); **Ward office** (address, office phone with Call action); "Ward scorecard" row → scorecard; slots for Services and Drives (empty until TASK-12); app-bar action to Profile (`/me`) | no home ward → "Choose your ward" + picker; loading skeleton rows; fewer than 4 corporators → row "Seat details being checked"; no reps at all → "We're still adding representatives for this ward." + "Ward office" still shown; error "We couldn't load your ward." + "Try again"; offline: last cached ward |
 | `/representatives/:id` | Avatar (initials), names gu + en, role line ("Corporator, Ward 12 Paldi" / "MLA, <AC>" / "MP, <seat>"), "Party: <text>", "Term: 2026–2031", office phone (only if published), "Message <name>" primary button, "Source: <domain> · Last checked 12 Sep 2026" link, "Verified by Saarthee" chip if `verified`, neutrality line "Saarthee is independent and treats all representatives the same." | no email → button disabled + "We don't have an official email for this representative yet."; election banner; 404 "This profile isn't available." |
-| `/representatives/:id/message` (sign-in required, returns here) | "Message <name>"; "About an issue (optional)" (prefilled from `?issueId=`, or pick from my reports); Subject; Message 0/1000; checkbox (unchecked) "Share my phone number with <name> so their office can call me back"; note "We'll email your message to <name>'s official address. Your phone number stays hidden unless you tick the box."; Kindness prompt "Keep it respectful. Messages with abusive language are not sent."; "Send message" | first send without consent → consent sheet (`share_with_representatives`, versioned text) → continue; in-flight button progress; errors: rate limit "You've sent 5 messages to this representative today. You can send more tomorrow.", language, no contact, offline "You're offline. Your message hasn't been sent." (text kept in the form) |
-| `/representatives/:id/message/sent` | "Message sent" + "We've emailed your message to <name>'s office. Representatives aren't required to reply." + "Back to My Ward" | — |
-| `/ward/:id/scorecard` | "Ward 12 scorecard · Last 90 days · Updated 10:00"; six metric tiles with plain labels ("Median days to acknowledge", "Median days to fix", "Fixes verified by residents", "Reopened after fixing", "Open issues now", "Reports per 1,000 residents"); "How we calculate this" (expandable method note: "Based only on reports made in Saarthee, not AMC's records. Medians use reports from the last 90 days. A fix counts as verified when a resident confirms it with a photo. Reports per 1,000 residents uses the ward population from <source>, where available. Figures need at least 5 reports.") | small sample tile "Not enough reports yet"; population missing "—" + note; election mode: banner + "The scorecard is paused during the election period."; loading, error, offline (cached) |
+| `/representatives/:id/message` (sign-in required, returns here) | "Message <name>"; "About an issue (optional)" (prefilled from `?issueId=`, or pick from my reports); Subject; Message 0/1000; checkbox (unchecked) "Share my phone number with <name> so their office can call me back"; note "We'll email your message to <name>'s official address. Your phone number stays hidden unless you tick the box. Representatives aren't required to reply."; Kindness prompt "Keep it respectful. Messages with abusive language are not sent."; "Send message" | first send without consent → consent sheet (`share_with_representatives`, versioned text) → continue; in-flight button progress; errors: rate limit "You've sent 5 messages to this representative today. You can send more tomorrow.", language, no contact, offline "You're offline. Your message hasn't been sent." (text kept in the form) |
+| "Message sent" toast (on 202, after returning to `/representatives/:id`) | DS §5 toast: `primaryDark` background, radius 18, white text "Message sent. We've emailed it to <name>'s office.", leading check drawn by `MotionCheck`, 4 s; live-region announcement of the same text | repeat send (200 same id) → same toast once |
+| `/ward/:id/scorecard` | "Ward 12 scorecard · Last 90 days · Updated 10:00"; six `ScorecardStatTile`s (DS §5 stat tile: `surfaceAlt`, radius 14, number in numeric style — Baloo Bhai 2 20/24 tabular — and label in bodySmall Mukta Vaani); the two percentages also show a `ScorecardBar` (`primary` fill on a `surfaceAlt` track, radius pill) with plain labels ("Median days to acknowledge", "Median days to fix", "Fixes verified by residents", "Reopened after fixing", "Open issues now", "Reports per 1,000 residents"); "How we calculate this" (expandable method note: "Based only on reports made in Saarthee, not AMC's records. Medians use reports from the last 90 days. A fix counts as verified when a resident confirms it with a photo. Reports per 1,000 residents uses the ward population from <source>, where available. Figures need at least 5 reports.") | small sample tile "Not enough reports yet"; population missing "—" + note; election mode: banner + "The scorecard is paused during the election period."; loading, error, offline (cached) |
 | `/staff/representatives`, `/staff/representatives/:id` | List with filters (ward, role, active), "Last checked" column (older than 180 days highlighted "Needs re-check"); edit form with every roster field, area picker, validation messages from §5.3; constituency mapping editor on the ward page | 403 page; error summary; in-flight states |
+
+Visuals (Neem v2.2, all via TASK-03 tokens): white app bar with left-aligned headlineSmall title (Baloo Bhai 2 24/32); section titles in titleLarge (Baloo Bhai 2 19/26); representative rows ≥ 72 dp with a 40 dp initials avatar (`primaryContainer` circle, `primaryDark` initials), name in titleMedium (Mukta Vaani), "Message" as an outlined secondary button (1.5 px `borderStrong`, `primary` text, radius 14); cards radius 18; Material Symbols Rounded icons (`call`, `mail`, `how_to_vote`, `verified`); no `sunrise` on these screens.
+
+#### Motion (DS §6 "My Ward", "Scorecard and dashboards")
+
+All durations and curves come from TASK-03 `SaartheeMotion`; no `Duration(` literal in `lib/features/**`. With reduced motion (system "Remove animations" or the in-app Animations switch) each item becomes an instant change or a ≤ 100 ms cross-fade with identical content.
+
+| Moment | Behaviour | Tokens / helper | Reduced motion | Requirement |
+|---|---|---|---|---|
+| My Ward rows | Header, corporator rows, MLA/MP rows and the ward-office card rise (`rise` 14 dp + fade) with `stagger` 60 ms, max 6 staggered (later rows appear with the 6th), on the first load of a ward in the session; switching tabs and back does not replay; changing ward plays it once for the new ward | `StaggeredColumn`, `stagger`, `rise` | Rows shown at once | REQ-F-042 |
+| "Message sent" | Toast slides up with `springIn`; its check is drawn by `MotionCheck` (`drawCheck`: 450 ms stroke, starting 150 ms after the toast); success haptic via the haptics helper | `springIn`, `drawCheck`, `MotionCheck`, haptics helper | Toast and full check appear at once | REQ-F-044 |
+| Scorecard numbers | Each metric counts up from 0 to its value (`countUp`, 600 ms, `easeOutCubic`, integers only; one-decimal medians count the integer part then show the decimal at the end) the first time the tile becomes visible | `CountUp` | Final value shown at once | REQ-F-046 |
+| Scorecard bars | Percentage bars grow from 0 to their value over `long` (transform `scaleX` from the start edge, clipped — no layout animation) the first time seen; never on rebuild, refresh or scroll back | `long` | Bars at full value at once | REQ-F-046 |
+
+"First view" is tracked per (ward id, screen) in a session-scoped `SeenOnce` registry inside the shared scorecard widgets (`ScorecardStatTile(animateKey:)`, `ScorecardBar(animateKey:)`), so pull-to-refresh, hourly data changes and rebuilds show the new number without replaying; TASK-11 passes its own keys.
 
 Election banner (DS §5 Banners, `warning` tint, icon `how_to_vote`): "Election period until <date>. Some representative information is paused." / Gujarati key `electionBannerText`. ARB prefixes: `myWard*`, `rep*`, `relay*`, `scorecard*`, `electionBanner*`, `staffReps*`.
 
@@ -165,8 +182,11 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 - ASSUMPTION: Election mode hides the whole ward scorecard for affected wards (public ward scorecards invite comparison) and blocks new or edited representative-authored text (TASK-11 applies the same rule); existing content stays visible; citizen messages still go through. Legal review pending (Open Question 6).
 - ASSUMPTION: `app_settings` is created by whichever of TASK-09/TASK-10 lands first, from the single DDL in TASK-10 §5.2.
 - ASSUMPTION: Scorecard window 90 days, minimum sample 5; population from the TASK-02 `wards.population` column (Census-based, may be NULL) with the source shown in the method note.
-- ASSUMPTION: Scorecard route `/ward/:id/scorecard` (DS §8 lists the screen; Spec §8 has no route).
+- ASSUMPTION: Scorecard route `/ward/:id/scorecard` (DS §9 lists the screen; Spec §8 has no route).
 - ASSUMPTION: Replies from representatives go to the ops mailbox until TASK-11 adds the per-message `reply+<token>@MAIL_REPLY_DOMAIN` Reply-To and inbound tracking; the citizen is told replies are not guaranteed.
+- ASSUMPTION: The separate "Message sent" screen is replaced by the DS §6 toast with a drawn check after returning to the profile; the "not required to reply" note moves into the message form. DS §6 lists the toast; Spec §8 does not name a sent screen.
+- ASSUMPTION: Scorecard "bars" are shown for the two percentage metrics (verified %, reopened %); the other tiles are numbers only. DS §6 says "bars grow" without listing which metrics.
+- ASSUMPTION: Scorecard first-view tracking is per app session (cleared on process restart), not persisted.
 - ASSUMPTION: `rep_messages` are kept 1 year, included in `/me/export` (via `registerExportSection`), and set `citizen_id = NULL` on account deletion (via `registerErasureStep`; body kept for the representative's record) — spec silent; legal review.
 
 ## 6. Implementation Steps
@@ -184,9 +204,14 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 11. **Scorecard.** `<ts>_v2_ward_scorecard` materialised view + unique index; job `scorecard-refresh` (hourly, `CONCURRENTLY`); `GET /wards/{id}/scorecard` with sample suppression and election hiding.
 12. **API tests** T-09-01…T-09-14 green; manual M-09-01, M-09-02.
 13. **App data + providers.** `features/ward/{data,application}`: ward reps, rep detail, scorecard, public settings (election mode), relay submit with `clientMessageId` kept until success.
-14. **Screens.** `/ward`, `/ward/:id` (replace TASK-03 placeholder), `/representatives/:id`, message + sent, scorecard; election banner widget; empty slots `WardServicesSlot`, `WardDrivesSlot` for TASK-12.
-15. **Staff screens.** `features/staff/representatives/` list + edit + mapping; register nav item (`StaffNavItem`) for TASK-10's shell; minimal `StaffPageScaffold` if the shell is not there.
-16. **Widget tests** W-09-01…W-09-05; emulator checks M-09-03…M-09-07; coverage evidence.
+14. **Screens.** `/ward`, `/ward/:id` (replace TASK-03 placeholder), `/representatives/:id`, message form + "Message sent" toast, scorecard; election banner widget; empty slots `WardServicesSlot`, `WardDrivesSlot` for TASK-12. Neem visuals per §5.4 through TASK-03 tokens only.
+15. **Motion (DS §6).**
+    1. My Ward rows with `StaggeredColumn` gated by a session flag per ward id.
+    2. "Message sent" toast using TASK-03's toast + `MotionCheck` and the success haptic.
+    3. Shared `lib/core/widgets/scorecard/{scorecard_stat_tile,scorecard_bar,seen_once}.dart`: `CountUp` numbers and `long` bar growth on first view (visibility-triggered), keyed by `animateKey`; documented for TASK-11 reuse.
+    4. Reduced-motion branches reading TASK-03's resolved `reduceMotion` flag; run the no-`Duration(`-literal test.
+16. **Staff screens.** `features/staff/representatives/` list + edit + mapping; register nav item (`StaffNavItem`) for TASK-10's shell; minimal `StaffPageScaffold` if the shell is not there. Staff screens use `short` fades only (TASK-10 rule).
+17. **Widget tests** W-09-01…W-09-07; emulator checks M-09-03…M-09-09 (motion recordings to `docs/demo/v2-evidence/motion/`); coverage evidence.
 
 ## 7. Acceptance Criteria
 
@@ -252,6 +277,21 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 - **When** a citizen with relay messages exports and then deletes their account
 - **Then** the export lists their messages; after deletion `rep_messages.citizen_id` is NULL and no public endpoint ever exposed the citizen's phone
 
+**AC-13** — My Ward and relay motion
+- **Given** animations on, ward 12 with 4 corporators, 2 MLAs and 1 MP, and a signed-in citizen with relay consent
+- **When** they open My Ward for the first time, switch to Home and back, open a corporator and send a message
+- **Then** on first open the header and rows rise in with a 60 ms stagger (max 6 staggered, later rows with the 6th); returning shows the rows at once with no replay; after sending, the app returns to the profile and a `primaryDark` toast slides up reading "Message sent. We've emailed it to <name>'s office." with its check drawn after the toast lands, a success haptic fires and TalkBack announces the text; every duration comes from `SaartheeMotion`
+
+**AC-14** — Scorecard count-up and bars on first view only
+- **Given** animations on and the ward 12 scorecard of AC-9 (verified 75%, 12 issues reported)
+- **When** the citizen opens the scorecard, scrolls away and back, pulls to refresh, and then opens it again later in the same session
+- **Then** on the first view each number counts up from 0 to its value over `countUp` (integers only) and the two percentage bars grow from 0 to 75% and the reopen value over `long`; scrolling back, refreshing and reopening show final values with no replay; the same `ScorecardStatTile` and `ScorecardBar` widgets are exported from `lib/core/widgets/scorecard/` for TASK-11
+
+**AC-15** — My Ward motion with reduced motion
+- **Given** the system "Remove animations" setting on (and separately the in-app Animations switch off)
+- **When** the AC-13 and AC-14 steps are repeated
+- **Then** rows, toast with its full check, numbers and bars appear at their final state at once or with a ≤ 100 ms cross-fade, and the text, numbers and announcements are identical to the animated run
+
 ### AC → Requirement
 
 | AC | Requirements |
@@ -268,6 +308,9 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 | AC-10 | REQ-D-012 |
 | AC-11 | REQ-F-047 |
 | AC-12 | REQ-F-044, REQ-D-008 |
+| AC-13 | REQ-F-042, REQ-F-044 |
+| AC-14 | REQ-F-046 |
+| AC-15 | REQ-F-042, REQ-F-044, REQ-F-046 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -279,6 +322,8 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 - [ ] `GET /wards/{id}/representatives` p95 < 400 ms; scorecard read is a single indexed row
 - [ ] Rate-limit counts survive API restarts (DB-backed)
 - [ ] Real roster CSVs contain only public, official information; `SOURCES.md` lists every source
+- [ ] Neem visuals only (Baloo Bhai 2 titles/numbers, Mukta Vaani body, radii 14/18/24/pill, Rounded icons, no `sunrise`), all through TASK-03 tokens
+- [ ] DS §6 motion uses `SaartheeMotion` tokens only; only transform, opacity and colour animated (bars use `scaleX`); scorecard animates on first view only; reduced motion gives instant equivalents
 
 ## 8. Validation & Testing
 
@@ -304,21 +349,25 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 | Widget | W-09-03 | Message form: counter, opt-in unchecked by default, error copy per code | AC-4, AC-5, AC-6 |
 | Widget | W-09-04 | Scorecard tiles: small sample, missing population, election paused | AC-9, AC-11 |
 | Widget | W-09-05 | Election banner text and semantics | AC-11 |
+| Widget | W-09-06 | My Ward stagger: pump `SaartheeMotion.stagger` steps and assert row opacity/offset order, rows 7+ appear with row 6; re-entering pumps one frame and all rows are final; "Message sent" toast: after `SaartheeMotion.springIn` the toast is at rest, `MotionCheck` progress is 0 before the 150 ms delay and 1 after `drawCheck`; haptics fake records one success; reduced-motion variant: one `pump()` shows rows and full check | AC-13, AC-15 |
+| Widget | W-09-07 | `ScorecardStatTile`/`ScorecardBar`: mid-`countUp` the number is an integer between 0 and the target and equals it after `SaartheeMotion.countUp`; bar `scaleX` is 0 at start and the target after `SaartheeMotion.long`; rebuilding with the same `animateKey` (or new data) shows the final state in one frame; reduced-motion variant shows final values after one `pump()` | AC-14, AC-15 |
 | Manual | M-09-01 | `reps:import --dry-run` on the compiled pilot roster; review report; commit on staging | AC-7 |
 | Manual | M-09-02 | SES sandbox send to a team inbox; check SPF/DKIM pass and rendering in Gmail | AC-3 |
-| Manual | M-09-03 | Emulator: My Ward → corporator → Message (sign-in, consent) → sent screen | AC-1, AC-3, AC-4 |
+| Manual | M-09-03 | Emulator: My Ward → corporator → Message (sign-in, consent) → "Message sent" toast | AC-1, AC-3, AC-4 |
 | Manual | M-09-04 | Emulator: sixth message refused; abusive word refused with text kept | AC-5, AC-6 |
 | Manual | M-09-05 | Emulator: election mode on for ward → banner and paused scorecard; off → restored | AC-11 |
 | Manual | M-09-06 | TalkBack + 2.0× font on My Ward, profile, message, scorecard in Gujarati | AC-1, AC-2 |
 | Manual | M-09-07 | Spot-check 10 roster rows against their source URLs (second person) | AC-7 |
+| Manual | M-09-08 | Emulator recordings (`adb shell screenrecord /sdcard/<name>.mp4`, `adb pull` to `docs/demo/v2-evidence/motion/`): `t09-my-ward-stagger.mp4` (first load, tab return), `t09-message-sent-toast.mp4`, `t09-scorecard-countup.mp4` (first view, scroll back, refresh) | AC-13, AC-14 |
+| Manual | M-09-09 | Repeat M-09-08 with "Remove animations" on and with the in-app switch off; `t09-reduced-motion.mp4` | AC-15 |
 
 ## 9. Deliverables
 
 - Migrations `<ts>_v2_representatives`, `<ts>_v2_ward_scorecard` (and `<ts>_v2_app_settings` if first); Prisma models; seed additions.
 - Scripts `reps:import`, `constituencies:import`; compiled roster + mapping CSVs and `SOURCES.md`.
 - API modules `representatives`, `settings` (public + election mode), `staff-representatives`; libs `mail`, `profanity`; jobs `relay-send`, `scorecard-refresh`; `assertNotElectionFrozen`.
-- App: `features/ward` (My Ward, profile, message, scorecard, election banner), `features/staff/representatives`.
-- Tests T-09-01…14, W-09-01…05; manual evidence M-09-01…07; coverage evidence for 10 requirements.
+- App: `features/ward` (My Ward, profile, message + "Message sent" toast, scorecard, election banner), `features/staff/representatives`; shared `lib/core/widgets/scorecard/` (`ScorecardStatTile`, `ScorecardBar`, `SeenOnce`) reused by TASK-11.
+- Tests T-09-01…14, W-09-01…07; manual evidence M-09-01…09 (motion recordings in `docs/demo/v2-evidence/motion/`); coverage evidence for 10 requirements.
 
 ## 10. Files Expected to Change
 
@@ -336,13 +385,16 @@ Prediction only — exact paths may differ.
 | `apps/api/src/lib/{errors,audit,logger}/`, `src/routes.ts`, `src/config/` | Modified |
 | `apps/api/test/{representatives,relay,import,scorecard,election}*.test.ts`, `test/fixtures/roster/` | New |
 | `apps/mobile/lib/features/ward/`, `lib/features/staff/representatives/` | New |
+| `apps/mobile/lib/core/widgets/scorecard/{scorecard_stat_tile,scorecard_bar,seen_once}.dart` | New |
+| `docs/demo/v2-evidence/motion/t09-*.mp4` | New |
 | `apps/mobile/lib/router/{citizen_routes,staff_routes}.dart`, `lib/core/l10n/app_*.arb` | Modified |
 | `apps/mobile/test/ward/` | New |
 
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §2 (D2, D5), §3, §6, §7, §8, §11
-- `docs/v2/design-system.md` DS §5 (Representative row, Banners), §6, §7, §8
+- `docs/v2/design-system.md` DS §2–§4 (Neem tokens, type, shape, icons), §5 (Representative row, Stat tiles, Toast, Banners), §6 (Motion: My Ward, Scorecard and dashboards, rules), §7 (accessibility), §8 (Find my corporators), §9
+- `docs/tasks-v2/TASK-03-design-system-shell.md` — `SaartheeMotion`, `StaggeredColumn`, `MotionCheck`, `CountUp`, toast
 - `docs/tasks-v2/TASK-10-staff-console.md` — `app_settings` DDL, staff `requireRole` contract, settings UI shell
 - `docs/tasks-v2/TASK-11-*.md` — claims, rep inbox, use of `assertNotElectionFrozen`
 - State Election Commission Gujarat results; ECI results 2022/2024; MyNeta (ADR) affidavits; Delimitation Order 2008
@@ -358,6 +410,8 @@ Prediction only — exact paths may differ.
 | Scorecard misread as an official AMC rating | Political and trust risk | Method note, "Based only on reports made in Saarthee", sample threshold, hidden in election mode |
 | Election-mode rules unclear under the Model Code of Conduct | Compliance risk | Conservative hiding; legal review (Open Question 6) before pilot |
 | Ward ↔ AC mapping errors after 2026 delimitation | Wrong MLA shown | Source per mapping row; cross-check with TASK-02's boundary verification |
+| Scorecard animation replays on every rebuild or refresh | Distracting; numbers hard to read | `SeenOnce` registry keyed per ward; W-09-07 asserts no replay |
+| Shared scorecard widgets diverge from TASK-11's needs | Duplicate widgets | Keep API small (`value`, `label`, `animateKey`, optional bar); TASK-11 extends rather than copies |
 
 ## 13. Progress Status
 
@@ -384,3 +438,7 @@ Prediction only — exact paths may differ.
 - [ ] `00-task-summary.md` updated
 - [ ] Committed as `V2-TASK-09: …`
 - [ ] Validator passes
+- [ ] My Ward, profile, message and scorecard match Neem v2.2 (tokens, type, radii, Rounded icons)
+- [ ] DS §6 motion (row stagger, "Message sent" toast with drawn check, scorecard `CountUp` + bars on first view) implemented with `SaartheeMotion` tokens; W-09-06 and W-09-07 pass
+- [ ] Shared scorecard widgets exported in `lib/core/widgets/scorecard/` for TASK-11
+- [ ] Reduced-motion variants verified; motion recordings saved to `docs/demo/v2-evidence/motion/` (M-09-08, M-09-09)

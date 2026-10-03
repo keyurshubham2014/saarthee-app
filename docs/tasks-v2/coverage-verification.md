@@ -27,7 +27,7 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-F-011 | Server push service (FCM HTTP v1) for topics and individual tokens, with a delivery log in `notifications` | TASK-04 | Not Verified | — | — |
 | REQ-F-012 | v2 category list (14 categories, Gujarati + English, icon, colour token, SLA days) via `GET /categories`, w... | TASK-05 | Not Verified | — | — |
 | REQ-F-013 | AMC problem types cached from the CCRS public JSON by a script (manual run, at most daily) | TASK-05 | Not Verified | — | — |
-| REQ-F-014 | Three-step report flow (DS §7): category grid; photos (1–3) with auto location and adjustable pin; optional... | TASK-05 | Not Verified | — | — |
+| REQ-F-014 | Three-step report flow (DS §8): category grid; photos (1–3) with auto location and adjustable pin; optional... | TASK-05 | Not Verified | — | — |
 | REQ-F-015 | Duplicate check before submit: open issues of the same category within 50 m in 30 days offered as "Me too" | TASK-05 | Not Verified | — | — |
 | REQ-F-016 | `POST /issues` idempotent by `clientSubmissionId`; assigns ward/zone, SLA due date, status `reported` | TASK-05 | Not Verified | — | — |
 | REQ-F-017 | Report draft persists across app kill and camera hand-off; image_picker lost-data recovery handled | TASK-05 | Not Verified | — | — |
@@ -126,3 +126,10 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-O-010 | Accessibility audit (TalkBack, largest font, Gujarati) of report, issue detail, alerts and My Ward | TASK-14 | Not Verified | — | — |
 | REQ-O-011 | Pilot launch checklist: 5 West-zone wards seeded with verified representatives, services and moderators onb... | TASK-14 | Not Verified | — | — |
 | REQ-O-012 | v1 spec documents marked superseded where v2 differs; summary links to v2 spec | TASK-14 | Not Verified | — | — |
+| REQ-F-062 | Report-flow motion per DS §6: tiles pop in with stagger, selected tile springs with selection haptic, share... | TASK-05 | Not Verified | — | — |
+| REQ-F-063 | Lifecycle motion per DS §6: status chip cross-fades colour/icon/word, new timeline step expands from its do... | TASK-06 | Not Verified | — | — |
+| REQ-F-064 | Discovery motion per DS §6: Home first-load stagger, Report card spring and one-time first-launch pulse, fe... | TASK-07 | Not Verified | — | — |
+| REQ-F-065 | Alert motion per DS §6: in-app banner slides in under the app bar, single attention pulse for Critical (no ... | TASK-08 | Not Verified | — | — |
+| REQ-F-066 | Dashboard motion per DS §6: numbers count up and bars grow on first view only (representative ward dashboar... | TASK-11 | Not Verified | — | — |
+| REQ-N-012 | Motion system per DS §6: `SaartheeMotion` tokens (durations, curves, stagger, spring) used by every animati... | TASK-03 | Not Verified | — | — |
+| REQ-N-013 | Motion performance and safety: every DS §6 catalogue moment holds 60 fps with no frame > 16 ms on the refer... | TASK-14 | Not Verified | — | — |

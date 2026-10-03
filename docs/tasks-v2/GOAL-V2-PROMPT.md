@@ -11,7 +11,7 @@ Build Saarthee v2 from the plan in `docs/tasks-v2/`, all 14 tasks, in dependency
 
 Read these files first, in this order, and nothing else up front:
 1. `docs/tasks-v2/00-task-summary.md`: plan, lanes, conventions, Progress Management Protocol, settled cross-task contracts (Open Questions row 7).
-2. `docs/v2/design-system.md`, which applies to every screen.
+2. `docs/v2/design-system.md` (v2.2 "Neem"), which applies to every screen: tokens, Baloo Bhai 2 + Mukta Vaani fonts, components and the DS §6 motion catalogue. The founder's chosen look is visible in `docs/v2/design-preview.html`.
 3. Then open only the task file being executed and only the `Spec §n` / `DS §n` sections it names.
 
 ## Definition of done (goal condition)
@@ -31,7 +31,8 @@ The goal is met only when **all** of the following are true and the evidence is 
    - My Ward: corporators shown, a relayed message sent, no personal number visible;
    - Services and an initiative RSVP;
    - representative dashboard for the ward;
-   - the Gujarati locale, plus one screen at 2.0× font size.
+   - the Gujarati locale, plus one screen at 2.0× font size;
+   - **motion:** short screen recordings (`adb shell screenrecord`) in `docs/demo/v2-evidence/motion/` for every DS §6 catalogue moment, plus one run of the whole loop with system "Remove animations" on.
 3. **Tests are green:**
    - `npm test` (Vitest + Supertest) in `apps/api`;
    - `flutter test` in `apps/mobile`;
@@ -39,11 +40,12 @@ The goal is met only when **all** of the following are true and the evidence is 
 4. **Static gates are green:**
    - `tsc --noEmit`, ESLint, `dart analyze` and `dart format --set-exit-if-changed` with 0 errors;
    - no `TODO`, stub or placeholder screen left on any shipped route (TASK-03's P-01 to P-09 list is fully replaced).
-5. **TASK-14 privacy sweep:** `node scripts/privacy-checks.mjs` (v2 checks P2-01 to P2-12) passes, and its output is pasted into the TASK-14 §13 log.
-6. **Both checkers have been run and their output pasted into the summary Change Log:**
+5. **Motion quality (REQ-N-012/013):** the motion catalogue is implemented with `SaartheeMotion` tokens only (the no-`Duration(`-literal test passes); profile-build traces on the reference low-end emulator show no frame over 16 ms during catalogued motion; reduced motion produces identical content.
+6. **TASK-14 privacy sweep:** `node scripts/privacy-checks.mjs` (v2 checks P2-01 to P2-12) passes, and its output is pasted into the TASK-14 §13 log.
+7. **Both checkers have been run and their output pasted into the summary Change Log:**
    - `python3 docs/tasks/validate_tasks.py docs/tasks-v2/` exits 0;
    - `python3 docs/tasks-v2/check_coverage.py` shows every row at `Pass`, `Fixed` or `Deferred` with evidence, and none at `Not Verified` or `Fail`.
-7. **Demo assets:**
+8. **Demo assets:**
    - `docs/demo/DEMO-v2.md`, a 7-minute click-by-click script with the start commands, seeded logins, Firebase test numbers and `adb` commands;
    - `npm run demo:reset`, which restores the seeded v2 state;
    - git tag `v2-demo` on the last green commit.
@@ -118,7 +120,7 @@ Run each worker as a subagent in its own git worktree (`isolation: "worktree"`) 
 
 ## Cut order if a wave stalls (cut from the top first)
 
-1. P2 items and the dark theme.
+1. P2 items and the dark theme. (Motion is not cut wholesale: if needed, drop only P2 motion such as dashboard count-ups, never the P0 motion system or the report/verify feedback.)
 2. Ward scorecard, ward dashboard charts, initiative reminders.
 3. IMD poller, email reply tracking for relayed messages.
 4. Staff exports (keep the endpoint, verified by a test).
@@ -141,7 +143,8 @@ Every cut becomes a `Deferred — <reason>` coverage row and a line in `DEMO-v2.
 ## Quality bar
 
 - **API:** TypeScript strict; Zod on every request; parameterized SQL only (raw SQL is allowed only for PostGIS queries, using parameters); uniform error shape with stable codes; rate limits as specified; handlers stay thin, services hold the business rules.
-- **Screens:** built only from Civic Blue tokens; no hard-coded colours or strings (ARB only, Gujarati and English); 48 dp touch targets; every status and severity shown as icon + word; layouts work at 2.0× font size; screens never call the API directly (Riverpod layering).
+- **Screens:** built only from Neem tokens and fonts (Baloo Bhai 2 for headings and numbers, Mukta Vaani for text); no hard-coded colours or strings (ARB only, Gujarati and English); 48 dp touch targets; every status and severity shown as icon + word; layouts work at 2.0× font size; screens never call the API directly (Riverpod layering).
+- **Motion:** feels like the DS §6 "gentle spring": quick to start, slight overshoot, soft settle. Motion explains a change or confirms an action and is never decoration. Only transform, opacity and colour are animated. Reduced motion is always honoured. Nothing loops except skeletons.
 - **Privacy:** reporters appear publicly only as "A resident of <ward>". Logs contain no phone numbers, tokens, OTPs or message bodies; prove it with the privacy sweep.
 - **Commits:** small and frequent, so every milestone tag can be rolled back to.
 

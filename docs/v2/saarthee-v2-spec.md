@@ -18,7 +18,7 @@ Saarthee is **independent**. It never uses the AMC logo or claims to file compla
 
 | # | Decision | Rationale |
 |---|---|---|
-| D1 | Professional civic visual identity (§10); no AMC logo or AMC-derived marks | Trust without impersonation |
+| D1 | "Neem" visual identity (§10, `docs/v2/design-system.md` v2.2): neem green brand, sunrise orange for Report only, Baloo Bhai 2 headings with Mukta Vaani text, rounded cards, gentle spring motion. Chosen by the founder 2026-10-03 from four directions (`docs/v2/design-options.html`); no AMC logo or AMC-derived marks | Community feel and trust without impersonation |
 | D2 | Corporator contact: in-app message relay (email to representative) by default; phone shown only if officially published as an office number or consented | Never publish personal numbers |
 | D3 | Roles: citizen, moderator, admin, representative (verified). Alerts at Warning/Critical need two-person approval | A wrong alert damages trust |
 | D4 | Languages: Gujarati + English at launch; Hindi phase 3 | Audience; scope |
@@ -128,7 +128,7 @@ Citizen bottom navigation: **Home · Map · Report · Alerts · My Ward**. Profi
 | `/sign-in`, `/sign-in/otp` | Phone + OTP (shown only when an action needs it) |
 | `/` Home | Ward header, active alerts strip, "Report an issue" primary action, nearby issues, upcoming drives, service shortcuts |
 | `/map` | Issues map with clusters and filters (category, status, mine) |
-| `/report/what`, `/report/photo`, `/report/details`, `/report/done` | Three short steps (DS §7): 1 category grid; 2 photos + auto location with adjustable pin + duplicate suggestions; 3 optional description (voice), summary with Change links → Submit; offline draft kept |
+| `/report/what`, `/report/photo`, `/report/details`, `/report/done` | Three short steps (DS §8): 1 category grid; 2 photos + auto location with adjustable pin + duplicate suggestions; 3 optional description (voice), summary with Change links → Submit; offline draft kept |
 | `/issues/:id` | Photos (before/after), status + timeline, Me too, Follow, Share, Verify/Reopen, Link CCRS, Escalate, report a problem |
 | `/alerts`, `/alerts/:id`, `/alerts/settings` | Inbox of active and past alerts; subscription settings |
 | `/ward`, `/ward/:id`, `/representatives/:id`, `/representatives/:id/message` | My Ward: corporators, MLA/MP, ward office, scorecard, services, drives |
@@ -147,7 +147,7 @@ Citizen bottom navigation: **Home · Map · Report · Alerts · My Ward**. Profi
 
 ## §10 Design system
 
-See §10 in `docs/v2/design-system.md` (tokens, typography, components, screen patterns). Summary: professional civic identity, clear hierarchy, flat surfaces with 1 px borders, one primary colour used for actions only, semantic colours for status and severity, icon + label everywhere, 48 dp minimum targets, Gujarati-first typography.
+See `docs/v2/design-system.md` v2.2 "Neem" (DS §1–§9: identity, colour, type, shape, components, motion, accessibility, flows, screens). Summary: neem-green brand with a green Home header, a single sunrise-orange Report action, Baloo Bhai 2 headings and Mukta Vaani text (Gujarati + English), rounded cards with soft depth and generous spacing, semantic colours for status and severity, icon + label everywhere, 48 dp minimum targets, and a gentle-spring motion system (DS §6) that respects reduced motion and holds 60 fps on low-end phones.
 
 ## §11 Privacy, safety and trust
 

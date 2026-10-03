@@ -8,13 +8,13 @@
 | Size | L |
 | Depends On | TASK-02, TASK-04 |
 | Blocks | TASK-06, TASK-10 |
-| Requirement IDs | REQ-F-012, REQ-F-013, REQ-F-014, REQ-F-015, REQ-F-016, REQ-F-017, REQ-F-018, REQ-F-019, REQ-D-007, REQ-N-007, REQ-S-007, REQ-S-008 |
-| Primary Spec Refs | Spec §1, §4, §5 (duplicates), §6 (`categories`, `amc_problem_types`, `issues`, `issue_photos`, `issue_events`), §7 (Categories, Issues, rate limits), §8 (`/report/*`), §11 (photos); DS §1, §4, §5, §6, §7 |
+| Requirement IDs | REQ-F-012, REQ-F-013, REQ-F-014, REQ-F-015, REQ-F-016, REQ-F-017, REQ-F-018, REQ-F-019, REQ-F-062, REQ-D-007, REQ-N-007, REQ-S-007, REQ-S-008 |
+| Primary Spec Refs | Spec §1, §4, §5 (duplicates), §6 (`categories`, `amc_problem_types`, `issues`, `issue_photos`, `issue_events`), §7 (Categories, Issues, rate limits), §8 (`/report/*`), §11 (photos); DS §1, §2, §3, §4, §5, §6 (Motion), §7, §8 (report flow) |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
 
-A signed-in citizen reports any of 14 civic problems straight to Saarthee in three short steps — what, photo and place, details and check — without first filing with AMC. The server stores a complete issue with ward and zone, a Saarthee target date and an opening `issue_events` row; retries never duplicate it. Before submitting, the citizen sees open reports of the same problem nearby and can add "Me too" instead. After submitting, the citizen may optionally file with AMC too, guided by the matching AMC problem type, and link the CCRS number later. Faces and number plates are blurred on the phone before upload. The v1 six-step complaint flow is retired.
+A signed-in citizen reports any of 14 civic problems straight to Saarthee in three short steps — what, photo and place, details and check — without first filing with AMC. The server stores a complete issue with ward and zone, a Saarthee target date and an opening `issue_events` row; retries never duplicate it. Before submitting, the citizen sees open reports of the same problem nearby and can add "Me too" instead. After submitting, the citizen may optionally file with AMC too, guided by the matching AMC problem type, and link the CCRS number later. Faces and number plates are blurred on the phone before upload. The flow is built from the Neem components and moves with the DS §6 gentle spring: tiles pop in, steps slide on a shared axis while the progress bar grows, the photo flies into its slot and the pin drops, and a full-screen success with a drawn check confirms the report — all instant when reduced motion is on. The v1 six-step complaint flow is retired.
 
 ## 2. Scope
 
@@ -25,8 +25,10 @@ A signed-in citizen reports any of 14 civic problems straight to Saarthee in thr
 - `POST /photos` extended for signed-in citizens (owner, blur flag); public read of attached issue photos `GET /media/photos/{id}`.
 - `GET /issues/nearby` (duplicate check), `POST /issues` (idempotent), `POST /issues/{id}/me-too` (create only — used by the duplicate suggestion), `POST /issues/{id}/ccrs` (link a CCRS number).
 - Per-user daily quota helper (REQ-S-008) with all four Spec §7 limits configured; applied here to issues, photos and me-too; exported for TASK-06 (verifications) and TASK-09 (messages).
-- App: three-step report flow `/report/what` → `/report/photo` → `/report/details` → `/report/done` (DS §7), mini-map with "Adjust pin", duplicate suggestions, persisted draft (reusing v1 draft/capture/upload code), image_picker `retrieveLostData()` recovery, idempotent submit, "File with AMC too" hand-off, `/issues/:id/link-ccrs` screen.
+- App: three-step report flow `/report/what` → `/report/photo` → `/report/details` → `/report/done` (DS §8), mini-map with "Adjust pin", duplicate suggestions, persisted draft (reusing v1 draft/capture/upload code), image_picker `retrieveLostData()` recovery, idempotent submit, "File with AMC too" hand-off, `/issues/:id/link-ccrs` screen.
 - On-device face and plate blur with a manual blur tool (P1); voice input for the description (P2).
+- Report-flow motion (REQ-F-062, DS §6 catalogue rows owned by TASK-05): step 1 tile pop-in stagger, selected-tile spring + selection haptic; shared-axis X between steps with the animated step-header progress bar (reversed on Back); photo thumbnail fly-in and mini-map pin drop; duplicate card slide-in and "Add me too" → "Added ✓" morph; full-screen success (circle scales in, check draws, issue number fades up, success haptic, no confetti). Built only from TASK-03's `SaartheeMotion` tokens and motion widgets; reduced-motion variant for every moment.
+- Neem styling of every report screen: `sunrise` only on "Submit report" (the Report tab glyph and Home Report card are the `sunrise` entry points, owned by TASK-03/TASK-07); radii per DS §4 (thumbnails/buttons/inputs 14, tiles/cards 18, sheets 24); Material Symbols Rounded icons.
 - Retire v1 report routes and screens; `POST /reports` answers 410.
 - Performance measurement for REQ-N-007.
 
@@ -42,7 +44,7 @@ A signed-in citizen reports any of 14 civic problems straight to Saarthee in thr
 
 - TASK-01: v2 tables exist (`categories`, `issues`, `issue_photos`, `issue_events`, `me_toos`, `follows`, `users`), PostGIS enabled, Vitest + Supertest harness and v2 seed runner.
 - TASK-02: `wards`/`zones` seeded; geo service `locate(lat, lng)` returning `{ ward, zone, confirm, distanceM }` (REQ-F-001).
-- TASK-03: Civic Blue shell (Report tab), components (`StepHeader`, `CategoryBadge`, `ChoiceTile`, `PrimaryButton`, `ErrorSummary`, `OfflineBanner`, skeletons, banners), ARB in Gujarati + English.
+- TASK-03: Neem shell (Report tab with `sunrise` glyph), components (`StepHeader` with progress bar, `CategoryBadge`, `ChoiceTile`, `PrimaryButton` incl. a `sunrise` variant, `ErrorSummary`, `OfflineBanner`, toast, skeletons, banners), ARB in Gujarati + English; motion foundation: `SaartheeMotion` tokens (`lib/core/theme/motion.dart`), `animations` + `flutter_animate` packages, press-scale wrapper, haptics helper (injectable, with a fake for tests), `MotionCheck` (drawn check), `CountUp`, `StaggeredColumn`, reduced-motion handling (`MediaQuery.disableAnimations` + in-app Animations switch) and the static test that forbids `Duration(` literals in `lib/features/**`.
 - TASK-04: session JWT middleware `requireUser` (sets `req.user {id, role, status, language, homeWardId}`), sign-in gate that returns to the calling route, consent records, `AUTH_REQUIRED` / `ACCOUNT_SUSPENDED` error codes.
 - Env (`apps/api/.env`): `DUPLICATE_RADIUS_M=50`, `DUPLICATE_WINDOW_DAYS=30`, `ISSUE_MAX_PHOTOS=3`, `QUOTA_ISSUES_PER_DAY=10`, `QUOTA_ME_TOO_PER_DAY=100`, `QUOTA_VERIFICATIONS_PER_DAY=20`, `QUOTA_MESSAGES_PER_REP_PER_DAY=5`, `QUOTA_PHOTOS_PER_DAY=40`, `WARD_SNAP_MAX_M=2000`, `AMC_PROBLEMS_URL=https://www.amccrs.com/AMCPortal/Home/GetDeptWiseProblems`, `AMC_PROBLEMS_MIN_INTERVAL_HOURS=24`.
 - Dart-defines (existing v1): `CCRS_WEB_URL`, `CCRS_WHATSAPP_NUMBER`, `AMC_HELPLINE` (155303); new: `MAP_TILE_URL`, `MAP_TILE_ATTRIBUTION`.
@@ -62,14 +64,15 @@ A signed-in citizen reports any of 14 civic problems straight to Saarthee in thr
 |---|---|---|
 | REQ-F-012 | v2 category list (14 categories, Gujarati + English, icon, colour token, SLA days) via `GET /categories`, with AMC CCRS problem-type mapping | Spec §4 |
 | REQ-F-013 | AMC problem types cached from the CCRS public JSON by a script (manual run, at most daily) | Spec §4 |
-| REQ-F-014 | Three-step report flow (DS §7): category grid; photos (1–3) with auto location and adjustable pin; optional description and check-your-answers; submit | Spec §8, DS §7 |
+| REQ-F-014 | Three-step report flow (DS §8): category grid; photos (1–3) with auto location and adjustable pin; optional description and check-your-answers; submit | Spec §8, DS §8 |
 | REQ-F-015 | Duplicate check before submit: open issues of the same category within 50 m in 30 days offered as "Me too" | Spec §5 |
 | REQ-F-016 | `POST /issues` idempotent by `clientSubmissionId`; assigns ward/zone, SLA due date, status `reported` | Spec §5, §7 |
 | REQ-F-017 | Report draft persists across app kill and camera hand-off; image_picker lost-data recovery handled | Spec §8 |
 | REQ-F-018 | Optional "File with AMC too" hand-off (CCRS web, WhatsApp, 155303) showing the matching AMC problem type; citizen can link a CCRS number later | Spec §5, §1 |
 | REQ-F-019 | Voice input for the description (device speech-to-text, gu/en) | Spec §8 |
 | REQ-D-007 | `categories` seeded with the 14 v2 categories and `amc_problem_types` mapping | Spec §4 |
-| REQ-N-007 | Report sheet completes in ≤ 4 taps after the photo for a typical issue; cold start ≤ 3 s on a low-end phone (profile/release build) | DS §7 |
+| REQ-N-007 | Report sheet completes in ≤ 4 taps after the photo for a typical issue; cold start ≤ 3 s on a low-end phone (profile/release build) | DS §8 |
+| REQ-F-062 | Report-flow motion per DS §6: tiles pop in with stagger, selected tile springs with selection haptic, shared-axis step transitions with animated progress bar, photo fly-in and pin drop, duplicate card slide-in with "Me too" morph, full-screen success with drawn check and success haptic | DS §6 |
 | REQ-S-007 | Faces and number plates blurred on-device before upload, with manual blur fallback | Spec §11 |
 | REQ-S-008 | Per-user rate limits per spec §7 (issues, me-too, messages, verifications) | Spec §7 |
 
@@ -169,20 +172,36 @@ AMC fetch script `apps/api/scripts/fetch-amc-problems.ts` (`npm run amc:problems
 
 | Route | Content | States |
 |---|---|---|
-| `/report/what` (Step 1 of 3) | Title "What is the problem?"; grid of 14 tiles (40 dp `CategoryBadge` + label, 2 columns, ≥ 96 dp tall) | skeleton tiles; error "We couldn't load the list. Try again"; offline → cached list; signed out → tapping a tile opens sign-in, then returns to step 2 with the category saved |
-| `/report/photo` (Step 2 of 3) | Title "Add a photo and check the place"; camera opens on entry for a new draft; up to 3 thumbnails (4:3, radius 8) with remove; "Add another photo"; mini-map with pin, ward label "In ward: Paldi (West zone)" and "Adjust pin"; duplicate panel "Already reported nearby" with cards "Me too — this is it" and "No, mine is different"; primary "Continue" | location permission denied → "We need your location to place the report on the map." + "Open settings" (Continue disabled); weak GPS (> 50 m) → "Location is approximate. Drag the pin to the exact spot."; upload progress per photo, failed → "Retry upload"; blurring → "Blurring faces and number plates…"; `confirm:true` → "This spot is just outside ward boundaries. Is it in Vasna?" Yes/Choose another ward; offline → photos kept, uploads resume on reconnect |
+| `/report/what` (Step 1 of 3) | Title "What is the problem?"; grid of 14 tiles (40 dp `CategoryBadge` + label, 2 columns, ≥ 96 dp tall, radius 18; selected tile `primaryContainer` fill + 2 px `primary` outline) | skeleton tiles; error "We couldn't load the list. Try again"; offline → cached list; signed out → tapping a tile opens sign-in, then returns to step 2 with the category saved |
+| `/report/photo` (Step 2 of 3) | Title "Add a photo and check the place"; camera opens on entry for a new draft; up to 3 thumbnails (4:3, radius 14) with remove; "Add another photo"; mini-map with pin, ward label "In ward: Paldi (West zone)" and "Adjust pin"; duplicate panel "Already reported nearby" with cards (radius 18) "Add me too" (morphs to "Added ✓") and "No, mine is different"; primary "Continue" | location permission denied → "We need your location to place the report on the map." + "Open settings" (Continue disabled); weak GPS (> 50 m) → "Location is approximate. Drag the pin to the exact spot."; upload progress per photo, failed → "Retry upload"; blurring → "Blurring faces and number plates…"; `confirm:true` → "This spot is just outside ward boundaries. Is it in Vasna?" Yes/Choose another ward; offline → photos kept, uploads resume on reconnect |
 | `/report/photo/blur` | Full-screen photo; auto-blurred boxes outlined; "Tap or drag to blur more", "Undo", "Done"; caption "Faces and number plates blurred" | detector unavailable → manual tool only + note "Automatic blurring isn't available on this phone. Blur faces and number plates by hand." |
-| `/report/details` (Step 3 of 3) | Title "Add details and check"; "Description (optional)" field with mic button (P2) and 1,000-char counter; for sensitive categories a single-choice list instead (encroachment: "Blocking the footpath", "Blocking the road", "Hawkers or stalls", "Other obstruction"; building: "Construction without permission", "Unsafe building", "Debris on the road", "Other"); summary rows Category / Photos / Place (ward) / Description each with "Change"; consent line "Your report, photos and place will be public. Your name and phone number are never shown."; primary "Submit report" | sending → button progress, disabled; server errors → `ErrorSummary` with links to steps, focus moved to it; `PHOTO_UNUSABLE` → "Your photo upload expired. Please retake the photo." link to step 2; offline → banner "You're offline. Your report is saved and will send automatically." and auto-retry on reconnect with the same `clientSubmissionId`; quota → "You've sent 10 reports today. You can send more tomorrow." |
-| `/report/done` | "Report sent. Thank you." / "Neighbours can now see it and add Me too. We'll tell you when its status changes." (sensitive: "A moderator will check it before it is public.") Section "File with AMC too (optional)": "AMC's category for this: <dept> › <problem>"; buttons "Open AMC complaint website", "Use AMC's WhatsApp", "Call 155303", "Copy details for AMC"; independence line "Independent citizen app. Not run by or linked to AMC."; "Already filed? Add your AMC complaint number" → link screen; "Done" → Home | external app fails → "Couldn't open <target>. Try another way."; category `other` → "Choose the closest type on AMC's site." |
+| `/report/details` (Step 3 of 3) | Title "Add details and check"; "Description (optional)" field with mic button (P2) and 1,000-char counter; for sensitive categories a single-choice list instead (encroachment: "Blocking the footpath", "Blocking the road", "Hawkers or stalls", "Other obstruction"; building: "Construction without permission", "Unsafe building", "Debris on the road", "Other"); summary rows Category / Photos / Place (ward) / Description each with "Change"; consent line "Your report, photos and place will be public. Your name and phone number are never shown."; pinned 56 dp "Submit report" button in `sunrise` (white text, `sunrisePressed` when pressed; the only `sunrise` element in the flow) | sending → button progress, disabled; server errors → `ErrorSummary` with links to steps, focus moved to it; `PHOTO_UNUSABLE` → "Your photo upload expired. Please retake the photo." link to step 2; offline → banner "You're offline. Your report is saved and will send automatically." and auto-retry on reconnect with the same `clientSubmissionId`; quota → "You've sent 10 reports today. You can send more tomorrow." |
+| `/report/done` | Full-screen success first (no step header): `success` circle with a drawn white check, "Report sent. Thank you." (displaySmall), issue number "Issue SA-3F9A2C1B" (§5.6); then "Neighbours can now see it and add Me too. We'll tell you when its status changes." (sensitive: "A moderator will check it before it is public.") Section "File with AMC too (optional)": "AMC's category for this: <dept> › <problem>"; buttons "Open AMC complaint website", "Use AMC's WhatsApp", "Call 155303", "Copy details for AMC"; independence line "Independent citizen app. Not run by or linked to AMC."; "Already filed? Add your AMC complaint number" → link screen; "Done" → Home | external app fails → "Couldn't open <target>. Try another way."; category `other` → "Choose the closest type on AMC's site." |
 | `/issues/:id/link-ccrs` | Title "Add your AMC complaint number"; field + help "It's in the SMS or WhatsApp message AMC sent you."; "How did you file?" Website / WhatsApp / Phone; "Save" | inline "Enter the complaint number you got from AMC."; 409 → "A different number is already linked to this report."; offline → banner, Save disabled |
 
 Tap budget (REQ-N-007), typical issue after the photo is accepted in the camera: Continue (1) → Submit report (2); with a duplicate shown: "No, mine is different" (+1) = 3; with pin adjust: drag + Continue = 4 max.
 
 Copy-for-AMC text (clipboard, user's language): "<category> problem at <lat>,<lng> (https://maps.google.com/?q=<lat>,<lng>), ward <ward>. Reported on Saarthee <date>." The first hand-off tap records consent `share_with_amc_handoff` via TASK-04 `POST /me/consents` (once).
 
-ARB keys (gu + en) under `report.*`, `report.handoff.*`, `report.blur.*`, `report.dup.*`, `linkCcrs.*`, `error.<CODE>`; Gujarati strings marked for native review.
+ARB keys (gu + en) under `report.*`, `report.handoff.*`, `report.blur.*`, `report.dup.*` (incl. `report.dup.addMeToo` "Add me too" / "મારી પણ ફરિયાદ", `report.dup.added` "Added"), `report.done.issueNumber` ("Issue {ref}"), `linkCcrs.*`, `error.<CODE>`; Gujarati strings marked for native review.
 
-TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the problem, taken 3 Oct, 2:19 pm"; pin has a non-drag alternative ("Move pin" with arrow buttons, 5 m steps) for accessibility.
+TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the problem, taken 3 Oct, 2:19 pm"; pin has a non-drag alternative ("Move pin" with arrow buttons, 5 m steps) for accessibility; the success screen announces "Report sent. Issue SA-3F9A2C1B" through a live region as soon as it opens (motion never carries meaning alone).
+
+Report-flow motion (REQ-F-062, DS §6). Every duration and curve comes from `SaartheeMotion`; no `Duration(` literal in `lib/features/report/**`. Only transform, opacity and colour animate, except the step-header progress bar (clipped, DS §6 exception).
+
+| Moment | Motion (normal) | Reduced motion (`MediaQuery.disableAnimations` or in-app Animations off) | Haptic |
+|---|---|---|---|
+| Step 1 tiles enter | Each tile scales 0.88 → 1 and fades in with `springIn`; tile *n* starts `min(n, 6)` × 35 ms after the first (tile-stagger token, §5.6). Only when step 1 is first built for a draft, not when returning with Back | All tiles shown at final state on the first frame | — |
+| Tile selected | Press scale 0.97 (`instant`, TASK-03 wrapper); then the tile springs to 1.02 and back (`springIn`) while the fill cross-fades to `primaryContainer` and a 2 px `primary` outline appears (`short`); navigation to step 2 starts after `short` | Fill and outline change instantly; navigation immediate | Selection haptic (`selectionClick` via the TASK-03 helper), once per tap |
+| Step 1 → 2 → 3 | Body uses a shared-axis X transition (`animations` `SharedAxisTransition`, `medium`); the `StepHeader` stays mounted in a `/report` shell route so its progress bar animates from 1/3 → 2/3 → 3/3 (`medium`) instead of rebuilding; "Step n of 3" text changes at once | Instant page swap (or ≤ 100 ms cross-fade); bar jumps to the new width | — |
+| Back (or system back) | Shared-axis X reversed; progress bar shrinks to the previous width (`medium`) | Instant | — |
+| Photo captured | On return from the camera, a thumbnail overlay flies from the "Take photo" button rect to its slot (translate + scale, `long`), then the slot shows the real thumbnail | Thumbnail appears in its slot | — |
+| Location fixed / pin moved | Pin drops 24 dp onto the mini-map with `springIn` (≤ 6% overshoot = small bounce) on first fix; after "Adjust pin" or arrow moves it does not re-drop | Pin placed instantly | — |
+| Duplicate found | "Already reported nearby" card slides down from under the map (translate-Y from −card height, clipped by the map's bottom edge, `springIn`) | Card shown instantly | — |
+| "Add me too" | Button shows in-button progress; on 201/200 the label cross-fades to "Added ✓" (`short`) with a `MotionCheck` in place of the icon, button width fixed (no layout animation); after the check finishes the confirmation opens | Label swaps instantly; confirmation opens on the next frame | Light haptic (TASK-03 primary press) |
+| Submit report → success | Button in-button progress while sending. `/report/done` opens with a fade (`medium`); the `success` circle scales 0 → 1 (`springIn`); the white check draws (`drawCheck`, 150 ms after the circle starts); the issue number fades up (`rise`) after the check; the rest of the screen (text, AMC section, Done) rises with `stagger`. No confetti, no loop | Final screen on the first frame | Success haptic (TASK-03 helper) once, when the check starts drawing (also fired with reduced motion; haptics follow the system setting separately) |
+
+The motion layer lives in presentation only (`features/report/presentation/motion/`): each widget reads TASK-03's reduced-motion provider and uses either the `SaartheeMotion` token or its instant (reduced) variant, so widget tests can pump through exact token durations and assert the reduced variant separately.
 
 ### 5.5 Permissions & Roles
 
@@ -208,6 +227,12 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 - ASSUMPTION: CCRS JSON has no stable problem ID; `source_key` = sha1 of department + category + problem text. A text edit at AMC appears as one deactivated and one new row.
 - ASSUMPTION: Reporter auto-follows their own issue (`follower_count=1`) so TASK-06 notifications reach them through one path.
 - ASSUMPTION: v1 drafts are discarded on upgrade and `POST /reports` returns 410 — pilot v1 data was test data (D11); v1 complaints are already migrated by TASK-01.
+- ASSUMPTION: The "issue number" on the success screen (DS §6) is a display reference derived from the issue UUID — `SA-` + the first 8 hex characters upper-cased (e.g. `SA-3F9A2C1B`) — built by a shared helper `lib/core/format/issue_ref.dart` that TASK-07 reuses on detail; no schema change (Spec §6 has no issue number column). Collisions are possible but harmless because the reference is only a human label, never a lookup key.
+- ASSUMPTION: The tile pop-in's 35 ms stagger (DS §6 catalogue) is a `SaartheeMotion` constant (e.g. `tileStagger`); if TASK-03 has not defined it, TASK-05 adds it to `lib/core/theme/motion.dart` (not a literal in features) and tells the TASK-03 owner. The `stagger` cap of 6 steps also applies, so tiles 7–14 start with tile 6 (the grid is fully in after ≈ 0.6 s).
+- ASSUMPTION: The photo "capture point" is the "Take photo" button, because capture happens in the system camera app (image_picker) and the app has no viewfinder coordinates.
+- ASSUMPTION: Navigation from step 1 to step 2 waits `short` (180 ms) after a tile tap so the selection spring and outline are seen; this does not add a tap and is skipped with reduced motion.
+- ASSUMPTION: The success circle uses the `success` token (#1A7340, "green circle" in DS §6) with a white check (5.88:1).
+- ASSUMPTION: The duplicate button copy changes from "Me too — this is it" to DS §6's "Add me too" → "Added ✓"; behaviour (record me-too, discard draft, open confirmation) is unchanged.
 
 ## 6. Implementation Steps
 
@@ -227,12 +252,13 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 14. **Blur (P1).** `lib/core/capture/blur/`: `FaceAndPlateDetector` (*candidate* `google_mlkit_face_detection`, `google_mlkit_text_recognition`), `BlurRenderer` (*candidate* `image`, runs in an isolate), manual blur screen; auto-run after capture before upload; `blurApplied` sent with the upload.
 15. **Map.** Add *candidate* `flutter_map` + `latlong2`; `CivicMap` (muted tiles from `MAP_TILE_URL`, attribution, draggable pin, arrow-button pin mover).
 16. **Screens** `/report/what`, `/report/photo`, `/report/photo/blur`, `/report/details`, `/report/done`, `/issues/:id/link-ccrs` per §5.4; duplicate panel calls `/issues/nearby` when the pin settles (debounce 500 ms); ward label from `GET /geo/locate`.
-17. **Submit.** Idempotent submit (same `clientSubmissionId` on every retry; 200 = success); auto-retry on reconnect; error mapping to `ErrorSummary`; on success delete draft + photo files, go to `/report/done`.
-18. **Hand-off** via `url_launcher` using existing dart-defines; consent record on first use; copy-to-clipboard text.
-19. **Voice (P2).** *candidate* `speech_to_text`; locale `gu-IN` / `en-IN` from app language; mic hidden when unavailable; `RECORD_AUDIO` permission with rationale "So you can speak instead of typing."
-20. **Widget + integration tests** W-05-01…W-05-07, I-05-01 (§8).
-21. **Performance** M-05-06: count taps; measure cold start in a profile build; record numbers in §13.
-22. **Manual emulator checks** M-05-01…M-05-07; update coverage matrix.
+17. **Motion (REQ-F-062).** In `features/report/presentation/motion/` build, from TASK-03 widgets and tokens only: `TilePopIn` (`flutter_animate` scale+fade, tile stagger with the 6-step cap, first build only), `SelectedTileSpring` (1.02 spring + outline cross-fade + selection haptic), the `/report` shell route with a persistent `StepHeader` whose progress bar animates (`medium`) and a `SharedAxisTransition` page builder (forward/reverse by step index), `PhotoFlyIn` (overlay from the "Take photo" button rect to the slot rect, `long`), `PinDrop` (24 dp, `springIn`, first fix only) in `CivicMap`'s pin layer, `DuplicateCardSlide` (clipped, `springIn`), the "Add me too" → "Added ✓" morph with `MotionCheck`, and the `ReportSuccessHero` (circle `springIn`, `MotionCheck` with `drawCheck`, issue number `rise`, then `StaggeredColumn` for the rest, success haptic). Each widget collapses to its final state under reduced motion. Style the screens per §5.4 (`sunrise` "Submit report", radii 14/18/24, Rounded icons) and add the `issue_ref.dart` helper.
+18. **Submit.** Idempotent submit (same `clientSubmissionId` on every retry; 200 = success); auto-retry on reconnect; error mapping to `ErrorSummary`; on success delete draft + photo files, go to `/report/done`.
+19. **Hand-off** via `url_launcher` using existing dart-defines; consent record on first use; copy-to-clipboard text.
+20. **Voice (P2).** *candidate* `speech_to_text`; locale `gu-IN` / `en-IN` from app language; mic hidden when unavailable; `RECORD_AUDIO` permission with rationale "So you can speak instead of typing."
+21. **Widget + integration tests** W-05-01…W-05-12, I-05-01 (§8), motion tests pumping through `SaartheeMotion` durations with the fake haptics helper.
+22. **Performance** M-05-06 and M-05-10 (frame times during each catalogued motion): count taps; measure cold start in a profile build; record numbers in §13.
+23. **Manual emulator checks** M-05-01…M-05-10, including screen recordings of every TASK-05 motion (normal and reduced) saved to `docs/demo/v2-evidence/motion/`; update coverage matrix.
 
 ## 7. Acceptance Criteria
 
@@ -261,7 +287,7 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 **AC-5** — Duplicate suggestions
 - **Given** an open public "garbage" issue 30 m away created 10 days ago, a closed one 20 m away, and an open one 80 m away
 - **When** the citizen reaches step 2 with category garbage at that spot
-- **Then** only the 30 m issue is suggested; "Me too — this is it" records a me-too (count +1), discards the draft and opens a confirmation; "No, mine is different" hides it and continues
+- **Then** only the 30 m issue is suggested; "Add me too" records a me-too (count +1), discards the draft and opens a confirmation; "No, mine is different" hides it and continues
 
 **AC-6** — Idempotent submission
 - **Given** a submitted issue
@@ -308,6 +334,26 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 - **When** `/report/number` is opened or `POST /reports` is called
 - **Then** the app redirects to `/report/what` and the API returns 410 `ENDPOINT_RETIRED`
 
+**AC-15** — Category tiles and step transitions move per DS §6
+- **Given** a signed-in citizen opening a new report with animations on
+- **When** step 1 appears, they tap "Garbage & cleanliness", reach step 2, continue to step 3 and press Back
+- **Then** the 14 tiles pop in from scale 0.88 with a 35 ms stagger capped at 6 steps; the tapped tile springs, turns `primaryContainer` with a `primary` outline and fires exactly one selection haptic; each step change is a shared-axis X transition (`medium`) while the step-header bar grows 1/3 → 2/3 → 3/3; Back reverses the transition and shrinks the bar to 2/3; "Step n of 3" text and TalkBack announcement change with every step
+
+**AC-16** — Photo, pin and duplicate motion
+- **Given** step 2 with a fixed location and an open garbage issue 30 m away
+- **When** the citizen takes a photo, the pin is placed and the duplicate check returns, and they tap "Add me too"
+- **Then** the thumbnail flies from the "Take photo" button into slot 1 over `long`; the pin drops onto the mini-map once with a small bounce (`springIn`); the "Already reported nearby" card slides down from under the map with `springIn`; the button shows in-button progress, then morphs to "Added ✓" with a drawn check before the confirmation opens; only transform, opacity and colour animate
+
+**AC-17** — Full-screen success
+- **Given** a complete draft on step 3
+- **When** the citizen taps the `sunrise` "Submit report" and the API returns 201
+- **Then** `/report/done` opens full-screen: the `success` circle scales in (`springIn`), the check draws (`drawCheck`, starting 150 ms after the circle), "Issue SA-XXXXXXXX" fades up, one success haptic fires, the rest of the screen rises with `stagger`; no confetti or looping animation appears; TalkBack hears "Report sent. Issue SA-XXXXXXXX"
+
+**AC-18** — Reduced motion and smoothness
+- **Given** the system "Remove animations" setting on, and separately the in-app Settings → Animations switch off
+- **When** the citizen completes the whole report flow
+- **Then** every moment in the §5.4 motion table is an instant change (or ≤ 100 ms cross-fade) with identical content, the selection and success haptics still fire once each; with animations on, a profile build on the reference low-end device shows no frame over 16 ms during any of these motions; no `Duration(` literal exists in `lib/features/report/**`
+
 ### AC → Requirement
 
 | AC | Requirements |
@@ -326,6 +372,10 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 | AC-12 | REQ-F-019 |
 | AC-13 | REQ-N-007 |
 | AC-14 | REQ-F-014 |
+| AC-15 | REQ-F-062 |
+| AC-16 | REQ-F-062 |
+| AC-17 | REQ-F-062 |
+| AC-18 | REQ-F-062 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -339,6 +389,11 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 - [ ] AMC JSON fetched only by the script; tests and seed use the snapshot; no AMC logo anywhere
 - [ ] Report screens import providers only — no API client in `presentation/`
 - [ ] Blur runs off the UI thread; completes ≤ 1.5 s per photo on the emulator
+- [ ] Neem styling: `sunrise` only on "Submit report" (one per screen, never next to an `error` element); thumbnails/buttons/inputs radius 14, tiles/cards 18, sheets 24; Material Symbols Rounded; Baloo Bhai 2 only for titles ≥ 16 sp
+- [ ] All report motion uses `SaartheeMotion` tokens and TASK-03 motion widgets; no `Duration(` literal in `lib/features/report/**` (TASK-03 static test green)
+- [ ] Reduced motion (system and in-app switch) gives instant changes with identical content; haptics independent of it
+- [ ] No looping animation in the flow; nothing blinks more than 3×/s; no Lottie/Rive; no confetti
+- [ ] Only transform, opacity and colour animate (progress bar is the clipped exception); no frame > 16 ms during the catalogued motions in a profile build
 
 ## 8. Validation & Testing
 
@@ -368,6 +423,12 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 | Widget | W-05-05 | Done screen: primary AMC type in gu/en, independence line, category `other` copy | AC-9 |
 | Widget | W-05-06 | Draft controller restore from JSON (v2) and discard of v1 JSON | AC-7, AC-14 |
 | Widget | W-05-07 | Blur renderer pixelates given boxes (golden test on a fixture image) | AC-11 |
+| Widget | W-05-08 | Step 1 motion: at frame 0 tile 1 scale 0.88/opacity 0; after `springIn` + 6 × tile stagger every tile is at scale 1 (tiles 7–14 started with tile 6); tap → selected tile scale peaks > 1 and returns to 1 after `springIn`, fill `primaryContainer` + `primary` outline; fake haptics records exactly one `selection`; reduced-motion variant (`MediaQuery(disableAnimations: true)` and in-app switch off): all tiles final on the first frame, haptic still recorded | AC-15, AC-18 |
+| Widget | W-05-09 | Step transitions: `SharedAxisTransition` present during `medium`; progress bar width factor 1/3 → 2/3 after pumping `medium`, Back → reverse transition and 2/3 → … → 1/3; `StepHeader` widget identity kept across steps; reduced variant: no transition widget animating, bar at target on the next frame | AC-15, AC-18 |
+| Widget | W-05-10 | Photo and pin: fake capture returns a file → overlay thumbnail at the button rect at frame 0, at the slot rect after `long`, overlay removed; pin offset −24 dp at frame 0, 0 after `springIn`, no re-drop after "Move pin"; reduced variant: thumbnail in slot and pin placed on the first frame | AC-16, AC-18 |
+| Widget | W-05-11 | Duplicate card: translated above the map edge at frame 0, settled after `springIn`; "Add me too" with a fake API completer → in-button progress, then "Added ✓" + `MotionCheck` complete after `short` + `drawCheck`; confirmation opens only after the check; reduced variant instant | AC-16, AC-18 |
+| Widget | W-05-12 | Success screen: circle scale 0 → 1 over `springIn`; `MotionCheck` progress 0 before 150 ms and 1 after `drawCheck`; issue-number opacity 1 after `rise`; fake haptics records exactly one `success`; no Lottie/Rive/particle widgets in the tree and no animation still running after 2 s (`tester.hasRunningAnimations` false); semantics live region text "Report sent. Issue SA-…"; reduced variant: final state on the first frame, one `success` haptic; `issueRef()` unit cases | AC-17, AC-18 |
+| Static | S-05-02 | TASK-03's `no_duration_literals_test` passes for `lib/features/report/**`; `sunrise` referenced only by the Submit button in `features/report` (grep) | AC-18 |
 | Integration | I-05-01 | Emulator: full report with fake camera + mock location against the local API; asserts tap count ≤ 4 after the photo | AC-3, AC-13 |
 | Manual | M-05-01 | Kill with `adb shell am force-stop` during camera; relaunch; lost-data recovery (enable "Don't keep activities") | AC-7 |
 | Manual | M-05-02 | Airplane mode at step 3 → Submit → reconnect → one issue | AC-6, AC-8 |
@@ -376,13 +437,16 @@ TalkBack: "Step 1 of 3, What is the problem?"; photo labels "Photo 1 of the prob
 | Manual | M-05-05 | Voice input in Gujarati and English | AC-12 |
 | Manual | M-05-06 | `flutter run --profile --trace-startup` ×5 → `build/start_up_info.json`; tap count | AC-13 |
 | Manual | M-05-07 | TalkBack pass through the three steps; 2.0× font | AC-3 |
+| Manual | M-05-08 | Emulator screen recordings of each TASK-05 motion with animations on: `adb shell screenrecord --bit-rate 8000000 /sdcard/t05-<moment>.mp4` while performing tile pop-in + selection, step forward/back, photo fly-in + pin drop, duplicate slide + "Added ✓", submit → success; `adb pull` to `docs/demo/v2-evidence/motion/task-05-<moment>.mp4`; review frame by frame against the §5.4 motion table | AC-15, AC-16, AC-17 |
+| Manual | M-05-09 | Same run with Developer options → "Remove animations" (`adb shell settings put global animator_duration_scale 0` plus the accessibility toggle) and again with in-app Settings → Animations off; record `docs/demo/v2-evidence/motion/task-05-reduced-system.mp4` and `task-05-reduced-inapp.mp4`; confirm identical content and haptics on a physical phone | AC-18 |
+| Manual | M-05-10 | Profile build (`flutter run --profile`) on the reference low-end device/emulator profile: DevTools performance overlay or `adb shell dumpsys gfxinfo <package> framestats` during each motion; no frame > 16 ms; numbers in §13 | AC-18 |
 
 ## 9. Deliverables
 
 - Migration `<ts>_v2_reporting`; category seed; AMC snapshot + mapping files; `amc:problems:fetch` script.
 - API modules `categories` (v2), `issues` (nearby, create, me-too create, CCRS link), photos extensions, `media` read, `lib/quota`; v1 `/reports` retired.
-- App: three-step report feature, blur tool, `CivicMap`, link-CCRS screen, voice input; v1 report screens removed.
-- Tests T-05-01…16, W-05-01…07, I-05-01; performance numbers in §13; coverage evidence for 12 requirements.
+- App: three-step report feature in Neem styling with DS §6 motion (tile pop-in, shared-axis steps, photo fly-in, pin drop, duplicate slide and morph, full-screen success), `issue_ref.dart`, blur tool, `CivicMap`, link-CCRS screen, voice input; v1 report screens removed.
+- Tests T-05-01…16, W-05-01…12, S-05-02, I-05-01; performance and frame-time numbers in §13; motion recordings in `docs/demo/v2-evidence/motion/`; coverage evidence for 13 requirements.
 
 ## 10. Files Expected to Change
 
@@ -398,15 +462,17 @@ Prediction only — exact paths may differ.
 | `apps/api/src/lib/quota/`, `src/lib/errors/index.ts`, `src/routes.ts` | New / Modified |
 | `apps/api/test/issues/*.test.ts`, `test/categories.test.ts`, `test/quota.test.ts` | New |
 | `apps/mobile/lib/features/report/` (data, application, presentation) | Rewritten |
-| `apps/mobile/lib/core/capture/` (lost data, blur), `lib/core/map/civic_map.dart` | Modified / New |
+| `apps/mobile/lib/core/capture/` (lost data, blur), `lib/core/map/civic_map.dart` (pin drop layer) | Modified / New |
+| `apps/mobile/lib/features/report/presentation/motion/`, `lib/core/format/issue_ref.dart`, `lib/core/theme/motion.dart` (tile stagger constant, only if TASK-03 lacks it) | New / Modified |
+| `docs/demo/v2-evidence/motion/task-05-*.mp4` | New |
 | `apps/mobile/lib/router/citizen_routes.dart`, `lib/core/l10n/app_en.arb`, `app_gu.arb` | Modified |
 | `apps/mobile/pubspec.yaml`, `android/app/src/main/AndroidManifest.xml`, `ios/Runner/Info.plist` | Modified |
-| `apps/mobile/test/report/*`, `integration_test/report_flow_test.dart` | New |
+| `apps/mobile/test/report/*` (incl. `motion/*_test.dart`), `integration_test/report_flow_test.dart` | New |
 
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §4 (taxonomy), §5 (duplicates, CCRS link), §6 (tables), §7 (endpoints, rate limits), §8 (routes), §11 (blur, independence)
-- `docs/v2/design-system.md` DS §1 (independence line), §2 (category colours), §5 (step header, buttons, inputs, error summary), §6, §7 (report flow, 4-tap target)
+- `docs/v2/design-system.md` DS §1 (independence line), §2 (Neem colours, `sunrise` rule, category colours), §3 (Baloo Bhai 2 + Mukta Vaani), §4 (radii 14/18/24/pill, Material Symbols Rounded, photos), §5 (step header, buttons, inputs, error summary, toast), §6 Motion (tokens, catalogue rows for TASK-05, reduced motion, performance), §7 (accessibility), §8 (report flow, 4-tap target)
 - `docs/tasks/TASK-04-report-flow.md` — v1 photo pipeline, draft and idempotency patterns reused
 - `docs/tasks-v2/TASK-02-*.md` (geo `locate`), `TASK-04-*.md` (session, consents), `TASK-07-discovery.md` (map package decision)
 
@@ -421,6 +487,8 @@ Prediction only — exact paths may differ.
 | Duplicate check too strict/loose | Split or wrongly merged reports | Radius/window configurable; moderators merge |
 | Quota counts on large tables slow | Slow submit | Indexed `(reporter_id, created_at)`; counts bounded to 24 h |
 | Tile provider free tier exceeded | Map blank | Configurable `MAP_TILE_URL`; cache tiles; monitor usage (TASK-07) |
+| Motion janks on low-end phones (photo fly-in over the map, 14-tile pop-in) | Flow feels slow; dropped frames | Transform/opacity only, `RepaintBoundary` around the map and tiles, 6-step stagger cap; M-05-10 frame check; reduced motion always available |
+| Motion delays the tap budget | Slower reports | Navigation never waits longer than `short` (tile) or the check (Added ✓); taps during a transition are queued, not dropped |
 
 ## 13. Progress Status
 
@@ -442,6 +510,8 @@ Prediction only — exact paths may differ.
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
 - [ ] Assumptions documented and, where possible, confirmed
+- [ ] Report-flow motion (REQ-F-062) verified: W-05-08…W-05-12 green, normal and reduced-motion recordings in `docs/demo/v2-evidence/motion/`, no frame > 16 ms in the profile check
+- [ ] Neem restyle verified: `sunrise` only on "Submit report", DS §4 radii, Rounded icons
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-05` shows 0 unverified)
 - [ ] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated

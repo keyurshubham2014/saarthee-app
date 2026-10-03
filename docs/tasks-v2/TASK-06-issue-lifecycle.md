@@ -8,13 +8,13 @@
 | Size | L |
 | Depends On | TASK-05 |
 | Blocks | TASK-07, TASK-11 |
-| Requirement IDs | REQ-F-020, REQ-F-021, REQ-F-022, REQ-F-023, REQ-F-024, REQ-F-025, REQ-F-026, REQ-F-027 |
-| Primary Spec Refs | Spec §3 (roles), §5 (lifecycle, verification, reopen window, SLA, escalation, CCRS reminder), §6 (`issues`, `issue_events`, `issue_verifications`, `issue_photos`), §7 (status, verifications, escalations, events; rate limits), §9 (issue-update notifications), §11 (privacy); DS §2 (status colours), §5 (status timeline), §6, §7 (verify flow) |
+| Requirement IDs | REQ-F-020, REQ-F-021, REQ-F-022, REQ-F-023, REQ-F-024, REQ-F-025, REQ-F-026, REQ-F-027, REQ-F-063 |
+| Primary Spec Refs | Spec §3 (roles), §5 (lifecycle, verification, reopen window, SLA, escalation, CCRS reminder), §6 (`issues`, `issue_events`, `issue_verifications`, `issue_photos`), §7 (status, verifications, escalations, events; rate limits), §9 (issue-update notifications), §11 (privacy); DS §2 (status colours), §4 (shape, Rounded icons), §5 (status chip, status timeline, toast, buttons), §6 (Motion), §7 (accessibility), §8 (verify flow) |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
 
-Make reported issues move to a real, checkable fix. The server owns one state machine (Spec §5) that decides who may change an issue's status, writes every change to `issue_events`, and never lets the app bypass it. A reporter, a ward representative or a moderator can mark an issue fixed, optionally with an "after" photo; neighbours then confirm with a photo taken within 100 m, and the rules turn that into Verified or Reopened. Issues past their Saarthee target are flagged and the citizen can escalate with a pre-filled, evidence-linked message up the ladder. Reporters and followers are told about every change by push and inbox.
+Make reported issues move to a real, checkable fix. The server owns one state machine (Spec §5) that decides who may change an issue's status, writes every change to `issue_events`, and never lets the app bypass it. A reporter, a ward representative or a moderator can mark an issue fixed, optionally with an "after" photo; neighbours then confirm with a photo taken within 100 m, and the rules turn that into Verified or Reopened. Issues past their Saarthee target are flagged and the citizen can escalate with a pre-filled, evidence-linked message up the ladder. Reporters and followers are told about every change by push and inbox. In the app every status change is visible and announced: the status chip cross-fades to its new colour, icon and word, the new timeline step expands from its dot, TalkBack says "Status changed to Fixed", and a neighbour's "Yes, it's fixed" ends in a toast with a drawn check while the chip moves Fixed → Verified.
 
 ## 2. Scope
 
@@ -31,6 +31,7 @@ Make reported issues move to a real, checkable fix. The server owns one state ma
 - Job runner (`src/jobs`) with single-instance lock.
 - App screens: Verify (`/issues/:id/verify`), Mark fixed (`/issues/:id/mark-fixed`), Escalate (`/issues/:id/escalate`), "AMC closed it" sheet and 24 h banner, reusable `IssueStatusActions` and `issueEventsProvider`.
 - Retire v1 verify routes and `/verify/*` API (410), reusing v1 verification photo/distance code.
+- Lifecycle motion (REQ-F-063, DS §6 catalogue rows owned by TASK-06): `AnimatedStatusChip` (cross-fade of colour, icon and word, `short`), animated insertion of a new `StatusTimeline` step that expands from its dot, the verify Send button → in-button progress → toast with `MotionCheck`, chip Fixed → Verified, and a TalkBack announcement of every status change via `SemanticsService.announce`. Built only from TASK-03's `SaartheeMotion` tokens and motion widgets, with a reduced-motion variant; TASK-07's detail screen and TASK-10/11 consoles reuse these widgets.
 
 ### Out of Scope
 - Issue detail screen layout and the buttons that open these screens — TASK-07.
@@ -45,6 +46,7 @@ Make reported issues move to a real, checkable fix. The server owns one state ma
 - TASK-05 complete: issues, photos (owner + blur), quota helper, `issue_events` written on create, reporter auto-follow, CCRS link.
 - TASK-01 tables: `issue_verifications` (UNIQUE `(issue_id, user_id, day)`), `representative_areas`, `notifications`; Vitest harness.
 - TASK-02: `wards.office_address`, `office_phone`, zone codes.
+- TASK-03: Neem `StatusChip`, `StatusTimeline`, toast, `PrimaryButton` with in-button progress; motion foundation (`SaartheeMotion` tokens in `lib/core/theme/motion.dart`, `animations` + `flutter_animate`, press-scale wrapper, haptics helper with a test fake, `MotionCheck`, reduced-motion handling via `MediaQuery.disableAnimations` + in-app Animations switch, static test forbidding `Duration(` in `lib/features/**`).
 - TASK-04: `requireUser`, roles on `users.role`, push service `notify(recipients, message)` that writes `notifications` and sends FCM to the user's tokens.
 - Env: `VERIFY_RADIUS_M=100`, `VERIFY_MAX_ACCURACY_M=50`, `REOPEN_WINDOW_DAYS=7`, `NOT_FIXED_THRESHOLD=2`, `CCRS_REOPEN_HOURS=24`, `CCRS_REMINDER_AFTER_HOURS=20`, `JOBS_ENABLED=true|false`, `PUBLIC_WEB_BASE_URL` (e.g. `https://saarthee.app`), `QUOTA_STATUS_CHANGES_PER_DAY=30`, `QUOTA_ESCALATIONS_PER_DAY=10`.
 
@@ -68,6 +70,7 @@ Make reported issues move to a real, checkable fix. The server owns one state ma
 | REQ-F-025 | Escalation ladder: pre-filled message to corporators (relay), zone office, deputy commissioner, commissioner with evidence link | Spec §5 |
 | REQ-F-026 | CCRS 24-hour reopen reminder when the citizen marks "AMC closed it" | Spec §5 |
 | REQ-F-027 | Followers and reporter get push + inbox notifications on status changes and verification requests | Spec §9 |
+| REQ-F-063 | Lifecycle motion per DS §6: status chip cross-fades colour/icon/word, new timeline step expands from its dot, "Yes, fixed" button → progress → toast with drawn check, TalkBack announces the new status | DS §6 |
 
 ### 5.2 Data Contracts
 
@@ -152,15 +155,25 @@ New `AppError` codes: `INVALID_TRANSITION` 409, `STALE_STATUS` 409, `FORBIDDEN_R
 | Route / widget | Content | States |
 |---|---|---|
 | `/issues/:id/verify` (Step 1 of 2) | Title "Is it fixed?"; issue photo before/after side by side; buttons "Yes, it's fixed" / "Still not fixed" | window closed → "This issue can no longer be checked." ; signed out → sign-in then back |
-| `/issues/:id/verify/photo` (Step 2 of 2) | "Take a photo at the spot"; live distance "You're about 35 m from the problem."; optional note "Anything to add? (optional)"; primary "Send" | too far → "You need to be within 100 m of the problem to verify. You're about 240 m away." (Send disabled); inaccurate GPS → "Location is approximate. Move into the open and try again."; upload failed → "Retry upload"; offline → draft kept, sends on reconnect; already answered → "You've already answered today. Thank you." |
-| `/issues/:id/verify/done` | "Thanks for checking." + outcome line ("It's now Verified." / "It's been reopened." / "Your answer is recorded.") | — |
+| `/issues/:id/verify/photo` (Step 2 of 2) | "Take a photo at the spot"; live distance "You're about 35 m from the problem."; optional note "Anything to add? (optional)"; pinned 56 dp primary "Send" (`primary`, never `sunrise`) that turns into an in-button progress bar while sending | too far → "You need to be within 100 m of the problem to verify. You're about 240 m away." (Send disabled); inaccurate GPS → "Location is approximate. Move into the open and try again."; upload failed → "Retry upload"; offline → draft kept, sends on reconnect; already answered → "You've already answered today. Thank you." |
+| Verify result (toast, replaces the v2.0 `/verify/done` screen per DS §8) | After Send succeeds the verify routes pop back to the issue (TASK-07 detail, or Home when opened from a push with no detail in the stack) and a DS §5 toast (`primaryDark`, radius 18, 4 s) slides up with a drawn check: "Thanks for checking. It's now Verified." / "Thanks for checking. It's been reopened." / "Thanks for checking. Your answer is recorded." | Toast text is also announced by TalkBack; failure keeps the user on step 2 with the error |
 | `/issues/:id/mark-fixed` | Title "Mark as fixed"; "Add an after photo (optional)" (camera, ≤ 3, blur as TASK-05); "Note (optional)"; primary "Mark as fixed"; helper "Neighbours will be asked to confirm with a photo." | `STALE_STATUS` → "This issue changed while you were here." + reload; forbidden → "You can't change this issue." |
 | `/issues/:id/escalate` | Title "Escalate this issue"; ladder list of 4 levels (Corporators, Zone office, Deputy Municipal Commissioner, Municipal Commissioner) with the recommended one tagged "Suggested"; message preview (editable copy only); actions per target: "Message corporator" (opens TASK-09 relay with text and `issueId`), "Email zone office", "Call zone office", "Copy message", "Share"; note "Saarthee prepares this message for you. It is not an official complaint." + independence line | no corporator data → only Copy/Share; loading skeleton; error + "Try again" |
 | `CcrsClosedSheet` | "Did AMC close your complaint?" → "Yes, AMC closed it" → banner "AMC says it's closed. If it isn't fixed, reopen it on AMC's site before <time> (24 hours)." + "Open AMC site", "It's fixed — verify" | not linked → hidden |
 | `IssueStatusActions` | Role-aware buttons "Acknowledge", "Start work", "Mark as fixed" for staff/representatives (used in TASK-07 detail, TASK-10/11 consoles) | in-flight disabled; errors as above |
 | `issueEventsProvider` | Paged timeline items mapped to DS §5 `StatusTimeline` (TASK-03 component); actor text "A resident of Paldi", "Ward corporator <name>", "Saarthee moderator", "Saarthee" (system) | skeleton; error retry |
 
-ARB keys under `verify.*`, `markFixed.*`, `escalate.*`, `ccrsClosed.*`, `timeline.actor.*`, `notification.issue.*`, `error.<CODE>`; gu strings marked for native review.
+ARB keys under `verify.*`, `markFixed.*`, `escalate.*`, `ccrsClosed.*`, `timeline.actor.*`, `notification.issue.*`, `status.announce` ("Status changed to {status}" / "સ્થિતિ બદલાઈ: {status}"), `error.<CODE>`; gu strings marked for native review.
+
+Lifecycle motion (REQ-F-063, DS §6). Widgets in `lib/features/issue_actions/presentation/motion/` (exported for TASK-07/10/11); every duration and curve from `SaartheeMotion`; no `Duration(` literal in `lib/features/issue_actions/**`.
+
+| Moment | Motion (normal) | Reduced motion (`MediaQuery.disableAnimations` or in-app Animations off) | Announcement / haptic |
+|---|---|---|---|
+| Status changes while the chip is on screen (own action, refresh, foreground push) | `AnimatedStatusChip` cross-fades tint, text colour, icon and word together over `short` (old and new chip stacked in a fixed-size pill, opacity only); no animation on first build | Swaps instantly | `SemanticsService.announce("Status changed to <word>")` in the app language, once per change, not on first build |
+| New timeline event arrives | The new `StatusTimeline` step grows from its 14 dp dot: the dot scales in (`springIn`), then the row's height expands top-down inside a `ClipRect` (`medium`, the DS §6 clipped exception) while its text fades in; earlier steps do not move other than being pushed down by the expansion | Step present on the next frame | Covered by the chip announcement (no second announcement) |
+| Verify Send ("Yes, it's fixed" / "Still not fixed" path) | Send's label fades to an in-button linear progress bar (`short`), button disabled; on success the routes pop (`medium` shared-axis back), then the toast slides up with `springIn` and its leading `MotionCheck` draws (`drawCheck`); on the issue the chip cross-fades Fixed → Verified (or → Reopened) and the new step expands | Progress shown statically; toast and chip appear instantly | Light haptic on Send press (TASK-03 primary press); toast text announced |
+| Mark fixed / staff actions (`IssueStatusActions`) | Same in-button progress; chip and timeline animate as above | Instant | Chip announcement |
+
 
 ### 5.5 Permissions & Roles
 
@@ -189,6 +202,10 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 - ASSUMPTION: Jobs run in-process with `node-cron` (*candidate*) behind `JOBS_ENABLED` and a `pg_try_advisory_lock` per job, plus `npm run jobs:run -- <name>` for manual runs — if TASK-04 already added a runner, reuse it.
 - ASSUMPTION: Quiet-hour deferral for issue updates uses TASK-04's push service `notBefore` option; if missing, add it there in coordination with the TASK-04 owner rather than duplicating a queue.
 - ASSUMPTION: Citizens may change status ≤ 30 times/day and escalate ≤ 10 times/day (not in Spec §7; abuse guard).
+- ASSUMPTION: DS §8 v2.2 ends the verify flow with a toast, so the v2.0 `/issues/:id/verify/done` screen is replaced by a return to the issue plus a toast carrying the same outcome lines; the route redirects to `/issues/:id` for old links.
+- ASSUMPTION: The DS §6 "button turns into a progress bar" applies to Send on verify step 2 (the button that does the network work); "Yes, it's fixed" on step 1 only navigates.
+- ASSUMPTION: The new timeline step expands with `medium` (not `springIn`) because it is a clipped size animation and an overshoot would make the rows below bounce.
+- ASSUMPTION: The status announcement fires only for changes seen while the chip is mounted (not on first build or when scrolling it into view), and the word comes from the DS §2 status table, so TalkBack users get the same information as the colour/icon change.
 
 ## 6. Implementation Steps
 
@@ -208,8 +225,9 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 14. **API tests** T-06-01…T-06-16.
 15. **App: retire v1 verify** routes/screens (`/verify/*`, deep-link token handling) — redirect to Home.
 16. **App screens** verify (2 steps + done, reuse `CapturePanel`, upload, blur), mark-fixed, escalate, `CcrsClosedSheet`, `IssueStatusActions`, `issueEventsProvider`; deep links from push payload routes.
-17. **Widget + integration tests** W-06-01…W-06-05, I-06-01.
-18. **Manual checks** M-06-01…M-06-05; coverage matrix.
+17. **Motion (REQ-F-063).** Build `AnimatedStatusChip` (wraps the TASK-03 `StatusChip`; keyed on status; cross-fade `short`; announces via `SemanticsService.announce` with `status.announce`), `AnimatedStatusTimeline` (wraps `StatusTimeline`; diffs event ids so only new steps animate; dot `springIn` + clipped expansion `medium`), the verify Send in-button progress, and the result toast with `MotionCheck` (TASK-03 toast). All widgets read TASK-03's reduced-motion provider and collapse to instant. Replace `/verify/done` with the toast flow and redirect.
+18. **Widget + integration tests** W-06-01…W-06-09, I-06-01; motion tests pump through `SaartheeMotion` durations and use the fake haptics helper.
+19. **Manual checks** M-06-01…M-06-08 (screen recordings to `docs/demo/v2-evidence/motion/`); coverage matrix.
 
 ## 7. Acceptance Criteria
 
@@ -273,7 +291,22 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 **AC-12** — Verify flow in the app
 - **Given** a follower receives "Is it fixed? Help check"
 - **When** they tap it, choose "Yes, it's fixed", take a photo 30 m away and tap Send
-- **Then** the app shows "You're about 30 m from the problem", sends once (retry-safe), and shows "Thanks for checking. It's now Verified."
+- **Then** the app shows "You're about 30 m from the problem", sends once (retry-safe), returns to the issue and shows the toast "Thanks for checking. It's now Verified."
+
+**AC-13** — Status change is animated and announced
+- **Given** an issue detail open on an `in_progress` issue with animations and TalkBack on
+- **When** a moderator marks it fixed and the screen refreshes (foreground push or pull to refresh)
+- **Then** the status chip cross-fades colour, icon and word to "Fixed" over `short`; the new "Fixed" timeline step grows from its dot (dot `springIn`, clipped expansion `medium`) without other steps jumping; TalkBack announces "Status changed to Fixed" once (Gujarati "સ્થિતિ બદલાઈ: ઉકેલાયેલ" when the app is Gujarati); opening a detail that is already Fixed animates and announces nothing
+
+**AC-14** — "Yes, it's fixed" ends in a drawn-check toast and Verified chip
+- **Given** a follower on verify step 2 within 100 m of a `marked_fixed` issue
+- **When** they tap Send and the API answers with status `verified`
+- **Then** Send turns into an in-button progress bar and is disabled while sending; on success the flow returns to the issue, a toast slides up with `springIn` and its check draws (`drawCheck`), the chip cross-fades Fixed → Verified and a "Verified" step expands in; one light haptic fired on the press; on failure the button returns to "Send" with the error and no toast
+
+**AC-15** — Reduced motion and smoothness for lifecycle motion
+- **Given** the system "Remove animations" setting on, and separately the in-app Animations switch off
+- **When** AC-13 and AC-14 are repeated
+- **Then** chip, timeline step and toast appear in their final state instantly (or ≤ 100 ms cross-fade) with identical text, the TalkBack announcement still happens once; with animations on, a profile build on the reference low-end device has no frame over 16 ms during these motions; no `Duration(` literal exists in `lib/features/issue_actions/**`
 
 ### AC → Requirement
 
@@ -291,6 +324,9 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 | AC-10 | REQ-F-020 |
 | AC-11 | REQ-F-027 |
 | AC-12 | REQ-F-022 |
+| AC-13 | REQ-F-063 |
+| AC-14 | REQ-F-063, REQ-F-022 |
+| AC-15 | REQ-F-063 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -302,6 +338,9 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 - [ ] Verify/mark-fixed/escalate screens have loading, error, offline, in-flight and unauthorised states; 48 dp targets; TalkBack "Step n of 2"
 - [ ] Escalation screens always show the independence line; no AMC logo
 - [ ] Notes and messages are not logged
+- [ ] Lifecycle motion uses only `SaartheeMotion` tokens and TASK-03 widgets; no `Duration(` literal in `lib/features/issue_actions/**`; reduced motion → instant with identical text; only transform, opacity and colour animate except the clipped timeline expansion
+- [ ] Every status change seen on screen is announced once by TalkBack in the app language; status always shown as icon + word, never colour alone
+- [ ] Neem styling: Send/Mark as fixed are `primary` (no `sunrise` in these flows); toast `primaryDark` radius 18; sheets radius 24 entering with `springIn`; Material Symbols Rounded icons
 
 ## 8. Validation & Testing
 
@@ -329,19 +368,27 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 | Widget | W-06-03 | Timeline mapping from events (actor labels, after photo on Fixed) | AC-10 |
 | Widget | W-06-04 | `CcrsClosedSheet` + banner deadline formatting in gu/en | AC-9 |
 | Widget | W-06-05 | `IssueStatusActions` renders by role and handles `STALE_STATUS` | AC-1, AC-2 |
+| Widget | W-06-06 | `AnimatedStatusChip`: first build → no animation and no announcement; rebuild `in_progress` → `marked_fixed`: at `short`/2 both chips present with opacities between 0 and 1, after `short` only the Fixed tint, `check_circle` icon and word "Fixed"; announcement captured by mocking `SystemChannels.accessibility` equals "Status changed to Fixed" exactly once (Gujarati string with gu locale); reduced variant (`MediaQuery(disableAnimations: true)` and in-app switch off): final chip on the next frame, announcement still once | AC-13, AC-15 |
+| Widget | W-06-07 | `AnimatedStatusTimeline`: adding one event → only the new step animates (dot scale < 1 at frame 0, 1 after `springIn`; `ClipRect` height factor 0 → 1 over `medium`); existing step keys unchanged; initial list of 5 events renders without animation; reduced variant instant | AC-13, AC-15 |
+| Widget | W-06-08 | Verify Send: fake API completer → label replaced by in-button `LinearProgressIndicator`, button disabled; fake haptics records one light press; complete with `verified` → routes pop, toast present after `springIn`, its `MotionCheck` progress 1 after `drawCheck`, toast gone after 4 s; chip shows Verified; failure path → button restored, no toast; reduced variant: toast and chip final on the first frame | AC-14, AC-15 |
+| Widget | W-06-09 | `/issues/:id/verify/done` redirects to `/issues/:id`; outcome toast copy for verified / reopened / recorded in gu and en | AC-12, AC-14 |
+| Static | S-06-02 | TASK-03's `no_duration_literals_test` passes for `lib/features/issue_actions/**` | AC-15 |
 | Integration | I-06-01 | Emulator: report (TASK-05 flow) → moderator marks fixed via API → second account verifies with mock location 30 m away → Verified | AC-12, AC-5 |
 | Manual | M-06-01 | Push on emulator: tap "Is it fixed?" notification opens verify | AC-11, AC-12 |
 | Manual | M-06-02 | Mock location 240 m away → "too far" copy | AC-4 |
 | Manual | M-06-03 | Escalate: relay button opens TASK-09 message screen (or Copy/Share when absent), email/dial intents | AC-8 |
 | Manual | M-06-04 | CCRS closed banner and reminder (job forced with fake time) | AC-9 |
 | Manual | M-06-05 | TalkBack and 2.0× font on verify and escalate | AC-12 |
+| Manual | M-06-06 | Emulator screen recordings with animations on: status change on an open detail (moderator call via API while the screen is open), and verify Send → toast → Fixed → Verified: `adb shell screenrecord --bit-rate 8000000 /sdcard/t06-<moment>.mp4`, `adb pull` to `docs/demo/v2-evidence/motion/task-06-status-change.mp4` and `task-06-verify-toast.mp4`; reviewed frame by frame against the §5.4 motion table | AC-13, AC-14 |
+| Manual | M-06-07 | TalkBack on: hear "Status changed to Fixed" / "…Verified" once per change in English and Gujarati; record `task-06-talkback.mp4` with audio notes in §13 | AC-13 |
+| Manual | M-06-08 | Reduced motion (system "Remove animations" and in-app Animations off): recordings `task-06-reduced-system.mp4`, `task-06-reduced-inapp.mp4`; profile build frame check (`adb shell dumpsys gfxinfo <package> framestats` or DevTools) shows no frame > 16 ms during the animated runs | AC-15 |
 
 ## 9. Deliverables
 
 - Migration `<ts>_v2_lifecycle`, `escalation_contacts` dev seed.
 - API modules `lifecycle` (transitions, verification, notify, derive), `escalation`, events endpoint, CCRS closed; `src/jobs` runner with two jobs; `src/lib/geo/distance.ts`; v1 verify API retired.
-- App: verify flow, mark-fixed, escalate, CCRS closed sheet/banner, `IssueStatusActions`, `issueEventsProvider`; v1 verify UI removed.
-- Tests T-06-01…16, W-06-01…05, I-06-01; coverage evidence for 8 requirements.
+- App: verify flow (ending in a drawn-check toast), mark-fixed, escalate, CCRS closed sheet/banner, `IssueStatusActions`, `issueEventsProvider`, `AnimatedStatusChip` and `AnimatedStatusTimeline` with TalkBack announcements; v1 verify UI removed.
+- Tests T-06-01…16, W-06-01…09, S-06-02, I-06-01; motion recordings in `docs/demo/v2-evidence/motion/`; coverage evidence for 9 requirements.
 
 ## 10. Files Expected to Change
 
@@ -356,15 +403,16 @@ Prediction only — exact paths may differ.
 | `apps/api/src/jobs/`, `apps/api/package.json` (`jobs:run`), `src/server.ts` (start scheduler) | New / Modified |
 | `apps/api/src/lib/geo/distance.ts`, `src/lib/errors/index.ts` | New / Modified |
 | `apps/api/test/lifecycle/*.test.ts`, `test/escalation.test.ts`, `test/jobs.test.ts` | New |
-| `apps/mobile/lib/features/issue_actions/` (verify, mark_fixed, escalate, ccrs_closed) | New |
+| `apps/mobile/lib/features/issue_actions/` (verify, mark_fixed, escalate, ccrs_closed, `presentation/motion/`) | New |
+| `docs/demo/v2-evidence/motion/task-06-*.mp4` | New |
 | `apps/mobile/lib/features/verify/` | Removed |
 | `apps/mobile/lib/router/citizen_routes.dart`, `router/deep_links.dart`, `lib/core/l10n/*.arb` | Modified |
-| `apps/mobile/test/issue_actions/*`, `integration_test/report_verify_test.dart` | New |
+| `apps/mobile/test/issue_actions/*` (incl. `motion/*_test.dart`), `integration_test/report_verify_test.dart` | New |
 
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §3 (roles), §5 (lifecycle rules), §6 (tables), §7 (endpoints, rate limits), §9 (notifications), §11 (privacy)
-- `docs/v2/design-system.md` DS §2 (status colours/words), §5 (status timeline), §7 (verify flow)
+- `docs/v2/design-system.md` DS §2 (status colours/words, Rounded status icons), §4 (radii), §5 (status chip, status timeline, toast, buttons), §6 Motion (tokens, catalogue rows for TASK-06, reduced motion, accessibility), §7 (accessibility), §8 (verify flow)
 - `docs/tasks/TASK-07-verify-flow.md` (v1) — verification photo/distance logic reused
 - `docs/tasks-v2/TASK-05-issue-reporting.md` (quota helper, CCRS link), `TASK-04-*.md` (push service), `TASK-09-*.md` (relay), `TASK-07-discovery.md` (detail screen, `/i/{id}` page)
 
@@ -378,6 +426,7 @@ Prediction only — exact paths may differ.
 | Escalation contacts outdated | Messages to wrong office | `source_url` + `last_verified_at` shown to staff; pilot checklist in TASK-14 |
 | Job runs twice on two instances | Duplicate pushes | Advisory lock + `*_notified_at` columns |
 | Clock/timezone errors (IST day uniqueness, quiet hours) | Wrong rejections or night pushes | All day math in `Asia/Kolkata` helper with tests at 23:59/00:01 |
+| Repeated announcements or animations on every rebuild/refresh | TalkBack noise, distracting UI | Animate and announce only when the status value changes on a mounted chip; timeline diffs by event id; W-06-06/07 cover first build |
 
 ## 13. Progress Status
 
@@ -399,6 +448,7 @@ Prediction only — exact paths may differ.
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
 - [ ] Assumptions documented and, where possible, confirmed
+- [ ] Lifecycle motion (REQ-F-063) verified: W-06-06…W-06-09 green, TalkBack announcement heard, normal and reduced-motion recordings in `docs/demo/v2-evidence/motion/`, no frame > 16 ms in the profile check
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-06` shows 0 unverified)
 - [ ] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated

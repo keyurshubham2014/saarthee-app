@@ -9,12 +9,12 @@
 | Depends On | TASK-04, TASK-05 |
 | Blocks | TASK-11 |
 | Requirement IDs | REQ-F-048, REQ-F-049, REQ-F-050, REQ-F-051, REQ-F-052, REQ-D-011, REQ-S-002, REQ-S-010 |
-| Primary Spec Refs | Spec §2 (D3, D7, D11), §3, §5 (rejected, merged), §6 (`moderation_flags`, `app_settings`), §7 (Staff, `POST /issues/{id}/flags`, `GET /staff/export`), §8 (`/staff/*`), §11 (abuse, audit, neutrality); DS §4 (console width), §5, §6, §8 (Staff) |
+| Primary Spec Refs | Spec §2 (D3, D7, D11), §3, §5 (rejected, merged), §6 (`moderation_flags`, `app_settings`), §7 (Staff, `POST /issues/{id}/flags`, `GET /staff/export`), §8 (`/staff/*`), §11 (abuse, audit, neutrality); DS §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons, console width), §5, §6 (Motion: Staff console — `short` fades only), §7 (accessibility), §9 (Staff) |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
 
-Give the people who run Saarthee one console — the same Flutter codebase, built for the web and reachable in the app under `/staff` — with navigation that matches each person's role (admin, moderator, representative). Every staff endpoint is protected by one role guard and a written authorisation matrix, and representatives are limited to their wards. Moderators work a queue of sensitive, flagged and out-of-area reports and can reject with a reason, merge duplicates, recategorise or move ward, hide, and suspend abusive users. Citizens can flag issues and comments. Admins manage moderator roles, categories and app settings, and export CSVs without phone numbers by default. Every staff action is written to the audit log with actor, role and target and nothing personal. The v1 pilot-only admin screens (rates H1/H2, invite codes, manual reminders) are retired per D11 while the useful v1 admin pieces (login, categories pattern, CSV helper) are reused.
+Give the people who run Saarthee one console — the same Flutter codebase, built for the web and reachable in the app under `/staff` — with navigation that matches each person's role (admin, moderator, representative). Every staff endpoint is protected by one role guard and a written authorisation matrix, and representatives are limited to their wards. Moderators work a queue of sensitive, flagged and out-of-area reports and can reject with a reason, merge duplicates, recategorise or move ward, hide, and suspend abusive users. Citizens can flag issues and comments. Admins manage moderator roles, categories and app settings, and export CSVs without phone numbers by default. Every staff action is written to the audit log with actor, role and target and nothing personal. The v1 pilot-only admin screens (rates H1/H2, invite codes, manual reminders) are retired per D11 while the useful v1 admin pieces (login, categories pattern, CSV helper) are reused. The console uses the same Neem tokens as the citizen app but moves for speed: `short` fades only, with no staggers or springs (DS §6).
 
 ## 2. Scope
 
@@ -29,6 +29,7 @@ Give the people who run Saarthee one console — the same Flutter codebase, buil
 - Flutter web: `lib/main_staff.dart` entrypoint, `web/` platform, staff login (phone OTP via Firebase web or v1 admin email/password), CORS allow-list on the API.
 - Staff shell: responsive side navigation (≥ 840 dp: navigation rail/drawer, content max 1,200 dp; phone: drawer), role-aware nav registry, dashboard, 403 page; in-app entry "Staff tools" on `/me` for staff roles.
 - Staff screens owned here: Dashboard, Moderation queue, Issue tools, Users & roles, Categories, Settings (incl. the Election mode section UI), Exports.
+- Staff motion policy per DS §6 "Staff console (web)" (attached to REQ-F-048): a `StaffMotionScope` applied by the staff shell so every staff route, drawer, dialog, sheet, snackbar and list load uses `short` fades only — no staggers, springs, shared-axis slides, Hero flights, pulses or count-ups — on web and in-app `/staff`; screens from TASK-08/09/12 mounted in the shell inherit it. Only exception: the TASK-11 representative ward dashboard numbers and bars (REQ-F-066), which DS §6 lists explicitly.
 - Retire v1 pilot UI and endpoints: `/admin/rates`, `/admin/invite-codes`, `/admin` due/reminders screens and `/admin/complaints/:id/reminders`, `/admin/reminders/:id/revoke`; redirect `/admin*` app routes to `/staff`; tables stay read-only.
 - Tests (Vitest + Supertest, Flutter widget tests) and manual checks.
 
@@ -47,7 +48,7 @@ Give the people who run Saarthee one console — the same Flutter codebase, buil
 - TASK-04: `users` (role, status, token_version), session JWT + `requireUser`, Firebase Auth set-up (Android; web app config added here), push service for reporter notifications, consents.
 - TASK-05: `categories` (14 seeded), `issues`, `issue_photos`, `issue_events` populated by `POST /issues`; sensitive-category flag.
 - TASK-01: v2 tables, test harness, seed with sample citizens and issues in every status, v1 admin auth kept.
-- TASK-03: tokens, component library, ARB, router structure.
+- TASK-03: Neem tokens (`primary` #14674A, no `sunrise` on staff screens), Baloo Bhai 2 / Mukta Vaani type scale, radii 14/18/24/pill, Material Symbols Rounded, component library, ARB, router structure; motion foundation — `SaartheeMotion` tokens (`lib/core/theme/motion.dart`), `animations`, press-scale wrapper, reduced-motion resolution.
 - Env: `STAFF_WEB_ORIGINS` (comma list, HTTPS outside local), `AUDIT_LOG_FILE`, `AUDIT_RETENTION_DAYS=365`, `EXPORT_MAX_ROWS=50000`; Flutter web dart-defines `API_BASE_URL`, `FIREBASE_WEB_*`.
 
 ## 4. Dependencies
@@ -151,6 +152,10 @@ Staff `requireRole(...roles)` contract (shared with TASK-08/09/11; TASK-04 creat
 
 ### 5.4 UI Surfaces & States
 
+Visuals: Neem v2.2 via TASK-03 tokens — white app bar / side navigation on `surface`, selected nav item with the `primaryContainer` pill and filled Rounded icon, page `background` #F3F6F1, cards and table containers radius 18 with 1 px `border`, inputs and buttons radius 14, chips pills, screen titles Baloo Bhai 2 headlineSmall, tables and forms Mukta Vaani (bodyMedium 14/21 for dense rows, never below 12 sp); `sunrise` is not used anywhere in the console (no Report action there).
+
+Motion (DS §6 "Staff console (web)", REQ-F-048): `StaffMotionScope` (in `features/staff/shell/`) sets the staff `PageTransitionsTheme` and the shared-component motion mode so that route changes, drawer, dialogs, sheets (radius 24 top corners), snackbars/toasts, tab switches and list/table loads are a cross-fade of `SaartheeMotion.short`; skeletons cross-fade to content with `short`; press feedback is the standard ripple (no scale, no haptics on web). No `StaggeredColumn`, `springIn`, shared-axis, `Hero`, `CountUp` or pulse in `features/staff/**` except `features/staff/ward_dashboard/**` (TASK-11, REQ-F-066). With reduced motion the fades become instant. No `Duration(` literal in `lib/features/**`.
+
 Shell: DS §4 — staff content max width 1,200 dp; ≥ 840 dp a persistent side navigation with section labels; < 840 dp an app bar with a menu drawer. Header shows "Saarthee staff", role chip ("Admin" / "Moderator" / "Representative") and "Sign out". Nav items come from a registry `StaffNavItem(route, labelKey, icon, roles, ownerTask)`; items whose screens are not landed are not registered, so nothing dead is shown.
 
 | Role | Navigation (in order) |
@@ -192,6 +197,7 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 - ASSUMPTION: Feature-flag keys listed in §5.2 are the starting allow-list; later tasks add keys with a schema.
 - ASSUMPTION: Staff web login supports Firebase phone OTP (moderators) and the v1 email/password admin login (Spec §7 keeps it); both yield `req.staff`.
 - ASSUMPTION: Exports pseudonymise reporters with an HMAC (`EXPORT_HMAC_SECRET`) so rows can be grouped without identity.
+- ASSUMPTION: "`short` fades only" also covers screens other tasks mount in the staff shell (alerts, representatives, claims, services, initiatives); the press-scale wrapper is disabled under `StaffMotionScope` because it reads as a spring. The only exception is TASK-11's ward dashboard count-up and bars, named in DS §6.
 - ASSUMPTION: v1 `/admin/complaints*` read routes remain until TASK-14 confirms the legacy migration (REQ-D-005).
 
 ## 6. Implementation Steps
@@ -213,7 +219,8 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 15. **Screens.** Login, Dashboard, Moderation, Issue tools, Users & roles, Categories, Settings (election-mode section UI → TASK-09 endpoint), Exports; mount TASK-08/09 screens if present.
 16. **Citizen pieces.** `FlagContentSheet`; "Staff tools" row on `/me`; wire into issue detail if TASK-07 has landed.
 17. **Retire v1 admin UI.** Delete rates, invite codes, due/reminder screens and their providers; `/admin*` routes redirect to `/staff`; remove unused ARB keys.
-18. **Widget tests** W-10-01…W-10-06; manual M-10-03…M-10-08 (web in Chrome + emulator); coverage evidence.
+18. **Staff motion policy (DS §6).** Implement `StaffMotionScope` + staff `PageTransitionsTheme` (fade, `SaartheeMotion.short`), switch shared components (sheets, dialogs, toasts, skeleton cross-fade, press-scale) to their fade/no-scale mode inside the scope, keep dashboard count cards static; add a test that scans `features/staff/**` (excluding `ward_dashboard/`) for `StaggeredColumn`, `springIn`, `SharedAxisTransition`, `Hero(`, `CountUp(` and fails if found; run the no-`Duration(`-literal test.
+19. **Widget tests** W-10-01…W-10-07; manual M-10-03…M-10-09 (web in Chrome + emulator; motion recordings to `docs/demo/v2-evidence/motion/`); coverage evidence.
 
 ## 7. Acceptance Criteria
 
@@ -289,6 +296,11 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 - **When** an admin opens `/admin`, `/admin/rates` or `/admin/invite-codes` in the app, and calls `GET /admin/rates`
 - **Then** the app redirects to `/staff`; the API returns 404; v1 tables `invite_codes`, `reminders` still contain their rows
 
+**AC-15** — Staff console motion is `short` fades only
+- **Given** an admin in the staff web build and in-app `/staff`, with animations on
+- **When** they move between Dashboard, Moderation, Alerts and Representatives, open the issue-tools drawer, a confirm dialog and a snackbar, and the moderation list loads
+- **Then** every change is a cross-fade lasting `SaartheeMotion.short` with no slide, stagger, spring, scale or count-up (dashboard counts show their final value at once); screens mounted from TASK-08/09 behave the same; with "Remove animations" on, or the in-app Animations switch off, changes are instant; the scan of `features/staff/**` (outside `ward_dashboard/`) finds no stagger, spring, shared-axis, Hero or `CountUp` use
+
 ### AC → Requirement
 
 | AC | Requirements |
@@ -307,6 +319,7 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 | AC-12 | REQ-F-052, REQ-S-010 |
 | AC-13 | REQ-S-010 |
 | AC-14 | REQ-F-048 |
+| AC-15 | REQ-F-048 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -318,6 +331,8 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 - [ ] CORS limited to `STAFF_WEB_ORIGINS`; web token not in `localStorage`
 - [ ] Staff web bundle builds without camera/capture plugins (import boundary check passes)
 - [ ] All strings in ARB gu + en; colours only from DS tokens
+- [ ] Neem visuals only (tokens, Baloo Bhai 2 titles / Mukta Vaani body, radii 14/18/24/pill, Material Symbols Rounded, no `sunrise`)
+- [ ] Staff motion is `short` fades only (no staggers, springs, shared-axis, Hero, count-ups outside TASK-11's dashboard); reduced motion makes them instant; no `Duration(` literals
 - [ ] v1 pilot tables untouched (row counts before/after recorded)
 
 ## 8. Validation & Testing
@@ -345,6 +360,7 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 | Widget | W-10-04 | Issue tools: reject dialog reasons, merge search, confirm dialogs | AC-5, AC-6 |
 | Widget | W-10-05 | `FlagContentSheet`: reasons, note counter, already-reported, signed-out | AC-9 |
 | Widget | W-10-06 | Export screen phone opt-in requires reason | AC-12 |
+| Widget | W-10-07 | Staff motion: navigate between two staff routes inside `StaffMotionScope`; mid-transition only a `FadeTransition` is present (no `SlideTransition`/`ScaleTransition`/`SharedAxisTransition`) and the new route is fully opaque after pumping `SaartheeMotion.short`; dialog and snackbar likewise; dashboard count cards show final numbers in the first frame; reduced-motion variant (`MediaQuery(disableAnimations: true)`) completes in one `pump()`; static scan of `features/staff/**` for forbidden motion helpers | AC-15 |
 | Manual | M-10-01 | curl each moderation action with moderator token; SQL check of `issue_events` and flags | AC-4–AC-7 |
 | Manual | M-10-02 | Inspect `AUDIT_LOG_FILE` after a session; grep for phone digits and names → none | AC-13 |
 | Manual | M-10-03 | Chrome: staff web login with test phone (Firebase test number) and with v1 admin email | AC-1 |
@@ -353,13 +369,15 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 | Manual | M-10-06 | Suspend a signed-in emulator citizen from web → app session ends | AC-8 |
 | Manual | M-10-07 | Old `/admin` deep links redirect; v1 table counts unchanged | AC-14 |
 | Manual | M-10-08 | Keyboard-only and screen-reader pass (ChromeVox) on Dashboard and Moderation | AC-1 |
+| Manual | M-10-09 | Emulator recording (`adb shell screenrecord /sdcard/t10-staff-fades.mp4`, `adb pull` to `docs/demo/v2-evidence/motion/`) of `/staff` navigation, drawer, dialog and snackbar showing `short` fades only; repeat with "Remove animations" on (`t10-staff-reduced-motion.mp4`); Chrome screen capture of the web console saved alongside | AC-15 |
 
 ## 9. Deliverables
 
 - Migration `<ts>_v2_moderation`; Prisma models; seed additions.
 - API: staff `requireRole` extension, `assertWardScope`, `staffMatrix`, `auditStaff`; modules `staff` (me, summary), `staff-moderation`, `flags`, `staff-users`, `staff-categories`, `staff-settings`, `staff-export`; CLI `staff:grant-admin`; CORS; retired v1 routes removed.
 - App: `main_staff.dart`, `web/`, `router/staff_routes.dart`, `features/staff/{shell,dashboard,moderation,issues,users,categories,settings,exports,shared}`, `FlagContentSheet`, "Staff tools" row; v1 admin pilot screens removed.
-- Tests T-10-01…14, W-10-01…06; manual evidence M-10-01…08; coverage evidence for 8 requirements.
+- Staff motion policy: `StaffMotionScope`, staff fade page transitions, forbidden-motion scan test.
+- Tests T-10-01…14, W-10-01…07; manual evidence M-10-01…09 (motion recordings in `docs/demo/v2-evidence/motion/`); coverage evidence for 8 requirements.
 
 ## 10. Files Expected to Change
 
@@ -382,11 +400,14 @@ Prediction only — exact paths may differ.
 | `apps/mobile/lib/core/widgets/flag_content_sheet.dart`, `lib/features/me/` | New / Modified |
 | `apps/mobile/lib/core/l10n/app_*.arb`, `pubspec.yaml` | Modified |
 | `apps/mobile/test/staff/` | New |
+| `apps/mobile/lib/features/staff/shell/staff_motion_scope.dart` | New |
+| `docs/demo/v2-evidence/motion/t10-*.mp4` | New |
 
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §2 (D3, D7, D11), §3, §5, §6, §7, §8, §11
-- `docs/v2/design-system.md` DS §4 (console width), §5, §6, §8 (Staff)
+- `docs/v2/design-system.md` DS §2–§4 (Neem tokens, type, shape, console width), §5, §6 (Motion: Staff console — `short` fades only), §7 (accessibility), §9 (Staff)
+- `docs/tasks-v2/TASK-03-design-system-shell.md` — `SaartheeMotion`, shared transitions, reduced-motion switch
 - `docs/tasks-v2/TASK-08-alerts.md` — alert screens and permissions mounted here
 - `docs/tasks-v2/TASK-09-representatives-my-ward.md` — election-mode API, representative screens
 - `docs/tasks-v2/TASK-11-*.md` — representative console sections using `assertWardScope`
@@ -403,6 +424,7 @@ Prediction only — exact paths may differ.
 | Firebase phone auth on web (reCAPTCHA) friction | Moderators can't sign in | v1 email login for admins; Firebase test numbers in staging |
 | Retiring v1 routes breaks legacy data access | Lost history | Tables untouched; read routes kept until TASK-14 confirms migration |
 | Parallel tasks extend `requireRole` or create `app_settings` twice | Merge conflicts | One contract in this file; "create if absent" rule in TASK-08/09 |
+| Citizen-style springs and staggers leak into mounted staff screens | Slower staff workflows | `StaffMotionScope` overrides shared components; scan test in W-10-07 |
 
 ## 13. Progress Status
 
@@ -429,3 +451,5 @@ Prediction only — exact paths may differ.
 - [ ] `00-task-summary.md` updated
 - [ ] Committed as `V2-TASK-10: …`
 - [ ] Validator passes
+- [ ] Staff console matches Neem v2.2 visuals (tokens, type, radii, Rounded icons, no `sunrise`)
+- [ ] Staff motion policy (`short` fades only) implemented; W-10-07 passes; recordings saved to `docs/demo/v2-evidence/motion/` (M-10-09)

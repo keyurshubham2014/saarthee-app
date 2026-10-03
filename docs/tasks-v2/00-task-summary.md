@@ -3,8 +3,8 @@
 **Last Updated:** 2026-10-03
 **Overall Progress:** 0 / 14 tasks complete (0%)
 **Current Task:** TASK-01 and TASK-03 (independent; can run in parallel)
-**Requirement Coverage (planned):** 112 / 112 active requirements mapped to a task (5 deferred)
-**Requirement Coverage (verified):** 0 / 112 — see [coverage-verification.md](./coverage-verification.md)
+**Requirement Coverage (planned):** 119 / 119 active requirements mapped to a task (6 deferred)
+**Requirement Coverage (verified):** 0 / 119 — see [coverage-verification.md](./coverage-verification.md)
 **Source Documents:** `docs/v2/saarthee-v2-spec.md`, `docs/v2/design-system.md`, `docs/research/saarthee-v2-proposal.html`; v1 plan in `docs/tasks/` (foundation reused)
 
 ## How to use this plan
@@ -23,7 +23,7 @@ Prompt template:
 |---|---|---|---|---|---|---|
 | TASK-01 | Platform upgrade: PostGIS, v2 data model, legacy migration, test harness | Not Started | P0 | L | None | 0% |
 | TASK-02 | Wards, zones and geo services | Not Started | P0 | M | TASK-01 | 0% |
-| TASK-03 | Civic Blue design system, app shell and onboarding | Not Started | P0 | L | None | 0% |
+| TASK-03 | Neem design system, motion system, app shell and onboarding | Not Started | P0 | L | None | 0% |
 | TASK-04 | Citizen accounts, privacy and push foundation | Not Started | P0 | L | TASK-01, TASK-03 | 0% |
 | TASK-05 | Standalone issue reporting | Not Started | P0 | L | TASK-02, TASK-04 | 0% |
 | TASK-06 | Issue lifecycle, verification and escalation | Not Started | P0 | L | TASK-05 | 0% |
@@ -57,7 +57,7 @@ Status vocabulary: `Not Started`, `In Progress`, `Blocked`, `In Review`, `Comple
 
 | Milestone | Reached when |
 |---|---|
-| V2-M1 New look | TASK-03 complete: Civic Blue shell, onboarding in Gujarati and English |
+| V2-M1 New look | TASK-03 complete: Neem shell, onboarding in Gujarati and English |
 | V2-M2 Report anything | TASK-05 complete: a signed-in citizen reports any of 14 categories with ward detection and duplicate check |
 | V2-M3 Real fixes | TASK-06 + TASK-07 complete: lifecycle, neighbour verification, feed, map, Me too, follow |
 | V2-M4 Civic hub | TASK-08, TASK-09, TASK-12 complete: alerts, My Ward with relay, services and drives |
@@ -99,12 +99,12 @@ graph TD
 
 | Category | Active | Mapped to a task | Verified | Deferred |
 |---|---|---|---|---|
-| Functional (REQ-F) | 61 | 61 | 0 | 4 |
+| Functional (REQ-F) | 66 | 66 | 0 | 4 |
 | Data (REQ-D) | 13 | 13 | 0 | — |
-| Non-functional (REQ-N) | 11 | 11 | 0 | — |
+| Non-functional (REQ-N) | 13 | 13 | 0 | — |
 | Security (REQ-S) | 15 | 15 | 0 | — |
 | Operational (REQ-O) | 12 | 12 | 0 | 1 |
-| **Total** | **112** | **112** | **0** | **5** |
+| **Total** | **119** | **119** | **0** | **6** |
 
 Full mapping: [requirements-registry.md](./requirements-registry.md) · Verification: [coverage-verification.md](./coverage-verification.md)
 
@@ -112,7 +112,8 @@ Full mapping: [requirements-registry.md](./requirements-registry.md) · Verifica
 
 - **Tests are required in v2** (reverses v1's decision, Spec §12): API integration tests with Vitest + Supertest for every endpoint group; Flutter widget tests for shared components; one emulator integration test of report → verify. Static checks (tsc, ESLint, dart analyze, dart format) stay mandatory.
 - **v1 rules still apply:** layering (handlers thin, services own rules), Zod validation, parameterised SQL only, uniform error shape, logger redaction, idempotent writes, no secrets in git, no real citizen data locally.
-- **Design:** only `docs/v2/design-system.md` tokens; every string in ARB (Gujarati + English).
+- **Design:** only `docs/v2/design-system.md` (v2.2 "Neem") tokens, fonts (Baloo Bhai 2 + Mukta Vaani) and components; every string in ARB (Gujarati + English).
+- **Motion:** every animation uses `SaartheeMotion` tokens and the DS §6 catalogue; no `Duration(` literals in features; reduced motion always honoured; 60 fps on the reference low-end phone.
 - **Independence:** no AMC logo; source line on all AMC-derived content (Spec §1, DS §1).
 - **Migrations:** new migrations only; never edit applied ones.
 - **Never invent:** if the spec is silent, log `ASSUMPTION:` in the task's §5.6 and in Open Questions below.
@@ -145,4 +146,5 @@ A task is `Complete` only when its acceptance criteria are verified in the runni
 
 | Date | Change |
 |---|---|
+| 2026-10-03 | Founder chose design direction B "Neem" (from `docs/v2/design-options.html`) and fonts A Baloo Bhai 2 + Mukta Vaani (from `docs/v2/font-options.html`); design system v2.2 adds DS §6 Motion. New requirements REQ-F-062..066 (feature motion, TASK-05/06/07/08/11) and REQ-N-012..013 (motion system TASK-03, motion performance TASK-14). 119 active |
 | 2026-10-03 | v2 plan created from the research proposal, the v1 code audit and the founder's direction (standalone platform, corporators, alerts, services, professional design). 14 tasks, 112 active requirements, 5 deferred |

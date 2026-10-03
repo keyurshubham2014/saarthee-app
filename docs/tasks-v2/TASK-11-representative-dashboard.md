@@ -8,8 +8,8 @@
 | Size | M |
 | Depends On | TASK-06, TASK-09, TASK-10 |
 | Blocks | TASK-14 |
-| Requirement IDs | REQ-F-053, REQ-F-054, REQ-F-055, REQ-F-056 |
-| Primary Spec Refs | Spec §3, §5, §6 (`representatives`, `rep_claims`, `rep_messages`), §7 (Representatives, Staff), §8 (`/staff/*`), §11 (Neutrality); DS §5 (Representative row, list rows, chips), DS §6, DS §8 (Representative: Ward dashboard, Ward issues, Messages) |
+| Requirement IDs | REQ-F-053, REQ-F-054, REQ-F-055, REQ-F-056, REQ-F-066 |
+| Primary Spec Refs | Spec §3, §5, §6 (`representatives`, `rep_claims`, `rep_messages`), §7 (Representatives, Staff), §8 (`/staff/*`), §11 (Neutrality); DS §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons), DS §5 (Representative row, list rows, chips, Stat tiles), DS §6 (Motion: Scorecard and dashboards; Staff console), DS §7, DS §9 (Representative: Ward dashboard, Ward issues, Messages) |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
@@ -17,7 +17,7 @@
 Let an elected representative take ownership of their Saarthee profile and act on the issues in their own wards, without giving them any power over verification or over other wards. At the end of this task:
 - a representative signs in with phone OTP, claims their profile with evidence (for example a photo of the certificate of election), and an admin approves or rejects the claim in the staff console;
 - the public profile shows a "Verified representative" badge with method and date, which expires automatically at `term_end` and must be claimed again for a new term;
-- a verified representative sees a ward dashboard (open issues by category and age bucket 0–7 / 8–30 / > 30 days, overdue list, hotspots map, 12-week resolution trend, CSV export) for their wards only;
+- a verified representative sees a ward dashboard (open issues by category and age bucket 0–7 / 8–30 / > 30 days, overdue list, hotspots map, 12-week resolution trend, CSV export) for their wards only; its numbers count up and its bars grow the first time they are seen, never on every rebuild, using the scorecard widgets shared from TASK-09 (DS §6);
 - they can acknowledge, comment on and mark fixed issues in their wards, and never verify, reject, merge, hide or close;
 - (P2) they read relayed citizen messages in an inbox and replies sent by email are tracked;
 - neutrality and election mode apply: identical features for every representative, no party marks, no cross-ward ranking, and authored content is frozen while election mode is on.
@@ -33,6 +33,7 @@ This task completes milestone **V2-M5 Operators** together with TASK-10.
 - **Ward dashboard:** `GET /staff/ward-dashboard?ward=` and `GET /staff/ward-dashboard/export?ward=` (CSV), Flutter screen `/staff/ward` with ward switcher, category × age table, overdue list, hotspots map, trend chart, empty/loading/error/offline states.
 - **Representative actions:** ward-scope guard on TASK-06's `POST /issues/{id}/status` for the `representative` role (acknowledge, mark fixed only), `POST /staff/issues/{id}/comments`, `/staff/ward/issues` list with action sheet.
 - **Messages inbox (P2):** `/staff/messages` list and detail, in-app reply, inbound email webhook that records replies sent by email, citizen sees the reply in `/me/messages`.
+- **Dashboard motion (REQ-F-066, DS §6 "Scorecard and dashboards"):** the four stat tiles count up (`countUp`) and the trend bars and category-total bars grow from 0 (`long`) on the first view of each ward in the session, reusing TASK-09's `ScorecardStatTile`, `ScorecardBar` and `SeenOnce` from `lib/core/widgets/scorecard/`; everything else in the console keeps TASK-10's `short`-fades-only rule; reduced-motion variants.
 - **Neutrality and election mode:** enforcement of TASK-09's election-mode flag on every authored write in this task; no party colour or logo; no ranking against other wards.
 - **Tests:** Vitest + Supertest for claims, decisions, scope, transitions, dashboard numbers, CSV, election mode, inbound replies; Flutter widget tests for the claim screens, dashboard and badge.
 
@@ -42,13 +43,16 @@ This task completes milestone **V2-M5 Operators** together with TASK-10.
 - The staff console shell, role middleware, audit-log extension and moderation — TASK-10.
 - Delegate / personal-assistant accounts acting for a representative — P2, not built (see §5.6).
 - Representative-authored public ward updates (Spec §3 "(P2) ward updates") — not built.
-- Public ward scorecard — TASK-09 (REQ-F-046).
+- Public ward scorecard — TASK-09 (REQ-F-046), including building the shared scorecard widgets this task reuses.
+- Motion tokens and helpers (`SaartheeMotion`, `CountUp`, reduced-motion switch) — TASK-03; staff fade policy (`StaffMotionScope`) — TASK-10; frame-time audit — TASK-14 (REQ-N-013).
 
 ## 3. Prerequisites
 
 - TASK-06 complete: `POST /issues/{id}/status` with role-checked transitions, `issue_events` append, after-photo support, follower notifications.
 - TASK-09 complete: `representatives`, `representative_areas`, `assembly_constituencies`, `ward_constituency`, `rep_claims`, `rep_messages` tables; `GET /representatives/{id}`; relay email sender (`src/lib/mail`); election-mode helper `isElectionMode(wardId)`; seeded fictional representatives for the 5 pilot wards with `term_start`/`term_end`.
-- TASK-10 complete: staff console shell (Flutter web + in-app `/staff`), `requireRole()` middleware, role-aware navigation, staff audit log helper with actor/role/target, staff photo viewer endpoint pattern, CSV helper usage for exports.
+- TASK-09 shared scorecard widgets `ScorecardStatTile`, `ScorecardBar`, `SeenOnce` in `apps/mobile/lib/core/widgets/scorecard/` (first-view `CountUp` and bar growth).
+- TASK-03: Neem tokens, type scale, radii 14/18/24/pill, Material Symbols Rounded; motion foundation — `SaartheeMotion` tokens (`lib/core/theme/motion.dart`), `animations` + `flutter_animate`, `CountUp`, `StaggeredColumn`, `MotionCheck`, reduced-motion resolution.
+- TASK-10 complete: staff console shell (Flutter web + in-app `/staff`), `StaffMotionScope` (`short` fades only), `requireRole()` middleware, role-aware navigation, staff audit log helper with actor/role/target, staff photo viewer endpoint pattern, CSV helper usage for exports.
 - TASK-04: Firebase OTP sign-in, session JWT with `token_version`, push + inbox service (`notify(userId, …)`).
 - Env vars (added to `apps/api/.env.example`): `REP_CLAIM_MAX_PER_DAY=3`, `REP_EXPORT_MAX_PER_HOUR=10`, `MAIL_INBOUND_SECRET`, `MAIL_REPLY_DOMAIN` (e.g. `reply.saarthee.local` in dev), `REP_DASHBOARD_HOTSPOT_CELL_M=150`.
 
@@ -70,6 +74,7 @@ This task completes milestone **V2-M5 Operators** together with TASK-10.
 | REQ-F-054 | Representative ward dashboard: open issues by category and age, overdue list, hotspots map, resolution trend, CSV export | Spec §7 |
 | REQ-F-055 | Representatives can acknowledge, comment and mark fixed on issues in their wards only | Spec §3, §5 |
 | REQ-F-056 | Representative inbox for relayed messages with reply-by-email tracking | Spec §7 |
+| REQ-F-066 | Dashboard motion per DS §6: numbers count up and bars grow on first view only (representative ward dashboard and ward scorecard widgets shared from TASK-09) | DS §6 |
 
 Related requirements owned elsewhere and re-checked here: REQ-S-002 (role and ward scoping, TASK-10), REQ-F-047 (election mode, TASK-09), REQ-S-010 (audit log, TASK-10), REQ-S-012 (no personal numbers, TASK-09).
 
@@ -194,7 +199,20 @@ All strings in `app_en.arb` and `app_gu.arb` (keys prefixed `repClaim*`, `wardDa
 | `/staff/messages` (P2) | Inbox with unread dot, citizen label "A resident of {ward}", issue link, status chip Sent / Replied; detail shows body, "Reply" field (2,000 chars) and "Replied by email on {date}" when tracked | empty "No messages yet."; error; offline |
 | `/me/messages` (P2) | Citizen's sent messages with status and the reply text | empty "You haven't messaged a representative yet." |
 
-Staff navigation for role `representative` (TASK-10 shell, DS §8): Ward dashboard · Ward issues · Messages. Charts use the dataviz rules of DS §2 neutral palette; no party colours anywhere.
+Staff navigation for role `representative` (TASK-10 shell, DS §9): Ward dashboard · Ward issues · Messages. Charts use the dataviz rules of DS §2 neutral palette; no party colours anywhere.
+
+Visuals (Neem v2.2 via TASK-03 tokens): stat tiles per DS §5 (`surfaceAlt`, radius 14, number in numeric style — Baloo Bhai 2 20/24 tabular — label in bodySmall Mukta Vaani); section titles titleLarge (Baloo Bhai 2 19/26); cards and table containers radius 18 with 1 px `border`; trend bars `primary` on a `surfaceAlt` track, with category totals as horizontal `ScorecardBar`s; status chips use the DS §2 tints with Rounded icons; no `sunrise` in the console.
+
+#### Motion (REQ-F-066, DS §6)
+
+All durations and curves come from TASK-03 `SaartheeMotion`; no `Duration(` literal in `lib/features/**`. This is the one place in the staff console where TASK-10's "`short` fades only" rule is lifted, because DS §6 lists it explicitly.
+
+| Moment | Behaviour | Tokens / helper | Reduced motion |
+|---|---|---|---|
+| Stat tiles (Open, Overdue, Fixed in 30 days, Verified in 30 days) | Count up from 0 to the value (`countUp`, 600 ms, `easeOutCubic`, integers only) the first time the dashboard for a ward is shown in the session | `ScorecardStatTile(animateKey: 'ward-dash-<wardId>-<metric>')` (TASK-09) wrapping `CountUp` | Final value at once |
+| Trend bars (12 weeks) and category-total bars | Grow from 0 (`scaleX`/`scaleY` from the baseline, clipped; no layout animation) over `long` when first scrolled into view for that ward | `ScorecardBar(animateKey: …)`, `SeenOnce` | Full bars at once |
+| Rebuilds | Pull-to-refresh, polling, returning to the page, resizing the web window, toggling "Show as table" and switching back to a ward already seen show final values without replay | `SeenOnce` (session-scoped) | — |
+| Everything else (ward switcher, table, overdue list, hotspots, page changes) | TASK-10 `short` fades only; no staggers or springs | `StaffMotionScope` | Instant |
 
 ### 5.5 Permissions & Roles
 
@@ -223,6 +241,8 @@ A representative whose verification expires or is revoked has `users.role` set b
 - ASSUMPTION: Election mode freezes representative-authored text: staff comments by representatives, notes on status changes and in-app replies are blocked (`ELECTION_MODE_FROZEN`); status changes without a note and replies by email remain allowed and tracked, because they are service actions, not campaigning. Existing representative comments stay visible. Legal review (summary Open Question 6) may tighten this.
 - ASSUMPTION: Reply-by-email tracking uses a per-message Reply-To address `reply+<reply_token>@MAIL_REPLY_DOMAIN` handled by the mail provider's inbound webhook (provider chosen in TASK-09/TASK-13); quoted history is stripped by cutting at the first line starting with `>` or "On … wrote:". Reply text is shown only to the citizen who sent the message. In dev, a `scripts/mail-inbound-sim.ts` posts a signed payload.
 - ASSUMPTION: Delegate / PA accounts (an assistant acting for a representative) are P2 and not built in v2; representatives must use their own login. If added later: a `rep_delegates` table with admin approval and actions logged as "on behalf of".
+- ASSUMPTION: "First view" for dashboard motion is per ward per app session (cleared on reload of the web app or app restart); switching to a ward not yet seen animates once for that ward. DS §6 says "when first seen, not on every rebuild" without defining the session.
+- ASSUMPTION: The category × age table cells and the overdue list do not count up (DS §6 names numbers in stat tiles and bars); only the four stat tiles, trend bars and category-total bars animate.
 - ASSUMPTION: Evidence photos are deleted 90 days after the decision (privacy minimisation); TASK-13 runs the deletion with its retention jobs.
 
 ## 6. Implementation Steps
@@ -241,11 +261,12 @@ A representative whose verification expires or is revoked has `users.role` set b
 12. **API tests.** Write T-11-01…T-11-16 (§8) in `apps/api/test/representatives/*.test.ts` against the test DB from TASK-01's harness; run in CI.
 13. **Flutter: claim flow.** `features/representatives/claim/` (data, application, presentation): two steps + done on `StepScaffold`, sign-in gate return path, evidence upload with retry, error mapping by code; Me screen claims row; profile badge widget `VerifiedRepBadge`.
 14. **Flutter: staff claims.** Add `/staff/claims` and `/staff/claims/:id` to TASK-10's staff router and side navigation (admin, moderator), approve/reject dialogs with validation, revoke action on representative detail.
-15. **Flutter: ward dashboard.** `features/staff/ward_dashboard/`: provider with last-good cache, ward switcher, stat tiles, category × age table, overdue list, hotspot map (reuse TASK-07 map widget with circle layer) plus accessible list, trend chart with "Show as table" toggle, CSV download (web: browser download; app: share sheet).
-16. **Flutter: ward issues and messages.** `/staff/ward/issues` with action sheet driven by `allowedActions`; `/staff/messages` list/detail/reply (P2); `/me/messages` (P2).
-17. **ARB and Gujarati.** Add every new string to `app_en.arb` and `app_gu.arb`; error-code keys for the six new codes.
-18. **Widget tests.** W-11-01…W-11-06 (§8).
-19. **Manual checks.** M-11-01…M-11-08 on the emulator and Flutter web; record evidence in the coverage matrix.
+15. **Flutter: ward dashboard.** `features/staff/ward_dashboard/`: provider with last-good cache, ward switcher, stat tiles, category × age table, overdue list, hotspot map (reuse TASK-07 map widget with circle layer) plus accessible list, trend chart with "Show as table" toggle, CSV download (web: browser download; app: share sheet). Neem visuals per §5.4 through TASK-03 tokens only.
+16. **Dashboard motion (REQ-F-066).** Reuse TASK-09's `ScorecardStatTile`, `ScorecardBar` and `SeenOnce` (extend, don't copy, if a variant is needed — e.g. vertical bars for the trend); keys `ward-dash-<wardId>-<metric>`; bars triggered on first visibility; reduced-motion branch from TASK-03's resolved `reduceMotion` flag; confirm TASK-10's forbidden-motion scan allows only `features/staff/ward_dashboard/**`; run the no-`Duration(`-literal test.
+17. **Flutter: ward issues and messages.** `/staff/ward/issues` with action sheet driven by `allowedActions`; `/staff/messages` list/detail/reply (P2); `/me/messages` (P2).
+18. **ARB and Gujarati.** Add every new string to `app_en.arb` and `app_gu.arb`; error-code keys for the six new codes.
+19. **Widget tests.** W-11-01…W-11-08 (§8).
+20. **Manual checks.** M-11-01…M-11-10 on the emulator and Flutter web (motion recordings to `docs/demo/v2-evidence/motion/`); record evidence in the coverage matrix.
 
 ## 7. Acceptance Criteria
 
@@ -319,6 +340,16 @@ A representative whose verification expires or is revoked has `users.role` set b
 - **When** the corporator opens `/staff/messages`, reads one, replies in-app to another, and the third is answered by email (signed inbound webhook to `reply+<token>@…`)
 - **Then** the inbox shows "A resident of {ward}" for each, the shared phone only on the opted-in message, unread state clears on open, both replies set `status='replied'` with `reply_channel` `in_app` / `email`, quoted history is stripped, the citizens are notified and see the reply in `/me/messages`; a webhook with a bad signature returns 401 and changes nothing; message bodies never appear in logs
 
+**AC-14** — Dashboard numbers count up and bars grow on first view only
+- **Given** the verified corporator of AC-6 with animations on, scope over ward 12 and ward 13
+- **When** they open `/staff/ward` for ward 12, scroll to the trend chart, pull to refresh, switch to ward 13, switch back to ward 12, and toggle "Show as table" and back
+- **Then** on the first view of ward 12 the four stat tiles count up from 0 to the AC-6 fixture values over `countUp` (integers only) and the 12 trend bars and category-total bars grow from 0 over `long` when scrolled into view; ward 13 animates once on its first view; refresh, returning to ward 12 and the table toggle show final values with no replay; the tiles and bars are the TASK-09 `ScorecardStatTile`/`ScorecardBar` widgets; the rest of the console changes with `short` fades only
+
+**AC-15** — Dashboard motion with reduced motion
+- **Given** the system "Remove animations" setting on (and separately the in-app Animations switch off)
+- **When** the AC-14 steps are repeated
+- **Then** every number and bar shows its final value in the first frame, the numbers match AC-6 exactly, and no count-up or growth runs
+
 **AC → Requirement**
 
 | AC | Requirements |
@@ -327,6 +358,7 @@ A representative whose verification expires or is revoked has `users.role` set b
 | AC-6, AC-7, AC-8, AC-12 | REQ-F-054 |
 | AC-9, AC-10, AC-11 | REQ-F-055 |
 | AC-13 | REQ-F-056 |
+| AC-14, AC-15 | REQ-F-066 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -340,6 +372,8 @@ A representative whose verification expires or is revoked has `users.role` set b
 - [ ] Scope check and term check happen server-side on every representative endpoint; UI hiding is not relied on
 - [ ] Decide/expire/revoke run in single transactions; `reps:expire` idempotent
 - [ ] Webhook signature compared in constant time; unknown tokens ignored without detail
+- [ ] Neem visuals only (tokens, Baloo Bhai 2 numbers/titles, Mukta Vaani body, radii 14/18/24/pill, Rounded icons, no `sunrise`)
+- [ ] REQ-F-066 motion uses `SaartheeMotion` tokens via the TASK-09 shared widgets; first view only; only transform/opacity animated; reduced motion shows final values at once; no `Duration(` literals
 
 ## 8. Validation & Testing
 
@@ -368,6 +402,8 @@ A representative whose verification expires or is revoked has `users.role` set b
 | Flutter widget | W-11-04 | Dashboard: renders fixture JSON (table, overdue, trend table toggle), empty and error states, election banner | AC-6, AC-11 |
 | Flutter widget | W-11-05 | Ward issues action sheet shows only `allowedActions` | AC-9, AC-10 |
 | Flutter widget | W-11-06 | Messages inbox unread dot, reply field limit, "Replied by email" line | AC-13 |
+| Flutter widget | W-11-07 | Dashboard motion with fixture JSON: at t=0 tiles read 0, mid-`SaartheeMotion.countUp` an integer between 0 and the value, after it the AC-6 value; trend bars at scale 0 then full after `SaartheeMotion.long` once visible; refresh / ward switch back / table toggle rebuild shows final values in one frame; ward 13 animates once | AC-14 |
+| Flutter widget | W-11-08 | Reduced-motion variant (`MediaQuery(disableAnimations: true)` and the in-app switch): after one `pump()` all tiles and bars are final and equal the fixture | AC-15 |
 | Manual | M-11-01 | Emulator: sign in as seeded citizen → claim Paldi corporator with 2 photos → done → Me shows pending | AC-1 |
 | Manual | M-11-02 | Flutter web console as admin: review evidence, approve; app profile shows badge | AC-3 |
 | Manual | M-11-03 | Set `term_end` to yesterday via SQL, make a staff request, run `npm run reps:expire` twice | AC-5 |
@@ -376,6 +412,8 @@ A representative whose verification expires or is revoked has `users.role` set b
 | Manual | M-11-06 | Acknowledge → mark fixed with after photo → comment; citizen device receives push | AC-9 |
 | Manual | M-11-07 | Turn election mode on (TASK-09 setting), try comment and note; TalkBack and 2.0× font on dashboard and claim | AC-11, AC-12 |
 | Manual | M-11-08 | `scripts/mail-inbound-sim.ts` reply; citizen sees reply in `/me/messages` | AC-13 |
+| Manual | M-11-09 | Emulator recording (`adb shell screenrecord /sdcard/t11-ward-dashboard.mp4`, `adb pull` to `docs/demo/v2-evidence/motion/`): first view of ward 12 (count-up, bars), refresh, ward switch and back; Chrome screen capture of the web console saved alongside | AC-14 |
+| Manual | M-11-10 | Repeat M-11-09 with "Remove animations" on and with the in-app switch off; `t11-reduced-motion.mp4` | AC-15 |
 
 ## 9. Deliverables
 
@@ -384,8 +422,9 @@ A representative whose verification expires or is revoked has `users.role` set b
 - Scripts `reps:expire` and `mail-inbound-sim` (dev).
 - Flutter: claim flow, verified badge, Me claims row, staff claims screens, ward dashboard, ward issues, messages inbox (P2), `/me/messages` (P2); ARB keys in English and Gujarati.
 - Seed additions (claims, expired verification, messages) — fictional data only.
-- Vitest suites T-11-01…16 and widget tests W-11-01…06 passing in CI.
-- Coverage matrix rows REQ-F-053…056 with evidence.
+- Dashboard motion (REQ-F-066) through TASK-09's shared scorecard widgets; motion recordings in `docs/demo/v2-evidence/motion/`.
+- Vitest suites T-11-01…16 and widget tests W-11-01…08 passing in CI.
+- Coverage matrix rows REQ-F-053…056 and REQ-F-066 with evidence.
 
 ## 10. Files Expected to Change
 
@@ -403,6 +442,8 @@ Prediction only — exact paths may differ.
 | `apps/api/test/representatives/*.test.ts`, `apps/api/test/fixtures/ward-dashboard.ts` | New |
 | `apps/mobile/lib/features/representatives/claim/`, `.../widgets/verified_rep_badge.dart` | New |
 | `apps/mobile/lib/features/staff/{claims,ward_dashboard,ward_issues,messages}/` | New |
+| `apps/mobile/lib/core/widgets/scorecard/` (TASK-09; extended only if a variant is needed) | Modified |
+| `docs/demo/v2-evidence/motion/t11-*.mp4` | New |
 | `apps/mobile/lib/features/me/` (claims row, messages) | Modified / New |
 | `apps/mobile/lib/router/` (staff and citizen routes) | Modified |
 | `apps/mobile/lib/core/l10n/app_en.arb`, `app_gu.arb` | Modified |
@@ -417,7 +458,8 @@ Prediction only — exact paths may differ.
 - Spec §7 — Representatives and Staff endpoint groups (`/representatives/{id}/claims`, `/staff/rep-claims/{id}/decide`, `/staff/ward-dashboard`), rate limits.
 - Spec §8 — `/staff/*` routes.
 - Spec §11 — privacy (no reporter identity), neutrality, election mode.
-- `docs/v2/design-system.md` DS §2 (status colours, neutral palette), DS §5 (representative row, list rows, stat layout, banners), DS §6 (accessibility), DS §8 (representative screens).
+- `docs/v2/design-system.md` DS §2 (Neem tokens, status colours, neutral palette), DS §3 (typography), DS §4 (radii, icons), DS §5 (representative row, list rows, stat tiles, banners), DS §6 (Motion: Scorecard and dashboards, Staff console, rules), DS §7 (accessibility), DS §9 (representative screens).
+- `docs/tasks-v2/TASK-03-design-system-shell.md` (`SaartheeMotion`, `CountUp`), `TASK-09-representatives-my-ward.md` §5.4 Motion (shared scorecard widgets), `TASK-10-staff-console.md` (`StaffMotionScope`).
 - `docs/tasks-v2/TASK-06-*.md`, `TASK-09-*.md`, `TASK-10-*.md` — contracts this task extends.
 
 ## 12. Risks & Considerations
@@ -431,6 +473,8 @@ Prediction only — exact paths may differ.
 | Inbound email provider not chosen | P2 reply tracking delayed | In-app reply works without it; webhook behind a driver; defer REQ-F-056 email half with a recorded decision if needed |
 | Expired verification still active between job runs | Out-of-term actions | Request-time term check in the scope helper, not only the job |
 | Evidence photos contain personal data | Privacy exposure | Admin-only endpoint, no-store, 90-day deletion, never attached to public issues |
+| Dashboard count-up replays on polling or refresh | Distracting, numbers hard to read | `SeenOnce` keyed per ward; W-11-07 asserts no replay |
+| TASK-09 widgets not yet landed or differ | Duplicate widgets | TASK-09 is a dependency; extend its widgets rather than copy |
 
 ## 13. Progress Status
 
@@ -457,3 +501,6 @@ Prediction only — exact paths may differ.
 - [ ] `00-task-summary.md` updated
 - [ ] Committed as `V2-TASK-11: …`
 - [ ] Validator passes
+- [ ] Ward dashboard matches Neem v2.2 visuals (stat tiles, type, radii, Rounded icons)
+- [ ] REQ-F-066 dashboard motion implemented with TASK-09's shared widgets and `SaartheeMotion` tokens; W-11-07 and W-11-08 pass
+- [ ] Motion recordings saved to `docs/demo/v2-evidence/motion/` (M-11-09, M-11-10)

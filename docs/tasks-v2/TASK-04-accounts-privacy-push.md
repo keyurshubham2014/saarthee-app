@@ -9,7 +9,7 @@
 | Depends On | TASK-01, TASK-03 |
 | Blocks | TASK-05, TASK-08, TASK-09, TASK-10, TASK-12 |
 | Requirement IDs | REQ-F-007, REQ-F-008, REQ-F-009, REQ-F-010, REQ-F-011, REQ-S-001, REQ-S-003, REQ-S-004, REQ-S-005, REQ-S-015, REQ-O-003 |
-| Primary Spec Refs | Spec §2 (D6, D8, D9), §3, §6 (`users`, `consents`, `devices`, `notifications`), §7 (Auth & me), §9, §11; DS §5, §8 |
+| Primary Spec Refs | Spec §2 (D6, D8, D9), §3, §6 (`users`, `consents`, `devices`, `notifications`), §7 (Auth & me), §9, §11; DS §2, §3, §4, §5, §6, §7, §9 |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
@@ -37,7 +37,7 @@ Give citizens an identity only when they need one, and give the platform a way t
 ## 3. Prerequisites
 
 - TASK-01: `users`, `consents`, `devices` tables (REQ-D-003), role enum, Vitest + Supertest harness with a test database (`npm test`), v2 seed.
-- TASK-03: tokens/components, five-tab shell, `localeProvider`, `homeWardProvider`, `PreferenceSync` port, placeholder P-09.
+- TASK-03: Neem tokens/components (Baloo Bhai 2 + Mukta Vaani type, radii 14/18/24/pill, Material Symbols Rounded), motion foundation (`SaartheeMotion` tokens, `MotionCheck`, press-scale wrapper, haptics helper, reduced-motion handling), five-tab shell, `localeProvider`, `homeWardProvider`, `PreferenceSync` port, placeholder P-09.
 - Founder action (Open Question #3): Firebase project created by the project owner; Android app `in.saarthee.app` (or the current `applicationId`) registered with debug and release SHA-1/SHA-256; Phone sign-in enabled; two Firebase test phone numbers configured.
 - Local files (git-ignored): `apps/mobile/android/app/google-services.json`, `apps/mobile/lib/firebase_options.dart` (from `flutterfire configure`), `apps/api/secrets/firebase-service-account.json`.
 - API env: `FIREBASE_PROJECT_ID`, `GOOGLE_APPLICATION_CREDENTIALS` (path to the service account JSON), `USER_JWT_AUDIENCE=saarthee-app`, `USER_JWT_EXPIRES_IN=30d`, `PUSH_DRIVER=log|fcm|memory`, `CONSENT_TEXT_VERSIONS_V2=v2-1`, `GRIEVANCE_EMAIL`.
@@ -168,8 +168,16 @@ Redaction (REQ-S-015): extend `SENSITIVE` in `src/lib/logger` with `idToken`, `a
 | `/sign-in/age` (new account only) | "Are you 18 or older?" + "Saarthee accounts are for adults (18+)." Buttons "Yes, I am 18 or older" / "No"; consent box: "I agree that Saarthee stores my phone number and the reports I make to run this service." with link "Privacy notice"; primary "Create account" disabled until ticked | Server 403/422 mapped to inline errors |
 | `/sign-in/blocked` | "Sorry, you need to be 18 or older to have an account. You can still browse issues, alerts and services." primary "Back to browsing" | Firebase user signed out, nothing stored |
 | `/me` (from My Ward row, replaces P-09) | Signed out: row "Sign in" + why. Signed in: display name (editable, "(optional)", 1–40 chars), masked phone, home ward (Change → picker), language, links "Privacy and your data", "Settings", "Sign out" | Loading skeleton; error + "Try again"; save in progress; offline: read-only with banner |
-| `/me/privacy` | Notice summary (en/gu); consent switches: "Share my reports with representatives", "Hand-off details when I file with AMC", "Notifications" (core consent shown as fixed "Needed for your account"); "Download my data" (shares the JSON file via share sheet); "Delete my account" (red, secondary); grievance contact "Questions or complaints about your data: {GRIEVANCE_EMAIL}"; independence line | Toggle in flight → disabled; export generating → progress; error → snackbar + retry |
+| `/me/privacy` | Notice summary (en/gu); consent switches: "Share my reports with representatives", "Hand-off details when I file with AMC", "Notifications" (core consent shown as fixed "Needed for your account"); "Download my data" (shares the JSON file via share sheet); "Delete my account" (outlined, `error` colour with `delete` icon); grievance contact "Questions or complaints about your data: {GRIEVANCE_EMAIL}"; independence line | Toggle in flight → disabled; export generating → progress; error → snackbar + retry |
 | Delete dialog | "Delete your account?" body: "Your phone number and name are removed, your photos are deleted and your reports stay public without your details. This cannot be undone." Type "DELETE" field; buttons "Delete account" / "Cancel" | Deleting → progress; success → signed out, Home, snackbar "Your account was deleted." |
+
+Visual and motion rules for these screens (DS §3–§7; all widgets from TASK-03, no local styling):
+- Sign-in, OTP and age screens use the Neem components: white app bar with a `headlineSmall` (Baloo Bhai 2) title, Mukta Vaani body, DS §5 inputs (label above, radius 14, 2 px `primary` focus) and one filled `primary` `PrimaryButton` (50 dp, radius 14, in-button progress while working). `sunrise` never appears on these screens.
+- OTP accepted: the "Verify" button area shows a short `MotionCheck` (`drawCheck`) before the route pops back to the caller; the pop waits for the check (≈ 600 ms) and is instant when reduced motion is on (DS §6 rules). The check is accompanied by the text "Signed in" so motion never carries meaning alone.
+- Pickers and confirmations shown as bottom sheets (home-ward "Change" picker, export progress) use the TASK-03 sheet (radius 24 top corners) and slide up with `springIn`; the delete dialog uses the TASK-03 dialog (radius 24 top corners, elevation 3).
+- "Delete my account" is an outlined button in `error` with a leading `delete` icon (never next to a `sunrise` element); snackbars are the DS §5 toast (`primaryDark`, radius 18, 4 s) — "Your account was deleted." shows the drawn check.
+- The Home push soft-prompt card is a DS §5 card (radius 18, 1 px `border`) that rises in with `rise`; it never pulses.
+- No `Duration(` literals in `lib/features/auth` or `lib/features/me` (TASK-03 static test); every timing comes from `SaartheeMotion`.
 
 "Sign in when needed" (`lib/features/auth/application/ensure_signed_in.dart`):
 ```dart
@@ -224,7 +232,7 @@ Push on device:
 11. **Redaction.** Extend logger paths per §5.3; add `test/logging.redaction.test.ts` that captures pino output during auth, devices and push calls and asserts no token, phone or body value appears.
 12. **API tests** T-04-01…T-04-16 with Vitest + Supertest and the fake gateway / memory push driver.
 13. **App packages.** Add `firebase_core`, `firebase_auth`, `firebase_messaging`, `flutter_local_notifications`, `share_plus` (pin exact versions); Gradle `google-services` plugin; `Firebase.initializeApp` in `main.dart` guarded so a missing config shows a developer error screen in debug and never crashes release.
-14. **Auth feature** `lib/features/auth/`: data (`AuthApi`, `SessionStore`), application (`sessionProvider`, `phoneAuthController` wrapping `verifyPhoneNumber` with `codeSent`, `verificationCompleted`, `verificationFailed`, `codeAutoRetrievalTimeout`, resend token), `ensureSignedIn`, router redirect for account-only routes; screens `/sign-in`, `/sign-in/otp`, `/sign-in/age`, `/sign-in/blocked`. Reuse the v1 phone rule from `core/utils/validators.dart`.
+14. **Auth feature** `lib/features/auth/`: data (`AuthApi`, `SessionStore`), application (`sessionProvider`, `phoneAuthController` wrapping `verifyPhoneNumber` with `codeSent`, `verificationCompleted`, `verificationFailed`, `codeAutoRetrievalTimeout`, resend token), `ensureSignedIn`, router redirect for account-only routes; screens `/sign-in`, `/sign-in/otp`, `/sign-in/age`, `/sign-in/blocked`, styled only with TASK-03 Neem components and motion per §5.4 (OTP success `MotionCheck`, sheets with `springIn`, reduced motion instant). Reuse the v1 phone rule from `core/utils/validators.dart`.
 15. **Dio interceptor** for Bearer + silent re-exchange; error mapping to ARB keys by code.
 16. **Profile and privacy** `lib/features/me/`: `/me`, `/me/privacy`, delete dialog, export via `share_plus` (temp file in app cache, deleted after share). Replace placeholder P-09 with the `/me` row.
 17. **PreferenceSync implementation** `AccountPreferenceSync`: when signed in `PATCH /me {language|homeWardId}`; always updates topic subscriptions and re-posts the device; override the TASK-03 provider. On sign-in, push device language and home ward if the account has none.
@@ -338,6 +346,7 @@ Push on device:
 - [ ] Phone never returned unmasked by any endpoint; display name never in public responses
 - [ ] No secrets or Firebase config files tracked by git; CI check in place
 - [ ] Sign-in screens: loading, error, offline states; 48 dp targets; OTP field announces digits count; works at 2.0× text in Gujarati
+- [ ] Sign-in, OTP, age, `/me` and `/me/privacy` use only TASK-03 Neem components (radius 14 inputs/buttons, 18 cards, 24 sheets/dialogs; Material Symbols Rounded); OTP success shows the `MotionCheck` with "Signed in" text; sheets enter with `springIn`; with reduced motion all of these are instant; no `Duration(` literal in `lib/features/{auth,me}`
 - [ ] Push taps only open allow-listed in-app routes
 - [ ] Notification permission never requested at first launch
 - [ ] p95 of `GET /me` < 200 ms locally on seed data
@@ -365,7 +374,7 @@ Push on device:
 | API integration | T-04-15 | Redaction: captured logs contain no token/phone/OTP/body values | AC-14 |
 | API integration | T-04-16 | Rate limits: 11th `/auth/firebase` per IP/min → 429 with `Retry-After` | AC-2 |
 | Widget | T-04-17 | `ensureSignedIn`: signed-in returns true without navigation; signed-out pushes sign-in and resumes caller on success, returns false on cancel | AC-1 |
-| Widget | T-04-18 | Phone screen validation; OTP screen wrong/expired code messages; resend countdown | AC-1 |
+| Widget | T-04-18 | Phone screen validation; OTP screen wrong/expired code messages; resend countdown; on success the `MotionCheck` is fully drawn after pumping `SaartheeMotion` `drawCheck` (+150 ms delay) before the pop, and with `MediaQuery(disableAnimations: true)` the pop happens on the next frame | AC-1 |
 | Widget | T-04-19 | Age screen: "No" → blocked screen and fake Firebase sign-out; consent box gates "Create account" | AC-4 |
 | Widget | T-04-20 | `/me` edit flow and `/me/privacy` toggles call the API fakes; delete dialog requires "DELETE" | AC-6, AC-8, AC-10 |
 | Widget | T-04-21 | `AccountPreferenceSync`: language/ward change → PATCH once + topic switch | AC-7 |
@@ -413,7 +422,7 @@ Prediction only — exact paths may differ.
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §2 D6, D8, D9; §3 roles; §6 `users`, `consents`, `devices`, `notifications`; §7 Auth & me, rate limits; §9 notifications; §11 privacy (DPDP)
-- `docs/v2/design-system.md` DS §5 inputs, error summary; DS §8 sign-in screens
+- `docs/v2/design-system.md` DS §2–§4 (Neem colour, Baloo Bhai 2 + Mukta Vaani, radii, Rounded icons), DS §5 inputs, buttons, error summary, toast; DS §6 Motion (`drawCheck`, `springIn`, reduced motion); DS §7 accessibility; DS §9 sign-in screens
 - `docs/tasks-v2/TASK-01-*.md` — tables and test harness
 - `docs/tasks-v2/TASK-03-design-system-shell.md` — `PreferenceSync`, placeholder P-09
 - `docs/tasks-v2/TASK-08-*.md` — extends `notifications`, quiet hours, inbox

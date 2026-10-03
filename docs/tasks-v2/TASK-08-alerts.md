@@ -8,13 +8,13 @@
 | Size | L |
 | Depends On | TASK-02, TASK-04 |
 | Blocks | TASK-14 |
-| Requirement IDs | REQ-F-035, REQ-F-036, REQ-F-037, REQ-F-038, REQ-F-039, REQ-F-040, REQ-F-041, REQ-D-009, REQ-S-011 |
-| Primary Spec Refs | Spec §2 (D3, D9), §3, §6 (`alerts`, `alert_wards`, `subscriptions`, `notifications`), §7 (Alerts, Staff), §8 (`/alerts*`, `/staff/*`), §9, §11; DS §1, §2 (alert severity), §5 (Alert card, Banners), §7 (Alert flow), §8 |
+| Requirement IDs | REQ-F-035, REQ-F-036, REQ-F-037, REQ-F-038, REQ-F-039, REQ-F-040, REQ-F-041, REQ-D-009, REQ-S-011, REQ-F-065 |
+| Primary Spec Refs | Spec §2 (D3, D9), §3, §6 (`alerts`, `alert_wards`, `subscriptions`, `notifications`), §7 (Alerts, Staff), §8 (`/alerts*`, `/staff/*`), §9, §11; DS §1, §2 (alert severity), §3, §4 (radii, Rounded icons), §5 (Alert card, Banners, Toast), §6 (Motion: New alert while open, Inbox), §7 (accessibility), §8 (Alert flow), §9 |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
 
-Give Amdavadis trustworthy, ward-level civic alerts (water cuts, road closures, heat, rain and flooding, health) and one inbox for everything Saarthee tells them. Staff compose bilingual alerts with a named source and a validity window; Info and Advisory alerts need one approval, Warning and Critical need two different people. Published alerts reach the right FCM topics (`ward_<n>`, `zone_<code>`, `city_all`), wait for 07:00 during quiet hours unless Critical, expire on time, and can be retracted or superseded. Citizens see an Alerts tab, alert detail and alert settings, and a 90-day notification inbox with read state. NDMA SACHET (and IMD if access is granted) feed **drafts only** — nothing is ever published automatically. Every alert names its source and says Saarthee is independent.
+Give Amdavadis trustworthy, ward-level civic alerts (water cuts, road closures, heat, rain and flooding, health) and one inbox for everything Saarthee tells them. Staff compose bilingual alerts with a named source and a validity window; Info and Advisory alerts need one approval, Warning and Critical need two different people. Published alerts reach the right FCM topics (`ward_<n>`, `zone_<code>`, `city_all`), wait for 07:00 during quiet hours unless Critical, expire on time, and can be retracted or superseded. Citizens see an Alerts tab, alert detail and alert settings, and a 90-day notification inbox with read state. NDMA SACHET (and IMD if access is granted) feed **drafts only** — nothing is ever published automatically. Every alert names its source and says Saarthee is independent. When an alert arrives while the app is open, a banner slides down from under the app bar (a Critical one pulses once, slowly — never a loop), and marking inbox items read by swiping compresses the row, fades its dot and rolls the badge count (DS §6).
 
 ## 2. Scope
 
@@ -29,6 +29,7 @@ Give Amdavadis trustworthy, ward-level civic alerts (water cuts, road closures, 
 - App (staff): `/staff/alerts` list, `/staff/alerts/new`, `/staff/alerts/:id` (composer, preview, approval panel, actions). **TASK-08 owns these screens; TASK-10 owns the staff shell and side navigation** and mounts them.
 - Shared widgets: `AlertCard`, `SeverityBanner`, `SourceLine`, `IndependenceFooter` (used later by TASK-07 Home strip and TASK-12 services).
 - Independence/source labelling audit across About, alerts, services and hand-offs (REQ-S-011).
+- Alert motion per DS §6 (REQ-F-065): in-app alert banner sliding down from under the app bar with `springIn` for alerts received while the app is in the foreground; one slow attention pulse for Critical (no loop); inbox swipe-to-read (row compresses, unread dot fades, bell badge count rolls); reduced-motion variants. Uses TASK-03 `SaartheeMotion` tokens and helpers only.
 - Automated tests (Vitest + Supertest, Flutter widget tests) and manual emulator checks.
 
 ### Out of Scope
@@ -39,12 +40,14 @@ Give Amdavadis trustworthy, ward-level civic alerts (water cuts, road closures, 
 - Staff shell, side navigation, role guard matrix and audit-log extension — TASK-10 (this task uses the contracts in §5.5).
 - Home "alerts strip" — TASK-07 (reuses `AlertCard` and `GET /alerts`).
 - `cat_<slug>` issue-category topics (D9) — not used by alerts in v2.
+- Motion tokens, sheet/page transitions, press scale, skeleton shimmer and the reduced-motion switch — TASK-03 (used here, not built). Frame-time audit — TASK-14 (REQ-N-013).
 
 ## 3. Prerequisites
 
 - TASK-02: `wards` (number, zone_id, geom), `zones` (code), `GET /wards`, ward picker widget.
 - TASK-04: `users` with `role`, `status`, `language`, `home_ward_id`; `requireUser`, `optionalUser`, `requireRole(...)`; `devices` (`install_id`, `fcm_token`, `language`, `topics`); `notifications` table; push service `notifyTopic` / `notifyUser` / `flushQueued` with drivers `fcm`, `log`, `memory`; channels `critical_alerts`, `alerts`, `updates`; app topic manager (`ward_<home>__<lang>`, `city_all__<lang>`) and tap routing allow-list (includes `/alerts/<id>` and `/me/notifications`); `ensureSignedIn()`.
-- TASK-03: tokens (incl. severity tokens from DS §2), component library, ARB set-up (gu + en), five-tab shell with an Alerts placeholder.
+- TASK-03: Neem tokens (incl. severity tokens from DS §2), Baloo Bhai 2 / Mukta Vaani type scale, radii 14/18/24/pill, Material Symbols Rounded, component library, ARB set-up (gu + en), five-tab shell with an Alerts placeholder; motion foundation — `SaartheeMotion` tokens (`lib/core/theme/motion.dart`), `animations` + `flutter_animate`, press-scale wrapper, haptics helper, `MotionCheck`, `CountUp`, `StaggeredColumn`, reduced-motion resolution.
+- TASK-04: foreground FCM message stream (`onMessage`) that this task listens to for the in-app banner.
 - TASK-01: test harness (Vitest + Supertest, test DB reset), v2 seed module.
 - Env (API): `JOBS_ENABLED=true`, `ALERT_MAX_VALIDITY_DAYS=14`, `QUIET_HOURS=22:00-07:00`, `APP_TIMEZONE=Asia/Kolkata`, `SACHET_ENABLED=false`, `SACHET_FEED_URL=https://sachet.ndma.gov.in/CapFeed`, `SACHET_POLL_MINUTES=10`, `IMD_ENABLED=false`, `IMD_DISTRICT_WARNINGS_URL` (unset until access is granted). `push:flush` must run every 5 min (cron from TASK-13) for held alerts.
 - Founder action (Open Question 4): request IMD API access (IP whitelisting) for the pilot server's IP; SACHET is used meanwhile.
@@ -71,6 +74,7 @@ Give Amdavadis trustworthy, ward-level civic alerts (water cuts, road closures, 
 | REQ-F-041 | Draft alerts created automatically from NDMA SACHET CAP RSS (and IMD district warnings if access is granted); never auto-published | Spec §9 |
 | REQ-D-009 | `alerts`, `alert_wards`, `subscriptions`, `notifications` tables with status and validity constraints | Spec §6 |
 | REQ-S-011 | Alerts always show source and validity; no AMC logo; "independent app" label on About, alerts, services and hand-offs | Spec §1, §11 |
+| REQ-F-065 | Alert motion per DS §6: in-app banner slides in under the app bar, single attention pulse for Critical (no loop), swipe-to-read in the inbox with rolling badge count | DS §6 |
 
 ### 5.2 Data Contracts
 
@@ -154,18 +158,31 @@ New error codes in `src/lib/errors`: `ALERT_STATE_INVALID` 409 "This alert can't
 
 ### 5.4 UI Surfaces & States
 
-Severity visuals (DS §2, tokens from TASK-03 — no literals): Info `info` icon on #1F5FAE/#E5EEFA · Advisory `campaign` #6F5A00/#FBF5D9 · Warning `warning` #A34A00/#FFEEDD · Critical `emergency`, **solid** #B3261E banner with white text. Non-critical cards are tinted with a 4 dp left bar. Severity is always icon + word ("Info / માહિતી", "Advisory / સૂચના", "Warning / ચેતવણી", "Critical / ગંભીર" — Gujarati to be checked by the native editor).
+Severity visuals (DS §2, tokens from TASK-03 — no literals): Info `info` icon on #1F5FAE/#E5EEFA · Advisory `campaign` #6F5A00/#FBF5D9 · Warning `warning` #A34A00/#FFEEDD · Critical `emergency`, **solid** #B3261E banner with white text. Non-critical cards are tinted cards with the severity icon and **no side bar** (DS §2). Alert cards and banners use radius 18; severity chips are pills; icons are Material Symbols Rounded; card titles in Mukta Vaani titleMedium, screen titles in Baloo Bhai 2 headlineSmall (DS §3). Screens use the white app bar with a 1 px `border` bottom line once scrolled (DS §5). Severity is always icon + word ("Info / માહિતી", "Advisory / સૂચના", "Warning / ચેતવણી", "Critical / ગંભીર" — Gujarati to be checked by the native editor).
 
 | Route | Content | States |
 |---|---|---|
 | `/alerts` (Alerts tab) | App bar "Alerts" + settings action; segmented "Active" / "Past"; Critical alerts first as `SeverityBanner`, others as `AlertCard` (severity, title, area "Ward 12 Paldi" / "West zone" / "All of Ahmedabad", validity "Today 10:00–16:00" / "Until Sat 5 Oct, 18:00", `SourceLine`); footer `IndependenceFooter` | loading: 3 skeleton cards; empty active: icon + "No active alerts for your wards." + "Alert settings"; empty past: "No alerts in the last 30 days."; error: "We couldn't load alerts." + "Try again"; offline: last loaded list + offline banner; visitor: uses the device's chosen ward |
 | `/alerts/:id` | `SeverityBanner`; title; body; "Where" (ward list / zone / whole city); "When" (validity); "Source: <name> (link) · Relayed by Saarthee"; `IndependenceFooter`; "Turn off alerts like this" → settings with this type highlighted | expired: grey banner "This alert has ended."; retracted: "Cancelled by Saarthee: <reason>"; superseded: "There is a newer update" → link; 404: "This alert isn't available."; offline: cached copy if opened before |
 | `/alerts/settings` | "Your wards": home ward (fixed, "Change in profile") + up to 5 extra via ward picker ("Add a ward"); "Alert types": 8 switches (Water cut, Water timing change, Road closure, Heat, Rain and flooding, Health, Civic drives, Other); switch "Only critical alerts"; info text "Between 10 pm and 7 am we hold non-critical alerts until 7 am. Critical alerts always come through." | signed out: settings saved for this phone (`/devices/{installId}/subscriptions`) + "Sign in to keep these settings on all your devices."; note under types "Muted alerts still appear in your notifications list."; saving: switch shows progress, reverts with snackbar "Couldn't save. Try again." on error; offline: changes saved locally and synced on reconnect; 6th ward → "You can add up to 5 extra wards." |
-| `/me/notifications` (bell in app bar, badge = unread count, max "9+") | "Notifications"; groups "Today" / "Earlier"; unread rows bold with a dot (and "Unread" semantics label); icon by kind; tap → mark read → open alert / issue / initiative; "Mark all as read" | signed out: "Sign in to see updates about your reports and alerts." + "Sign in"; empty: "No notifications yet."; loading skeleton rows; error + "Try again"; target gone: "This item is no longer available." |
+| `/me/notifications` (bell in app bar, badge = unread count, max "9+") | "Notifications"; groups "Today" / "Earlier"; unread rows bold with a `primary` dot (and "Unread" semantics label); icon by kind; tap → mark read → open alert / issue / initiative; swipe a row end-to-start → mark read (semantics custom action "Mark as read" for TalkBack); "Mark all as read" | signed out: "Sign in to see updates about your reports and alerts." + "Sign in"; empty: "No notifications yet."; loading skeleton rows; error + "Try again"; target gone: "This item is no longer available." |
 | `/staff/alerts` | Tabs "Drafts" (badge for feed drafts "From NDMA SACHET"), "Awaiting approval", "Published", "Ended"; rows: severity chip, title, area, validity, approvals "1 of 2" | empty per tab; 403 → "You don't have access to this page."; loading; error |
 | `/staff/alerts/new`, `/staff/alerts/:id` | Form (labels above fields, "(optional)" none — all required): Type, Severity (radio with help: "Warning and Critical need two approvers"), Title (English) 0/80, Title (ગુજરાતી) 0/80, Message (English) 0/500, Message (ગુજરાતી) 0/500, Source name, Source link, Valid from, Valid until (IST pickers), Area (Wards multi-select / Zone / Whole city); live preview of the citizen card in both languages; approval panel ("Approved by <name> (moderator), 3 Oct 14:05 · Needs 1 more approval from an admin"); actions by state: "Save draft", "Send for approval", "Approve", "Publish now", "Retract", "Create update" | error summary at top with links to fields (focus moves there); in-flight buttons disabled with progress; read-only when published/ended; confirm dialogs for Publish ("This will notify everyone in <area> now." / "…at 7:00 am (quiet hours).") and Retract (reason field) |
 
 Device topics (extends the TASK-04 topic manager; all with the `__<lang>` suffix): default preferences → `ward_<home>`, `ward_<extra>` for each extra ward, `zone_<code>` for the zones of home and extra wards, `city_all`; custom preferences (any muted type or "Only critical alerts") → unsubscribe all `ward_`/`zone_`/`city_all` topics and rely on the server's filtered device sends. Uses TASK-04 channels `critical_alerts` and `alerts`; tap opens `/alerts/:id` (already in the TASK-04 route allow-list).
+
+In-app alert banner (`InAppAlertBanner`): shown when the TASK-04 foreground message stream delivers `kind:'alert'` (or the active alerts list gains a new id) while the app is open, on any citizen screen. It sits directly under the current app bar (on Home, under the green header's top row), full width minus 16 dp gutters, radius 18: Critical as the solid `SeverityBanner`, others as a tinted compact `AlertCard` (severity icon + word, title, "View"). Tap → `/alerts/:id`; swipe up or the close button dismisses; one banner at a time (a newer one replaces it; Critical always wins). Live region announces "New critical alert: <title>".
+
+#### Motion (REQ-F-065, DS §6)
+
+All durations and curves come from TASK-03 `SaartheeMotion`; no `Duration(` literal in `lib/features/**`. With reduced motion (system "Remove animations" or the in-app Animations switch) every item becomes an instant change or a ≤ 100 ms cross-fade with identical content.
+
+| Moment | Behaviour | Tokens / helper | Reduced motion |
+|---|---|---|---|
+| New alert while open | Banner slides down from under the app bar (translate-Y from −100% of its height + fade, clipped to the area below the app bar) with `springIn`; dismissal slides it back up over `medium` | `springIn`, `medium` | Banner appears/disappears at once |
+| Critical attention | After the banner settles, exactly one slow attention pulse: a white/`error`-tint glow ring expands and fades (or scale 1.0 → 1.02 → 1.0) over two `long` segments, then stops. Never repeated, never looped; no blinking (< 3 flashes/s) | `long`, `MotionCheck`-style one-shot controller | No pulse |
+| Inbox swipe-to-read | Swiping a row end-to-start past the threshold marks it read: the row compresses (transform scale 0.97 + `surfaceAlt` reveal behind it, `instant`) and springs back (`springIn`), the title weight cross-fades bold → regular and the unread dot fades out (`short`); the row stays in the list. "Mark all as read" fades every dot (`short`, no stagger) | `instant`, `springIn`, `short` | Dot and weight change at once |
+| Badge count | The bell badge (`unreadCount`, max "9+") rolls to the new number (vertical digit roll, `short`); at 0 it fades out | `RollingCount` (`short`) | Number swaps at once |
 
 ARB key prefixes: `alerts*`, `alertSeverity*`, `alertType*`, `inbox*`, `staffAlerts*`, `sourceLine`, `independenceLine` (gu + en for every key; DS §1 independence text verbatim).
 
@@ -196,6 +213,10 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 - ASSUMPTION: Maximum validity 14 days (`ALERT_MAX_VALIDITY_DAYS`); "Past" shows 30 days.
 - ASSUMPTION: `created_by` / `approved_by` / `retracted_by` hold staff actor ids without FKs because staff may be v1 `admin_users` or v2 `users` (Spec §7 keeps v1 admin login); both are UUID v4.
 - ASSUMPTION: SACHET feed structure is taken from a captured sample saved under `apps/api/test/fixtures/sachet/`; if it differs (inline CAP, Atom), only the parser changes, not the contract. Superseding a CAP alert by a newer CAP message creates a new draft; moderators supersede manually.
+- ASSUMPTION: The in-app banner auto-hides after 8 s for Info/Advisory/Warning and stays until dismissed or opened for Critical; the timeout lives in a core constant (`lib/core/config/timings.dart`, not a motion token and not a literal in `lib/features/**`). DS §6 does not specify dismissal.
+- ASSUMPTION: "One slow attention pulse" = one out-and-back of 2 × `SaartheeMotion.long` (900 ms total) after the slide-in settles.
+- ASSUMPTION: Swipe-to-read marks read only (no delete; no undo); swiping an already-read row does nothing. TalkBack users get the same via a custom semantics action.
+- ASSUMPTION: The digit-roll widget `RollingCount` comes from TASK-03 if it provides one; otherwise whichever of TASK-07/TASK-08/TASK-12 lands first creates it in `lib/core/widgets/rolling_count.dart` and the others reuse it.
 - ASSUMPTION: TASK-08 does not depend on TASK-06; if TASK-06's `src/jobs` runner has not landed, this task creates it with TASK-06's contract (`JOBS_ENABLED`, advisory lock per job, `npm run jobs:run -- <name>`) and TASK-06 reuses it.
 
 ## 6. Implementation Steps
@@ -217,7 +238,13 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 15. **Push handling.** Extend the TASK-04 topic manager per §5.4 (extra wards, zones, opt-out for custom preferences; diff against the stored set; re-post `POST /devices` with topics); visitors' preferences via `/devices/{installId}/subscriptions`; tap routing to `/alerts/:id`.
 16. **Staff screens.** `features/staff/alerts/`: list, composer, preview, approval panel, confirm dialogs; routes `/staff/alerts*` guarded by role (UX only). If TASK-10's shell is not there yet, wrap in a minimal `StaffPageScaffold` (`features/staff/shared/`) and register a nav item via the staff nav registry contract (`StaffNavItem(route, labelKey, icon, roles)`) for TASK-10 to render.
 17. **Independence audit (REQ-S-011).** Check About (TASK-03), AMC hand-off (TASK-05) and services (TASK-12, if landed) show `IndependenceFooter`/source line; add it where missing; `grep -ri "amc.*logo\|amc_logo" apps/mobile/assets apps/mobile/lib` returns nothing; record results in the coverage matrix (TASK-14 re-checks services).
-18. **Widget tests** W-08-01…W-08-06; emulator checks M-08-03…M-08-08; update coverage evidence.
+18. **Alert motion (REQ-F-065).**
+    1. `InAppAlertBanner` host (an overlay entry under the current app bar, mounted by the citizen shell) fed by the TASK-04 foreground message stream and new ids in the active-alerts provider; slide-in with `springIn`, slide-out with `medium`.
+    2. Critical one-shot attention pulse (single forward + reverse of a controller using `SaartheeMotion.long`; disposed after; assert no `repeat()`).
+    3. Inbox swipe-to-read (`Dismissible`-style gesture with `confirmDismiss` returning false so the row stays) → optimistic `POST /me/notifications/read`, row compress + spring back, dot fade, weight cross-fade; semantics action "Mark as read"; rollback on error with snackbar.
+    4. Bell badge with `RollingCount`.
+    5. Reduced-motion branches reading TASK-03's resolved `reduceMotion` flag; run the no-`Duration(`-literal test.
+19. **Widget tests** W-08-01…W-08-08; emulator checks M-08-03…M-08-10 (motion recordings to `docs/demo/v2-evidence/motion/`); update coverage evidence.
 
 ## 7. Acceptance Criteria
 
@@ -266,7 +293,7 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 **AC-9** — Alerts tab and detail
 - **Given** a citizen with home ward 12, one Critical and two Info alerts active, one expired
 - **When** they open Alerts and then an alert
-- **Then** the Critical shows first as a solid red banner with `emergency` icon and the word "Critical"; Info cards are tinted with a left bar; Past lists the expired one; detail shows Where, When, "Source: <name> · Relayed by Saarthee" and the independence line; empty, loading, error and offline states match §5.4
+- **Then** the Critical shows first as a solid red banner with `emergency` icon and the word "Critical"; Info cards are tinted (radius 18, severity icon + word, no side bar); Past lists the expired one; detail shows Where, When, "Source: <name> · Relayed by Saarthee" and the independence line; empty, loading, error and offline states match §5.4
 
 **AC-10** — Subscription settings
 - **Given** a signed-in citizen
@@ -298,6 +325,21 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 - **When** they call any `/staff/alerts*` endpoint
 - **Then** they get 403, 403 and 401 respectively and nothing changes
 
+**AC-16** — In-app alert banner motion
+- **Given** a citizen with home ward 12 on Home with animations on
+- **When** an Info alert for ward 12 is published, and later a Critical alert for ward 12 is published while they are on the Map tab
+- **Then** each time a banner slides down from under the app bar with `springIn` showing the severity icon, word and title; the Info banner hides by itself after the set timeout; the Critical banner, as a solid red banner, pulses exactly once slowly after it settles and then stays still until dismissed or opened (no loop, no more than one flash); tapping opens `/alerts/:id`; TalkBack announces "New critical alert: <title>"
+
+**AC-17** — Inbox swipe-to-read and rolling badge
+- **Given** a signed-in citizen with 3 unread notifications (badge shows 3) and animations on
+- **When** they swipe one row end-to-start, then use the TalkBack "Mark as read" action on another, then tap "Mark all as read"
+- **Then** the swiped row compresses and springs back, stays in the list, its unread dot fades and its title becomes regular weight; the badge rolls 3 → 2 → 1 → 0 and then fades out; `unreadCount` from the API matches at every step; a failed request rolls the row and badge back with "Couldn't update. Try again."
+
+**AC-18** — Alert motion with reduced motion
+- **Given** the system "Remove animations" setting on (and separately the in-app Animations switch off)
+- **When** the AC-16 and AC-17 steps are repeated
+- **Then** the banner appears and disappears at once with no pulse, the dot, weight and badge change at once, the content and announcements are identical, and no `Duration(` literal exists in `lib/features/**`
+
 ### AC → Requirement
 
 | AC | Requirements |
@@ -317,6 +359,9 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 | AC-13 | REQ-F-041 |
 | AC-14 | REQ-S-011 |
 | AC-15 | REQ-F-035, REQ-F-036 |
+| AC-16 | REQ-F-065, REQ-F-038 |
+| AC-17 | REQ-F-065, REQ-F-040 |
+| AC-18 | REQ-F-065 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -329,6 +374,9 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 - [ ] Jobs are single-runner (advisory lock verified by starting two API processes)
 - [ ] Feed poller: timeouts, size cap and no auto-publish verified; poller failures logged without crashing the API
 - [ ] Staff screens import providers only; no API client in `presentation/`
+- [ ] Neem visuals only: alert cards radius 18 without side bars, pill chips, Material Symbols Rounded, Baloo Bhai 2 titles / Mukta Vaani body — all through TASK-03 tokens
+- [ ] REQ-F-065 motion uses `SaartheeMotion` tokens only; only transform, opacity and colour animated; Critical pulse runs once and never loops
+- [ ] Reduced motion (system and in-app switch) gives instant or ≤ 100 ms cross-fade equivalents
 
 ## 8. Validation & Testing
 
@@ -357,6 +405,8 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 | Widget | W-08-04 | Settings: 6th ward refused, visitor sign-in prompt | AC-10, AC-11 |
 | Widget | W-08-05 | Inbox: unread styling, mark all read, signed-out state | AC-12 |
 | Widget | W-08-06 | Staff composer error summary focus and preview in both languages | AC-1 |
+| Widget | W-08-07 | `InAppAlertBanner`: inject a fake foreground alert; banner offset is above its rest position at t=0 and at rest after pumping `SaartheeMotion.springIn`; Critical pulse: pump 2 × `SaartheeMotion.long` and assert the glow returns to rest and `hasScheduledFrame` is false afterwards (no loop); Info auto-hides after the timeout; semantics announcement fired; reduced-motion variant: after one `pump()` the banner is at rest and no pulse controller runs | AC-16, AC-18 |
+| Widget | W-08-08 | Inbox swipe-to-read: drag a row, pump `SaartheeMotion.instant` + `springIn` → row back at scale 1, still present, dot opacity 0 after `SaartheeMotion.short`; badge `RollingCount` shows 2 after `short`; semantics action marks read; error rollback; reduced-motion variant: one `pump()` shows final state | AC-17, AC-18 |
 | Manual | M-08-01 | `curl` the full Warning flow with two staff tokens; SQL check of `approved_by` | AC-3 |
 | Manual | M-08-02 | `alerts:ingest --source sachet --dry-run` against the live feed; review mapped drafts | AC-13 |
 | Manual | M-08-03 | Emulator: publish Critical to home ward with app killed → heads-up notification on `critical_alerts`; tap opens detail | AC-5, AC-9 |
@@ -365,14 +415,17 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 | Manual | M-08-06 | Set API clock/env to 23:30 IST, publish Advisory → no push until dispatch at 07:00 (advance clock) | AC-6 |
 | Manual | M-08-07 | TalkBack + 2.0× font on Alerts tab, detail, settings, inbox, in Gujarati | AC-9, AC-14 |
 | Manual | M-08-08 | Independence audit of About, hand-off, services; grep for AMC logo assets | AC-14 |
+| Manual | M-08-09 | Emulator recordings (`adb shell screenrecord /sdcard/<name>.mp4`, `adb pull` to `docs/demo/v2-evidence/motion/`): `t08-banner-info.mp4`, `t08-banner-critical.mp4` (single slow pulse, no loop), `t08-inbox-swipe.mp4` (row compress, dot fade, badge roll) | AC-16, AC-17 |
+| Manual | M-08-10 | Repeat M-08-09 with "Remove animations" on and with the in-app switch off; `t08-reduced-motion.mp4` | AC-18 |
 
 ## 9. Deliverables
 
 - Migration `<ts>_v2_alerts`, Prisma models, seed additions.
 - API modules `alerts`, `staff-alerts`; `requireRole` staff extension (if first); `src/lib/clock`; `src/jobs` runner (if first); push service `notifyDevices` + `tag`; alert jobs; SACHET adapter + fixtures; script `alerts:ingest`.
 - App: `features/alerts` (Alerts tab, detail, settings), `features/inbox` (`/me/notifications`, bell badge), shared alert widgets, topic manager extension, `features/staff/alerts` screens.
-- Vitest suites T-08-01…16, widget tests W-08-01…06, manual evidence M-08-01…08.
-- Coverage matrix evidence for 9 requirements; IMD access request recorded.
+- Alert motion (REQ-F-065): `InAppAlertBanner` with one-shot Critical pulse, inbox swipe-to-read, rolling bell badge, reduced-motion variants.
+- Vitest suites T-08-01…16, widget tests W-08-01…08, manual evidence M-08-01…10 (motion recordings in `docs/demo/v2-evidence/motion/`).
+- Coverage matrix evidence for 10 requirements; IMD access request recorded.
 
 ## 10. Files Expected to Change
 
@@ -389,7 +442,9 @@ Prediction only — exact paths may differ.
 | `apps/api/scripts/alerts-ingest.ts`, `src/jobs/alerts-*.ts`, `apps/api/package.json` | New / Modified |
 | `apps/api/test/{alerts,staff-alerts,sachet}*.test.ts`, `apps/api/test/fixtures/sachet/` | New |
 | `apps/mobile/lib/features/{alerts,inbox}/`, `lib/features/staff/alerts/`, `lib/features/staff/shared/` | New |
-| `apps/mobile/lib/core/widgets/alerts/`, `lib/core/push/` (topic manager extension) | New / Modified |
+| `apps/mobile/lib/core/widgets/alerts/` (incl. `in_app_alert_banner.dart`), `lib/core/push/` (topic manager extension, foreground stream hook) | New / Modified |
+| `apps/mobile/lib/core/widgets/rolling_count.dart` (only if absent), `lib/core/config/timings.dart` | New / Modified |
+| `docs/demo/v2-evidence/motion/t08-*.mp4` | New |
 | `apps/mobile/lib/router/{citizen_routes,staff_routes}.dart` | Modified / New |
 | `apps/mobile/lib/core/l10n/app_en.arb`, `app_gu.arb` | Modified |
 | `apps/mobile/test/alerts/`, `test/inbox/`, `test/staff/alerts/` | New |
@@ -397,7 +452,8 @@ Prediction only — exact paths may differ.
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §2 (D3, D9), §3, §6, §7, §8, §9, §11
-- `docs/v2/design-system.md` DS §1 (independence line), §2 (alert severity), §5 (Alert card, Banners), §6, §7 (Alert flow), §8
+- `docs/v2/design-system.md` DS §1 (independence line), §2 (alert severity), §3 (typography), §4 (radii, icons), §5 (Alert card, Banners, Toast), §6 (Motion: New alert while open, Inbox, rules), §7 (accessibility), §8 (Alert flow), §9
+- `docs/tasks-v2/TASK-03-design-system-shell.md` — `SaartheeMotion`, motion helpers, reduced-motion switch
 - `docs/tasks-v2/TASK-04-*.md` — push service, `notifications`, topic helper
 - `docs/tasks-v2/TASK-10-staff-console.md` — staff shell, role matrix, audit helper
 - NDMA SACHET CAP feed: https://sachet.ndma.gov.in/CapFeed · OASIS CAP 1.2 standard
@@ -414,6 +470,8 @@ Prediction only — exact paths may differ.
 | Fan-out cost grows with users | Slow publish | Set-based insert; measure at 50k users; move to per-user read table if needed |
 | Gujarati wording errors in urgent alerts | Misunderstanding | Gujarati required for submit; native editor review of fixed strings before TASK-14 |
 | Users unsure why muted alerts still appear in the inbox | Confusion | Settings copy: "Muted alerts still appear in your notifications list." |
+| Critical attention pulse feels alarming or repeats | Anxiety; DS §6 "no loop" broken | One-shot controller, W-08-07 asserts no scheduled frames after; nothing flashes > 3/s |
+| Swipe gesture undiscoverable or inaccessible | Inbox stays unread | Tap still marks read; "Mark all as read"; TalkBack custom action |
 
 ## 13. Progress Status
 
@@ -440,3 +498,7 @@ Prediction only — exact paths may differ.
 - [ ] `00-task-summary.md` updated
 - [ ] Committed as `V2-TASK-08: …`
 - [ ] Validator passes
+- [ ] Alert cards and banners match Neem v2.2 (radius 18, no side bars, Rounded icons, Neem type)
+- [ ] REQ-F-065 motion implemented with `SaartheeMotion` tokens only; W-08-07 and W-08-08 pass
+- [ ] Reduced-motion variants verified (system setting and in-app switch)
+- [ ] Motion screen recordings saved to `docs/demo/v2-evidence/motion/` (M-08-09, M-08-10)

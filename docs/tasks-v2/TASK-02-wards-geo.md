@@ -9,7 +9,7 @@
 | Depends On | TASK-01 |
 | Blocks | TASK-05, TASK-08, TASK-09, TASK-12 |
 | Requirement IDs | REQ-F-001, REQ-F-002, REQ-F-003, REQ-D-006 |
-| Primary Spec Refs | Spec §2 (D5, D9, D10), §6 (`zones`, `wards`), §7 (Geo), §8 (`/onboarding/ward`, My Ward); DS §5 (list rows), DS §6 |
+| Primary Spec Refs | Spec §2 (D5, D9, D10), §6 (`zones`, `wards`), §7 (Geo), §8 (`/onboarding/ward`, My Ward); DS §5 (list rows), DS §7 |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
@@ -307,7 +307,7 @@ Prediction only — exact paths may differ.
 - Spec §6 — `zones`, `wards` columns
 - Spec §7 — Geo endpoints and public rate limit
 - Spec §8 — `/onboarding/ward`, My Ward routes
-- DS §5 (list rows), DS §6 (accessibility: labels, Gujarati) — for consumers of the picker data
+- DS §5 (list rows), DS §7 (accessibility: labels, Gujarati) — for consumers of the picker data
 - `docs/tasks-v2/TASK-01-platform-upgrade.md` — seed framework, test harness, geo helpers
 - `docs/tasks-v2/TASK-03-design-system-shell.md` §5.3–5.6 — ward models, `WardsRepository`, picker states this task feeds
 - `docs/tasks-v2/00-task-summary.md` — Open Question 2 (2026 delimitation)

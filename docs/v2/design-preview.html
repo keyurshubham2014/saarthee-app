@@ -1,387 +1,819 @@
-<title>Saarthee Civic Blue</title>
+<meta charset="utf-8">
+<title>Saarthee Neem Design</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&family=Noto+Sans+Gujarati:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@500;600;700;800&family=Mukta+Vaani:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..600,0..1,0&display=swap">
 <style>
-/* Layout: page reads as a design spec — intro, then a wrapping gallery of 360px phone screens, then the token sheet. Phones always render the light app theme (the product's default); page chrome follows the viewer theme. */
+/* Layout: design spec page. Header + principles, a wrapping gallery of eight 340px phones (always the app's light theme), then the token sheet, motion tokens and what we avoid. Page chrome follows the viewer's theme. Fonts live only in this stylesheet (never in inline styles). */
 :root{
-  --page:#F6F8FA; --page-card:#FFFFFF; --page-ink:#16202B; --page-muted:#4A5664; --page-line:#D3DAE2; --page-accent:#0B57A4;
-  --sans:"Noto Sans","Noto Sans Gujarati",system-ui,sans-serif;
+  --pg:#F3F6F1; --card:#FFFFFF; --ink:#17251E; --mute:#4E5E55; --line:#DCE5DE; --acc:#14674A; --accfg:#FFFFFF; --soft:#E8EFEA;
+  --fd:"Baloo Bhai 2","Noto Sans Gujarati",system-ui,sans-serif;
+  --fb:"Mukta Vaani","Noto Sans Gujarati",system-ui,sans-serif;
+  /* DS §6 motion tokens */
+  --t-instant:100ms; --t-short:180ms; --t-med:280ms; --t-spring:380ms; --t-long:450ms; --stag:60ms; --rise:14px;
+  --e-out:cubic-bezier(0,0,.58,1); --e-std:cubic-bezier(.2,0,0,1); --e-spring:cubic-bezier(.34,1.35,.64,1); --e-long:cubic-bezier(.05,.7,.1,1); --e-cubic:cubic-bezier(.33,1,.68,1);
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#0F1620;--page-card:#17212C;--page-ink:#E8EEF4;--page-muted:#A9B6C4;--page-line:#2A3746;--page-accent:#8EC1F5;color-scheme:dark}}
-:root[data-theme="dark"]{--page:#0F1620;--page-card:#17212C;--page-ink:#E8EEF4;--page-muted:#A9B6C4;--page-line:#2A3746;--page-accent:#8EC1F5;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pg:#131C18;--card:#1A2520;--ink:#E6EFE9;--mute:#A9B9AF;--line:#2A3830;--acc:#7BD3A6;--accfg:#0F1A15;--soft:#22302A;color-scheme:dark}}
+:root[data-theme="dark"]{--pg:#131C18;--card:#1A2520;--ink:#E6EFE9;--mute:#A9B9AF;--line:#2A3830;--acc:#7BD3A6;--accfg:#0F1A15;--soft:#22302A;color-scheme:dark}
 *{box-sizing:border-box}
-body{background:var(--page);color:var(--page-ink);font-family:var(--sans);font-size:16px;line-height:1.55;padding-inline:20px;padding-block:0 64px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--pg);color:var(--ink);font-family:var(--fb);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
 .wrap{max-width:1180px;margin:0 auto}
-.ms{font-family:"Material Symbols Outlined";font-weight:400;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;display:inline-block;white-space:nowrap;-webkit-font-feature-settings:"liga";font-feature-settings:"liga";font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 24}
-.fill{font-variation-settings:"FILL" 1,"wght" 400,"GRAD" 0,"opsz" 24}
-header{padding-block:44px 28px;display:grid;gap:14px;max-width:760px}
-.brand{display:flex;align-items:center;gap:12px}
-.mark{width:44px;height:44px;border-radius:12px;background:#0B57A4;display:grid;place-items:center;flex:none}
-.mark svg{width:28px;height:28px}
-.brand b{font-size:1.5rem;font-weight:600;letter-spacing:-.01em}
-.brand span{color:var(--page-muted);font-size:1.1rem}
-h1{font-size:clamp(1.8rem,3.6vw,2.5rem);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
-h2{font-size:1.35rem;font-weight:600;margin:0}
 p{margin:0}
-.lede{color:var(--page-muted);font-size:1.08rem;max-width:66ch}
-.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-block:8px 36px}
-.pr{background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;padding:14px 16px;display:grid;gap:4px}
-.pr b{font-weight:600}
-.pr p{color:var(--page-muted);font-size:.93rem;line-height:1.45}
-.sec{display:grid;gap:16px;padding-block:20px;border-top:1px solid var(--page-line)}
-.gallery{display:flex;flex-wrap:wrap;gap:28px 24px;justify-content:flex-start}
-figure{margin:0;display:grid;gap:10px;width:min(360px,100%)}
-figcaption{font-size:.9rem;color:var(--page-muted)}
-figcaption b{color:var(--page-ink);font-weight:600}
+h1,h2,h3{margin:0;font-family:var(--fd);text-wrap:balance}
+.fd{font-family:var(--fd)}
+.fb{font-family:var(--fb)}
+.ms{font-family:"Material Symbols Rounded";font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-feature-settings:"liga";font-feature-settings:"liga";font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 24;flex:none;-webkit-font-smoothing:antialiased}
+.f1{font-variation-settings:"FILL" 1,"wght" 400,"GRAD" 0,"opsz" 24}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84em;overflow-wrap:anywhere}
+a{color:var(--acc)}
+:focus-visible{outline:3px solid #FFDD00;outline-offset:2px;box-shadow:0 0 0 5px #17251E}
 
-/* ---- phone (always app light theme) ---- */
-.phone{--p:#0B57A4;--pd:#08437F;--pc:#E3EEF9;--opc:#06315C;--bg:#F6F8FA;--sf:#FFFFFF;--alt:#EEF2F6;--bd:#D3DAE2;--bds:#8794A3;--t1:#16202B;--t2:#4A5664;
-  width:100%;max-width:360px;height:720px;border-radius:28px;border:1px solid #C3CCD6;background:var(--bg);color:var(--t1);overflow:hidden;display:flex;flex-direction:column;font-size:14px;line-height:1.45;box-shadow:0 1px 2px rgba(22,32,43,.06)}
-.sb{height:28px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:12px;color:var(--t1);background:var(--sf)}
-.ab{background:var(--sf);border-bottom:1px solid var(--bd);padding:10px 16px 12px;display:flex;align-items:center;gap:10px;flex:none}
+/* ---------- page header ---------- */
+header.top{padding-block:40px 24px;display:grid;gap:16px;max-width:800px}
+.brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand svg{width:48px;height:48px;flex:none}
+.brand .wm{font-family:var(--fd);font-weight:700;font-size:1.7rem;line-height:1.1}
+.brand .wm span{color:var(--mute);font-weight:600;margin-left:8px}
+h1{font-size:clamp(1.9rem,4.4vw,2.7rem);font-weight:700;line-height:1.2}
+.lede{color:var(--mute);font-size:1.07rem;max-width:68ch}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;border-radius:999px;padding:6px 14px;font-size:.92rem;font-weight:600}
+.jump a:hover{border-color:var(--mute)}
+
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-block:4px 32px}
+.pr{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:6px;align-content:start;min-width:0}
+.pr .ms{color:var(--acc);font-size:26px}
+.pr b{font-family:var(--fd);font-weight:600;font-size:1.12rem;line-height:1.3}
+.pr p{color:var(--mute);font-size:.95rem;line-height:1.5}
+
+section.sec{display:grid;gap:16px;padding-block:28px 12px;border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
+.sec-head h2{font-size:1.6rem;font-weight:700;line-height:1.25}
+.sec-head p{color:var(--mute);max-width:66ch;margin-top:4px}
+h3.sub{font-size:1.2rem;font-weight:600;margin-top:10px}
+.replay{border:0;background:var(--acc);color:var(--accfg);border-radius:14px;min-height:48px;padding:0 18px;font-family:var(--fb);font-weight:600;font-size:1rem;cursor:pointer;display:inline-flex;gap:8px;align-items:center;white-space:nowrap;transition:transform var(--t-instant) var(--e-out)}
+.replay:active{transform:scale(.97)}
+.replay .ms{font-size:22px}
+.note{color:var(--mute);font-size:.9rem}
+
+/* ---------- gallery ---------- */
+.gallery{display:flex;flex-wrap:wrap;gap:32px 24px}
+.gallery figure{margin:0;display:grid;gap:10px;width:min(340px,100%);align-content:start}
+.gallery figcaption{font-size:.93rem;color:var(--mute);line-height:1.5}
+.gallery figcaption b{color:var(--ink);font-weight:600;display:block;font-family:var(--fd);font-size:1.05rem}
+
+/* ---------- phone: always the app's light theme (DS §2) ---------- */
+.ph{--pr:#14674A;--prd:#0E4A35;--pc:#E1F0E7;--ops:#BFE0CD;--sun:#C24A1F;--bg:#F3F6F1;--sf:#FFFFFF;--alt:#E8EFEA;--bd:#DCE5DE;--bds:#86978C;--t1:#17251E;--t2:#4E5E55;--tdis:#8A978F;
+  color-scheme:light;width:100%;max-width:340px;height:700px;border-radius:32px;border:1px solid #C5D0C8;background:var(--bg);color:var(--t1);overflow:hidden;display:flex;flex-direction:column;font-family:var(--fb);font-size:14px;line-height:1.5;position:relative;box-shadow:0 1px 2px rgba(23,37,30,.06),0 14px 34px -20px rgba(23,37,30,.35)}
+.ph b,.ph strong{font-weight:600}
+.sb{height:28px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:12px;font-weight:600;background:var(--sf);color:var(--t1)}
+.sb .ms{font-size:16px}
+.sb.green{background:var(--pr);color:#fff}
+.ab{background:var(--sf);border-bottom:1px solid var(--bd);padding:8px 14px 10px;display:flex;align-items:center;gap:10px;flex:none}
 .ab .tt{flex:1;min-width:0}
-.ab .tt b{display:block;font-size:19px;font-weight:600;line-height:1.25}
-.ab .tt small{color:var(--t2);font-size:12.5px}
+.ab .tt b{display:block;font-family:var(--fd);font-size:22px;font-weight:700;line-height:1.3}
+.ab .tt small{display:block;color:var(--t2);font-size:12px;line-height:1.4}
 .ab .ms{color:var(--t1)}
-.lang{border:1px solid var(--bds);border-radius:8px;padding:2px 8px;font-size:13px;font-weight:600}
-.body{flex:1;overflow:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:12px}
-.nav{flex:none;background:var(--sf);border-top:1px solid var(--bd);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px 10px;text-align:center;font-size:12px;font-weight:500;color:var(--t2)}
-.nav div{display:grid;justify-items:center;gap:2px}
-.nav .pill{width:52px;height:28px;border-radius:14px;display:grid;place-items:center}
-.nav .on{color:var(--t1)}
-.nav .on .pill{background:var(--pc);color:var(--opc)}
-.btn{background:var(--p);color:#fff;border-radius:8px;height:48px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px}
-.btn.big{height:52px}
-.btn.out{background:var(--sf);color:var(--p);border:1px solid var(--bds)}
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:12px;display:grid;gap:8px}
-.alert{border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;border:1px solid}
-.alert.warn{background:#FFEEDD;border-color:#F3D3B4;box-shadow:inset 4px 0 0 #A34A00}
-.alert.warn .ms{color:#A34A00}
-.alert.crit{background:#B3261E;border-color:#B3261E;color:#fff}
-.alert.info{background:#E5EEFA;border-color:#C9DBF2;box-shadow:inset 4px 0 0 #1F5FAE}
-.alert.info .ms{color:#1F5FAE}
-.alert b{font-size:14px}
-.alert small{grid-column:2;font-size:12.5px;color:inherit;opacity:.9}
-.sev{font-size:11.5px;font-weight:600;text-transform:none}
-.h{font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
-.h a{font-size:13px;color:var(--p);font-weight:600;text-decoration:none}
-.row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
-.badge{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff}
-.badge .ms{font-size:22px}
-.row b{font-size:14px;font-weight:600;display:block;line-height:1.3}
-.row small{color:var(--t2);font-size:12.5px}
-.chip{display:inline-flex;align-items:center;gap:4px;border-radius:8px;padding:2px 8px 2px 6px;font-size:12px;font-weight:600;white-space:nowrap}
-.chip .ms{font-size:16px}
-.st-rep{background:#EDF0F4;color:#4B5768}.st-ack{background:#E5EEFA;color:#1F5FAE}.st-prog{background:#FFF3DC;color:#8A5300}.st-fix{background:#E6F4EC;color:#1A7340}.st-ver{background:#DDEFE5;color:#0E5233}.st-reo{background:#FDEDE4;color:#B4400F}
-.over{background:#FCEBEA;color:#B3261E}
-.meta{display:flex;gap:12px;color:var(--t2);font-size:12.5px;align-items:center}
-.meta .ms{font-size:16px;vertical-align:-3px}
-.thumb{height:120px;border-radius:8px;border:1px solid var(--bd);background:linear-gradient(160deg,#6B7682 0 30%,#9AA4AE 30% 58%,#565E68 58%);position:relative}
-.thumb.after{background:linear-gradient(160deg,#6B7682 0 30%,#B9C1C9 30% 58%,#7D8691 58%)}
-.thumb span{position:absolute;left:6px;bottom:6px;background:rgba(22,32,43,.78);color:#fff;font-size:11px;font-weight:600;border-radius:6px;padding:1px 6px}
-.lang-opt{border:1px solid var(--bds);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between;background:var(--sf);font-size:18px}
-.lang-opt.sel{border:2px solid var(--p);background:var(--pc)}
-.lang-opt small{display:block;font-size:13px;color:var(--t2)}
-.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--bds)}
-.lang-opt.sel .radio{border:6px solid var(--p)}
-.indep{display:flex;gap:8px;align-items:flex-start;background:var(--alt);border-radius:8px;padding:10px;font-size:12.5px;color:var(--t2)}
-.indep .ms{font-size:18px;color:var(--t2)}
-.step{display:grid;gap:6px}
-.step small{color:var(--t2);font-size:12.5px;font-weight:500}
-.prog{height:4px;border-radius:2px;background:var(--alt);overflow:hidden}
-.prog i{display:block;height:100%;background:var(--p)}
-.q{font-size:19px;font-weight:600;line-height:1.3}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.tile{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:10px 4px 8px;display:grid;justify-items:center;gap:6px;text-align:center;font-size:12px;font-weight:500;line-height:1.25;min-height:88px}
-.tile.sel{border:2px solid var(--p);background:var(--pc)}
-.tile .badge{width:36px;height:36px}
-.tile .badge .ms{font-size:20px}
-.mapbox{height:150px;border-radius:12px;border:1px solid var(--bd);background:
-  linear-gradient(90deg,transparent 47%,#FFFFFF 47% 53%,transparent 53%),
-  linear-gradient(0deg,transparent 40%,#FFFFFF 40% 46%,transparent 46%),
-  linear-gradient(35deg,transparent 60%,#FFFFFF 60% 64%,transparent 64%),
-  #E7ECF1;position:relative}
-.pin{position:absolute;width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 0 0 3px #fff}
-.pin .ms{transform:rotate(45deg);color:#fff;font-size:17px}
-.cluster{position:absolute;width:34px;height:34px;border-radius:50%;background:#3B5266;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px;box-shadow:0 0 0 3px rgba(59,82,102,.25)}
-.dup{background:#FFF4E0;border:1px solid #F0D9AE;border-radius:12px;padding:10px 12px;display:grid;gap:6px;font-size:13px}
-.dup b{color:#7A4A00}
-.tl{display:grid;gap:0;padding-left:4px}
-.tli{display:grid;grid-template-columns:18px 1fr;gap:10px;position:relative;padding-bottom:12px}
-.tli:before{content:"";position:absolute;left:8px;top:16px;bottom:0;width:2px;background:var(--bd)}
-.tli:last-child:before{display:none}
-.dot{width:14px;height:14px;border-radius:50%;margin-top:3px;margin-left:2px}
-.tli b{font-size:13.5px;font-weight:600;display:block}
-.tli small{color:var(--t2);font-size:12px}
-.fut .dot{border:2px solid var(--bds);background:var(--sf)}
-.fut b{color:var(--t2);font-weight:500}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.rep{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}
-.rep:last-child{border-bottom:0}
-.av{width:40px;height:40px;border-radius:50%;background:var(--alt);color:var(--t2);display:grid;place-items:center;font-weight:600;font-size:13px}
-.rep b{font-size:14px;font-weight:600;display:block;line-height:1.3}
-.rep small{font-size:12px;color:var(--t2)}
-.msg{border:1px solid var(--bds);color:var(--p);border-radius:8px;padding:4px 10px;font-size:12.5px;font-weight:600}
-.score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.score div{background:var(--alt);border-radius:8px;padding:8px 4px}
-.score b{display:block;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
-.score small{font-size:11.5px;color:var(--t2)}
-.tabs{display:flex;gap:8px}
-.tabs span{border:1px solid var(--bds);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:500}
-.tabs .on{background:#3B5266;border-color:#3B5266;color:#fff}
+.ib{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
+.body{flex:1;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:12px;min-height:0}
+.spacer{flex:1}
 
-/* ---- token sheet ---- */
-.tokens{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-.tok{background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;overflow:hidden}
-.tok i{display:block;height:52px}
-.tok div{padding:8px 12px;display:grid;gap:2px;font-size:.88rem}
+/* Home header (DS §5) */
+.hero{background:var(--pr);color:#fff;padding:6px 16px 0;display:grid;gap:14px;flex:none}
+.hero-top{display:flex;align-items:center;gap:8px}
+.hero-top .who{flex:1;min-width:0}
+.hero-top small{display:block;font-size:12.5px;color:var(--ops);font-weight:500}
+.hero-top .greet{font-family:var(--fd);font-size:28px;font-weight:700;line-height:36px;margin:0}
+.hbtn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;position:relative}
+.hbtn .ms{font-size:20px;color:#fff}
+.hbtn i{position:absolute;top:7px;right:8px;width:8px;height:8px;border-radius:50%;background:#FFDD00;box-shadow:0 0 0 2px var(--pr)}
+.rcard{position:relative;z-index:1;margin-bottom:-30px;background:var(--sun);color:#fff;border-radius:14px;min-height:62px;display:flex;align-items:center;gap:12px;padding:10px 14px;box-shadow:0 10px 22px -10px rgba(194,74,31,.7);transition:transform var(--t-instant) var(--e-out)}
+.rcard:active{transform:scale(.97)}
+.rcard .plus{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center}
+.rcard .plus .ms{font-size:22px}
+.rcard .txt{flex:1;font-size:16px;font-weight:600;line-height:1.3}
+.rcard .txt small{display:block;font-weight:400;font-size:12.5px;opacity:.92}
+.rcard::after{content:"";position:absolute;inset:-4px;border-radius:18px;border:2px solid var(--sun);opacity:0;pointer-events:none}
+.home-body{padding-top:44px}
+
+/* Alerts (DS §2 severity, no side bars) */
+.al{border-radius:18px;padding:11px 12px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;border:1px solid transparent}
+.al>.ms{grid-row:span 3;font-size:22px;margin-top:1px}
+.al .sev{font-size:12px;font-weight:600}
+.al b{font-size:14.5px;line-height:1.35}
+.al small{font-size:12px;line-height:1.45;color:var(--t2)}
+.al-info{background:#E5EEFA;border-color:#CCDDF3}.al-info>.ms,.al-info .sev{color:#1F5FAE}
+.al-adv{background:#FBF5D9;border-color:#EEE2A8}.al-adv>.ms,.al-adv .sev{color:#6F5A00}
+.al-warn{background:#FFEEDD;border-color:#F6D6B8}.al-warn>.ms,.al-warn .sev{color:#A34A00}
+.al-crit{background:#B3261E;color:#fff}.al-crit small{color:#fff;opacity:.92}.al-crit .sev{color:#fff}
+
+/* Stat tiles */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;flex:none}
+.stats>div{background:var(--alt);border-radius:14px;padding:8px 10px 7px;min-width:0}
+.stats b{display:block;font-family:var(--fd);font-size:20px;font-weight:700;line-height:24px;font-variant-numeric:tabular-nums}
+.stats small{display:block;font-size:12px;line-height:17px;color:var(--t2)}
+
+.stitle{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-family:var(--fd);font-weight:600;font-size:19px;line-height:26px;margin-top:4px}
+.stitle a{font-family:var(--fb);font-size:13px;font-weight:600;color:var(--pr);text-decoration:none}
+
+/* Cards, badges, chips */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:12px;display:grid;gap:8px;box-shadow:0 1px 2px rgba(23,37,30,.05)}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}
+.row.two{grid-template-columns:auto minmax(0,1fr)}
+.row b{display:block;font-size:15px;line-height:1.35}
+.row small{display:block;color:var(--t2);font-size:12px;line-height:1.45}
+.bdg{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;flex:none}
+.bdg .ms{font-size:22px}
+.thumb{width:52px;height:52px;border-radius:14px;background:linear-gradient(160deg,#79847C 0 32%,#A6B0A9 32% 58%,#5D6760 58%)}
+.meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;color:var(--t2);font-size:12px}
+.meta .ms{font-size:16px;vertical-align:-3px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 10px 3px 7px;font-size:12px;font-weight:600;line-height:16px;white-space:nowrap;transition:background-color var(--t-short) var(--e-std),color var(--t-short) var(--e-std)}
+.chip .ms{font-size:16px}
+.chip>*{transition:opacity 90ms linear}
+.chip.fade>*{opacity:0}
+.s-rep{background:#EDF0F4;color:#4B5768}.s-ack{background:#E5EEFA;color:#1F5FAE}.s-prog{background:#FFF3DC;color:#8A5300}.s-fix{background:#E6F4EC;color:#1A7340}.s-ver{background:#DDEFE5;color:#0E5233}.s-reo{background:#FDEDE4;color:#B4400F}.s-rej{background:#F8E7EA;color:#8A2234}
+.over{background:#FCEBEA;color:#B3261E}
+.fchip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;border:1px solid var(--bds);padding:5px 12px;font-size:12.5px;font-weight:600;color:var(--t1);white-space:nowrap;background:var(--sf)}
+.fchip.on{background:var(--pc);border-color:var(--pc);color:var(--prd)}
+.fchip .ms{font-size:16px}
+
+/* Buttons (DS §5) */
+.btn{background:var(--pr);color:#fff;border-radius:14px;height:50px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15.5px;flex:none;position:relative;overflow:hidden;transition:transform var(--t-instant) var(--e-out)}
+.btn:active{transform:scale(.97)}
+.btn.pin{height:56px}
+.btn.sun{background:var(--sun)}
+.btn.out{background:var(--sf);color:var(--pr);border:1.5px solid var(--bds)}
+.btn.tonal{background:var(--pc);color:var(--prd)}
+.btn.sm{height:40px;font-size:14px;border-radius:12px;padding:0 12px}
+.btn .ms{font-size:20px}
+.btn .prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.85);transform:scaleX(0);transform-origin:left;opacity:0}
+.btn.busy .prog{opacity:1;transform:scaleX(1);transition:transform 600ms var(--e-std)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Onboarding */
+.lang{border:1.5px solid var(--bds);border-radius:18px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--sf);font-size:19px;font-weight:600;line-height:1.3}
+.lang small{display:block;font-size:13px;color:var(--t2);font-weight:400}
+.lang.sel{border:2px solid var(--pr);background:var(--pc)}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--bds);flex:none}
+.lang.sel .radio{border:7px solid var(--pr)}
+.indep{display:flex;gap:8px;align-items:flex-start;background:var(--alt);border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.5;color:var(--t2)}
+.indep .ms{font-size:18px;color:var(--t2);margin-top:1px}
+.obmark{width:64px;height:64px}
+.h-lg{font-family:var(--fd);font-size:24px;font-weight:700;line-height:32px}
+.h-lg small{display:block;font-family:var(--fb);font-size:15px;font-weight:400;line-height:22px;color:var(--t2);margin-top:2px}
+
+/* Report step header (DS §5) */
+.stephead{display:flex;align-items:center;gap:10px;padding:8px 14px 0;background:var(--sf);flex:none}
+.stephead .lbl{flex:1;display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px}
+.stephead .lbl b{font-size:14px}
+.stephead .lbl small{color:var(--t2);font-size:12px}
+.barwrap{background:var(--sf);padding:10px 16px 12px;border-bottom:1px solid var(--bd);flex:none}
+.bar{height:6px;border-radius:3px;background:var(--alt);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--pr);border-radius:3px;transform-origin:left;transform:scaleX(var(--w))}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:12px 4px 10px;display:grid;justify-items:center;align-content:start;gap:7px;text-align:center;font-size:12.5px;font-weight:600;line-height:1.3;min-height:92px;box-shadow:0 1px 2px rgba(23,37,30,.05)}
+.tile.sel{border-color:var(--pr);box-shadow:inset 0 0 0 1px var(--pr);background:var(--pc)}
+.tile .bdg{width:40px;height:40px}
+.more{color:var(--t2);font-size:12px;text-align:center}
+
+/* Step 2 */
+.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.shot{aspect-ratio:4/3;border-radius:14px;position:relative;overflow:hidden}
+.shot.ph1{background:linear-gradient(160deg,#79847C 0 32%,#A6B0A9 32% 58%,#5D6760 58%)}
+.shot.add{background:var(--sf);border:1.5px dashed var(--bds);display:grid;place-items:center;color:var(--pr)}
+.shot.add .ms{font-size:24px}
+.shot span.tag{position:absolute;left:5px;bottom:5px;background:rgba(23,37,30,.78);color:#fff;font-size:12px;line-height:16px;font-weight:600;border-radius:6px;padding:0 6px}
+.mini{height:118px;border-radius:14px;position:relative;overflow:hidden;background:
+  linear-gradient(90deg,transparent 46%,#FFFFFF 46% 52%,transparent 52%),
+  linear-gradient(0deg,transparent 38%,#FFFFFF 38% 44%,transparent 44%),
+  linear-gradient(118deg,transparent 70%,#D5E3EC 70% 84%,transparent 84%),
+  #E6ECE7}
+.locline{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--t2)}
+.locline .ms{font-size:18px;color:var(--pr)}
+.locline a{margin-left:auto;color:var(--pr);font-weight:600;text-decoration:none;font-size:13px}
+.dup{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:12px;display:grid;gap:10px;box-shadow:0 6px 16px -10px rgba(23,37,30,.35)}
+.dup .hd{display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600;color:#1F5FAE}
+.dup .hd .ms{font-size:18px}
+.addme .lbl2{display:inline-flex;align-items:center;gap:6px}
+.addme.done{background:var(--pr);color:#fff}
+
+/* Map pin (teardrop, category colour, white glyph, status ring) */
+.mpin{position:absolute;width:34px;height:34px;margin:-34px 0 0 -17px}
+.mpin .tear{width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 0 0 2.5px #fff,0 0 0 5px var(--ring,#4B5768),0 4px 8px rgba(23,37,30,.3)}
+.mpin .ms{transform:rotate(45deg);color:#fff;font-size:18px}
+.mini .mpin{left:49%;top:52%}
+.cluster{position:absolute;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#4B5768;color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;box-shadow:0 0 0 4px rgba(75,87,104,.25)}
+.bigmap{flex:1;position:relative;overflow:hidden;background:
+  linear-gradient(90deg,transparent 40%,#FFFFFF 40% 43%,transparent 43%),
+  linear-gradient(0deg,transparent 54%,#FFFFFF 54% 57%,transparent 57%),
+  linear-gradient(28deg,transparent 64%,#FFFFFF 64% 66%,transparent 66%),
+  linear-gradient(105deg,transparent 18%,#D5E3EC 18% 30%,transparent 30%),
+  linear-gradient(0deg,#E1EADF 0 0),
+  #E9EEE9}
+.rivername{position:absolute;left:8%;top:62%;transform:rotate(-75deg);transform-origin:left;font-size:12px;color:#5B7487;font-weight:600;letter-spacing:.02em}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--sf);border-radius:24px 24px 0 0;padding:8px 14px 14px;box-shadow:0 -6px 18px -8px rgba(23,37,30,.3);display:grid;gap:8px}
+.sheet .handle{width:36px;height:4px;border-radius:2px;background:var(--bd);justify-self:center}
+.fbar{display:flex;gap:6px;padding:10px 12px;background:var(--sf);border-bottom:1px solid var(--bd);overflow:hidden;flex:none}
+
+/* Issue detail */
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pic{aspect-ratio:4/3;border-radius:14px;position:relative;overflow:hidden}
+.pic.b{background:linear-gradient(162deg,#79847C 0 34%,#A6B0A9 34% 58%,#59625C 58%)}
+.pic.a{background:linear-gradient(162deg,#79847C 0 34%,#C5CDC7 34% 58%,#7F8983 58%)}
+.pic span{position:absolute;left:6px;bottom:6px;background:rgba(23,37,30,.78);color:#fff;font-size:12px;line-height:16px;font-weight:600;border-radius:6px;padding:1px 6px}
+.blur{font-size:12px;color:var(--t2);margin-top:-6px}
+.verify{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:12px;display:grid;gap:10px}
+.verify b{font-size:15px}
+.verify .done{display:none;align-items:center;gap:8px;color:#0E5233;font-weight:600;font-size:14px}
+.verify.ok .split{display:none}
+.verify.ok .done{display:flex}
+.tl{display:grid}
+.tli{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;position:relative;padding-bottom:10px}
+.tli::before{content:"";position:absolute;left:8px;top:16px;bottom:0;width:2px;background:var(--bd)}
+.tli:last-child::before{display:none}
+.dot{width:14px;height:14px;border-radius:50%;margin:3px 0 0 2px;transition:background-color var(--t-short) var(--e-std),border-color var(--t-short) var(--e-std)}
+.tli b{font-size:13.5px;display:block;line-height:1.4}
+.tli small{color:var(--t2);font-size:12px;line-height:1.45;display:block}
+.tli.fut .dot{border:2px solid var(--bds);background:var(--sf)}
+.tli.fut b{color:var(--t2);font-weight:500}
+.tli .body2{transform-origin:top left}
+
+/* Toast (DS §5) */
+.toast{position:absolute;left:12px;right:12px;bottom:14px;background:var(--prd);color:#fff;border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center;font-size:14px;font-weight:600;line-height:1.35;box-shadow:0 10px 24px -10px rgba(14,74,53,.6);opacity:0;visibility:hidden;transform:translateY(24px);transition:opacity var(--t-med) var(--e-std),transform var(--t-med) var(--e-std),visibility 0s linear var(--t-med)}
+.toast.show{opacity:1;visibility:visible;transform:none;transition:opacity var(--t-spring) var(--e-spring),transform var(--t-spring) var(--e-spring),visibility 0s}
+.toast svg{width:28px;height:28px;flex:none}
+.toast small{display:block;font-weight:400;opacity:.88;font-size:12.5px}
+.chk{stroke-dasharray:24;stroke-dashoffset:0}
+.toast.show .chk{animation:draw 450ms var(--e-out) 150ms both}
+
+/* My Ward */
+.rep{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}
+.rep:last-child{border-bottom:0}
+.av{width:40px;height:40px;border-radius:50%;background:var(--pc);color:var(--prd);display:grid;place-items:center;font-weight:700;font-size:14px}
+.rep b{display:block;font-size:14.5px;line-height:1.35}
+.rep small{display:block;font-size:12px;color:var(--t2);line-height:1.4}
+.msgb{border:1.5px solid var(--bds);color:var(--pr);border-radius:12px;height:36px;padding:0 12px;display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600}
+.msgb .ms{font-size:17px}
+.relay{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--t2);line-height:1.45}
+.relay .ms{font-size:18px;color:var(--pr)}
+
+/* Bottom navigation (DS §5) */
+.nav{flex:none;background:var(--sf);border-top:1px solid var(--bd);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:7px 2px 10px;text-align:center;font-size:12px;line-height:16px;font-weight:600;color:var(--t2);position:relative;z-index:2}
+.nav>div{display:grid;justify-items:center;gap:3px;min-width:0}
+.nav .pill{width:56px;height:30px;border-radius:15px;display:grid;place-items:center}
+.nav .on{color:var(--prd)}
+.nav .on .pill{background:var(--pc)}
+.nav .rp .ms{color:var(--sun)}
+
+/* ---------- motion (only when .play is set; every screen is complete at rest) ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(var(--rise))}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:none}}
+@keyframes grow{from{transform:scaleX(var(--from,0))}to{transform:scaleX(var(--w))}}
+@keyframes draw{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+@keyframes ring{0%{opacity:.85;transform:scale(1)}100%{opacity:0;transform:scale(1.07)}}
+@keyframes bump{0%,100%{transform:none}45%{transform:scale(1.02)}}
+@keyframes markin{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@keyframes slidedown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+@keyframes drop{0%{opacity:0;transform:translateY(-22px)}60%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes sheetup{from{transform:translateY(100%)}to{transform:none}}
+@keyframes expand{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.ph.play .st{animation:rise var(--t-spring) var(--e-spring) both;animation-delay:calc(min(var(--i,0),5) * var(--stag))}
+.ph.play .tile{animation:pop var(--t-spring) var(--e-spring) both;animation-delay:calc(160ms + var(--i,0) * 35ms)}
+.ph.play .tile.sel{animation:pop var(--t-spring) var(--e-spring) both calc(160ms + var(--i,0) * 35ms),bump var(--t-spring) var(--e-spring) 760ms 1}
+.ph.play .bar i{animation:grow var(--t-med) var(--e-std) both 240ms}
+.ph.play .rcard{animation:rise var(--t-spring) var(--e-spring) both calc(var(--stag) * 1)}
+.ph.play .rcard::after{animation:ring 1.1s var(--e-out) 700ms 1 both}
+.ph.play .obmark{animation:markin var(--t-med) var(--e-std) both}
+.ph.play .lang.sel{animation:rise var(--t-spring) var(--e-spring) both 120ms,bump var(--t-spring) var(--e-spring) 700ms 1}
+.ph.play .dup{animation:slidedown var(--t-spring) var(--e-spring) both 700ms}
+.ph.play .mini .mpin{animation:drop var(--t-spring) var(--e-spring) both 380ms}
+.ph.play .bigmap .mpin,.ph.play .bigmap .cluster{animation:drop var(--t-spring) var(--e-spring) both;animation-delay:calc(200ms + var(--i,0) * 30ms)}
+.ph.play .sheet{animation:sheetup var(--t-spring) var(--e-spring) both 520ms}
+.tli.grow .dot{animation:expand var(--t-spring) var(--e-spring) both}
+.tli.grow .body2{animation:rise var(--t-med) var(--e-std) both 80ms}
+
+/* ---------- token sheet ---------- */
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.tok{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:grid;min-width:0}
+.tok i{display:flex;align-items:flex-end;justify-content:space-between;height:64px;padding:8px 12px;font-style:normal;font-family:var(--fd);font-weight:700;font-size:20px;border-bottom:1px solid var(--line)}
+.tok i span{font-family:var(--fb);font-weight:600;font-size:12px}
+.tok div{padding:9px 12px 12px;display:grid;gap:2px;font-size:.88rem;line-height:1.45}
 .tok b{font-weight:600}
-.tok code{font-size:.82rem;color:var(--page-muted)}
-.tablewrap{overflow-x:auto;border:1px solid var(--page-line);border-radius:12px;background:var(--page-card)}
-table{border-collapse:collapse;width:100%;min-width:620px;font-size:.92rem}
-th,td{padding:9px 12px;border-bottom:1px solid var(--page-line);text-align:left}
-th{font-weight:600;color:var(--page-muted);font-size:.8rem;letter-spacing:.04em}
+.tok code{color:var(--mute)}
+.tok .use{color:var(--mute)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--card);max-width:100%}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.92rem}
+th,td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-weight:600;color:var(--mute);font-size:.85rem}
 tr:last-child td{border-bottom:0}
-.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
-.typescale{display:grid;gap:6px;background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;padding:16px}
-.typescale div{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
-.typescale code{color:var(--page-muted);font-size:.8rem;min-width:170px}
-.avoid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-footer{margin-top:36px;color:var(--page-muted);font-size:.88rem;max-width:760px}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.08)}
+.tchip{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:3px 10px 3px 7px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.tchip .ms{font-size:16px}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.cat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;align-items:center;gap:10px;font-size:.9rem;line-height:1.3;min-width:0}
+.cat .bdg{background-color:#fff}
+.cat small{display:block;color:var(--mute);font-size:.8rem}
+.cat code{font-size:.75rem}
+.scale{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:6px 16px}
+.scale>div{display:grid;grid-template-columns:minmax(0,210px) minmax(0,1fr);gap:4px 20px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.scale>div:last-child{border-bottom:0}
+.scale code{color:var(--mute);font-size:.78rem;line-height:1.5}
+.scale code b{display:block;color:var(--ink);font-family:var(--fb);font-size:.95rem}
+.scale .smp{min-width:0;overflow-wrap:anywhere}
+.scale .smp span{display:block}
+.num{font-variant-numeric:tabular-nums}
+@media (max-width:620px){.scale>div{grid-template-columns:minmax(0,1fr)}}
+.radii{display:flex;flex-wrap:wrap;gap:14px}
+.radii div{background:var(--card);border:1.5px solid var(--acc);width:132px;min-height:84px;display:grid;place-items:center;text-align:center;font-size:.88rem;padding:8px;line-height:1.35}
+.radii small{display:block;color:var(--mute)}
+.spacing{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.spacing div{display:grid;gap:4px;justify-items:center;font-size:.78rem;color:var(--mute)}
+.spacing i{display:block;background:var(--acc);border-radius:3px;width:14px}
+
+/* motion demo tracks */
+.track{position:relative;height:16px;width:min(220px,40vw);background:var(--soft);border-radius:8px;overflow:hidden}
+.track .run{position:absolute;inset:0}
+.track .run::before{content:"";position:absolute;left:1px;top:1px;width:14px;height:14px;border-radius:50%;background:var(--acc)}
+.track.go .run{animation:runit var(--d) var(--e) both}
+@keyframes runit{from{transform:translateX(0)}to{transform:translateX(calc(100% - 16px))}}
+.track.alt{display:flex;align-items:center;gap:3px;background:none;overflow:visible}
+.track.alt b{width:22px;height:12px;border-radius:4px;background:var(--acc);opacity:1}
+.track.alt.go b{animation:rise var(--t-spring) var(--e-spring) both;animation-delay:calc(min(var(--i),5) * 60ms)}
+
+.avoid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.avoid .pr .ms{color:#B3261E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .avoid .pr .ms{color:#FF8A80}}
+:root[data-theme="dark"] .avoid .pr .ms{color:#FF8A80}
+footer{margin-top:36px;padding-top:20px;border-top:1px solid var(--line);color:var(--mute);font-size:.9rem;display:grid;gap:8px;max-width:820px}
+footer b{color:var(--ink)}
+
+@media (prefers-reduced-motion: reduce){
+  .ph *,.ph *::before,.ph *::after,.track .run,.track.alt b{animation:none!important;transition-property:opacity!important;transition-duration:100ms!important;transition-delay:0s!important}
+  .toast{transform:none}
+  .replay,.btn,.rcard{transition:none}
+}
 </style>
 
 <div class="wrap">
-<header>
+<header class="top">
   <div class="brand">
-    <div class="mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M6 21 L13 14 L17 17 L22 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="8" r="2.6" fill="#fff"/></svg></div>
-    <b>Saarthee</b><span>સારથી</span>
+    <svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13.4" fill="#14674A"/><path d="M12.5 33.5 L20.5 25.5 L26.5 30 L33 21" fill="none" stroke="#FFFFFF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35.6" cy="16.6" r="4.4" fill="#C24A1F" stroke="#FFFFFF" stroke-width="2"/></svg>
+    <span class="wm">Saarthee<span>સારથી</span></span>
   </div>
-  <h1>Civic Blue: the professional redesign</h1>
-  <p class="lede">One restrained blue for actions, calm slate neutrals, flat white surfaces with thin borders, and Noto Sans in Gujarati and English. It reads as a serious public-service app, like the best government apps, while staying clearly independent: no AMC seal, no AMC colours, and an independence line wherever AMC information appears.</p>
+  <h1>Neem: how Saarthee looks, reads and moves</h1>
+  <p class="lede">Neem is named for the tree that shades Amdavad's streets. A deep neem green carries the brand, the header and every ordinary action. One warm sunrise orange is kept for a single job: reporting a problem. Rounded Baloo Bhai 2 headings sit on plain Mukta Vaani text, both from Ek Type and designed for Gujarati and English together. Cards are generous and rounded, every status says its name in words, and motion only explains what changed. This page is the visual reference for design system v2.2.</p>
+  <nav class="jump" aria-label="On this page"><a href="#screens">Screens</a><a href="#tokens">Colour</a><a href="#type">Type</a><a href="#shape">Shape</a><a href="#motion">Motion</a><a href="#avoid">What we avoid</a></nav>
 </header>
 
 <div class="principles">
-  <div class="pr"><b>One colour, one job</b><p>Blue means "you can act here". Everything else is neutral, so actions are never hard to find.</p></div>
-  <div class="pr"><b>Words with every icon</b><p>Every tab, status and alert has a label in the user's language. Colour is never the only signal.</p></div>
-  <div class="pr"><b>Three steps to report</b><p>What is it, photo and place, then check and submit. Large tiles, camera first, location filled in.</p></div>
-  <div class="pr"><b>Independent and sourced</b><p>AMC information always shows where it came from. The app never claims to be AMC.</p></div>
+  <div class="pr"><span class="ms">diversity_3</span><b>Neighbourly, warm, serious</b><p>Feels like a helpful neighbour, not a government form or a game. Plain words in Gujarati and English.</p></div>
+  <div class="pr"><span class="ms">wb_twilight</span><b>One orange, one job</b><p>Sunrise appears once per screen and only on the report action. Everything else you can tap is neem green.</p></div>
+  <div class="pr"><span class="ms">label</span><b>Icon and word, always</b><p>Every status, severity and tab carries an icon and a label. Colour is never the only signal.</p></div>
+  <div class="pr"><span class="ms">motion_mode</span><b>Motion that explains</b><p>A gentle spring confirms what you did and shows what changed. Nothing loops, nothing decorates.</p></div>
+  <div class="pr"><span class="ms">verified_user</span><b>Independent and sourced</b><p>AMC information always names its source. The app never claims to be AMC.</p></div>
 </div>
 
-<section class="sec">
-  <h2>Key screens</h2>
+<section class="sec" id="screens" aria-labelledby="screens-h">
+  <div class="sec-head">
+    <div><h2 id="screens-h">Key screens</h2><p>Eight screens in the app's light theme, at about 360 dp. Press Play to replay the DS §6 motion: staggered rise, tile pop, progress growth, the Fixed to Verified chip change, the toast with a drawn check and the one-time Report card pulse.</p></div>
+    <button class="replay" id="playAll" type="button"><span class="ms f1">play_arrow</span>Play motion</button>
+  </div>
+  <p class="note" id="rmNote" hidden>Your device asks for reduced motion, so Play applies each change instantly, as the app will.</p>
   <div class="gallery">
 
+    <!-- 1 Onboarding -->
     <figure>
-      <div class="phone" role="img" aria-label="Language selection screen with Gujarati selected and English as the other option">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="body" style="padding-top:28px;gap:16px">
-          <div class="mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M6 21 L13 14 L17 17 L22 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="8" r="2.6" fill="#fff"/></svg></div>
-          <div class="q" style="font-size:22px">ભાષા પસંદ કરો<br><span style="color:#4A5664;font-size:17px;font-weight:500">Choose your language</span></div>
-          <div class="lang-opt sel"><div>ગુજરાતી<small>Gujarati</small></div><div class="radio"></div></div>
-          <div class="lang-opt"><div>English<small>અંગ્રેજી</small></div><div class="radio"></div></div>
-          <div style="flex:1"></div>
-          <div class="indep"><span class="ms">info</span><span>નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.</span></div>
-          <div class="btn big">આગળ વધો</div>
+      <div class="ph" role="img" aria-label="Onboarding: choose your language, with Gujarati selected, English as the other option, and the independence notice">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="body" style="padding-top:30px;gap:14px">
+          <svg class="obmark" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13.4" fill="#14674A"/><path d="M12.5 33.5 L20.5 25.5 L26.5 30 L33 21" fill="none" stroke="#FFFFFF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="35.6" cy="16.6" r="4.4" fill="#C24A1F" stroke="#FFFFFF" stroke-width="2"/></svg>
+          <div class="h-lg st" style="--i:0">ભાષા પસંદ કરો<small>Choose your language</small></div>
+          <div class="lang sel"><div>ગુજરાતી<small>Gujarati</small></div><div class="radio"></div></div>
+          <div class="lang st" style="--i:2"><div>English<small>અંગ્રેજી</small></div><div class="radio"></div></div>
+          <div class="spacer"></div>
+          <div class="indep st" style="--i:3"><span class="ms">info</span><span>નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.</span></div>
+          <div class="btn pin st" style="--i:4">આગળ વધો<span class="ms">arrow_forward</span></div>
         </div>
       </div>
-      <figcaption><b>Onboarding · language first.</b> Each language in its own script. Then one intro screen and set your home ward.</figcaption>
+      <figcaption><b>Onboarding · language first</b>Each language in its own script. The mark scales in; the selected card springs to 1.02 and back. Then a short intro and your home ward.</figcaption>
     </figure>
 
+    <!-- 2 Home -->
     <figure>
-      <div class="phone" role="img" aria-label="Home screen for Paldi ward with a water supply warning, report button and nearby issues">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><div class="tt"><b>Saarthee</b><small>Ward 21 · Paldi · West zone</small></div><span class="lang">અ</span><span class="ms">notifications</span></div>
+      <div class="ph" role="img" aria-label="Home for Paldi ward: green header with greeting and the orange Report a problem card, a water cut warning, ward numbers and nearby issues">
+        <div class="sb green"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="hero">
+          <div class="hero-top st" style="--i:0"><div class="who"><small>Ward 21 · Paldi · West zone</small><p class="greet">Good morning</p></div><span class="hbtn"><span class="ms">translate</span></span><span class="hbtn"><span class="ms">notifications</span><i></i></span></div>
+          <div class="rcard"><span class="plus"><span class="ms f1">add</span></span><span class="txt">Report a problem<small>Pothole, garbage, water, anything</small></span><span class="ms">arrow_forward</span></div>
+        </div>
+        <div class="body home-body">
+          <div class="al al-warn st" style="--i:2"><span class="ms f1">warning</span><span class="sev">Warning · ચેતવણી</span><b>Water cut today, 10:00–16:00</b><small>Paldi, Vasna · Source: AMC press note</small></div>
+          <div class="stats st" style="--i:3"><div><b class="cnt" data-count="128">128</b><small>open in ward</small></div><div><b class="cnt" data-count="46">46</b><small>fixed this month</small></div><div><b class="cnt" data-count="62" data-suffix="%">62%</b><small>fixes verified</small></div></div>
+          <div class="stitle st" style="--i:4">Near you<a href="#screens">See all</a></div>
+          <div class="card st" style="--i:5">
+            <div class="row"><div class="bdg" style="background:#5A5F661F;color:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>Roads · 400 m · 6 days</small></div><div class="thumb"></div></div>
+            <div class="meta"><span class="chip s-rep"><span class="ms">radio_button_unchecked</span><span>Reported</span></span><span class="chip over"><span class="ms">schedule</span><span>Overdue</span></span><span><span class="ms">group</span> 23 me too</span></div>
+          </div>
+          <div class="card st" style="--i:6">
+            <div class="row two"><div class="bdg" style="background:#8A5F001F;color:#8A5F00"><span class="ms">lightbulb</span></div><div><b>Streetlights off on Vasna road</b><small>Streetlights · 1.1 km · 2 days</small></div></div>
+            <div class="meta"><span class="chip s-prog"><span class="ms">construction</span><span>In progress</span></span><span><span class="ms">group</span> 8 me too</span></div>
+          </div>
+        </div>
+        <div class="nav"><div class="on"><span class="pill"><span class="ms f1">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div class="rp"><span class="pill"><span class="ms f1">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
+      </div>
+      <figcaption><b>Home</b>The green header holds the ward, the greeting and the Report card, which overlaps the page. Content rises in a 60 ms stagger; numbers count up; the Report card pulses one sunrise ring, on first launch only.</figcaption>
+    </figure>
+
+    <!-- 3 Report step 1 -->
+    <figure>
+      <div class="ph" role="img" aria-label="Report step 1 of 3: what is the problem, a grid of category tiles with Roads selected">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="stephead"><span class="ib"><span class="ms">close</span></span><div class="lbl"><b>Step 1 of 3</b><small>Next: photo and place</small></div></div>
+        <div class="barwrap"><div class="bar"><i style="--w:.333;--from:0"></i></div></div>
         <div class="body">
-          <div class="alert warn"><span class="ms">warning</span><b>Water supply cut today, 10:00–16:00</b><small>Paldi, Vasna · Source: AMC press note · Warning</small></div>
-          <div class="btn big"><span class="ms" style="font-size:22px">add_circle</span>Report an issue</div>
-          <div class="h">Issues near you<a href="#">See all</a></div>
-          <div class="card">
-            <div class="row"><div class="badge" style="background:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>Roads · 400 m · 6 days ago</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div>
-            <div class="meta"><span class="chip st-rep"><span class="ms">radio_button_unchecked</span>Reported</span><span class="chip over">Overdue</span><span><span class="ms">group</span> 23 affected</span></div>
+          <div class="h-lg st" style="--i:0">What is the problem?<small>શું સમસ્યા છે? Pick the closest one.</small></div>
+          <div class="grid3">
+            <div class="tile sel" style="--i:0"><div class="bdg" style="background:#5A5F661F;color:#5A5F66"><span class="ms">road</span></div>Roads</div>
+            <div class="tile" style="--i:1"><div class="bdg" style="background:#1D5E9E1F;color:#1D5E9E"><span class="ms">water_drop</span></div>Water</div>
+            <div class="tile" style="--i:2"><div class="bdg" style="background:#3F5E731F;color:#3F5E73"><span class="ms">water_damage</span></div>Drainage</div>
+            <div class="tile" style="--i:3"><div class="bdg" style="background:#5C6B2E1F;color:#5C6B2E"><span class="ms">delete</span></div>Garbage</div>
+            <div class="tile" style="--i:4"><div class="bdg" style="background:#8A5F001F;color:#8A5F00"><span class="ms">lightbulb</span></div>Streetlights</div>
+            <div class="tile" style="--i:5"><div class="bdg" style="background:#2E6B451F;color:#2E6B45"><span class="ms">park</span></div>Trees</div>
+            <div class="tile" style="--i:6"><div class="bdg" style="background:#7A4E2D1F;color:#7A4E2D"><span class="ms">pets</span></div>Animals</div>
+            <div class="tile" style="--i:7"><div class="bdg" style="background:#7A3F6B1F;color:#7A3F6B"><span class="ms">pest_control</span></div>Mosquitoes</div>
+            <div class="tile" style="--i:8"><div class="bdg" style="background:#8C3B2E1F;color:#8C3B2E"><span class="ms">do_not_step</span></div>Encroachment</div>
           </div>
-          <div class="card">
-            <div class="row"><div class="badge" style="background:#8A5F00"><span class="ms">lightbulb</span></div><div><b>Streetlights off on Vasna road</b><small>Streetlights · 1.1 km · 2 days ago</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div>
-            <div class="meta"><span class="chip st-prog"><span class="ms">construction</span>In progress</span><span><span class="ms">group</span> 8 affected</span></div>
-          </div>
-          <div class="h">This week<a href="#">Drives</a></div>
-          <div class="card"><div class="row"><div class="badge" style="background:#2E6B45"><span class="ms">park</span></div><div><b>Tree plantation, Vasna lake</b><small>Sun 7:00 am · 64 going</small></div><span class="msg">Join</span></div></div>
+          <p class="more">5 more below: toilets, traffic, property tax, building, other</p>
+          <div class="spacer"></div>
+          <div class="btn pin">Continue<span class="ms">arrow_forward</span></div>
         </div>
-        <div class="nav"><div class="on"><span class="pill"><span class="ms fill">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
       </div>
-      <figcaption><b>Home.</b> Your ward's alerts first, one clear "Report an issue" action, then nearby issues and drives.</figcaption>
+      <figcaption><b>Report · step 1</b>Fourteen large tiles, each with icon and word. Tiles pop in (0.88 to 1, 35 ms apart); the progress bar grows to a third; the chosen tile springs and gets an outline.</figcaption>
     </figure>
 
+    <!-- 4 Report step 2 -->
     <figure>
-      <div class="phone" role="img" aria-label="Report step 1 of 3: grid of issue categories with Roads and potholes selected">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><span class="ms">close</span><div class="tt"><b>Report an issue</b></div></div>
+      <div class="ph" role="img" aria-label="Report step 2 of 3: one photo taken, location pinned on a mini map in Paldi, and a suggestion that the same pothole was already reported 30 metres away">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="stephead"><span class="ib"><span class="ms">arrow_back</span></span><div class="lbl"><b>Step 2 of 3</b><small>Next: details and check</small></div></div>
+        <div class="barwrap"><div class="bar"><i style="--w:.667;--from:.333"></i></div></div>
         <div class="body">
-          <div class="step"><small>Step 1 of 3</small><div class="prog"><i style="width:33%"></i></div></div>
-          <div class="q">What is the problem?</div>
-          <div class="grid">
-            <div class="tile sel"><div class="badge" style="background:#5A5F66"><span class="ms">road</span></div>Roads &amp; potholes</div>
-            <div class="tile"><div class="badge" style="background:#1D5E9E"><span class="ms">water_drop</span></div>Water supply</div>
-            <div class="tile"><div class="badge" style="background:#3F5E73"><span class="ms">water_damage</span></div>Drainage</div>
-            <div class="tile"><div class="badge" style="background:#5C6B2E"><span class="ms">delete</span></div>Garbage</div>
-            <div class="tile"><div class="badge" style="background:#8A5F00"><span class="ms">lightbulb</span></div>Streetlights</div>
-            <div class="tile"><div class="badge" style="background:#2E6B45"><span class="ms">park</span></div>Trees &amp; parks</div>
-            <div class="tile"><div class="badge" style="background:#7A4E2D"><span class="ms">pets</span></div>Stray animals</div>
-            <div class="tile"><div class="badge" style="background:#7A3F6B"><span class="ms">pest_control</span></div>Mosquitoes</div>
-            <div class="tile"><div class="badge" style="background:#8C3B2E"><span class="ms">do_not_step</span></div>Encroachment</div>
+          <div class="h-lg st" style="--i:0">Photo and place<small>ફોટો અને જગ્યા</small></div>
+          <div class="shots st" style="--i:1"><div class="shot ph1"><span class="tag">Photo 1</span></div><div class="shot add"><span class="ms">add_a_photo</span></div><div class="shot add"><span class="ms">add_a_photo</span></div></div>
+          <div class="mini st" style="--i:2"><div class="mpin"><div class="tear" style="background:#5A5F66"><span class="ms">road</span></div></div></div>
+          <div class="locline st" style="--i:3"><span class="ms f1">location_on</span><span>Paldi, Ward 21 · within 8 m</span><a href="#screens">Adjust pin</a></div>
+          <div class="dup">
+            <div class="hd"><span class="ms">info</span>Already reported 30 m away</div>
+            <div class="row two"><div class="bdg" style="background:#5A5F661F;color:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>Reported 6 days ago · 23 me too</small></div></div>
+            <div class="split"><div class="btn sm tonal addme" id="addMe"><span class="lbl2"><span class="ms">add</span><span>Add me too</span></span></div><div class="btn sm out">It's different</div></div>
           </div>
-          <small style="color:#4A5664;font-size:12.5px;text-align:center">5 more below: toilets, traffic, property tax, building, other</small>
-          <div style="flex:1"></div>
-          <div class="btn big">Continue</div>
+          <div class="spacer"></div>
+          <div class="btn pin">Continue<span class="ms">arrow_forward</span></div>
         </div>
       </div>
-      <figcaption><b>Report · step 1.</b> Fourteen large tiles with icon and label. Mapped to AMC's departments behind the scenes.</figcaption>
+      <figcaption><b>Report · step 2</b>Camera first, up to three photos, the pin drops onto the mini-map with a small bounce. A duplicate slides down from under the map; "Add me too" morphs into "Added".</figcaption>
     </figure>
 
+    <!-- 5 Issue detail -->
     <figure>
-      <div class="phone" role="img" aria-label="Report step 2 of 3: photo taken, location on a map, and a suggestion that a similar issue already exists nearby">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><span class="ms">arrow_back</span><div class="tt"><b>Report an issue</b></div></div>
+      <div class="ph" role="img" aria-label="Issue detail: before and after photos, status Fixed, a question asking whether it is fixed with Yes and Still not fixed buttons, and the status timeline">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="ab"><span class="ib"><span class="ms">arrow_back</span></span><div class="tt"><b style="font-size:20px;line-height:28px">Pothole near bus stand</b><small>Roads · Ward 21 Paldi</small></div><span class="ib"><span class="ms">share</span></span></div>
+        <div class="body" style="gap:10px">
+          <div class="pics st" style="--i:0"><div class="pic b"><span>Before · 27 Sep</span></div><div class="pic a"><span>After · 3 Oct</span></div></div>
+          <p class="blur st" style="--i:0">Faces and number plates blurred</p>
+          <div class="meta st" style="--i:1"><span class="chip s-fix" id="dChip"><span class="ms">check_circle</span><span>Fixed</span></span><span>Fixed in 6 days · 23 me too</span></div>
+          <div class="verify st" style="--i:2" id="dVerify">
+            <b>Is it fixed? ઉકેલાયું?</b>
+            <div class="split"><div class="btn sm" id="dYes"><span class="ms">thumb_up</span>Yes, fixed<i class="prog"></i></div><div class="btn sm out">Still not fixed</div></div>
+            <div class="done"><span class="ms f1">verified</span>You confirmed this fix</div>
+          </div>
+          <div class="tl st" style="--i:3">
+            <div class="tli fut" id="dFut"><div class="dot"></div><div class="body2"><b>Verified by neighbours</b><small id="dFutT">Waiting for 1 more confirmation</small></div></div>
+            <div class="tli"><div class="dot" style="background:#1A7340"></div><div class="body2"><b>Marked fixed</b><small>Ward engineer · 3 Oct, 11:20 am · 1 photo</small></div></div>
+            <div class="tli"><div class="dot" style="background:#8A5300"></div><div class="body2"><b>Work started</b><small>1 Oct</small></div></div>
+            <div class="tli"><div class="dot" style="background:#1F5FAE"></div><div class="body2"><b>Acknowledged</b><small>CCRS complaint linked · 28 Sep</small></div></div>
+            <div class="tli"><div class="dot" style="background:#4B5768"></div><div class="body2"><b>Reported by a Paldi resident</b><small>27 Sep, 8:05 am</small></div></div>
+          </div>
+        </div>
+        <div class="toast" id="dToast" role="status"><svg viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#1A7340"/><path class="chk" d="M7.5 13.5l3.7 3.6 7.3-7.6" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div>Thanks, you confirmed the fix<small>Status changed to Verified.</small></div></div>
+      </div>
+      <figcaption><b>Issue detail · verify a fix</b>Before and after, a vertical timeline with future steps hollow. On "Yes, fixed" the button fills with progress, the toast slides up with a drawn check, and the chip cross-fades Fixed to Verified.</figcaption>
+    </figure>
+
+    <!-- 6 Alerts -->
+    <figure>
+      <div class="ph" role="img" aria-label="Alerts: a critical heat alert banner, a water cut warning for Paldi and Vasna, and an info notice about metro work on Ashram Road, each with its source">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>Alerts</b><small>Paldi, Vasna and city-wide</small></div><span class="ib"><span class="ms">tune</span></span></div>
         <div class="body">
-          <div class="step"><small>Step 2 of 3</small><div class="prog"><i style="width:66%"></i></div></div>
-          <div class="q">Photo and place</div>
-          <div class="split"><div class="thumb"><span>Photo 1</span></div><div class="thumb" style="background:#EEF2F6;display:grid;place-items:center;color:#0B57A4"><span class="ms" style="position:static;background:none;color:#0B57A4;font-size:28px">add_a_photo</span></div></div>
-          <div class="mapbox"><div class="pin" style="left:46%;top:34%;background:#5A5F66"><span class="ms">road</span></div></div>
-          <div class="meta"><span><span class="ms">location_on</span> Paldi, Ward 21 · accurate to 8 m</span><a style="margin-left:auto;color:#0B57A4;font-weight:600;font-size:13px">Adjust pin</a></div>
-          <div class="dup"><b>Already reported 30 m away</b><span>"Deep pothole near Paldi bus stand" · 23 affected</span><span style="display:flex;gap:8px"><span class="msg" style="background:#fff">Add me too</span><span class="msg" style="border-color:transparent">It's different</span></span></div>
-          <div style="flex:1"></div>
-          <div class="btn big">Continue</div>
+          <div class="meta st" style="--i:0;gap:6px"><span class="fchip on"><span class="ms">check</span>Active · 3</span><span class="fchip">Past</span><span class="fchip">My ward</span></div>
+          <div class="al al-crit st" style="--i:1"><span class="ms f1">emergency</span><span class="sev">Critical · ગંભીર</span><b>Red heat alert: up to 45 °C</b><small>City-wide · Today and tomorrow · Source: AMC Heat Action Plan</small></div>
+          <div class="al al-warn st" style="--i:2"><span class="ms f1">warning</span><span class="sev">Warning · ચેતવણી</span><b>Water cut, 10:00–16:00</b><small>Paldi, Vasna · Today · Source: AMC press note</small></div>
+          <div class="al al-info st" style="--i:3"><span class="ms f1">info</span><span class="sev">Info · માહિતી</span><b>Ashram Road lane closed for metro work</b><small>Until 12 Oct · Use the Income Tax circle diversion · Source: AMC press note</small></div>
+          <div class="spacer"></div>
+          <div class="indep st" style="--i:4"><span class="ms">verified_user</span><span>Alerts are relayed from official sources with a link. Independent citizen app. Not run by or linked to AMC.</span></div>
         </div>
+        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div class="rp"><span class="pill"><span class="ms f1">add_circle</span></span>Report</div><div class="on"><span class="pill"><span class="ms f1">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
       </div>
-      <figcaption><b>Report · step 2.</b> Camera first, ward found from GPS, and a duplicate check that turns repeats into "Me too".</figcaption>
+      <figcaption><b>Alerts</b>Severity as icon, word and tint; Critical is a solid banner. Every alert shows where, how long and its source. Cards rise in a stagger; a new alert would slide down from under the app bar.</figcaption>
     </figure>
 
+    <!-- 7 My Ward -->
     <figure>
-      <div class="phone" role="img" aria-label="Issue detail with before and after photos, status Fixed, a timeline and buttons to confirm the fix or report it is still not fixed">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><span class="ms">arrow_back</span><div class="tt"><b>Pothole near bus stand</b><small>Roads · Ward 21 Paldi</small></div><span class="ms">share</span></div>
+      <div class="ph" role="img" aria-label="My Ward for ward 21 Paldi: placeholder corporators with Message buttons, a note that messages are relayed privately, and the ward scorecard">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>My Ward</b><small>Ward 21 · Paldi · West zone</small></div><span class="ib"><span class="ms">swap_horiz</span></span></div>
         <div class="body">
-          <div class="split"><div class="thumb"><span>Before · 27 Sep</span></div><div class="thumb after"><span>After · 3 Oct</span></div></div>
-          <div class="meta"><span class="chip st-fix"><span class="ms">check_circle</span>Fixed</span><span>Is it really fixed? Neighbours confirm.</span></div>
-          <div class="split"><div class="btn" style="font-size:14px"><span class="ms" style="font-size:20px">verified</span>Yes, fixed</div><div class="btn out" style="font-size:14px">Still not fixed</div></div>
-          <div class="tl">
-            <div class="tli"><div class="dot" style="background:#1A7340"></div><div><b>Marked fixed</b><small>By ward corporator · 3 Oct, 11:20 am</small></div></div>
-            <div class="tli"><div class="dot" style="background:#8A5300"></div><div><b>Work started</b><small>1 Oct · after photo pending</small></div></div>
-            <div class="tli"><div class="dot" style="background:#1F5FAE"></div><div><b>Acknowledged</b><small>CCRS no. ENG-0613123456 linked · 28 Sep</small></div></div>
-            <div class="tli"><div class="dot" style="background:#4B5768"></div><div><b>Reported by a resident of Paldi</b><small>27 Sep, 8:05 am · 23 affected</small></div></div>
-            <div class="tli fut"><div class="dot"></div><div><b>Verified by neighbours</b><small>Waiting for 1 confirmation</small></div></div>
+          <div class="card" style="gap:2px">
+            <div class="stitle st" style="--i:0;margin:0">Your corporators<a href="#screens">Source</a></div>
+            <div class="rep st" style="--i:1"><div class="av">CA</div><div><b>Corporator A</b><small>Ward 21 · Party name as text</small></div><span class="msgb"><span class="ms">chat</span>Message</span></div>
+            <div class="rep st" style="--i:2"><div class="av">CB</div><div><b>Corporator B</b><small>Ward 21 · Party name as text</small></div><span class="msgb"><span class="ms">chat</span>Message</span></div>
+            <div class="rep st" style="--i:3"><div class="av">+2</div><div><b>2 more corporators</b><small>Each ward elects 4</small></div><span class="ms" style="color:#86978C">chevron_right</span></div>
           </div>
+          <div class="relay st" style="--i:4"><span class="ms">lock</span><span>Messages are relayed through Saarthee. Your number is never shared, and replies appear here.</span></div>
+          <div class="card st" style="--i:5">
+            <div class="stitle" style="margin:0;font-size:17px">Scorecard · 90 days<a href="#screens">How measured</a></div>
+            <div class="stats"><div><b><span class="cnt" data-count="5">5</span> d</b><small>to acknowledge</small></div><div><b><span class="cnt" data-count="11">11</span> d</b><small>to fix</small></div><div><b class="cnt" data-count="62" data-suffix="%">62%</b><small>fixes verified</small></div></div>
+          </div>
+          <div class="card st" style="--i:6"><div class="row"><div class="bdg" style="background:#E1F0E7;color:#0E4A35"><span class="ms">location_city</span></div><div><b>Ward office, Paldi</b><small>Address and published office number</small></div><span class="ms" style="color:#86978C">chevron_right</span></div></div>
         </div>
+        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div class="rp"><span class="pill"><span class="ms f1">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div class="on"><span class="pill"><span class="ms f1">account_balance</span></span>My Ward</div></div>
       </div>
-      <figcaption><b>Issue detail.</b> Before/after, a clear timeline, and the "is it really fixed" check that AMC's own app lacks.</figcaption>
+      <figcaption><b>My Ward · message relay</b>Corporators with initials avatars, party as plain text and a Message button; no personal phone numbers. Rows rise in a stagger and the scorecard counts up. Names are placeholders.</figcaption>
     </figure>
 
+    <!-- 8 Map -->
     <figure>
-      <div class="phone" role="img" aria-label="Alerts tab with a critical heat alert, a water supply warning and an information notice">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><div class="tt"><b>Alerts</b><small>Paldi, Vasna and city-wide</small></div><span class="ms">tune</span></div>
-        <div class="body">
-          <div class="tabs"><span class="on">Active · 3</span><span>Past</span></div>
-          <div class="alert crit"><span class="ms">emergency</span><b>Red heat alert: 45 °C expected</b><small>City-wide · Today and tomorrow · Source: AMC Heat Action Plan · Critical</small></div>
-          <div class="alert warn"><span class="ms">warning</span><b>Water supply cut, 10:00–16:00</b><small>Paldi, Vasna · Today · Source: AMC press note · Warning</small></div>
-          <div class="alert info"><span class="ms">info</span><b>Road closed for metro work, Ashram Road</b><small>Until 12 Oct · Diversion via Income Tax circle · Source: Ahmedabad Traffic Police · Info</small></div>
-          <div style="flex:1"></div>
-          <div class="indep"><span class="ms">verified_user</span><span>Alerts are relayed from official sources with a link. Saarthee is an independent citizen app.</span></div>
-        </div>
-        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div class="on"><span class="pill"><span class="ms fill">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
-      </div>
-      <figcaption><b>Alerts.</b> Severity as icon + word + colour, every alert with its source and validity window.</figcaption>
-    </figure>
-
-    <figure>
-      <div class="phone" role="img" aria-label="My Ward screen listing the ward's four corporators and MLA with message buttons and the ward scorecard">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><div class="tt"><b>My Ward</b><small>Ward 21 · Paldi · West zone</small></div><span class="ms">swap_horiz</span></div>
-        <div class="body">
-          <div class="card" style="gap:4px">
-            <div class="h" style="font-size:15px">Your corporators<a href="#">Source</a></div>
-            <div class="rep"><div class="av">CP</div><div><b>Corporator name</b><small>Ward 21 · party shown as text</small></div><span class="msg">Message</span></div>
-            <div class="rep"><div class="av">CP</div><div><b>Corporator name</b><small>Ward 21 · party shown as text</small></div><span class="msg">Message</span></div>
-            <div class="rep"><div class="av">+2</div><div><b>2 more corporators</b><small>4 per ward</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div>
-          </div>
-          <div class="card" style="gap:4px"><div class="rep"><div class="av">MLA</div><div><b>Your MLA</b><small>Assembly constituency</small></div><span class="msg">Message</span></div></div>
-          <div class="card">
-            <div class="h" style="font-size:15px">Ward scorecard · last 90 days<a href="#">How it's measured</a></div>
-            <div class="score"><div><b>4.5 d</b><small>to acknowledge</small></div><div><b>11 d</b><small>to fix</small></div><div><b>62%</b><small>fixes verified</small></div></div>
-          </div>
-          <div class="card"><div class="row"><div class="badge" style="background:#3B5266"><span class="ms">location_city</span></div><div><b>Ward office</b><small>Address and office number from AMC</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div></div>
-        </div>
-        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div class="on"><span class="pill"><span class="ms fill">account_balance</span></span>My Ward</div></div>
-      </div>
-      <figcaption><b>My Ward.</b> Corporators and MLA with a private message relay (no personal numbers), plus a neutral scorecard. Names are placeholders.</figcaption>
-    </figure>
-
-    <figure>
-      <div class="phone" role="img" aria-label="Map tab with filter chips, clustered pins and an issue preview">
-        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
-        <div class="ab"><div class="tt"><b>Map</b><small>Showing open issues</small></div><span class="ms">my_location</span></div>
-        <div class="body" style="padding:0;gap:0;position:relative">
-          <div style="display:flex;gap:6px;padding:10px 12px;background:#fff;border-bottom:1px solid #D3DAE2;overflow:hidden"><span class="chip" style="background:#3B5266;color:#fff">All</span><span class="chip" style="border:1px solid #8794A3">Roads</span><span class="chip" style="border:1px solid #8794A3">Water</span><span class="chip" style="border:1px solid #8794A3">Garbage</span></div>
-          <div class="mapbox" style="height:auto;flex:1;border-radius:0;border:0">
-            <div class="cluster" style="left:18%;top:20%">12</div>
-            <div class="cluster" style="left:66%;top:58%">7</div>
-            <div class="pin" style="left:44%;top:36%;background:#5A5F66"><span class="ms">road</span></div>
-            <div class="pin" style="left:30%;top:60%;background:#5C6B2E"><span class="ms">delete</span></div>
-            <div class="pin" style="left:72%;top:22%;background:#1D5E9E"><span class="ms">water_drop</span></div>
-          </div>
-          <div class="card" style="margin:0 12px 12px;position:absolute;left:0;right:0;bottom:0;border-radius:16px 16px 12px 12px">
-            <div class="row"><div class="badge" style="background:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>23 affected · 6 days</small></div><span class="chip st-rep"><span class="ms">radio_button_unchecked</span>Reported</span></div>
+      <div class="ph" role="img" aria-label="Map of open issues around Paldi and the Sabarmati: filter chips, category pins with status rings, clusters with counts, and a preview sheet for the pothole near Paldi bus stand">
+        <div class="sb"><span>9:41</span><span class="ms">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>Map</b><small>Open issues near Paldi</small></div><span class="ib"><span class="ms">my_location</span></span></div>
+        <div class="fbar"><span class="fchip on"><span class="ms">check</span>All</span><span class="fchip">Roads</span><span class="fchip">Water</span><span class="fchip">Garbage</span></div>
+        <div class="bigmap">
+          <span class="rivername">Sabarmati</span>
+          <div class="cluster" style="left:24%;top:18%;--i:0">12</div>
+          <div class="cluster" style="left:78%;top:46%;--i:1">7</div>
+          <div class="mpin" style="left:50%;top:38%;--i:2;--ring:#4B5768"><div class="tear" style="background:#5A5F66"><span class="ms">road</span></div></div>
+          <div class="mpin" style="left:34%;top:52%;--i:3;--ring:#8A5300"><div class="tear" style="background:#5C6B2E"><span class="ms">delete</span></div></div>
+          <div class="mpin" style="left:68%;top:22%;--i:4;--ring:#1F5FAE"><div class="tear" style="background:#1D5E9E"><span class="ms">water_drop</span></div></div>
+          <div class="mpin" style="left:60%;top:58%;--i:5;--ring:#1A7340"><div class="tear" style="background:#8A5F00"><span class="ms">lightbulb</span></div></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div class="row"><div class="bdg" style="background:#5A5F661F;color:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>23 me too · 6 days</small></div><span class="ms" style="color:#86978C">chevron_right</span></div>
+            <div class="meta"><span class="chip s-rep"><span class="ms">radio_button_unchecked</span><span>Reported</span></span><span class="chip over"><span class="ms">schedule</span><span>Overdue</span></span></div>
           </div>
         </div>
-        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div class="on"><span class="pill"><span class="ms fill">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
+        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div class="on"><span class="pill"><span class="ms f1">map</span></span>Map</div><div class="rp"><span class="pill"><span class="ms f1">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
       </div>
-      <figcaption><b>Map.</b> Muted base map, category pins with white icons, slate clusters, filter chips and a preview sheet.</figcaption>
+      <figcaption><b>Map</b>Muted base map, teardrop pins in the category colour with a white glyph and a status ring, slate clusters with counts. Pins drop in 30 ms apart; the preview sheet springs up.</figcaption>
     </figure>
 
   </div>
 </section>
 
-<section class="sec">
-  <h2>Tokens</h2>
-  <div class="tokens">
-    <div class="tok"><i style="background:#0B57A4"></i><div><b>Primary</b><code>#0B57A4 · white 7.21:1</code></div></div>
-    <div class="tok"><i style="background:#E3EEF9"></i><div><b>Primary container</b><code>#E3EEF9 · text #06315C 11.15:1</code></div></div>
-    <div class="tok"><i style="background:#3B5266"></i><div><b>Secondary (slate)</b><code>#3B5266 · white 8.12:1</code></div></div>
-    <div class="tok"><i style="background:#16202B"></i><div><b>Text primary</b><code>#16202B · 16.46:1 on white</code></div></div>
-    <div class="tok"><i style="background:#4A5664"></i><div><b>Text secondary</b><code>#4A5664 · 7.48:1 on white</code></div></div>
-    <div class="tok"><i style="background:#F6F8FA;border-bottom:1px solid #D3DAE2"></i><div><b>Background</b><code>#F6F8FA · surface #FFFFFF</code></div></div>
+<section class="sec" id="tokens" aria-labelledby="tokens-h">
+  <div class="sec-head"><div><h2 id="tokens-h">Colour</h2><p>Light theme tokens from DS §2. Contrast is WCAG 2.2, (L1 + 0.05) / (L2 + 0.05). Sunrise is for the report action only and never sits next to error red.</p></div></div>
+  <div class="pal">
+    <div class="tok"><i style="background:#14674A;color:#fff">Aa<span>primary</span></i><div><b>Neem green · primary</b><code>#14674A</code><span class="use">Header, filled buttons, links, selected nav. White on it 6.84; on background 6.28</span></div></div>
+    <div class="tok"><i style="background:#0E4A35;color:#fff">Aa<span>primaryDark</span></i><div><b>primaryDark</b><code>#0E4A35</code><span class="use">Pressed, on-container text, toast. White 10.25</span></div></div>
+    <div class="tok"><i style="background:#E1F0E7;color:#0E4A35">Aa<span>primaryContainer</span></i><div><b>Leaf tint · primaryContainer</b><code>#E1F0E7</code><span class="use">Nav indicator, selected tile, tonal button. #0E4A35 on it 8.69</span></div></div>
+    <div class="tok"><i style="background:#14674A;color:#BFE0CD">Aa<span>onPrimarySubtle</span></i><div><b>onPrimarySubtle</b><code>#BFE0CD</code><span class="use">Secondary text on the green header. 4.81 on primary</span></div></div>
+    <div class="tok"><i style="background:#C24A1F;color:#fff">Aa<span>sunrise</span></i><div><b>Sunrise · report only</b><code>#C24A1F</code><span class="use">Home Report card, Report tab glyph, Submit report. White on it 4.89</span></div></div>
+    <div class="tok"><i style="background:#A33C17;color:#fff">Aa<span>sunrisePressed</span></i><div><b>sunrisePressed</b><code>#A33C17</code><span class="use">Pressed report action. White 6.3+</span></div></div>
+    <div class="tok"><i style="background:#F3F6F1;color:#17251E">Aa<span>background</span></i><div><b>background</b><code>#F3F6F1</code><span class="use">Leaf-tinted page</span></div></div>
+    <div class="tok"><i style="background:#FFFFFF;color:#17251E">Aa<span>surface</span></i><div><b>surface</b><code>#FFFFFF</code><span class="use">Cards, sheets, bottom bar</span></div></div>
+    <div class="tok"><i style="background:#E8EFEA;color:#17251E">Aa<span>surfaceAlt</span></i><div><b>surfaceAlt</b><code>#E8EFEA</code><span class="use">Stat tiles, skeletons, progress track</span></div></div>
+    <div class="tok"><i style="background:#DCE5DE;color:#17251E">Aa<span>border</span></i><div><b>border</b><code>#DCE5DE</code><span class="use">Card borders, dividers (decorative)</span></div></div>
+    <div class="tok"><i style="background:#86978C;color:#fff">Aa<span>borderStrong</span></i><div><b>borderStrong</b><code>#86978C</code><span class="use">Input borders, non-text UI. 3.08 on white</span></div></div>
+    <div class="tok"><i style="background:#17251E;color:#fff">Aa<span>textPrimary</span></i><div><b>textPrimary</b><code>#17251E</code><span class="use">Body text. 15.91 on white</span></div></div>
+    <div class="tok"><i style="background:#4E5E55;color:#fff">Aa<span>textSecondary</span></i><div><b>textSecondary</b><code>#4E5E55</code><span class="use">Metadata, helper text. 6.87 on white, 6.30 on background</span></div></div>
+    <div class="tok"><i style="background:#8A978F;color:#fff">Aa<span>textDisabled</span></i><div><b>textDisabled</b><code>#8A978F</code><span class="use">Disabled (exempt)</span></div></div>
+    <div class="tok"><i style="background:#E6F4EC;color:#1A7340">Aa<span>success</span></i><div><b>success / successTint</b><code>#1A7340 / #E6F4EC</code><span class="use">5.88 on white / 5.19 on tint</span></div></div>
+    <div class="tok"><i style="background:#FFF4E0;color:#9A5B00">Aa<span>warning</span></i><div><b>warning / warningTint</b><code>#9A5B00 / #FFF4E0</code><span class="use">5.43 / 4.98</span></div></div>
+    <div class="tok"><i style="background:#FCEBEA;color:#B3261E">Aa<span>error</span></i><div><b>error / errorTint</b><code>#B3261E / #FCEBEA</code><span class="use">6.54 / 5.67, always with an icon</span></div></div>
+    <div class="tok"><i style="background:#E5EEFA;color:#1F5FAE">Aa<span>info</span></i><div><b>info / infoTint</b><code>#1F5FAE / #E5EEFA</code><span class="use">6.3 / 5.6</span></div></div>
+    <div class="tok"><i style="background:#FFFFFF;color:#17251E;box-shadow:inset 0 0 0 3px #17251E,inset 0 0 0 6px #FFDD00">Aa<span>focus</span></i><div><b>focus</b><code>#FFDD00 ring + #17251E inner</code><span class="use">Keyboard and TalkBack focus only</span></div></div>
   </div>
+
+  <h3 class="sub">Issue status</h3>
   <div class="tablewrap"><table>
-    <thead><tr><th>Issue status</th><th>Colour</th><th>Alert severity</th><th>Colour</th><th>Semantic</th><th>Colour</th></tr></thead>
+    <thead><tr><th>Status</th><th>Chip</th><th>Solid</th><th>Tint</th><th>Icon</th><th>Word (en / gu)</th></tr></thead>
     <tbody>
-      <tr><td>Reported</td><td><span class="sw" style="background:#4B5768"></span>#4B5768</td><td>Info</td><td><span class="sw" style="background:#1F5FAE"></span>#1F5FAE</td><td>Success</td><td><span class="sw" style="background:#1A7340"></span>#1A7340</td></tr>
-      <tr><td>Acknowledged</td><td><span class="sw" style="background:#1F5FAE"></span>#1F5FAE</td><td>Advisory</td><td><span class="sw" style="background:#6F5A00"></span>#6F5A00</td><td>Warning</td><td><span class="sw" style="background:#9A5B00"></span>#9A5B00</td></tr>
-      <tr><td>In progress</td><td><span class="sw" style="background:#8A5300"></span>#8A5300</td><td>Warning</td><td><span class="sw" style="background:#A34A00"></span>#A34A00</td><td>Error</td><td><span class="sw" style="background:#B3261E"></span>#B3261E</td></tr>
-      <tr><td>Fixed</td><td><span class="sw" style="background:#1A7340"></span>#1A7340</td><td>Critical</td><td><span class="sw" style="background:#B3261E"></span>#B3261E</td><td>Info</td><td><span class="sw" style="background:#0B57A4"></span>#0B57A4</td></tr>
-      <tr><td>Verified</td><td><span class="sw" style="background:#0E5233"></span>#0E5233</td><td colspan="4" style="color:var(--page-muted)">All solid colours carry white text at 5.4:1 or better; tints carry the solid colour at 5:1 or better.</td></tr>
-      <tr><td>Reopened</td><td><span class="sw" style="background:#B4400F"></span>#B4400F</td><td colspan="4"></td></tr>
-      <tr><td>Not accepted</td><td><span class="sw" style="background:#8A2234"></span>#8A2234</td><td colspan="4"></td></tr>
+      <tr><td>Reported (open)</td><td><span class="tchip s-rep"><span class="ms">radio_button_unchecked</span>Reported</span></td><td><span class="sw" style="background:#4B5768"></span>#4B5768</td><td><span class="sw" style="background:#EDF0F4"></span>#EDF0F4</td><td><code>radio_button_unchecked</code></td><td>Reported / નોંધાયેલ</td></tr>
+      <tr><td>Sent / Acknowledged</td><td><span class="tchip s-ack"><span class="ms">mark_email_read</span>Acknowledged</span></td><td><span class="sw" style="background:#1F5FAE"></span>#1F5FAE</td><td><span class="sw" style="background:#E5EEFA"></span>#E5EEFA</td><td><code>mark_email_read</code></td><td>Acknowledged / સ્વીકારાયેલ</td></tr>
+      <tr><td>In progress</td><td><span class="tchip s-prog"><span class="ms">construction</span>In progress</span></td><td><span class="sw" style="background:#8A5300"></span>#8A5300</td><td><span class="sw" style="background:#FFF3DC"></span>#FFF3DC</td><td><code>construction</code></td><td>In progress / કામ ચાલુ</td></tr>
+      <tr><td>Marked fixed</td><td><span class="tchip s-fix"><span class="ms">check_circle</span>Fixed</span></td><td><span class="sw" style="background:#1A7340"></span>#1A7340</td><td><span class="sw" style="background:#E6F4EC"></span>#E6F4EC</td><td><code>check_circle</code></td><td>Fixed / ઉકેલાયેલ</td></tr>
+      <tr><td>Verified</td><td><span class="tchip s-ver"><span class="ms">verified</span>Verified</span></td><td><span class="sw" style="background:#0E5233"></span>#0E5233</td><td><span class="sw" style="background:#DDEFE5"></span>#DDEFE5</td><td><code>verified</code></td><td>Verified / ચકાસાયેલ</td></tr>
+      <tr><td>Reopened</td><td><span class="tchip s-reo"><span class="ms">replay</span>Reopened</span></td><td><span class="sw" style="background:#B4400F"></span>#B4400F</td><td><span class="sw" style="background:#FDEDE4"></span>#FDEDE4</td><td><code>replay</code></td><td>Reopened / ફરી ખોલાયેલ</td></tr>
+      <tr><td>Rejected</td><td><span class="tchip s-rej"><span class="ms">block</span>Not accepted</span></td><td><span class="sw" style="background:#8A2234"></span>#8A2234</td><td><span class="sw" style="background:#F8E7EA"></span>#F8E7EA</td><td><code>block</code></td><td>Not accepted / સ્વીકાર્ય નથી</td></tr>
     </tbody>
   </table></div>
-  <div class="typescale">
-    <div><code>Screen title · 22/30 · 600</code><span style="font-size:22px;font-weight:600">Report an issue · ફરિયાદ નોંધાવો</span></div>
-    <div><code>Card title · 17/24 · 600</code><span style="font-size:17px;font-weight:600">Deep pothole near Paldi bus stand</span></div>
-    <div><code>Body · 16/24 · 400</code><span style="font-size:16px">પાલડી બસ સ્ટેન્ડ પાસે ઊંડો ખાડો છે, રાત્રે દેખાતો નથી.</span></div>
-    <div><code>Metadata · 12.5/18 · 400</code><span style="font-size:12.5px;color:var(--page-muted)">Roads · 400 m · 6 days ago</span></div>
+
+  <h3 class="sub">Alert severity</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Severity</th><th>Sample</th><th>Solid</th><th>Tint</th><th>Icon</th><th>Treatment</th></tr></thead>
+    <tbody>
+      <tr><td>Info</td><td><span class="tchip" style="background:#E5EEFA;color:#1F5FAE"><span class="ms f1">info</span>Info · માહિતી</span></td><td><span class="sw" style="background:#1F5FAE"></span>#1F5FAE</td><td><span class="sw" style="background:#E5EEFA"></span>#E5EEFA</td><td><code>info</code></td><td>Tinted card with icon and word</td></tr>
+      <tr><td>Advisory</td><td><span class="tchip" style="background:#FBF5D9;color:#6F5A00"><span class="ms f1">campaign</span>Advisory · સૂચના</span></td><td><span class="sw" style="background:#6F5A00"></span>#6F5A00</td><td><span class="sw" style="background:#FBF5D9"></span>#FBF5D9</td><td><code>campaign</code></td><td>Tinted card with icon and word</td></tr>
+      <tr><td>Warning</td><td><span class="tchip" style="background:#FFEEDD;color:#A34A00"><span class="ms f1">warning</span>Warning · ચેતવણી</span></td><td><span class="sw" style="background:#A34A00"></span>#A34A00</td><td><span class="sw" style="background:#FFEEDD"></span>#FFEEDD</td><td><code>warning</code></td><td>Tinted card with icon and word</td></tr>
+      <tr><td>Critical</td><td><span class="tchip" style="background:#B3261E;color:#fff"><span class="ms f1">emergency</span>Critical · ગંભીર</span></td><td><span class="sw" style="background:#B3261E"></span>#B3261E</td><td><span class="sw" style="background:#FCEBEA"></span>#FCEBEA</td><td><code>emergency</code></td><td>Solid banner, white text; one slow pulse, no loop</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="sub">Categories</h3>
+  <p class="note">Glyph in the category colour on a 12% tint, inside a 40 dp rounded square (radius 14). Map pins use the solid colour with a white glyph. Never used as large fills.</p>
+  <div class="cats">
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#5A5F661F,#5A5F661F);color:#5A5F66"><span class="ms">road</span></div><div>Roads<small>રસ્તા · <code>#5A5F66</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#1D5E9E1F,#1D5E9E1F);color:#1D5E9E"><span class="ms">water_drop</span></div><div>Water<small>પાણી · <code>#1D5E9E</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#3F5E731F,#3F5E731F);color:#3F5E73"><span class="ms">water_damage</span></div><div>Drainage<small>ગટર · <code>#3F5E73</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#5C6B2E1F,#5C6B2E1F);color:#5C6B2E"><span class="ms">delete</span></div><div>Garbage<small>કચરો · <code>#5C6B2E</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#8A5F001F,#8A5F001F);color:#8A5F00"><span class="ms">lightbulb</span></div><div>Streetlights<small>સ્ટ્રીટલાઇટ · <code>#8A5F00</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#2E6B451F,#2E6B451F);color:#2E6B45"><span class="ms">park</span></div><div>Trees<small>વૃક્ષો · <code>#2E6B45</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#7A4E2D1F,#7A4E2D1F);color:#7A4E2D"><span class="ms">pets</span></div><div>Animals<small>પશુ · <code>#7A4E2D</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#7A3F6B1F,#7A3F6B1F);color:#7A3F6B"><span class="ms">pest_control</span></div><div>Health<small>આરોગ્ય · <code>#7A3F6B</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#2F66701F,#2F66701F);color:#2F6670"><span class="ms">wc</span></div><div>Toilets<small>શૌચાલય · <code>#2F6670</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#8C3B2E1F,#8C3B2E1F);color:#8C3B2E"><span class="ms">do_not_step</span></div><div>Encroachment<small>દબાણ · <code>#8C3B2E</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#9C3D1A1F,#9C3D1A1F);color:#9C3D1A"><span class="ms">traffic</span></div><div>Traffic<small>ટ્રાફિક · <code>#9C3D1A</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#4F5A7A1F,#4F5A7A1F);color:#4F5A7A"><span class="ms">receipt_long</span></div><div>Property<small>મિલકત · <code>#4F5A7A</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#6B4F3A1F,#6B4F3A1F);color:#6B4F3A"><span class="ms">apartment</span></div><div>Building<small>બાંધકામ · <code>#6B4F3A</code></small></div></div>
+    <div class="cat"><div class="bdg" style="background-image:linear-gradient(#66707C1F,#66707C1F);color:#66707C"><span class="ms">more_horiz</span></div><div>Other<small>અન્ય · <code>#66707C</code></small></div></div>
   </div>
 </section>
 
-<section class="sec">
-  <h2>What we deliberately avoid</h2>
+<section class="sec" id="type" aria-labelledby="type-h">
+  <div class="sec-head"><div><h2 id="type-h">Type</h2><p>Baloo Bhai 2 for display, headings and numbers (600/700, 800 for display numbers only). Mukta Vaani for body, labels, buttons and metadata (400/500/600). Both by Ek Type, OFL. Baloo never goes below 16 sp; nothing goes below 12 sp; no letter-spacing or capitals on Gujarati.</p></div></div>
+  <div class="scale">
+    <div><code><b>displaySmall</b>Baloo Bhai 2 · 28/36 · 700</code><div class="smp fd" style="font-size:28px;line-height:36px;font-weight:700"><span>Good morning, Paldi</span><span>સુપ્રભાત, પાલડી</span></div></div>
+    <div><code><b>headlineSmall</b>Baloo Bhai 2 · 24/32 · 700</code><div class="smp fd" style="font-size:24px;line-height:32px;font-weight:700"><span>What is the problem?</span><span>શું સમસ્યા છે?</span></div></div>
+    <div><code><b>titleLarge</b>Baloo Bhai 2 · 19/26 · 600</code><div class="smp fd" style="font-size:19px;line-height:26px;font-weight:600"><span>Near you · તમારી નજીક</span></div></div>
+    <div><code><b>titleMedium</b>Mukta Vaani · 16/22 · 600</code><div class="smp fb" style="font-size:16px;line-height:22px;font-weight:600"><span>Deep pothole near Paldi bus stand</span><span>પાલડી બસ સ્ટેન્ડ પાસે ઊંડો ખાડો</span></div></div>
+    <div><code><b>bodyLarge</b>Mukta Vaani · 16/24 · 400</code><div class="smp fb" style="font-size:16px;line-height:24px;font-weight:400"><span>The pothole is hard to see at night and two scooters have slipped this week.</span><span>ખાડો રાત્રે દેખાતો નથી અને આ અઠવાડિયે બે સ્કૂટર લપસ્યા છે.</span></div></div>
+    <div><code><b>bodyMedium</b>Mukta Vaani · 14/21 · 400</code><div class="smp fb" style="font-size:14px;line-height:21px;font-weight:400"><span>Water cut today, 10:00–16:00, Paldi and Vasna.</span><span>આજે પાલડી અને વાસણામાં ૧૦:૦૦થી ૧૬:૦૦ પાણી બંધ.</span></div></div>
+    <div><code><b>labelLarge</b>Mukta Vaani · 15.5/20 · 600</code><div class="smp fb" style="font-size:15.5px;line-height:20px;font-weight:600"><span>Submit report · ફરિયાદ મોકલો</span></div></div>
+    <div><code><b>labelMedium</b>Mukta Vaani · 12/16 · 600</code><div class="smp fb" style="font-size:12px;line-height:16px;font-weight:600"><span>In progress · કામ ચાલુ</span></div></div>
+    <div><code><b>numeric</b>Baloo Bhai 2 · 20/24 · 700 · tabular</code><div class="smp fd num" style="font-size:20px;line-height:24px;font-weight:700"><span>128 open · 46 fixed · 62%</span></div></div>
+    <div><code><b>bodySmall</b>Mukta Vaani · 12/17 · 400 (minimum)</code><div class="smp fb" style="font-size:12px;line-height:17px;font-weight:400;color:var(--mute)"><span>Roads · 400 m · 6 days ago · રસ્તા · ૪૦૦ મીટર · ૬ દિવસ પહેલાં</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="shape" aria-labelledby="shape-h">
+  <div class="sec-head"><div><h2 id="shape-h">Shape and spacing</h2><p>DS §4. Rounded but not soft: 14 for controls, 18 for cards, 24 for sheets, full pills for chips and the nav indicator. 4 dp base, 16 dp gutter, 14 dp between cards.</p></div></div>
+  <div class="radii">
+    <div style="border-radius:14px">14<small>Buttons, inputs, stat tiles, badges, thumbnails</small></div>
+    <div style="border-radius:18px">18<small>Cards, tiles, alert cards, toast</small></div>
+    <div style="border-radius:24px 24px 6px 6px">24<small>Bottom sheets, dialog tops</small></div>
+    <div style="border-radius:999px;min-height:56px;width:150px">Pill<small>Chips, nav indicator</small></div>
+  </div>
+  <div class="spacing" aria-label="Spacing scale">
+    <div><i style="height:4px"></i>4</div><div><i style="height:8px"></i>8</div><div><i style="height:12px"></i>12</div><div><i style="height:14px"></i>14</div><div><i style="height:16px"></i>16</div><div><i style="height:20px"></i>20</div><div><i style="height:24px"></i>24</div><div><i style="height:32px"></i>32</div><div><i style="height:40px"></i>40</div>
+  </div>
+  <p class="note">Elevation: cards use a 1 px border plus a 1 dp shadow (#17251E at 5%); the Report card has a sunrise glow (0 10 22 −10 at 70%); sheets, dialogs and toasts sit at elevation 3. Icons are Material Symbols Rounded, weight 400, 24 dp, filled only for the selected tab and the Report plus.</p>
+</section>
+
+<section class="sec" id="motion" aria-labelledby="motion-h">
+  <div class="sec-head">
+    <div><h2 id="motion-h">Motion tokens</h2><p>DS §6, <code>SaartheeMotion</code> in <code>lib/core/theme/motion.dart</code>. A gentle spring: quick to start, a slight overshoot, a soft settle. Only transform, opacity and colour animate. With reduced motion every change is instant or a cross-fade of 100 ms or less.</p></div>
+    <button class="replay" id="playTokens" type="button"><span class="ms f1">play_arrow</span>Play tokens</button>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Token</th><th>Value</th><th>Use</th><th>Demo</th></tr></thead>
+    <tbody>
+      <tr><td><code>instant</code></td><td>100 ms, easeOut</td><td>Press states, ripples, checkbox</td><td><div class="track" style="--d:100ms;--e:cubic-bezier(0,0,.58,1)"><div class="run"></div></div></td></tr>
+      <tr><td><code>short</code></td><td>180 ms, Cubic(0.2, 0, 0, 1)</td><td>Chip colour, icon swaps, nav indicator</td><td><div class="track" style="--d:180ms;--e:cubic-bezier(.2,0,0,1)"><div class="run"></div></div></td></tr>
+      <tr><td><code>medium</code></td><td>280 ms, Cubic(0.2, 0, 0, 1)</td><td>Page transitions, sheets, cross-fades</td><td><div class="track" style="--d:280ms;--e:cubic-bezier(.2,0,0,1)"><div class="run"></div></div></td></tr>
+      <tr><td><code>springIn</code></td><td>380 ms, Cubic(0.34, 1.35, 0.64, 1), ≤ 6% overshoot</td><td>Cards and tiles entering, toasts, the Report card</td><td><div class="track" style="--d:380ms;--e:cubic-bezier(.34,1.35,.64,1)"><div class="run"></div></div></td></tr>
+      <tr><td><code>long</code></td><td>450 ms, Cubic(0.05, 0.7, 0.1, 1)</td><td>Shared element card to detail, map camera</td><td><div class="track" style="--d:450ms;--e:cubic-bezier(.05,.7,.1,1)"><div class="run"></div></div></td></tr>
+      <tr><td><code>stagger</code></td><td>60 ms between items, max 6</td><td>Lists and grids on first load</td><td><div class="track alt"><b style="--i:0"></b><b style="--i:1"></b><b style="--i:2"></b><b style="--i:3"></b><b style="--i:4"></b><b style="--i:5"></b><b style="--i:6"></b></div></td></tr>
+      <tr><td><code>rise</code></td><td>14 dp translate-Y + fade</td><td>Default enter for content</td><td>Every <code>.st</code> element on the screens above</td></tr>
+      <tr><td><code>drawCheck</code></td><td>450 ms stroke draw, starts 150 ms after its container</td><td>Success check marks</td><td>Issue detail toast</td></tr>
+      <tr><td><code>countUp</code></td><td>600 ms, easeOutCubic, integers only</td><td>Stat numbers, ward scorecard</td><td>Home stats, My Ward scorecard</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="sec" id="avoid" aria-labelledby="avoid-h">
+  <div class="sec-head"><div><h2 id="avoid-h">What we avoid</h2></div></div>
   <div class="avoid">
-    <div class="pr"><b>AMC's identity</b><p>No seal or circular emblem, no bronze or amber, no navy gradient, no teal header, no stacked English-over-Gujarati lockup, no "AMC" in the app name.</p></div>
-    <div class="pr"><b>Playful decoration</b><p>No mascots, clip art, confetti or heritage illustrations. Empty states use a single line icon and one action.</p></div>
-    <div class="pr"><b>Hidden meaning</b><p>No colour-only status, no unlabeled icons, no text under 12 sp, no ALL CAPS in Gujarati.</p></div>
+    <div class="pr"><span class="ms">do_not_disturb_on</span><b>AMC's identity</b><p>No seal, circle emblem, architecture or wheel. No bronze #9E6B22, amber, navy gradient or teal. No stacked English-over-Gujarati lockup, and never "AMC" in the app name, icon or store title.</p></div>
+    <div class="pr"><span class="ms">do_not_disturb_on</span><b>Playful decoration</b><p>No mascots, clip art, illustrations or confetti. No Lottie or Rive, nothing that loops except a skeleton while it waits. Empty states are one icon, one line and one action.</p></div>
+    <div class="pr"><span class="ms">do_not_disturb_on</span><b>Hidden meaning</b><p>No colour-only status, no unlabelled icons, no text under 12 sp, no capitals or letter-spacing on Gujarati, and no motion that carries meaning without the text changing too.</p></div>
   </div>
 </section>
 
-<footer>Tokens and rules: <code>docs/v2/design-system.md</code>. Representative names on this page are placeholders; the real 2026–31 roster will be compiled from State Election Commission results with sources. Saarthee is an independent citizen app, not run by or linked to AMC.</footer>
+<footer>
+  <p>Source of truth: <code>docs/v2/design-system.md</code> (v2.2). Representative names on this page are placeholders. The real roster will come from State Election Commission results, with sources. Alert and ward content is illustrative, based on typical AMC press notes. Gujarati copy is to be checked by a native copy editor.</p>
+  <p><b>Independent citizen app. Not run by or linked to AMC.</b> · નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.</p>
+</footer>
 </div>
+
+<script>
+(function(){
+  var rm = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : {matches:false};
+  var timers = [];
+  var note = document.getElementById("rmNote");
+  function syncNote(){ if(note) note.hidden = !rm.matches; }
+  syncNote();
+  if(rm.addEventListener) rm.addEventListener("change", syncNote);
+
+  function later(fn, ms){ timers.push(setTimeout(fn, rm.matches ? 0 : ms)); }
+  function clearAll(){ while(timers.length) clearTimeout(timers.pop()); }
+
+  var STATES = {
+    fix:{cls:"s-fix", icon:"check_circle", word:"Fixed"},
+    ver:{cls:"s-ver", icon:"verified", word:"Verified"}
+  };
+  function setChip(chip, s, animate){
+    var apply = function(){
+      chip.className = "chip " + s.cls + (animate ? " fade" : "");
+      chip.children[0].textContent = s.icon;
+      chip.children[1].textContent = s.word;
+      if(animate) requestAnimationFrame(function(){ chip.classList.remove("fade"); });
+    };
+    if(!animate || rm.matches){ chip.className = "chip " + s.cls; chip.children[0].textContent = s.icon; chip.children[1].textContent = s.word; return; }
+    chip.classList.add("fade");
+    timers.push(setTimeout(apply, 90));
+  }
+
+  function countUp(el){
+    var end = parseInt(el.getAttribute("data-count"), 10) || 0;
+    var suf = el.getAttribute("data-suffix") || "";
+    if(rm.matches){ el.textContent = end + suf; return; }
+    var t0 = performance.now(), D = 600;
+    el.textContent = "0" + suf;
+    function step(now){
+      var p = Math.min(1, (now - t0) / D);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * e) + suf;
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var chip = document.getElementById("dChip");
+  var yes = document.getElementById("dYes");
+  var verify = document.getElementById("dVerify");
+  var fut = document.getElementById("dFut");
+  var futT = document.getElementById("dFutT");
+  var toast = document.getElementById("dToast");
+  var addMe = document.getElementById("addMe");
+
+  function resetStates(){
+    setChip(chip, STATES.fix, false);
+    yes.classList.remove("busy");
+    verify.classList.remove("ok");
+    fut.className = "tli fut";
+    fut.querySelector(".dot").removeAttribute("style");
+    fut.querySelector("b").textContent = "Verified by neighbours";
+    futT.textContent = "Waiting for 1 more confirmation";
+    toast.classList.remove("show");
+    addMe.classList.remove("done");
+    addMe.innerHTML = '<span class="lbl2"><span class="ms">add</span><span>Add me too</span></span>';
+  }
+
+  function playScreens(){
+    clearAll();
+    resetStates();
+    var phones = document.querySelectorAll("#screens .ph");
+    for(var k = 0; k < phones.length; k++){
+      var p = phones[k];
+      p.classList.remove("play");
+      void p.offsetWidth;
+      p.classList.add("play");
+    }
+    var cnts = document.querySelectorAll("#screens .cnt");
+    later(function(){ for(var j = 0; j < cnts.length; j++) countUp(cnts[j]); }, 240);
+
+    // Report step 2: duplicate found, then "Add me too" morphs into "Added"
+    later(function(){
+      addMe.classList.add("done");
+      addMe.innerHTML = '<span class="lbl2"><span class="ms">check</span><span>Added</span></span>';
+    }, 1700);
+
+    // Issue detail: verify a fix
+    later(function(){ yes.classList.add("busy"); }, 800);
+    later(function(){
+      verify.classList.add("ok");
+      toast.classList.add("show");
+      setChip(chip, STATES.ver, true);
+      fut.className = "tli grow";
+      fut.querySelector(".dot").style.background = "#0E5233";
+      fut.querySelector("b").textContent = "Verified by neighbours";
+      futT.textContent = "2 confirmations with photos · today";
+    }, 1500);
+    // Toast stays 4 s, then leaves (also under reduced motion, so it does not cover content)
+    timers.push(setTimeout(function(){ toast.classList.remove("show"); }, (rm.matches ? 0 : 1500) + 4000));
+  }
+
+  function playTokens(){
+    var tr = document.querySelectorAll("#motion .track");
+    for(var k = 0; k < tr.length; k++){ tr[k].classList.remove("go"); void tr[k].offsetWidth; tr[k].classList.add("go"); }
+  }
+
+  document.getElementById("playAll").addEventListener("click", function(){ playScreens(); playTokens(); });
+  document.getElementById("playTokens").addEventListener("click", playTokens);
+})();
+</script>

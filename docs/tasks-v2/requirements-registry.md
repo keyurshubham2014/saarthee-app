@@ -20,7 +20,7 @@
 | REQ-F-011 | Server push service (FCM HTTP v1) for topics and individual tokens, with a delivery log in `notifications` | Spec §9 | P0 | TASK-04 |
 | REQ-F-012 | v2 category list (14 categories, Gujarati + English, icon, colour token, SLA days) via `GET /categories`, with AMC CCRS problem-type mapping | Spec §4 | P0 | TASK-05 |
 | REQ-F-013 | AMC problem types cached from the CCRS public JSON by a script (manual run, at most daily) | Spec §4 | P1 | TASK-05 |
-| REQ-F-014 | Three-step report flow (DS §7): category grid; photos (1–3) with auto location and adjustable pin; optional description and check-your-answers; submit | Spec §8, DS §7 | P0 | TASK-05 |
+| REQ-F-014 | Three-step report flow (DS §8): category grid; photos (1–3) with auto location and adjustable pin; optional description and check-your-answers; submit | Spec §8, DS §8 | P0 | TASK-05 |
 | REQ-F-015 | Duplicate check before submit: open issues of the same category within 50 m in 30 days offered as "Me too" | Spec §5 | P0 | TASK-05 |
 | REQ-F-016 | `POST /issues` idempotent by `clientSubmissionId`; assigns ward/zone, SLA due date, status `reported` | Spec §5, §7 | P0 | TASK-05 |
 | REQ-F-017 | Report draft persists across app kill and camera hand-off; image_picker lost-data recovery handled | Spec §8 | P0 | TASK-05 |
@@ -68,6 +68,11 @@
 | REQ-F-059 | Initiatives (tree drives, clean-ups, health camps) list and detail with organiser and source | Spec §6, §8 | P1 | TASK-12 |
 | REQ-F-060 | RSVP to initiatives with reminder 24 h before; staff can mark attendance | Spec §6, §9 | P1 | TASK-12 |
 | REQ-F-061 | Seasonal service tips on Home (property-tax rebate window, monsoon, heat) managed by staff | Spec §8 | P2 | TASK-12 |
+| REQ-F-062 | Report-flow motion per DS §6: tiles pop in with stagger, selected tile springs with selection haptic, shared-axis step transitions with animated progress bar, photo fly-in and pin drop, duplicate card slide-in with "Me too" morph, full-screen success with drawn check and success haptic | DS §6 | P1 | TASK-05 |
+| REQ-F-063 | Lifecycle motion per DS §6: status chip cross-fades colour/icon/word, new timeline step expands from its dot, "Yes, fixed" button → progress → toast with drawn check, TalkBack announces the new status | DS §6 | P1 | TASK-06 |
+| REQ-F-064 | Discovery motion per DS §6: Home first-load stagger, Report card spring and one-time first-launch pulse, feed card → detail shared element, "Me too" spring with rolling count, branded pull-to-refresh, map pin drop and cluster zoom | DS §6 | P1 | TASK-07 |
+| REQ-F-065 | Alert motion per DS §6: in-app banner slides in under the app bar, single attention pulse for Critical (no loop), swipe-to-read in the inbox with rolling badge count | DS §6 | P1 | TASK-08 |
+| REQ-F-066 | Dashboard motion per DS §6: numbers count up and bars grow on first view only (representative ward dashboard and ward scorecard widgets shared from TASK-09) | DS §6 | P2 | TASK-11 |
 
 ## Data (REQ-D)
 
@@ -94,14 +99,16 @@
 | REQ-N-001 | Design tokens per DS §2 replace v1 tokens; no colour literal outside the theme; semantic token names | DS §2 | P0 | TASK-03 |
 | REQ-N-002 | Typography per DS §3 with bundled Gujarati + Latin fonts (subset), Indic line heights, scale to 200% without clipping | DS §3 | P0 | TASK-03 |
 | REQ-N-003 | Component library per DS §5 (app bar, bottom nav, buttons, inputs, chips, list rows, cards, status timeline, banners, empty/loading/error/offline states) with a debug-only gallery | DS §5 | P0 | TASK-03 |
-| REQ-N-004 | Accessibility: 48 dp targets, labels on all controls, contrast AA, icon + text for every status, TalkBack order | DS §6 | P0 | TASK-03 |
+| REQ-N-004 | Accessibility: 48 dp targets, labels on all controls, contrast AA, icon + text for every status, TalkBack order | DS §7 | P0 | TASK-03 |
 | REQ-N-005 | Complete Gujarati and English ARB translations for every string; no hard-coded strings | Spec D4 | P0 | TASK-03 |
 | REQ-N-006 | Dark theme from the same tokens | DS §2 | P1 | TASK-03 |
-| REQ-N-007 | Report sheet completes in ≤ 4 taps after the photo for a typical issue; cold start ≤ 3 s on a low-end phone (profile/release build) | DS §7 | P0 | TASK-05 |
+| REQ-N-007 | Report sheet completes in ≤ 4 taps after the photo for a typical issue; cold start ≤ 3 s on a low-end phone (profile/release build) | DS §8 | P0 | TASK-05 |
 | REQ-N-008 | Map renders 2,000 issues smoothly using server clustering and client clustering | Spec §7 | P1 | TASK-07 |
 | REQ-N-009 | Automated tests: API integration tests (Vitest + Supertest) for auth, issue lifecycle, permissions and rate limits; run in CI | Spec §12 | P0 | TASK-01 |
 | REQ-N-010 | Flutter widget tests for core components and an integration test of report → verify on the emulator | Spec §12 | P1 | TASK-14 |
 | REQ-N-011 | All list endpoints paginated; p95 latency < 400 ms for feed, list and detail on pilot data | Spec §7 | P1 | TASK-07 |
+| REQ-N-012 | Motion system per DS §6: `SaartheeMotion` tokens (durations, curves, stagger, spring) used by every animation (no `Duration(` literals in features, enforced by a test); shared transitions (shared axis, fade-through, sheets), press scale, skeleton shimmer, nav-pill slide, launch and onboarding motion; system "Remove animations" and an in-app Animations switch reduce all motion to instant/≤ 100 ms cross-fades | DS §6 | P0 | TASK-03 |
+| REQ-N-013 | Motion performance and safety: every DS §6 catalogue moment holds 60 fps with no frame > 16 ms on the reference low-end phone (profile build, DevTools timeline evidence); only transform/opacity/colour animated; no element flashes > 3 times per second; reduced-motion run of the core loop passes | DS §6, DS §7 | P0 | TASK-14 |
 
 ## Security & privacy (REQ-S)
 
@@ -136,7 +143,7 @@
 | REQ-O-007 | Uptime monitoring on `/health` and error alerting without PII | Spec §12 | P0 | TASK-13 |
 | REQ-O-008 | Android release signing, Play internal and closed testing tracks, Data safety form matching §11 | Spec §12 | P0 | TASK-13 |
 | REQ-O-009 | Full v2 end-to-end verification on emulator and a physical low-end Android phone; coverage matrix closed | Spec §12 | P0 | TASK-14 |
-| REQ-O-010 | Accessibility audit (TalkBack, largest font, Gujarati) of report, issue detail, alerts and My Ward | DS §6 | P0 | TASK-14 |
+| REQ-O-010 | Accessibility audit (TalkBack, largest font, Gujarati) of report, issue detail, alerts and My Ward | DS §7 | P0 | TASK-14 |
 | REQ-O-011 | Pilot launch checklist: 5 West-zone wards seeded with verified representatives, services and moderators onboarded | Spec D5 | P0 | TASK-14 |
 | REQ-O-012 | v1 spec documents marked superseded where v2 differs; summary links to v2 spec | Spec header | P1 | TASK-14 |
 

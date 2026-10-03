@@ -8,13 +8,13 @@
 | Size | L |
 | Depends On | TASK-06 |
 | Blocks | TASK-14 |
-| Requirement IDs | REQ-F-028, REQ-F-029, REQ-F-030, REQ-F-031, REQ-F-032, REQ-F-033, REQ-F-034, REQ-N-008, REQ-N-011, REQ-S-006 |
-| Primary Spec Refs | Spec §7 (Issues, Feed & map endpoints, rate limits), §8 (`/`, `/map`, `/issues/:id`, `/me/reports`, `/me/following`), §11 (reporter privacy); DS §2 (status, category colours), §4, §5 (app bar, issue card, status timeline, map, empty/loading/error), §6, §8 |
+| Requirement IDs | REQ-F-028, REQ-F-029, REQ-F-030, REQ-F-031, REQ-F-032, REQ-F-033, REQ-F-034, REQ-N-008, REQ-N-011, REQ-S-006, REQ-F-064 |
+| Primary Spec Refs | Spec §7 (Issues, Feed & map endpoints, rate limits), §8 (`/`, `/map`, `/issues/:id`, `/me/reports`, `/me/following`), §11 (reporter privacy); DS §2 (Neem tokens, `sunrise` for the Report card only, status, category colours), §3 (Baloo Bhai 2 / Mukta Vaani), §4 (radii, Home header band, Material Symbols Rounded, photos), §5 (Home header, Report card, app bar, issue card, status timeline, map, empty/loading/error), §6 (Motion: Home first load, Report card, Feed card → detail, "Me too", Pull to refresh, Map), §7 (accessibility), §8 |
 | Last Updated | 2026-10-03 |
 
 ## 1. Objective
 
-Let anyone see what is happening in their ward and act on it. The Home tab shows the chosen ward's alerts strip, a clear "Report an issue" action, nearby issues, upcoming drives and service shortcuts — and keeps working when alerts or drives are not built or empty. The Map tab shows every public issue with fast clustering. Issue detail tells the whole story — before/after photos, status and timeline — and offers Me too, Follow, Share, Verify, Link CCRS and Escalate. Citizens see their own reports and the issues they follow. Reporters are never identified publicly: they are always "A resident of <ward>".
+Let anyone see what is happening in their ward and act on it. The Home tab shows the chosen ward's alerts strip, the green header band with the sunrise "Report a problem" card, nearby issues, upcoming drives and service shortcuts — and keeps working when alerts or drives are not built or empty. The Map tab shows every public issue with fast clustering. Issue detail tells the whole story — before/after photos, status and timeline — and offers Me too, Follow, Share, Verify, Link CCRS and Escalate. Citizens see their own reports and the issues they follow. Reporters are never identified publicly: they are always "A resident of <ward>". Discovery moves the way DS §6 describes — Home rises in once on first load, the sunrise Report card springs in, a feed card grows into its detail, "Me too" springs and its count rolls, refresh turns the route chevron and map pins drop in — always with the TASK-03 `SaartheeMotion` tokens and an instant equivalent when animations are off.
 
 ## 2. Scope
 
@@ -26,6 +26,8 @@ Let anyone see what is happening in their ward and act on it. The Home tab shows
 - Map SDK decision (`flutter_map` — §5.6), muted tiles, client clustering; server grid clustering.
 - App: Home screen, Map tab, issue list screen (`/issues`), Issue detail (`/issues/:id`), My reports (`/me/reports`), Following (`/me/following`), share as image card + link (P1).
 - Pagination on every list endpoint; performance seed and p95 measurement (REQ-N-011); 2,000-issue map smoothness (REQ-N-008).
+- Home layout per DS §4/§5: green `primary` header band (ward line, greeting, language + bell buttons) with the `sunrise` Report card overlapping the page.
+- Discovery motion per DS §6 (REQ-F-064): Home first-load stagger (first load only), Report card spring + one-time first-launch pulse, feed card → detail `Hero` on photo and title, "Me too" spring + rolling count + light haptic, branded pull-to-refresh (route chevron drawn with `CustomPainter`), map pin drop (30 ms stagger, max 20 animated), cluster tap zoom (`long`), preview sheet `springIn`; reduced-motion variants of all of them.
 
 ### Out of Scope
 - Alerts data, alert strip content and inbox — TASK-08 (feed consumes its contract and degrades when absent).
@@ -34,12 +36,13 @@ Let anyone see what is happening in their ward and act on it. The Home tab shows
 - Link CCRS screen — TASK-05; "Report a problem" flag sheet and endpoint — TASK-10 (menu item hidden until present).
 - Representative actions UI beyond showing TASK-06 `IssueStatusActions` — TASK-11.
 - Comments (structured comments are not specified for v2 detail beyond events).
+- Motion tokens, shared transitions (shared axis, fade-through, sheets), press scale, skeleton shimmer, `CountUp`, `MotionCheck`, haptics helper and the reduced-motion switch — TASK-03 (this task only uses them). Status-chip cross-fade and timeline-step expand — TASK-06. Frame-time audit on the low-end phone — TASK-14 (REQ-N-013).
 
 ## 3. Prerequisites
 
 - TASK-06 complete: `transition()`, derived fields (`isOverdue`, `displayStatus`, `verifyWindowClosesAt`), events endpoint, verify/mark-fixed/escalate routes, `IssueStatusActions`.
 - TASK-05: issues, `issue_photos`, `GET /media/photos/{id}`, `POST …/me-too`, `CivicMap` wrapper, link-CCRS route.
-- TASK-02: `GET /wards/{id}` with centroid/bbox; ward picker. TASK-03: shell, components (`IssueCard`, `StatusChip`, `CategoryBadge`, `StatusTimeline`, skeletons, banners). TASK-04: sign-in gate returning to the action, `requireUser` and optional-auth middleware.
+- TASK-02: `GET /wards/{id}` with centroid/bbox; ward picker. TASK-03: Neem shell, components (`IssueCard`, `StatusChip`, `CategoryBadge`, `StatusTimeline`, skeletons, banners) and the motion foundation — `SaartheeMotion` tokens (`lib/core/theme/motion.dart`), `animations` + `flutter_animate`, press-scale wrapper, haptics helper, `MotionCheck`, `CountUp`, `StaggeredColumn`, reduced-motion resolution (system "Remove animations" + in-app Animations switch). TASK-04: sign-in gate returning to the action, `requireUser` and optional-auth middleware.
 - Env: `FEED_CACHE_SECONDS=30`, `MAP_CLUSTER_MAX_ZOOM=15`, `MAP_POINTS_MAX=500`, `ISSUES_PAGE_MAX=50`, `PUBLIC_WEB_BASE_URL`. Dart-defines: `MAP_TILE_URL`, `MAP_TILE_ATTRIBUTION`, `PUBLIC_WEB_BASE_URL`.
 
 ## 4. Dependencies
@@ -64,6 +67,7 @@ Let anyone see what is happening in their ward and act on it. The Home tab shows
 | REQ-N-008 | Map renders 2,000 issues smoothly using server clustering and client clustering | Spec §7 |
 | REQ-N-011 | All list endpoints paginated; p95 latency < 400 ms for feed, list and detail on pilot data | Spec §7 |
 | REQ-S-006 | Public views never expose reporter phone or name; "A resident of <ward>" | Spec §11 |
+| REQ-F-064 | Discovery motion per DS §6: Home first-load stagger, Report card spring and one-time first-launch pulse, feed card → detail shared element, "Me too" spring with rolling count, branded pull-to-refresh, map pin drop and cluster zoom | DS §6 |
 
 ### 5.2 Data Contracts
 
@@ -106,17 +110,34 @@ Me too / Follow consistency: inserts/deletes and counter updates in one transact
 
 | Route | Content | States |
 |---|---|---|
-| `/` Home | App bar: "Saarthee" + ward subtitle "Paldi · West zone" (tap → ward picker "Change ward"), language switch (અ/A), bell with unread badge (TASK-08; hidden until available). Alerts strip (horizontal alert cards, hidden when empty). Primary "Report an issue" (or "Continue your report" when a draft exists). "Issues near you" — up to 10 `IssueCard`s + "See all" → `/issues?ward=<id>`. "Upcoming drives" strip (hidden when empty). "Services" shortcuts grid (hidden when empty). | skeleton rows; error "We couldn't load your ward. Try again"; offline → last cached feed with "You're offline. Showing what we had at 10:42."; empty issues → icon + "No issues reported in Paldi yet." + "Report an issue"; no ward set → ward picker prompt |
+| `/` Home | **Header band** (DS §4/§5 "Home header"): `primary` #14674A band under a transparent status bar holding the ward line "Paldi · West zone" in `onPrimarySubtle` (tap → ward picker "Change ward"), the greeting in displaySmall (Baloo Bhai 2 28/36, white), language (અ/A) and bell buttons as 36 dp circles in white 14% with 48 dp hit areas (bell carries the unread badge from TASK-08; hidden until available). **Report card** (DS §5) sits at the bottom of the band and overlaps the page: `sunrise` #C24A1F fill, min height 56 dp, radius 14, `sunrise` glow (0 10 22 −10 at 70%), white filled "+" in a 32 dp circle, title "Report a problem" (or "Continue your report" when a draft exists), one-line hint "Pothole, garbage, water, anything", trailing arrow; it is the only `sunrise` element on the screen. Below the band on `background` #F3F6F1: alerts strip (horizontal alert cards, radius 18, hidden when empty), stat tiles if any, "Issues near you" section title (titleLarge, Baloo Bhai 2 19/26) with up to 10 `IssueCard`s (radius 18, 14 dp apart) + "See all" → `/issues?ward=<id>`, "Upcoming drives" strip (hidden when empty), "Services" shortcuts grid (hidden when empty). Icons are Material Symbols Rounded. | skeleton rows with shimmer; error "We couldn't load your ward. Try again"; offline → last cached feed with "You're offline. Showing what we had at 10:42."; empty issues → 56 dp icon on a `primaryContainer` circle + "No issues reported in Paldi yet." + "Report a problem"; no ward set → ward picker prompt |
 | `/issues` | Title "Issues in Paldi"; filter chips: Category (sheet, multi), Status (Open, Overdue, Fixed, Verified), sort menu (Newest, Most affected, Overdue first); infinite list of `IssueCard`s | skeleton; empty "No issues match these filters." + "Clear filters"; error retry; end-of-list "That's all." |
 | `/map` | `CivicMap` (muted tiles, attribution), category-coloured teardrop pins with status ring; slate cluster bubbles with counts; chips Category, Status, "Mine" (signed in); "My location" button; tap pin → bottom sheet `IssueCard` + "View details"; tap cluster → zoom in | loading bar at top (map stays interactive); error snackbar "Couldn't load issues here. Try again"; empty area → chip "No issues in this area"; offline → banner, last pins kept; location denied → map centred on home ward, button hidden |
 | `/issues/:id` | Photo carousel with tabs "Before" / "After" (after + verification photos; tab hidden when none); caption "Faces and number plates blurred" when applicable; status chip (icon + word, DS §2) + "Overdue" tag; title; "<Category> · <Ward> · 3 days ago"; "Reported by a resident of Paldi"; "Saarthee target: fixed by 10 Oct" (helper "This is Saarthee's target, not an AMC deadline."); action row: "Me too (12)", "Follow", "Share"; contextual card: Fixed → "Is it fixed?" with "Yes, it's fixed" / "Still not fixed" (TASK-06 verify); `fixed_unverified` → "Fixed (not verified)"; reporter → "Add AMC complaint number" (TASK-05) or "AMC closed it?" (TASK-06 sheet); open + `canEscalate` → "Escalate" (suggested when overdue); `IssueStatusActions` for staff/representatives; timeline (TASK-03 `StatusTimeline`, "See full history" pages events); overflow "Report a problem" (TASK-10) | skeleton; 404 → "This issue isn't available. It may have been removed."; merged → banner "This report was merged into another one." + "Open it"; rejected (reporter only) → "Not accepted: <reason>"; offline → cached detail read-only, actions disabled with "You're offline"; signed-out tap on Me too/Follow → sign-in then the action runs |
-| `/me/reports` | "My reports" list of own issues (incl. hidden/rejected), status chips, "Moderator check pending" tag for hidden sensitive ones | signed out → "Sign in to see your reports" + "Sign in"; empty "You haven't reported anything yet." + "Report an issue"; skeleton; error retry |
+| `/me/reports` | "My reports" list of own issues (incl. hidden/rejected), status chips, "Moderator check pending" tag for hidden sensitive ones | signed out → "Sign in to see your reports" + "Sign in"; empty "You haven't reported anything yet." + "Report a problem"; skeleton; error retry |
 | `/me/following` | "Following" list, status chips, swipe or overflow "Unfollow" | signed out → sign-in prompt; empty "Follow an issue to get updates when its status changes." |
 | Share (P1) | Off-screen `IssueShareCard` (1080×1350): Saarthee wordmark, report photo, category badge, title, ward, status chip, "<n> residents affected", "Independent citizen app. Not run by or linked to AMC."; rendered via `RepaintBoundary` → PNG; `share_plus` sheet with text "<title> — <status>. See it on Saarthee: <PUBLIC_WEB_BASE_URL>/i/<id>" | render failure → share link text only |
 
+Card titles stay in Mukta Vaani (titleMedium 16/22); Baloo Bhai 2 only for the greeting, section titles and numbers (DS §3). Photos 4:3, radius 14; thumbnails radius 14; filter chips are pills; the map preview and filter sheets use radius 24 top corners.
+
+#### Motion (REQ-F-064, DS §6)
+
+All motion uses TASK-03 `SaartheeMotion` tokens and helpers; no `Duration(` literal in `lib/features/**`. When reduced motion is on (`MediaQuery.disableAnimations` or the in-app Animations switch), each item below becomes an instant change or a ≤ 100 ms cross-fade with identical content.
+
+| Moment | Behaviour | Tokens / helper | Reduced motion |
+|---|---|---|---|
+| Home first load | Header elements (ward line, greeting, buttons), then the Report card, alerts strip, stat tiles and issue cards rise (`rise` 14 dp + fade) with `stagger` 60 ms, max 6 items (later items appear with item 6). Runs only on the first successful feed render of the app session; returning to the tab (fade-through from TASK-03), pull-to-refresh rebuilds and feed updates do not replay it. Flag `homeIntroPlayed` held in a session-scoped provider | `StaggeredColumn`, `stagger`, `rise`, `medium` | Content shown at once |
+| Report card | Springs in (`springIn`, scale 0.96 → 1 + fade) as part of the stagger. On a user's first launch only, one `sunrise` ring expands from the card edge and fades out once (≈ `long`), never repeated; persisted flag `reportPulseShown` in shared_preferences set when the pulse starts. Press: TASK-03 press-scale 0.97 (`instant`) + light haptic | `springIn`, `long`, press-scale wrapper, haptics helper | No spring, no pulse; flag still set |
+| Feed card → detail | `Hero` tags `issue-photo-<id>` and `issue-title-<id>` on the `IssueCard` thumbnail and title (feed, `/issues`, My reports, Following, map preview) fly to the detail photo and title over `long`; the rest of the detail (meta line, actions, timeline) rises with `stagger`. Only one Hero per tag per route (list dedupes) | `Hero` + `long` flight curve, `StaggeredColumn` | No Hero flight (`HeroMode(enabled:false)`); detail cross-fades |
+| "Me too" | Icon springs to 1.2 and back (`springIn`), the count rolls to the next digit (vertical digit roll, `short`), light haptic. Optimistic; on rollback the count rolls back and a snackbar explains | `springIn`, `short`, haptics helper | Icon and number swap instantly; haptic follows system setting |
+| Pull to refresh | Branded indicator `ChevronRefreshIndicator`: the Saarthee route chevron with its end dot, drawn in `primary` with `CustomPainter` (not `sunrise`, which is reserved for the Report action), rotating with drag progress, then spinning while the request runs (spin allowed only while waiting, like a skeleton). New items that were not in the previous list rise in (`rise`, `stagger`); unchanged items do not animate. Used on Home, `/issues`, My reports, Following | `CustomPainter`, `medium`, `stagger`, `rise` | Static chevron + "Refreshing…" label; items appear at once |
+| Map pins | When a new set of points/clusters arrives, pins drop in (translate-Y from −12 dp + fade, small settle) with a 30 ms stagger; only the first 20 pins in view are animated, the rest appear with pin 20. Pins already shown are not re-animated on pan | `springIn`, map stagger constant 30 ms from `SaartheeMotion` (TASK-03) | Pins appear at once |
+| Cluster tap | Camera animates to the cluster bounds over `long` (`AnimatedMapController` or equivalent camera tween) | `long` | Camera jumps |
+| Preview sheet | Bottom sheet with the `IssueCard` slides up with `springIn` (TASK-03 sheet transition), radius 24 top corners | `springIn` | Appears at once |
+
 ARB keys under `home.*`, `issues.*`, `map.*`, `issueDetail.*`, `share.*`, `me.reports.*`, `me.following.*`, `reporter.residentOf` ("A resident of {ward}" / "{ward}ના રહેવાસી").
 
-Accessibility: pins and clusters have semantics labels ("Pothole, reported, in Paldi" / "12 issues here, zoom in"); map has a "Show as list" button opening `/issues` with the current bbox (TalkBack users don't need the map); Me too/Follow announce new state and count.
+Accessibility: motion never carries meaning alone (count text and button label change too); the Report-card pulse runs once (well under 3 flashes/s); pins and clusters have semantics labels ("Pothole, reported, in Paldi" / "12 issues here, zoom in"); map has a "Show as list" button opening `/issues` with the current bbox (TalkBack users don't need the map); Me too/Follow announce new state and count.
 
 ### 5.5 Permissions & Roles
 
@@ -139,6 +160,10 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 - ASSUMPTION: Me too implies Follow (affected residents want updates); removing Me too keeps the follow.
 - ASSUMPTION: `/i/{id}` is a minimal server-rendered page from the API with `noindex`; Android App Links (`assetlinks.json`) and the public domain are set up in TASK-13.
 - ASSUMPTION: Feed is cached 30 s per ward + language for anonymous content; viewer-specific state (`hasMeToo`, draft) is not in the cached feed.
+- ASSUMPTION: "First load" for the Home stagger means the first successful feed render per app process (cold start or process restart); tab returns and refreshes never replay it. The Report-card pulse is once per install (`reportPulseShown` in shared_preferences), not per account.
+- ASSUMPTION: The map pin-drop stagger (30 ms) and the 20-pin cap are not in the DS §6 token table; they are read from `SaartheeMotion` constants (`mapPinStagger`, `mapPinMaxAnimated`) that TASK-03 exposes, or added there by this task if missing — never as literals in `lib/features/**`.
+- ASSUMPTION: Pull-to-refresh is a custom indicator built on `RefreshIndicator`'s gesture handling (or `CustomRefreshIndicator`, *candidate*, pin on pub.dev) with the chevron drawn by `CustomPainter`; no Lottie/Rive (DS §6).
+- ASSUMPTION: Home Report-card copy is "Report a problem" / hint "Pothole, garbage, water, anything" (DS §5); the earlier "Report an issue" label is retired on Home.
 - ASSUMPTION: p95 measured locally on the perf seed with autocannon (*candidate*) at 50 concurrent connections; re-measured on staging in TASK-13/14.
 
 ## 6. Implementation Steps
@@ -154,13 +179,22 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 9. **Perf seed + script** `npm run seed:perf`, `npm run perf:read` (autocannon on feed, list, detail, map) printing p50/p95.
 10. **API tests** T-07-01…T-07-15.
 11. **App data layer** `features/discovery/data` (repositories, models), providers with cache (feed last-good in shared_preferences), optimistic Me too/Follow with rollback on error.
-12. **Home screen** replacing the TASK-03 placeholder; ward picker hook.
+12. **Home screen** replacing the TASK-03 placeholder; ward picker hook. Build `HomeHeaderBand` (DS §5 Home header: `primary` band, ward line in `onPrimarySubtle`, displaySmall greeting, 36 dp white-14% language/bell buttons) and `ReportCard` (DS §5: `sunrise` fill, radius 14, 56 dp min, 32 dp "+" circle, title + hint, trailing arrow, `sunrise` glow) overlapping the page; tokens only (no hex literals).
 13. **Map tab**: extend `CivicMap` with pins (category colour, status ring), cluster layer, debounce 300 ms on camera idle, filters, bottom sheet, "Show as list".
 14. **Issue list, detail, My reports, Following** screens per §5.4; wire TASK-05/06 routes and TASK-06 `IssueStatusActions`; timeline via `issueEventsProvider`.
 15. **Share (P1)**: `IssueShareCard`, PNG render, *candidate* `share_plus`.
-16. **Widget + integration tests** W-07-01…W-07-07, I-07-01.
-17. **Performance**: map with perf seed in a profile build (performance overlay / DevTools frame chart); record numbers in §13.
-18. **Manual checks** M-07-01…M-07-06; coverage matrix.
+16. **Discovery motion (REQ-F-064)** per §5.4 Motion, using only TASK-03 helpers and `SaartheeMotion` tokens:
+    1. Home first-load stagger with `StaggeredColumn` gated by the session `homeIntroPlayed` flag; verify tab return does not replay.
+    2. `ReportCard` `springIn` entry and the one-time `sunrise` pulse ring (`reportPulseShown` in shared_preferences); press-scale wrapper + light haptic.
+    3. `Hero` tags on `IssueCard` photo/title and detail photo/title; detail body rises with `stagger`.
+    4. `MeTooButton`: spring 1.0 → 1.2 → 1.0, `RollingCount` digit roll (from TASK-03 if provided; otherwise whichever of TASK-07/TASK-08/TASK-12 lands first creates `lib/core/widgets/rolling_count.dart` and the others reuse it), light haptic, rollback roll.
+    5. `ChevronRefreshIndicator` (`CustomPainter` route chevron) on Home, `/issues`, My reports, Following; new-item rise only.
+    6. Map: pin drop (30 ms stagger, max 20 animated, no re-animation on pan), cluster tap camera tween over `long`, preview sheet `springIn`.
+    7. Reduced-motion branches for each, reading TASK-03's resolved `reduceMotion` flag.
+    8. Run TASK-03's no-`Duration(`-literal test over `lib/features/**`.
+17. **Widget + integration tests** W-07-01…W-07-10, I-07-01.
+18. **Performance**: map with perf seed in a profile build (performance overlay / DevTools frame chart); record numbers in §13. Profile each REQ-F-064 moment once (DevTools timeline, note worst frame) as input to TASK-14's REQ-N-013 audit.
+19. **Manual checks** M-07-01…M-07-08 including screen recordings (`adb shell screenrecord`) saved to `docs/demo/v2-evidence/motion/`; coverage matrix.
 
 ## 7. Acceptance Criteria
 
@@ -169,7 +203,7 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 **AC-1** — Feed composes and degrades
 - **Given** ward Paldi with 12 open issues and no alerts/initiatives/services modules installed
 - **When** `GET /feed?ward=<paldi>` is called and the Home tab opens
-- **Then** the response has 10 nearby issues and `alerts`, `drives`, `serviceShortcuts`, `tips` as empty with `degraded:true`; Home shows the ward header, "Report an issue" and issues, and hides the empty strips without errors; with a stub provider that throws or sleeps 500 ms, the feed still returns within 400 ms
+- **Then** the response has 10 nearby issues and `alerts`, `drives`, `serviceShortcuts`, `tips` as empty with `degraded:true`; Home shows the green header band, the "Report a problem" card and issues, and hides the empty strips without errors; with a stub provider that throws or sleeps 500 ms, the feed still returns within 400 ms
 
 **AC-2** — Issue list filters, sort and paging
 - **Given** the perf seed
@@ -216,6 +250,21 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 - **When** `npm run perf:read` runs feed, list, detail and map at 50 concurrent connections for 60 s each
 - **Then** p95 < 400 ms for each, and every list endpoint (issues, events, mine, following) enforces a maximum page size
 
+**AC-11** — Home layout and first-load motion
+- **Given** a fresh install with ward Paldi set, animations on, and `reportPulseShown` unset
+- **When** Home opens for the first time, the user switches to Map and back, kills and relaunches the app, and pulls to refresh
+- **Then** the green `primary` header band shows the ward line, Baloo Bhai 2 greeting, language and bell buttons, and the `sunrise` Report card ("Report a problem", hint, "+" circle, trailing arrow) overlapping the page as the only `sunrise` element; on first open the header, Report card, alerts, stats and cards rise in with a 60 ms stagger (max 6 staggered) and the Report card springs in and its ring pulses exactly once; returning from Map shows Home at once with no stagger; after relaunch the stagger plays again but the pulse does not; pull-to-refresh shows the turning route chevron and only new items rise in
+
+**AC-12** — Feed card → detail, "Me too" and map motion
+- **Given** animations on and a signed-in neighbour on Home with an open issue card that has 12 "Me too"s, and the map at zoom 12 over Paldi
+- **When** they tap the card, tap "Me too", go to the map, tap a cluster and then a pin
+- **Then** the card's photo and title fly into the detail photo and title over `long` and the rest of the detail rises with `stagger`; the "Me too" icon springs to 1.2 and back, the count rolls from 12 to 13 and a light haptic fires; the cluster tap zooms the camera over `long`, the new pins drop in with a 30 ms stagger (at most 20 animated, the rest appear with the 20th), and the preview sheet springs up; every duration comes from `SaartheeMotion` and `lib/features/**` contains no `Duration(` literal
+
+**AC-13** — Discovery with reduced motion
+- **Given** the system "Remove animations" setting on (and separately, the in-app Animations switch off)
+- **When** the AC-11 and AC-12 steps are repeated
+- **Then** Home, the Report card, detail, "Me too" count, refresh, pins, cluster zoom and preview sheet change instantly or with a ≤ 100 ms cross-fade, no Report-card pulse runs, and every text, count and control is identical to the animated run
+
 ### AC → Requirement
 
 | AC | Requirements |
@@ -230,6 +279,9 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 | AC-8 | REQ-F-033 |
 | AC-9 | REQ-S-006 |
 | AC-10 | REQ-N-011 |
+| AC-11 | REQ-F-064, REQ-F-028 |
+| AC-12 | REQ-F-064, REQ-F-030, REQ-F-031, REQ-F-029 |
+| AC-13 | REQ-F-064 |
 
 ### 7.2 Non-Functional Checklist
 
@@ -242,6 +294,10 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 - [ ] Tile attribution visible; no AMC logo on share card or `/i/{id}`
 - [ ] `/i/{id}` HTML escapes all user text; CSP header set
 - [ ] Optimistic Me too/Follow roll back on error with a snackbar
+- [ ] Neem visuals only: `primary` #14674A header band, `sunrise` #C24A1F on the Report card only, Baloo Bhai 2 headings/numbers and Mukta Vaani body, radii 14/18/24/pill, Material Symbols Rounded — all through TASK-03 tokens, no literals
+- [ ] Every REQ-F-064 animation uses `SaartheeMotion` tokens; no `Duration(` literal in `lib/features/**`; only transform, opacity and colour animated
+- [ ] Home stagger only on first load; Report-card pulse once per install; nothing loops except the refresh chevron while waiting
+- [ ] Reduced motion (system and in-app switch) gives instant or ≤ 100 ms cross-fade equivalents with identical content
 
 ## 8. Validation & Testing
 
@@ -270,6 +326,9 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 | Widget | W-07-05 | Share card golden (en + gu) contains no reporter info | AC-7 |
 | Widget | W-07-06 | My reports / Following states incl. signed out | AC-8 |
 | Widget | W-07-07 | Map bottom sheet and semantics labels with fake data | AC-3 |
+| Widget | W-07-08 | Home header band + Report card (tokens, only one `sunrise` widget, overlap); first-load stagger: pump `SaartheeMotion.stagger` × n and `rise` and assert opacity/offset per item; re-entering the tab pumps one frame and all items are at final state; Report-card pulse runs once (`pumpAndSettle` after `SaartheeMotion.long`, then rebuild with `reportPulseShown=true` → no pulse) | AC-11 |
+| Widget | W-07-09 | Hero tags present on card and detail; navigation pumps through `SaartheeMotion.long`; "Me too" scale reaches ~1.2 mid-`springIn` and the rolled count reads 13 after `SaartheeMotion.short`; haptics helper fake records one light impact; `ChevronRefreshIndicator` paints and only new items animate; map pins: 25 pins → 20 animated with 30 ms offsets, 21–25 appear with pin 20; cluster tap triggers a camera tween of `SaartheeMotion.long` | AC-12 |
+| Widget | W-07-10 | Reduced-motion variants of W-07-08/09 (`MediaQuery(disableAnimations: true)` and the in-app switch): after a single `pump()` every element is at its final state, no Hero flight, no pulse, counts identical | AC-13 |
 | Integration | I-07-01 | Emulator: Home → issue card → detail → Me too → Following list shows it | AC-1, AC-5, AC-6, AC-8 |
 | Manual | M-07-01 | Map with perf seed in profile build; DevTools frame chart screenshot | AC-3, AC-4 |
 | Manual | M-07-02 | Share to WhatsApp on emulator; open link in browser | AC-7 |
@@ -277,13 +336,16 @@ Accessibility: pins and clusters have semantics labels ("Pothole, reported, in P
 | Manual | M-07-04 | TalkBack on Home, map ("Show as list"), detail; 2.0× font | AC-3, AC-5 |
 | Manual | M-07-05 | Signed-out Me too → sign-in → action applied | AC-6 |
 | Manual | M-07-06 | Gujarati UI pass on Home, detail, lists | AC-9 |
+| Manual | M-07-07 | Emulator screen recordings (`adb shell screenrecord /sdcard/<name>.mp4`, then `adb pull` into `docs/demo/v2-evidence/motion/`): `t07-home-first-load.mp4` (fresh install: stagger + Report card spring + single pulse, tab return, relaunch), `t07-card-to-detail.mp4` (Hero + Me too roll), `t07-refresh.mp4`, `t07-map-pins.mp4` (pin drop, cluster zoom, preview sheet) | AC-11, AC-12 |
+| Manual | M-07-08 | Same flows with Developer options "Remove animations" on and with the in-app Animations switch off; recording `t07-reduced-motion.mp4` | AC-13 |
 
 ## 9. Deliverables
 
 - Migration `<ts>_v2_discovery_indexes`; perf seed and `perf:read` script.
 - API: issues list/detail, me-too delete, follow, feed (provider registry), map clustering, `/i/{id}` page, `toPublicIssue()`.
-- App: Home, Map tab, issue list, issue detail, My reports, Following, share card.
-- Tests T-07-01…15, W-07-01…07, I-07-01; performance numbers in §13; coverage evidence for 10 requirements.
+- App: Home (green header band + `sunrise` Report card), Map tab, issue list, issue detail, My reports, Following, share card.
+- Discovery motion (REQ-F-064): first-load stagger, Report card spring + one-time pulse, Hero card → detail, "Me too" spring + `RollingCount`, `ChevronRefreshIndicator`, map pin drop / cluster zoom / preview sheet, reduced-motion variants.
+- Tests T-07-01…15, W-07-01…10, I-07-01; performance numbers in §13; motion recordings in `docs/demo/v2-evidence/motion/`; coverage evidence for 11 requirements.
 
 ## 10. Files Expected to Change
 
@@ -297,14 +359,18 @@ Prediction only — exact paths may differ.
 | `apps/api/src/modules/{feed,map,share-page}/`, `src/routes.ts`, `src/app.ts` (`/i/:id`) | New / Modified |
 | `apps/api/test/discovery/*.test.ts`, `test/privacy.test.ts` | New |
 | `apps/mobile/lib/features/{home,discovery,issue_detail,me}/` | New / Modified |
-| `apps/mobile/lib/core/map/` (pins, clusters) | Modified |
+| `apps/mobile/lib/core/map/` (pins, clusters, pin-drop and camera tween) | Modified |
+| `apps/mobile/lib/features/home/widgets/{home_header_band,report_card}.dart`, `lib/features/discovery/widgets/{me_too_button,chevron_refresh_indicator}.dart` | New |
+| `apps/mobile/lib/core/widgets/rolling_count.dart` (only if TASK-03 does not provide one) | New |
+| `docs/demo/v2-evidence/motion/t07-*.mp4` | New |
 | `apps/mobile/lib/router/citizen_routes.dart`, `lib/core/l10n/*.arb`, `pubspec.yaml` | Modified |
 | `apps/mobile/test/discovery/*`, `integration_test/discovery_test.dart` | New |
 
 ## 11. Related Documentation
 
 - `docs/v2/saarthee-v2-spec.md` §7 (endpoints, rate limits), §8 (screens), §11 (privacy)
-- `docs/v2/design-system.md` DS §2 (status/category colours), §4 (photos, motion), §5 (issue card, timeline, map, states), §6 (accessibility)
+- `docs/v2/design-system.md` DS §2 (Neem colour tokens, `sunrise`, status/category colours), §3 (typography), §4 (radii, Home header, icons, photos), §5 (Home header, Report card, issue card, timeline, map, states), §6 (Motion: tokens, catalogue, rules), §7 (accessibility)
+- `docs/tasks-v2/TASK-03-design-system-shell.md` (`SaartheeMotion`, motion helpers, reduced-motion switch); `TASK-14-e2e-launch.md` (REQ-N-013 frame-time audit)
 - `docs/tasks-v2/TASK-05-issue-reporting.md` (`CivicMap`, me-too create, photos), `TASK-06-issue-lifecycle.md` (derived fields, events, actions), `TASK-08-*.md` / `TASK-12-*.md` (feed providers), `TASK-13-*.md` (domain, App Links)
 
 ## 12. Risks & Considerations
@@ -317,6 +383,8 @@ Prediction only — exact paths may differ.
 | Feed blocked by a slow optional section | Home slow | Per-section timeout and degrade flags |
 | Counter drift on Me too/Follow under concurrency | Wrong counts | Transactional updates; T-07-10 compares counters with row counts; repair query in runbook |
 | Share link opens nothing for users without the app | Lost reach | `/i/{id}` web page with photo and status |
+| Hero flights or pin drops drop frames on low-end phones | Janky first impression | Animate only transform/opacity; cap animated pins at 20; profile each moment in step 18; reduced motion as fallback; TASK-14 audit |
+| Home stagger replays on every tab return or refresh | Feels slow and decorative | Session flag `homeIntroPlayed`; W-07-08 asserts no replay |
 
 ## 13. Progress Status
 
@@ -343,3 +411,7 @@ Prediction only — exact paths may differ.
 - [ ] `00-task-summary.md` updated
 - [ ] Committed as `V2-TASK-07: …`
 - [ ] Validator passes
+- [ ] Home matches DS §5 "Home header" and "Report card" (green band, `sunrise` card only, Neem type, radii and Rounded icons)
+- [ ] REQ-F-064 motion implemented with `SaartheeMotion` tokens only; W-07-08…W-07-10 pass
+- [ ] Reduced-motion variants verified (system setting and in-app switch)
+- [ ] Motion screen recordings saved to `docs/demo/v2-evidence/motion/` (M-07-07, M-07-08)
