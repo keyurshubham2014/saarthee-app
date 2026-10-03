@@ -13,7 +13,8 @@
     "db:seed": "prisma db seed",
     "admin:create": "tsx --env-file=.env scripts/admin-create.ts",
     "photos:cleanup": "tsx --env-file=.env scripts/cleanup-photos.ts",
-    "storage:check": "tsx --env-file=.env scripts/check-storage.ts"
+    "storage:check": "tsx --env-file=.env scripts/check-storage.ts",
+    "rates:snapshot": "tsx --env-file=.env scripts/rates-snapshot.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed.ts"
