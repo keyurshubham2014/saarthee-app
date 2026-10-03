@@ -103,23 +103,23 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (needs who
 | REQ-F-077 | Categories screen: drag-to-reorder, add, edit, deactivate; "Placeholder list" note | TASK-09 | Not Verified | — | — |
 | REQ-F-078 | More tab links to Invite codes, Categories and Export | TASK-09 | Not Verified | — | — |
 | REQ-F-079 | Optional rates snapshot script prints `pilot_rates_v` to the console | TASK-06 | Not Verified | — | — |
-| REQ-D-001 | All enum types: `source_tag`, `verification_result`, `photo_purpose`, `storage_driver`, `reminder_channel`,... | TASK-02 | Not Verified | — | — |
-| REQ-D-002 | `admin_users` table with lowercase-unique email, `token_version ≥ 0`, audit columns | TASK-02 | Not Verified | — | — |
-| REQ-D-003 | `invite_codes` table: uppercase alnum 6–20 unique code, `source_tag` ≠ `unknown`, indexes | TASK-02 | Not Verified | — | — |
-| REQ-D-004 | `ccrs_categories` table with unique name, `sort_order ≥ 0`, `(is_active, sort_order)` index | TASK-02 | Not Verified | — | — |
-| REQ-D-005 | `photos` table with unique `storage_key`, sha256 index, partial unattached index, `uploaded_for_complaint_i... | TASK-02 | Not Verified | — | — |
-| REQ-D-006 | `complaints` table with all columns, CHECK constraints (coords, E.164 phone, exclusion reason rule), unique... | TASK-02 | Not Verified | — | — |
-| REQ-D-007 | `reminders` table with unique `token_hash`, `(complaint_id, sent_at DESC)` index | TASK-02 | Not Verified | — | — |
-| REQ-D-008 | `verifications` table with unique `client_submission_id` and `photo_id`, note ≤ 1,000, indexes | TASK-02 | Not Verified | — | — |
-| REQ-D-009 | `events` table with bigint identity PK and the three indexes | TASK-02 | Not Verified | — | — |
-| REQ-D-010 | Foreign keys with the on-delete/on-update rules of §4 (RESTRICT on evidence, SET NULL where listed) | TASK-02 | Not Verified | — | — |
-| REQ-D-011 | `complaint_status_v` view: counts, last reminder, latest result, derived status; due computed with the conf... | TASK-02 | Not Verified | — | — |
-| REQ-D-012 | `pilot_rates_v` view: per source + `trusted` (rwa + activist); H1 = verified ÷ reminded; H2 = latest-result... | TASK-02 | Not Verified | — | — |
-| REQ-D-013 | Migrations follow the §7.3 order and conventions; hand-written SQL (CHECKs, partial indexes, views, identit... | TASK-02 | Not Verified | — | — |
-| REQ-D-014 | Seed: dev admin from env, one invite code per source tag, placeholder categories, sample set covering every... | TASK-02 | Not Verified | — | — |
-| REQ-D-015 | Dev sample seed refuses to run unless `APP_ENV=development` and no real pilot data is present | TASK-02 | Not Verified | — | — |
-| REQ-D-016 | Prisma models PascalCase mapped to snake_case; UUID PKs via `gen_random_uuid()` (verify PG version) | TASK-02 | Not Verified | — | — |
-| REQ-D-017 | All time columns `TIMESTAMPTZ` (UTC); evidence rows store device time and server receipt time; server time ... | TASK-02 | Not Verified | — | — |
+| REQ-D-001 | All enum types: `source_tag`, `verification_result`, `photo_purpose`, `storage_driver`, `reminder_channel`,... | TASK-02 | Pass | M-02-01: 10 migrations applied in 04 §7.3 order; 7 enums / 8 tables / 2 views | 2026-10-03 |
+| REQ-D-002 | `admin_users` table with lowercase-unique email, `token_version ≥ 0`, audit columns | TASK-02 | Pass | M-02-03: Mixed@X.com fails ck_admin_users_email_lower; uq_admin_users_email; token_version CHECK | 2026-10-03 |
+| REQ-D-003 | `invite_codes` table: uppercase alnum 6–20 unique code, `source_tag` ≠ `unknown`, indexes | TASK-02 | Pass | M-02-03: bad inserts (code abc, source unknown) fail ck_invite_codes_*; valid equivalent ok; indexes uq_/idx_ present | 2026-10-03 |
+| REQ-D-004 | `ccrs_categories` table with unique name, `sort_order ≥ 0`, `(is_active, sort_order)` index | TASK-02 | Pass | M-02-04: uq_ccrs_categories_name, idx_ccrs_categories_active_order, ck sort_order | 2026-10-03 |
+| REQ-D-005 | `photos` table with unique `storage_key`, sha256 index, partial unattached index, `uploaded_for_complaint_i... | TASK-02 | Pass | M-02-03/04: verification photo w/o complaint fails ck_photos_verification_complaint; idx_photos_unattached partial index present | 2026-10-03 |
+| REQ-D-006 | `complaints` table with all columns, CHECK constraints (coords, E.164 phone, exclusion reason rule), unique... | TASK-02 | Pass | M-02-03: lat 91, phone +9112345, excluded w/o reason each fail; idx_complaints_included_created partial index | 2026-10-03 |
+| REQ-D-007 | `reminders` table with unique `token_hash`, `(complaint_id, sent_at DESC)` index | TASK-02 | Pass | M-02-04: uq_reminders_token_hash, idx_reminders_complaint_sent (sent_at DESC) | 2026-10-03 |
+| REQ-D-008 | `verifications` table with unique `client_submission_id` and `photo_id`, note ≤ 1,000, indexes | TASK-02 | Pass | M-02-03: note 1001 chars fails varchar(1000); uq client_submission/photo; DESC index | 2026-10-03 |
+| REQ-D-009 | `events` table with bigint identity PK and the three indexes | TASK-02 | Pass | M-02-02: events.id identity ALWAYS; unknown event name fails ck_events_name; 3 indexes | 2026-10-03 |
+| REQ-D-010 | Foreign keys with the on-delete/on-update rules of §4 (RESTRICT on evidence, SET NULL where listed) | TASK-02 | Pass | M-02-04: pg_constraint confdeltype r/n per §4 (13 FKs); DELETE C3 → reminders_complaint_id_fkey RESTRICT | 2026-10-03 |
+| REQ-D-011 | `complaint_status_v` view: counts, last reminder, latest result, derived status; due computed with the conf... | TASK-02 | Pass | M-02-06: complaint_status_v statuses match SEED-EXPECTATIONS (C6 verified_not_fixed vc=2); due set C1, C3, C11 with make_interval(days=>7) | 2026-10-03 |
+| REQ-D-012 | `pilot_rates_v` view: per source + `trusted` (rwa + activist); H1 = verified ÷ reminded; H2 = latest-result... | TASK-02 | Pass | M-02-07/08: pilot_rates_v equals SEED-EXPECTATIONS (trusted 7/5/3/0.6000/4/2/0.6667); un-excluding C8 → activist 3/3/2/0.6667/2/1.0, trusted 8/6/4/0.6667/3/0.75 | 2026-10-03 |
+| REQ-D-013 | Migrations follow the §7.3 order and conventions; hand-written SQL (CHECKs, partial indexes, views, identit... | TASK-02 | Pass | M-02-01: 10 migrations applied in 04 §7.3 order; 7 enums / 8 tables / 2 views | 2026-10-03 |
+| REQ-D-014 | Seed: dev admin from env, one invite code per source tag, placeholder categories, sample set covering every... | TASK-02 | Pass | M-02-05: db:seed twice → admin 1, codes 4, categories 6, complaints 11; photo files under PHOTO_STORAGE_DIR | 2026-10-03 |
+| REQ-D-015 | Dev sample seed refuses to run unless `APP_ENV=development` and no real pilot data is present | TASK-02 | Pass | M-02-09: APP_ENV=production seed → 'Seed refused'; non-seed complaint guard in seed.ts | 2026-10-03 |
+| REQ-D-016 | Prisma models PascalCase mapped to snake_case; UUID PKs via `gen_random_uuid()` (verify PG version) | TASK-02 | Pass | M-02-02: snake_case @@map, uuid PK default gen_random_uuid() (PG 17.6) | 2026-10-03 |
+| REQ-D-017 | All time columns `TIMESTAMPTZ` (UTC); evidence rows store device time and server receipt time; server time ... | TASK-02 | Pass | M-02-02: 0 timestamp-without-tz columns; device_captured_at + created_at on evidence rows | 2026-10-03 |
 | REQ-N-001 | Material 3 theme built from the indigo-and-marigold design tokens; no hard-coded colours in screens | TASK-03 | Not Verified | — | — |
 | REQ-N-002 | Typography scale; Anek (or Noto fallback) fonts bundled after licence/coverage check, only used weights | TASK-03 | Not Verified | — | — |
 | REQ-N-003 | Spacing (4-pt), radii hierarchy, no card shadows, Material Symbols Rounded with labels, motion respects red... | TASK-03 | Not Verified | — | — |
@@ -142,7 +142,7 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (needs who
 | REQ-N-020 | Shared component set: `StepScaffold`, `PrimaryButton`, `SecondaryButton`, `ChoiceCard`, `EvidencePhoto`, `S... | TASK-03 | Not Verified | — | — |
 | REQ-N-021 | `BeforeAfterCard` signature component (full, compact thumbnail pair, citizen check variant) with status sta... | TASK-03 | Not Verified | — | — |
 | REQ-N-022 | Flutter feature folders split `data` / `application` / `presentation`; screens never call the API directly | TASK-03 | Not Verified | — | — |
-| REQ-N-023 | Backend layering: handlers parse/shape; services hold business rules; only services and storage touch Prism... | TASK-01 | Not Verified | — | — |
+| REQ-N-023 | Backend layering: handlers parse/shape; services hold business rules; only services and storage touch Prism... | TASK-01 | Pass | M-01-11: createApp() in src/app.ts, listen only in src/server.ts; ARCHITECTURE.md layering rule | 2026-10-03 |
 | REQ-S-001 | Admin passwords: Argon2id (bcrypt cost 12 fallback), ≥ 12 chars, reject the 10,000 most common passwords | TASK-05 | Not Verified | — | — |
 | REQ-S-002 | Admin JWT HS256 (`JWT_SECRET` ≥ 32 bytes), claims `sub`,`tv`,`iat`,`exp`,`iss`,`aud`, 8 h expiry, no refres... | TASK-05 | Not Verified | — | — |
 | REQ-S-003 | Login uses constant-time hash check and the same `INVALID_CREDENTIALS` for unknown email and wrong password... | TASK-05 | Not Verified | — | — |
@@ -155,15 +155,15 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (needs who
 | REQ-S-010 | Server photo pipeline: multipart size limit before buffering, JPEG magic-byte check, decode + re-encode, al... | TASK-04 | Not Verified | — | — |
 | REQ-S-011 | Storage interface (save/open/delete/exists) with local driver; opaque server keys `photos/<yyyy>/<mm>/<uuid... | TASK-04 | Not Verified | — | — |
 | REQ-S-012 | Photos only streamed through the API: report photo to admin JWT or the same complaint's verify token; verif... | TASK-08 | Not Verified | — | — |
-| REQ-S-013 | Logger redaction: `Authorization`, `X-Verify-Token`, `password`, `phone`, `phoneE164`, `note` removed; bodi... | TASK-01 | Not Verified | — | — |
+| REQ-S-013 | Logger redaction: `Authorization`, `X-Verify-Token`, `password`, `phone`, `phoneE164`, `note` removed; bodi... | TASK-01 | Pass | M-01-07: Authorization/X-Verify-Token/password/phone/note (incl. nested data.phone) → grep -cE 'abc/tok123/9876543210' log = 0 | 2026-10-03 |
 | REQ-S-014 | Event properties never contain phone numbers, tokens, invite codes, coordinates or notes; unknown names/pro... | TASK-03 | Not Verified | — | — |
-| REQ-S-015 | Every request schema-validated (Zod candidate) before business logic; unknown fields stripped/rejected; onl... | TASK-01 | Not Verified | — | — |
-| REQ-S-016 | JSON body limit 64 KB | TASK-01 | Not Verified | — | — |
+| REQ-S-015 | Every request schema-validated (Zod candidate) before business logic; unknown fields stripped/rejected; onl... | TASK-01 | Pass | M-01-08: {name:toolong,extra:1} → 400 details[{field:name}]; valid body reaches handler without extra; ARCHITECTURE.md SQL rule | 2026-10-03 |
+| REQ-S-016 | JSON body limit 64 KB | TASK-01 | Pass | M-01-09: 70 KB JSON → 413 standard shape | 2026-10-03 |
 | REQ-S-017 | CSV export escapes values beginning with `=`, `+`, `-`, `@` | TASK-09 | Not Verified | — | — |
-| REQ-S-018 | Error responses never include stack traces, SQL, file paths or internal IDs (except request ID) | TASK-01 | Not Verified | — | — |
-| REQ-S-019 | Security headers (helmet candidate): nosniff, frame deny, no referrer, CSP `default-src 'none'` | TASK-01 | Not Verified | — | — |
-| REQ-S-020 | CORS disabled by default; `CORS_ORIGINS` may enable a local tool | TASK-01 | Not Verified | — | — |
-| REQ-S-021 | Rate-limit middleware (in-memory, per IP or admin, 429 `RATE_LIMITED` + Retry-After, `warn` log) available ... | TASK-01 | Not Verified | — | — |
+| REQ-S-018 | Error responses never include stack traces, SQL, file paths or internal IDs (except request ID) | TASK-01 | Pass | M-01-05: 500 body has no stack/SQL/path; stack only in server log | 2026-10-03 |
+| REQ-S-019 | Security headers (helmet candidate): nosniff, frame deny, no referrer, CSP `default-src 'none'` | TASK-01 | Pass | M-01-09: curl -i shows nosniff, X-Frame-Options DENY, Referrer-Policy no-referrer, CSP default-src 'none' | 2026-10-03 |
+| REQ-S-020 | CORS disabled by default; `CORS_ORIGINS` may enable a local tool | TASK-01 | Pass | M-01-09: Origin http://evil.test → no Access-Control-Allow-Origin with CORS_ORIGINS empty | 2026-10-03 |
+| REQ-S-021 | Rate-limit middleware (in-memory, per IP or admin, 429 `RATE_LIMITED` + Retry-After, `warn` log) available ... | TASK-01 | Pass | M-01-10: limiter max 2 → 200,200,429 + Retry-After: 60; warn log line | 2026-10-03 |
 | REQ-S-022 | Rate limits: `/invite-codes/validate` 30/IP/h; `/events` 120/IP/min; `/health` + `/categories` 120/IP/min | TASK-03 | Not Verified | — | — |
 | REQ-S-023 | Rate limits: `/photos` 60/IP/h; `/reports` 30/IP/h | TASK-04 | Not Verified | — | — |
 | REQ-S-024 | Rate limits: `/verify/*` 60/IP/h (incl. `/verify/photos`) | TASK-07 | Not Verified | — | — |
@@ -172,32 +172,32 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (needs who
 | REQ-S-027 | Admin actions (reminder, exclusion, anonymization, export, category/invite-code change, logout-all) logged ... | TASK-05 | Not Verified | — | — |
 | REQ-S-028 | Plain-HTTP exception only for the dev machine and only in Android debug / iOS Debug builds; absent from rel... | TASK-03 | Not Verified | — | — |
 | REQ-S-029 | Admin JWT stored in platform secure storage (Keystore/Keychain) | TASK-05 | Not Verified | — | — |
-| REQ-S-030 | Secrets only in git-ignored `.env`; committed `.env.example` files; secrets generated with CSPRNG; app ship... | TASK-01 | Not Verified | — | — |
+| REQ-S-030 | Secrets only in git-ignored `.env`; committed `.env.example` files; secrets generated with CSPRNG; app ship... | TASK-01 | Pass | M-01-01: git ls-files has no .env; git check-ignore apps/api/.env infra/.env; layout apps/api, apps/mobile, infra, docs (commit 87b56d5) | 2026-10-03 |
 | REQ-S-031 | Photo files stored outside the repository (`PHOTO_STORAGE_DIR`) | TASK-04 | Not Verified | — | — |
-| REQ-S-032 | PostgreSQL bound to 127.0.0.1 only; API bound to `API_HOST` for LAN phones | TASK-01 | Not Verified | — | — |
+| REQ-S-032 | PostgreSQL bound to 127.0.0.1 only; API bound to `API_HOST` for LAN phones | TASK-01 | Pass | M-01-02: docker compose ps healthy; docker port → 127.0.0.1:5433 (5432 taken on host, ASSUMPTION); API lsof *:4000 = API_HOST 0.0.0.0 | 2026-10-03 |
 | REQ-S-033 | Consent: `consentGivenAt` required and `consentTextVersion` must be in `CONSENT_TEXT_VERSIONS` | TASK-04 | Not Verified | — | — |
 | REQ-S-034 | `deviceCapturedAt` no more than 10 min ahead of server time (reports and verifications) | TASK-04 | Not Verified | — | — |
 | REQ-S-035 | Shared phone rule (app + API): strip spaces/dashes/+91/0/91 → 10 digits starting 6–9 → E.164; CCRS normaliz... | TASK-04 | Not Verified | — | — |
 | REQ-S-036 | Dependency audit before shared builds: `npm audit --audit-level=high`, `flutter pub outdated`; Dependabot a... | TASK-10 | Not Verified | — | — |
-| REQ-O-001 | Repo layout `apps/api`, `apps/mobile`, `infra`, `docs`; `.gitignore` | TASK-01 | Not Verified | — | — |
-| REQ-O-002 | `infra/docker-compose.yml`: one `db` service, pinned postgres major, `127.0.0.1:5432`, volume `pgdata`, `pg... | TASK-01 | Not Verified | — | — |
-| REQ-O-003 | API validates all env vars of 05 §2.2 at startup and exits with a clear message when missing/invalid | TASK-01 | Not Verified | — | — |
-| REQ-O-004 | Root scripts `db:up`, `db:down`, `api:dev` | TASK-01 | Not Verified | — | — |
-| REQ-O-005 | Root scripts `db:migrate`, `db:seed`, and `db:reset` (refuses unless `APP_ENV=development`, asks for confir... | TASK-02 | Not Verified | — | — |
-| REQ-O-006 | `GET /health` returns `{status, db}`; 503 `SERVICE_UNAVAILABLE` when the database is unreachable | TASK-01 | Not Verified | — | — |
-| REQ-O-007 | Structured JSON logger (levels used per §9.2); request ID accepted from header or generated, returned in a ... | TASK-01 | Not Verified | — | — |
-| REQ-O-008 | Uniform error response `{error:{code,message,details?,requestId}}` and the full error-code table | TASK-01 | Not Verified | — | — |
-| REQ-O-009 | GitHub Actions: path-filtered API job (install, `prisma generate`, `tsc --noEmit`, ESLint) and mobile job (... | TASK-01 | Not Verified | — | — |
-| REQ-O-010 | Optional weekly `npm audit --audit-level=high` workflow (notification only) | TASK-01 | Not Verified | — | — |
+| REQ-O-001 | Repo layout `apps/api`, `apps/mobile`, `infra`, `docs`; `.gitignore` | TASK-01 | Pass | M-01-01: git ls-files has no .env; git check-ignore apps/api/.env infra/.env; layout apps/api, apps/mobile, infra, docs (commit 87b56d5) | 2026-10-03 |
+| REQ-O-002 | `infra/docker-compose.yml`: one `db` service, pinned postgres major, `127.0.0.1:5432`, volume `pgdata`, `pg... | TASK-01 | Pass | M-01-02: docker compose ps healthy; docker port → 127.0.0.1:5433 (5432 taken on host, ASSUMPTION); API lsof *:4000 = API_HOST 0.0.0.0 | 2026-10-03 |
+| REQ-O-003 | API validates all env vars of 05 §2.2 at startup and exits with a clear message when missing/invalid | TASK-01 | Pass | M-01-03: JWT_SECRET empty/short and APP_ENV=staging each exit 1 naming the variable, no value printed | 2026-10-03 |
+| REQ-O-004 | Root scripts `db:up`, `db:down`, `api:dev` | TASK-01 | Pass | package.json db:up/db:down/api:dev; npm run db:up --wait healthy; curl /api/v1/health 200 | 2026-10-03 |
+| REQ-O-005 | Root scripts `db:migrate`, `db:seed`, and `db:reset` (refuses unless `APP_ENV=development`, asks for confir... | TASK-02 | Pass | M-02-09: db:reset refuses APP_ENV=production, 'no' → Aborted; db:migrate/db:seed scripts | 2026-10-03 |
+| REQ-O-006 | `GET /health` returns `{status, db}`; 503 `SERVICE_UNAVAILABLE` when the database is unreachable | TASK-01 | Pass | M-01-04: curl -i localhost:4000/api/v1/health → 200 {status:ok,db:ok}; 503 path via databaseReachable() timeout | 2026-10-03 |
+| REQ-O-007 | Structured JSON logger (levels used per §9.2); request ID accepted from header or generated, returned in a ... | TASK-01 | Pass | M-01-06: X-Request-Id: test-123 echoed; generated UUID otherwise; log line has requestId, method, route /api/v1/health, status, durationMs | 2026-10-03 |
+| REQ-O-008 | Uniform error response `{error:{code,message,details?,requestId}}` and the full error-code table | TASK-01 | Pass | M-01-05: /api/v1/nope → 404 NOT_FOUND; '{bad' → 400 VALIDATION_FAILED; throwing route → 500 INTERNAL_ERROR, all with requestId; 20-code table in src/lib/errors | 2026-10-03 |
+| REQ-O-009 | GitHub Actions: path-filtered API job (install, `prisma generate`, `tsc --noEmit`, ESLint) and mobile job (... | TASK-01 | Deferred | Integrator 2026-10-03, 2-hour demo timebox: ci.yml written (path-filtered api/mobile jobs) but no GitHub remote exists; creating/pushing a remote is an outward-facing action left to the founder. Same checks run locally (tsc, eslint, dart analyze, dart format) | 2026-10-03 |
+| REQ-O-010 | Optional weekly `npm audit --audit-level=high` workflow (notification only) | TASK-01 | Deferred | Integrator 2026-10-03, 2-hour demo timebox: ci.yml written (path-filtered api/mobile jobs) but no GitHub remote exists; creating/pushing a remote is an outward-facing action left to the founder. Same checks run locally (tsc, eslint, dart analyze, dart format) | 2026-10-03 |
 | REQ-O-011 | Flutter build config via `--dart-define` (`APP_ENV`, `API_BASE_URL`, `DEEP_LINK_SCHEME`, `CCRS_WEB_URL`, `C... | TASK-03 | Not Verified | — | — |
 | REQ-O-012 | `saarthee` URL scheme registered (Android intent filter, iOS URL type); link firing documented for emulator... | TASK-07 | Not Verified | — | — |
 | REQ-O-013 | Camera and location permissions declared with plain-language usage strings (Android manifest, iOS Info.plist) | TASK-04 | Not Verified | — | — |
 | REQ-O-014 | Full loop works on a physical low-end Android phone (LAN `API_BASE_URL`) and on iOS simulator + iPhone | TASK-10 | Not Verified | — | — |
 | REQ-O-015 | Deep link tested from a real WhatsApp message; if not tappable, manual code entry confirmed; result recorded | TASK-10 | Not Verified | — | — |
 | REQ-O-016 | Manual release checklist (06 §12.3) passes on both phones; S1/S2 bugs fixed | TASK-10 | Not Verified | — | — |
-| REQ-O-017 | Optional rotating local log file kept ≤ 14 days | TASK-01 | Not Verified | — | — |
-| REQ-O-018 | Express app built separately from the server entry point that listens | TASK-01 | Not Verified | — | — |
-| REQ-O-019 | `pg_dump` before risky migrations documented (backups outside the project, never committed) | TASK-02 | Not Verified | — | — |
+| REQ-O-017 | Optional rotating local log file kept ≤ 14 days | TASK-01 | Pass | LOG_FILE_DIR set → pino-roll daily file api.1.log, limit count 14 | 2026-10-03 |
+| REQ-O-018 | Express app built separately from the server entry point that listens | TASK-01 | Pass | M-01-11: createApp() in src/app.ts, listen only in src/server.ts; ARCHITECTURE.md layering rule | 2026-10-03 |
+| REQ-O-019 | `pg_dump` before risky migrations documented (backups outside the project, never committed) | TASK-02 | Pass | apps/api/prisma/README.md pg_dump -Fc to ~/saarthee-backups (outside repo); *.dump git-ignored | 2026-10-03 |
 | REQ-O-020 | Deviations from the spec recorded in the affected document's Decisions & Assumptions table | TASK-10 | Not Verified | — | — |
-| REQ-O-021 | Git repository initialised, pushed to GitHub, spec docs in `docs/`, no `.env` committed | TASK-01 | Not Verified | — | — |
+| REQ-O-021 | Git repository initialised, pushed to GitHub, spec docs in `docs/`, no `.env` committed | TASK-01 | Deferred | Integrator 2026-10-03, 2-hour demo timebox: git repo initialised locally, docs in docs/, no .env committed; GitHub push left to the founder (outward-facing) | 2026-10-03 |
 | REQ-O-023 | Feature-coverage verification layer: every active requirement in this registry is verified against the runn... | TASK-10 | Not Verified | — | — |

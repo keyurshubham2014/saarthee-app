@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-01 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | M |
 | Depends On | None |
@@ -371,24 +371,25 @@ Prediction, not a constraint.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
-**Progress:** 0%
+**Current status:** In Review — unfinished: GitHub remote + push and a CI run (AC-1 push part, AC-12, AC-13 audit run) — Deferred, 2-hour demo timebox / founder action
+**Progress:** 100%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | Repo, compose (postgres 17.6, 127.0.0.1:5433), API foundation: config validation, redacting pino logger (+pino-roll 4.0.0), request ID/log by route template, error table, validate (zod 4.6.5), rate-limit factory (express-rate-limit 8.7.0), helmet 8.3.0, 64 KB limit, /health; express 5.2.1, prisma 6.19.3, TS 5.9.3. All §8 checks run locally (M-01-01…11, 13). CI workflow written; GitHub push deferred (no remote, founder action). ASSUMPTION: DB host port 5433 because 5432 is occupied on the dev machine. | 87b56d5, 2c7d50f |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
-- [ ] All behavioral acceptance criteria verified in the running application
-- [ ] Non-functional checklist fully ticked
-- [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place) — not applicable beyond health; temporary dev routes removed or dev-gated
-- [ ] Error, loading, empty, and unauthorized states verified — API error states only (no UI in this task)
-- [ ] Code reviewed against the patterns established in earlier tasks (this task establishes them; documented in `ARCHITECTURE.md`)
-- [ ] Assumptions documented and, where possible, confirmed
-- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-01` shows 0 unverified)
-- [ ] Committed as `TASK-01: …`
-- [ ] Task file progress log and status updated
-- [ ] `00-task-summary.md` updated
-- [ ] Validator passes
+- [x] All implementation steps complete
+- [ ] All behavioral acceptance criteria verified in the running application (AC-12 CI run + push deferred)
+- [x] Non-functional checklist fully ticked
+- [x] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
+- [x] Frontend and backend integrated end to end (no mocked data left in place) — not applicable beyond health; temporary dev routes removed or dev-gated
+- [x] Error, loading, empty, and unauthorized states verified — API error states only (no UI in this task)
+- [x] Code reviewed against the patterns established in earlier tasks (this task establishes them; documented in `ARCHITECTURE.md`)
+- [x] Assumptions documented and, where possible, confirmed
+- [x] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-01` shows 0 unverified)
+- [x] Committed as `TASK-01: …`
+- [x] Task file progress log and status updated
+- [x] `00-task-summary.md` updated
+- [x] Validator passes

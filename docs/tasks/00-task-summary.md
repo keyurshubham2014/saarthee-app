@@ -1,8 +1,8 @@
 # Task Summary — Saarthee (Ahmedabad Civic Accountability)
 
 **Last Updated:** 2026-10-03
-**Overall Progress:** 0 / 10 tasks complete (0%)
-**Current Task:** TASK-01
+**Overall Progress:** 1 / 10 tasks complete (10%)
+**Current Task:** Parallel build — W1 API (TASK-03…09 API), W2 citizen app (TASK-03/04/07), W3 admin app (TASK-05/06/08/09)
 **Requirement Coverage (planned):** 177 / 177 active requirements mapped to a task (5 deferred)
 **Requirement Coverage (verified):** 0 / 177 — see [coverage-verification.md](./coverage-verification.md)
 **Source Documents:** `docs/00-master-index.md` … `docs/07-implementation-roadmap.md`
@@ -25,9 +25,9 @@ Prompt template for Claude Code:
 
 | Task | Title | Status | Priority | Size | Depends On | Progress |
 |---|---|---|---|---|---|---|
-| TASK-01 | Repository, local infrastructure & API foundation | Not Started | P0 | M | None | 0% |
-| TASK-02 | Database schema, migrations, views & seed data | Not Started | P0 | M | TASK-01 | 0% |
-| TASK-03 | Mobile foundation, design system & onboarding | Not Started | P0 | L | TASK-01, TASK-02 | 0% |
+| TASK-01 | Repository, local infrastructure & API foundation | In Review | P0 | M | None | 90% |
+| TASK-02 | Database schema, migrations, views & seed data | Complete | P0 | M | TASK-01 | 100% |
+| TASK-03 | Mobile foundation, design system & onboarding | In Progress | P0 | L | TASK-01, TASK-02 | 10% |
 | TASK-04 | Report flow: photo pipeline, submission & draft safety | Not Started | P0 | L | TASK-02, TASK-03 | 0% |
 | TASK-05 | Admin authentication & admin shell | Not Started | P0 | M | TASK-02, TASK-03 | 0% |
 | TASK-06 | Due list, WhatsApp reminders & rates | Not Started | P0 | M | TASK-04, TASK-05 | 0% |
@@ -47,7 +47,7 @@ Overall progress = Complete tasks ÷ 10.
 Order flexibility: TASK-04 and TASK-05 may swap (both need only TASK-02/03). TASK-08 and TASK-09 may swap
 or interleave (both need only TASK-07).
 
-**Ready now (dependencies satisfied):** TASK-01
+**Ready now (dependencies satisfied):** TASK-03, TASK-04, TASK-05 (in progress in parallel)
 **Blocked:** none
 
 ### Milestones (mapped to the roadmap, 07 §4)
@@ -186,3 +186,5 @@ Product decisions the spec leaves open. None blocks TASK-01…09; items marked "
 | Date | Change |
 |---|---|
 | 2026-10-03 | Initial plan generated from tech spec v1.0 (Docs 00–07): 10 tasks, 177 active requirements, coverage-verification layer added |
+| 2026-10-03 13:25 IST | /goal demo build started (GOAL-DEMO-PROMPT.md). Preflight: Docker ok, Postgres 17.6 container (host port 5433), Android emulator emulator-5554 (API 36) booted, flutter doctor ok for Android; Xcode incomplete → iOS deferred |
+| 2026-10-03 13:51 IST (elapsed 26 min) | Foundation checkpoint: TASK-01 In Review (GitHub push/CI deferred), TASK-02 Complete; /health ok; SEED-EXPECTATIONS matches pilot_rates_v exactly; tag demo-safe-0. Three workers spawned in worktrees |

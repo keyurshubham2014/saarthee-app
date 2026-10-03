@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-02 |
-| Status | Not Started |
+| Status | Complete |
 | Priority | P0 |
 | Size | M |
 | Depends On | TASK-01 |
@@ -371,24 +371,25 @@ Prediction, not a constraint.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
-**Progress:** 0%
+**Current status:** Complete
+**Progress:** 100%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | Prisma schema, 10 ordered migrations with hand-written CHECKs/partial indexes/identity/views, argon2 0.45.1 password helper, guarded seed (sharp 0.35.5 placeholder JPEGs), SEED-EXPECTATIONS.md matches pilot_rates_v exactly, db:migrate/seed/reset, backup README. M-02-01…09 run. | 87b56d5 |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
-- [ ] All behavioral acceptance criteria verified in the running application
-- [ ] Non-functional checklist fully ticked
-- [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place) — not applicable (no endpoints); seed data documented as development-only
-- [ ] Error, loading, empty, and unauthorized states verified — not applicable (no UI); constraint errors verified instead
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
-- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-02` shows 0 unverified)
-- [ ] Committed as `TASK-02: …`
-- [ ] Task file progress log and status updated
-- [ ] `00-task-summary.md` updated
-- [ ] Validator passes
+- [x] All implementation steps complete
+- [x] All behavioral acceptance criteria verified in the running application
+- [x] Non-functional checklist fully ticked
+- [x] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
+- [x] Frontend and backend integrated end to end (no mocked data left in place) — not applicable (no endpoints); seed data documented as development-only
+- [x] Error, loading, empty, and unauthorized states verified — not applicable (no UI); constraint errors verified instead
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
+- [x] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-02` shows 0 unverified)
+- [x] Committed as `TASK-02: …`
+- [x] Task file progress log and status updated
+- [x] `00-task-summary.md` updated
+- [x] Validator passes
