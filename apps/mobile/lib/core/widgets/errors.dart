@@ -38,7 +38,7 @@ class InlineFieldError extends StatelessWidget {
   }
 }
 
-/// One entry in an [ErrorSummary]; [onTap] jumps to the step/field to fix.
+/// One entry in an [AppErrorSummary]; [onTap] jumps to the step/field to fix.
 class ErrorSummaryItem {
   const ErrorSummaryItem(this.message, {this.onTap});
 
@@ -48,17 +48,17 @@ class ErrorSummaryItem {
 
 /// Error summary at the top of a screen (02 §6.2, §9.2). Requests focus when
 /// shown so screen readers announce it (focus moves to the summary).
-class ErrorSummary extends StatefulWidget {
-  const ErrorSummary({super.key, required this.items, this.title});
+class AppErrorSummary extends StatefulWidget {
+  const AppErrorSummary({super.key, required this.items, this.title});
 
   final List<ErrorSummaryItem> items;
   final String? title;
 
   @override
-  State<ErrorSummary> createState() => _ErrorSummaryState();
+  State<AppErrorSummary> createState() => _AppErrorSummaryState();
 }
 
-class _ErrorSummaryState extends State<ErrorSummary> {
+class _AppErrorSummaryState extends State<AppErrorSummary> {
   final _focus = FocusNode();
 
   @override
