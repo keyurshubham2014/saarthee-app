@@ -164,6 +164,12 @@ State machine: 02 §6.3 (Category → FileWithAMC ↔ AwayAtAMC → Number → P
 - ASSUMPTION: "Your reports on this phone" entries are added on successful submit and never synced — 02 §4.3 says local only.
 - ASSUMPTION: `photos:cleanup` deletes the file first, then the row, and logs per-item failures — 03 §5.3 "safe to re-run".
 
+- ASSUMPTION (W1 API): Coordinates with more than 6 decimals are **rounded** to 6 dp server-side rather than rejected (03 §2.3 "up to 6 decimal places") — phones report ~15 decimals and rejecting would lose reports; the column is `DECIMAL(9,6)` anyway.
+- ASSUMPTION (W1 API): A malformed `inviteCode` on `POST /reports` (not 6–20 alnum) is treated like an unknown code (stored `unknown`, warn log) instead of 400 — 03 §4.1 "a report must not be lost over a code problem" wins over the §2.3 format column.
+- ASSUMPTION (W1 API): `photos:cleanup` (and `storage:check`) live in `apps/api/package.json` (`npm run photos:cleanup` in `apps/api`); the root `package.json` alias is for the integrator (W1 only touches `apps/api/**`). The script also retries failed anonymization file deletions (03 §5.3 second row).
+- ASSUMPTION (W1 API): Re-encode quality JPEG q85, decompression-bomb guard 50 MP (`limitInputPixels`), EXIF orientation applied before metadata is dropped so stored pixels are upright.
+- ASSUMPTION (W1 API): `STORAGE_DRIVER=cloudflare_r2` makes the API refuse to start with a clear message — the R2 driver is a deployment-time addition (03 §6); startup also refuses a `PHOTO_STORAGE_DIR` that is not writable or is inside the repository.
+
 ## 6. Implementation Steps
 
 1. **Shared rules (API).** `src/lib/validation`: phone normalization → E.164, CCRS normalization; unit-free pure functions reused by schemas.
@@ -328,6 +334,33 @@ State machine: 02 §6.3 (Category → FileWithAMC ↔ AwayAtAMC → Number → P
 | App manual M-04-13 | Fresh install permission prompts on Android emulator and iOS simulator | AC-17 |
 | Optional automated | 06 §8.1 #2 — Vitest + Supertest: same `clientSubmissionId` twice → one complaint, 201 then 200 (optional, may be added in TASK-10) | AC-10 |
 
+### Verification log (W1, API only — 2026-10-03, `saarthee_w1` DB, `API=http://localhost:4001/api/v1`)
+
+Test images generated with sharp: `exif.jpg` 3000×2000 with EXIF (Make/Model, GPS lat/lng, Orientation 6), `small.png`, `fake.jpg` (JPEG magic bytes + garbage), `big.bin` (6 MB). Report body sent by `rep.sh` = all §5.3 fields with `X-Install-Id`/`X-Platform`/`X-App-Version` headers.
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| Categories | `curl -s $API/categories` | 200, 6 active categories in `sort_order` |
+| Photo OK | `curl -s -F photo=@exif.jpg -F purpose=report $API/photos` | 201 `{"photoId":"59cac55e-…"}`; row `photos/2026/10/<uuid>.jpg`, `byte_size 16780`, `1365×2048` (auto-rotated, long edge = `PHOTO_MAX_EDGE_PX` 2048), sha256 matches file on disk; sharp metadata of stored file: `exif false icc false xmp false iptc false orientation undefined`; file mode 0600 under `PHOTO_STORAGE_DIR` |
+| Photo PNG | `-F photo=@small.png` | 415 `PHOTO_TYPE_UNSUPPORTED` |
+| Photo fake JPEG | `-F photo=@fake.jpg` | 415 `PHOTO_TYPE_UNSUPPORTED` |
+| Photo > 5 MB | `-F photo=@big.bin` | 413 `PHOTO_TOO_LARGE` (multer `limits.fileSize`, aborted while streaming) |
+| Photo wrong purpose | `-F purpose=verification` | 400 `details:[{field:"purpose"}]`, nothing stored |
+| Photo missing / JSON body | no `photo` part; `-H 'Content-Type: application/json' -d '{}'` | 400 `VALIDATION_FAILED` field `photo` |
+| Report 201 | `rep.sh <photoId> 3f6c1e2a-…` (phone `"98765 43210"`, code `rwatest01`) | 201 `{complaintId, createdAt}`; row: `source_tag rwa`, `phone_e164 +919876543210`, `ccrs_number_normalized AMC20269001`, lat/lng rounded to 6 dp; photo `attached_at` set; `report_submitted` event with complaint_id, source_tag, install_id, `{}` properties |
+| Report idempotent | same `clientSubmissionId` again | 200 with the same `complaintId`/`createdAt` |
+| Concurrent duplicates | 8 parallel posts, same `clientSubmissionId` + photo | exactly one 201, seven 200, all same `complaintId`; one row |
+| Photo reuse | attached photo with a new `clientSubmissionId` | 422 `PHOTO_UNUSABLE` |
+| Unknown invite + dup CCRS | code `BOGUS999`, ccrs `"amc 2026 0001"`, phone `09876543210` | 201; row `source_tag unknown`, `invite_code_id NULL`, `ccrs_duplicate_flag true` (seed C1 `AMC-2026-0001`); `warn` log "unknown or inactive invite code…" without the code value; response has no duplicate flag |
+| Inactive category | `UPDATE ccrs_categories SET is_active=false …` then submit | 422 `CATEGORY_INACTIVE` |
+| Expired photo | `UPDATE photos SET uploaded_at = now() - interval '25 hours'` then submit | 422 `PHOTO_UNUSABLE` "Your photo upload expired. Please retake the photo." |
+| Missing photo | random UUID photoId | 422 `PHOTO_UNUSABLE` |
+| Field errors | phone `12345`; ccrs `"  "` + capture time 2030 + consent `v9` | 400 with `details`: phone "Enter a valid 10-digit Indian mobile number."; ccrsNumber "Enter the complaint number you got from AMC."; deviceCapturedAt "Your phone's clock looks wrong. Please check the date and time."; consentTextVersion "Please agree to the consent statement to continue." |
+| Cleanup | `npm run photos:cleanup` (in `apps/api`) with one 25 h-old unattached photo and one fresh one | `orphans deleted=1 … failures=0`, exit 0; old row + file gone, fresh one kept; re-run → `orphans deleted=0`, exit 0 |
+| Storage driver | `npm run storage:check` | `key=true exists=true read=true deleted=true missingDeleteOk=true escapeRefused=true → PASS` (`../etc/passwd`, `photos/../../x.jpg`, `/etc/passwd` refused) |
+| Log redaction | `grep -c -E '9876543210\|rwatest\|BOGUS' api.log` | 0 |
+
 ## 9. Deliverables
 
 - API modules `public` (categories), `photos`, `reports`; libs `storage`, `images`, validation rules.
@@ -380,6 +413,7 @@ Prediction only — exact paths may differ.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend done — `GET /categories`, storage interface + local driver (`src/lib/storage`), photo pipeline (`src/lib/images`, sharp 0.35.5 already pinned), `POST /photos` (60/IP/h), `POST /reports` (30/IP/h, idempotent incl. concurrency), shared phone/CCRS rules (`src/lib/validation`), `npm run photos:cleanup`, `npm run storage:check`. New libs: `multer@2.4.0`, `@types/multer@2.3.0` (pinned exact). Curl-verified (§8 W1 log). | TASK-04: API (w1-api) |
 
 ## 14. Completion Checklist
 
