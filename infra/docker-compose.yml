@@ -5,9 +5,10 @@ services:
   db:
     # PostGIS for ward geometry and issue locations (v2 Spec D10). Same PostgreSQL major (17) as v1's
     # postgres:17.6, so the existing volume is reused (scripts/db-upgrade-postgis.sh dumps first).
-    # The image has no linux/arm64 build: Apple-silicon Macs run it as amd64 under Rosetta; CI is amd64.
-    image: postgis/postgis:17-3.5
-    platform: linux/amd64
+    # Built natively from infra/postgis/Dockerfile (postgres:17.6 + PGDG PostGIS 3): the official
+    # postgis/postgis image is amd64-only and ran under qemu on Apple silicon, which made tests hang.
+    build: ./postgis
+    image: saarthee/postgis:17-3
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
