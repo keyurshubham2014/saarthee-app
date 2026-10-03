@@ -1,0 +1,264 @@
+// Saarthee data model (04-database-design.md §3). Hand-written SQL (CHECKs, partial indexes,
+// events identity, views) lives in the migrations because Prisma cannot express it.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SourceTag {
+  rwa
+  activist
+  social
+  network
+  unknown
+
+  @@map("source_tag")
+}
+
+enum VerificationResult {
+  fixed
+  not_fixed
+
+  @@map("verification_result")
+}
+
+enum PhotoPurpose {
+  report
+  verification
+
+  @@map("photo_purpose")
+}
+
+enum StorageDriver {
+  local
+  cloudflare_r2
+
+  @@map("storage_driver")
+}
+
+enum ReminderChannel {
+  whatsapp_manual
+
+  @@map("reminder_channel")
+}
+
+enum ExclusionReason {
+  test
+  invalid
+  duplicate
+  other
+
+  @@map("exclusion_reason")
+}
+
+enum Platform {
+  android
+  ios
+
+  @@map("platform")
+}
+
+model AdminUser {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String    @db.VarChar(255)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  displayName  String    @map("display_name") @db.VarChar(100)
+  isActive     Boolean   @default(true) @map("is_active")
+  tokenVersion Int       @default(0) @map("token_version")
+  lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz(6)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  inviteCodes        InviteCode[]
+  excludedComplaints Complaint[]
+  reminders          Reminder[]
+  events             Event[]
+
+  @@unique([email], map: "uq_admin_users_email")
+  @@map("admin_users")
+}
+
+model InviteCode {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code       String    @db.VarChar(20)
+  sourceTag  SourceTag @map("source_tag")
+  groupLabel String    @map("group_label") @db.VarChar(120)
+  wardHint   String?   @map("ward_hint") @db.VarChar(50)
+  isActive   Boolean   @default(true) @map("is_active")
+  createdBy  String?   @map("created_by") @db.Uuid
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt  DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  creator    AdminUser?  @relation(fields: [createdBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  complaints Complaint[]
+
+  @@unique([code], map: "uq_invite_codes_code")
+  @@index([sourceTag], map: "idx_invite_codes_source_tag")
+  @@index([createdBy], map: "idx_invite_codes_created_by")
+  @@map("invite_codes")
+}
+
+model CcrsCategory {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @db.VarChar(100)
+  ccrsLabel String?  @map("ccrs_label") @db.VarChar(150)
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  complaints Complaint[]
+
+  @@unique([name], map: "uq_ccrs_categories_name")
+  @@index([isActive, sortOrder], map: "idx_ccrs_categories_active_order")
+  @@map("ccrs_categories")
+}
+
+model Photo {
+  id                     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  storageDriver          StorageDriver @default(local) @map("storage_driver")
+  storageKey             String        @map("storage_key") @db.VarChar(255)
+  purpose                PhotoPurpose
+  mimeType               String        @map("mime_type") @db.VarChar(50)
+  byteSize               Int           @map("byte_size")
+  widthPx                Int?          @map("width_px")
+  heightPx               Int?          @map("height_px")
+  sha256                 String        @db.Char(64)
+  uploadedForComplaintId String?       @map("uploaded_for_complaint_id") @db.Uuid
+  uploadedAt             DateTime      @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+  attachedAt             DateTime?     @map("attached_at") @db.Timestamptz(6)
+  deletedAt              DateTime?     @map("deleted_at") @db.Timestamptz(6)
+
+  uploadedForComplaint Complaint?    @relation("PhotoUploadedFor", fields: [uploadedForComplaintId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  complaint            Complaint?    @relation("ComplaintPhoto")
+  verification         Verification?
+
+  @@unique([storageKey], map: "uq_photos_storage_key")
+  @@index([sha256], map: "idx_photos_sha256")
+  @@index([uploadedForComplaintId], map: "idx_photos_uploaded_for_complaint")
+  @@map("photos")
+}
+
+model Complaint {
+  id                   String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientSubmissionId   String           @map("client_submission_id") @db.Uuid
+  inviteCodeId         String?          @map("invite_code_id") @db.Uuid
+  sourceTag            SourceTag        @default(unknown) @map("source_tag")
+  categoryId           String           @map("category_id") @db.Uuid
+  ccrsNumberRaw        String           @map("ccrs_number_raw") @db.VarChar(50)
+  ccrsNumberNormalized String           @map("ccrs_number_normalized") @db.VarChar(50)
+  ccrsDuplicateFlag    Boolean          @default(false) @map("ccrs_duplicate_flag")
+  photoId              String           @map("photo_id") @db.Uuid
+  latitude             Decimal          @db.Decimal(9, 6)
+  longitude            Decimal          @db.Decimal(9, 6)
+  gpsAccuracyM         Decimal?         @map("gps_accuracy_m") @db.Decimal(8, 2)
+  deviceCapturedAt     DateTime         @map("device_captured_at") @db.Timestamptz(6)
+  phoneE164            String?          @map("phone_e164") @db.VarChar(16)
+  consentGivenAt       DateTime         @map("consent_given_at") @db.Timestamptz(6)
+  consentTextVersion   String           @map("consent_text_version") @db.VarChar(20)
+  appPlatform          Platform         @map("app_platform")
+  appVersion           String           @map("app_version") @db.VarChar(20)
+  wardCode             String?          @map("ward_code") @db.VarChar(50)
+  isExcluded           Boolean          @default(false) @map("is_excluded")
+  exclusionReason      ExclusionReason? @map("exclusion_reason")
+  exclusionNote        String?          @map("exclusion_note") @db.VarChar(500)
+  excludedBy           String?          @map("excluded_by") @db.Uuid
+  excludedAt           DateTime?        @map("excluded_at") @db.Timestamptz(6)
+  anonymizedAt         DateTime?        @map("anonymized_at") @db.Timestamptz(6)
+  createdAt            DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime         @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  inviteCode     InviteCode?    @relation(fields: [inviteCodeId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  category       CcrsCategory   @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  photo          Photo          @relation("ComplaintPhoto", fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  excluder       AdminUser?     @relation(fields: [excludedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  uploadedPhotos Photo[]        @relation("PhotoUploadedFor")
+  reminders      Reminder[]
+  verifications  Verification[]
+  events         Event[]
+
+  @@unique([clientSubmissionId], map: "uq_complaints_client_submission")
+  @@unique([photoId], map: "uq_complaints_photo")
+  @@index([ccrsNumberNormalized], map: "idx_complaints_ccrs_norm")
+  @@index([sourceTag, createdAt], map: "idx_complaints_source_created")
+  @@index([categoryId], map: "idx_complaints_category")
+  @@index([phoneE164], map: "idx_complaints_phone")
+  @@index([inviteCodeId], map: "idx_complaints_invite_code")
+  @@map("complaints")
+}
+
+model Reminder {
+  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  complaintId String          @map("complaint_id") @db.Uuid
+  tokenHash   String          @map("token_hash") @db.Char(64)
+  channel     ReminderChannel @default(whatsapp_manual)
+  sentBy      String          @map("sent_by") @db.Uuid
+  sentAt      DateTime        @default(now()) @map("sent_at") @db.Timestamptz(6)
+  expiresAt   DateTime?       @map("expires_at") @db.Timestamptz(6)
+  revokedAt   DateTime?       @map("revoked_at") @db.Timestamptz(6)
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  complaint     Complaint      @relation(fields: [complaintId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  sender        AdminUser      @relation(fields: [sentBy], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  verifications Verification[]
+
+  @@unique([tokenHash], map: "uq_reminders_token_hash")
+  @@index([complaintId, sentAt(sort: Desc)], map: "idx_reminders_complaint_sent")
+  @@index([sentBy], map: "idx_reminders_sent_by")
+  @@map("reminders")
+}
+
+model Verification {
+  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientSubmissionId  String             @map("client_submission_id") @db.Uuid
+  complaintId         String             @map("complaint_id") @db.Uuid
+  reminderId          String?            @map("reminder_id") @db.Uuid
+  result              VerificationResult
+  photoId             String             @map("photo_id") @db.Uuid
+  latitude            Decimal            @db.Decimal(9, 6)
+  longitude           Decimal            @db.Decimal(9, 6)
+  gpsAccuracyM        Decimal?           @map("gps_accuracy_m") @db.Decimal(8, 2)
+  deviceCapturedAt    DateTime           @map("device_captured_at") @db.Timestamptz(6)
+  distanceFromReportM Decimal?           @map("distance_from_report_m") @db.Decimal(10, 2)
+  note                String?            @db.VarChar(1000)
+  appPlatform         Platform           @map("app_platform")
+  appVersion          String             @map("app_version") @db.VarChar(20)
+  createdAt           DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  reminder  Reminder? @relation(fields: [reminderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  photo     Photo     @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([clientSubmissionId], map: "uq_verifications_client_submission")
+  @@unique([photoId], map: "uq_verifications_photo")
+  @@index([complaintId, createdAt(sort: Desc)], map: "idx_verifications_complaint_created")
+  @@index([reminderId], map: "idx_verifications_reminder")
+  @@map("verifications")
+}
+
+model Event {
+  id          BigInt     @id @default(autoincrement())
+  name        String     @db.VarChar(50)
+  installId   String?    @map("install_id") @db.Uuid
+  adminUserId String?    @map("admin_user_id") @db.Uuid
+  complaintId String?    @map("complaint_id") @db.Uuid
+  sourceTag   SourceTag? @map("source_tag")
+  properties  Json       @default("{}")
+  platform    Platform?
+  appVersion  String?    @map("app_version") @db.VarChar(20)
+  occurredAt  DateTime   @map("occurred_at") @db.Timestamptz(6)
+  receivedAt  DateTime   @default(now()) @map("received_at") @db.Timestamptz(6)
+
+  adminUser AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  complaint Complaint? @relation(fields: [complaintId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([name, receivedAt], map: "idx_events_name_received")
+  @@index([complaintId], map: "idx_events_complaint")
+  @@index([installId], map: "idx_events_install")
+  @@map("events")
+}

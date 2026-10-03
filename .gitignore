@@ -1,0 +1,28 @@
+# secrets
+**/.env
+!**/.env.example
+# node
+node_modules/
+dist/
+coverage/
+*.log
+logs/
+var/
+# db dumps
+*.dump
+*.sql.gz
+# flutter
+apps/mobile/build/
+apps/mobile/.dart_tool/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/android/.gradle/
+apps/mobile/android/local.properties
+apps/mobile/ios/Pods/
+# local photo storage (normally outside repo anyway)
+photos/
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store

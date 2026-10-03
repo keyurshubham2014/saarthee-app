@@ -1,0 +1,14 @@
+{
+  "name": "saarthee",
+  "private": true,
+  "scripts": {
+    "db:up": "docker compose -f infra/docker-compose.yml --env-file infra/.env up -d --wait",
+    "db:down": "docker compose -f infra/docker-compose.yml --env-file infra/.env down",
+    "db:migrate": "npm --prefix apps/api run db:migrate",
+    "db:seed": "npm --prefix apps/api run db:seed",
+    "db:reset": "bash scripts/db-reset.sh",
+    "api:dev": "npm --prefix apps/api run dev",
+    "admin:create": "npm --prefix apps/api run admin:create",
+    "demo:reset": "bash scripts/demo-reset.sh"
+  }
+}
