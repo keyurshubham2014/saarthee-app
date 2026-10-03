@@ -5,18 +5,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../config/app_config.dart';
+import '../config/timings.dart';
 import '../settings/app_settings.dart';
 import 'app_error.dart';
 
 /// Timeouts (02 §5.3): 15 s for JSON calls, 60 s for photo uploads.
-const Duration kJsonTimeout = Duration(seconds: 15);
-const Duration kUploadTimeout = Duration(seconds: 60);
+const Duration kJsonTimeout = AppTimings.jsonTimeout;
+const Duration kUploadTimeout = AppTimings.uploadTimeout;
 
 /// Thin wrapper over dio. Every method throws [AppError] on failure.
 ///
 /// Standard headers on every call (03 §2.1): `X-Install-Id`, `X-App-Version`,
-/// `X-Platform`, and a fresh `X-Request-Id`. Callers add `X-Verify-Token` or
-/// `Authorization` per request through [headers]. Header values are never
+/// `X-Platform`, and a fresh `X-Request-Id`. Callers add `Authorization`
+/// per request through [headers]. Header values are never
 /// logged.
 class ApiClient {
   ApiClient(this.dio);

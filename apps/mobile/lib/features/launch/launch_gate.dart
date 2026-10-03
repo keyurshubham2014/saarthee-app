@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+
+import '../../core/motion/motion_widgets.dart';
+import '../../core/theme/tokens.dart';
+import '../../core/widgets/widgets.dart';
+
+/// Launch motion (DS §6 "App launch"): over the native `primary` splash the
+/// first Flutter frame shows the mark scaling 0.92 → 1 and fading in over
+/// `medium`, then the first screen (already built underneath) cross-fades
+/// in over `medium`. Nothing loops. Reduced motion: the mark at full size
+/// and a 100 ms fade.
+class LaunchGate extends StatefulWidget {
+  const LaunchGate({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<LaunchGate> createState() => LaunchGateState();
+}
+
+class LaunchGateState extends State<LaunchGate> with TickerProviderStateMixin {
+  late final AnimationController markIn = AnimationController(vsync: this);
+  late final AnimationController reveal = AnimationController(vsync: this);
+  bool _done = false;
+  bool _started = false;
+
+  /// Mark scale for tests.
+  double get markScale {
+    final from = SaartheeMotion.launchMarkScaleFrom;
+    return from + (1 - from) * SaartheeMotion.standard.transform(markIn.value);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    final scheme = SaartheeMotion.of(context);
+    reveal.duration = scheme.medium.duration;
+    if (!scheme.transforms) {
+      markIn.value = 1;
+      _reveal();
+      return;
+    }
+    markIn.duration = scheme.medium.duration;
+    markIn.forward().whenCompleteOrCancel(_reveal);
+  }
+
+  void _reveal() {
+    if (!mounted) return;
+    reveal.forward().whenCompleteOrCancel(() {
+      if (mounted) setState(() => _done = true);
+    });
+  }
+
+  @override
+  void dispose() {
+    markIn.dispose();
+    reveal.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      textDirection: TextDirection.ltr,
+      children: [
+        widget.child,
+        if (!_done)
+          Positioned.fill(
+            child: IgnorePointer(
+              child: FadeTransition(
+                opacity: ReverseAnimation(reveal),
+                child: ColoredBox(
+                  key: const Key('launch.overlay'),
+                  color: SaartheeColors.light.primary,
+                  child: Center(
+                    child: AnimatedBuilder(
+                      animation: markIn,
+                      builder: (context, child) => Opacity(
+                        opacity: markIn.value,
+                        child: Transform.scale(scale: markScale, child: child),
+                      ),
+                      child: const BrandMark(
+                        key: Key('launch.mark'),
+                        size: 96,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}

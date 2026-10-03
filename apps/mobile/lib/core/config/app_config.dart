@@ -30,6 +30,11 @@ class AppConfig {
     defaultValue: '1.0.0',
   );
 
+  /// Grievance contact shown on About (empty until published).
+  static const String grievanceEmail = String.fromEnvironment(
+    'GRIEVANCE_EMAIL',
+  );
+
   /// Fails fast in debug builds when the API base URL was not provided.
   static void assertValid() {
     if (kDebugMode && apiBaseUrl.isEmpty) {

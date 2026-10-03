@@ -1,5 +1,5 @@
 name: saarthee
-description: "A new Flutter project."
+description: "Saarthee — independent civic app for Ahmedabad."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -44,11 +44,12 @@ dependencies:
   image_picker: 1.2.3
   geolocator: 14.0.1
   url_launcher: 6.3.3
-  app_links: 7.2.1
   intl: 0.20.3
   path_provider: 2.1.6
   flutter_localizations:
     sdk: flutter
+  animations: 3.0.0
+  material_symbols_icons: 4.2960.0
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,30 @@ flutter:
   # the material Icons class.
   generate: true
   uses-material-design: true
+
+  # DS §3 fonts: subset by tool/fonts/subset_fonts.sh (OFL, see
+  # assets/fonts/SOURCES.md).
+  assets:
+    - assets/fonts/BalooBhai2-OFL.txt
+    - assets/fonts/MuktaVaani-OFL.txt
+
+  fonts:
+    - family: BalooBhai2
+      fonts:
+        - asset: assets/fonts/BalooBhai2-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/BalooBhai2-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/BalooBhai2-ExtraBold.ttf
+          weight: 800
+    - family: MuktaVaani
+      fonts:
+        - asset: assets/fonts/MuktaVaani-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/MuktaVaani-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/MuktaVaani-SemiBold.ttf
+          weight: 600
 
   # To add assets to your application, add an assets section, like this:
   # assets:

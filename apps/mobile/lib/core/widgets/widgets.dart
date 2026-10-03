@@ -1,12 +1,19 @@
-/// Shared components (02 §1.3). Import this barrel from feature screens.
+/// Shared components (DS §5). Import this barrel from feature screens.
 library;
 
+export 'app_bar.dart';
+export 'brand.dart';
 export 'buttons.dart';
-export 'choice_card.dart';
-export 'errors.dart';
+export 'cards.dart';
+export 'chips.dart';
+export 'home_header.dart';
+export 'inputs.dart';
+export 'navigation_bar.dart';
 export 'notices.dart';
-export 'offline_banner.dart';
 export 'page_layout.dart';
 export 'photos.dart';
-export 'status_chip.dart';
-export 'step_scaffold.dart';
+export 'report_card.dart';
+export 'rolling_count.dart';
+export 'states.dart';
+export 'step_header.dart';
+export 'toast.dart';

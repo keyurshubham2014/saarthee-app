@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ import 'router/app_router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppConfig.assertValid();
+  registerFontLicenses();
   final prefs = await SharedPreferences.getInstance();
   final container = ProviderContainer(
     overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
@@ -48,4 +50,16 @@ Future<void> main() async {
   runApp(
     UncontrolledProviderScope(container: container, child: const SaartheeApp()),
   );
+}
+
+/// Bundled font licences (SIL OFL 1.1) shown on the licences page.
+void registerFontLicenses() {
+  LicenseRegistry.addLicense(() async* {
+    for (final (family, asset) in const [
+      ('Baloo Bhai 2', 'assets/fonts/BalooBhai2-OFL.txt'),
+      ('Mukta Vaani', 'assets/fonts/MuktaVaani-OFL.txt'),
+    ]) {
+      yield LicenseEntryWithLineBreaks([family], await rootBundle.loadString(asset));
+    }
+  });
 }
