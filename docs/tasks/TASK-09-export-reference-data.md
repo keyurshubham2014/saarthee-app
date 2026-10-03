@@ -145,6 +145,11 @@ Each mutation and export writes an `info` audit log line: action, adminId, targe
 - ASSUMPTION: Reordering sends one `PATCH sortOrder` per moved category, renumbered in steps of 10. There is no bulk-reorder endpoint in 03 §2.2. If wrong, add a bulk endpoint as a recorded deviation.
 - ASSUMPTION: The `includePhone=true` export also prints the admin's phone-export warning in the log at `info`, with no phone numbers in it. If wrong, there is only one log line.
 
+- ASSUMPTION (W1 API): Export is built in memory and sent in one response (pilot volume); `includePhone=true` adds `phone_e164` to the **complaints** export only — the other types never contain phone numbers. Verification export includes `note` and a derived `same_image_as_report`; reminder export never includes `token_hash`.
+- ASSUMPTION (W1 API): Export file name timestamp is IST (`yyyymmdd-hhmm`).
+- ASSUMPTION (W1 API): Generated invite codes are 8 chars from `A–Z 2–9` without `0/O/1/I`, CSPRNG (`crypto.randomInt`), retried on collision.
+- ASSUMPTION (W1 API): Category name clash → 409 with code `VALIDATION_FAILED` (`details.field = name`) because the error table has no dedicated category code. PATCH bodies are strict: unknown keys (e.g. `sourceTag`) → 400.
+
 ## 6. Implementation Steps
 
 1. **Escaping utility (API).** Add `src/lib/csv`: a `toCsv(rows, columns)` that applies the 06 §3.1 formula escape (`=`, `+`, `-`, `@` → prefix `'`) and RFC-4180 quoting. Check the date, null and number formatting rules.
@@ -309,6 +314,29 @@ API base: `http://localhost:4000/api/v1`. `$JWT` is from `POST /admin/auth/login
 | M-09-13 | Manual (log) | Grep log for `invite_code.` and `category.` actions → one line per change with adminId and targetId; no request bodies | §7.2 |
 | O-09-01 | Optional automated | 06 §8.1 #5: Vitest + Supertest — phone column absent by default; `=`-prefixed note escaped. **Optional, P2** | AC-1, AC-4 |
 
+### Verification log (W1, API only — 2026-10-03, fresh `saarthee_w1` DB (re-migrated + seeded), `API=http://localhost:4001/api/v1`, `H="Authorization: Bearer $T"`)
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| Export default | `curl -s -D - -o c.csv "$API/admin/export?type=complaints" -H "$H"` | 200 `text/csv; charset=utf-8`, `Content-Disposition: attachment; filename="saarthee-complaints-20261003-1412.csv"`; 11 data rows; header has **no** `phone_e164`; `grep -c '+91' c.csv` = 0 |
+| Export with phone | `?type=complaints&includePhone=true` | header contains `"phone_e164"` |
+| Verifications / reminders | `?type=verifications`, `?type=reminders` | headers `id,complaint_id,reminder_id,result,…,same_image_as_report,note,…` and `id,complaint_id,channel,sent_by,sent_at,expires_at,revoked_at` (no token hash) |
+| Bad type | `?type=phones` | 400 |
+| Formula escaping | exclusion note `=HYPERLINK("http://x","a,b")`, then export | cell `"'=HYPERLINK(""http://x"",""a,b"")"` (quote-prefixed, RFC-4180 quoted) |
+| Export audit | `grep '"action":"export"' api.log` | `{"adminId":…,"action":"export","type":"complaints","includePhone":false}` — contents never logged |
+| Invite list | `curl -s $API/admin/invite-codes -H "$H"` | 4 seeded codes with `complaintCount` (RWATEST01 5, ACTTEST01 3, SOCTEST01 1, NETTEST01 1) |
+| Invite create | `-X POST … -d '{"code":"w1group01","sourceTag":"rwa","groupLabel":"W1 Test RWA","wardHint":"Paldi"}'` | 201 `{id, code:"W1GROUP01", sourceTag, groupLabel, wardHint, isActive:true, createdAt}` |
+| Duplicate / generated | `{"code":"W1GROUP01",…}`; no `code` | 409 `INVITE_CODE_TAKEN` "That code is invalid or already in use."; 201 generated 8-char code (e.g. `5J8K9X8L`) |
+| Invalid | `sourceTag:"unknown"`; `code:"ab-12"` | 400; 400 field `code` "That code is invalid or already in use." |
+| Invite patch | `PATCH …/{id} -d '{"isActive":false,"groupLabel":"W1 Test RWA renamed"}'`; then public validate | 200 updated; validate → 404 `INVITE_CODE_INVALID` |
+| Source tag immutable | `PATCH … -d '{"sourceTag":"social"}'` | 400 `Unrecognized key: "sourceTag"` |
+| Patch missing | random UUID | 404 |
+| Categories | `curl -s $API/admin/categories -H "$H"` | all categories ordered by `sortOrder` then name, with `isActive` |
+| Category create / dup / bad | `{"name":"W1 Stray cattle","ccrsLabel":"Cattle Nuisance","sortOrder":7}`; same name; `sortOrder:-1` | 201 Category; 409 (`name` "A category with that name already exists."); 400 |
+| Deactivate / rename clash | `PATCH … {"isActive":false}`; `{"name":"Drainage"}` | 200 `isActive:false` and public `GET /categories` no longer lists it; 409 |
+| Audit | `grep admin_action api.log` | `invite_code_created`, `invite_code_updated`, `category_created`, `category_updated` lines with admin + target IDs |
+
 ## 9. Deliverables
 
 - API: `src/lib/csv` escaping utility; `export`, `invite-codes` and `categories-admin` modules with routes, schemas, services and audit logging.
@@ -366,6 +394,7 @@ This is a prediction, not a constraint.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend done — `GET /admin/export` (complaints/verifications/reminders CSV, formula-escaped RFC-4180, phone only with `includePhone=true`, audited), `GET/POST/PATCH /admin/invite-codes`, `GET/POST/PATCH /admin/categories`. No new libraries. Curl-verified (§8 W1 log). | TASK-09: API (w1-api) |
 
 ## 14. Completion Checklist
 
