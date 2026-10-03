@@ -5,7 +5,9 @@ import { sendJpeg } from '../../lib/http/sendJpeg';
 import { validate } from '../../middleware/validate';
 import { openComplaintPhoto, openVerificationPhoto } from '../photos/read.service';
 import { createReminder, revokeReminder } from '../reminders/reminders.service';
+import { MSG } from '../../lib/validation';
 import { listComplaints, type ComplaintFilters } from './complaints.service';
+import { anonymizeComplaint, getComplaintDetail, setExclusion } from './manage.service';
 
 /** Mounted on the /admin router (JWT guard + per-admin limiter inherited). */
 export const adminComplaintsRouter = Router();
@@ -44,6 +46,44 @@ adminComplaintsRouter.post('/complaints/:id/reminders', validate({ params: idPar
   auditLog(req, 'reminder_created', id, { reminderId: result.reminderId });
   res.status(201).json(result);
 });
+
+adminComplaintsRouter.get('/complaints/:id', validate({ params: idParams }), async (_req, res) => {
+  const { id } = res.locals.params as z.infer<typeof idParams>;
+  res.json(await getComplaintDetail(id));
+});
+
+const exclusionBody = z
+  .object({
+    isExcluded: z.boolean(),
+    reason: z.enum(['test', 'invalid', 'duplicate', 'other']).optional(),
+    note: z.string().trim().max(500).optional(),
+  })
+  .refine((b) => !b.isExcluded || b.reason !== undefined, { path: ['reason'], message: MSG.reason });
+
+adminComplaintsRouter.patch(
+  '/complaints/:id/exclusion',
+  validate({ params: idParams, body: exclusionBody }),
+  async (req, res) => {
+    const { id } = res.locals.params as z.infer<typeof idParams>;
+    const body = req.body as z.infer<typeof exclusionBody>;
+    const summary = await setExclusion(id, body, req.admin!.id);
+    auditLog(req, 'exclusion_changed', id, { isExcluded: body.isExcluded });
+    res.json(summary);
+  },
+);
+
+const anonymizeBody = z.object({ confirm: z.literal(true, { error: 'Confirm to remove personal data.' }) });
+
+adminComplaintsRouter.post(
+  '/complaints/:id/anonymize',
+  validate({ params: idParams, body: anonymizeBody }),
+  async (req, res) => {
+    const { id } = res.locals.params as z.infer<typeof idParams>;
+    const result = await anonymizeComplaint(id);
+    auditLog(req, 'anonymized', id);
+    res.json(result);
+  },
+);
 
 adminComplaintsRouter.post('/reminders/:id/revoke', validate({ params: idParams }), async (req, res) => {
   const { id } = res.locals.params as z.infer<typeof idParams>;
