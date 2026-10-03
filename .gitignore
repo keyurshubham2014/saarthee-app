@@ -27,3 +27,5 @@ apps/mobile/ios/Pods/
 *.iml
 .DS_Store
 .claude/
+**/.env.test
+!**/.env.test.example
