@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Native splash (TASK-03 §5.4 Launch): Neem primary with the mark. -->
+<!-- Modify this file to customize your launch splash screen -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <color android:color="#14674A" />
-    </item>
-    <item
-        android:width="96dp"
-        android:height="96dp"
-        android:gravity="center"
-        android:drawable="@drawable/ic_splash_mark" />
+    <item android:drawable="?android:colorBackground" />
+
+    <!-- You can insert your own image assets here -->
+    <!-- <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@mipmap/launch_image" />
+    </item> -->
 </layer-list>

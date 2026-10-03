@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Android 12+ splash icon: the mark inset into the 2/3 safe circle. -->
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/ic_splash_mark"
-    android:inset="28%" />
