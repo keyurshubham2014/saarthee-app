@@ -26,3 +26,4 @@ photos/
 .vscode/
 *.iml
 .DS_Store
+.claude/
