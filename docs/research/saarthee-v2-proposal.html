@@ -1,0 +1,346 @@
+<title>Saarthee 2.0 Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@600;700&family=Mukta+Vaani:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column (~760px) with wide breakouts for the phone mock, palette and tables. Built in the proposed "Pol Sunset" palette itself. */
+:root{
+  --bg:#FFF8F0; --card:#FFFFFF; --ink:#2B211C; --muted:#6B5A50; --line:#EFE4D8; --outline:#8C7B70;
+  --primary:#B4442A; --primary-tint:#FFE3D8; --on-primary-tint:#7A2A14;
+  --leaf:#2F7A4A; --leaf-tint:#DCF2E3; --marigold:#F4A93A; --marigold-deep:#9A5B00;
+  --teal:#0B6B70; --info:#1D6FB8; --warn:#B45309; --crit:#B3261E; --adv:#F4C542;
+  --shadow:0 2px 8px rgba(43,33,28,.08);
+  --display:"Baloo Bhai 2","Mukta Vaani",system-ui,sans-serif;
+  --body:"Mukta Vaani","Noto Sans Gujarati",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1C1714; --card:#26201C; --ink:#F5EAE0; --muted:#CDBBAE; --line:#3A302A; --outline:#9C8A7E;
+  --primary:#FFB59E; --primary-tint:#4A2418; --on-primary-tint:#FFD8CB;
+  --leaf:#8FD6A6; --leaf-tint:#1E3A28; --marigold:#F4A93A; --marigold-deep:#F4C27A;
+  --teal:#7FD3D6; --info:#9CC8F2; --warn:#F2A766; --crit:#FF8A80; --adv:#F4C542;
+  --shadow:none; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1C1714; --card:#26201C; --ink:#F5EAE0; --muted:#CDBBAE; --line:#3A302A; --outline:#9C8A7E;
+  --primary:#FFB59E; --primary-tint:#4A2418; --on-primary-tint:#FFD8CB;
+  --leaf:#8FD6A6; --leaf-tint:#1E3A28; --marigold:#F4A93A; --marigold-deep:#F4C27A;
+  --teal:#7FD3D6; --info:#9CC8F2; --warn:#F2A766; --crit:#FF8A80; --adv:#F4C542;
+  --shadow:none; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:760px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,5vw,3.3rem);font-weight:700}
+h2{font-size:1.75rem;font-weight:700;margin-bottom:12px}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0}
+a{color:var(--primary)}
+.eyebrow{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+section{padding-block:44px 8px;border-top:1px dashed var(--line);display:grid;gap:18px}
+header{padding-block:48px 36px;display:grid;gap:18px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:62ch}
+.jali{height:10px;background:radial-gradient(circle,var(--marigold) 1.6px,transparent 2px) 0 0/14px 10px;opacity:.7;max-width:220px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:2px}
+.fact b{font-family:var(--display);font-size:1.7rem;color:var(--primary);font-variant-numeric:tabular-nums}
+.fact span{font-size:.92rem;color:var(--muted);line-height:1.35}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.pillar{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:10px;box-shadow:var(--shadow);align-content:start}
+.pillar ul{margin:0;padding-left:0;list-style:none;display:grid;gap:7px}
+.pillar li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;font-size:.97rem;line-height:1.45}
+.p{font-size:.72rem;font-weight:700;border-radius:999px;padding:1px 8px;letter-spacing:.04em}
+.p0{background:var(--primary);color:#fff}
+.p1{background:var(--leaf-tint);color:var(--leaf)}
+.p2{background:transparent;border:1px solid var(--outline);color:var(--muted)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .p0{color:#3A0F04}}
+:root[data-theme="dark"] .p0{color:#3A0F04}
+.icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.25rem;background:var(--primary-tint)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.95rem;min-width:640px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:10px;padding:2px 10px 2px 2px;font-size:.88rem;white-space:nowrap}
+.chip i{width:22px;height:22px;border-radius:7px;display:inline-block}
+/* phone mock */
+.showcase{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:760px){.showcase{grid-template-columns:1fr}}
+.phone{background:#FFF8F0;color:#2B211C;border:10px solid #2B211C;border-radius:36px;overflow:hidden;max-width:320px;width:100%;font-size:14px;line-height:1.4}
+.ph-top{padding:14px 16px 8px;display:grid;gap:4px}
+.ph-top b{font-family:var(--display);font-size:20px}
+.ph-top small{color:#6B5A50}
+.ph-alert{margin:6px 12px;border-radius:14px;background:#B45309;color:#fff;padding:10px 12px;display:grid;gap:2px}
+.ph-alert small{opacity:.92}
+.ph-card{margin:8px 12px;background:#fff;border:1px solid #EFE4D8;border-radius:16px;padding:10px;display:grid;gap:6px;box-shadow:0 2px 8px rgba(43,33,28,.08)}
+.ph-photo{height:84px;border-radius:12px;background:linear-gradient(135deg,#8A4B2A 0 35%,#C9A27E 35% 60%,#6B5A50 60%)}
+.ph-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ph-chip{border-radius:999px;padding:1px 8px;font-size:12px;font-weight:600}
+.ph-btns{display:flex;gap:8px}
+.ph-btns span{border:1px solid #EFE4D8;border-radius:999px;padding:3px 10px;font-size:12px;color:#2F7A4A;font-weight:600}
+.ph-init{background:#DCF2E3;border-color:#DCF2E3}
+.ph-nav{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #EFE4D8;background:#fff;padding:8px 4px 10px;margin-top:8px;text-align:center;font-size:11px;color:#6B5A50;align-items:end}
+.ph-nav .on{color:#B4442A;font-weight:700}
+.kite{width:46px;height:46px;background:#F4A93A;transform:rotate(45deg);border-radius:8px;margin:0 auto 6px;display:grid;place-items:center;box-shadow:0 0 0 1px #2B211C}
+.kite span{transform:rotate(-45deg);font-size:22px;font-weight:700;color:#2B211C}
+.notes{display:grid;gap:14px}
+.note{display:grid;gap:4px}
+/* palette */
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.sw{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.sw div{height:64px;display:flex;align-items:flex-end;padding:8px 10px;font-weight:600;font-size:.9rem}
+.sw p{padding:8px 10px;font-size:.85rem;color:var(--muted);line-height:1.35}
+.sw code{font-size:.82rem;color:var(--ink)}
+.alts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.alt{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:8px}
+.bar{display:flex;height:28px;border-radius:8px;overflow:hidden}
+.bar i{flex:1}
+.roadmap{display:grid;gap:12px}
+.phase{display:grid;grid-template-columns:120px 1fr;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+@media (max-width:560px){.phase{grid-template-columns:1fr;gap:6px}}
+.phase h3{color:var(--primary)}
+.decide{display:grid;gap:10px;counter-reset:q}
+.q{background:var(--primary-tint);color:var(--on-primary-tint);border-radius:14px;padding:12px 16px}
+.q b{color:var(--ink)}
+.small{font-size:.9rem;color:var(--muted)}
+ul.plain{margin:0;padding-left:1.1em;display:grid;gap:6px}
+footer{padding-block:36px 0;font-size:.88rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header class="col">
+  <div class="jali" aria-hidden="true"></div>
+  <p class="eyebrow">Saarthee · research &amp; proposal · 3 Oct 2026</p>
+  <h1>From one complaint tracker to Amdavad's civic home</h1>
+  <p class="lede">Four research tracks (AMC itself, civic apps worldwide and in India, corporators and alerts, and design) point to the same shift. Saarthee should be the place where an Amdavadi reports anything, follows it to a real fix, reaches their four corporators, hears about water cuts and road closures first, and finds AMC services and drives. Filing with AMC's CCRS becomes optional, not the only path.</p>
+</header>
+
+<section>
+  <p class="eyebrow">What the city looks like today</p>
+  <h2>AMC in numbers</h2>
+  <div class="facts">
+    <div class="fact"><b>7 · 48</b><span>zones and wards (ward KML is public)</span></div>
+    <div class="fact"><b>192</b><span>corporators, 4 per ward, elected 26 Apr 2026</span></div>
+    <div class="fact"><b>113</b><span>complaint types in 22 departments, published by CCRS in English + Gujarati</span></div>
+    <div class="fact"><b>24 h</b><span>window to reopen a CCRS complaint after it is closed</span></div>
+    <div class="fact"><b>2.0★</b><span>AMC CCRS app rating; AMC Seva 2.8★</span></div>
+    <div class="fact"><b>50 lakh</b><span>trees targeted in Mission Five Million Trees 2026-27</span></div>
+  </div>
+  <div class="col">
+    <p class="small">There is no public status API, no alerts feed and no current machine-readable corporator list. The official councillor PDFs date from 2021–23 and list home addresses and personal numbers, which Saarthee must not republish. Citizens' top complaints: monsoon potholes (2,028 this season), waterlogging, encroachment (over 50% negative CCRS feedback), stray cattle, and complaints "closed" with photos from a different place.</p>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">The new app at a glance</p>
+  <h2>A neighbourhood app, not a government form</h2>
+  <div class="showcase">
+    <div class="phone" role="img" aria-label="Mock-up of the proposed Saarthee home screen: a water-cut alert, an issue card with Me too and Follow, a tree drive card, and a five-tab bottom bar with a kite-shaped Report button.">
+      <div class="ph-top"><b>Kem cho, Paldi 👋</b><small>Ward 21 · West zone · 4 corporators</small></div>
+      <div class="ph-alert"><b>Water cut · 10:00–16:00 today</b><small>Paldi, Vasna, Navrangpura · Source: AMC press note</small></div>
+      <div class="ph-card">
+        <div class="ph-photo" aria-hidden="true"></div>
+        <div class="ph-row"><span class="ph-chip" style="background:#8A4B2A;color:#fff">Pothole</span><span class="ph-chip" style="background:#C2410C;color:#fff">Open · 6 days</span></div>
+        <b>Deep pothole outside Paldi bus stand</b>
+        <div class="ph-btns"><span>👍 Me too · 23</span><span>Follow</span><span>Share</span></div>
+      </div>
+      <div class="ph-card ph-init">
+        <b>Tree drive · Sunday 7 am</b>
+        <small>Vasna lake · 64 neighbours going</small>
+        <div class="ph-btns"><span style="background:#2F7A4A;color:#fff;border-color:#2F7A4A">I'll join</span></div>
+      </div>
+      <div class="ph-nav"><div class="on">⌂<br>Home</div><div>◎<br>Map</div><div><div class="kite"><span>+</span></div>Report</div><div>🔔<br>Alerts</div><div>☺<br>My pol</div></div>
+    </div>
+    <div class="notes">
+      <div class="note"><h3>Home is a ward feed</h3><p>Alerts, nearby issues, drives, corporator updates and service tips, scoped to your ward ("your pol"). Every card can be shared to WhatsApp as an image.</p></div>
+      <div class="note"><h3>Report is one sheet, not six screens</h3><p>Big icon grid, camera, auto location and ward, optional voice note. Before sending, it shows "3 neighbours already reported this. Add your Me too?"</p></div>
+      <div class="note"><h3>Fixed means verified</h3><p>An issue only counts as fixed when the reporter or a neighbour confirms it with a geotagged photo. You get 7 days to reopen, counted from when it was marked fixed.</p></div>
+      <div class="note"><h3>Your ward, your people</h3><p>"My pol" shows your 4 corporators and MLA, your ward's scorecard, the things you follow, and the alerts you subscribe to.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Features</p>
+  <h2>Six pillars, with pilot priorities</h2>
+  <p class="small col"><span class="p p0">P0</span> = pilot launch &nbsp; <span class="p p1">P1</span> = within 3 months &nbsp; <span class="p p2">P2</span> = later</p>
+  <div class="pillars">
+    <div class="pillar"><div class="icon">📍</div><h3>Report anything</h3><ul>
+      <li><span class="p p0">P0</span>Standalone issues in 14 categories, mapped to AMC's 113 types so we can say exactly where to file</li>
+      <li><span class="p p0">P0</span>Photo, auto ward/zone from GPS, duplicate check with "Me too"</li>
+      <li><span class="p p0">P0</span>Optional "File with AMC" hand-off (155303, WhatsApp 75678 55303, CCRS web) and paste the CCRS number back</li>
+      <li><span class="p p0">P0</span>Offline drafts, queued uploads (AMC apps crash in monsoon)</li>
+      <li><span class="p p1">P1</span>Report by WhatsApp; voice notes in Gujarati and Hindi</li>
+    </ul></div>
+    <div class="pillar"><div class="icon">✅</div><h3>Track to a real fix</h3><ul>
+      <li><span class="p p0">P0</span>Lifecycle: Reported, Sent, Acknowledged, In progress, Marked fixed, Verified or Reopened</li>
+      <li><span class="p p0">P0</span>Before/after photo slider; "after" must be taken near the spot</li>
+      <li><span class="p p0">P0</span>Reminder to reopen on CCRS within its 24 h window</li>
+      <li><span class="p p0">P0</span>Escalation ladder with pre-filled message: corporator, then zone officer, then commissioner</li>
+      <li><span class="p p1">P1</span>Volunteer "verify a fix" tasks for neighbours nearby</li>
+    </ul></div>
+    <div class="pillar"><div class="icon">🏛️</div><h3>My ward &amp; my corporators</h3><ul>
+      <li><span class="p p0">P0</span>Know your ward: 4 corporators + MLA + MP, party as plain text, office contact only, "last checked" date</li>
+      <li><span class="p p0">P0</span>"Message via Saarthee" relay instead of personal numbers</li>
+      <li><span class="p p1">P1</span>Corporator claim flow (OTP + document + admin review) and a ward dashboard: open issues by age, hotspots, overdue items, CSV</li>
+      <li><span class="p p1">P1</span>Public ward scorecard: time to acknowledge, time to fix, verified-fix %, reports per 1,000 residents</li>
+      <li><span class="p p2">P2</span>Corporator updates in the feed (frozen in election mode)</li>
+    </ul></div>
+    <div class="pillar"><div class="icon">🔔</div><h3>Alerts that matter</h3><ul>
+      <li><span class="p p0">P0</span>Water cuts, timing changes, road closures, heat and rain alerts, by ward and category</li>
+      <li><span class="p p0">P0</span>Every alert carries source, link, severity and expiry; two-person approval for warnings</li>
+      <li><span class="p p0">P0</span>Push + in-app inbox (free); Gujarati and English</li>
+      <li><span class="p p1">P1</span>Draft alerts auto-created from IMD and NDMA SACHET feeds</li>
+      <li><span class="p p2">P2</span>WhatsApp alerts for opt-ins (about ₹0.12 each), SMS for critical alerts</li>
+    </ul></div>
+    <div class="pillar"><div class="icon">🌳</div><h3>Community &amp; initiatives</h3><ul>
+      <li><span class="p p0">P0</span>"Me too", follow, share, and "your report helped fix X" moments</li>
+      <li><span class="p p1">P1</span>Ward feed, RWA and society pages with bulk follow</li>
+      <li><span class="p p1">P1</span>Drives (tree plantation, clean-ups, dengue checks) with RSVP and attendance</li>
+      <li><span class="p p2">P2</span>Ward polls with agree/disagree only, no reply threads</li>
+      <li><span class="p p2">P2</span>Light contributor levels for verifiers; no individual leaderboards</li>
+    </ul></div>
+    <div class="pillar"><div class="icon">🧾</div><h3>AMC services, simply</h3><ul>
+      <li><span class="p p0">P0</span>Curated directory: property tax, professional tax, certificates, fire NOC, hospitals, schools, BRTS/AMTS, Kankaria, with verified links</li>
+      <li><span class="p p0">P0</span>Nearest ward office from the CCRS ward list</li>
+      <li><span class="p p1">P1</span>Seasonal reminders: property-tax rebate window (April–May), monsoon and heat tips</li>
+      <li><span class="p p2">P2</span>Step-by-step guides in Gujarati, links checked every month</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Issue taxonomy</p>
+  <h2>Fourteen categories citizens recognise</h2>
+  <p class="col">Simple words on the outside, AMC's departments underneath, so every report can tell the citizen which CCRS type to choose and which department owns it.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Saarthee category</th><th>AMC department (CCRS)</th><th>Typical problems</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip" style="background:#F5E6DD"><i style="background:#8A4B2A"></i>Roads &amp; potholes</span></td><td>Engineering</td><td>Potholes, cave-ins, broken roads, footpaths</td></tr>
+      <tr><td><span class="chip" style="background:#DDEBF7"><i style="background:#1D6FB8"></i>Water supply</span></td><td>Engineering · Health</td><td>No water, low pressure, leaks, polluted water</td></tr>
+      <tr><td><span class="chip" style="background:#E2E9EC"><i style="background:#3F5E6B"></i>Drainage &amp; waterlogging</span></td><td>Engineering (drainage, storm water)</td><td>Overflowing sewer, blocked drain, flooded road</td></tr>
+      <tr><td><span class="chip" style="background:#E8EED9"><i style="background:#5E7A1F"></i>Garbage &amp; cleanliness</span></td><td>Solid Waste Management</td><td>Missed pickup, dumping, dead animals</td></tr>
+      <tr><td><span class="chip" style="background:#F2E8D3"><i style="background:#9A6B00"></i>Streetlights</span></td><td>Light</td><td>Not working, on in daytime, damaged pole</td></tr>
+      <tr><td><span class="chip" style="background:#DCF2E3"><i style="background:#2F7A4A"></i>Trees &amp; parks</span></td><td>Garden</td><td>Fallen tree, trimming, park upkeep, plantation request</td></tr>
+      <tr><td><span class="chip" style="background:#F1E1EA"><i style="background:#8E4A6E"></i>Stray animals</span></td><td>Cattle &amp; dog nuisance control</td><td>Stray cattle, dog bites, animal carcass</td></tr>
+      <tr><td><span class="chip" style="background:#F7DEE6"><i style="background:#A61F4D"></i>Mosquitoes &amp; health</span></td><td>Health</td><td>Breeding spots, fogging, food safety</td></tr>
+      <tr><td><span class="chip" style="background:#D5F0EF"><i style="background:#0B6B70"></i>Public toilets</span></td><td>Solid Waste Management</td><td>Dirty, locked, no water</td></tr>
+      <tr><td><span class="chip" style="background:#E7E1F2"><i style="background:#6A4FA0"></i>Encroachment</span></td><td>Estate</td><td>Footpath blocked, illegal hoardings, dangerous building</td></tr>
+      <tr><td><span class="chip" style="background:#FBE3DC"><i style="background:#B4442A"></i>Traffic &amp; parking</span></td><td>Estate · Traffic Police</td><td>Illegal parking, signal out, blocked junction</td></tr>
+      <tr><td><span class="chip" style="background:#EDE6DD"><i style="background:#7A5A3A"></i>Property &amp; tax</span></td><td>Property Tax</td><td>Wrong bill, receipt missing, name change</td></tr>
+      <tr><td><span class="chip" style="background:#EEE7E3"><i style="background:#5F5650"></i>Building &amp; construction</span></td><td>Town Planning · Fire</td><td>Unauthorised construction, fire safety</td></tr>
+      <tr><td><span class="chip" style="background:#EEE7E3"><i style="background:#5F5650"></i>Noise &amp; other</span></td><td>Routed by a moderator</td><td>Anything else</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <p class="eyebrow">Corporators and alerts</p>
+  <h2>How the representative layer stays fair</h2>
+  <div class="pillars">
+    <div class="pillar"><h3>Data, carefully</h3><ul class="plain">
+      <li>Build the 2026–31 roster by hand from State Election Commission results and MyNeta affidavits; no official list exists yet.</li>
+      <li>Show only office or consented public numbers. Never the home addresses and personal mobiles in AMC's old PDFs.</li>
+      <li>Four corporators per ward, so the model is many-to-one from day one.</li>
+    </ul></div>
+    <div class="pillar"><h3>Neutral by design</h3><ul class="plain">
+      <li>No party logos or colours; same features for every corporator.</li>
+      <li>Corporators can acknowledge and comment. Only the reporter or verified proof closes an issue.</li>
+      <li>An "election mode" switch freezes corporator posts and work-done stats while a Model Code of Conduct applies.</li>
+    </ul></div>
+    <div class="pillar"><h3>Alerts we can trust</h3><ul class="plain">
+      <li>No official AMC feed exists, so alerts are curated from AMC press notes, @AmdavadAMC, traffic police, IMD and NDMA.</li>
+      <li>Labelled "Source: AMC (link) · relayed by Saarthee". Never the AMC logo.</li>
+      <li>Push first (free), WhatsApp later for opt-ins, SMS only for critical alerts (needs TRAI DLT registration).</li>
+    </ul></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Channel</th><th>Cost (India, Oct 2026)</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td>Push (FCM) + in-app inbox</td><td>Free</td><td>Pilot (P0)</td></tr>
+      <tr><td>WhatsApp utility template</td><td>About ₹0.115 per message; marketing about ₹0.86. Meta changed India pricing on 1 Oct 2026</td><td>High-severity alerts for opt-ins (P2)</td></tr>
+      <tr><td>SMS via TRAI DLT</td><td>About ₹5,900 one-time registration, ₹590/yr header, ₹0.20–0.35 per SMS</td><td>Critical alerts, feature-phone users (P2)</td></tr>
+      <tr><td>Cell broadcast</td><td>Government only</td><td>Relay its content, never send it</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <p class="eyebrow">Design direction</p>
+  <h2>"Pol Sunset": warm clay, leaf and marigold</h2>
+  <p class="col">Indigo goes. The new look borrows from a Khadia pol in late-afternoon light: terracotta walls, neem leaves, marigold torans, the Sidi Saiyyed jali as a faint texture, and the Uttarayan kite as the Report button. Fonts are Baloo Bhai 2 for headings and Mukta Vaani for text, both open-licence with full Gujarati and Devanagari. This page is set in them.</p>
+  <div class="swatches">
+    <div class="sw"><div style="background:#B4442A;color:#fff">Terracotta</div><p><code>#B4442A</code> · buttons, links<br>white text 5.52:1</p></div>
+    <div class="sw"><div style="background:#2F7A4A;color:#fff">Leaf</div><p><code>#2F7A4A</code> · Me too, fixed, drives<br>white text 5.25:1</p></div>
+    <div class="sw"><div style="background:#F4A93A;color:#2B211C">Marigold</div><p><code>#F4A93A</code> · Report button only<br>ink text 7.92:1</p></div>
+    <div class="sw"><div style="background:#FFF8F0;color:#2B211C;border-bottom:1px solid #EFE4D8">Cream</div><p><code>#FFF8F0</code> · background<br>ink on it 14.91:1</p></div>
+    <div class="sw"><div style="background:#2B211C;color:#FFF8F0">Ink</div><p><code>#2B211C</code> · text<br>AAA on cream and white</p></div>
+    <div class="sw"><div style="background:#1C1714;color:#FFB59E">Dark mode</div><p><code>#1C1714</code> warm charcoal<br>tonal swaps for buttons</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Status</th><th>Colour</th><th>Icon + word</th><th>Alert level</th><th>Colour</th></tr></thead>
+    <tbody>
+      <tr><td>Open</td><td><span class="chip" style="background:#FFEDD5;color:#9A3412"><i style="background:#C2410C"></i>#C2410C</span></td><td>○ Open</td><td>Info</td><td><span class="chip" style="background:#DBEAFE;color:#1E4E8C"><i style="background:#1D6FB8"></i>#1D6FB8</span></td></tr>
+      <tr><td>In progress</td><td><span class="chip" style="background:#DBEAFE;color:#1E4E8C"><i style="background:#1D6FB8"></i>#1D6FB8</span></td><td>↻ In progress</td><td>Advisory</td><td><span class="chip" style="background:#FEF6D8;color:#5C4500"><i style="background:#F4C542"></i>#F4C542 + border</span></td></tr>
+      <tr><td>Fixed</td><td><span class="chip" style="background:#DCF2E3;color:#1F5A35"><i style="background:#2F7A4A"></i>#2F7A4A</span></td><td>✓ Fixed</td><td>Warning</td><td><span class="chip" style="background:#FDE8D6;color:#7C3A06"><i style="background:#B45309"></i>#B45309</span></td></tr>
+      <tr><td>Verified by neighbours</td><td><span class="chip" style="background:#D5F0EF;color:#0A4F53"><i style="background:#0B6B70"></i>#0B6B70</span></td><td>✔︎✔︎ Verified</td><td>Critical</td><td><span class="chip" style="background:#FADCD9;color:#8C1D17"><i style="background:#B3261E"></i>#B3261E</span></td></tr>
+      <tr><td>Rejected</td><td><span class="chip" style="background:#ECE7E3;color:#4A423D"><i style="background:#5F5650"></i>#5F5650</span></td><td>⊘ Not valid</td><td colspan="2" class="small">Every pair checked against WCAG 2.2 AA; status never relies on colour alone.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="alts">
+    <div class="alt"><h3>Also considered: Sabarmati Peacock</h3><div class="bar"><i style="background:#0B6B70"></i><i style="background:#F08A24"></i><i style="background:#14262A"></i><i style="background:#F4F8F7"></i></div><p class="small">Teal and saffron. Calm and civic, but closer to an "official" feel.</p></div>
+    <div class="alt"><h3>Also considered: Bandhani</h3><div class="bar"><i style="background:#A8295E"></i><i style="background:#E9B52F"></i><i style="background:#4F6B2A"></i><i style="background:#FCF7F2"></i></div><p class="small">Rani pink, haldi and mehendi. Most festive; better as a Navratri seasonal theme.</p></div>
+  </div>
+  <ul class="plain col">
+    <li>Bottom tabs: Home, Map, Report (kite +), Alerts, My pol. Labels always visible.</li>
+    <li>Soft warm shadows plus a 1px border, 16dp card corners, pill buttons, 48dp minimum targets.</li>
+    <li>Language chosen first, shown in its own script: ગુજરાતી · हिंदी · English. Listen-aloud on alerts.</li>
+    <li>Illustrations with Indian people and places (start from CC0 Open Peeps, recoloured); 12 custom category icons.</li>
+    <li>Moments: the report "flies" like a kite when sent; bandhani-dot confetti when a fix is verified.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="eyebrow">Guardrails</p>
+  <h2>What could go wrong, and how we avoid it</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Risk</th><th>Seen elsewhere</th><th>Saarthee's answer</th></tr></thead>
+    <tbody>
+      <tr><td>Fake "resolved"</td><td>BBMP closed 1,348 tickets for unknown reasons; Pune PMC CARE and Mumbai MCGM similar</td><td>Fixed only after a citizen or neighbour verifies with a near-spot photo; 7-day reopen</td></tr>
+      <tr><td>Looking like AMC</td><td>Impersonation erodes trust fast</td><td>"Independent app" label everywhere, sourced alerts, no AMC logo</td></tr>
+      <tr><td>Political capture</td><td>BJP holds 160 of 192 seats; any dashboard can read as partisan</td><td>Identical treatment, no party colours, election mode, right of reply</td></tr>
+      <tr><td>Harassment and doxxing</td><td>Citizen app bounty on the wrong man; communal RWA groups</td><td>Reporter hidden publicly, faces and plates blurred, no posts about private people, structured forms</td></tr>
+      <tr><td>Heatmap of complaints ≠ map of need</td><td>FixMyStreet and NYC 311 under-report from poorer areas</td><td>Show reports per 1,000 residents; outreach through RWAs and volunteers</td></tr>
+      <tr><td>Personal data</td><td>DPDP Act duties fully apply from 13 May 2027</td><td>Separate consent for sharing with AMC or corporators, erasure flow, retention schedule, grievance officer</td></tr>
+      <tr><td>App sprawl and crashes</td><td>Bengaluru ran about 18 apps; AMC apps crash in monsoon</td><td>One app, offline-first, light builds for low-end Android</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <p class="eyebrow">Suggested sequence</p>
+  <h2>Roadmap</h2>
+  <div class="roadmap">
+    <div class="phase"><h3>Weeks 1–4</h3><p><b>New look + standalone reporting.</b> Pol Sunset redesign, language picker, 14 categories, ward detection from AMC's ward map, duplicate check and Me too, issue lifecycle with neighbour verification, optional CCRS hand-off. The current reminder and verify loop is reused.</p></div>
+    <div class="phase"><h3>Weeks 5–8</h3><p><b>My ward + alerts.</b> Hand-verified corporator, MLA and MP directory, message relay, alerts admin with sources and two-person approval, push by ward and category, services directory, ward map view.</p></div>
+    <div class="phase"><h3>Weeks 9–12</h3><p><b>Accountability + community.</b> Corporator claim flow and dashboard, public ward scorecards, escalation ladder, drives with RSVP, RWA pages, IMD and SACHET draft alerts.</p></div>
+    <div class="phase"><h3>Later</h3><p><b>Scale channels.</b> WhatsApp reporting and alerts, SMS for critical alerts, ward polls, open-data export, and a paid analytics tier for AMC or CSR partners.</p></div>
+  </div>
+</section>
+
+<section>
+  <p class="eyebrow">Your call</p>
+  <h2>Decisions before we plan the build</h2>
+  <div class="decide col">
+    <div class="q"><b>Palette:</b> go with Pol Sunset, or prefer Sabarmati Peacock?</div>
+    <div class="q"><b>Contact:</b> show corporators' office numbers directly, or start with the in-app message relay only?</div>
+    <div class="q"><b>Moderation:</b> who approves alerts and new issue types in the pilot (you, or a small volunteer team)?</div>
+    <div class="q"><b>Languages at launch:</b> Gujarati + English, or all three including Hindi?</div>
+    <div class="q"><b>Pilot scope:</b> all 48 wards, or start with 3–5 wards where you have RWA partners?</div>
+  </div>
+</section>
+
+<footer class="col">
+  <p>Sources: AMC portals (ahmedabadcity.gov.in, amccrs.com), State Election Commission Gujarat, OpenCity, Firebase, Meta and TRAI pricing reports, mySociety, CivicPlus, Janaagraha, and Indian and Gujarati news, gathered 3 Oct 2026 by four research agents. Some figures (WhatsApp rates, office-bearers) come from secondary sources and should be re-checked before budgeting or publishing. Saarthee is an independent citizen project and is not run by or linked to AMC.</p>
+</footer>
+</div>
