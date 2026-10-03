@@ -20,17 +20,34 @@ export function databaseName(url: string): string {
   return decodeURIComponent(parsed.pathname.replace(/^\//, ''));
 }
 
+/** A test database name: `…_test` or `…_test_<suffix>` (e.g. `saarthee_test`, `saarthee_test_task05`, `saarthee_test_task05_w3`). */
+const TEST_DB_NAME = /_test(_[a-z0-9_]+)?$/;
+
 /**
- * Refuses (throws) unless the database name contains `_test` (e.g. `saarthee_test`, `saarthee_test_task05`).
- * Runs before any query, so pointing the tests at the dev database `saarthee` can never touch its data.
+ * Refuses (throws) unless the database name ends in `_test` or contains a `_test_` segment
+ * (e.g. `saarthee_test`, `saarthee_test_task05`). Runs before any query, so pointing the tests at the dev
+ * database `saarthee` can never touch its data.
  */
 export function assertTestDatabaseUrl(url: string | undefined): string {
   if (!url) throw new TestDatabaseGuardError('Test DATABASE_URL is not set (copy .env.test.example to .env.test).');
   const name = databaseName(url);
-  if (!name.includes('_test')) {
-    throw new TestDatabaseGuardError(`Refusing to run tests against database "${name}": the name must contain "_test".`);
+  if (!TEST_DB_NAME.test(name)) {
+    throw new TestDatabaseGuardError(
+      `Refusing to run tests against database "${name}": the name must end in "_test" or "_test_<suffix>".`,
+    );
   }
   return name;
+}
+
+/** Throws unless `name` is a plain lower-case identifier (safe to quote into CREATE/DROP DATABASE). */
+export function safeDbName(name: string): string {
+  if (!/^[a-z0-9_]{1,63}$/.test(name)) throw new TestDatabaseGuardError(`Unsafe test database name: ${name}`);
+  return name;
+}
+
+/** The private copy of the template database used by one Vitest worker (`<template>_w<poolId>`). */
+export function workerDatabaseName(template: string, poolId: string | number): string {
+  return safeDbName(`${template}_w${poolId}`);
 }
 
 /** Replaces the database name in a postgres URL. */
