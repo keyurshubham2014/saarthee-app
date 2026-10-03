@@ -61,7 +61,17 @@ class _AdminLoginScreenState extends ConsumerState<AdminLoginScreen> {
     final login = ref.watch(adminLoginProvider);
     final error = login.error;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.adminLoginTitle)),
+      appBar: AppBar(
+        title: Text(l10n.adminLoginTitle),
+        // After a logout the stack is replaced; offer a way back to About.
+        leading: context.canPop()
+            ? null
+            : IconButton(
+                tooltip: l10n.adminBack,
+                icon: const Icon(Icons.arrow_back_rounded),
+                onPressed: () => context.go('/about'),
+              ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: adminScreenPadding,
