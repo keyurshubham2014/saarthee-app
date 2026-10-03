@@ -4,6 +4,8 @@ import { requireAdmin } from '../../middleware/requireAdmin';
 import { adminAuthRouter } from '../admin-auth';
 import { adminComplaintsRouter } from '../admin-complaints';
 import { ratesRouter } from '../rates';
+import { exportRouter } from '../export';
+import { referenceRouter } from '../reference';
 
 /**
  * Every route on this router is behind the JWT guard and the per-admin limiter (03 §10: 300/admin/min).
@@ -15,3 +17,5 @@ adminRouter.use(rateLimit({ windowMs: 60_000, max: 300, keyGenerator: (req) => `
 adminRouter.use(adminAuthRouter);
 adminRouter.use(adminComplaintsRouter);
 adminRouter.use(ratesRouter);
+adminRouter.use(exportRouter);
+adminRouter.use(referenceRouter);
