@@ -10,5 +10,160 @@
   },
   "commonSeparatorA": "—",
   "commonSeparatorB": "·",
-  "commonSeparatorC": "…"
+  "commonSeparatorC": "…",
+  "commonContinue": "Continue",
+  "commonBack": "Back",
+  "commonRetry": "Try again",
+  "commonGoHome": "Go home",
+  "commonDone": "Done",
+  "commonSkip": "Skip",
+  "commonChange": "Change",
+  "commonSend": "Send",
+  "commonSending": "Sending",
+  "commonLoading": "Loading",
+  "commonStepOf": "Step {current} of {total}",
+  "@commonStepOf": {
+    "description": "Step progress, announced to screen readers",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "commonOfflineBanner": "You're offline. Your answers are saved.",
+  "commonErrorSummaryTitle": "There is a problem",
+  "commonOpenSettings": "Open settings",
+  "commonIndependenceNotice": "Independent app. Not run by or linked to AMC.",
+  "statusFixed": "Fixed",
+  "statusNotFixed": "Not fixed",
+  "statusWaiting": "Waiting",
+  "statusFiled": "Filed",
+  "statusReminded": "Reminded",
+  "photoMissing": "Photo not available",
+  "photoReportedOn": "Reported, {date}",
+  "@photoReportedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "photoNowOn": "Now, {date}",
+  "@photoNowOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "photoCapturedAt": "Taken {time}",
+  "@photoCapturedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "photoAccuracy": "Location accurate to {meters} m",
+  "@photoAccuracy": {
+    "placeholders": {
+      "meters": {
+        "type": "int"
+      }
+    }
+  },
+  "photoSemanticLabel": "Photo of the problem, taken {time}",
+  "@photoSemanticLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "photoNoLocation": "No location",
+  "globalErrorTitle": "Something went wrong",
+  "globalErrorBody": "Your answers on this phone are safe. Go back to the start and try again.",
+  "errorValidationFailed": "Please check the highlighted fields.",
+  "errorInviteCodeInvalid": "That code didn't work. Check it with whoever shared it.",
+  "errorInviteCodeTaken": "That code already exists.",
+  "errorCategoryInactive": "Please choose the category again.",
+  "errorPhotoUnusable": "Please retake the photo.",
+  "errorPhotoTooLarge": "That photo is too large. Please try again.",
+  "errorPhotoTypeUnsupported": "We couldn't read that photo. Please retake it.",
+  "errorPhotoDeleted": "This photo was deleted.",
+  "errorVerifyTokenInvalid": "This link isn't valid. Ask for a new one.",
+  "errorVerifyTokenRevoked": "This link is no longer active.",
+  "errorInvalidCredentials": "Email or password is incorrect.",
+  "errorAdminDisabled": "This account is disabled.",
+  "errorSessionEnded": "Your session ended. Please log in again.",
+  "errorComplaintExcluded": "This complaint is excluded.",
+  "errorComplaintAnonymized": "This complaint's personal data was removed.",
+  "errorNotFound": "Not found.",
+  "errorRateLimited": "Too many attempts. Please wait a moment and try again.",
+  "errorRateLimitedMinutes": "Too many attempts. Please try again in {minutes, plural, =1{1 minute} other{{minutes} minutes}}.",
+  "@errorRateLimitedMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "errorRateLimitedSeconds": "Too many attempts. Please try again in {seconds} seconds.",
+  "@errorRateLimitedSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorInternal": "Something went wrong. Please try again.",
+  "errorServiceUnavailable": "The service is unavailable. Please try again later.",
+  "errorOffline": "You're offline. Your answers are saved.",
+  "errorTimeout": "That took too long. Please try again.",
+  "welcomeTitle": "Check that complaints to AMC really get fixed.",
+  "welcomeBody": "You file your complaint with AMC as usual. This app records it, and in about a week asks you whether it was fixed.",
+  "welcomeIndependence": "This is an independent app. It is not run by or linked to AMC.",
+  "inviteTitle": "Do you have a group code?",
+  "inviteBody": "Someone may have shared a code with you, like your society or a local group. It links your reports to that group.",
+  "inviteFieldLabel": "Group code",
+  "inviteFieldHint": "Letters and numbers, 6 to 20",
+  "inviteFieldInvalidFormat": "Enter 6 to 20 letters or numbers.",
+  "inviteNoCode": "I don't have a code",
+  "inviteSuccess": "You're part of {groupLabel}",
+  "@inviteSuccess": {
+    "placeholders": {
+      "groupLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "homeRecordTitle": "Record a complaint",
+  "homeRecordBody": "File it with AMC, then record it here with a photo.",
+  "homeContinueTitle": "Continue your report",
+  "homeContinueBody": "Your answers so far are saved.",
+  "homeFollowUpTitle": "Answer a follow-up",
+  "homeFollowUpBody": "Got a message asking if your complaint was fixed? Answer it here.",
+  "homeAboutLink": "About this app",
+  "homeGroupLabel": "Group: {groupLabel}",
+  "@homeGroupLabel": {
+    "placeholders": {
+      "groupLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutTitle": "About",
+  "aboutHeading": "What this app does",
+  "aboutBody": "Saarthee records complaints you have filed with AMC and, about a week later, asks you whether the problem was fixed. Together, these answers show how many complaints really get fixed.",
+  "aboutPrivacyHeading": "Your privacy",
+  "aboutPrivacyBody": "We store your WhatsApp number, your photos with their location and time, and your answers. We use them only to follow up on your complaint. You can ask for your data to be deleted.",
+  "aboutIndependenceHeading": "Independent",
+  "aboutIndependenceBody": "This is an independent citizen project. It is not run by or linked to AMC or any government body.",
+  "aboutGroupHeading": "Group code",
+  "aboutGroupNone": "No group code",
+  "aboutChangeCode": "Change group code",
+  "aboutOperatorLogin": "Operator login"
 }
