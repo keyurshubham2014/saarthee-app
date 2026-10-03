@@ -12,11 +12,15 @@ class ConfirmationScreen extends StatelessWidget {
     required this.title,
     required this.body,
     this.buttonKey,
+    this.onDone,
   });
 
   final String title;
   final String body;
   final Key? buttonKey;
+
+  /// Runs before returning Home (e.g. ending the verify session).
+  final VoidCallback? onDone;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,10 @@ class ConfirmationScreen extends StatelessWidget {
             PrimaryButton(
               key: buttonKey,
               label: l10n.commonDone,
-              onPressed: () => context.go('/'),
+              onPressed: () {
+                onDone?.call();
+                context.go('/');
+              },
             ),
           ],
           children: [

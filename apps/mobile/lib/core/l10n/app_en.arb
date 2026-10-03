@@ -257,5 +257,43 @@
         "type": "String"
       }
     }
-  }
+  },
+  "verifyEntryTitle": "Your complaint from {date}",
+  "@verifyEntryTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "verifyEntryCategory": "Kind of problem",
+  "verifyEntryNumber": "AMC complaint number",
+  "verifyEntryAnsweredBefore": "You've answered before. You can update your answer.",
+  "verifyEntryNoPhoto": "The original photo is no longer available.",
+  "verifyEntryLoading": "Opening your complaint",
+  "verifyLinkInvalid": "This link isn't valid.",
+  "verifyLinkRevoked": "This link is no longer active.",
+  "verifyEnterCodeInstead": "Enter a code instead",
+  "verifyEnterCodeTitle": "Enter your follow-up code",
+  "verifyEnterCodeBody": "Paste the whole link from the WhatsApp message, or just the code after 't='.",
+  "verifyEnterCodeLabel": "Link or code",
+  "verifyEnterCodeError": "That doesn't look like a follow-up link or code. Check the WhatsApp message and try again.",
+  "verifyAnswerTitle": "Is it fixed?",
+  "verifyAnswerFixed": "Yes, it's fixed",
+  "verifyAnswerNotFixed": "No, it's not fixed",
+  "verifyAnswerRequired": "Choose an answer.",
+  "verifyPhotoTitle": "Take a photo of the same spot now",
+  "verifyPhotoReference": "Your earlier photo, to help you frame the same view",
+  "verifyNoteTitle": "What's still wrong?",
+  "verifyNoteBody": "Optional. Tell us briefly what still needs fixing.",
+  "verifyNoteLabel": "Note",
+  "verifyNoteTooLong": "Your note is too long.",
+  "verifyCheckTitle": "Check and send",
+  "verifyCheckAnswer": "Your answer",
+  "verifyCheckNote": "Your note",
+  "verifyCheckNoNote": "No note",
+  "verifyCheckPhoto": "Photo now",
+  "verifyDoneTitle": "Thank you.",
+  "verifyDoneBody": "Your answer helps show which complaints really get fixed.",
+  "verifySessionEnded": "This follow-up was closed. Open the link from WhatsApp again, or enter the code."
 }
