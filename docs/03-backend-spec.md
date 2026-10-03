@@ -610,6 +610,21 @@ The server ignores any event name not on this list, and any property other than 
 | 15 | Added `admin_users.token_version` to the schema (doc 04 updated) | Needed for JWT revocation | Confirmed by Decision 2 | 2026-10-03 |
 | 16 | Verify distance warning threshold | Not set by the PRD | Open | — |
 | 17 | WhatsApp click-to-chat URL format | Built in the app; format to verify (PRD Q8) | Open (02) | — |
+| I1 | Standard headers `X-Install-Id`, `X-Platform`, `X-App-Version`, `X-Request-Id`; malformed values stored as null, not rejected | Informational only (§2.1) | Implemented — confirm | 2026-10-03 |
+| I2 | App event item `{name, occurredAt, properties?}`; no `complaintId`; invalid batch → 400; unknown names/properties dropped; `deep_link_failed.reason` must match `^[a-z0-9_]{1,40}$` | Keeps free text out of events | Implemented — confirm | 2026-10-03 |
+| I3 | Unknown JSON fields stripped; oversize JSON → 413 `VALIDATION_FAILED` | No body-size code in §9.1 | Implemented — confirm | 2026-10-03 |
+| I4 | Coordinates rounded to 6 dp server-side, not rejected | Phones report ~15 decimals; reports must not be lost | Implemented — confirm | 2026-10-03 |
+| I5 | Malformed `inviteCode` on `POST /reports` → stored `unknown` (warn log), not 400 | §4.1 wins over §2.3 format column | Implemented — confirm | 2026-10-03 |
+| I6 | Photo re-encode JPEG q85, 50 MP decompression guard, EXIF orientation applied; `STORAGE_DRIVER=cloudflare_r2` refuses start | R2 driver is a deployment-time addition | Implemented — confirm | 2026-10-03 |
+| I7 | Rate limits: login 5 failed / 15 min keyed IP + SHA-256(email), successes not counted; `/verify/*` 60/IP/h shared, runs before the token guard | Token probing is rate-limited; admin never locked out by successful logins | Implemented — confirm | 2026-10-03 |
+| I8 | Missing/malformed/bad admin JWT → 401 `TOKEN_REVOKED`; unknown `/admin/*` → 401 (guard first) | No `UNAUTHENTICATED` code; hides admin routes | Implemented — confirm | 2026-10-03 |
+| I9 | Due: interval from `REMINDER_INTERVAL_DAYS` (no override); `due=false` = not due; ordered `due_reference_at ASC`; rates as numbers rounded to 4 dp | Spec silent on order/format | Implemented — confirm | 2026-10-03 |
+| I10 | `clientSubmissionId` reused for another complaint → 409 `VALIDATION_FAILED`; distance = haversine (R 6,371,008.8 m), 2 dp; server returns `distanceWarning` | Avoids leaking other verifications | Implemented — confirm | 2026-10-03 |
+| I11 | `GET /verify/complaint/photo` with no photo → 404; `previousVerificationCount` counts all verifications for the complaint | Spec lists 404 only / scope unstated | Implemented — confirm | 2026-10-03 |
+| I12 | Revoke and anonymize are idempotent (200 with original timestamp; anonymize retries failed file deletes); excluding an anonymized complaint allowed | No conflict codes in spec | Implemented — confirm | 2026-10-03 |
+| I13 | Export: in memory, one response; file name timestamp IST `yyyymmdd-hhmm`; `includePhone` affects complaints only; `token_hash`/`password_hash` never exported | Pilot volume; minimisation | Implemented — confirm | 2026-10-03 |
+| I14 | Generated invite codes 8 chars `A–Z 2–9` without 0/O/1/I (CSPRNG); PATCH bodies strict (`sourceTag` → 400); category name clash → 409 `VALIDATION_FAILED` | No dedicated codes in §9.1 | Implemented — confirm | 2026-10-03 |
+| I15 | `photos:cleanup` / `storage:check` in `apps/api/package.json` (root alias); cleanup also retries failed anonymization deletes | §5.3 safe to re-run | Implemented — confirm | 2026-10-03 |
 
 ## Version History
 | Version | Date | Author | Changes |

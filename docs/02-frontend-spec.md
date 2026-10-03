@@ -634,6 +634,21 @@ All user-facing messages come from the ARB files, keyed by the backend error cod
 | F1 | App name "Saarthee"; deep-link scheme `saarthee://` | Founder's choice. Similar names exist, including government apps (e.g. Rail SAARTHI); check for confusion, trademarks and store listings before release | Confirmed (name check pending) | 2026-10-03 |
 | F2 | Allow reports without GPS? | PRD Q6 | **Open** | — |
 | F3 | Low-end Android test phone model | Needed to measure §8.1 targets | Open | — |
+| I1 | Fonts not bundled; platform default font (Roboto / SF) with the §2.1 type scale (row 4) | Anek licence/coverage not checked; bundling Noto Sans is a follow-up | Deferred | 2026-10-03 |
+| I2 | Error summary component named `AppErrorSummary` | Name clash with Flutter's `ErrorSummary` | Implemented — confirm | 2026-10-03 |
+| I3 | Invite-code "Share" copies the message to the clipboard; CSV export saved to downloads | No share-sheet package (`share_plus`) added | Implemented — confirm | 2026-10-03 |
+| I4 | iOS Debug-only ATS exception not built | Needs a Debug-only Info.plist/xcconfig split; iOS not on the demo path | Deferred | 2026-10-03 |
+| I5 | Photo compression via image_picker `maxWidth/maxHeight 1600`, `imageQuality 80` (row 11) | Same targets without adding flutter_image_compress | Implemented — confirm | 2026-10-03 |
+| I6 | Photo upload starts after "Use this photo", retried on reconnect while the step is open; not resumed after app kill | No background-task plugin | Implemented — confirm | 2026-10-03 |
+| I7 | CCRS WhatsApp button opens `https://wa.me/<digits>`; operator reminder uses `https://wa.me/<digits>?text=…` (falls back to `wa.me/?text=` with no phone) | Format still to verify (PRD Q8) | Implemented — confirm | 2026-10-03 |
+| I8 | Step 4 cannot finish without location (F2) | Until PRD Q6 is decided | Implemented — confirm | 2026-10-03 |
+| I9 | Due list ordered oldest-due first; Due badge = items in first `due=true` page (limit 200) | No order or count endpoint in spec | Implemented — confirm | 2026-10-03 |
+| I10 | Small-sample note per Rates row when verified < 10; H1/H2 shown as percentages from 0–1 ratios | 02 §4.21 | Implemented — confirm | 2026-10-03 |
+| I11 | Category reorder = one `PATCH sortOrder` per moved category, steps of 10 | No bulk-reorder endpoint | Implemented — confirm | 2026-10-03 |
+| I12 | Verify manual entry accepts a bare 43-char base64url token; step count "of 4" ("of 3" when fixed) | Matches 03 §3.2 token format | Implemented — confirm | 2026-10-03 |
+| I13 | Admin session end handled by `AdminSessionGuard`; any 401 on an admin call returns to login | Router refresh owned elsewhere; expiry also checked on resume | Implemented — confirm | 2026-10-03 |
+| I14 | Release builds route uncaught errors to `/error`; portrait lock per route (admin rotates); reduce-motion skips step fades | Spec gives behaviour, not mechanism | Implemented — confirm | 2026-10-03 |
+| I15 | Component gallery debug route and emulator screenshots not produced | Components exercised by real screens | Deferred | 2026-10-03 |
 
 ## Sources (found by web search, 2026-10-03; read the full pages before relying on details)
 - UK Government Design Principles — https://www.gov.uk/guidance/government-design-principles

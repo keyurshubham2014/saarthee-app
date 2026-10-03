@@ -322,6 +322,11 @@ Bug note format: build version, device and OS, steps, expected result, actual re
 | 9 | DPDP Act 2023 and Rules 2025 likely apply; design for compliance now | Public sources; not legal advice | **Needs legal review** | 2026-10-03 |
 | 10 | Phone numbers not encrypted at field level in v1 | Admin-only, small pilot; P2 option | Assumed — confirm | 2026-10-03 |
 | 11 | Log retention ≤ 14 days locally; JSON body limit 64 KB | Starting values | Assumed | 2026-10-03 |
+| I1 | npm audit high GHSA-ggr8-5vv4-36mx (deepmerge-ts via prisma CLI) accepted | Dev-only dependency, not in the API runtime | Implemented — confirm | 2026-10-03 |
+| I2 | Common-password list = SecLists 10k-most-common, bundled in `apps/api/scripts/data/` | §2.1 names no source | Implemented — confirm | 2026-10-03 |
+| I3 | Login limiter key uses raw IP; `TRUST_PROXY` must be set at deployment | Otherwise all users share one key | Implemented — confirm | 2026-10-03 |
+| I4 | Physical-device, iPhone and real WhatsApp checks not run | Only Android emulator available | Deferred | 2026-10-03 |
+| I5 | Screenshot blocking on admin screens (REQ-S-037) | Out of scope for v1 | Deferred | 2026-10-03 |
 
 ## Sources (found by web search, 2026-10-03)
 - Press Information Bureau, "Government notifies DPDP Rules to empower citizens and protect privacy" (14 Nov 2025) — https://www.pib.gov.in/PressReleasePage.aspx?PRID=2190014&reg=3&lang=2

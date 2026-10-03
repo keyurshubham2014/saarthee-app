@@ -117,7 +117,7 @@ One container in v1: PostgreSQL. The API and Flutter run natively on the develop
 ### 3.2 Container Definitions
 | Container | Base Image | Ports | Volumes | Health Check |
 |-----------|-----------|-------|---------|-------------|
-| `db` | Official `postgres` image, **pinned to one major version** (e.g. `postgres:<major>`; choose the latest stable at setup and record it here) | `127.0.0.1:5432:5432` (localhost only, never the LAN) | Named volume `pgdata` | `pg_isready` every 5 s |
+| `db` | Official `postgres` image, pinned to **`postgres:17.6`** (latest stable at setup, 2026-10-03) | `127.0.0.1:5433:5432` (localhost only, never the LAN; host port 5433 because 5432 was occupied on the dev machine) | Named volume `pgdata` | `pg_isready` every 5 s |
 
 ### 3.3 Docker Compose (Local Development)
 - The compose file lives in `infra/docker-compose.yml`. It defines one service, `db`, with:
@@ -250,6 +250,12 @@ This section will be written when deployment is planned. These items are already
 | 10 | No staging environment for the pilot | Small scale | Assumed — confirm | 2026-10-03 |
 | 11 | CCRS web URL, WhatsApp number and 155303 helpline as config values | From AMC sites in Oct 2026; may change | To verify before each release | 2026-10-03 |
 | 12 | Deployment section deferred | Founder's choice (local only for now) | Confirmed | 2026-10-03 |
+| I1 | Database image pinned to `postgres:17.6` (§3.2) | Latest stable at setup | Implemented — confirm | 2026-10-03 |
+| I2 | Host port 5433 (`127.0.0.1:5433:5432`), still localhost only | 5432 occupied on the dev machine | Implemented — confirm | 2026-10-03 |
+| I3 | `LOG_FILE_DIR` added: pino-roll daily files, 14 kept | Meets ≤ 14-day local retention (06 row 11) | Implemented — confirm | 2026-10-03 |
+| I4 | Express 5.2.1, Zod 4.6.5, Prisma 6.19.3, TypeScript 5.9.3 pinned | Prisma 6 not 7/8 — avoid new-major churn | Implemented — confirm | 2026-10-03 |
+| I5 | Root `package.json` scripts (npm); mobile CI job gated on `apps/mobile/pubspec.yaml` | 05 D5; simplest cross-platform option | Implemented — confirm | 2026-10-03 |
+| I6 | No GitHub remote / CI run yet | Founder action: create remote, push, confirm CI green | Deferred | 2026-10-03 |
 
 ## Version History
 | Version | Date | Author | Changes |

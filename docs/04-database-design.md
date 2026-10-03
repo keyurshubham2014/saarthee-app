@@ -547,6 +547,11 @@ Not applicable in v1.
 | A6 | Events table holds no personal data; install_id is a random per-install UUID | Privacy by default | Assumed — confirm | 2026-10-03 |
 | A7 | Verify tokens do not expire during the pilot; older tokens stay valid unless revoked | Late verifications are still valuable | Confirmed | 2026-10-03 |
 | A8 | Backups kept 7 days locally | Placeholder until deployment | Assumed | 2026-10-03 |
+| I1 | Dev admin created by the seed (shared password helper) | Seeded reminders need non-null `sent_by` | Implemented — confirm | 2026-10-03 |
+| I2 | "Real pilot data present" = any complaint with `app_version <> 'seed'`; sample seed refuses otherwise | No detection rule in spec | Implemented — confirm | 2026-10-03 |
+| I3 | `photos ↔ complaints` circular FK added in the `create_complaints` migration | Keeps §7.3 order | Implemented — confirm | 2026-10-03 |
+| I4 | `pilot_rates_v` returns a row per source tag even with zero complaints | Stable rows for Rates screen | Implemented — confirm | 2026-10-03 |
+| I5 | Seed writes placeholder JPEGs at `photos/<yyyy>/<mm>/<uuid>.jpg`; `email = lower(email)` CHECK | Admin photo endpoints have files; stored lowercase | Implemented — confirm | 2026-10-03 |
 
 ## Version History
 | Version | Date | Author | Changes |

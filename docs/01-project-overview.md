@@ -346,6 +346,8 @@ sequenceDiagram
 | 17 | Admin login: email + password, JWT access token | Founder's choice | Confirmed | 2026-10-03 |
 | 18 | Team, timeline, launch date | Not provided | Open (07) | — |
 | 19 | App name: Saarthee; deep-link scheme `saarthee://` | Founder's choice; name-clash check before release | Confirmed | 2026-10-03 |
+| I1 | WhatsApp tappability of `saarthee://` verify links (row 14) | Not tested — no physical device/WhatsApp on emulator; adb deep link and manual code entry both verified on Android emulator | Deferred | 2026-10-03 |
+| I2 | No GitHub remote / CI run yet | Founder action: create the repository and push; CI workflow is committed | Deferred | 2026-10-03 |
 
 ## Version History
 | Version | Date | Author | Changes |
