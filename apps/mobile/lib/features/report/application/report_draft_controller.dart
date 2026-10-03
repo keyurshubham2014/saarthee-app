@@ -108,6 +108,23 @@ class ReportDraftController extends Notifier<ReportDraft?> {
     await _set(d.clearUpload());
   }
 
+  /// Drops the photo entirely so the citizen retakes it (`PHOTO_UNUSABLE`).
+  Future<void> clearPhoto() async {
+    final d = state;
+    if (d == null) return;
+    final path = d.photoPath;
+    await _set(
+      d.withPhoto(
+        path: null,
+        latitude: null,
+        longitude: null,
+        accuracy: null,
+        capturedAt: null,
+      ),
+    );
+    await _store.deletePhoto(path);
+  }
+
   Future<void> setPhone(String digits) async {
     final d = state;
     if (d == null) return;
@@ -161,6 +178,7 @@ class ReportDraftController extends Notifier<ReportDraft?> {
     await _store.clear();
     await _store.deletePhoto(d.photoPath);
     state = null;
+    ref.invalidate(reportUploadProvider);
     return result;
   }
 
@@ -169,6 +187,7 @@ class ReportDraftController extends Notifier<ReportDraft?> {
     await _store.clear();
     await _store.deletePhoto(path);
     state = null;
+    ref.invalidate(reportUploadProvider);
   }
 
   static double? _round6(double? v) =>
