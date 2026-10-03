@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../admin_l10n.dart';
+import '../../application/admin_complaints.dart';
+import '../widgets/admin_tokens.dart';
+import 'admin_session_guard.dart';
+
+/// Admin tab shell: Due, All, Rates, More (02 §3.3).
+class AdminShell extends ConsumerWidget {
+  const AdminShell({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = adminL10n(context);
+    final tokens = AdminTokens.of(context);
+    final dueCount = ref.watch(dueCountProvider).value;
+    final showBadge = dueCount != null && dueCount > 0;
+    Widget dueIcon(IconData icon) => Semantics(
+      label: showBadge ? l10n.adminDueBadgeSemantics(dueCount) : null,
+      child: Badge(
+        isLabelVisible: showBadge,
+        backgroundColor: tokens.marigold,
+        textColor: tokens.ink,
+        label: Text(showBadge ? '$dueCount' : ''),
+        child: Icon(icon),
+      ),
+    );
+    return AdminSessionGuard(
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: navigationShell.currentIndex,
+          onDestinationSelected: (index) {
+            if (index == 0) {
+              ref.invalidate(dueCountProvider);
+            }
+            navigationShell.goBranch(
+              index,
+              initialLocation: index == navigationShell.currentIndex,
+            );
+          },
+          destinations: <NavigationDestination>[
+            NavigationDestination(
+              key: const Key('adminTabDue'),
+              icon: dueIcon(Icons.notifications_outlined),
+              selectedIcon: dueIcon(Icons.notifications_rounded),
+              label: l10n.adminTabDue,
+            ),
+            NavigationDestination(
+              key: const Key('adminTabAll'),
+              icon: const Icon(Icons.list_alt_outlined),
+              selectedIcon: const Icon(Icons.list_alt_rounded),
+              label: l10n.adminTabAll,
+            ),
+            NavigationDestination(
+              key: const Key('adminTabRates'),
+              icon: const Icon(Icons.insights_outlined),
+              selectedIcon: const Icon(Icons.insights_rounded),
+              label: l10n.adminTabRates,
+            ),
+            NavigationDestination(
+              key: const Key('adminTabMore'),
+              icon: const Icon(Icons.more_horiz_rounded),
+              selectedIcon: const Icon(Icons.more_horiz_rounded),
+              label: l10n.adminTabMore,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

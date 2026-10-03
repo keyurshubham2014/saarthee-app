@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart';
 
 import '../data/admin_api_error.dart';
 import '../data/models/complaint_detail.dart';
@@ -187,7 +188,7 @@ class ReminderSender extends Notifier<Set<String>> {
     } on AdminApiError catch (e) {
       if (e.code == AdminErrorCodes.complaintExcluded ||
           e.code == AdminErrorCodes.complaintAnonymized) {
-        refreshComplaintData(ref);
+        refreshComplaintData(ref.invalidate);
       }
       rethrow;
     } finally {
@@ -200,14 +201,17 @@ class ReminderSender extends Notifier<Set<String>> {
 
 /// Refreshes every complaint list, the due badge, the rates and details
 /// after a mutation (no optimistic updates, 02 §5.3).
-void refreshComplaintData(Ref ref, {String? complaintId}) {
-  ref.invalidate(adminComplaintsProvider);
-  ref.invalidate(dueCountProvider);
-  ref.invalidate(ratesProvider);
+void refreshComplaintData(
+  void Function(ProviderOrFamily provider) invalidate, {
+  String? complaintId,
+}) {
+  invalidate(adminComplaintsProvider);
+  invalidate(dueCountProvider);
+  invalidate(ratesProvider);
   if (complaintId != null) {
-    ref.invalidate(complaintDetailProvider(complaintId));
+    invalidate(complaintDetailProvider(complaintId));
   } else {
-    ref.invalidate(complaintDetailProvider);
+    invalidate(complaintDetailProvider);
   }
 }
 
@@ -238,7 +242,7 @@ class ComplaintActions extends Notifier<String?> {
     state = action;
     try {
       await body();
-      refreshComplaintData(ref, complaintId: complaintId);
+      refreshComplaintData(ref.invalidate, complaintId: complaintId);
     } finally {
       if (ref.mounted) {
         state = null;
