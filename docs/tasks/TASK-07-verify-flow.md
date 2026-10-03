@@ -216,6 +216,10 @@ There is no complaint ID in any verify URL. The complaint comes **only** from th
 - ASSUMPTION: `GET /verify/complaint/photo` returns 404 `NOT_FOUND` when `hasPhoto` is false (file deleted), matching the endpoint's listed 404 — if 410 is preferred, change the status only.
 - ASSUMPTION: `previousVerificationCount` counts all verifications for the complaint, not only those made with this reminder's token — 03 §2.3 says "lets the app say you've already answered" without scope — if per-reminder, change the count query.
 
+- ASSUMPTION (W1 API): The `/verify/*` limiter (60/IP/h, one shared budget) runs **before** the token guard so token probing is rate-limited; `POST /verify/photos` has no separate budget beyond it.
+- ASSUMPTION (W1 API): A `clientSubmissionId` already stored for a **different** complaint returns 409 `VALIDATION_FAILED` (`clientSubmissionId` "Already used for another answer.") instead of leaking the other verification.
+- ASSUMPTION (W1 API): Distance = haversine with mean Earth radius 6,371,008.8 m, stored to 2 dp.
+
 ## 6. Implementation Steps
 
 1. **`src/lib/geo`:** haversine distance in metres between two lat/lng pairs, rounded to 2 decimals. Add a short doc comment with one worked example.
@@ -387,6 +391,23 @@ There is no complaint ID in any verify URL. The complaint comes **only** from th
 | App manual | **M-07-16** After M-07-13: `grep -r "$T" <api log>` → none; `adb shell run-as <pkg> cat shared_prefs/*.xml \| grep "$T"` → none; secure storage holds only the admin JWT key | AC-13 |
 | Optional automated | Vitest + Supertest "verify access" (06 §8.1 #3): valid token works; unknown/revoked/anonymized rejected; token cannot reach another complaint's photo. Only if time allows (scheduled in TASK-10, REQ-N-019) | AC-2, AC-3, AC-4, AC-5 |
 
+### Verification log (W1, API only — 2026-10-03, `saarthee_w1` DB, `API=http://localhost:4001/api/v1`, `V="X-Verify-Token: <token from TASK-06 reminder for C1>"`)
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| Summary | `curl -s $API/verify/complaint -H "$V"` | 200 `{complaintId, categoryName:"Garbage and cleanliness", ccrsNumber:"AMC-2026-0001", reportedAt, hasPhoto:true, previousVerificationCount:0}` — no phone/coords/invite/source; `verify_opened` event `{}` |
+| Invalid tokens | no header; 43-char unknown token; token in `?t=` query only | 401 `VERIFY_TOKEN_INVALID` (identical bodies); query token ignored → 401 |
+| Report photo | `curl -s $API/verify/complaint/photo -H "$V"` | 200 `image/jpeg` |
+| Verify photo | `curl -s -F photo=@exif.jpg $API/verify/photos -H "$V"` | 201 `{photoId}`; row `purpose verification`, `uploaded_for_complaint_id` = C1 |
+| Submit | `curl -s -X POST $API/verify/submissions -H 'Content-Type: application/json' -H "$V" -d '{"clientSubmissionId":"b1111111-…","result":"not_fixed","photoId":"<id>","latitude":23.0230,"longitude":72.5720,"gpsAccuracyM":12,"deviceCapturedAt":"2026-10-03T14:05:00+05:30","note":"  Still broken  ","platform":"android","appVersion":"0.1.0"}'` | 201 `{verificationId, createdAt}`; row `not_fixed`, note trimmed `Still broken`, `distance_from_report_m 97.89`, `reminder_id` set; `verify_submitted {"result":"not_fixed"}` |
+| Idempotent | same body again | 200, same `verificationId` |
+| Photo rules | attached photo with a new id; a `report`-purpose photo | 422 `PHOTO_UNUSABLE` "Please retake the photo." (both) |
+| Note length | 1,001-char note | 400 `details:[{field:"note",issue:"Your note is too long."}]` |
+| H1/H2 demo delta | `curl -s $API/admin/rates -H "$H"` after C1 reminded + verified not_fixed | rwa reminded 4 / verified 3 / h1 0.75 / not_fixed 2 / **h2 0.6667**; trusted 6 / 4 / h1 0.6667 / not_fixed 3 / **h2 0.75** — exactly the SEED-EXPECTATIONS demo delta |
+| Revoked → 410 | `curl -s -X POST $API/admin/reminders/<id>/revoke -H "$H"` then summary | 200 `{revokedAt}`; then 410 `VERIFY_TOKEN_REVOKED` "This link is no longer active."; `warn` "revoked token presented" with reminderId only |
+| Log redaction | `grep -c -E "<token>\|Still broken" api.log` | 0 |
+
 ## 9. Deliverables
 - `src/middleware/verifyToken`, `src/lib/geo`, and `src/modules/verify` (routes, handlers, service, Zod schemas) with the four endpoints.
 - Server events `verify_opened` and `verify_submitted`.
@@ -457,6 +478,7 @@ Prediction only. Exact paths depend on the patterns established in TASK-01 to TA
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend done — verify-token guard (`X-Verify-Token` header only, SHA-256 lookup, 401/410), `GET /verify/complaint`, `GET /verify/complaint/photo`, `POST /verify/photos`, `POST /verify/submissions` (idempotent, haversine distance, `verify_submitted {result}`), 60/IP/h limiter on `/verify/*`. No new libraries. Curl-verified incl. H1/H2 demo delta (§8 W1 log). | TASK-07: API (w1-api) |
 
 ## 14. Completion Checklist
 
