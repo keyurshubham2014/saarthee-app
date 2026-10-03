@@ -39,7 +39,7 @@ canvas.z[data-mono]{background:#202124}
 .launch svg{display:block;transform:scale(1.16)}
 </style></head><body>
 <h1>Saarthee mark · explorations</h1>
-<p>Four refinements of the DS §1 mark (rounded square, radius 28%, primary #14674A, white route rising to the upper right, sunrise #C24A1F dot). Each row shows real sizes 16 to 256 px, a 16 px raster zoomed so the pixel grid is visible, the single-colour glyph as an Android status-bar icon (24 dp, zoomed), and a circular launcher mask. The chosen variant is <b>D</b>; see <code>README.md</code>.</p>
+<p>Seven candidates for the DS §1 mark (rounded square, radius 28%, primary #14674A, white route rising to the upper right, sunrise #C24A1F dot). Each row shows real sizes 16 to 256 px, a 16 px raster zoomed so the pixel grid is visible, the single-colour glyph as an Android status-bar icon (24 dp, zoomed), and a circular launcher mask. The chosen variant is <b>${process.env.CHOSEN || "?"}</b>; see <code>README.md</code>.</p>
 <h2>On light</h2>
 ${Object.entries(variants).map(([k, v]) => row(k, v, 'light')).join('')}
 <h2>On dark</h2>
