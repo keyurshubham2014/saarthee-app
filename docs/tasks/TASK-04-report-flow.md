@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-04 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-02, TASK-03 |
@@ -304,14 +304,14 @@ State machine: 02 §6.3 (Category → FileWithAMC ↔ AwayAtAMC → Number → P
 
 - [ ] Every report screen has loading, error, offline and in-flight states; Send and upload buttons disabled while in flight
 - [ ] Step progress "Step n of 6" announced; inline errors announced; focus moves to `ErrorSummary` on failed submit
-- [ ] All copy (incl. consent `v1` and all §4.2 messages) in ARB, keyed by error code where server-originated
+- [x] All copy (incl. consent `v1` and all §4.2 messages) in ARB, keyed by error code where server-originated
 - [ ] Screens usable at 320 px and largest text; primary button stays above the keyboard on steps 3 and 5
-- [ ] Request bodies never logged; `phone` redacted; warn log for unknown code omits the code value
-- [ ] `PHOTO_STORAGE_DIR` outside the repo verified at startup; no photo files in `git status`
+- [x] Request bodies never logged; `phone` redacted; warn log for unknown code omits the code value
+- [x] `PHOTO_STORAGE_DIR` outside the repo verified at startup; no photo files in `git status`
 - [ ] Report insert, duplicate check and photo attach happen in one transaction (rollback verified by forcing a failure)
 - [ ] Phone and CCRS normalization give identical results in app and API for the same inputs (table of cases checked)
-- [ ] Report screens import providers only — no API client in `presentation/`
-- [ ] No hard-coded URLs/numbers: CCRS web, WhatsApp and helpline come from dart-defines
+- [x] Report screens import providers only — no API client in `presentation/`
+- [x] No hard-coded URLs/numbers: CCRS web, WhatsApp and helpline come from dart-defines
 - [ ] Compression completes ≤ 2 s on the emulator (re-measured on a low-end phone in TASK-10)
 
 ## 8. Validation & Testing
@@ -407,26 +407,27 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review — unfinished: REQ-F-020 (upload-failure retry path not exercised), REQ-F-031 (offline step-by-step walk not run), REQ-F-032 (Home report list after a report not re-checked), REQ-S-023 (photos/reports rate limits not load-tested) — Deferred, 2-hour demo timebox
 
-**Progress:** 0%
+**Progress:** 50%
 
 | Date | Progress | Commit |
 |---|---|---|
 | 2026-10-03 | W1: backend done — `GET /categories`, storage interface + local driver (`src/lib/storage`), photo pipeline (`src/lib/images`, sharp 0.35.5 already pinned), `POST /photos` (60/IP/h), `POST /reports` (30/IP/h, idempotent incl. concurrency), shared phone/CCRS rules (`src/lib/validation`), `npm run photos:cleanup`, `npm run storage:check`. New libs: `multer@2.4.0`, `@types/multer@2.3.0` (pinned exact). Curl-verified (§8 W1 log). | TASK-04: API (w1-api) |
+| 2026-10-03 | W2 app + M1: six-step report flow (persisted draft, camera+GPS capture, upload with progress, idempotent submit, done); integrator fix for capture-panel UnmountedRefException. Verified on Android emulator (docs/demo/evidence/03a-step1-category.png … 03i-step6-check.png, 03c-draft-after-kill.png, 04-report-recorded.png). 24/28 coverage rows Pass, 4 Deferred. | 959e573, faab1b2, b55b47a |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-04` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `TASK-04: …`
-- [ ] Validator passes
+- [x] Committed as `TASK-04: …`
+- [x] Validator passes

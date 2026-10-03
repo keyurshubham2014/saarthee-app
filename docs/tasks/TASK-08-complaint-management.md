@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-08 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | M |
 | Depends On | TASK-07 |
@@ -408,19 +408,19 @@ There is only one admin role, with no finer-grained permissions (03 §3.3). Ever
 
 ### 7.2 Non-Functional Checklist
 
-- [ ] All new endpoints validate params/body with Zod and return the standard error shape; enum or UUID errors return 400 with field `details`.
+- [x] All new endpoints validate params/body with Zod and return the standard error shape; enum or UUID errors return 400 with field `details`.
 - [ ] Every endpoint in this task returns 401 without a JWT (checked with curl for all seven).
 - [ ] List query uses parameterized filters only; one query per page (no N+1 when computing status, group label or thumbnails).
-- [ ] Detail never contains `token_hash` or raw tokens; list items never contain the phone (grep the JSON).
-- [ ] Audit `info` logs exist for revoke, exclusion and anonymization, with admin ID and target ID and no phone or note text.
+- [x] Detail never contains `token_hash` or raw tokens; list items never contain the phone (grep the JSON).
+- [x] Audit `info` logs exist for revoke, exclusion and anonymization, with admin ID and target ID and no phone or note text.
 - [ ] File-deletion failures log at `error` with the photo ID only.
 - [ ] Anonymization DB changes happen in one transaction; a forced failure mid-transaction leaves the phone intact.
 - [ ] All complaints list has loading, empty (with "Clear filters"), error, load-more-error and unauthorized states, each reachable.
 - [ ] Detail has loading, error, 404, deleted-photo placeholder and in-flight states; buttons disable during actions (double tap → one request).
 - [ ] Destructive actions (revoke, exclude, include again, remove personal data) all confirm; "Remove personal data" requires an exact typed CCRS number.
-- [ ] Statuses and warnings use icon + text, not colour alone; `StatusChip` is readable in grayscale.
+- [x] Statuses and warnings use icon + text, not colour alone; `StatusChip` is readable in grayscale.
 - [ ] Admin screens work in portrait and landscape, at 320 px width and at the largest text size.
-- [ ] All strings in ARB; colours from theme tokens; `VERIFY_DISTANCE_WARN_M` from config, not hard-coded.
+- [x] All strings in ARB; colours from theme tokens; `VERIFY_DISTANCE_WARN_M` from config, not hard-coded.
 
 ## 8. Validation & Testing
 
@@ -529,25 +529,26 @@ Prediction only. Exact paths follow the patterns from TASK-01 to TASK-07.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
-**Progress:** 0%
+**Current status:** In Review — unfinished: REQ-F-068 (cleanup-script retry of failed anonymization file deletions not exercised) — Deferred, 2-hour demo timebox
+**Progress:** 50%
 
 | Date | Progress | Commit |
 |---|---|---|
 | 2026-10-03 | W1: backend done — `GET /admin/complaints/{id}` (ComplaintDetail), `GET /admin/complaints/{id}/photo` + `GET /admin/verifications/{id}/photo` (410 `PHOTO_DELETED`), `POST /admin/reminders/{id}/revoke`, `PATCH /admin/complaints/{id}/exclusion` (`record_flagged`), `POST /admin/complaints/{id}/anonymize`; list filters verified. No new libraries. Curl-verified (§8 W1 log). | TASK-08: API (w1-api) |
+| 2026-10-03 | W3 app + M1: All complaints with filters, complaint detail (BeforeAfterCard, facts, reminders + revoke, answers), exclude/include, remove personal data dialog. Verified on Android emulator (docs/demo/evidence/11-complaint-detail-before-after.png, 11b-excluded.png); anonymize dialog built, API-verified only. 10/11 coverage rows Pass, 1 Deferred. | 0515960, 62159ba, a88367b, 759baae, b55b47a |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-08` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `TASK-08: …`
-- [ ] Validator passes
+- [x] Committed as `TASK-08: …`
+- [x] Validator passes

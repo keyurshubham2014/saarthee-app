@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-05 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | M |
 | Depends On | TASK-02, TASK-03 |
@@ -298,16 +298,16 @@ The guard is mounted on the `/admin` router (excluding `/admin/auth/login`) so e
 
 ### 7.2 Non-Functional Checklist
 
-- [ ] Login body validated with Zod (email format, non-empty password, unknown fields stripped); 400 `VALIDATION_FAILED` with `details`
-- [ ] Unknown-email path runs a dummy hash verify so response time does not reveal account existence
-- [ ] Logs after M-05 checks contain no password, email in clear, `Authorization` header or JWT (grep the log output)
+- [x] Login body validated with Zod (email format, non-empty password, unknown fields stripped); 400 `VALIDATION_FAILED` with `details`
+- [x] Unknown-email path runs a dummy hash verify so response time does not reveal account existence
+- [x] Logs after M-05 checks contain no password, email in clear, `Authorization` header or JWT (grep the log output)
 - [ ] `JWT_SECRET`, issuer, audience, expiry read from config; nothing hard-coded; startup fails if `JWT_SECRET` < 32 bytes
 - [ ] Guard mounted once on the `/admin` router; a newly added dummy admin route is protected without extra code (checked then removed)
-- [ ] Token stored only via secure storage; `grep` of shared_preferences keys shows no token
-- [ ] Login screen: loading (button progress), error, offline and session-ended states reachable; double-submit prevented
+- [x] Token stored only via secure storage; `grep` of shared_preferences keys shows no token
+- [x] Login screen: loading (button progress), error, offline and session-ended states reachable; double-submit prevented
 - [ ] Tab shell and login usable at 320 px width and largest system text size; touch targets ≥ 48; badge not colour-only (count text)
-- [ ] All new strings in ARB files; error messages keyed by backend code
-- [ ] Follows TASK-01 error/logging patterns and TASK-03 provider/repository layering (screens never call the API directly)
+- [x] All new strings in ARB files; error messages keyed by backend code
+- [x] Follows TASK-01 error/logging patterns and TASK-03 provider/repository layering (screens never call the API directly)
 
 ## 8. Validation & Testing
 
@@ -402,25 +402,26 @@ Prediction, not a constraint.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
-**Progress:** 0%
+**Current status:** In Review — unfinished: REQ-S-025 (admin 300/min limiter configured, not load-tested) — Deferred, 2-hour demo timebox
+**Progress:** 60%
 
 | Date | Progress | Commit |
 |---|---|---|
 | 2026-10-03 | W1: backend done — `scripts/admin-create.ts` (`npm run admin:create`, `--reset`), `POST /admin/auth/login`, `requireAdmin` guard (`TOKEN_EXPIRED`/`TOKEN_REVOKED`, token_version + is_active), `GET /admin/me`, `POST /admin/auth/logout-all`, login limiter 5 failures/15 min per IP+email, admin limiter 300/min per admin, `auditLog`. New libs: `jsonwebtoken@9.0.3`, `@types/jsonwebtoken@9.0.10` (pinned exact); argon2id kept (argon2 0.45.1). Curl-verified (§8 W1 log). | TASK-05: API (w1-api) |
+| 2026-10-03 | W3 app + M1: admin login, secure session store, route guard, tab shell (Due/All/Rates/More) with Due badge, More tab (log out / log out everywhere). Verified on Android emulator (docs/demo/evidence/05a-admin-login.png, 05b-session-ended.png, 06-due-list.png, 13-more-tab.png). 15/16 coverage rows Pass, 1 Deferred. | 0515960, 62159ba, dba7a17, b55b47a |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
-- [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Error, loading, empty, and unauthorized states verified
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-05` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `TASK-05: …`
-- [ ] Validator passes
+- [x] Committed as `TASK-05: …`
+- [x] Validator passes

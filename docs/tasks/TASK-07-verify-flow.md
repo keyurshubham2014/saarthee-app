@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-07 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-06 |
@@ -355,17 +355,17 @@ There is no complaint ID in any verify URL. The complaint comes **only** from th
 
 ### 7.2 Non-Functional Checklist
 
-- [ ] All four verify endpoints validate input with Zod. Validation failures return 400 `VALIDATION_FAILED` with field `details`; business-rule failures return 409/410/422 as listed.
-- [ ] Error bodies follow `{error:{code,message,details?,requestId}}` with no stack traces or SQL.
-- [ ] Logs for verify requests contain the route template (`/verify/complaint`), status and duration; no token, note, coordinates or phone.
-- [ ] Event properties for `verify_opened`, `verify_submitted` and `deep_link_failed` contain only allow-listed fields (`result`, `reason`).
+- [x] All four verify endpoints validate input with Zod. Validation failures return 400 `VALIDATION_FAILED` with field `details`; business-rule failures return 409/410/422 as listed.
+- [x] Error bodies follow `{error:{code,message,details?,requestId}}` with no stack traces or SQL.
+- [x] Logs for verify requests contain the route template (`/verify/complaint`), status and duration; no token, note, coordinates or phone.
+- [x] Event properties for `verify_opened`, `verify_submitted` and `deep_link_failed` contain only allow-listed fields (`result`, `reason`).
 - [ ] Verify entry has loading, invalid, revoked, offline and rate-limited states, each reachable on the emulator.
 - [ ] Photo step reuses the TASK-04 permission-denied, weak-GPS, upload-failed and retake states.
-- [ ] "Send" and "Continue" buttons are disabled while in flight, so a double tap creates one verification.
-- [ ] Answer `ChoiceCard`s show icon + word + colour; readable in grayscale.
+- [x] "Send" and "Continue" buttons are disabled while in flight, so a double tap creates one verification.
+- [x] Answer `ChoiceCard`s show icon + word + colour; readable in grayscale.
 - [ ] TalkBack announces "Step n of N", photo descriptions and error messages on the verify screens.
 - [ ] Verify screens work at 320 px width and at the largest system text size without clipping.
-- [ ] No hard-coded colours or strings: tokens from the theme, copy from ARB.
+- [x] No hard-coded colours or strings: tokens from the theme, copy from ARB.
 - [ ] `VERIFY_LINK_BASE` / `DEEP_LINK_SCHEME` come from config; no scheme literal outside platform manifests and config.
 
 ## 8. Validation & Testing
@@ -473,25 +473,26 @@ Prediction only. Exact paths depend on the patterns established in TASK-01 to TA
 
 ## 13. Progress Status
 
-**Current status:** Not Started
-**Progress:** 0%
+**Current status:** In Review — unfinished: REQ-S-024 (/verify/* 60/IP/h limiter configured, not load-tested) — Deferred, 2-hour demo timebox
+**Progress:** 50%
 
 | Date | Progress | Commit |
 |---|---|---|
 | 2026-10-03 | W1: backend done — verify-token guard (`X-Verify-Token` header only, SHA-256 lookup, 401/410), `GET /verify/complaint`, `GET /verify/complaint/photo`, `POST /verify/photos`, `POST /verify/submissions` (idempotent, haversine distance, `verify_submitted {result}`), 60/IP/h limiter on `/verify/*`. No new libraries. Curl-verified incl. H1/H2 demo delta (§8 W1 log). | TASK-07: API (w1-api) |
+| 2026-10-03 | W2 app + M1: verify flow (app_links deep link with header-only token, manual code entry, answer/photo/note/check, done). Verified on Android emulator (docs/demo/evidence/08-deep-link-opened.png, 09a-verify-not-fixed.png … 09e-verify-done.png, 12a/12b/12c-enter-code*.png); SQL distance 181 m. 16/17 coverage rows Pass, 1 Deferred. | e39dbd1, faab1b2, b55b47a |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-07` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `TASK-07: …`
-- [ ] Validator passes
+- [x] Committed as `TASK-07: …`
+- [x] Validator passes

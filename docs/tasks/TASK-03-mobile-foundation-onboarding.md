@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-03 |
-| Status | In Progress |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-01, TASK-02 |
@@ -266,17 +266,17 @@ Type scale: Display 28/34 Semibold · Title 22/28 Semibold · Body large 18/26 �
 
 ### 7.2 Non-Functional Checklist
 
-- [ ] No `Color(0x…)` or `Colors.*` literals outside `lib/core/theme` (grep check)
-- [ ] No user-facing string literals in `lib/features/**` or `lib/core/widgets/**` (grep for quoted text in `Text(`)
+- [x] No `Color(0x…)` or `Colors.*` literals outside `lib/core/theme` (grep check)
+- [x] No user-facing string literals in `lib/features/**` or `lib/core/widgets/**` (grep for quoted text in `Text(`)
 - [ ] Fonts bundled with only Regular/Medium/Semibold; licence recorded in §13
 - [ ] Every screen in this task usable at 320 px and at the largest text size; citizen screens portrait-locked
-- [ ] Touch targets ≥ 48×48; primary button ≥ 56 tall, pinned above keyboard
+- [x] Touch targets ≥ 48×48; primary button ≥ 56 tall, pinned above keyboard
 - [ ] TalkBack reads labels for every control on welcome, invite, home, about; error announced on invalid code
-- [ ] Screens import only providers — no `dio`/API client imports in `presentation/` (grep check)
-- [ ] Event payloads never contain phone, token, invite code, coordinates or notes (server allow-list verified)
-- [ ] Validate and events handlers log nothing beyond the request line; redaction from TASK-01 intact
-- [ ] Invite button disabled while checking (no double submit)
-- [ ] Release build contains no cleartext exception
+- [x] Screens import only providers — no `dio`/API client imports in `presentation/` (grep check)
+- [x] Event payloads never contain phone, token, invite code, coordinates or notes (server allow-list verified)
+- [x] Validate and events handlers log nothing beyond the request line; redaction from TASK-01 intact
+- [x] Invite button disabled while checking (no double submit)
+- [x] Release build contains no cleartext exception
 - [ ] Reduced-motion setting disables step transitions
 
 ## 8. Validation & Testing
@@ -359,13 +359,14 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review — unfinished: REQ-F-010 (event-queue 20/60 s/500/429 rules not exercised), REQ-F-011 (global error handler not triggered), REQ-N-002 (fonts not bundled), REQ-N-003 (reduce-motion/icon audit), REQ-N-004 (320–480 px layouts), REQ-N-006 (largest text size), REQ-N-007 (screen-reader semantics), REQ-N-009 (focus order), REQ-S-028 (iOS Debug ATS exception) — Deferred, 2-hour demo timebox
 
-**Progress:** 0%
+**Progress:** 50%
 
 | Date | Progress | Commit |
 |---|---|---|
 | 2026-10-03 | W1: backend `POST /invite-codes/validate`, `POST /events` (allow-list), `GET /categories`, limiters for `/health`+`/categories` (120/IP/min shared), validate (30/IP/h), events (120/IP/min) — curl-verified (§8 W1 log). No new npm libraries. | TASK-03: API (w1-api) |
+| 2026-10-03 | W2 app + M1: mobile core (theme tokens, l10n, API client, settings, event queue, shared widgets), welcome, invite code, home, about; run scripts per target. Verified on Android emulator (docs/demo/evidence/01-first-launch.png, 02-invite-code.png … 02f-change-group-code.png, 15-offline-banner.png); release manifest has no cleartext. 26/35 coverage rows Pass, 9 Deferred. | 431a0b3, 1fc7af1, b55b47a |
 
 ## 14. Completion Checklist
 
@@ -373,12 +374,12 @@ Prediction only — exact paths may differ.
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the manual checks in §8 (no automated tests in v1 — 06 §7.1)
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
-- [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Error, loading, empty, and unauthorized states verified
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-03` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `TASK-03: …`
-- [ ] Validator passes
+- [x] Committed as `TASK-03: …`
+- [x] Validator passes
