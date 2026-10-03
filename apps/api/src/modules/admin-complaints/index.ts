@@ -4,10 +4,9 @@ import { auditLog } from '../../lib/audit';
 import { sendJpeg } from '../../lib/http/sendJpeg';
 import { validate } from '../../middleware/validate';
 import { openComplaintPhoto, openVerificationPhoto } from '../photos/read.service';
-import { createReminder, revokeReminder } from '../reminders/reminders.service';
-import { MSG } from '../../lib/validation';
+import { endpointRetired } from '../../middleware/endpointRetired';
 import { listComplaints, type ComplaintFilters } from './complaints.service';
-import { anonymizeComplaint, getComplaintDetail, setExclusion } from './manage.service';
+import { anonymizeComplaint, getComplaintDetail } from './manage.service';
 
 /** Mounted on the /admin router (JWT guard + per-admin limiter inherited). */
 export const adminComplaintsRouter = Router();
@@ -40,37 +39,15 @@ adminComplaintsRouter.get('/verifications/:id/photo', validate({ params: idParam
   await sendJpeg(res, await openVerificationPhoto(id));
 });
 
-adminComplaintsRouter.post('/complaints/:id/reminders', validate({ params: idParams }), async (req, res) => {
-  const { id } = res.locals.params as z.infer<typeof idParams>;
-  const result = await createReminder(req.admin!.id, id);
-  auditLog(req, 'reminder_created', id, { reminderId: result.reminderId });
-  res.status(201).json(result);
-});
+// v1 pilot writes retired in v2 (Spec D11, V2 TASK-01 §5.3): reminders, exclusion, reminder revoke.
+adminComplaintsRouter.post('/complaints/:id/reminders', endpointRetired);
+adminComplaintsRouter.patch('/complaints/:id/exclusion', endpointRetired);
+adminComplaintsRouter.post('/reminders/:id/revoke', endpointRetired);
 
 adminComplaintsRouter.get('/complaints/:id', validate({ params: idParams }), async (_req, res) => {
   const { id } = res.locals.params as z.infer<typeof idParams>;
   res.json(await getComplaintDetail(id));
 });
-
-const exclusionBody = z
-  .object({
-    isExcluded: z.boolean(),
-    reason: z.enum(['test', 'invalid', 'duplicate', 'other']).optional(),
-    note: z.string().trim().max(500).optional(),
-  })
-  .refine((b) => !b.isExcluded || b.reason !== undefined, { path: ['reason'], message: MSG.reason });
-
-adminComplaintsRouter.patch(
-  '/complaints/:id/exclusion',
-  validate({ params: idParams, body: exclusionBody }),
-  async (req, res) => {
-    const { id } = res.locals.params as z.infer<typeof idParams>;
-    const body = req.body as z.infer<typeof exclusionBody>;
-    const summary = await setExclusion(id, body, req.admin!.id);
-    auditLog(req, 'exclusion_changed', id, { isExcluded: body.isExcluded });
-    res.json(summary);
-  },
-);
 
 const anonymizeBody = z.object({ confirm: z.literal(true, { error: 'Confirm to remove personal data.' }) });
 
@@ -84,10 +61,3 @@ adminComplaintsRouter.post(
     res.json(result);
   },
 );
-
-adminComplaintsRouter.post('/reminders/:id/revoke', validate({ params: idParams }), async (req, res) => {
-  const { id } = res.locals.params as z.infer<typeof idParams>;
-  const result = await revokeReminder(id);
-  auditLog(req, 'reminder_revoked', id);
-  res.json(result);
-});

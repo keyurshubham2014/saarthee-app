@@ -1,10 +1,8 @@
 import { Router } from 'express';
-import { z } from 'zod';
 import { AppError } from '../../lib/errors';
+import { endpointRetired } from '../../middleware/endpointRetired';
 import { rateLimit } from '../../middleware/rateLimit';
-import { validate } from '../../middleware/validate';
-import { databaseReachable } from './health.service';
-import { validateInviteCode } from './invite.service';
+import { checkHealth } from './health.service';
 import { listActiveCategories } from './categories.service';
 
 export const publicRouter = Router();
@@ -15,22 +13,14 @@ const healthCategoriesLimiter = rateLimit({ windowMs: 60_000, max: 120 });
 const inviteLimiter = rateLimit({ windowMs: 60 * 60_000, max: 30 });
 
 publicRouter.get('/health', healthCategoriesLimiter, async (_req, res) => {
-  if (!(await databaseReachable())) throw new AppError('SERVICE_UNAVAILABLE');
-  res.json({ status: 'ok', db: 'ok' });
+  const health = await checkHealth();
+  if (!health) throw new AppError('SERVICE_UNAVAILABLE');
+  res.json({ status: 'ok', db: 'up', postgis: health.postgis });
 });
 
 publicRouter.get('/categories', healthCategoriesLimiter, async (_req, res) => {
   res.json({ items: await listActiveCategories() });
 });
 
-const inviteBody = z.object({
-  code: z
-    .string()
-    .trim()
-    .regex(/^[A-Za-z0-9]{6,20}$/, 'Use 6 to 20 letters or digits.'),
-});
-
-publicRouter.post('/invite-codes/validate', inviteLimiter, validate({ body: inviteBody }), async (req, res) => {
-  const { code } = req.body as z.infer<typeof inviteBody>;
-  res.json(await validateInviteCode(code));
-});
+// v1 invite codes are retired from the citizen app (Spec D11, V2 TASK-01 §5.6): 410.
+publicRouter.post('/invite-codes/validate', inviteLimiter, endpointRetired);
