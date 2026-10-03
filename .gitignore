@@ -20,7 +20,7 @@ apps/mobile/android/.gradle/
 apps/mobile/android/local.properties
 apps/mobile/ios/Pods/
 # local photo storage (normally outside repo anyway)
-photos/
+/photos/
 # IDE / OS
 .idea/
 .vscode/
