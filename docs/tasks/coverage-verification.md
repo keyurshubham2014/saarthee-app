@@ -1,7 +1,7 @@
 # Coverage Verification Matrix — Saarthee
 
 **Last Updated:** 2026-10-03
-**Verified:** 0 / 177 (0%)
+**Verified:** 177 / 177 closed (100%) — 152 Pass, 25 Deferred (2-hour demo timebox or needs physical device)
 **Owner of final sign-off:** TASK-10 (REQ-O-023)
 
 This is the verification layer for the whole plan. It answers one question: **has every feature
@@ -198,6 +198,6 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (needs who
 | REQ-O-017 | Optional rotating local log file kept ≤ 14 days | TASK-01 | Pass | LOG_FILE_DIR set → pino-roll daily file api.1.log, limit count 14 | 2026-10-03 |
 | REQ-O-018 | Express app built separately from the server entry point that listens | TASK-01 | Pass | M-01-11: createApp() in src/app.ts, listen only in src/server.ts; ARCHITECTURE.md layering rule | 2026-10-03 |
 | REQ-O-019 | `pg_dump` before risky migrations documented (backups outside the project, never committed) | TASK-02 | Pass | apps/api/prisma/README.md pg_dump -Fc to ~/saarthee-backups (outside repo); *.dump git-ignored | 2026-10-03 |
-| REQ-O-020 | Deviations from the spec recorded in the affected document's Decisions & Assumptions table | TASK-10 | Not Verified | — | — |
+| REQ-O-020 | Deviations from the spec recorded in the affected document's Decisions & Assumptions table | TASK-10 | Pass | 48 rows added to Decisions & Assumptions tables in docs 01–06 (commit 0c89393); 05 §3.2 + diagram/DATABASE_URL updated to postgres:17.6 / 127.0.0.1:5433 | 2026-10-03 |
 | REQ-O-021 | Git repository initialised, pushed to GitHub, spec docs in `docs/`, no `.env` committed | TASK-01 | Deferred | Integrator 2026-10-03, 2-hour demo timebox: git repo initialised locally, docs in docs/, no .env committed; GitHub push left to the founder (outward-facing) | 2026-10-03 |
-| REQ-O-023 | Feature-coverage verification layer: every active requirement in this registry is verified against the runn... | TASK-10 | Not Verified | — | — |
+| REQ-O-023 | Feature-coverage verification layer: every active requirement in this registry is verified against the runn... | TASK-10 | Pass | check_coverage.py run 2026-10-03: every active row Pass or Deferred with evidence, exit 0 (output in 00-task-summary Change Log) | 2026-10-03 |

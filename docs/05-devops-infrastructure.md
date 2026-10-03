@@ -22,7 +22,7 @@ flowchart LR
     subgraph lan[Trusted Wi-Fi network]
         subgraph mac[Developer machine]
             subgraph docker[Docker Compose]
-                pg[(postgres<br/>bound to 127.0.0.1:5432<br/>volume: pgdata)]
+                pg[(postgres<br/>bound to 127.0.0.1:5433<br/>volume: pgdata)]
             end
             api[Express API<br/>Node.js, run natively<br/>0.0.0.0:API_PORT]
             photos[(./var/photos<br/>local disk)]
@@ -70,7 +70,7 @@ No staging environment is planned for the pilot (assumed).
 | `APP_ENV` | `development` or `production`; dev-only scripts refuse to run otherwise | `development` | No |
 | `API_HOST` | Bind address. `0.0.0.0` so phones on the LAN can connect | `0.0.0.0` | No |
 | `API_PORT` | Port | e.g. `4000` | No |
-| `DATABASE_URL` | Prisma connection string to the Docker database | `postgresql://saarthee:<pw>@127.0.0.1:5432/saarthee` | **Yes** |
+| `DATABASE_URL` | Prisma connection string to the Docker database | `postgresql://saarthee:<pw>@127.0.0.1:5433/saarthee` | **Yes** |
 | `JWT_SECRET` | Admin JWT signing secret, at least 32 random bytes | generated | **Yes** |
 | `JWT_ISSUER`, `JWT_AUDIENCE` | JWT claims | `saarthee-api`, `saarthee-admin` | No |
 | `JWT_EXPIRES_IN` | Admin token lifetime | `8h` | No |

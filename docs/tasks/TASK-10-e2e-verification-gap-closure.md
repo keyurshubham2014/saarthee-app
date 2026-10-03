@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-10 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-08, TASK-09 |
@@ -560,11 +560,12 @@ This is a prediction, not a constraint. The exact fixes depend on what the audit
 
 ## 13. Progress Status
 
-**Current status:** Not Started
-**Progress:** 0%
+**Current status:** In Review
+**Progress:** 70%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | Emulator-scoped E2E: 06 §10.1 flows run on Android emulator (first launch valid/invalid/skip, report incl. CCRS hand-off + kill + camera + GPS, reminder, verify via adb deep link and manual code, admin detail/exclude/re-include/export screens, session ended, offline banner); privacy-checks.mjs 14/14 (log grep phone+token, CSV w/o phone, revoked link 410, 5 bad logins 429, stored photo no EXIF); stub/colour/string sweeps clean; coverage matrix 151 Pass / 26 Deferred; S2 fix faab1b2 (UnmountedRefException after 'Use this photo'); demo:reset + DEMO.md. Unfinished (Deferred — needs physical device): low-end phone perf, TalkBack/VoiceOver, iPhone, real WhatsApp, release checklist on phones; Vitest (P2 cut). S3 known issues: debug cold start ~15 s on loaded emulator (use profile build), image_picker retrieveLostData not handled, 'Use this photo' below the fold. | b55b47a, faab1b2 |
 
 ## 14. Completion Checklist
 

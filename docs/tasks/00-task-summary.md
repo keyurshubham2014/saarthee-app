@@ -1,10 +1,10 @@
 # Task Summary — Saarthee (Ahmedabad Civic Accountability)
 
 **Last Updated:** 2026-10-03
-**Overall Progress:** 1 / 10 tasks complete (10%)
-**Current Task:** Parallel build — W1 API (TASK-03…09 API), W2 citizen app (TASK-03/04/07), W3 admin app (TASK-05/06/08/09)
+**Overall Progress:** 3 / 10 tasks complete (30%)
+**Current Task:** TASK-10 (In Review — physical-device items Deferred)
 **Requirement Coverage (planned):** 177 / 177 active requirements mapped to a task (5 deferred)
-**Requirement Coverage (verified):** 0 / 177 — see [coverage-verification.md](./coverage-verification.md)
+**Requirement Coverage (verified):** 177 / 177 closed — 152 Pass, 25 Deferred (2-hour demo timebox / needs physical device) — see [coverage-verification.md](./coverage-verification.md)
 **Source Documents:** `docs/00-master-index.md` … `docs/07-implementation-roadmap.md`
 
 ## How to use this plan
@@ -27,14 +27,14 @@ Prompt template for Claude Code:
 |---|---|---|---|---|---|---|
 | TASK-01 | Repository, local infrastructure & API foundation | In Review | P0 | M | None | 90% |
 | TASK-02 | Database schema, migrations, views & seed data | Complete | P0 | M | TASK-01 | 100% |
-| TASK-03 | Mobile foundation, design system & onboarding | In Progress | P0 | L | TASK-01, TASK-02 | 10% |
-| TASK-04 | Report flow: photo pipeline, submission & draft safety | Not Started | P0 | L | TASK-02, TASK-03 | 0% |
-| TASK-05 | Admin authentication & admin shell | Not Started | P0 | M | TASK-02, TASK-03 | 0% |
-| TASK-06 | Due list, WhatsApp reminders & rates | Not Started | P0 | M | TASK-04, TASK-05 | 0% |
-| TASK-07 | Verify flow: tokens, deep links & verification submission | Not Started | P0 | L | TASK-06 | 0% |
-| TASK-08 | Complaint management: list, detail, exclusion & anonymization | Not Started | P0 | M | TASK-07 | 0% |
-| TASK-09 | CSV export & reference data management | Not Started | P1 | M | TASK-07 | 0% |
-| TASK-10 | End-to-end verification, coverage audit & gap closure | Not Started | P0 | L | TASK-08, TASK-09 | 0% |
+| TASK-03 | Mobile foundation, design system & onboarding | In Review | P0 | L | TASK-01, TASK-02 | 50% |
+| TASK-04 | Report flow: photo pipeline, submission & draft safety | In Review | P0 | L | TASK-02, TASK-03 | 50% |
+| TASK-05 | Admin authentication & admin shell | In Review | P0 | M | TASK-02, TASK-03 | 60% |
+| TASK-06 | Due list, WhatsApp reminders & rates | Complete | P0 | M | TASK-04, TASK-05 | 100% |
+| TASK-07 | Verify flow: tokens, deep links & verification submission | In Review | P0 | L | TASK-06 | 50% |
+| TASK-08 | Complaint management: list, detail, exclusion & anonymization | In Review | P0 | M | TASK-07 | 50% |
+| TASK-09 | CSV export & reference data management | Complete | P1 | M | TASK-07 | 100% |
+| TASK-10 | End-to-end verification, coverage audit & gap closure | In Review | P0 | L | TASK-08, TASK-09 | 70% |
 
 Status vocabulary: `Not Started`, `In Progress`, `Blocked`, `In Review`, `Complete`.
 Progress % per task = ticked items in the task's section 14 ÷ total items, rounded down to the nearest 10%.
@@ -47,8 +47,8 @@ Overall progress = Complete tasks ÷ 10.
 Order flexibility: TASK-04 and TASK-05 may swap (both need only TASK-02/03). TASK-08 and TASK-09 may swap
 or interleave (both need only TASK-07).
 
-**Ready now (dependencies satisfied):** TASK-03, TASK-04, TASK-05 (in progress in parallel)
-**Blocked:** none
+**Ready now (dependencies satisfied):** TASK-10 device items (needs a low-end Android phone, an iPhone and WhatsApp)
+**Blocked:** none (Deferred device checks need hardware, not code)
 
 ### Milestones (mapped to the roadmap, 07 §4)
 
@@ -189,3 +189,7 @@ Product decisions the spec leaves open. None blocks TASK-01…09; items marked "
 | 2026-10-03 13:25 IST | /goal demo build started (GOAL-DEMO-PROMPT.md). Preflight: Docker ok, Postgres 17.6 container (host port 5433), Android emulator emulator-5554 (API 36) booted, flutter doctor ok for Android; Xcode incomplete → iOS deferred |
 | 2026-10-03 13:51 IST (elapsed 26 min) | Foundation checkpoint: TASK-01 In Review (GitHub push/CI deferred), TASK-02 Complete; /health ok; SEED-EXPECTATIONS matches pilot_rates_v exactly; tag demo-safe-0. Three workers spawned in worktrees |
 | 2026-10-03 14:12 IST (elapsed 47 min) | Parallel build: merged W1 TASK-03…08 API, W2 TASK-03/04/07 app, W3 TASK-05/06/08/09 app into main; all static checks green after each merge. Defect found and fixed at integration: root `.gitignore` `photos/` hid `apps/api/src/modules/photos` (a56da8d, 6321ab6). Early privacy probe 13/14 pass (CSV export endpoint pending TASK-09 API) |
+| 2026-10-03 14:28 IST (elapsed 63 min) | **M1 gate passed on the Android emulator** (tag demo-safe-1, b55b47a): first launch → invite → six report steps (emulator camera + GPS) → recorded → admin login → Due → reminder sheet with `saarthee://` link → adb deep link → Not fixed with photo + note → Rates RWA H2 50%→66.7%, trusted 66.7%→75% (= SEED-EXPECTATIONS demo delta). Evidence: docs/demo/evidence/ |
+| 2026-10-03 14:36 IST (elapsed 71 min) | S2 bug found in emulator run and fixed: UnmountedRefException after "Use this photo" (faab1b2) |
+| 2026-10-03 15:05 IST (elapsed ~100 min) | TASK-10 emulator-scoped verification: extra §10.1 flows, privacy-checks.mjs 14/14, sweeps clean, spec deviations recorded (0c89393), task docs updated (141639b). Board: TASK-01 In Review, 02/06/09 Complete, 03/04/05/07/08/10 In Review (unfinished parts listed in each §13, Deferred in the matrix). M1 and M2 reached; M3 reached for API + screens (some screens not exercised); M4/M5 not reached (a11y audit and physical devices Deferred) |
+| 2026-10-03 checkers | `python3 docs/tasks/check_coverage.py` → exit 0:<br>Coverage verification: 177/177 verified (100%)<br>  Pass          152<br>  Deferred      25<br><br>`python3 docs/tasks/validate_tasks.py docs/tasks/` → exit 0:<br>Tasks: 10  ·  Complete: 3 (30%)<br>Requirements: 177/177 covered  ·  5 deferred<br><br>All checks passed. |
