@@ -78,8 +78,10 @@ async function main() {
     longitude: 72.5714,
     gpsAccuracyM: 9,
     deviceCapturedAt: new Date().toISOString(),
+    platform: 'android',
+    appVersion: '1.0.0',
     phone: TEST_PHONE_DIGITS,
-    consentGiven: true,
+    consentGivenAt: new Date().toISOString(),
     consentTextVersion: 'v1',
   });
   check('report created with test phone', [200, 201].includes(report.status), `status ${report.status} ${report.status >= 400 ? report.text : ''}`);
