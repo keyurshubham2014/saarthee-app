@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/widgets/widgets.dart' as core;
 import '../../application/admin_complaints.dart';
 import '../../data/admin_api_error.dart';
 import '../../data/models/complaint_detail.dart';

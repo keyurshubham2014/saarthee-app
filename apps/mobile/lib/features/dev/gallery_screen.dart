@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/motion/motion_widgets.dart';
 import '../../core/settings/locale_controller.dart';
-import '../../core/settings/motion_preference.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/theme/icons.dart';
 import '../../core/theme/tokens.dart';
