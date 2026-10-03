@@ -21,12 +21,20 @@ npm run api:dev            # leave running (port 4000); in a second terminal:
 # 3. Known seeded state (fresh DB, seed, app data cleared, GPS set to Ahmedabad)
 npm run demo:reset
 
-# 4. Install and start the app on the emulator
+# 4. Build + install the app (profile build: AOT-compiled, much faster than debug on the emulator)
 cd apps/mobile
-flutter run -d emulator-5554 \
-  --dart-define=API_BASE_URL=http://10.0.2.2:4000/api/v1 \
-  --dart-define=APP_ENV=development
+flutter build apk --profile --target-platform android-arm64 \
+  --dart-define=API_BASE_URL=http://10.0.2.2:4000/api/v1 --dart-define=APP_ENV=development
+adb install -r build/app/outputs/flutter-apk/app-profile.apk
+adb shell pm grant in.saarthee.saarthee android.permission.CAMERA
+adb shell pm grant in.saarthee.saarthee android.permission.ACCESS_FINE_LOCATION
+adb emu geo fix 72.5714 23.0225
+adb shell monkey -p in.saarthee.saarthee -c android.intent.category.LAUNCHER 1
+# (debug alternative: flutter run -d emulator-5554 --dart-define=... — slow cold start, ~15 s)
 ```
+
+Before the audience arrives: open the emulator, make sure **Settings → Location** is on, and open the
+app once so it is warm.
 
 Check: `curl -s localhost:4000/api/v1/health` → `{"status":"ok","db":"ok"}`.
 
@@ -50,7 +58,8 @@ Check: `curl -s localhost:4000/api/v1/health` → `{"status":"ok","db":"ok"}`.
 2. Step 1 — choose **Pothole or damaged road**.
 3. Step 2 — CCRS hand-off: tap the AMC option (leaves the app), come back — the draft is still there.
 4. Step 3 — enter the CCRS number, e.g. `AMC-DEMO-0001`.
-5. Step 4 — **Take photo** (emulator camera scene) → GPS fix shown.
+5. Step 4 — **Take photo** → shutter → **Done** (emulator camera scene) → scroll down → **Use this photo**
+   (if it says "Location is approximate", tap **Continue anyway**) → "Photo uploaded" → **Continue**.
 6. Step 5 — WhatsApp number `98765 43210` (invented test number) + consent.
 7. Step 6 — check the summary → **Send**. "Your complaint is recorded" screen.
 
@@ -90,9 +99,24 @@ Open the **Rates** tab. Expected change from the seed (see SEED-EXPECTATIONS "De
 npm run demo:reset
 ```
 
+## Evidence of the verified run
+
+`docs/demo/evidence/` holds screenshots of every step (01 first launch … 10 Rates after), taken on the emulator
+on 2026-10-03, plus the extra flows (invalid code, skip, change code, enter-code, exclusion, admin screens, session
+ended, offline banner). Privacy checks: `node scripts/privacy-checks.mjs` (14/14 pass).
+
 ## Known limitations
 
 - iOS not demoed: Xcode is not fully installed on the demo machine (`flutter doctor`). iPhone and real WhatsApp
   deep-link tests are deferred — need a physical device.
 - No GitHub remote was created (outward-facing action left to the founder); CI workflow exists but has not run.
 - PostgreSQL is published on host port **5433** (5432 is used by another project on this machine).
+- Debug builds cold-start slowly on this loaded emulator (~15 s) and can trigger "isn't responding" when the camera
+  hands back; use the profile build above. Performance on a real low-end phone is unmeasured (Deferred).
+- If Android kills the app while the camera is open, the un-accepted photo is lost (image_picker
+  `retrieveLostData()` not handled); the draft itself survives — just retake.
+- "Use this photo" sits below the fold under the pinned Continue button — scroll down after taking a photo.
+- No WhatsApp on the emulator: use **Copy message** and fire the link with `adb` (above). Real WhatsApp tappability,
+  iPhone, TalkBack/VoiceOver and the low-end-phone checklist are Deferred — need physical devices.
+- Fonts: system font at the spec's sizes (Anek/Noto not bundled — licence check pending).
+- Invite-code "Share" copies the text to the clipboard (no share sheet package added).

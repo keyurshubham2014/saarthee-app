@@ -1,7 +1,7 @@
 # Coverage Verification Matrix — Saarthee
 
 **Last Updated:** 2026-10-03
-**Verified:** 177 / 177 closed (100%) — 152 Pass, 25 Deferred (2-hour demo timebox or needs physical device)
+**Verified:** 177 / 177 closed (100%) — 153 Pass, 24 Deferred (2-hour demo timebox or needs physical device)
 **Owner of final sign-off:** TASK-10 (REQ-O-023)
 
 This is the verification layer for the whole plan. It answers one question: **has every feature
@@ -55,7 +55,7 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (needs who
 | REQ-F-029 | Report draft (JSON + compressed photo file) persisted on every change and restored on the same step after t... | TASK-04 | Pass | Emulator: Step 2 → AMC website (Chrome) → force-stop → relaunch on Step 2 with category: 03c-draft-after-kill.png | 2026-10-03 |
 | REQ-F-030 | The draft is deleted only after the server confirms the save (201/200) | TASK-04 | Pass | Code: draft cleared only after repository submit returns (report_draft_controller.dart submit); emulator Home after send offers 'Record a complaint' | 2026-10-03 |
 | REQ-F-031 | Every report step works offline except photo upload and final submit | TASK-04 | Deferred | Integrator 2026-10-03, 2-hour demo timebox: offline banner verified (15), offline step-by-step walk not run | 2026-10-03 |
-| REQ-F-032 | Home "Your reports on this phone" list from local storage only (CCRS number, category, date) | TASK-04 | Deferred | Integrator 2026-10-03, 2-hour demo timebox: section + empty state on Home verified (02c); list after a report not re-checked | 2026-10-03 |
+| REQ-F-032 | Home "Your reports on this phone" list from local storage only (CCRS number, category, date) | TASK-04 | Pass | Dry run 15:10 (profile build): Home 'Your reports on this phone' lists 'AMC-DRY-0001 · Pothole or damaged road · Oct 3, 2026' after send | 2026-10-03 |
 | REQ-F-033 | Orphaned-photo cleanup script deletes files and rows for photos unattached for > `UNATTACHED_PHOTO_TTL_HOUR... | TASK-04 | Pass | TASK-04 §8 W1 'Cleanup' npm run photos:cleanup → orphans deleted=1 | 2026-10-03 |
 | REQ-F-034 | Create-admin CLI (`admin:create`): prompts for password, never logs it, errors if email exists; reset mode ... | TASK-05 | Pass | TASK-05 §8 W1 'admin:create' (rejects common/short, creates valid) | 2026-10-03 |
 | REQ-F-035 | `POST /admin/auth/login` returns `{accessToken, expiresAt, admin}`; updates `last_login_at` | TASK-05 | Pass | TASK-05 §8 W1 'Login OK'; emulator login 05a | 2026-10-03 |

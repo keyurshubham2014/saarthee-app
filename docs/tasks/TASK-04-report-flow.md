@@ -407,7 +407,7 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** In Review — unfinished: REQ-F-020 (upload-failure retry path not exercised), REQ-F-031 (offline step-by-step walk not run), REQ-F-032 (Home report list after a report not re-checked), REQ-S-023 (photos/reports rate limits not load-tested) — Deferred, 2-hour demo timebox
+**Current status:** In Review — unfinished: REQ-F-020 (upload-failure retry path not exercised), REQ-F-031 (offline step-by-step walk not run), REQ-S-023 (photos/reports rate limits not load-tested) — Deferred, 2-hour demo timebox
 
 **Progress:** 50%
 

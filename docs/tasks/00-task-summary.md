@@ -4,7 +4,7 @@
 **Overall Progress:** 3 / 10 tasks complete (30%)
 **Current Task:** TASK-10 (In Review — physical-device items Deferred)
 **Requirement Coverage (planned):** 177 / 177 active requirements mapped to a task (5 deferred)
-**Requirement Coverage (verified):** 177 / 177 closed — 152 Pass, 25 Deferred (2-hour demo timebox / needs physical device) — see [coverage-verification.md](./coverage-verification.md)
+**Requirement Coverage (verified):** 177 / 177 closed — 153 Pass, 24 Deferred (2-hour demo timebox / needs physical device) — see [coverage-verification.md](./coverage-verification.md)
 **Source Documents:** `docs/00-master-index.md` … `docs/07-implementation-roadmap.md`
 
 ## How to use this plan
@@ -193,3 +193,4 @@ Product decisions the spec leaves open. None blocks TASK-01…09; items marked "
 | 2026-10-03 14:36 IST (elapsed 71 min) | S2 bug found in emulator run and fixed: UnmountedRefException after "Use this photo" (faab1b2) |
 | 2026-10-03 15:05 IST (elapsed ~100 min) | TASK-10 emulator-scoped verification: extra §10.1 flows, privacy-checks.mjs 14/14, sweeps clean, spec deviations recorded (0c89393), task docs updated (141639b). Board: TASK-01 In Review, 02/06/09 Complete, 03/04/05/07/08/10 In Review (unfinished parts listed in each §13, Deferred in the matrix). M1 and M2 reached; M3 reached for API + screens (some screens not exercised); M4/M5 not reached (a11y audit and physical devices Deferred) |
 | 2026-10-03 checkers | `python3 docs/tasks/check_coverage.py` → exit 0:<br>Coverage verification: 177/177 verified (100%)<br>  Pass          152<br>  Deferred      25<br><br>`python3 docs/tasks/validate_tasks.py docs/tasks/` → exit 0:<br>Tasks: 10  ·  Complete: 3 (30%)<br>Requirements: 177/177 covered  ·  5 deferred<br><br>All checks passed. |
+| 2026-10-03 15:11 IST (elapsed 106 min) | **Final dry run from `npm run demo:reset` passed** on the emulator with the profile build (cold start 1.7 s vs ~15 s debug; debug builds caused focus-timeout ANRs on the loaded emulator): report AMC-DRY-0001 at Ahmedabad GPS → reminder → adb deep link → Not fixed + photo + note → Rates RWA H2 66.7%, trusted 75%. No UnmountedRefException (faab1b2 confirmed). REQ-F-032 now Pass. Freeze: no feature work after this row |
