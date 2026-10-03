@@ -26,7 +26,8 @@ const schema = z.object({
     .string()
     .min(1)
     .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
-  REMINDER_TEMPLATE_VERSION: z.string().min(1),
+  // Known reminder template versions (modules/reminders); an unknown version fails startup.
+  REMINDER_TEMPLATE_VERSION: z.enum(['v1']),
   CORS_ORIGINS: z
     .string()
     .default('')

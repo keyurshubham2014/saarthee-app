@@ -156,6 +156,12 @@ All copy lives in ARB files. Admin screens rotate. Percentages are formatted wit
 - ASSUMPTION: The "small sample" threshold (10 verified) applies per row. Rationale: 02 §4.21 says "when verified is under 10". If wrong: apply it to the trusted card only.
 - ASSUMPTION: Filter params other than `due` are validated and applied in the query now, but their correctness is verified in TASK-08. If wrong: TASK-08 fixes them in place.
 
+- ASSUMPTION (W1 API): `REMINDER_INTERVAL_DAYS` comes from config and is bound into the due SQL as a parameter (`make_interval(days => $n)`); there is no per-request override query param.
+- ASSUMPTION (W1 API): `due=false` returns complaints that are **not** due; omitting `due` applies no due filter. Due list ordering = `due_reference_at ASC` (oldest due first), cursor keyed on that column; other lists `created_at DESC`.
+- ASSUMPTION (W1 API): Rate values are returned as JSON numbers rounded to 4 dp by the view (`0.6667`); the app formats percentages.
+- ASSUMPTION (W1 API): `REMINDER_TEMPLATE_VERSION` is validated as `z.enum(['v1'])` at startup; reminder for an anonymized complaint is checked before the exclusion check (both 409).
+- ASSUMPTION (W1 API): `/admin/complaints/{id}/photo` already returns 410 `PHOTO_DELETED` for anonymized photos and `/admin/verifications/{id}/photo` is live (shared `openPhoto`), so TASK-08 only needs verification of them.
+
 ## 6. Implementation Steps
 
 1. Add `REMINDER_INTERVAL_DAYS`, `VERIFY_LINK_BASE` and `REMINDER_TEMPLATE_VERSION` to the config schema if TASK-01 did not; reject unknown template versions at startup.
@@ -293,6 +299,28 @@ All copy lives in ARB files. Admin screens rotate. Percentages are formatted wit
 | App manual | **M-06-12** Rates tab: trusted first, numbers = M-06-07, "—" for nulls, note, small-sample copy, error/pull-to-refresh, 320 px + largest font | AC-11 |
 | Optional automated | 06 §8.1 #1 rate calculation against a fixed dataset; #6 due calculation around the interval boundary (Vitest, optional, scheduled in TASK-10 REQ-N-019) | AC-2, AC-10 |
 
+### Verification log (W1, API only — 2026-10-03, `saarthee_w1` DB, `API=http://localhost:4001/api/v1`, `H="Authorization: Bearer $T"`)
+
+DB = seed + 4 W1 test reports from TASK-04 (3 rwa, 1 unknown duplicate of C1).
+
+| Check | Command | Observed |
+|---|---|---|
+| Static | `cd apps/api && npx tsc --noEmit && npx eslint .` | clean |
+| Due list | `curl -s "$API/admin/complaints?due=true" -H "$H"` | C1 `AMC-2026-0001` (filed), C11 `amc 2026 0001` (filed), C3 `AMC-2026-0003` (reminded) — oldest-due first, all `isDue:true`, `nextCursor:null` — matches SEED-EXPECTATIONS (C1, C3, C11) |
+| Default list | `?limit=200` | 14 items (excluded left out), all 4 statuses present; no `phone` key anywhere in the JSON |
+| Filters | `?excluded=true`; `?ccrsDuplicate=true&excluded=all` | `[AMC-2026-0008 / test]`; only flagged duplicates |
+| Paging | `?limit=4&excluded=all` then `&cursor=<nextCursor>` | 4 items + cursor; second page 4 items + cursor |
+| Bad input | `?cursor=garbage`; `?limit=500` | 400 `VALIDATION_FAILED` (`cursor` "Invalid cursor."); 400 |
+| No auth | `curl -s $API/admin/complaints` | 401 |
+| Rates | `curl -s $API/admin/rates -H "$H"` | rows `trusted, rwa, activist, social, network, unknown`; social/network/activist rows and seed H1/H2 values match SEED-EXPECTATIONS (`activist` 2/2/1 h1 0.5 h2 1; `social` 1/1/1 h1 1 h2 0; `network` 1/1/1 h1 1 h2 1; trusted h1 0.6 h2 0.6667 with the extra W1 rwa test reports adding only to `complaints`), `computedAt` ISO UTC |
+| Reminder | `curl -s -X POST $API/admin/complaints/<C1>/reminders -H "$H"` | 201 `{reminderId, sentAt, verifyLink:"saarthee://verify?t=<43-char base64url>", messageText:"Hello! About a week ago you recorded AMC complaint AMC-2026-0001 in our app. Has it been fixed? Tap to answer … — Saarthee, an independent citizen project (not AMC).", phoneE164}` |
+| Hash only | `SELECT count(*) FROM reminders WHERE token_hash='<sha256(token)>'` / `WHERE token_hash='<raw token>'` | 1 (expires_at, revoked_at NULL) / 0 |
+| Event + status | `SELECT … FROM events WHERE name='reminder_sent'`; list again | event with admin_user_id, source_tag `rwa`, `{}`; C1 now `reminded`, `isDue:false`, `reminderCount:1` |
+| Excluded / missing | reminder for C8; for random UUID | 409 `COMPLAINT_EXCLUDED`; 404 `NOT_FOUND` |
+| Photo | `curl -s -o c1.jpg $API/admin/complaints/<C1>/photo -H "$H"`; without auth | 200 `image/jpeg` 2068 bytes; 401 |
+| Audit + log redaction | `grep -c -E "<token>\|verify\?t=\|\+91\|Has it been fixed" api.log`; `grep reminder_created api.log` | 0; `{"adminId":…,"action":"reminder_created","targetId":<C1>,"reminderId":…}` |
+| Rates snapshot | `npm run rates:snapshot` (in `apps/api`) | console table of the same rows |
+
 ## 9. Deliverables
 
 - `GET /admin/complaints` (summary, paging, due + parsed filters), minimal `GET /admin/complaints/{id}/photo`, `POST /admin/complaints/{id}/reminders`, `GET /admin/rates`.
@@ -347,6 +375,7 @@ Prediction, not a constraint.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | W1: backend done — `GET /admin/complaints` (filters, due rule, cursor paging, no phone), `GET /admin/complaints/{id}/photo`, `POST /admin/complaints/{id}/reminders` (32-byte base64url token, SHA-256 stored, template v1, `reminder_sent` event, audit), `GET /admin/rates` from `pilot_rates_v`, `npm run rates:snapshot`. No new libraries. Curl-verified (§8 W1 log). | TASK-06: API (w1-api) |
 
 ## 14. Completion Checklist
 
