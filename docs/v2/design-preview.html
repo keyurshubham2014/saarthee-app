@@ -1,0 +1,387 @@
+<title>Saarthee Civic Blue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&family=Noto+Sans+Gujarati:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
+<style>
+/* Layout: page reads as a design spec — intro, then a wrapping gallery of 360px phone screens, then the token sheet. Phones always render the light app theme (the product's default); page chrome follows the viewer theme. */
+:root{
+  --page:#F6F8FA; --page-card:#FFFFFF; --page-ink:#16202B; --page-muted:#4A5664; --page-line:#D3DAE2; --page-accent:#0B57A4;
+  --sans:"Noto Sans","Noto Sans Gujarati",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#0F1620;--page-card:#17212C;--page-ink:#E8EEF4;--page-muted:#A9B6C4;--page-line:#2A3746;--page-accent:#8EC1F5;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#0F1620;--page-card:#17212C;--page-ink:#E8EEF4;--page-muted:#A9B6C4;--page-line:#2A3746;--page-accent:#8EC1F5;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--page-ink);font-family:var(--sans);font-size:16px;line-height:1.55;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:1180px;margin:0 auto}
+.ms{font-family:"Material Symbols Outlined";font-weight:400;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;display:inline-block;white-space:nowrap;-webkit-font-feature-settings:"liga";font-feature-settings:"liga";font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 24}
+.fill{font-variation-settings:"FILL" 1,"wght" 400,"GRAD" 0,"opsz" 24}
+header{padding-block:44px 28px;display:grid;gap:14px;max-width:760px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:44px;height:44px;border-radius:12px;background:#0B57A4;display:grid;place-items:center;flex:none}
+.mark svg{width:28px;height:28px}
+.brand b{font-size:1.5rem;font-weight:600;letter-spacing:-.01em}
+.brand span{color:var(--page-muted);font-size:1.1rem}
+h1{font-size:clamp(1.8rem,3.6vw,2.5rem);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h2{font-size:1.35rem;font-weight:600;margin:0}
+p{margin:0}
+.lede{color:var(--page-muted);font-size:1.08rem;max-width:66ch}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-block:8px 36px}
+.pr{background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;padding:14px 16px;display:grid;gap:4px}
+.pr b{font-weight:600}
+.pr p{color:var(--page-muted);font-size:.93rem;line-height:1.45}
+.sec{display:grid;gap:16px;padding-block:20px;border-top:1px solid var(--page-line)}
+.gallery{display:flex;flex-wrap:wrap;gap:28px 24px;justify-content:flex-start}
+figure{margin:0;display:grid;gap:10px;width:min(360px,100%)}
+figcaption{font-size:.9rem;color:var(--page-muted)}
+figcaption b{color:var(--page-ink);font-weight:600}
+
+/* ---- phone (always app light theme) ---- */
+.phone{--p:#0B57A4;--pd:#08437F;--pc:#E3EEF9;--opc:#06315C;--bg:#F6F8FA;--sf:#FFFFFF;--alt:#EEF2F6;--bd:#D3DAE2;--bds:#8794A3;--t1:#16202B;--t2:#4A5664;
+  width:100%;max-width:360px;height:720px;border-radius:28px;border:1px solid #C3CCD6;background:var(--bg);color:var(--t1);overflow:hidden;display:flex;flex-direction:column;font-size:14px;line-height:1.45;box-shadow:0 1px 2px rgba(22,32,43,.06)}
+.sb{height:28px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:12px;color:var(--t1);background:var(--sf)}
+.ab{background:var(--sf);border-bottom:1px solid var(--bd);padding:10px 16px 12px;display:flex;align-items:center;gap:10px;flex:none}
+.ab .tt{flex:1;min-width:0}
+.ab .tt b{display:block;font-size:19px;font-weight:600;line-height:1.25}
+.ab .tt small{color:var(--t2);font-size:12.5px}
+.ab .ms{color:var(--t1)}
+.lang{border:1px solid var(--bds);border-radius:8px;padding:2px 8px;font-size:13px;font-weight:600}
+.body{flex:1;overflow:hidden;padding:12px 16px;display:flex;flex-direction:column;gap:12px}
+.nav{flex:none;background:var(--sf);border-top:1px solid var(--bd);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 4px 10px;text-align:center;font-size:12px;font-weight:500;color:var(--t2)}
+.nav div{display:grid;justify-items:center;gap:2px}
+.nav .pill{width:52px;height:28px;border-radius:14px;display:grid;place-items:center}
+.nav .on{color:var(--t1)}
+.nav .on .pill{background:var(--pc);color:var(--opc)}
+.btn{background:var(--p);color:#fff;border-radius:8px;height:48px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px}
+.btn.big{height:52px}
+.btn.out{background:var(--sf);color:var(--p);border:1px solid var(--bds)}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:12px;display:grid;gap:8px}
+.alert{border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;border:1px solid}
+.alert.warn{background:#FFEEDD;border-color:#F3D3B4;box-shadow:inset 4px 0 0 #A34A00}
+.alert.warn .ms{color:#A34A00}
+.alert.crit{background:#B3261E;border-color:#B3261E;color:#fff}
+.alert.info{background:#E5EEFA;border-color:#C9DBF2;box-shadow:inset 4px 0 0 #1F5FAE}
+.alert.info .ms{color:#1F5FAE}
+.alert b{font-size:14px}
+.alert small{grid-column:2;font-size:12.5px;color:inherit;opacity:.9}
+.sev{font-size:11.5px;font-weight:600;text-transform:none}
+.h{font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline}
+.h a{font-size:13px;color:var(--p);font-weight:600;text-decoration:none}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.badge{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.badge .ms{font-size:22px}
+.row b{font-size:14px;font-weight:600;display:block;line-height:1.3}
+.row small{color:var(--t2);font-size:12.5px}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:8px;padding:2px 8px 2px 6px;font-size:12px;font-weight:600;white-space:nowrap}
+.chip .ms{font-size:16px}
+.st-rep{background:#EDF0F4;color:#4B5768}.st-ack{background:#E5EEFA;color:#1F5FAE}.st-prog{background:#FFF3DC;color:#8A5300}.st-fix{background:#E6F4EC;color:#1A7340}.st-ver{background:#DDEFE5;color:#0E5233}.st-reo{background:#FDEDE4;color:#B4400F}
+.over{background:#FCEBEA;color:#B3261E}
+.meta{display:flex;gap:12px;color:var(--t2);font-size:12.5px;align-items:center}
+.meta .ms{font-size:16px;vertical-align:-3px}
+.thumb{height:120px;border-radius:8px;border:1px solid var(--bd);background:linear-gradient(160deg,#6B7682 0 30%,#9AA4AE 30% 58%,#565E68 58%);position:relative}
+.thumb.after{background:linear-gradient(160deg,#6B7682 0 30%,#B9C1C9 30% 58%,#7D8691 58%)}
+.thumb span{position:absolute;left:6px;bottom:6px;background:rgba(22,32,43,.78);color:#fff;font-size:11px;font-weight:600;border-radius:6px;padding:1px 6px}
+.lang-opt{border:1px solid var(--bds);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between;background:var(--sf);font-size:18px}
+.lang-opt.sel{border:2px solid var(--p);background:var(--pc)}
+.lang-opt small{display:block;font-size:13px;color:var(--t2)}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--bds)}
+.lang-opt.sel .radio{border:6px solid var(--p)}
+.indep{display:flex;gap:8px;align-items:flex-start;background:var(--alt);border-radius:8px;padding:10px;font-size:12.5px;color:var(--t2)}
+.indep .ms{font-size:18px;color:var(--t2)}
+.step{display:grid;gap:6px}
+.step small{color:var(--t2);font-size:12.5px;font-weight:500}
+.prog{height:4px;border-radius:2px;background:var(--alt);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--p)}
+.q{font-size:19px;font-weight:600;line-height:1.3}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:10px 4px 8px;display:grid;justify-items:center;gap:6px;text-align:center;font-size:12px;font-weight:500;line-height:1.25;min-height:88px}
+.tile.sel{border:2px solid var(--p);background:var(--pc)}
+.tile .badge{width:36px;height:36px}
+.tile .badge .ms{font-size:20px}
+.mapbox{height:150px;border-radius:12px;border:1px solid var(--bd);background:
+  linear-gradient(90deg,transparent 47%,#FFFFFF 47% 53%,transparent 53%),
+  linear-gradient(0deg,transparent 40%,#FFFFFF 40% 46%,transparent 46%),
+  linear-gradient(35deg,transparent 60%,#FFFFFF 60% 64%,transparent 64%),
+  #E7ECF1;position:relative}
+.pin{position:absolute;width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 0 0 3px #fff}
+.pin .ms{transform:rotate(45deg);color:#fff;font-size:17px}
+.cluster{position:absolute;width:34px;height:34px;border-radius:50%;background:#3B5266;color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px;box-shadow:0 0 0 3px rgba(59,82,102,.25)}
+.dup{background:#FFF4E0;border:1px solid #F0D9AE;border-radius:12px;padding:10px 12px;display:grid;gap:6px;font-size:13px}
+.dup b{color:#7A4A00}
+.tl{display:grid;gap:0;padding-left:4px}
+.tli{display:grid;grid-template-columns:18px 1fr;gap:10px;position:relative;padding-bottom:12px}
+.tli:before{content:"";position:absolute;left:8px;top:16px;bottom:0;width:2px;background:var(--bd)}
+.tli:last-child:before{display:none}
+.dot{width:14px;height:14px;border-radius:50%;margin-top:3px;margin-left:2px}
+.tli b{font-size:13.5px;font-weight:600;display:block}
+.tli small{color:var(--t2);font-size:12px}
+.fut .dot{border:2px solid var(--bds);background:var(--sf)}
+.fut b{color:var(--t2);font-weight:500}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rep{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}
+.rep:last-child{border-bottom:0}
+.av{width:40px;height:40px;border-radius:50%;background:var(--alt);color:var(--t2);display:grid;place-items:center;font-weight:600;font-size:13px}
+.rep b{font-size:14px;font-weight:600;display:block;line-height:1.3}
+.rep small{font-size:12px;color:var(--t2)}
+.msg{border:1px solid var(--bds);color:var(--p);border-radius:8px;padding:4px 10px;font-size:12.5px;font-weight:600}
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.score div{background:var(--alt);border-radius:8px;padding:8px 4px}
+.score b{display:block;font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+.score small{font-size:11.5px;color:var(--t2)}
+.tabs{display:flex;gap:8px}
+.tabs span{border:1px solid var(--bds);border-radius:8px;padding:4px 10px;font-size:13px;font-weight:500}
+.tabs .on{background:#3B5266;border-color:#3B5266;color:#fff}
+
+/* ---- token sheet ---- */
+.tokens{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.tok{background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;overflow:hidden}
+.tok i{display:block;height:52px}
+.tok div{padding:8px 12px;display:grid;gap:2px;font-size:.88rem}
+.tok b{font-weight:600}
+.tok code{font-size:.82rem;color:var(--page-muted)}
+.tablewrap{overflow-x:auto;border:1px solid var(--page-line);border-radius:12px;background:var(--page-card)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.92rem}
+th,td{padding:9px 12px;border-bottom:1px solid var(--page-line);text-align:left}
+th{font-weight:600;color:var(--page-muted);font-size:.8rem;letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.typescale{display:grid;gap:6px;background:var(--page-card);border:1px solid var(--page-line);border-radius:12px;padding:16px}
+.typescale div{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+.typescale code{color:var(--page-muted);font-size:.8rem;min-width:170px}
+.avoid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+footer{margin-top:36px;color:var(--page-muted);font-size:.88rem;max-width:760px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="brand">
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M6 21 L13 14 L17 17 L22 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="8" r="2.6" fill="#fff"/></svg></div>
+    <b>Saarthee</b><span>સારથી</span>
+  </div>
+  <h1>Civic Blue: the professional redesign</h1>
+  <p class="lede">One restrained blue for actions, calm slate neutrals, flat white surfaces with thin borders, and Noto Sans in Gujarati and English. It reads as a serious public-service app, like the best government apps, while staying clearly independent: no AMC seal, no AMC colours, and an independence line wherever AMC information appears.</p>
+</header>
+
+<div class="principles">
+  <div class="pr"><b>One colour, one job</b><p>Blue means "you can act here". Everything else is neutral, so actions are never hard to find.</p></div>
+  <div class="pr"><b>Words with every icon</b><p>Every tab, status and alert has a label in the user's language. Colour is never the only signal.</p></div>
+  <div class="pr"><b>Three steps to report</b><p>What is it, photo and place, then check and submit. Large tiles, camera first, location filled in.</p></div>
+  <div class="pr"><b>Independent and sourced</b><p>AMC information always shows where it came from. The app never claims to be AMC.</p></div>
+</div>
+
+<section class="sec">
+  <h2>Key screens</h2>
+  <div class="gallery">
+
+    <figure>
+      <div class="phone" role="img" aria-label="Language selection screen with Gujarati selected and English as the other option">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="body" style="padding-top:28px;gap:16px">
+          <div class="mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M6 21 L13 14 L17 17 L22 8" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="8" r="2.6" fill="#fff"/></svg></div>
+          <div class="q" style="font-size:22px">ભાષા પસંદ કરો<br><span style="color:#4A5664;font-size:17px;font-weight:500">Choose your language</span></div>
+          <div class="lang-opt sel"><div>ગુજરાતી<small>Gujarati</small></div><div class="radio"></div></div>
+          <div class="lang-opt"><div>English<small>અંગ્રેજી</small></div><div class="radio"></div></div>
+          <div style="flex:1"></div>
+          <div class="indep"><span class="ms">info</span><span>નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.</span></div>
+          <div class="btn big">આગળ વધો</div>
+        </div>
+      </div>
+      <figcaption><b>Onboarding · language first.</b> Each language in its own script. Then one intro screen and set your home ward.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="Home screen for Paldi ward with a water supply warning, report button and nearby issues">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>Saarthee</b><small>Ward 21 · Paldi · West zone</small></div><span class="lang">અ</span><span class="ms">notifications</span></div>
+        <div class="body">
+          <div class="alert warn"><span class="ms">warning</span><b>Water supply cut today, 10:00–16:00</b><small>Paldi, Vasna · Source: AMC press note · Warning</small></div>
+          <div class="btn big"><span class="ms" style="font-size:22px">add_circle</span>Report an issue</div>
+          <div class="h">Issues near you<a href="#">See all</a></div>
+          <div class="card">
+            <div class="row"><div class="badge" style="background:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>Roads · 400 m · 6 days ago</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div>
+            <div class="meta"><span class="chip st-rep"><span class="ms">radio_button_unchecked</span>Reported</span><span class="chip over">Overdue</span><span><span class="ms">group</span> 23 affected</span></div>
+          </div>
+          <div class="card">
+            <div class="row"><div class="badge" style="background:#8A5F00"><span class="ms">lightbulb</span></div><div><b>Streetlights off on Vasna road</b><small>Streetlights · 1.1 km · 2 days ago</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div>
+            <div class="meta"><span class="chip st-prog"><span class="ms">construction</span>In progress</span><span><span class="ms">group</span> 8 affected</span></div>
+          </div>
+          <div class="h">This week<a href="#">Drives</a></div>
+          <div class="card"><div class="row"><div class="badge" style="background:#2E6B45"><span class="ms">park</span></div><div><b>Tree plantation, Vasna lake</b><small>Sun 7:00 am · 64 going</small></div><span class="msg">Join</span></div></div>
+        </div>
+        <div class="nav"><div class="on"><span class="pill"><span class="ms fill">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
+      </div>
+      <figcaption><b>Home.</b> Your ward's alerts first, one clear "Report an issue" action, then nearby issues and drives.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="Report step 1 of 3: grid of issue categories with Roads and potholes selected">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><span class="ms">close</span><div class="tt"><b>Report an issue</b></div></div>
+        <div class="body">
+          <div class="step"><small>Step 1 of 3</small><div class="prog"><i style="width:33%"></i></div></div>
+          <div class="q">What is the problem?</div>
+          <div class="grid">
+            <div class="tile sel"><div class="badge" style="background:#5A5F66"><span class="ms">road</span></div>Roads &amp; potholes</div>
+            <div class="tile"><div class="badge" style="background:#1D5E9E"><span class="ms">water_drop</span></div>Water supply</div>
+            <div class="tile"><div class="badge" style="background:#3F5E73"><span class="ms">water_damage</span></div>Drainage</div>
+            <div class="tile"><div class="badge" style="background:#5C6B2E"><span class="ms">delete</span></div>Garbage</div>
+            <div class="tile"><div class="badge" style="background:#8A5F00"><span class="ms">lightbulb</span></div>Streetlights</div>
+            <div class="tile"><div class="badge" style="background:#2E6B45"><span class="ms">park</span></div>Trees &amp; parks</div>
+            <div class="tile"><div class="badge" style="background:#7A4E2D"><span class="ms">pets</span></div>Stray animals</div>
+            <div class="tile"><div class="badge" style="background:#7A3F6B"><span class="ms">pest_control</span></div>Mosquitoes</div>
+            <div class="tile"><div class="badge" style="background:#8C3B2E"><span class="ms">do_not_step</span></div>Encroachment</div>
+          </div>
+          <small style="color:#4A5664;font-size:12.5px;text-align:center">5 more below: toilets, traffic, property tax, building, other</small>
+          <div style="flex:1"></div>
+          <div class="btn big">Continue</div>
+        </div>
+      </div>
+      <figcaption><b>Report · step 1.</b> Fourteen large tiles with icon and label. Mapped to AMC's departments behind the scenes.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="Report step 2 of 3: photo taken, location on a map, and a suggestion that a similar issue already exists nearby">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><span class="ms">arrow_back</span><div class="tt"><b>Report an issue</b></div></div>
+        <div class="body">
+          <div class="step"><small>Step 2 of 3</small><div class="prog"><i style="width:66%"></i></div></div>
+          <div class="q">Photo and place</div>
+          <div class="split"><div class="thumb"><span>Photo 1</span></div><div class="thumb" style="background:#EEF2F6;display:grid;place-items:center;color:#0B57A4"><span class="ms" style="position:static;background:none;color:#0B57A4;font-size:28px">add_a_photo</span></div></div>
+          <div class="mapbox"><div class="pin" style="left:46%;top:34%;background:#5A5F66"><span class="ms">road</span></div></div>
+          <div class="meta"><span><span class="ms">location_on</span> Paldi, Ward 21 · accurate to 8 m</span><a style="margin-left:auto;color:#0B57A4;font-weight:600;font-size:13px">Adjust pin</a></div>
+          <div class="dup"><b>Already reported 30 m away</b><span>"Deep pothole near Paldi bus stand" · 23 affected</span><span style="display:flex;gap:8px"><span class="msg" style="background:#fff">Add me too</span><span class="msg" style="border-color:transparent">It's different</span></span></div>
+          <div style="flex:1"></div>
+          <div class="btn big">Continue</div>
+        </div>
+      </div>
+      <figcaption><b>Report · step 2.</b> Camera first, ward found from GPS, and a duplicate check that turns repeats into "Me too".</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="Issue detail with before and after photos, status Fixed, a timeline and buttons to confirm the fix or report it is still not fixed">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><span class="ms">arrow_back</span><div class="tt"><b>Pothole near bus stand</b><small>Roads · Ward 21 Paldi</small></div><span class="ms">share</span></div>
+        <div class="body">
+          <div class="split"><div class="thumb"><span>Before · 27 Sep</span></div><div class="thumb after"><span>After · 3 Oct</span></div></div>
+          <div class="meta"><span class="chip st-fix"><span class="ms">check_circle</span>Fixed</span><span>Is it really fixed? Neighbours confirm.</span></div>
+          <div class="split"><div class="btn" style="font-size:14px"><span class="ms" style="font-size:20px">verified</span>Yes, fixed</div><div class="btn out" style="font-size:14px">Still not fixed</div></div>
+          <div class="tl">
+            <div class="tli"><div class="dot" style="background:#1A7340"></div><div><b>Marked fixed</b><small>By ward corporator · 3 Oct, 11:20 am</small></div></div>
+            <div class="tli"><div class="dot" style="background:#8A5300"></div><div><b>Work started</b><small>1 Oct · after photo pending</small></div></div>
+            <div class="tli"><div class="dot" style="background:#1F5FAE"></div><div><b>Acknowledged</b><small>CCRS no. ENG-0613123456 linked · 28 Sep</small></div></div>
+            <div class="tli"><div class="dot" style="background:#4B5768"></div><div><b>Reported by a resident of Paldi</b><small>27 Sep, 8:05 am · 23 affected</small></div></div>
+            <div class="tli fut"><div class="dot"></div><div><b>Verified by neighbours</b><small>Waiting for 1 confirmation</small></div></div>
+          </div>
+        </div>
+      </div>
+      <figcaption><b>Issue detail.</b> Before/after, a clear timeline, and the "is it really fixed" check that AMC's own app lacks.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="Alerts tab with a critical heat alert, a water supply warning and an information notice">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>Alerts</b><small>Paldi, Vasna and city-wide</small></div><span class="ms">tune</span></div>
+        <div class="body">
+          <div class="tabs"><span class="on">Active · 3</span><span>Past</span></div>
+          <div class="alert crit"><span class="ms">emergency</span><b>Red heat alert: 45 °C expected</b><small>City-wide · Today and tomorrow · Source: AMC Heat Action Plan · Critical</small></div>
+          <div class="alert warn"><span class="ms">warning</span><b>Water supply cut, 10:00–16:00</b><small>Paldi, Vasna · Today · Source: AMC press note · Warning</small></div>
+          <div class="alert info"><span class="ms">info</span><b>Road closed for metro work, Ashram Road</b><small>Until 12 Oct · Diversion via Income Tax circle · Source: Ahmedabad Traffic Police · Info</small></div>
+          <div style="flex:1"></div>
+          <div class="indep"><span class="ms">verified_user</span><span>Alerts are relayed from official sources with a link. Saarthee is an independent citizen app.</span></div>
+        </div>
+        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div class="on"><span class="pill"><span class="ms fill">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
+      </div>
+      <figcaption><b>Alerts.</b> Severity as icon + word + colour, every alert with its source and validity window.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="My Ward screen listing the ward's four corporators and MLA with message buttons and the ward scorecard">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>My Ward</b><small>Ward 21 · Paldi · West zone</small></div><span class="ms">swap_horiz</span></div>
+        <div class="body">
+          <div class="card" style="gap:4px">
+            <div class="h" style="font-size:15px">Your corporators<a href="#">Source</a></div>
+            <div class="rep"><div class="av">CP</div><div><b>Corporator name</b><small>Ward 21 · party shown as text</small></div><span class="msg">Message</span></div>
+            <div class="rep"><div class="av">CP</div><div><b>Corporator name</b><small>Ward 21 · party shown as text</small></div><span class="msg">Message</span></div>
+            <div class="rep"><div class="av">+2</div><div><b>2 more corporators</b><small>4 per ward</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div>
+          </div>
+          <div class="card" style="gap:4px"><div class="rep"><div class="av">MLA</div><div><b>Your MLA</b><small>Assembly constituency</small></div><span class="msg">Message</span></div></div>
+          <div class="card">
+            <div class="h" style="font-size:15px">Ward scorecard · last 90 days<a href="#">How it's measured</a></div>
+            <div class="score"><div><b>4.5 d</b><small>to acknowledge</small></div><div><b>11 d</b><small>to fix</small></div><div><b>62%</b><small>fixes verified</small></div></div>
+          </div>
+          <div class="card"><div class="row"><div class="badge" style="background:#3B5266"><span class="ms">location_city</span></div><div><b>Ward office</b><small>Address and office number from AMC</small></div><span class="ms" style="color:#8794A3">chevron_right</span></div></div>
+        </div>
+        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div><span class="pill"><span class="ms">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div class="on"><span class="pill"><span class="ms fill">account_balance</span></span>My Ward</div></div>
+      </div>
+      <figcaption><b>My Ward.</b> Corporators and MLA with a private message relay (no personal numbers), plus a neutral scorecard. Names are placeholders.</figcaption>
+    </figure>
+
+    <figure>
+      <div class="phone" role="img" aria-label="Map tab with filter chips, clustered pins and an issue preview">
+        <div class="sb"><span>9:41</span><span class="ms" style="font-size:16px">signal_cellular_alt</span></div>
+        <div class="ab"><div class="tt"><b>Map</b><small>Showing open issues</small></div><span class="ms">my_location</span></div>
+        <div class="body" style="padding:0;gap:0;position:relative">
+          <div style="display:flex;gap:6px;padding:10px 12px;background:#fff;border-bottom:1px solid #D3DAE2;overflow:hidden"><span class="chip" style="background:#3B5266;color:#fff">All</span><span class="chip" style="border:1px solid #8794A3">Roads</span><span class="chip" style="border:1px solid #8794A3">Water</span><span class="chip" style="border:1px solid #8794A3">Garbage</span></div>
+          <div class="mapbox" style="height:auto;flex:1;border-radius:0;border:0">
+            <div class="cluster" style="left:18%;top:20%">12</div>
+            <div class="cluster" style="left:66%;top:58%">7</div>
+            <div class="pin" style="left:44%;top:36%;background:#5A5F66"><span class="ms">road</span></div>
+            <div class="pin" style="left:30%;top:60%;background:#5C6B2E"><span class="ms">delete</span></div>
+            <div class="pin" style="left:72%;top:22%;background:#1D5E9E"><span class="ms">water_drop</span></div>
+          </div>
+          <div class="card" style="margin:0 12px 12px;position:absolute;left:0;right:0;bottom:0;border-radius:16px 16px 12px 12px">
+            <div class="row"><div class="badge" style="background:#5A5F66"><span class="ms">road</span></div><div><b>Deep pothole near Paldi bus stand</b><small>23 affected · 6 days</small></div><span class="chip st-rep"><span class="ms">radio_button_unchecked</span>Reported</span></div>
+          </div>
+        </div>
+        <div class="nav"><div><span class="pill"><span class="ms">home</span></span>Home</div><div class="on"><span class="pill"><span class="ms fill">map</span></span>Map</div><div><span class="pill"><span class="ms">add_circle</span></span>Report</div><div><span class="pill"><span class="ms">notifications</span></span>Alerts</div><div><span class="pill"><span class="ms">account_balance</span></span>My Ward</div></div>
+      </div>
+      <figcaption><b>Map.</b> Muted base map, category pins with white icons, slate clusters, filter chips and a preview sheet.</figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<section class="sec">
+  <h2>Tokens</h2>
+  <div class="tokens">
+    <div class="tok"><i style="background:#0B57A4"></i><div><b>Primary</b><code>#0B57A4 · white 7.21:1</code></div></div>
+    <div class="tok"><i style="background:#E3EEF9"></i><div><b>Primary container</b><code>#E3EEF9 · text #06315C 11.15:1</code></div></div>
+    <div class="tok"><i style="background:#3B5266"></i><div><b>Secondary (slate)</b><code>#3B5266 · white 8.12:1</code></div></div>
+    <div class="tok"><i style="background:#16202B"></i><div><b>Text primary</b><code>#16202B · 16.46:1 on white</code></div></div>
+    <div class="tok"><i style="background:#4A5664"></i><div><b>Text secondary</b><code>#4A5664 · 7.48:1 on white</code></div></div>
+    <div class="tok"><i style="background:#F6F8FA;border-bottom:1px solid #D3DAE2"></i><div><b>Background</b><code>#F6F8FA · surface #FFFFFF</code></div></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Issue status</th><th>Colour</th><th>Alert severity</th><th>Colour</th><th>Semantic</th><th>Colour</th></tr></thead>
+    <tbody>
+      <tr><td>Reported</td><td><span class="sw" style="background:#4B5768"></span>#4B5768</td><td>Info</td><td><span class="sw" style="background:#1F5FAE"></span>#1F5FAE</td><td>Success</td><td><span class="sw" style="background:#1A7340"></span>#1A7340</td></tr>
+      <tr><td>Acknowledged</td><td><span class="sw" style="background:#1F5FAE"></span>#1F5FAE</td><td>Advisory</td><td><span class="sw" style="background:#6F5A00"></span>#6F5A00</td><td>Warning</td><td><span class="sw" style="background:#9A5B00"></span>#9A5B00</td></tr>
+      <tr><td>In progress</td><td><span class="sw" style="background:#8A5300"></span>#8A5300</td><td>Warning</td><td><span class="sw" style="background:#A34A00"></span>#A34A00</td><td>Error</td><td><span class="sw" style="background:#B3261E"></span>#B3261E</td></tr>
+      <tr><td>Fixed</td><td><span class="sw" style="background:#1A7340"></span>#1A7340</td><td>Critical</td><td><span class="sw" style="background:#B3261E"></span>#B3261E</td><td>Info</td><td><span class="sw" style="background:#0B57A4"></span>#0B57A4</td></tr>
+      <tr><td>Verified</td><td><span class="sw" style="background:#0E5233"></span>#0E5233</td><td colspan="4" style="color:var(--page-muted)">All solid colours carry white text at 5.4:1 or better; tints carry the solid colour at 5:1 or better.</td></tr>
+      <tr><td>Reopened</td><td><span class="sw" style="background:#B4400F"></span>#B4400F</td><td colspan="4"></td></tr>
+      <tr><td>Not accepted</td><td><span class="sw" style="background:#8A2234"></span>#8A2234</td><td colspan="4"></td></tr>
+    </tbody>
+  </table></div>
+  <div class="typescale">
+    <div><code>Screen title · 22/30 · 600</code><span style="font-size:22px;font-weight:600">Report an issue · ફરિયાદ નોંધાવો</span></div>
+    <div><code>Card title · 17/24 · 600</code><span style="font-size:17px;font-weight:600">Deep pothole near Paldi bus stand</span></div>
+    <div><code>Body · 16/24 · 400</code><span style="font-size:16px">પાલડી બસ સ્ટેન્ડ પાસે ઊંડો ખાડો છે, રાત્રે દેખાતો નથી.</span></div>
+    <div><code>Metadata · 12.5/18 · 400</code><span style="font-size:12.5px;color:var(--page-muted)">Roads · 400 m · 6 days ago</span></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>What we deliberately avoid</h2>
+  <div class="avoid">
+    <div class="pr"><b>AMC's identity</b><p>No seal or circular emblem, no bronze or amber, no navy gradient, no teal header, no stacked English-over-Gujarati lockup, no "AMC" in the app name.</p></div>
+    <div class="pr"><b>Playful decoration</b><p>No mascots, clip art, confetti or heritage illustrations. Empty states use a single line icon and one action.</p></div>
+    <div class="pr"><b>Hidden meaning</b><p>No colour-only status, no unlabeled icons, no text under 12 sp, no ALL CAPS in Gujarati.</p></div>
+  </div>
+</section>
+
+<footer>Tokens and rules: <code>docs/v2/design-system.md</code>. Representative names on this page are placeholders; the real 2026–31 roster will be compiled from State Election Commission results with sources. Saarthee is an independent citizen app, not run by or linked to AMC.</footer>
+</div>

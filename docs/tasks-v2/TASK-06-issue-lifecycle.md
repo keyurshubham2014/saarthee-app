@@ -1,0 +1,406 @@
+# TASK-06: Issue Lifecycle, Verification and Escalation
+
+| Field | Value |
+|---|---|
+| Task ID | TASK-06 |
+| Status | Not Started |
+| Priority | P0 |
+| Size | L |
+| Depends On | TASK-05 |
+| Blocks | TASK-07, TASK-11 |
+| Requirement IDs | REQ-F-020, REQ-F-021, REQ-F-022, REQ-F-023, REQ-F-024, REQ-F-025, REQ-F-026, REQ-F-027 |
+| Primary Spec Refs | Spec §3 (roles), §5 (lifecycle, verification, reopen window, SLA, escalation, CCRS reminder), §6 (`issues`, `issue_events`, `issue_verifications`, `issue_photos`), §7 (status, verifications, escalations, events; rate limits), §9 (issue-update notifications), §11 (privacy); DS §2 (status colours), §5 (status timeline), §6, §7 (verify flow) |
+| Last Updated | 2026-10-03 |
+
+## 1. Objective
+
+Make reported issues move to a real, checkable fix. The server owns one state machine (Spec §5) that decides who may change an issue's status, writes every change to `issue_events`, and never lets the app bypass it. A reporter, a ward representative or a moderator can mark an issue fixed, optionally with an "after" photo; neighbours then confirm with a photo taken within 100 m, and the rules turn that into Verified or Reopened. Issues past their Saarthee target are flagged and the citizen can escalate with a pre-filled, evidence-linked message up the ladder. Reporters and followers are told about every change by push and inbox.
+
+## 2. Scope
+
+### In Scope
+- Lifecycle service `transition()` with the transition table and role rules (§5.3), optimistic concurrency, idempotent actions; used by every status change in the codebase (TASK-05 CCRS link refactored onto it; TASK-10/11 call it).
+- `POST /issues/{id}/status` (acknowledge, in progress, mark fixed with optional after photo).
+- `POST /issues/{id}/verifications` with photo, distance check against `VERIFY_RADIUS_M`, the Fixed/Not-fixed rules, per-day uniqueness, quota 20/day (TASK-05 helper).
+- Reopen window (7 days, configurable) and derived "Fixed (not verified)" display status.
+- SLA: `sla_due_at` reset on reopen, `isOverdue` derivation, hourly overdue job with notification.
+- Escalation message generator `POST /issues/{id}/escalations` for four levels (corporators via relay, zone office, Deputy Municipal Commissioner, Municipal Commissioner) + `escalation_contacts` table.
+- CCRS "AMC closed it" (`POST /issues/{id}/ccrs/closed`) with 24 h reopen reminder (P1).
+- `GET /issues/{id}/events` (timeline, privacy-safe actor labels).
+- Notifications to reporter and followers via TASK-04 push service + inbox rows.
+- Job runner (`src/jobs`) with single-instance lock.
+- App screens: Verify (`/issues/:id/verify`), Mark fixed (`/issues/:id/mark-fixed`), Escalate (`/issues/:id/escalate`), "AMC closed it" sheet and 24 h banner, reusable `IssueStatusActions` and `issueEventsProvider`.
+- Retire v1 verify routes and `/verify/*` API (410), reusing v1 verification photo/distance code.
+
+### Out of Scope
+- Issue detail screen layout and the buttons that open these screens — TASK-07.
+- Reject, merge, recategorise, hide (staff endpoints) — TASK-10 (they call `transition()`).
+- Representative claim, dashboard and the representative UI — TASK-11; this task only enforces ward scope for the `representative` role.
+- The relay message send itself — TASK-09 (`POST /representatives/{id}/messages`); escalation only prepares text and targets.
+- Public evidence web page `/i/{id}` — TASK-07 (this task only builds the URL).
+- Alert notifications and the inbox UI — TASK-08.
+
+## 3. Prerequisites
+
+- TASK-05 complete: issues, photos (owner + blur), quota helper, `issue_events` written on create, reporter auto-follow, CCRS link.
+- TASK-01 tables: `issue_verifications` (UNIQUE `(issue_id, user_id, day)`), `representative_areas`, `notifications`; Vitest harness.
+- TASK-02: `wards.office_address`, `office_phone`, zone codes.
+- TASK-04: `requireUser`, roles on `users.role`, push service `notify(recipients, message)` that writes `notifications` and sends FCM to the user's tokens.
+- Env: `VERIFY_RADIUS_M=100`, `VERIFY_MAX_ACCURACY_M=50`, `REOPEN_WINDOW_DAYS=7`, `NOT_FIXED_THRESHOLD=2`, `CCRS_REOPEN_HOURS=24`, `CCRS_REMINDER_AFTER_HOURS=20`, `JOBS_ENABLED=true|false`, `PUBLIC_WEB_BASE_URL` (e.g. `https://saarthee.app`), `QUOTA_STATUS_CHANGES_PER_DAY=30`, `QUOTA_ESCALATIONS_PER_DAY=10`.
+
+## 4. Dependencies
+
+| Task | Why it is required |
+|---|---|
+| TASK-05 | Issues must exist with photos, ward, SLA date, opening event, reporter follow, quota helper and CCRS link |
+
+## 5. Technical Context
+
+### 5.1 Requirements Covered
+
+| Req ID | Requirement | Source |
+|---|---|---|
+| REQ-F-020 | Issue status transitions enforced server-side by role (§5 state machine); every change appended to `issue_events` | Spec §5 |
+| REQ-F-021 | Marked-fixed by reporter, representative or moderator, optionally with an after photo | Spec §5 |
+| REQ-F-022 | Verification: citizen answers Fixed/Not fixed with a photo within `VERIFY_RADIUS_M` (100 m); rules move the issue to verified or reopened | Spec §5 |
+| REQ-F-023 | Reopen window of 7 days after marked-fixed; after that the issue shows "Fixed (not verified)" | Spec §5 |
+| REQ-F-024 | SLA due date per category; overdue issues flagged in lists and detail | Spec §5 |
+| REQ-F-025 | Escalation ladder: pre-filled message to corporators (relay), zone office, deputy commissioner, commissioner with evidence link | Spec §5 |
+| REQ-F-026 | CCRS 24-hour reopen reminder when the citizen marks "AMC closed it" | Spec §5 |
+| REQ-F-027 | Followers and reporter get push + inbox notifications on status changes and verification requests | Spec §9 |
+
+### 5.2 Data Contracts
+
+Migration `<ts>_v2_lifecycle` (after TASK-05's):
+- `issues`: add `marked_fixed_at TIMESTAMPTZ NULL`, `verified_at NULL`, `reopened_count INT NOT NULL DEFAULT 0`, `overdue_notified_at NULL`, `ccrs_closed_at NULL`, `ccrs_reminder_sent_at NULL`, `status_version INT NOT NULL DEFAULT 0` (optimistic lock); index `(status, sla_due_at)`, partial index `(ccrs_closed_at) WHERE ccrs_reminder_sent_at IS NULL`.
+- `issue_event_type` enum: add `ccrs_closed`, `verification`, `system` (if missing).
+- `photo_purpose` enum: add `after` (`verification` exists from v1).
+- `issue_events`: add `client_action_id UUID NULL UNIQUE` (idempotent actions), `meta JSONB NULL` (e.g. `{distanceM, answer, level}`; never PII).
+- New `escalation_contacts`: `id`, `level` (`zone_office`/`deputy_commissioner`/`commissioner`), `zone_id NULL` (NULL = city-wide), `title_en`, `title_gu`, `email NULL`, `phone NULL`, `source_url NOT NULL`, `last_verified_at NOT NULL`, `is_active`; UNIQUE `(level, zone_id)`. Dev seed: fictional `@example.org` contacts; pilot data entered from AMC's published lists by staff (TASK-10/TASK-14).
+- `issue_verifications` insert: `issue_id`, `user_id`, `answer`, `photo_id` (`purpose=verification`, owned by the user), `lat/lng`, `gps_accuracy_m`, `distance_m` (PostGIS `ST_Distance` on geography; v1 `haversineM` kept as the unit-tested fallback in `src/lib/geo/distance.ts`), `client_submission_id UNIQUE`, `created_at`; `day` = IST date.
+
+Status sets: **open** = `reported, sent, acknowledged, in_progress, reopened`; **terminal** = `rejected, merged`. Derived fields returned by every issue serializer (`src/modules/issues/derive.ts`):
+- `isOverdue` = status ∈ open ∧ `now() > sla_due_at`.
+- `verifyWindowClosesAt` = `marked_fixed_at + REOPEN_WINDOW_DAYS` when status ∈ {`marked_fixed`, `verified`}.
+- `displayStatus` = `fixed_unverified` when status = `marked_fixed` ∧ window closed; otherwise the status.
+
+### 5.3 API Contracts
+
+Transition table (`src/modules/lifecycle/transitions.ts`; anything else → 409 `INVALID_TRANSITION`):
+
+| From | To | Allowed actors | Extra rule |
+|---|---|---|---|
+| reported | sent | reporter (CCRS link, escalation), system | channel in `note` |
+| reported, sent, reopened | acknowledged | representative (own ward), moderator, admin; reporter with CCRS linked ("AMC acknowledged") | |
+| reported, sent, acknowledged, reopened | in_progress | representative (own ward), moderator, admin | |
+| reported, sent, acknowledged, in_progress, reopened | marked_fixed | reporter, representative (own ward), moderator, admin | optional `photoId` (`purpose=after`, ≤ 3) |
+| marked_fixed | verified | system (verification rule) | |
+| marked_fixed, verified | reopened | system (verification rule) | within window |
+| any open, marked_fixed | rejected / merged | moderator, admin (TASK-10) | `note` required for rejected |
+
+Role resolution: `actorRole` = `reporter` when `user.id = issue.reporter_id`, else `user.role`. Representative ward scope: `issue.ward_id ∈ representative_areas.ward_id` of the representative linked to `users.id` (verified only); otherwise 403 `OUT_OF_WARD`. A plain citizen who is not the reporter gets 403 `FORBIDDEN_ROLE`. Suspended users 403 `ACCOUNT_SUSPENDED`.
+
+`transition(issueId, to, actor, {note, photoIds, clientActionId, expectedStatus, system})` in one transaction: `SELECT … FOR UPDATE` → idempotency by `client_action_id` (repeat returns the original event) → `expectedStatus` mismatch → 409 `STALE_STATUS` with current status → table + role check → update `status`, `status_changed_at`, `status_version+1`, timestamps (`marked_fixed_at`, `verified_at`; on `reopened`: `reopened_count+1`, `sla_due_at = now() + sla_days`, `overdue_notified_at = NULL`) → attach after photos (`issue_photos kind=after`) → insert `issue_events` → enqueue notification fan-out after commit.
+
+| Method | Path | Auth | Request | Response | Errors | Rate limit |
+|---|---|---|---|---|---|---|
+| POST | `/api/v1/issues/{id}/status` | Signed in | `{to: acknowledged\|in_progress\|marked_fixed, note? ≤500, photoIds?[] ≤3, clientActionId (uuid), expectedStatus}` | 200 `{issue (derived fields), event}` | 400, 401, 403 `FORBIDDEN_ROLE`/`OUT_OF_WARD`/`ACCOUNT_SUSPENDED`, 404, 409 `INVALID_TRANSITION`/`STALE_STATUS`, 422 `PHOTO_UNUSABLE`, 429 | `QUOTA_STATUS_CHANGES_PER_DAY` for citizens |
+| POST | `/api/v1/photos` | Signed in | `purpose=after\|verification`, `issueId` | 201 `{photoId}` | as TASK-05 | as TASK-05 |
+| POST | `/api/v1/issues/{id}/verifications` | Citizen | `{clientSubmissionId, answer: fixed\|not_fixed, photoId, latitude, longitude, gpsAccuracyM, deviceCapturedAt, note? ≤500}` | 201/200 `{verificationId, distanceM, issue:{status, displayStatus}}` | 400, 401, 404, 409 `VERIFY_NOT_OPEN`/`ALREADY_ANSWERED_TODAY`, 422 `TOO_FAR_FROM_ISSUE` (`details:[{field:'location', distanceM, radiusM}]`)/`LOCATION_TOO_INACCURATE`/`PHOTO_UNUSABLE`, 429 | quota `verifications` 20/day |
+| GET | `/api/v1/issues/{id}/events?cursor&limit≤50` | None (hidden issue: reporter/staff) | — | `{items:[{id, type, fromStatus, toStatus, actorLabel:{kind, wardNameEn, wardNameGu, name?}, note?, photoUrls[], meta, createdAt}], nextCursor}` oldest first | 404 | 120/IP/min |
+| POST | `/api/v1/issues/{id}/escalations` | Citizen (reporter or follower) | `{level: corporators\|zone_office\|deputy_commissioner\|commissioner, language: gu\|en}` | 200 `{level, recommendedLevel, subject, message, evidenceUrl, targets:[{kind: relay\|email\|phone, representativeId?, label, email?, phone?, sourceUrl?}], independenceNote}` | 403, 404, 409 `ISSUE_NOT_OPEN`, 429 | `QUOTA_ESCALATIONS_PER_DAY` |
+| POST | `/api/v1/issues/{id}/ccrs/closed` | Reporter | `{closedAt? (≤ now, ≥ ccrs_filed_at)}` | 200 `{ccrsClosedAt, reopenDeadline}` | 403, 404, 409 `CCRS_NOT_LINKED` | 10/user/day |
+| ANY | `/api/v1/verify/*` (v1) | — | — | 410 `ENDPOINT_RETIRED` | — | — |
+
+Verification rules (`lifecycle/verification.service.ts`), all in one transaction with the row lock:
+1. Accept only when status ∈ {`marked_fixed`, `verified`} and `now() ≤ verifyWindowClosesAt`; else 409 `VERIFY_NOT_OPEN`.
+2. Photo: `purpose=verification`, uploaded by this user for this issue, unattached, ≤ 24 h; `gpsAccuracyM ≤ VERIFY_MAX_ACCURACY_M` else 422 `LOCATION_TOO_INACCURATE`; `distance ≤ VERIFY_RADIUS_M` else 422 `TOO_FAR_FROM_ISSUE`. Nothing is stored on rejection.
+3. Insert the verification + `issue_events(type=verification, meta {answer, distanceM})` (no status change yet).
+4. `fixed` while `marked_fixed` → `transition(→ verified, system)`.
+5. `not_fixed` by the reporter → `transition(→ reopened, system, note "Reporter says it is not fixed")`.
+6. `not_fixed` by others: count distinct users with `not_fixed` since `marked_fixed_at`; ≥ `NOT_FIXED_THRESHOLD` → `reopened`. One `fixed` does not cancel two `not_fixed`; the rule is evaluated after each answer, and `reopened` wins over `verified`.
+7. Repeat `clientSubmissionId` → 200 with the original. Second answer same user same IST day → 409 `ALREADY_ANSWERED_TODAY`.
+
+SLA overdue job `sla-overdue` (hourly): `status ∈ open AND sla_due_at < now() AND overdue_notified_at IS NULL` → notify reporter + followers, set `overdue_notified_at`, append `issue_events(type=system, note='overdue')`.
+
+Escalation generator (`escalation/escalation.service.ts`): `recommendedLevel` = `corporators` until the first escalation; next level once the previous level's event is ≥ 7 days old and the issue is still open and overdue. Text template (ARB-like server templates `escalation.<level>.<lang>`), e.g. English corporators:
+> Subject: Overdue civic issue in ward <Ward> — <Category>
+> Dear Corporator, a <category> problem reported on <date> at <evidenceUrl> is still <status> after <n> days (Saarthee target: <slaDays> days). <meTooCount> residents are affected. Please arrange for it to be fixed. — A resident of <Ward>, sent via Saarthee (independent citizen app, not an official AMC complaint).
+
+Targets: `corporators` → one `relay` target per corporator from `representative_areas` (empty list when none — the app falls back to Copy/Share); `zone_office` → `wards.office_phone`/`office_address` and `escalation_contacts(zone_office, zone)`; `deputy_commissioner` → contact for the zone; `commissioner` → city-wide contact. `evidenceUrl` = `${PUBLIC_WEB_BASE_URL}/i/<issueId>`. Logs `issue_events(type=escalated, meta {level})`; if status is `reported`, also `transition(→ sent, note 'escalated:<level>')`.
+
+CCRS closed (P1): sets `ccrs_closed_at`, event `ccrs_closed`; no status change. Job `ccrs-reopen-reminder` (every 15 min): `ccrs_closed_at + CCRS_REMINDER_AFTER_HOURS ≤ now()` ∧ reminder not sent ∧ status ∉ {verified} → push "4 hours left to reopen on AMC" to the reporter, set `ccrs_reminder_sent_at`.
+
+Notification fan-out (`lifecycle/notify.ts`, after commit, via TASK-04 `notify()`; kind `issue_update`, `ref_id = issueId`; recipients = followers (incl. reporter) minus the actor; in the recipient's language; quiet hours 22:00–07:00 deferred to 07:00 IST through the push service's `notBefore`):
+
+| Trigger | Title (en) | Body (en) |
+|---|---|---|
+| → acknowledged | "Your issue was acknowledged" | "<Category> in <Ward> is now acknowledged." |
+| → in_progress | "Work has started" | "<Category> in <Ward> is in progress." |
+| → marked_fixed | "Is it fixed? Help check" | "<Category> in <Ward> was marked fixed. If you're nearby, take a photo to confirm." |
+| → verified | "Fix verified" | "Neighbours confirmed <Category> in <Ward> is fixed." |
+| → reopened | "Issue reopened" | "<Category> in <Ward> was reopened — it's not fixed yet." |
+| overdue | "Past its target date" | "<Category> in <Ward> is past Saarthee's <n>-day target. You can escalate it." |
+| CCRS reminder | "Reopen on AMC soon" | "AMC closed your complaint. You can reopen it on AMC's site only until <time>." |
+
+Push data payload `{kind:'issue_update', issueId, route:'/issues/<id>'}` (verification request route `/issues/<id>/verify`). No titles/bodies containing reporter identity.
+
+New `AppError` codes: `INVALID_TRANSITION` 409, `STALE_STATUS` 409, `FORBIDDEN_ROLE` 403, `OUT_OF_WARD` 403, `VERIFY_NOT_OPEN` 409, `ALREADY_ANSWERED_TODAY` 409, `TOO_FAR_FROM_ISSUE` 422, `LOCATION_TOO_INACCURATE` 422, `CCRS_NOT_LINKED` 409.
+
+### 5.4 UI Surfaces & States
+
+| Route / widget | Content | States |
+|---|---|---|
+| `/issues/:id/verify` (Step 1 of 2) | Title "Is it fixed?"; issue photo before/after side by side; buttons "Yes, it's fixed" / "Still not fixed" | window closed → "This issue can no longer be checked." ; signed out → sign-in then back |
+| `/issues/:id/verify/photo` (Step 2 of 2) | "Take a photo at the spot"; live distance "You're about 35 m from the problem."; optional note "Anything to add? (optional)"; primary "Send" | too far → "You need to be within 100 m of the problem to verify. You're about 240 m away." (Send disabled); inaccurate GPS → "Location is approximate. Move into the open and try again."; upload failed → "Retry upload"; offline → draft kept, sends on reconnect; already answered → "You've already answered today. Thank you." |
+| `/issues/:id/verify/done` | "Thanks for checking." + outcome line ("It's now Verified." / "It's been reopened." / "Your answer is recorded.") | — |
+| `/issues/:id/mark-fixed` | Title "Mark as fixed"; "Add an after photo (optional)" (camera, ≤ 3, blur as TASK-05); "Note (optional)"; primary "Mark as fixed"; helper "Neighbours will be asked to confirm with a photo." | `STALE_STATUS` → "This issue changed while you were here." + reload; forbidden → "You can't change this issue." |
+| `/issues/:id/escalate` | Title "Escalate this issue"; ladder list of 4 levels (Corporators, Zone office, Deputy Municipal Commissioner, Municipal Commissioner) with the recommended one tagged "Suggested"; message preview (editable copy only); actions per target: "Message corporator" (opens TASK-09 relay with text and `issueId`), "Email zone office", "Call zone office", "Copy message", "Share"; note "Saarthee prepares this message for you. It is not an official complaint." + independence line | no corporator data → only Copy/Share; loading skeleton; error + "Try again" |
+| `CcrsClosedSheet` | "Did AMC close your complaint?" → "Yes, AMC closed it" → banner "AMC says it's closed. If it isn't fixed, reopen it on AMC's site before <time> (24 hours)." + "Open AMC site", "It's fixed — verify" | not linked → hidden |
+| `IssueStatusActions` | Role-aware buttons "Acknowledge", "Start work", "Mark as fixed" for staff/representatives (used in TASK-07 detail, TASK-10/11 consoles) | in-flight disabled; errors as above |
+| `issueEventsProvider` | Paged timeline items mapped to DS §5 `StatusTimeline` (TASK-03 component); actor text "A resident of Paldi", "Ward corporator <name>", "Saarthee moderator", "Saarthee" (system) | skeleton; error retry |
+
+ARB keys under `verify.*`, `markFixed.*`, `escalate.*`, `ccrsClosed.*`, `timeline.actor.*`, `notification.issue.*`, `error.<CODE>`; gu strings marked for native review.
+
+### 5.5 Permissions & Roles
+
+| Action | Visitor | Citizen (not reporter) | Reporter | Representative | Moderator | Admin |
+|---|---|---|---|---|---|---|
+| Read events of public issue | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Acknowledge / in progress | ❌ | ❌ | Acknowledge only with CCRS linked | Own wards | ✅ | ✅ |
+| Mark fixed | ❌ | ❌ | ✅ | Own wards | ✅ | ✅ |
+| Verify (Fixed / Not fixed) | ❌ | ✅ | ✅ | ✅ (as a citizen) | ✅ | ✅ |
+| Escalate | ❌ | Followers only | ✅ | ❌ | ❌ | ❌ |
+| AMC closed it | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| Reject / merge (TASK-10) | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+
+Staff actions through `transition()` are recorded in the TASK-10 audit log when called from `/staff/*`.
+
+### 5.6 Assumptions
+
+- ASSUMPTION: Verifications stay open while status is `verified` and the 7-day window runs, so a reporter's "Still not fixed" can reopen a quickly verified issue — spec says reporter's Not fixed → reopened without excluding `verified`.
+- ASSUMPTION: "Two Not fixed" means two distinct non-reporter users since the latest `marked_fixed_at`; a single Fixed does not cancel them.
+- ASSUMPTION: GPS accuracy worse than 50 m rejects a verification (`LOCATION_TOO_INACCURATE`); the 100 m radius is measured from the reported fix without adding accuracy slack — conservative against remote verifying.
+- ASSUMPTION: "Fixed (not verified)" is derived at read time, not a stored status; no job is needed for it.
+- ASSUMPTION: Reopen restarts the SLA clock (`sla_due_at = now() + sla_days`) and clears `overdue_notified_at`.
+- ASSUMPTION: "AMC closed it" does not change the Saarthee status; it prompts verification and the 24 h reminder at +20 h.
+- ASSUMPTION: DMC/Commissioner contacts live in `escalation_contacts` with source URL and verified date; dev seed is fictional; pilot data is entered by staff from AMC's published pages before launch.
+- ASSUMPTION: Escalation is citizen-only (reporter or follower); representatives/moderators act on issues instead.
+- ASSUMPTION: Jobs run in-process with `node-cron` (*candidate*) behind `JOBS_ENABLED` and a `pg_try_advisory_lock` per job, plus `npm run jobs:run -- <name>` for manual runs — if TASK-04 already added a runner, reuse it.
+- ASSUMPTION: Quiet-hour deferral for issue updates uses TASK-04's push service `notBefore` option; if missing, add it there in coordination with the TASK-04 owner rather than duplicating a queue.
+- ASSUMPTION: Citizens may change status ≤ 30 times/day and escalate ≤ 10 times/day (not in Spec §7; abuse guard).
+
+## 6. Implementation Steps
+
+1. **Migration `<ts>_v2_lifecycle`** per §5.2; `escalation_contacts` dev seed (one per level per zone, fictional).
+2. **Geo distance lib.** Move v1 `haversineM` from `modules/verify/verify.service.ts` to `src/lib/geo/distance.ts`; add `distanceToIssueM(issueId, lat, lng)` using `ST_Distance`.
+3. **Transition table + `transition()`** in `src/modules/lifecycle/` with row lock, idempotency, stale check, role/ward resolution (`representativeWardIds(userId)`), timestamps, SLA reset, event insert; unit tests for every row of the table.
+4. **Refactor TASK-05 CCRS link** to call `transition(→ sent)`.
+5. **`POST /issues/{id}/status`** handler + Zod schema; after-photo attach; extend `POST /photos` purposes `after` / `verification` with `issueId` ownership.
+6. **Verification service + endpoint** per rules 1–7; TASK-05 quota `verifications`.
+7. **Derived fields** `derive.ts` used by every issue serializer (TASK-05 nearby/create, TASK-07 list/detail).
+8. **Events endpoint** with cursor paging and actor labels (no ids, names or phones of citizens).
+9. **Notification fan-out** `notify.ts` with templates in gu/en and actor exclusion; hooked after commit of `transition()` and the overdue/CCRS jobs.
+10. **Job runner** `src/jobs/{runner,sla-overdue,ccrs-reopen-reminder}.ts` and `jobs:run` script.
+11. **Escalation service + endpoint**; templates in `src/modules/escalation/templates.ts`; event + `→ sent`.
+12. **CCRS closed endpoint** + reminder job.
+13. **Retire v1 verify API** (`/verify/*` → 410) and v1 verify-token code paths from routing.
+14. **API tests** T-06-01…T-06-16.
+15. **App: retire v1 verify** routes/screens (`/verify/*`, deep-link token handling) — redirect to Home.
+16. **App screens** verify (2 steps + done, reuse `CapturePanel`, upload, blur), mark-fixed, escalate, `CcrsClosedSheet`, `IssueStatusActions`, `issueEventsProvider`; deep links from push payload routes.
+17. **Widget + integration tests** W-06-01…W-06-05, I-06-01.
+18. **Manual checks** M-06-01…M-06-05; coverage matrix.
+
+## 7. Acceptance Criteria
+
+### 7.1 Behavioral
+
+**AC-1** — Transitions enforced by role
+- **Given** issues in each status and users with each role (incl. a representative for ward 1 and a citizen who is not the reporter)
+- **When** every (from, to, actor) combination is posted to `/status`
+- **Then** only rows in the transition table succeed; others return 409 `INVALID_TRANSITION`, 403 `FORBIDDEN_ROLE` or 403 `OUT_OF_WARD` (representative on ward 2); each success writes exactly one `issue_events` row with actor role, from, to and note
+
+**AC-2** — Concurrency and idempotency
+- **Given** an issue `in_progress`
+- **When** two moderators post `marked_fixed` with `expectedStatus=in_progress` concurrently, and one repeats its `clientActionId`
+- **Then** one succeeds, the other gets 409 `STALE_STATUS` with the current status; the repeat returns the original event; one event row exists
+
+**AC-3** — Mark fixed with after photo
+- **Given** the reporter of an open issue
+- **When** they mark it fixed with one after photo and a note
+- **Then** status `marked_fixed`, `marked_fixed_at` set, photo attached as `kind=after`, followers (not the reporter) receive "Is it fixed? Help check" by push and inbox
+
+**AC-4** — Verification distance and photo rules
+- **Given** a `marked_fixed` issue
+- **When** a citizen answers 150 m away, with 80 m accuracy, with another user's photo, and again on the same day after a valid answer
+- **Then** 422 `TOO_FAR_FROM_ISSUE` (with distance), 422 `LOCATION_TOO_INACCURATE`, 422 `PHOTO_UNUSABLE`, 409 `ALREADY_ANSWERED_TODAY`; nothing is stored for the rejected attempts
+
+**AC-5** — Verification outcomes
+- **Given** three `marked_fixed` issues
+- **When** (a) a neighbour 40 m away answers Fixed; (b) the reporter answers Not fixed; (c) two different neighbours answer Not fixed and one Fixed
+- **Then** (a) → `verified`; (b) → `reopened`, `reopened_count=1`, new `sla_due_at`; (c) → `reopened`; each answer has an `issue_verifications` row with `distance_m`, and followers are notified of the outcome
+
+**AC-6** — Reopen window and "Fixed (not verified)"
+- **Given** an issue marked fixed 8 days ago with no answers
+- **When** its detail/events are read and a citizen tries to verify
+- **Then** `displayStatus=fixed_unverified`, `verifyWindowClosesAt` is in the past, and the verification returns 409 `VERIFY_NOT_OPEN`; the app shows "Fixed (not verified)" and "This issue can no longer be checked."
+
+**AC-7** — SLA overdue
+- **Given** an open issue whose `sla_due_at` passed an hour ago and a closed one also past due
+- **When** `npm run jobs:run -- sla-overdue` runs twice
+- **Then** only the open issue gets `isOverdue=true`, one `system` event and one notification to reporter + followers; the second run sends nothing
+
+**AC-8** — Escalation message
+- **Given** an overdue open issue in a ward with two corporators and seeded contacts
+- **When** the reporter requests each of the four levels in Gujarati and English
+- **Then** each response has subject, message with category, ward, days open, target, me-too count, `evidenceUrl` `<base>/i/<id>`, the independence note, and the right targets (2 relay targets; zone office phone/email; DMC; commissioner); `recommendedLevel=corporators` first; an `escalated` event is logged and `reported → sent`; a visitor gets 401 and a non-follower 403
+
+**AC-9** — CCRS 24 h reminder
+- **Given** the reporter linked a CCRS number
+- **When** they tap "Yes, AMC closed it" and the reminder job runs 20 h later
+- **Then** the banner shows the reopen deadline (closed time + 24 h) and "Open AMC site"; one push "Reopen on AMC soon" is sent and not repeated; nothing happens if the issue was verified in between
+
+**AC-10** — Timeline privacy
+- **Given** an issue with events by the reporter, a citizen verifier, a representative and a moderator
+- **When** `GET /issues/{id}/events` is called without auth
+- **Then** citizens appear only as "A resident of <ward>", the representative as role + name, the moderator as "Saarthee moderator"; no user ids, phones or citizen names appear anywhere in the body
+
+**AC-11** — Notifications respect actor and quiet hours
+- **Given** an issue with 3 followers including the reporter
+- **When** a moderator marks it in progress at 23:00 IST
+- **Then** 3 `notifications` rows (kind `issue_update`) exist in each recipient's language, push is deferred to 07:00, the moderator gets none, and the push payload routes to `/issues/<id>`
+
+**AC-12** — Verify flow in the app
+- **Given** a follower receives "Is it fixed? Help check"
+- **When** they tap it, choose "Yes, it's fixed", take a photo 30 m away and tap Send
+- **Then** the app shows "You're about 30 m from the problem", sends once (retry-safe), and shows "Thanks for checking. It's now Verified."
+
+### AC → Requirement
+
+| AC | Requirements |
+|---|---|
+| AC-1 | REQ-F-020 |
+| AC-2 | REQ-F-020 |
+| AC-3 | REQ-F-021, REQ-F-027 |
+| AC-4 | REQ-F-022 |
+| AC-5 | REQ-F-022, REQ-F-027 |
+| AC-6 | REQ-F-023 |
+| AC-7 | REQ-F-024, REQ-F-027 |
+| AC-8 | REQ-F-025 |
+| AC-9 | REQ-F-026 |
+| AC-10 | REQ-F-020 |
+| AC-11 | REQ-F-027 |
+| AC-12 | REQ-F-022 |
+
+### 7.2 Non-Functional Checklist
+
+- [ ] No status write anywhere except through `transition()` (grep: no `status:` updates on `issue` outside `modules/lifecycle`)
+- [ ] Every transition, verification and escalation is one transaction; notifications sent only after commit
+- [ ] Jobs are idempotent and single-instance (advisory lock verified with two processes)
+- [ ] Event/notification text never includes citizen names, phones or ids
+- [ ] All copy in ARB (gu + en); server templates in both languages; status shown with icon + word (DS §2)
+- [ ] Verify/mark-fixed/escalate screens have loading, error, offline, in-flight and unauthorised states; 48 dp targets; TalkBack "Step n of 2"
+- [ ] Escalation screens always show the independence line; no AMC logo
+- [ ] Notes and messages are not logged
+
+## 8. Validation & Testing
+
+| Level | ID | What to test | Proves |
+|---|---|---|---|
+| Static | S-06-01 | API typecheck + lint; `flutter analyze`, `dart format` check | all |
+| API (Vitest+Supertest) | T-06-01 | Table-driven: every (from, to, role) → expected status code; event rows | AC-1 |
+| API | T-06-02 | Representative ward scope: own ward 200, other ward 403 `OUT_OF_WARD`, unverified representative 403 | AC-1 |
+| API | T-06-03 | Concurrent `marked_fixed` → one 200 + one `STALE_STATUS`; `clientActionId` repeat | AC-2 |
+| API | T-06-04 | Mark fixed with after photo; photo of wrong purpose → 422 | AC-3 |
+| API | T-06-05 | Verification rejections (distance, accuracy, photo, same day) store nothing | AC-4 |
+| API | T-06-06 | Outcomes a/b/c; reopen resets SLA; `reopened` beats `verified` | AC-5 |
+| API | T-06-07 | Window: fake clock +8 days → `fixed_unverified`, 409 `VERIFY_NOT_OPEN` | AC-6 |
+| API | T-06-08 | `sla-overdue` job twice; closed issue ignored | AC-7 |
+| API | T-06-09 | Escalation per level/language; targets; event; `→ sent`; 401/403 | AC-8 |
+| API | T-06-10 | CCRS closed + reminder job (fake clock), verified issue skipped, no repeat | AC-9 |
+| API | T-06-11 | Events endpoint privacy: response contains none of the seeded phones/names/ids | AC-10 |
+| API | T-06-12 | Notify fan-out: recipients, actor excluded, language, `notBefore` in quiet hours (push service mocked) | AC-11 |
+| API | T-06-13 | Verification quota 20/day → 429 | AC-4 |
+| API | T-06-14 | `/verify/*` → 410 | AC-1 |
+| API | T-06-15 | Unit: `haversineM` vs PostGIS within 0.5 m on 10 point pairs | AC-4 |
+| API | T-06-16 | Advisory lock: second concurrent job run exits without work | AC-7 |
+| Widget | W-06-01 | Verify step 2 distance states (near, too far, inaccurate) and disabled Send | AC-4, AC-12 |
+| Widget | W-06-02 | Escalate screen: suggested level, empty corporator list → Copy/Share only, independence line | AC-8 |
+| Widget | W-06-03 | Timeline mapping from events (actor labels, after photo on Fixed) | AC-10 |
+| Widget | W-06-04 | `CcrsClosedSheet` + banner deadline formatting in gu/en | AC-9 |
+| Widget | W-06-05 | `IssueStatusActions` renders by role and handles `STALE_STATUS` | AC-1, AC-2 |
+| Integration | I-06-01 | Emulator: report (TASK-05 flow) → moderator marks fixed via API → second account verifies with mock location 30 m away → Verified | AC-12, AC-5 |
+| Manual | M-06-01 | Push on emulator: tap "Is it fixed?" notification opens verify | AC-11, AC-12 |
+| Manual | M-06-02 | Mock location 240 m away → "too far" copy | AC-4 |
+| Manual | M-06-03 | Escalate: relay button opens TASK-09 message screen (or Copy/Share when absent), email/dial intents | AC-8 |
+| Manual | M-06-04 | CCRS closed banner and reminder (job forced with fake time) | AC-9 |
+| Manual | M-06-05 | TalkBack and 2.0× font on verify and escalate | AC-12 |
+
+## 9. Deliverables
+
+- Migration `<ts>_v2_lifecycle`, `escalation_contacts` dev seed.
+- API modules `lifecycle` (transitions, verification, notify, derive), `escalation`, events endpoint, CCRS closed; `src/jobs` runner with two jobs; `src/lib/geo/distance.ts`; v1 verify API retired.
+- App: verify flow, mark-fixed, escalate, CCRS closed sheet/banner, `IssueStatusActions`, `issueEventsProvider`; v1 verify UI removed.
+- Tests T-06-01…16, W-06-01…05, I-06-01; coverage evidence for 8 requirements.
+
+## 10. Files Expected to Change
+
+Prediction only — exact paths may differ.
+
+| Path | Change |
+|---|---|
+| `apps/api/prisma/migrations/<ts>_v2_lifecycle/`, `prisma/seed/escalation-contacts.ts` | New |
+| `apps/api/src/modules/lifecycle/`, `src/modules/escalation/` | New |
+| `apps/api/src/modules/issues/` (events route, derive, CCRS refactor), `src/modules/photos/` | Modified |
+| `apps/api/src/modules/verify/` (retired → 410) | Modified |
+| `apps/api/src/jobs/`, `apps/api/package.json` (`jobs:run`), `src/server.ts` (start scheduler) | New / Modified |
+| `apps/api/src/lib/geo/distance.ts`, `src/lib/errors/index.ts` | New / Modified |
+| `apps/api/test/lifecycle/*.test.ts`, `test/escalation.test.ts`, `test/jobs.test.ts` | New |
+| `apps/mobile/lib/features/issue_actions/` (verify, mark_fixed, escalate, ccrs_closed) | New |
+| `apps/mobile/lib/features/verify/` | Removed |
+| `apps/mobile/lib/router/citizen_routes.dart`, `router/deep_links.dart`, `lib/core/l10n/*.arb` | Modified |
+| `apps/mobile/test/issue_actions/*`, `integration_test/report_verify_test.dart` | New |
+
+## 11. Related Documentation
+
+- `docs/v2/saarthee-v2-spec.md` §3 (roles), §5 (lifecycle rules), §6 (tables), §7 (endpoints, rate limits), §9 (notifications), §11 (privacy)
+- `docs/v2/design-system.md` DS §2 (status colours/words), §5 (status timeline), §7 (verify flow)
+- `docs/tasks/TASK-07-verify-flow.md` (v1) — verification photo/distance logic reused
+- `docs/tasks-v2/TASK-05-issue-reporting.md` (quota helper, CCRS link), `TASK-04-*.md` (push service), `TASK-09-*.md` (relay), `TASK-07-discovery.md` (detail screen, `/i/{id}` page)
+
+## 12. Risks & Considerations
+
+| Risk | Impact | Mitigation |
+|---|---|---|
+| GPS spoofing to verify remotely | False "Verified" | Photo required, accuracy cap, distance logged, moderators can reopen (TASK-10); repeated far attempts visible in data |
+| Notification storms on busy issues | Users mute the app | Actor excluded; one push per issue per recipient per 15 min (collapse key = issue id) |
+| Representative scope bugs | Rep changes another ward's issue | Table-driven tests T-06-01/02; ward check inside `transition()`, not handlers |
+| Escalation contacts outdated | Messages to wrong office | `source_url` + `last_verified_at` shown to staff; pilot checklist in TASK-14 |
+| Job runs twice on two instances | Duplicate pushes | Advisory lock + `*_notified_at` columns |
+| Clock/timezone errors (IST day uniqueness, quiet hours) | Wrong rejections or night pushes | All day math in `Asia/Kolkata` helper with tests at 23:59/00:01 |
+
+## 13. Progress Status
+
+**Current status:** Not Started
+
+**Progress:** 0%
+
+| Date | Progress | Commit |
+|---|---|---|
+
+## 14. Completion Checklist
+
+- [ ] All implementation steps complete
+- [ ] All behavioral acceptance criteria verified in the running application
+- [ ] Non-functional checklist fully ticked
+- [ ] Static checks pass and every AC verified by the tests and manual checks in §8
+- [ ] Automated tests added and passing
+- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [ ] Error, loading, empty, and unauthorized states verified
+- [ ] Code reviewed against the patterns established in earlier tasks
+- [ ] Assumptions documented and, where possible, confirmed
+- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-06` shows 0 unverified)
+- [ ] Task file progress log and status updated
+- [ ] `00-task-summary.md` updated
+- [ ] Committed as `V2-TASK-06: …`
+- [ ] Validator passes
