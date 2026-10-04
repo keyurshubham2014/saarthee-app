@@ -40,9 +40,7 @@ adminComplaintsRouter.get('/verifications/:id/photo', validate({ params: idParam
 });
 
 // v1 pilot writes retired in v2 (Spec D11, V2 TASK-01 §5.3): reminders, exclusion, reminder revoke.
-adminComplaintsRouter.post('/complaints/:id/reminders', endpointRetired);
 adminComplaintsRouter.patch('/complaints/:id/exclusion', endpointRetired);
-adminComplaintsRouter.post('/reminders/:id/revoke', endpointRetired);
 
 adminComplaintsRouter.get('/complaints/:id', validate({ params: idParams }), async (_req, res) => {
   const { id } = res.locals.params as z.infer<typeof idParams>;

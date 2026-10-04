@@ -67,6 +67,9 @@ export const ERROR_CODES = {
   SETTING_UNKNOWN: { status: 400, message: 'This setting does not exist.' },
   EXPORT_TOO_LARGE: { status: 413, message: 'Too many rows. Narrow the date range.' },
   FLAG_QUOTA: { status: 429, message: "You've reported a lot today. Please try again tomorrow." },
+  SELF_SUSPEND: { status: 409, message: "You can't suspend yourself." },
+  USER_STATE_INVALID: { status: 409, message: 'This account is already in that state.' },
+  ROLE_CHANGE_INVALID: { status: 422, message: "This person's role can't be changed here." },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

@@ -41,3 +41,16 @@ CREATE INDEX "idx_moderation_flags_issue_status" ON "moderation_flags"("issue_id
 CREATE INDEX "idx_moderation_flags_reporter_created" ON "moderation_flags"("reporter_id", "created_at");
 -- Sensitive / out-of-area queues filter on moderated_at IS NULL.
 CREATE INDEX "idx_issues_unmoderated" ON "issues"("created_at") WHERE "moderated_at" IS NULL;
+
+-- Hidden comments: issue_events is append-only, so a moderator's comment hide is recorded beside it.
+-- Public timelines (TASK-07) exclude events listed here; staff still see them.
+CREATE TABLE "issue_event_hides" (
+    "event_id" UUID NOT NULL,
+    "issue_id" UUID NOT NULL,
+    "hidden_by" UUID NOT NULL,
+    "hidden_at" TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "pk_issue_event_hides" PRIMARY KEY ("event_id")
+);
+ALTER TABLE "issue_event_hides" ADD CONSTRAINT "fk_issue_event_hides_event" FOREIGN KEY ("event_id") REFERENCES "issue_events"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "issue_event_hides" ADD CONSTRAINT "fk_issue_event_hides_issue" FOREIGN KEY ("issue_id") REFERENCES "issues"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE INDEX "idx_issue_event_hides_issue" ON "issue_event_hides"("issue_id");

@@ -20,6 +20,8 @@ import { staffAlertsRouter } from './modules/staff-alerts';
 import { servicesRouter } from './modules/services';
 import { initiativesRouter } from './modules/initiatives';
 import { staffContentRouter } from './modules/staff-content';
+import { staffRouter } from './modules/staff';
+import { flagsRouter } from './modules/flags';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -48,3 +50,6 @@ apiRouter.use(staffAlertsRouter);
 apiRouter.use(servicesRouter);
 apiRouter.use(initiativesRouter);
 apiRouter.use(staffContentRouter);
+// TASK-10: staff console (moderation, issue tools, users & roles, categories, settings, exports) and citizen flags.
+apiRouter.use(staffRouter);
+apiRouter.use(flagsRouter);

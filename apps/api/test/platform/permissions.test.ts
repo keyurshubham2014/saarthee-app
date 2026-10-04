@@ -28,13 +28,9 @@ describe('retired v1 writes', () => {
   });
 
   const adminRoutes: [string, string][] = [
-    ['post', '/api/v1/admin/invite-codes'],
-    ['patch', `/api/v1/admin/invite-codes/${id}`],
     ['post', '/api/v1/admin/categories'],
     ['patch', `/api/v1/admin/categories/${id}`],
-    ['post', `/api/v1/admin/complaints/${id}/reminders`],
     ['patch', `/api/v1/admin/complaints/${id}/exclusion`],
-    ['post', `/api/v1/admin/reminders/${id}/revoke`],
   ];
   it.each(adminRoutes)('admin %s %s → 410 ENDPOINT_RETIRED (with a valid token)', async (method, path) => {
     const { auth } = await createAdmin();
@@ -71,8 +67,7 @@ describe('admin history reads', () => {
     const csv = await api().get('/api/v1/admin/export?type=complaints').set(auth);
     expect(csv.status).toBe(200);
     expect(csv.headers['content-type']).toContain('text/csv');
-    expect((await api().get('/api/v1/admin/rates').set(auth)).status).toBe(200);
-    expect((await api().get('/api/v1/admin/invite-codes').set(auth)).status).toBe(200);
+    // TASK-10 (D11): pilot-only rates and invite-code reads are removed (404); tested in test/staff/retired.test.ts.
     expect((await api().get('/api/v1/admin/categories').set(auth)).status).toBe(200);
   });
 

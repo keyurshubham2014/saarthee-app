@@ -534,6 +534,7 @@ model Issue {
   follows         Follow[]
   repMessages     RepMessage[]
   moderationFlags ModerationFlag[]
+  eventHides      IssueEventHide[]
 
   @@unique([clientSubmissionId], map: "uq_issues_client_submission")
   @@unique([legacyComplaintId], map: "uq_issues_legacy_complaint")
@@ -576,9 +577,11 @@ model IssueEvent {
   photoId    String?        @map("photo_id") @db.Uuid
   createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_events_issue")
-  actor User?  @relation(fields: [actorId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issue_events_actor")
-  photo Photo? @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_events_photo")
+  issue Issue           @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_events_issue")
+  actor User?           @relation(fields: [actorId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issue_events_actor")
+  photo Photo?          @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_events_photo")
+  /// TASK-10: set when a moderator hides this comment.
+  hide  IssueEventHide?
 
   @@index([issueId, createdAt], map: "idx_issue_events_issue_created")
   @@index([actorId], map: "idx_issue_events_actor")
@@ -1220,4 +1223,18 @@ model ModerationFlag {
   @@index([issueId, status], map: "idx_moderation_flags_issue_status")
   @@index([reporterId, createdAt], map: "idx_moderation_flags_reporter_created")
   @@map("moderation_flags")
+}
+
+/// TASK-10: a comment (issue_events row) hidden by a moderator; issue_events itself stays append-only.
+model IssueEventHide {
+  eventId  String   @id(map: "pk_issue_event_hides") @map("event_id") @db.Uuid
+  issueId  String   @map("issue_id") @db.Uuid
+  hiddenBy String   @map("hidden_by") @db.Uuid
+  hiddenAt DateTime @default(now()) @map("hidden_at") @db.Timestamptz(6)
+
+  event IssueEvent @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_event_hides_event")
+  issue Issue      @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_event_hides_issue")
+
+  @@index([issueId], map: "idx_issue_event_hides_issue")
+  @@map("issue_event_hides")
 }
