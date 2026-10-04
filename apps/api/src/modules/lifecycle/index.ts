@@ -15,6 +15,7 @@ import { serializeIssue } from '../issues/derive';
 import { markCcrsClosed } from './ccrs.service';
 import { listEvents } from './events.service';
 import { actorFor, transition } from './lifecycle.service';
+import { readLifecycle } from './read.service';
 import { submitVerification } from './verification.service';
 
 export const lifecycleRouter = Router();
@@ -93,4 +94,9 @@ lifecycleRouter.get('/issues/:id/events', eventsLimiter, optionalUser, validate(
 lifecycleRouter.post('/issues/:id/ccrs/closed', requireUser, ccrsClosedLimiter, validate({ params: idParams, body: ccrsClosedBody }), async (req, res) => {
   const { id } = res.locals.params as z.infer<typeof idParams>;
   res.json(await markCcrsClosed(req.user!.id, id, (req.body as z.infer<typeof ccrsClosedBody>).closedAt));
+});
+
+lifecycleRouter.get('/issues/:id/lifecycle', eventsLimiter, optionalUser, validate({ params: idParams }), async (req, res) => {
+  const { id } = res.locals.params as z.infer<typeof idParams>;
+  res.json(await readLifecycle(id, req.user));
 });
