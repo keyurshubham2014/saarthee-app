@@ -101,7 +101,9 @@ dart pub global activate flutterfire_cli
 cd apps/mobile && flutterfire configure --project=saarthee-prod --platforms=android
 ```
 
-This writes `lib/firebase_options.dart` (git-ignored; `lib/firebase_options.example.dart` documents the shape).
+This writes `lib/firebase_options.dart` (git-ignored). It is only needed once the Firebase SDK implementation of
+`AuthGateway` / `PushMessaging` is added (add `firebase_core`, `firebase_auth`, `firebase_messaging`,
+`flutter_local_notifications` and the Gradle `google-services` plugin at that point).
 Real-Firebase delivery in the app is **Deferred — needs Firebase project** (TASK-04 §13): the app ships the
 emulator gateway plus the `AuthGateway` interface for the Firebase SDK implementation.
 
