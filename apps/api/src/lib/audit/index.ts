@@ -35,3 +35,8 @@ export function auditLog(
     'admin_action',
   );
 }
+
+/** Citizen self-action audit line (TASK-04): action + user id only — never phone, name or tokens. */
+export function userAudit(requestId: string | undefined, action: 'user.signed_in' | 'user.deleted', userId: string): void {
+  logger.info({ requestId, actorId: userId, action, targetId: userId }, 'user_action');
+}

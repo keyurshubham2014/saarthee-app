@@ -44,6 +44,24 @@ export async function cleanupPhotos(): Promise<CleanupResult> {
   const pending = await findAnonymizedPhotosPendingDeletion();
   result.anonymizedFilesDeleted = (await deletePhotoFiles(pending)).deleted;
   result.failures += pending.length - result.anonymizedFilesDeleted;
+
+  // TASK-04: retry account-erasure deletions — photos once attached, now linked to nothing, file not deleted.
+  const detached = await prisma.photo.findMany({
+    where: {
+      attachedAt: { not: null },
+      deletedAt: null,
+      complaint: null,
+      verification: null,
+      uploadedForComplaint: null,
+      issuePhoto: null,
+      issueEvents: { none: {} },
+      issueVerifications: { none: {} },
+    },
+    select: { id: true, storageKey: true },
+  });
+  const detachedDeleted = (await deletePhotoFiles(detached)).deleted;
+  result.anonymizedFilesDeleted += detachedDeleted;
+  result.failures += detached.length - detachedDeleted;
   return result;
 }
 
