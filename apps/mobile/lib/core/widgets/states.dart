@@ -164,7 +164,8 @@ class SkeletonListState extends State<SkeletonList>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (SaartheeMotion.of(context).shimmer) {
+    // TickerMode off = content has arrived (SkeletonSwitcher): stop sweeping.
+    if (SaartheeMotion.of(context).shimmer && TickerMode.valuesOf(context).enabled) {
       if (!_c.isAnimating) _c.repeat();
     } else {
       _c.stop();
@@ -281,6 +282,11 @@ class SkeletonSwitcher extends StatelessWidget {
       duration: spec.duration,
       switchInCurve: spec.curve,
       switchOutCurve: spec.curve,
+      // The outgoing skeleton stops its shimmer as soon as content arrives.
+      transitionBuilder: (child, animation) => TickerMode(
+        enabled: loading || child.key != const ValueKey('skeleton'),
+        child: FadeTransition(opacity: animation, child: child),
+      ),
       child: loading
           ? KeyedSubtree(key: const ValueKey('skeleton'), child: skeleton)
           : KeyedSubtree(key: const ValueKey('content'), child: child),
