@@ -88,18 +88,20 @@ export async function migrateLegacyComplaints(
         if (rows.length === 0) return 0;
         const issueIds = rows.map((r) => r.id);
 
-        // Report photo at position 0; verification photos in time order.
+        // Report photo at position 0; verification photos in time order. Privacy: never link a deleted photo or
+        // any photo of an anonymized complaint (anonymize deletes them; the import must not resurrect them).
         await tx.$executeRaw`
           INSERT INTO issue_photos (issue_id, photo_id, kind, position)
           SELECT i.id, c.photo_id, 'report', 0
-          FROM issues i JOIN complaints c ON c.id = i.legacy_complaint_id
-          WHERE i.id = ANY(${issueIds}::uuid[])`;
+          FROM issues i JOIN complaints c ON c.id = i.legacy_complaint_id JOIN photos p ON p.id = c.photo_id
+          WHERE i.id = ANY(${issueIds}::uuid[]) AND c.anonymized_at IS NULL AND p.deleted_at IS NULL`;
         await tx.$executeRaw`
           INSERT INTO issue_photos (issue_id, photo_id, kind, position)
           SELECT i.id, v.photo_id, 'verification',
                  (row_number() OVER (PARTITION BY i.id ORDER BY v.created_at, v.id) - 1)::smallint
-          FROM issues i JOIN verifications v ON v.complaint_id = i.legacy_complaint_id
-          WHERE i.id = ANY(${issueIds}::uuid[])`;
+          FROM issues i JOIN complaints c ON c.id = i.legacy_complaint_id
+          JOIN verifications v ON v.complaint_id = c.id JOIN photos p ON p.id = v.photo_id
+          WHERE i.id = ANY(${issueIds}::uuid[]) AND c.anonymized_at IS NULL AND p.deleted_at IS NULL`;
 
         // Status history: reported at creation → sent at the first reminder → verified/reopened per verification.
         await tx.$executeRaw`
@@ -116,8 +118,10 @@ export async function migrateLegacyComplaints(
             WHERE i.id = ANY(${issueIds}::uuid[])
             UNION ALL
             SELECT i.id, v.created_at, 2,
-                   (CASE v.result WHEN 'fixed' THEN 'verified' ELSE 'reopened' END)::issue_status, v.photo_id, v.id
-            FROM issues i JOIN verifications v ON v.complaint_id = i.legacy_complaint_id
+                   (CASE v.result WHEN 'fixed' THEN 'verified' ELSE 'reopened' END)::issue_status,
+                   (CASE WHEN c.anonymized_at IS NULL AND p.deleted_at IS NULL THEN v.photo_id END), v.id
+            FROM issues i JOIN complaints c ON c.id = i.legacy_complaint_id
+            JOIN verifications v ON v.complaint_id = c.id JOIN photos p ON p.id = v.photo_id
             WHERE i.id = ANY(${issueIds}::uuid[])
           ), ordered AS (
             SELECT ev.*, lag(to_status) OVER (PARTITION BY issue_id ORDER BY at, ord, tiebreak) AS from_status

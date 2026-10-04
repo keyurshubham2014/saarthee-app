@@ -2,7 +2,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import categoriesDev from '../../prisma/seed/modules/020-categories-dev';
 import { seedLegacyFixtures } from '../../prisma/seed/legacy-fixtures';
-import { prisma } from '../../src/lib/db';
+import { prisma, withLegacyWrite } from '../../src/lib/db';
+import { anonymizeComplaint } from '../../src/modules/admin-complaints/manage.service';
 import { LegacyMigrationError, migrateLegacyComplaints } from '../../src/lib/legacy/migrate';
 import { createAdmin } from '../helpers/auth';
 import { resetDb } from '../helpers/db';
@@ -82,5 +83,56 @@ describe('legacy:migrate', () => {
     expect(err).toBeInstanceOf(LegacyMigrationError);
     expect((err as Error).message).toContain('Mystery category');
     expect(await prisma.issue.count()).toBe(0);
+  });
+});
+
+describe('legacy photo privacy', () => {
+  async function fixtures() {
+    const { admin } = await createAdmin();
+    await categoriesDev.run(ctx());
+    await seedLegacyFixtures(prisma, ctx().photoDir, admin.id);
+    const c6 = await prisma.complaint.findFirstOrThrow({
+      where: { ccrsNumberRaw: 'AMC-2026-0006' },
+      include: { verifications: true },
+    });
+    expect(c6.verifications.length).toBeGreaterThan(0);
+    return c6;
+  }
+
+  const photoRefs = async (complaintId: string) => {
+    const issue = await prisma.issue.findUniqueOrThrow({
+      where: { legacyComplaintId: complaintId },
+      include: { photos: true, events: true },
+    });
+    return { issue, photos: issue.photos.length, eventPhotos: issue.events.filter((e) => e.photoId !== null).length };
+  };
+
+  it('does not link the photos of a complaint anonymized before the import', async () => {
+    const c6 = await fixtures();
+    await withLegacyWrite(async (tx) => {
+      await tx.complaint.update({ where: { id: c6.id }, data: { phoneE164: null, anonymizedAt: new Date() } });
+      await tx.photo.updateMany({
+        where: { id: { in: [c6.photoId, ...c6.verifications.map((v) => v.photoId)] } },
+        data: { deletedAt: new Date() },
+      });
+    });
+    await migrateLegacyComplaints(prisma);
+    const refs = await photoRefs(c6.id);
+    expect(refs.photos).toBe(0);
+    expect(refs.eventPhotos).toBe(0);
+    // History is still complete; only the photo references are dropped.
+    expect(refs.issue.events).toHaveLength(4);
+  });
+
+  it('anonymizing after the import unlinks issue photos and event photo references', async () => {
+    const c6 = await fixtures();
+    await migrateLegacyComplaints(prisma);
+    const before = await photoRefs(c6.id);
+    expect(before.photos).toBe(1 + c6.verifications.length);
+    expect(before.eventPhotos).toBe(c6.verifications.length);
+    await anonymizeComplaint(c6.id);
+    const after = await photoRefs(c6.id);
+    expect(after.photos).toBe(0);
+    expect(after.eventPhotos).toBe(0);
   });
 });

@@ -155,8 +155,15 @@ export async function anonymizeComplaint(id: string): Promise<{ anonymizedAt: st
     });
     anonymizedAt = now;
   }
-  // The imported v2 issue (legacy:migrate) no longer shows the complaint's photos.
-  await prisma.issuePhoto.deleteMany({ where: { issue: { legacyComplaintId: id } } });
+  // The imported v2 issue (legacy:migrate) no longer shows or references the complaint's photos: unlink
+  // issue_photos and null issue_events.photo_id (append-only table; the legacy-write setting is its bypass).
+  await withLegacyWrite(async (tx) => {
+    await tx.issuePhoto.deleteMany({ where: { issue: { legacyComplaintId: id } } });
+    await tx.issueEvent.updateMany({
+      where: { issue: { legacyComplaintId: id }, photoId: { not: null } },
+      data: { photoId: null },
+    });
+  });
   await deletePhotoFiles(await findAnonymizedPhotosPendingDeletion(id));
   return { anonymizedAt: anonymizedAt.toISOString() };
 }
