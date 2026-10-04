@@ -23,12 +23,22 @@ export function createApp() {
         config.APP_ENV === 'production' ? { maxAge: 15_552_000, includeSubDomains: true, preload: false } : false,
     }),
   );
-  if (config.CORS_ORIGINS.length > 0) {
+  // CORS: exact-origin allow-list (CORS_ORIGINS + TASK-10 STAFF_WEB_ORIGINS); credentials off, Authorization allowed.
+  const corsOrigins = [...config.CORS_ORIGINS, ...config.STAFF_WEB_ORIGINS];
+  if (corsOrigins.length > 0) {
     app.use((req, res, next) => {
       const origin = req.header('origin');
-      if (origin && config.CORS_ORIGINS.includes(origin)) {
+      if (origin && corsOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Vary', 'Origin');
+        if (req.method === 'OPTIONS') {
+          res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+          res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept-Language');
+          res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
+          res.setHeader('Access-Control-Max-Age', '600');
+          return void res.status(204).end();
+        }
+        res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
       }
       next();
     });
