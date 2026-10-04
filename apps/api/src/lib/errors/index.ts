@@ -32,6 +32,13 @@ export const ERROR_CODES = {
   FORBIDDEN: { status: 403, message: "You don't have permission to do this." },
   WARD_NOT_FOUND: { status: 422, message: 'Please choose your ward again.' },
   FIREBASE_UNAVAILABLE: { status: 503, message: 'Sign-in is unavailable right now. Please try again later.' },
+  // TASK-12 (services and initiatives).
+  INITIATIVE_NOT_OPEN: { status: 409, message: 'This drive is not taking RSVPs.' },
+  INITIATIVE_FULL: { status: 409, message: 'This drive is full.' },
+  INITIATIVE_STARTED: { status: 409, message: 'This drive has already started.' },
+  INITIATIVE_NOT_STARTED: { status: 409, message: 'Attendance can be marked once the drive starts.' },
+  INVALID_TRANSITION: { status: 409, message: 'That status change is not allowed.' },
+  SLUG_TAKEN: { status: 409, message: 'That short name is already used.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

@@ -42,3 +42,34 @@ export function auditLog(
 export function userAudit(requestId: string | undefined, action: 'user.signed_in' | 'user.deleted', userId: string): void {
   logger.info({ requestId, actorId: userId, action, targetId: userId }, 'user_action');
 }
+
+/** TASK-12 staff content actions (services, initiatives, tips, attendance). */
+export type StaffAuditAction =
+  | 'service.created'
+  | 'service.updated'
+  | 'service.deactivated'
+  | 'service.link_checked'
+  | 'initiative.created'
+  | 'initiative.updated'
+  | 'initiative.status_changed'
+  | 'initiative.attendance_marked'
+  | 'tip.created'
+  | 'tip.updated'
+  | 'tip.deleted';
+
+/**
+ * Staff audit line (TASK-12 §5.3): `{actor, role, action, targetType, targetId}` and small non-personal
+ * extras only — never request bodies, names or phone numbers. TASK-10 may persist these lines.
+ */
+export function staffAudit(
+  req: Request,
+  action: StaffAuditAction,
+  targetType: 'service' | 'initiative' | 'tip',
+  targetId: string,
+  extra?: Record<string, string | number | boolean | null>,
+): void {
+  logger.info(
+    { requestId: req.id, actor: req.user?.id, role: req.user?.role, action, targetType, targetId, ...(extra ?? {}) },
+    'staff_action',
+  );
+}

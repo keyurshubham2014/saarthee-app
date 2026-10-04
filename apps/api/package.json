@@ -31,7 +31,10 @@
     "geo:import": "tsx --env-file=.env scripts/geo/import.ts",
     "geo:crosscheck": "tsx --env-file=.env scripts/geo/crosscheck.ts",
     "geo:backfill": "tsx --env-file=.env scripts/geo/backfill.ts",
-    "geo:fixture": "tsx --env-file=.env scripts/geo/fixture.ts"
+    "geo:fixture": "tsx --env-file=.env scripts/geo/fixture.ts",
+    "services:seed": "tsx --env-file=.env scripts/seed-services.ts",
+    "services:check-links": "tsx --env-file=.env scripts/check-service-links.ts",
+    "initiatives:remind": "tsx --env-file=.env scripts/remind-initiatives.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed/index.ts"
