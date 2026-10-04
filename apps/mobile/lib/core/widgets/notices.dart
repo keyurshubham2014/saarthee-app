@@ -56,6 +56,12 @@ class NoticeBanner extends StatelessWidget {
       NoticeKind.electionMode => c.warning,
       _ => c.info,
     };
+    final retry = onRetry == null
+        ? null
+        : TextButton(onPressed: onRetry, child: Text(l10n.commonRetry));
+    // Large text (≥ 1.5×, DS §7): "Try again" moves under the message so
+    // the row never overflows.
+    final stacked = MediaQuery.textScalerOf(context).scale(1) >= 1.5;
     return Semantics(
       liveRegion: true,
       container: true,
@@ -76,14 +82,19 @@ class NoticeBanner extends StatelessWidget {
             Icon(icon, color: iconColor, size: AppSpacing.iconSize),
             const SizedBox(width: AppSpacing.s12),
             Expanded(
-              child: Text(
-                message ?? text,
-                style: Theme.of(context).textTheme.bodyMedium
-                    ?.copyWith(color: fg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    message ?? text,
+                    style: Theme.of(context).textTheme.bodyMedium
+                        ?.copyWith(color: fg),
+                  ),
+                  if (stacked && retry != null) retry,
+                ],
               ),
             ),
-            if (onRetry != null)
-              TextButton(onPressed: onRetry, child: Text(l10n.commonRetry)),
+            if (!stacked && retry != null) retry,
           ],
         ),
       ),

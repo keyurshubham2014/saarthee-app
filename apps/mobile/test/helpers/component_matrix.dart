@@ -8,6 +8,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/core/l10n/app_localizations.dart';
 
@@ -102,6 +103,27 @@ final tinyPng = base64Decode(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA'
   '60e6kgAAAABJRU5ErkJggg==',
 );
+
+/// Captures `SemanticsService` announcements for the rest of the test.
+List<String> captureMatrixAnnouncements(WidgetTester t) {
+  final announced = <String>[];
+  final messenger = t.binding.defaultBinaryMessenger;
+  messenger.setMockDecodedMessageHandler<dynamic>(
+    SystemChannels.accessibility,
+    (m) async {
+      final data = (m as Map)['data'] as Map?;
+      if (data?['message'] is String) announced.add(data!['message'] as String);
+      return null;
+    },
+  );
+  addTearDown(
+    () => messenger.setMockDecodedMessageHandler<dynamic>(
+      SystemChannels.accessibility,
+      null,
+    ),
+  );
+  return announced;
+}
 
 /// Asserts a semantics node with exactly [label] exists.
 void expectSemantics(String label) =>
