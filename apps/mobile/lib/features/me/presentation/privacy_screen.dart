@@ -91,10 +91,9 @@ class _PrivacyScreenState extends ConsumerState<PrivacyScreen> {
     final l10n = AppLocalizations.of(context);
     final deleted = await showDeleteAccountDialog(context);
     if (!deleted || !mounted) return;
-    final router = GoRouter.of(context);
-    router.go('/');
-    final ctx = router.routerDelegate.navigatorKey.currentContext;
-    if (ctx != null && ctx.mounted) showSaartheeToast(ctx, l10n.accountDeleted);
+    // The toast lives in the root overlay, so it stays up after the go.
+    showSaartheeToast(context, l10n.accountDeleted);
+    GoRouter.of(context).go('/');
   }
 
   @override

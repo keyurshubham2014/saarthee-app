@@ -66,7 +66,8 @@ class MeActions {
     try {
       await _ref.read(fileSharerProvider).share(file, subject: subject);
     } finally {
-      if (await file.exists()) await file.delete();
+      // Small file; synchronous cleanup keeps it simple and certain.
+      if (file.existsSync()) file.deleteSync();
     }
   }
 
@@ -94,7 +95,9 @@ class CacheExportFileWriter implements ExportFileWriter {
   @override
   Future<File> write(String name, String contents) async {
     final dir = await getTemporaryDirectory();
-    return File('${dir.path}/$name').writeAsString(contents, flush: true);
+    final file = File('${dir.path}/$name')
+      ..writeAsStringSync(contents, flush: true);
+    return file;
   }
 }
 

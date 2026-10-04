@@ -161,8 +161,8 @@ class FakeFileSharer implements FileSharer {
 class MemoryExportWriter implements ExportFileWriter {
   @override
   Future<File> write(String name, String contents) async {
-    final dir = await Directory.systemTemp.createTemp('saarthee-export');
-    return File('${dir.path}/$name').writeAsString(contents);
+    final dir = Directory.systemTemp.createTempSync('saarthee-export');
+    return File('${dir.path}/$name')..writeAsStringSync(contents);
   }
 }
 
