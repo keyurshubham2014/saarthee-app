@@ -26,6 +26,12 @@ const WHO: Record<string, Actor[]> = {
 
 function expected(from: IssueStatus, to: string, actor: Actor): [number, string | null] {
   if (actor === 'citizen') return [403, 'FORBIDDEN_ROLE'];
+  if (actor === 'rep') {
+    // TASK-11 representative rules (pre-transition hook, before the table): acknowledge and mark fixed only.
+    const REP: Record<string, IssueStatus[]> = { acknowledged: ['reported', 'sent'], marked_fixed: OPEN };
+    if (!REP[to]) return [403, 'FORBIDDEN_ROLE'];
+    return REP[to]!.includes(from) ? [200, null] : [409, 'INVALID_TRANSITION'];
+  }
   if (!FROM[to]!.includes(from)) return [409, 'INVALID_TRANSITION'];
   if (!WHO[to]!.includes(actor)) return [403, 'FORBIDDEN_ROLE'];
   return [200, null];
@@ -96,16 +102,16 @@ describe('transition table via POST /status (T-06-01)', () => {
 });
 
 describe('representative ward scope (T-06-02)', () => {
-  it('own ward 200, other ward 403 OUT_OF_WARD, unverified representative 403', async () => {
+  it('own ward 200, other ward 403 WARD_OUT_OF_SCOPE (TASK-11 hook), unverified representative 403', async () => {
     const own = await openIssue(reporter.user.id, { wardNumber: 1 });
     const other = await openIssue(reporter.user.id, { wardNumber: 2 });
     expect((await postStatus(auths.rep, own.id, 'acknowledged', 'reported')).status).toBe(200);
     const res = await postStatus(auths.rep, other.id, 'acknowledged', 'reported');
     expect(res.status).toBe(403);
-    expect(res.body.error.code).toBe('OUT_OF_WARD');
+    expect(res.body.error.code).toBe('WARD_OUT_OF_SCOPE');
     const unverified = await representative([ward1, ward2], false);
     const r2 = await postStatus(unverified.auth, own.id, 'in_progress', 'acknowledged');
     expect(r2.status).toBe(403);
-    expect(r2.body.error.code).toBe('OUT_OF_WARD');
+    expect(r2.body.error.code).toBe('WARD_OUT_OF_SCOPE');
   });
 });

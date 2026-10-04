@@ -81,6 +81,15 @@ export const ERROR_CODES = {
   ROLE_CHANGE_INVALID: { status: 422, message: "This person's role can't be changed here." },
   // TASK-07 (discovery).
   WARD_REQUIRED: { status: 400, message: 'Choose a ward to see its feed.' },
+  // TASK-11 (representative claims, ward dashboard). WARD_OUT_OF_SCOPE and ELECTION_MODE_FROZEN are shared above.
+  CLAIM_ALREADY_PENDING: { status: 409, message: 'You already have a claim waiting for review.' },
+  REPRESENTATIVE_ALREADY_VERIFIED: { status: 409, message: 'This profile is already verified. Contact Saarthee if this is wrong.' },
+  REPRESENTATIVE_TERM_ENDED: { status: 422, message: 'This term has ended. Claims are open only for the current term.' },
+  ROLE_CONFLICT: { status: 409, message: "Staff accounts can't also be representative accounts. Use a separate phone number." },
+  CLAIM_NOT_PENDING: { status: 409, message: 'This claim was already decided.' },
+  NOT_VERIFIED: { status: 409, message: 'This representative is not verified.' },
+  ALREADY_REPLIED: { status: 409, message: 'This message already has a reply.' },
+  BAD_SIGNATURE: { status: 401, message: 'Signature check failed.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

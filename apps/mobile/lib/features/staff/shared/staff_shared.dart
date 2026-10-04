@@ -119,6 +119,32 @@ final List<StaffNavItem> staffNavItems = <StaffNavItem>[
     section: StaffNavSection.admin,
     emailSession: true,
   ),
+  // TASK-11 representative console (phone sign-in) and claim review.
+  const StaffNavItem(
+    route: '/staff/ward',
+    labelKey: 'wardDashNav',
+    icon: SaartheeIcons.dashboard,
+    roles: {'representative', 'moderator', 'admin'},
+  ),
+  const StaffNavItem(
+    route: '/staff/ward/issues',
+    labelKey: 'wardDashIssuesNav',
+    icon: SaartheeIcons.listAlt,
+    roles: {'representative', 'moderator', 'admin'},
+  ),
+  const StaffNavItem(
+    route: '/staff/messages',
+    labelKey: 'repMsgNav',
+    icon: SaartheeIcons.message,
+    roles: {'representative'},
+  ),
+  const StaffNavItem(
+    route: '/staff/claims',
+    labelKey: 'repClaimNav',
+    icon: SaartheeIcons.badge,
+    roles: {'moderator', 'admin'},
+    section: StaffNavSection.admin,
+  ),
 ];
 
 /// TASK-10: the items a role sees, ordered by section (Dashboard and

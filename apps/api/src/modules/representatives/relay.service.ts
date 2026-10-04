@@ -5,6 +5,7 @@
  * Never logs subject, body, phone numbers or email addresses.
  */
 import { config } from '../../config';
+import { newReplyToken, replyAddress } from '../rep-messages/inbox.service';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { logger } from '../../lib/logger';
@@ -124,10 +125,13 @@ export async function attemptSend(messageId: string, now = new Date()): Promise<
   try {
     if (!msg.representative.publicEmail) throw Object.assign(new Error('no contact'), { code: 'REP_NO_CONTACT' });
     const mail = renderRelayEmail(msg);
+    // TASK-11: per-message Reply-To so replies sent by email are tracked (inbound webhook).
+    const replyToken = msg.replyToken ?? newReplyToken();
+    if (!msg.replyToken) await prisma.repMessage.update({ where: { id: messageId }, data: { replyToken } });
     const { providerMessageId } = await sendMail({
       from: `Saarthee Relay <${config.SES_FROM}>`,
       to: msg.representative.publicEmail,
-      replyTo: config.EMAIL_OPS_ADDRESS,
+      replyTo: replyAddress(replyToken),
       ...mail,
       tag: 'relay',
     });

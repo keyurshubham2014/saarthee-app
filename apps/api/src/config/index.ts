@@ -122,6 +122,12 @@ const schema = z.object({
   MAP_CLUSTER_MAX_ZOOM: int(1).max(20).default(15),
   MAP_POINTS_MAX: int(1).max(5000).default(500),
   ISSUES_PAGE_MAX: int(1).max(200).default(50),
+  // TASK-11 representative claims, ward dashboard, reply-by-email tracking.
+  REP_CLAIM_MAX_PER_DAY: int(1).default(3),
+  REP_EXPORT_MAX_PER_HOUR: int(1).default(10),
+  MAIL_INBOUND_SECRET: optionalEmpty(z.string().min(16)),
+  MAIL_REPLY_DOMAIN: z.string().regex(/^[a-z0-9.-]+$/).default('reply.saarthee.local'),
+  REP_DASHBOARD_HOTSPOT_CELL_M: int(10).max(5000).default(150),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;

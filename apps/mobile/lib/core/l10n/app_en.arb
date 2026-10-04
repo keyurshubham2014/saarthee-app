@@ -4786,5 +4786,705 @@
   "discoveryShareIndependence": "Independent citizen app. Not run by or linked to AMC.",
   "@discoveryShareIndependence": {
     "description": "TASK-07 discovery"
+  },
+  "repClaimVerified": "Verified representative",
+  "@repClaimVerified": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimVerifiedHelper": "Checked by Saarthee on {date} · {method} · Valid until {until}",
+  "@repClaimVerifiedHelper": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "method": {
+        "type": "String"
+      },
+      "until": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimVerifiedSemantics": "Verified representative, checked on {date}",
+  "@repClaimVerifiedSemantics": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimExpired": "Verification ended with the term",
+  "@repClaimExpired": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimLink": "Are you {name}? Claim this profile",
+  "@repClaimLink": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimMethodCertificate": "Certificate of election",
+  "@repClaimMethodCertificate": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimMethodGazette": "Official gazette",
+  "@repClaimMethodGazette": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimMethodInPerson": "In person",
+  "@repClaimMethodInPerson": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimMethodEmail": "Official email",
+  "@repClaimMethodEmail": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimTitle": "Claim this profile",
+  "@repClaimTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStep": "Step {step} of {total}",
+  "@repClaimStep": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "repClaimBody": "Upload a clear photo of your certificate of election or another official document that shows your name and ward. Only Saarthee admins see it.",
+  "@repClaimBody": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimAddCamera": "Take photo",
+  "@repClaimAddCamera": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimAddGallery": "Choose from gallery",
+  "@repClaimAddGallery": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimPhotoCount": "{count} of 3 photos",
+  "@repClaimPhotoCount": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repClaimRemovePhoto": "Remove photo",
+  "@repClaimRemovePhoto": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimUploading": "Uploading…",
+  "@repClaimUploading": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimUploadFailed": "Upload failed.",
+  "@repClaimUploadFailed": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimRetry": "Try again",
+  "@repClaimRetry": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimNoteLabel": "Note (optional)",
+  "@repClaimNoteLabel": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimEvidenceRequired": "Add at least one photo.",
+  "@repClaimEvidenceRequired": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimContinue": "Continue",
+  "@repClaimContinue": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimCheckTitle": "Check and send",
+  "@repClaimCheckTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimEvidenceRow": "Evidence photos",
+  "@repClaimEvidenceRow": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimNoteRow": "Note",
+  "@repClaimNoteRow": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimNoNote": "No note",
+  "@repClaimNoNote": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimChange": "Change",
+  "@repClaimChange": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimConsent": "I confirm I am {name} and the documents are genuine. False claims lead to account suspension.",
+  "@repClaimConsent": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimConsentRequired": "Tick the confirmation to send.",
+  "@repClaimConsentRequired": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimSend": "Send claim",
+  "@repClaimSend": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimSeeMine": "See my claims",
+  "@repClaimSeeMine": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimDoneTitle": "Claim sent",
+  "@repClaimDoneTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimDoneBody": "We'll review it, usually within 2 working days. We'll notify you.",
+  "@repClaimDoneBody": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimDone": "Done",
+  "@repClaimDone": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimMyRow": "My representative claims",
+  "@repClaimMyRow": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStatusPending": "Waiting for review",
+  "@repClaimStatusPending": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStatusApproved": "Approved",
+  "@repClaimStatusApproved": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStatusRejected": "Not approved",
+  "@repClaimStatusRejected": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStatusRejectedReason": "Not approved: {reason}",
+  "@repClaimStatusRejectedReason": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimStatusExpired": "Ended with term",
+  "@repClaimStatusExpired": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStatusWithdrawn": "Withdrawn",
+  "@repClaimStatusWithdrawn": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimStatusRevoked": "Verification removed",
+  "@repClaimStatusRevoked": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimWithdraw": "Withdraw claim",
+  "@repClaimWithdraw": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimOffline": "You're offline. Your photos stay here until you send.",
+  "@repClaimOffline": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimErrorPending": "You already have a claim waiting for review.",
+  "@repClaimErrorPending": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimErrorVerified": "This profile is already verified. Contact Saarthee if this is wrong.",
+  "@repClaimErrorVerified": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimErrorTermEnded": "This term has ended. Claims are open only for the current term.",
+  "@repClaimErrorTermEnded": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimErrorRoleConflict": "Staff accounts can't also be representative accounts. Use a separate phone number.",
+  "@repClaimErrorRoleConflict": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashErrorOutOfScope": "You can only act on issues in your wards.",
+  "@wardDashErrorOutOfScope": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashErrorFrozen": "Election mode is on. Comments and updates are paused.",
+  "@wardDashErrorFrozen": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimNav": "Claims",
+  "@repClaimNav": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimsTitle": "Representative claims",
+  "@repClaimsTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimFilterPending": "Pending",
+  "@repClaimFilterPending": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimFilterApproved": "Approved",
+  "@repClaimFilterApproved": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimFilterRejected": "Not approved",
+  "@repClaimFilterRejected": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimsEmpty": "No claims waiting.",
+  "@repClaimsEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimsLoadError": "Couldn't load claims.",
+  "@repClaimsLoadError": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimPhoneMatchYes": "Phone matches",
+  "@repClaimPhoneMatchYes": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimPhoneMatchNo": "Phone differs",
+  "@repClaimPhoneMatchNo": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimPhoneLine": "Phone matches the number on record: {answer}",
+  "@repClaimPhoneLine": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimYes": "Yes",
+  "@repClaimYes": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimNo": "No",
+  "@repClaimNo": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimEvidenceCount": "{count} photos",
+  "@repClaimEvidenceCount": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repClaimSubmitted": "Submitted {date}",
+  "@repClaimSubmitted": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimEvidenceAdminOnly": "Evidence — visible to admins only",
+  "@repClaimEvidenceAdminOnly": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimRecordTitle": "Representative record",
+  "@repClaimRecordTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimTerm": "Term {start} – {end}",
+  "@repClaimTerm": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimSource": "Source",
+  "@repClaimSource": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimClaimant": "Claimant: {name}",
+  "@repClaimClaimant": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "repClaimApprove": "Approve",
+  "@repClaimApprove": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimReject": "Reject",
+  "@repClaimReject": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimApproveTitle": "Approve claim",
+  "@repClaimApproveTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimMethodLabel": "Verification method",
+  "@repClaimMethodLabel": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimMethodRequired": "Choose a method.",
+  "@repClaimMethodRequired": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimRejectTitle": "Reject claim",
+  "@repClaimRejectTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimReasonLabel": "Reason (5 to 300 characters)",
+  "@repClaimReasonLabel": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimReasonError": "Give a reason of 5 to 300 characters.",
+  "@repClaimReasonError": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimModeratorReadOnly": "Only admins can decide claims.",
+  "@repClaimModeratorReadOnly": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimDecided": "Decision saved.",
+  "@repClaimDecided": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimConflict": "This claim was already decided.",
+  "@repClaimConflict": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimRevoke": "Revoke verification",
+  "@repClaimRevoke": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimRevoked": "Verification revoked.",
+  "@repClaimRevoked": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repClaimCancel": "Cancel",
+  "@repClaimCancel": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashNav": "Ward dashboard",
+  "@wardDashNav": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashIssuesNav": "Ward issues",
+  "@wardDashIssuesNav": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgNav": "Messages",
+  "@repMsgNav": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashWard": "Ward {number} · {name}",
+  "@wardDashWard": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "wardDashSwitchWard": "Switch ward",
+  "@wardDashSwitchWard": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashOpen": "Open",
+  "@wardDashOpen": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashOverdue": "Overdue",
+  "@wardDashOverdue": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashFixed30": "Fixed in 30 days",
+  "@wardDashFixed30": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashVerified30": "Verified in 30 days",
+  "@wardDashVerified30": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashByCategory": "Open issues by category and age",
+  "@wardDashByCategory": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashColCategory": "Category",
+  "@wardDashColCategory": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashCol0to7": "0–7 days",
+  "@wardDashCol0to7": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashCol8to30": "8–30 days",
+  "@wardDashCol8to30": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashCol31": "Over 30 days",
+  "@wardDashCol31": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashColTotal": "Total",
+  "@wardDashColTotal": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashOverdueTitle": "Overdue",
+  "@wardDashOverdueTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashOverdueAge": "{days} days old",
+  "@wardDashOverdueAge": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "wardDashOverdueEmpty": "Nothing overdue.",
+  "@wardDashOverdueEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashHotspots": "Hotspots",
+  "@wardDashHotspots": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashHotspotRow": "{count} open issues near {lat}, {lng}",
+  "@wardDashHotspotRow": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "wardDashHotspotsEmpty": "No clusters of open issues.",
+  "@wardDashHotspotsEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashTrend": "Resolution trend",
+  "@wardDashTrend": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashTrendLegend": "Bars: marked fixed per week, last 12 weeks",
+  "@wardDashTrendLegend": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashShowTable": "Show as table",
+  "@wardDashShowTable": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashShowChart": "Show as chart",
+  "@wardDashShowChart": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashWeek": "Week of",
+  "@wardDashWeek": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashReported": "Reported",
+  "@wardDashReported": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashMarkedFixed": "Marked fixed",
+  "@wardDashMarkedFixed": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashVerified": "Verified",
+  "@wardDashVerified": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashDownload": "Download CSV",
+  "@wardDashDownload": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashDownloaded": "CSV ready.",
+  "@wardDashDownloaded": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashEmpty": "No open issues in this ward.",
+  "@wardDashEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashLoadError": "Couldn't load the dashboard.",
+  "@wardDashLoadError": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashStale": "Showing data from {time}",
+  "@wardDashStale": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "wardDashElection": "Election mode is on. Comments are paused.",
+  "@wardDashElection": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashNoScope": "No wards are linked to your account yet.",
+  "@wardDashNoScope": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashFilterAll": "All",
+  "@wardDashFilterAll": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashFilterOverdue": "Overdue only",
+  "@wardDashFilterOverdue": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashActAck": "Acknowledge",
+  "@wardDashActAck": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashActFixed": "Mark fixed",
+  "@wardDashActFixed": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashActComment": "Add comment",
+  "@wardDashActComment": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashCommentLabel": "Comment (up to 500 characters)",
+  "@wardDashCommentLabel": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashCommentFrozen": "Comments are paused while election mode is on.",
+  "@wardDashCommentFrozen": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashActionDone": "Saved.",
+  "@wardDashActionDone": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashIssuesEmpty": "No issues match.",
+  "@wardDashIssuesEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "wardDashSend": "Send",
+  "@wardDashSend": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgTitle": "Messages",
+  "@repMsgTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgEmpty": "No messages yet.",
+  "@repMsgEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgLoadError": "Couldn't load messages.",
+  "@repMsgLoadError": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgUnread": "Unread",
+  "@repMsgUnread": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgStatusSent": "Sent",
+  "@repMsgStatusSent": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgStatusReplied": "Replied",
+  "@repMsgStatusReplied": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgIssueLink": "Linked issue",
+  "@repMsgIssueLink": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgSharedPhone": "Shared phone: {phone}",
+  "@repMsgSharedPhone": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "repMsgReplyLabel": "Reply (up to 2,000 characters)",
+  "@repMsgReplyLabel": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgReplySend": "Send reply",
+  "@repMsgReplySend": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgRepliedEmail": "Replied by email on {date}",
+  "@repMsgRepliedEmail": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repMsgRepliedApp": "Replied in Saarthee on {date}",
+  "@repMsgRepliedApp": {
+    "description": "TASK-11 representative claim / ward dashboard / messages",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repMsgReplySent": "Reply sent.",
+  "@repMsgReplySent": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgMineTitle": "My messages",
+  "@repMsgMineTitle": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgMineEmpty": "You haven't messaged a representative yet.",
+  "@repMsgMineEmpty": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgMineRow": "My messages to representatives",
+  "@repMsgMineRow": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "repMsgAwaiting": "Waiting for a reply",
+  "@repMsgAwaiting": {
+    "description": "TASK-11 representative claim / ward dashboard / messages"
   }
 }

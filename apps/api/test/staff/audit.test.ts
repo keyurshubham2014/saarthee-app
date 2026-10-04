@@ -60,7 +60,8 @@ describe('audit (T-10-02)', () => {
       for (const key of ['note', 'body', 'phone', 'displayName', 'name']) expect(Object.keys(line), action).not.toContain(key);
       seen.add(action);
     }
-    expect([...seen].sort()).toEqual([...STAFF_AUDIT_ACTIONS].sort());
+    // TASK-11 actions (rep_*, ward_export) are covered by test/representatives/t11-*.test.ts.
+    expect([...seen].sort()).toEqual(STAFF_AUDIT_ACTIONS.filter((a) => !a.startsWith('rep_') && a !== 'ward_export').sort());
     expect(await prisma.issue.count({ where: { status: 'rejected' } })).toBe(1);
   });
 });

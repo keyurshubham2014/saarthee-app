@@ -190,9 +190,13 @@ class RepDetail {
     this.officePhone,
     this.wardNameEn,
     this.wardNameGu,
+    this.verificationJson,
   });
 
   final RepSummary summary;
+
+  /// TASK-11 public verification block (parsed by the rep_claim feature).
+  final Map<String, dynamic>? verificationJson;
   final DateTime? termStart;
   final DateTime? termEnd;
   final String? officePhone;
@@ -222,6 +226,7 @@ class RepDetail {
       lastVerifiedAt: date('lastVerifiedAt'),
       wardNameEn: ward?['nameEn'] as String?,
       wardNameGu: ward?['nameGu'] as String?,
+      verificationJson: j['verification'] as Map<String, dynamic>?,
       election: ElectionStatus.fromJson(
         j['electionMode'] as Map<String, dynamic>?,
       ),

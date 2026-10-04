@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-11 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P1 |
 | Size | M |
 | Depends On | TASK-06, TASK-09, TASK-10 |
 | Blocks | TASK-14 |
 | Requirement IDs | REQ-F-053, REQ-F-054, REQ-F-055, REQ-F-056, REQ-F-066 |
 | Primary Spec Refs | Spec §3, §5, §6 (`representatives`, `rep_claims`, `rep_messages`), §7 (Representatives, Staff), §8 (`/staff/*`), §11 (Neutrality); DS §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons), DS §5 (Representative row, list rows, chips, Stat tiles), DS §6 (Motion: Scorecard and dashboards; Staff console), DS §7, DS §9 (Representative: Ward dashboard, Ward issues, Messages) |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -245,6 +245,21 @@ A representative whose verification expires or is revoked has `users.role` set b
 - ASSUMPTION: The category × age table cells and the overdue list do not count up (DS §6 names numbers in stat tiles and bars); only the four stat tiles, trend bars and category-total bars animate.
 - ASSUMPTION: Evidence photos are deleted 90 days after the decision (privacy minimisation); TASK-13 runs the deletion with its retention jobs.
 
+**Build assumptions (W-REPD, 2026-10-04):**
+- ASSUMPTION: The representative rule table is a pre-transition hook registered on TASK-06's `transitionInTx()` (`registerPreTransitionHook`, `src/modules/ward-dashboard/rep-hook.ts`), run before the state-machine table. Out-of-scope representative calls now answer `WARD_OUT_OF_SCOPE` (TASK-06's `OUT_OF_WARD` remains for no one); `in_progress`, `rejected` → 403 `FORBIDDEN_ROLE`; `reopened → acknowledged` → 409 `INVALID_TRANSITION`. TASK-06's T-06-01/T-06-02 expectations were updated accordingly. TASK-06's pure `TRANSITIONS` table is unchanged.
+- ASSUMPTION: `verified` and `merged` are not accepted `to` values of `POST /issues/{id}/status` for anyone (TASK-06 schema), so a representative gets 400 `VALIDATION_FAILED` for them (not 403); the issue is unchanged either way (T-11-10). `POST /issues/{id}/verifications` returns 403 `FORBIDDEN_ROLE` for any `representative` role.
+- ASSUMPTION: `rep_claim_status` is a Postgres enum (TASK-09), so `expired`/`revoked`/`withdrawn` were added with `ALTER TYPE … ADD VALUE` instead of the §5.2 CHECK; `representatives.user_id` already had a full unique index (`uq_representatives_user`), so the partial index was not added.
+- ASSUMPTION: Scope view `rep_scope_wards_v` treats `term_end` as an IST calendar date (a term ending today still counts) and `term_end IS NULL` as open-ended. `requireStaff` and TASK-06's `representativeWardIds()` both read it, so MLA/MP constituency wards and the request-time term check apply everywhere.
+- ASSUMPTION: Evidence photos are marked `attached_at` when the claim is submitted (so the unattached-photo cleanup keeps them) but are never linked to an issue; `GET /media/photos/{id}` serves `rep_evidence` only to its uploader (moderators get 404); admins read them through `/staff/rep-claims/{id}/evidence/{photoId}` (`no-store`).
+- ASSUMPTION: `otp_verified` = the claimant's account has a phone and a Firebase uid (every v2 sign-in is phone OTP).
+- ASSUMPTION: The six error codes keep their `src/lib/errors` messages; app copy uses `repClaimError*` / `wardDashError*` ARB keys (Dart identifiers) instead of `errorCode_<CODE>`.
+- ASSUMPTION: `GET /staff/ward/scope` (new, AMR) feeds the ward switcher; moderators/admins get every ward. Staff nav: representatives → Ward dashboard · Ward issues · Messages (and `/staff` opens the ward dashboard); moderators/admins also see Ward dashboard/Ward issues and Claims (admin section).
+- ASSUMPTION: Hotspots ship as the accessible list; the map layer is Deferred until TASK-07's map widget is on main (§12 "reuse TASK-07 map widget").
+- ASSUMPTION: "Mark fixed" from the ward issue sheet takes an optional note; adding an after photo stays on TASK-06's issue page (`/issues/:id/mark-fixed`), which already calls the same endpoint.
+- ASSUMPTION: Bars grow when first built; the dashboard is a lazily built `ListView`, so lower sections (trend) build — and animate — as they scroll into view. `ScorecardBar` gained an additive `vertical` variant for the trend columns.
+- ASSUMPTION: Seed user "Sample Representative Demo" (`+919000000027`, uid `seed-uid-27`) is verified for Sample Corporator 18-A (Navrangpura); ward 30 (Paldi) records stay unclaimed for the claim walkthrough. The seed test now expects 7 users.
+- ASSUMPTION: Reply-To for relayed mail is `reply+<token>@MAIL_REPLY_DOMAIN` (TASK-09's relay test updated); the inbound webhook is disabled (401) until `MAIL_INBOUND_SECRET` is set.
+
 ## 6. Implementation Steps
 
 1. **Migration.** Create `<timestamp>_v2_rep_claims_dashboard` per §5.2; update `schema.prisma`; add `rep_scope_wards_v`; run `prisma generate`, typecheck, lint.
@@ -478,29 +493,38 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (emulator, web console and recordings pending — integrator)
 
-**Progress:** 0%
+**Progress:** 90%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migration `20261016110000_v2_rep_claims_dashboard` (enum values, review/reply columns, `rep_scope_wards_v`), errors, audit actions, config; claims/review/expire, ward dashboard + CSV, representative transition hook, comments, messages inbox + signed webhook | e2db23c |
+| 2026-10-04 | API tests T-11-01..08, T-11-15, T-11-16; `mail-inbound-sim` script | 3accb51 |
+| 2026-10-04 | API tests T-11-09..14 | 34b1ac9 |
+| 2026-10-04 | Dev seed module 120-rep-claims | 3f1b4ba |
+| 2026-10-04 | App: claim flow, verified badge, Me rows, `/me/messages`, ARB en+gu (146 keys) | 4621759 |
+| 2026-10-04 | Staff console: ward dashboard (count-up, bars), ward issues sheet, messages, claims review; nav/routes | 06988a4 |
+| 2026-10-04 | Widget tests W-11-01..08 | d4e19b9 |
+
+Checks at hand-off: api `tsc` + `eslint` clean, Vitest 401 pass / 2 fail (both pre-existing: `single-writer` flags TASK-10's `staff/status.service.ts`, being rewired by W-INT10; `alerts/staff-flow` T-08-05 concurrency flake, fails 1 in 3 on main too); Prisma drift gate clean. Mobile `dart analyze` 0 issues, `dart format` clean, `flutter test` 445 pass. Not done here: emulator/Chrome M-11-01…M-11-10, motion recordings, hotspot map layer (TASK-07), real inbound mail provider (TASK-13), native Gujarati review.
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete (hotspot map layer Deferred — TASK-07 map widget)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-11` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-11: …`
+- [x] Committed as `V2-TASK-11: …`
 - [ ] Validator passes
 - [ ] Ward dashboard matches Neem v2.2 visuals (stat tiles, type, radii, Rounded icons)
-- [ ] REQ-F-066 dashboard motion implemented with TASK-09's shared widgets and `SaartheeMotion` tokens; W-11-07 and W-11-08 pass
+- [x] REQ-F-066 dashboard motion implemented with TASK-09's shared widgets and `SaartheeMotion` tokens; W-11-07 and W-11-08 pass
 - [ ] Motion recordings saved to `docs/demo/v2-evidence/motion/` (M-11-09, M-11-10)

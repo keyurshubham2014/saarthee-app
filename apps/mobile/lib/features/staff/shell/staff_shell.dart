@@ -8,6 +8,7 @@ import '../../../core/theme/icons.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../shared/staff_shared.dart';
+import '../ward_dashboard/ward_dashboard_screen.dart';
 import 'staff_nav_labels.dart';
 import 'staff_session.dart';
 
@@ -91,17 +92,14 @@ class _Layout extends ConsumerWidget {
   final Widget child;
 
   Widget _body(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final owner = staffItemFor(location);
     if (location == '/staff/forbidden' ||
         (owner != null && !owner.roles.contains(staff.role))) {
       return StaffForbiddenView(showDashboard: staff.role != 'representative');
     }
+    // TASK-11: the ward dashboard is a representative's default page.
     if (staff.role == 'representative' && location == '/staff') {
-      return EmptyState(
-        icon: SaartheeIcons.badge,
-        message: l10n.staffNoSections,
-      );
+      return const WardDashboardScreen();
     }
     return child;
   }

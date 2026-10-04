@@ -26,11 +26,20 @@ export const STAFF_AUDIT_ACTIONS = [
   'category_updated',
   'setting_changed',
   'export_downloaded',
+  // TASK-11 representative claims and ward actions (ids, enums and counts only — never note text or bodies).
+  'rep_claim_submitted',
+  'rep_claim_decided',
+  'rep_verification_revoked',
+  'rep_verification_expired',
+  'rep_issue_status',
+  'rep_issue_comment',
+  'ward_export',
+  'rep_message_replied',
 ] as const;
 
 export type StaffAuditActionV2 = (typeof STAFF_AUDIT_ACTIONS)[number];
 
-export type AuditTargetType = 'issue' | 'issue_event' | 'flag' | 'user' | 'category' | 'setting' | 'export';
+export type AuditTargetType = 'issue' | 'issue_event' | 'flag' | 'user' | 'category' | 'setting' | 'export' | 'rep_claim' | 'representative' | 'ward' | 'rep_message';
 
 /** Only enums, counts and booleans are allowed in `extra` (never names, phones, notes or free text). */
 export type AuditExtra = Record<string, number | boolean | null | `${string}`>;

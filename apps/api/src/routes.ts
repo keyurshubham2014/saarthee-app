@@ -26,6 +26,9 @@ import { staffRouter } from './modules/staff';
 import { flagsRouter } from './modules/flags';
 import { feedRouter } from './modules/feed';
 import { mapRouter } from './modules/map';
+import { repClaimsRouter } from './modules/rep-claims';
+import { wardDashboardRouter } from './modules/ward-dashboard';
+import { repMessagesRouter } from './modules/rep-messages';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -63,3 +66,7 @@ apiRouter.use(flagsRouter);
 // TASK-07: discovery — Home feed (provider registry) and map clusters/points. /issues list/detail live in issuesRouter.
 apiRouter.use(feedRouter);
 apiRouter.use(mapRouter);
+// TASK-11: representative claims, ward dashboard/actions (registers the representative transition hook), messages.
+apiRouter.use(repClaimsRouter);
+apiRouter.use(wardDashboardRouter);
+apiRouter.use(repMessagesRouter);

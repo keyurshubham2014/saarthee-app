@@ -14,6 +14,7 @@ import '../features/report/report_routes.dart';
 import '../features/discovery/discovery_routes.dart';
 import '../features/discovery/presentation/map/map_tab_screen.dart';
 import '../features/ward/ward_routes.dart';
+import '../features/rep_claim/rep_claim_routes.dart';
 import 'app_router.dart' show rootNavigatorKey;
 import '../features/alerts/data/alert_models.dart';
 import '../features/alerts/presentation/alert_detail_screen.dart';
@@ -96,6 +97,9 @@ final List<RouteBase> meRoutes = <RouteBase>[
     redirect: requireAccountRedirect,
     builder: (_, _) => const PrivacyScreen(),
   ),
+  // TASK-11 representative claim steps and /me/messages (before TASK-09's
+  // /representatives/:id so the longer paths match first).
+  ...repClaimRoutes,
   // TASK-09 representatives: profile and message form.
   ...representativeRoutes,
   // TASK-08 inbox.

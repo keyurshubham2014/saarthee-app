@@ -4295,5 +4295,589 @@
   "discoveryShareIndependence": "સ્વતંત્ર નાગરિક એપ. AMC દ્વારા ચલાવાતી નથી કે તેની સાથે જોડાયેલી નથી.",
   "@discoveryShareIndependence": {
     "x-review": "pending"
+  },
+  "repClaimVerified": "ચકાસાયેલ પ્રતિનિધિ",
+  "@repClaimVerified": {
+    "x-review": "pending"
+  },
+  "repClaimVerifiedHelper": "સાર્થીએ {date}એ ચકાસ્યું · {method} · {until} સુધી માન્ય",
+  "@repClaimVerifiedHelper": {
+    "x-review": "pending"
+  },
+  "repClaimVerifiedSemantics": "ચકાસાયેલ પ્રતિનિધિ, {date}એ ચકાસ્યું",
+  "@repClaimVerifiedSemantics": {
+    "x-review": "pending"
+  },
+  "repClaimExpired": "મુદત પૂરી થતાં ચકાસણી સમાપ્ત થઈ",
+  "@repClaimExpired": {
+    "x-review": "pending"
+  },
+  "repClaimLink": "શું તમે {name} છો? આ પ્રોફાઇલનો દાવો કરો",
+  "@repClaimLink": {
+    "x-review": "pending"
+  },
+  "repClaimMethodCertificate": "ચૂંટણીનું પ્રમાણપત્ર",
+  "@repClaimMethodCertificate": {
+    "x-review": "pending"
+  },
+  "repClaimMethodGazette": "સત્તાવાર ગેઝેટ",
+  "@repClaimMethodGazette": {
+    "x-review": "pending"
+  },
+  "repClaimMethodInPerson": "રૂબરૂ",
+  "@repClaimMethodInPerson": {
+    "x-review": "pending"
+  },
+  "repClaimMethodEmail": "સત્તાવાર ઇમેઇલ",
+  "@repClaimMethodEmail": {
+    "x-review": "pending"
+  },
+  "repClaimTitle": "આ પ્રોફાઇલનો દાવો કરો",
+  "@repClaimTitle": {
+    "x-review": "pending"
+  },
+  "repClaimStep": "પગલું {step} / {total}",
+  "@repClaimStep": {
+    "x-review": "pending"
+  },
+  "repClaimBody": "તમારું ચૂંટણી પ્રમાણપત્ર અથવા તમારું નામ અને વોર્ડ દર્શાવતા અન્ય સત્તાવાર દસ્તાવેજનો સ્પષ્ટ ફોટો અપલોડ કરો. ફક્ત સાર્થીના એડમિન જ તે જુએ છે.",
+  "@repClaimBody": {
+    "x-review": "pending"
+  },
+  "repClaimAddCamera": "ફોટો લો",
+  "@repClaimAddCamera": {
+    "x-review": "pending"
+  },
+  "repClaimAddGallery": "ગેલેરીમાંથી પસંદ કરો",
+  "@repClaimAddGallery": {
+    "x-review": "pending"
+  },
+  "repClaimPhotoCount": "3માંથી {count} ફોટા",
+  "@repClaimPhotoCount": {
+    "x-review": "pending"
+  },
+  "repClaimRemovePhoto": "ફોટો દૂર કરો",
+  "@repClaimRemovePhoto": {
+    "x-review": "pending"
+  },
+  "repClaimUploading": "અપલોડ થઈ રહ્યું છે…",
+  "@repClaimUploading": {
+    "x-review": "pending"
+  },
+  "repClaimUploadFailed": "અપલોડ નિષ્ફળ.",
+  "@repClaimUploadFailed": {
+    "x-review": "pending"
+  },
+  "repClaimRetry": "ફરી પ્રયાસ કરો",
+  "@repClaimRetry": {
+    "x-review": "pending"
+  },
+  "repClaimNoteLabel": "નોંધ (વૈકલ્પિક)",
+  "@repClaimNoteLabel": {
+    "x-review": "pending"
+  },
+  "repClaimEvidenceRequired": "ઓછામાં ઓછો એક ફોટો ઉમેરો.",
+  "@repClaimEvidenceRequired": {
+    "x-review": "pending"
+  },
+  "repClaimContinue": "આગળ વધો",
+  "@repClaimContinue": {
+    "x-review": "pending"
+  },
+  "repClaimCheckTitle": "તપાસો અને મોકલો",
+  "@repClaimCheckTitle": {
+    "x-review": "pending"
+  },
+  "repClaimEvidenceRow": "પુરાવાના ફોટા",
+  "@repClaimEvidenceRow": {
+    "x-review": "pending"
+  },
+  "repClaimNoteRow": "નોંધ",
+  "@repClaimNoteRow": {
+    "x-review": "pending"
+  },
+  "repClaimNoNote": "કોઈ નોંધ નથી",
+  "@repClaimNoNote": {
+    "x-review": "pending"
+  },
+  "repClaimChange": "બદલો",
+  "@repClaimChange": {
+    "x-review": "pending"
+  },
+  "repClaimConsent": "હું પુષ્ટિ કરું છું કે હું {name} છું અને દસ્તાવેજો સાચા છે. ખોટા દાવાથી એકાઉન્ટ સ્થગિત થાય છે.",
+  "@repClaimConsent": {
+    "x-review": "pending"
+  },
+  "repClaimConsentRequired": "મોકલવા માટે પુષ્ટિ પર ટિક કરો.",
+  "@repClaimConsentRequired": {
+    "x-review": "pending"
+  },
+  "repClaimSend": "દાવો મોકલો",
+  "@repClaimSend": {
+    "x-review": "pending"
+  },
+  "repClaimSeeMine": "મારા દાવા જુઓ",
+  "@repClaimSeeMine": {
+    "x-review": "pending"
+  },
+  "repClaimDoneTitle": "દાવો મોકલાયો",
+  "@repClaimDoneTitle": {
+    "x-review": "pending"
+  },
+  "repClaimDoneBody": "અમે સામાન્ય રીતે 2 કામકાજના દિવસમાં તેની સમીક્ષા કરીશું. અમે તમને જાણ કરીશું.",
+  "@repClaimDoneBody": {
+    "x-review": "pending"
+  },
+  "repClaimDone": "થઈ ગયું",
+  "@repClaimDone": {
+    "x-review": "pending"
+  },
+  "repClaimMyRow": "મારા પ્રતિનિધિ દાવા",
+  "@repClaimMyRow": {
+    "x-review": "pending"
+  },
+  "repClaimStatusPending": "સમીક્ષાની રાહ",
+  "@repClaimStatusPending": {
+    "x-review": "pending"
+  },
+  "repClaimStatusApproved": "મંજૂર",
+  "@repClaimStatusApproved": {
+    "x-review": "pending"
+  },
+  "repClaimStatusRejected": "મંજૂર નથી",
+  "@repClaimStatusRejected": {
+    "x-review": "pending"
+  },
+  "repClaimStatusRejectedReason": "મંજૂર નથી: {reason}",
+  "@repClaimStatusRejectedReason": {
+    "x-review": "pending"
+  },
+  "repClaimStatusExpired": "મુદત સાથે સમાપ્ત",
+  "@repClaimStatusExpired": {
+    "x-review": "pending"
+  },
+  "repClaimStatusWithdrawn": "પાછો ખેંચ્યો",
+  "@repClaimStatusWithdrawn": {
+    "x-review": "pending"
+  },
+  "repClaimStatusRevoked": "ચકાસણી દૂર કરાઈ",
+  "@repClaimStatusRevoked": {
+    "x-review": "pending"
+  },
+  "repClaimWithdraw": "દાવો પાછો ખેંચો",
+  "@repClaimWithdraw": {
+    "x-review": "pending"
+  },
+  "repClaimOffline": "તમે ઑફલાઇન છો. તમે મોકલો ત્યાં સુધી ફોટા અહીં રહેશે.",
+  "@repClaimOffline": {
+    "x-review": "pending"
+  },
+  "repClaimErrorPending": "તમારો એક દાવો પહેલેથી સમીક્ષાની રાહમાં છે.",
+  "@repClaimErrorPending": {
+    "x-review": "pending"
+  },
+  "repClaimErrorVerified": "આ પ્રોફાઇલ પહેલેથી ચકાસાયેલ છે. આ ખોટું હોય તો સાર્થીનો સંપર્ક કરો.",
+  "@repClaimErrorVerified": {
+    "x-review": "pending"
+  },
+  "repClaimErrorTermEnded": "આ મુદત પૂરી થઈ ગઈ છે. દાવા ફક્ત વર્તમાન મુદત માટે ખુલ્લા છે.",
+  "@repClaimErrorTermEnded": {
+    "x-review": "pending"
+  },
+  "repClaimErrorRoleConflict": "સ્ટાફ એકાઉન્ટ પ્રતિનિધિ એકાઉન્ટ ન હોઈ શકે. અલગ ફોન નંબર વાપરો.",
+  "@repClaimErrorRoleConflict": {
+    "x-review": "pending"
+  },
+  "wardDashErrorOutOfScope": "તમે ફક્ત તમારા વોર્ડની સમસ્યાઓ પર જ કાર્ય કરી શકો છો.",
+  "@wardDashErrorOutOfScope": {
+    "x-review": "pending"
+  },
+  "wardDashErrorFrozen": "ચૂંટણી મોડ ચાલુ છે. ટિપ્પણીઓ અને અપડેટ્સ થોભાવ્યા છે.",
+  "@wardDashErrorFrozen": {
+    "x-review": "pending"
+  },
+  "repClaimNav": "દાવા",
+  "@repClaimNav": {
+    "x-review": "pending"
+  },
+  "repClaimsTitle": "પ્રતિનિધિ દાવા",
+  "@repClaimsTitle": {
+    "x-review": "pending"
+  },
+  "repClaimFilterPending": "બાકી",
+  "@repClaimFilterPending": {
+    "x-review": "pending"
+  },
+  "repClaimFilterApproved": "મંજૂર",
+  "@repClaimFilterApproved": {
+    "x-review": "pending"
+  },
+  "repClaimFilterRejected": "મંજૂર નથી",
+  "@repClaimFilterRejected": {
+    "x-review": "pending"
+  },
+  "repClaimsEmpty": "કોઈ દાવો રાહમાં નથી.",
+  "@repClaimsEmpty": {
+    "x-review": "pending"
+  },
+  "repClaimsLoadError": "દાવા લોડ ન થયા.",
+  "@repClaimsLoadError": {
+    "x-review": "pending"
+  },
+  "repClaimPhoneMatchYes": "ફોન મેળ ખાય છે",
+  "@repClaimPhoneMatchYes": {
+    "x-review": "pending"
+  },
+  "repClaimPhoneMatchNo": "ફોન અલગ છે",
+  "@repClaimPhoneMatchNo": {
+    "x-review": "pending"
+  },
+  "repClaimPhoneLine": "ફોન રેકોર્ડ પરના નંબર સાથે મેળ ખાય છે: {answer}",
+  "@repClaimPhoneLine": {
+    "x-review": "pending"
+  },
+  "repClaimYes": "હા",
+  "@repClaimYes": {
+    "x-review": "pending"
+  },
+  "repClaimNo": "ના",
+  "@repClaimNo": {
+    "x-review": "pending"
+  },
+  "repClaimEvidenceCount": "{count} ફોટા",
+  "@repClaimEvidenceCount": {
+    "x-review": "pending"
+  },
+  "repClaimSubmitted": "{date}એ મોકલ્યો",
+  "@repClaimSubmitted": {
+    "x-review": "pending"
+  },
+  "repClaimEvidenceAdminOnly": "પુરાવો — ફક્ત એડમિનને દેખાય છે",
+  "@repClaimEvidenceAdminOnly": {
+    "x-review": "pending"
+  },
+  "repClaimRecordTitle": "પ્રતિનિધિ રેકોર્ડ",
+  "@repClaimRecordTitle": {
+    "x-review": "pending"
+  },
+  "repClaimTerm": "મુદત {start} – {end}",
+  "@repClaimTerm": {
+    "x-review": "pending"
+  },
+  "repClaimSource": "સ્રોત",
+  "@repClaimSource": {
+    "x-review": "pending"
+  },
+  "repClaimClaimant": "દાવેદાર: {name}",
+  "@repClaimClaimant": {
+    "x-review": "pending"
+  },
+  "repClaimApprove": "મંજૂર કરો",
+  "@repClaimApprove": {
+    "x-review": "pending"
+  },
+  "repClaimReject": "નામંજૂર કરો",
+  "@repClaimReject": {
+    "x-review": "pending"
+  },
+  "repClaimApproveTitle": "દાવો મંજૂર કરો",
+  "@repClaimApproveTitle": {
+    "x-review": "pending"
+  },
+  "repClaimMethodLabel": "ચકાસણી પદ્ધતિ",
+  "@repClaimMethodLabel": {
+    "x-review": "pending"
+  },
+  "repClaimMethodRequired": "પદ્ધતિ પસંદ કરો.",
+  "@repClaimMethodRequired": {
+    "x-review": "pending"
+  },
+  "repClaimRejectTitle": "દાવો નામંજૂર કરો",
+  "@repClaimRejectTitle": {
+    "x-review": "pending"
+  },
+  "repClaimReasonLabel": "કારણ (5 થી 300 અક્ષર)",
+  "@repClaimReasonLabel": {
+    "x-review": "pending"
+  },
+  "repClaimReasonError": "5 થી 300 અક્ષરનું કારણ આપો.",
+  "@repClaimReasonError": {
+    "x-review": "pending"
+  },
+  "repClaimModeratorReadOnly": "ફક્ત એડમિન જ દાવા પર નિર્ણય લઈ શકે.",
+  "@repClaimModeratorReadOnly": {
+    "x-review": "pending"
+  },
+  "repClaimDecided": "નિર્ણય સાચવ્યો.",
+  "@repClaimDecided": {
+    "x-review": "pending"
+  },
+  "repClaimConflict": "આ દાવા પર પહેલેથી નિર્ણય લેવાયો છે.",
+  "@repClaimConflict": {
+    "x-review": "pending"
+  },
+  "repClaimRevoke": "ચકાસણી રદ કરો",
+  "@repClaimRevoke": {
+    "x-review": "pending"
+  },
+  "repClaimRevoked": "ચકાસણી રદ થઈ.",
+  "@repClaimRevoked": {
+    "x-review": "pending"
+  },
+  "repClaimCancel": "રદ કરો",
+  "@repClaimCancel": {
+    "x-review": "pending"
+  },
+  "wardDashNav": "વોર્ડ ડેશબોર્ડ",
+  "@wardDashNav": {
+    "x-review": "pending"
+  },
+  "wardDashIssuesNav": "વોર્ડની સમસ્યાઓ",
+  "@wardDashIssuesNav": {
+    "x-review": "pending"
+  },
+  "repMsgNav": "સંદેશા",
+  "@repMsgNav": {
+    "x-review": "pending"
+  },
+  "wardDashWard": "વોર્ડ {number} · {name}",
+  "@wardDashWard": {
+    "x-review": "pending"
+  },
+  "wardDashSwitchWard": "વોર્ડ બદલો",
+  "@wardDashSwitchWard": {
+    "x-review": "pending"
+  },
+  "wardDashOpen": "ખુલ્લી",
+  "@wardDashOpen": {
+    "x-review": "pending"
+  },
+  "wardDashOverdue": "મુદત વીતી",
+  "@wardDashOverdue": {
+    "x-review": "pending"
+  },
+  "wardDashFixed30": "30 દિવસમાં ઉકેલાઈ",
+  "@wardDashFixed30": {
+    "x-review": "pending"
+  },
+  "wardDashVerified30": "30 દિવસમાં ચકાસાઈ",
+  "@wardDashVerified30": {
+    "x-review": "pending"
+  },
+  "wardDashByCategory": "શ્રેણી અને ઉંમર પ્રમાણે ખુલ્લી સમસ્યાઓ",
+  "@wardDashByCategory": {
+    "x-review": "pending"
+  },
+  "wardDashColCategory": "શ્રેણી",
+  "@wardDashColCategory": {
+    "x-review": "pending"
+  },
+  "wardDashCol0to7": "0–7 દિવસ",
+  "@wardDashCol0to7": {
+    "x-review": "pending"
+  },
+  "wardDashCol8to30": "8–30 દિવસ",
+  "@wardDashCol8to30": {
+    "x-review": "pending"
+  },
+  "wardDashCol31": "30 દિવસથી વધુ",
+  "@wardDashCol31": {
+    "x-review": "pending"
+  },
+  "wardDashColTotal": "કુલ",
+  "@wardDashColTotal": {
+    "x-review": "pending"
+  },
+  "wardDashOverdueTitle": "મુદત વીતી ગયેલી",
+  "@wardDashOverdueTitle": {
+    "x-review": "pending"
+  },
+  "wardDashOverdueAge": "{days} દિવસ જૂની",
+  "@wardDashOverdueAge": {
+    "x-review": "pending"
+  },
+  "wardDashOverdueEmpty": "કંઈ મુદત વીતેલું નથી.",
+  "@wardDashOverdueEmpty": {
+    "x-review": "pending"
+  },
+  "wardDashHotspots": "હોટસ્પોટ્સ",
+  "@wardDashHotspots": {
+    "x-review": "pending"
+  },
+  "wardDashHotspotRow": "{lat}, {lng} પાસે {count} ખુલ્લી સમસ્યાઓ",
+  "@wardDashHotspotRow": {
+    "x-review": "pending"
+  },
+  "wardDashHotspotsEmpty": "ખુલ્લી સમસ્યાઓના કોઈ ઝુમખા નથી.",
+  "@wardDashHotspotsEmpty": {
+    "x-review": "pending"
+  },
+  "wardDashTrend": "ઉકેલનો વલણ",
+  "@wardDashTrend": {
+    "x-review": "pending"
+  },
+  "wardDashTrendLegend": "પટ્ટીઓ: દર અઠવાડિયે ઉકેલાયેલ, છેલ્લા 12 અઠવાડિયા",
+  "@wardDashTrendLegend": {
+    "x-review": "pending"
+  },
+  "wardDashShowTable": "કોષ્ટક તરીકે બતાવો",
+  "@wardDashShowTable": {
+    "x-review": "pending"
+  },
+  "wardDashShowChart": "ચાર્ટ તરીકે બતાવો",
+  "@wardDashShowChart": {
+    "x-review": "pending"
+  },
+  "wardDashWeek": "અઠવાડિયું",
+  "@wardDashWeek": {
+    "x-review": "pending"
+  },
+  "wardDashReported": "નોંધાઈ",
+  "@wardDashReported": {
+    "x-review": "pending"
+  },
+  "wardDashMarkedFixed": "ઉકેલાયેલ ચિહ્નિત",
+  "@wardDashMarkedFixed": {
+    "x-review": "pending"
+  },
+  "wardDashVerified": "ચકાસાઈ",
+  "@wardDashVerified": {
+    "x-review": "pending"
+  },
+  "wardDashDownload": "CSV ડાઉનલોડ કરો",
+  "@wardDashDownload": {
+    "x-review": "pending"
+  },
+  "wardDashDownloaded": "CSV તૈયાર.",
+  "@wardDashDownloaded": {
+    "x-review": "pending"
+  },
+  "wardDashEmpty": "આ વોર્ડમાં કોઈ ખુલ્લી સમસ્યા નથી.",
+  "@wardDashEmpty": {
+    "x-review": "pending"
+  },
+  "wardDashLoadError": "ડેશબોર્ડ લોડ ન થયું.",
+  "@wardDashLoadError": {
+    "x-review": "pending"
+  },
+  "wardDashStale": "{time}નો ડેટા બતાવે છે",
+  "@wardDashStale": {
+    "x-review": "pending"
+  },
+  "wardDashElection": "ચૂંટણી મોડ ચાલુ છે. ટિપ્પણીઓ થોભાવી છે.",
+  "@wardDashElection": {
+    "x-review": "pending"
+  },
+  "wardDashNoScope": "તમારા એકાઉન્ટ સાથે હજુ કોઈ વોર્ડ જોડાયો નથી.",
+  "@wardDashNoScope": {
+    "x-review": "pending"
+  },
+  "wardDashFilterAll": "બધી",
+  "@wardDashFilterAll": {
+    "x-review": "pending"
+  },
+  "wardDashFilterOverdue": "ફક્ત મુદત વીતેલી",
+  "@wardDashFilterOverdue": {
+    "x-review": "pending"
+  },
+  "wardDashActAck": "સ્વીકારો",
+  "@wardDashActAck": {
+    "x-review": "pending"
+  },
+  "wardDashActFixed": "ઉકેલાયેલ ચિહ્નિત કરો",
+  "@wardDashActFixed": {
+    "x-review": "pending"
+  },
+  "wardDashActComment": "ટિપ્પણી ઉમેરો",
+  "@wardDashActComment": {
+    "x-review": "pending"
+  },
+  "wardDashCommentLabel": "ટિપ્પણી (500 અક્ષર સુધી)",
+  "@wardDashCommentLabel": {
+    "x-review": "pending"
+  },
+  "wardDashCommentFrozen": "ચૂંટણી મોડ ચાલુ હોય ત્યારે ટિપ્પણીઓ થોભાવેલી છે.",
+  "@wardDashCommentFrozen": {
+    "x-review": "pending"
+  },
+  "wardDashActionDone": "સાચવ્યું.",
+  "@wardDashActionDone": {
+    "x-review": "pending"
+  },
+  "wardDashIssuesEmpty": "કોઈ સમસ્યા મેળ ખાતી નથી.",
+  "@wardDashIssuesEmpty": {
+    "x-review": "pending"
+  },
+  "wardDashSend": "મોકલો",
+  "@wardDashSend": {
+    "x-review": "pending"
+  },
+  "repMsgTitle": "સંદેશા",
+  "@repMsgTitle": {
+    "x-review": "pending"
+  },
+  "repMsgEmpty": "હજુ કોઈ સંદેશ નથી.",
+  "@repMsgEmpty": {
+    "x-review": "pending"
+  },
+  "repMsgLoadError": "સંદેશા લોડ ન થયા.",
+  "@repMsgLoadError": {
+    "x-review": "pending"
+  },
+  "repMsgUnread": "ન વાંચેલ",
+  "@repMsgUnread": {
+    "x-review": "pending"
+  },
+  "repMsgStatusSent": "મોકલ્યો",
+  "@repMsgStatusSent": {
+    "x-review": "pending"
+  },
+  "repMsgStatusReplied": "જવાબ આપ્યો",
+  "@repMsgStatusReplied": {
+    "x-review": "pending"
+  },
+  "repMsgIssueLink": "જોડાયેલ સમસ્યા",
+  "@repMsgIssueLink": {
+    "x-review": "pending"
+  },
+  "repMsgSharedPhone": "શેર કરેલ ફોન: {phone}",
+  "@repMsgSharedPhone": {
+    "x-review": "pending"
+  },
+  "repMsgReplyLabel": "જવાબ (2,000 અક્ષર સુધી)",
+  "@repMsgReplyLabel": {
+    "x-review": "pending"
+  },
+  "repMsgReplySend": "જવાબ મોકલો",
+  "@repMsgReplySend": {
+    "x-review": "pending"
+  },
+  "repMsgRepliedEmail": "{date}એ ઇમેઇલથી જવાબ આપ્યો",
+  "@repMsgRepliedEmail": {
+    "x-review": "pending"
+  },
+  "repMsgRepliedApp": "{date}એ સાર્થીમાં જવાબ આપ્યો",
+  "@repMsgRepliedApp": {
+    "x-review": "pending"
+  },
+  "repMsgReplySent": "જવાબ મોકલાયો.",
+  "@repMsgReplySent": {
+    "x-review": "pending"
+  },
+  "repMsgMineTitle": "મારા સંદેશા",
+  "@repMsgMineTitle": {
+    "x-review": "pending"
+  },
+  "repMsgMineEmpty": "તમે હજુ કોઈ પ્રતિનિધિને સંદેશ મોકલ્યો નથી.",
+  "@repMsgMineEmpty": {
+    "x-review": "pending"
+  },
+  "repMsgMineRow": "પ્રતિનિધિઓને મારા સંદેશા",
+  "@repMsgMineRow": {
+    "x-review": "pending"
+  },
+  "repMsgAwaiting": "જવાબની રાહ",
+  "@repMsgAwaiting": {
+    "x-review": "pending"
   }
 }

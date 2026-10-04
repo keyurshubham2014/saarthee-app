@@ -26,9 +26,11 @@ export const clearMediaCache = () => cache.clear();
 async function canRead(photoId: string, user: AuthenticatedUser | undefined): Promise<boolean> {
   const photo = await prisma.photo.findUnique({
     where: { id: photoId },
-    select: { uploadedByUserId: true, deletedAt: true, issuePhoto: { select: { issue: { select: { visibility: true, reporterId: true } } } } },
+    select: { uploadedByUserId: true, deletedAt: true, purpose: true, issuePhoto: { select: { issue: { select: { visibility: true, reporterId: true } } } } },
   });
   if (!photo || photo.deletedAt) return false;
+  // TASK-11: claim evidence is private — only its uploader here; admins use /staff/rep-claims/{id}/evidence.
+  if (photo.purpose === 'rep_evidence') return !!user && photo.uploadedByUserId === user.id;
   const issue = photo.issuePhoto?.issue;
   if (issue?.visibility === 'public') return true;
   if (!user) return false;

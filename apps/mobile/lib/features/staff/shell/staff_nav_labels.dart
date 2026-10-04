@@ -13,6 +13,11 @@ String staffNavLabel(AppLocalizations l10n, String key) => switch (key) {
   'staffNavUsers' => l10n.staffNavUsers,
   'staffNavSettings' => l10n.staffNavSettings,
   'staffNavExports' => l10n.staffNavExports,
+  // TASK-11.
+  'wardDashNav' => l10n.wardDashNav,
+  'wardDashIssuesNav' => l10n.wardDashIssuesNav,
+  'repMsgNav' => l10n.repMsgNav,
+  'repClaimNav' => l10n.repClaimNav,
   _ => key,
 };
 
