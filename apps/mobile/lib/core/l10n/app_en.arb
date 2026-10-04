@@ -3306,6 +3306,14 @@
   "@issueActionsTimelineOverdue": {
     "description": "TASK-06 issue lifecycle"
   },
+  "issueActionsTimelineComment": "Comment",
+  "@issueActionsTimelineComment": {
+    "description": "TASK-14 comments in the public timeline (REQ-F-051/055)"
+  },
+  "issueActionsFlagComment": "Report a problem with this comment",
+  "@issueActionsFlagComment": {
+    "description": "TASK-14 comments in the public timeline (REQ-F-051/055)"
+  },
   "issueActionsTimelineAfterPhoto": "After photo",
   "@issueActionsTimelineAfterPhoto": {
     "description": "TASK-06 issue lifecycle"

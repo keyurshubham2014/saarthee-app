@@ -42,6 +42,8 @@ export async function listEvents(issueId: string, viewer: AuthenticatedUser | un
   const rows: IssueEvent[] = await prisma.issueEvent.findMany({
     where: {
       issueId,
+      // Comments a moderator hid (TASK-10) leave the public timeline; staff still see them.
+      ...(staff ? {} : { NOT: { type: 'comment', hide: { isNot: null } } }),
       ...(after ? { OR: [{ createdAt: { gt: after.createdAt } }, { createdAt: after.createdAt, id: { gt: after.id } }] } : {}),
     },
     orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],

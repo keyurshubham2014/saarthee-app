@@ -166,4 +166,61 @@ void main() {
     ], localeName: 'gu');
     expect(gu.single.actor, 'પાલડીના એક રહેવાસી');
   });
+
+  test(
+    'TASK-14: representative comments show their text; empty ones do not',
+    () {
+      final l10n = lookupAppLocalizations(const Locale('en'));
+      final rows = timelineRows(l10n, [
+        ev('a', 'status_change', to: 'acknowledged'),
+        ev(
+          'c',
+          'comment',
+          actor: 'representative',
+          nameEn: 'Ila Shah',
+          repRole: 'corporator',
+          note: ' Team visits on Monday. ',
+        ),
+        ev('d', 'comment', note: '  '),
+      ], localeName: 'en');
+      expect(rows.map((r) => r.title), ['Acknowledged', 'Comment']);
+      expect(rows[1].body, 'Team visits on Monday.');
+      expect(rows[1].isComment, isTrue);
+      expect(rows[1].actor, 'Ward corporator Ila Shah');
+      expect(rows[0].isComment, isFalse);
+    },
+  );
+
+  testWidgets('TASK-14 (REQ-F-051): only comment rows offer the flag', (
+    t,
+  ) async {
+    final flagged = <String>[];
+    await pumpMotion(
+      t,
+      SingleChildScrollView(
+        child: AnimatedStatusTimeline(
+          rows: const [
+            TimelineRow(
+              id: 's',
+              status: IssueStatus.acknowledged,
+              title: 'Acknowledged',
+            ),
+            TimelineRow(
+              id: 'c',
+              status: IssueStatus.acknowledged,
+              title: 'Comment',
+              body: 'Team visits on Monday.',
+              isComment: true,
+            ),
+          ],
+          onFlag: flagged.add,
+        ),
+      ),
+      reduced: true,
+    );
+    expect(find.byKey(const ValueKey('timeline.flag.s')), findsNothing);
+    expect(find.byKey(const ValueKey('timeline.body.c')), findsOneWidget);
+    await t.tap(find.byKey(const ValueKey('timeline.flag.c')));
+    expect(flagged, ['c']);
+  });
 }

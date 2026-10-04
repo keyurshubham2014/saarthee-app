@@ -2919,6 +2919,14 @@
   "@issueActionsTimelineOverdue": {
     "x-review": "pending"
   },
+  "issueActionsTimelineComment": "ટિપ્પણી",
+  "@issueActionsTimelineComment": {
+    "x-review": "pending"
+  },
+  "issueActionsFlagComment": "આ ટિપ્પણીમાં સમસ્યાની જાણ કરો",
+  "@issueActionsFlagComment": {
+    "x-review": "pending"
+  },
   "issueActionsTimelineAfterPhoto": "પછીનો ફોટો",
   "@issueActionsTimelineAfterPhoto": {
     "x-review": "pending"

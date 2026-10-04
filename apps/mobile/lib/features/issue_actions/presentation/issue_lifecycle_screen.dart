@@ -8,6 +8,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../application/issue_providers.dart';
 import '../application/timeline_mapping.dart';
+import '../../staff/flags/flag_content_sheet.dart';
 import '../data/issue_models.dart';
 import 'ccrs_closed.dart';
 import 'common.dart';
@@ -125,6 +126,12 @@ class IssueLifecyclePanel extends ConsumerWidget {
         switch (events) {
           AsyncValue(:final value?) => AnimatedStatusTimeline(
             rows: timelineRows(l10n, value, localeName: locale),
+            onFlag: (eventId) => showFlagContentSheet(
+              context,
+              ref,
+              issueId: issue.id,
+              eventId: eventId,
+            ),
             photo: (context, url) => SizedBox(
               width: 160,
               child: IssuePhoto(

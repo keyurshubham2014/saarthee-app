@@ -13,6 +13,8 @@ class TimelineRow {
     this.actor,
     this.date,
     this.photoUrl,
+    this.body,
+    this.isComment = false,
   });
 
   /// Event id: rows are diffed by it so only new ones animate.
@@ -22,6 +24,12 @@ class TimelineRow {
   final IssueStatus status;
   final String title;
   final String? actor, date, photoUrl;
+
+  /// Comment text (representative and moderator comments only).
+  final String? body;
+
+  /// Comments carry a "Report a problem" action (REQ-F-051).
+  final bool isComment;
 }
 
 /// Privacy-safe actor text (TASK-06 §5.4): "A resident of Paldi",
@@ -41,7 +49,9 @@ String timelineActor(AppLocalizations l10n, IssueEventItem e, bool gu) {
 
 /// Maps events (oldest first) to rows. Status events show the status word;
 /// verification, escalation, CCRS and overdue events show what happened in
-/// the colour of the status at that time. Comments are not shown.
+/// the colour of the status at that time. Representative and moderator
+/// comments show their text; resident notes stay private to staff (the API
+/// sends them as null) and comments a moderator hid never arrive.
 List<TimelineRow> timelineRows(
   AppLocalizations l10n,
   List<IssueEventItem> events, {
@@ -69,8 +79,11 @@ List<TimelineRow> timelineRows(
             'ccrs_closed' => l10n.issueActionsTimelineCcrsClosed,
             'system' when e.note == 'overdue' =>
               l10n.issueActionsTimelineOverdue,
+            'comment' when (e.note ?? '').trim().isNotEmpty =>
+              l10n.issueActionsTimelineComment,
             _ => null,
           };
+    final isComment = !isStatus && e.type == 'comment';
     if (title == null) continue;
     rows.add(
       TimelineRow(
@@ -84,6 +97,8 @@ List<TimelineRow> timelineRows(
         photoUrl: isStatus && status == IssueStatus.markedFixed
             ? (e.photoUrls.isEmpty ? null : e.photoUrls.first)
             : null,
+        body: isComment ? e.note!.trim() : null,
+        isComment: isComment,
       ),
     );
   }

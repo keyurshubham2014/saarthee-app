@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/theme/icons.dart';
 import '../../../../core/theme/motion.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../application/timeline_mapping.dart';
@@ -10,12 +12,20 @@ import '../../application/timeline_mapping.dart';
 /// Rows are diffed by event id: the initial list and existing rows never
 /// animate. Reduced motion: new rows are present on the next frame.
 class AnimatedStatusTimeline extends StatefulWidget {
-  const AnimatedStatusTimeline({super.key, required this.rows, this.photo});
+  const AnimatedStatusTimeline({
+    super.key,
+    required this.rows,
+    this.photo,
+    this.onFlag,
+  });
 
   final List<TimelineRow> rows;
 
   /// Builds the after-photo slot for a row with a `photoUrl`.
   final Widget Function(BuildContext context, String url)? photo;
+
+  /// "Report a problem with this comment" for comment rows (REQ-F-051).
+  final void Function(String eventId)? onFlag;
 
   @override
   State<AnimatedStatusTimeline> createState() => _AnimatedStatusTimelineState();
@@ -53,6 +63,7 @@ class _AnimatedStatusTimelineState extends State<AnimatedStatusTimeline> {
             row: rows[i],
             isLast: i == rows.length - 1,
             animate: _animate.contains(rows[i].id),
+            onFlag: rows[i].isComment ? widget.onFlag : null,
             photo: rows[i].photoUrl == null || widget.photo == null
                 ? null
                 : widget.photo!(context, rows[i].photoUrl!),
@@ -69,12 +80,14 @@ class _Step extends StatefulWidget {
     required this.isLast,
     required this.animate,
     this.photo,
+    this.onFlag,
   });
 
   final TimelineRow row;
   final bool isLast;
   final bool animate;
   final Widget? photo;
+  final void Function(String eventId)? onFlag;
 
   @override
   State<_Step> createState() => _StepState();
@@ -161,7 +174,34 @@ class _StepState extends State<_Step> with TickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(r.title, style: text.titleMedium),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: Text(r.title, style: text.titleMedium)),
+                        if (widget.onFlag != null)
+                          IconButton(
+                            key: ValueKey('timeline.flag.${r.id}'),
+                            tooltip: AppLocalizations.of(context)
+                                .issueActionsFlagComment,
+                            visualDensity: VisualDensity.compact,
+                            icon: Icon(
+                              SaartheeIcons.flag,
+                              size: AppSpacing.iconSmall,
+                              color: c.textSecondary,
+                            ),
+                            onPressed: () => widget.onFlag!(r.id),
+                          ),
+                      ],
+                    ),
+                    if (r.body != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.s4),
+                        child: Text(
+                          r.body!,
+                          key: ValueKey('timeline.body.${r.id}'),
+                          style: text.bodyMedium,
+                        ),
+                      ),
                     if (r.actor != null || r.date != null)
                       Text(
                         [?r.actor, ?r.date].join(' · '),

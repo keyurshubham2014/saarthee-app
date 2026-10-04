@@ -145,6 +145,16 @@ void main() {
     expect(find.text('Follow'), findsOneWidget);
   });
 
+  testWidgets('REQ-F-051 flag action opens "Report a problem with this post"', (
+    t,
+  ) async {
+    await openDetail(t, detailJson(id));
+    await t.tap(find.byKey(const Key('detail.flag')));
+    await settle(t, 2);
+    expect(find.text('Report a problem with this post'), findsOneWidget);
+    expect(find.text('Spam or advertising'), findsOneWidget);
+  });
+
   testWidgets('Share sends the title, status and /i/<id> link, no reporter', (
     t,
   ) async {

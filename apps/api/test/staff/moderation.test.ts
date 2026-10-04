@@ -112,6 +112,11 @@ describe('hide / unhide and comments (T-10-06)', () => {
     await post(mod.auth, `/staff/comments/${ev.id}/hide`, { reason: 'abusive' }).expect(200);
     const detail = await get(mod.auth, `/staff/issues/${issue.id}`);
     expect(detail.body.timeline.find((e: { id: string }) => e.id === ev.id).hidden).toBe(true);
+    // Gone from the public timeline (signed out and other citizens); staff keep it.
+    const publicIds = (r: { body: { items: { id: string }[] } }) => r.body.items.map((e) => e.id);
+    expect(publicIds(await get(undefined, `/issues/${issue.id}/events`))).not.toContain(ev.id);
+    expect(publicIds(await get(flagger.auth, `/issues/${issue.id}/events`))).not.toContain(ev.id);
+    expect(publicIds(await get(mod.auth, `/issues/${issue.id}/events`))).toContain(ev.id);
     expect((await prisma.moderationFlag.findUniqueOrThrow({ where: { id: flag.body.flagId } })).status).toBe('actioned');
     expect((await post(mod.auth, `/staff/flags/${flag.body.flagId}/resolve`, { outcome: 'dismissed' })).status).toBe(409);
     expect((await post(mod.auth, `/staff/comments/${issue.id}/hide`, { reason: 'x' })).status).toBe(404);

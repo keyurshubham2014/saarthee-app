@@ -11,6 +11,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../issue_actions/application/issue_providers.dart';
 import '../../issue_actions/presentation/issue_lifecycle_screen.dart';
+import '../../staff/flags/flag_content_sheet.dart';
 import '../application/discovery_providers.dart';
 import '../application/social_controller.dart';
 import '../data/discovery_models.dart';
@@ -52,6 +53,18 @@ class IssueDetailScreen extends ConsumerWidget {
             : loaded.issue.categoryName(
                 Localizations.localeOf(context).languageCode,
               ),
+        // REQ-F-051: anyone can report a problem with the post; signed-out
+        // people sign in first and come back to the sheet.
+        actions: [
+          if (loaded != null)
+            IconButton(
+              key: const Key('detail.flag'),
+              tooltip: l10n.flagReportButton,
+              icon: const Icon(SaartheeIcons.flag),
+              onPressed: () =>
+                  showFlagContentSheet(context, ref, issueId: issueId),
+            ),
+        ],
       ),
       body: switch (async) {
         AsyncValue(:final value?) => RefreshIndicator(
