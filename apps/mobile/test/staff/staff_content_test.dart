@@ -95,6 +95,9 @@ void main() {
     expect(api.created, isEmpty);
 
     await _fill(t, 'howToEn', '1. Open the page.\n2. Book a slot.');
+    await t.pump();
+    expect(find.byKey(const Key('form.howToEn.preview')), findsOneWidget);
+    expect(find.text('2. Book a slot.'), findsOneWidget);
     await _fill(t, 'url', 'https://ahmedabadcity.gov.in/');
     api.slugTaken = true;
     await t.tap(find.byKey(const Key('form.save')));

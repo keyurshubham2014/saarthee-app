@@ -132,6 +132,7 @@ class StaffServiceFormScreen extends ConsumerWidget {
               initial: s('howToEn'),
               maxLines: 6,
               validator: v.steps,
+              stepsPreview: true,
             ),
             FieldSpec.text(
               'howToGu',
@@ -139,6 +140,7 @@ class StaffServiceFormScreen extends ConsumerWidget {
               initial: s('howToGu'),
               maxLines: 6,
               validator: v.steps,
+              stepsPreview: true,
             ),
           ],
           [

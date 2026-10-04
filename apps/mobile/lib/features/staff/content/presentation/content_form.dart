@@ -4,6 +4,7 @@ import '../../../../core/api/app_error.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../services/data/service_models.dart' show parseSteps;
 
 /// One form field. Text fields validate with [validator]; switches use
 /// [initialBool].
@@ -15,6 +16,7 @@ class FieldSpec {
     this.validator,
     this.maxLines = 1,
     this.keyboardType,
+    this.stepsPreview = false,
   }) : isSwitch = false,
        initialBool = false;
 
@@ -23,7 +25,11 @@ class FieldSpec {
       initial = '',
       validator = null,
       maxLines = 1,
-      keyboardType = null;
+      keyboardType = null,
+      stepsPreview = false;
+
+  /// Shows the numbered steps as citizens will see them, under the field.
+  final bool stepsPreview;
 
   final String name;
   final String label;
@@ -115,13 +121,43 @@ class _ContentFormState extends State<ContentForm> {
         onChanged: (v) => setState(() => _bools[f.name] = v),
       );
     }
-    return LabeledTextField(
+    final field = LabeledTextField(
       fieldKey: Key('form.${f.name}'),
       label: f.label,
       controller: _text[f.name],
       error: _errors[f.name],
       maxLines: f.maxLines,
       keyboardType: f.keyboardType,
+    );
+    if (!f.stepsPreview) return field;
+    final text = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        field,
+        ValueListenableBuilder<TextEditingValue>(
+          valueListenable: _text[f.name]!,
+          builder: (context, value, _) {
+            final steps = parseSteps(value.text);
+            if (steps.isEmpty) return const SizedBox.shrink();
+            return Padding(
+              key: Key('form.${f.name}.preview'),
+              padding: const EdgeInsets.only(top: AppSpacing.s8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).staffContentStepsPreview,
+                    style: text.labelMedium,
+                  ),
+                  for (var i = 0; i < steps.length; i++)
+                    Text('${i + 1}. ${steps[i]}', style: text.bodySmall),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
