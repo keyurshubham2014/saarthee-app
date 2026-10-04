@@ -11,7 +11,7 @@ export const PILOT_POINTS = {
   navrangpura: { lat: 23.0368, lng: 72.5580 },
   vasna: { lat: 22.9965, lng: 72.5480 },
   naranpura: { lat: 23.0560, lng: 72.5530 },
-  navaVadaj: { lat: 23.0655, lng: 72.5700 },
+  navaVadaj: { lat: 23.0693, lng: 72.5626 },
 } as const;
 
 type Step = { to: IssueStatus; actor: number; role: ActorRole; type?: IssueEventType; note?: string };
