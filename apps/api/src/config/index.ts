@@ -66,6 +66,8 @@ const schema = z.object({
     .default('v2-1')
     .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
   GRIEVANCE_EMAIL: z.email().default('privacy@saarthee.in'),
+  // Shared in-process job runner (src/jobs, TASK-06 contract). Off unless set; one advisory lock per job.
+  JOBS_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;

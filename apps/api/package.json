@@ -19,6 +19,7 @@
     "retention:run": "tsx --env-file=.env scripts/retention.ts",
     "rates:snapshot": "tsx --env-file=.env scripts/rates-snapshot.ts",
     "push:flush": "tsx --env-file=.env scripts/push-flush.ts",
+    "jobs:run": "tsx --env-file=.env scripts/jobs-run.ts",
     "push:test": "tsx --env-file=.env scripts/push-test.ts",
     "auth:emulator-check": "tsx --env-file=.env scripts/auth-emulator-check.ts",
     "test": "vitest run",
