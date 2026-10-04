@@ -1,5 +1,8 @@
 # Task Summary — Saarthee (Ahmedabad Civic Accountability)
 
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
+
 **Last Updated:** 2026-10-03
 **Overall Progress:** 3 / 10 tasks complete (30%)
 **Current Task:** TASK-10 (In Review — physical-device items Deferred)

@@ -1,4 +1,7 @@
 # Database Design
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -175,6 +178,9 @@ Enum types used across tables:
 | uq_admin_users_email | email | UNIQUE | Login lookup |
 
 ### 3.2 invite_codes
+
+> **v2:** invite codes and source tags are retired from the citizen UI (v2 spec D11); v2 identifies citizens by phone OTP (D6, D8). v1 tables stay read-only for history.
+
 **Description:** One row per group or channel the pilot recruits from (for example, one RWA). The code is typed in once on the citizen's first launch and links their reports to a source tag ([01 Decision 8](./01-project-overview.md#decision-8-source-attribution-through-invite-codes-confirmed-2026-10-03)).
 
 | Column | Type | Nullable | Default | Constraints | Index | Description |
@@ -298,6 +304,9 @@ Enum types used across tables:
 | idx_complaints_phone | phone_e164 | B-tree | Finding all records for a phone number on a deletion request |
 
 ### 3.6 reminders
+
+> **v2:** manual WhatsApp reminders and verify tokens are retired (v2 spec D11). Any signed-in neighbour verifies a fix in the app (spec §5); updates arrive as FCM push + in-app inbox (D9).
+
 **Description:** One row each time the admin taps "Send reminder" for a complaint. Each reminder creates a new verify token, and only its hash is stored.
 
 | Column | Type | Nullable | Default | Constraints | Index | Description |
@@ -381,6 +390,9 @@ Allowed event names: `report_opened`, `ccrs_handoff_clicked`, `report_submitted`
 | idx_events_install | install_id | B-tree | One install's report funnel |
 
 ### 3.9 Views (read-only, computed)
+
+> **v2:** the H1/H2 rates are retired (v2 spec D11). v2 measures the issue lifecycle instead: reported → acknowledged → fixed → verified by neighbours (spec §5).
+
 
 These are described here and defined as SQL views in a migration. Prisma's schema language may not express views fully; check the current Prisma documentation and fall back to raw SQL in the migration file if needed.
 

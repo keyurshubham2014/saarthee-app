@@ -1,4 +1,7 @@
 # DevOps & Infrastructure
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -139,6 +142,9 @@ Not decided. When deploying (§9), the API likely gets a multi-stage Docker imag
 ## 4. CI/CD Pipeline
 
 ### 4.1 Pipeline Architecture
+
+> **v2:** the v1 "no automated tests" decision is reversed — v2 requires Vitest + Supertest API tests and Flutter widget/integration tests (v2 spec §12).
+
 Kept minimal to match the speed-first approach ([06 §7.1](./06-security-testing.md#71-approach-for-v1-speed-first)). CI runs **static checks only**; there are no tests and no deployment.
 
 ```mermaid
@@ -221,6 +227,9 @@ Not applicable: a single API process and a single database for pilot volume (abo
 Production recovery targets (how much data can be lost, and how fast service must return) are set in §9.
 
 ## 9. Deployment (placeholder — to be written before the pilot)
+
+> **v2:** deployment is specified by v2 spec D12 and built in TASK-13 (`docs/ops/`).
+
 This section will be written when deployment is planned. These items are already known to be required, and are referenced from other documents:
 
 - [ ] Hosting for the API (provider and region to choose) and a **managed PostgreSQL** service with automated backups.

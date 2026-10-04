@@ -1,5 +1,10 @@
 # Saarthee — 5-minute demo script
 
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+>
+> The v2 demo script is [`DEMO-v2.md`](./DEMO-v2.md) (`npm run demo:reset`).
+
+
 The demo shows the whole accountability loop on an Android emulator. A citizen records a complaint. The
 operator sends a WhatsApp reminder a week later. The citizen answers "Not fixed" with a photo, and the H2
 rate on the Rates screen changes.

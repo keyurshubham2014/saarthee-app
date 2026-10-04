@@ -1,4 +1,7 @@
 # Implementation Roadmap
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -134,6 +137,9 @@ Scope cuts in Stage A, all added back later:
 | E5 | Run the full manual checklist; fix S1/S2 bugs | 06 §12.3 | Checklist passes on both phones |
 
 ### Stage F — Deployment (not planned yet)
+
+> **v2:** deployment is specified by v2 spec D12 and built in TASK-13 (`docs/ops/`).
+
 See [05 §9](./05-devops-infrastructure.md#9-deployment-placeholder--to-be-written-before-the-pilot). Prerequisites from other documents: legal review (06 §6), "Saarthee" name check (02 F1), HTTPS and app links, real AMC categories (PRD Q4).
 
 ## 4. Milestone Schedule
@@ -194,6 +200,9 @@ With one person and Claude Code, "parallel" means order flexibility, not simulta
 | Legal review delays the pilot | Medium | High (for launch) | Start the legal review in parallel with Stages B–E | Founder |
 
 ## 7. Definition of Done
+
+> **v2:** the v1 "no automated tests" decision is reversed — v2 requires Vitest + Supertest API tests and Flutter widget/integration tests (v2 spec §12).
+
 
 ### 7.1 Step Level
 - [ ] The step's "Done when" check passes when you run it by hand.
