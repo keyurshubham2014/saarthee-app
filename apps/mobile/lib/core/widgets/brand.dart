@@ -50,14 +50,17 @@ class BrandMarkPainter extends CustomPainter {
   // (variant E "road turn"); test/brand/brand_mark_test.dart checks them.
   /// `<rect id="square" rx="28">`
   static const double cornerRadius = 28;
+
   /// `<path id="route" d="M24 73 L24 51 Q24 33 42 33 L50 33">`
   static const Offset routeStart = Offset(24, 73);
   static const Offset routeTurnStart = Offset(24, 51);
   static const Offset routeTurnControl = Offset(24, 33);
   static const Offset routeTurnEnd = Offset(42, 33);
   static const Offset routeEnd = Offset(50, 33);
+
   /// `stroke-width="12"` (round caps and joins)
   static const double routeStroke = 12;
+
   /// `<circle id="dot" cx="72.5" cy="33" r="10.5">`
   static const Offset dotCenter = Offset(72.5, 33);
   static const double dotRadius = 10.5;
