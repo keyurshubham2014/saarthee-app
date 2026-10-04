@@ -60,6 +60,19 @@ class ApiClient {
     ),
   );
 
+  /// TASK-08 (subscriptions). Additive.
+  Future<Map<String, dynamic>> putJson(
+    String path, {
+    Object? body,
+    Map<String, String>? headers,
+  }) => _run(
+    () => dio.put<dynamic>(
+      path,
+      data: body,
+      options: Options(headers: headers),
+    ),
+  );
+
   Future<Map<String, dynamic>> deleteJson(
     String path, {
     Map<String, String>? headers,

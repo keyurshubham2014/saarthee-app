@@ -43,6 +43,9 @@ export function toAlertDto(a: AlertWithRefs, now: Date) {
     supersedesId: a.supersedesId,
     supersededById: a.supersededBy && a.supersededBy.status !== 'draft' && a.supersededBy.status !== 'pending_approval' ? a.supersededBy.id : null,
     origin: a.origin,
+    /** Ward names for ward-targeted alerts (area line); detail lists every ward. */
+    wards: a.targetScope === 'wards' ? wards : [],
+    zone: a.targetZone ? { id: a.targetZone.id, code: a.targetZone.code, nameEn: a.targetZone.nameEn, nameGu: a.targetZone.nameGu } : null,
   };
 }
 

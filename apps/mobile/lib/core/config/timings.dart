@@ -37,4 +37,9 @@ class AppTimings {
 
   /// Countdown tick (OTP resend timer).
   static const Duration countdownTick = Duration(seconds: 1);
+
+  // TASK-08 (append-only).
+  /// In-app alert banner hides itself after this for Info/Advisory/Warning;
+  /// Critical stays until dismissed or opened (TASK-08 §5.6).
+  static const Duration alertBannerAutoHide = Duration(seconds: 8);
 }

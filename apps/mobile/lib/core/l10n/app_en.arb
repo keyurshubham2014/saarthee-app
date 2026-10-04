@@ -2001,5 +2001,345 @@
   "accountChannelUpdates": "Updates",
   "@accountChannelUpdates": {
     "description": "TASK-04 accounts"
+  },
+  "alertsTitle": "Alerts",
+  "@alertsTitle": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsAction": "Alert settings",
+  "@alertsSettingsAction": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsTabActive": "Active",
+  "@alertsTabActive": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsTabPast": "Past",
+  "@alertsTabPast": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsEmptyActive": "No active alerts for your wards.",
+  "@alertsEmptyActive": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsEmptyPast": "No alerts in the last 30 days.",
+  "@alertsEmptyPast": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsLoadError": "We couldn't load alerts.",
+  "@alertsLoadError": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsOfflineCached": "You're offline. Showing the alerts loaded last time.",
+  "@alertsOfflineCached": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsNoWard": "Choose your ward to see alerts for it.",
+  "@alertsNoWard": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsAreaWard": "Ward {number} {name}",
+  "@alertsAreaWard": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsAreaWards": "Wards {numbers}",
+  "@alertsAreaWards": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "numbers": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsAreaZone": "{zone} zone",
+  "@alertsAreaZone": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsAreaCity": "All of Ahmedabad",
+  "@alertsAreaCity": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsValidityToday": "Today {from}–{to}",
+  "@alertsValidityToday": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsValidityRange": "{from} – {to}",
+  "@alertsValidityRange": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsValidityUntil": "Until {time}",
+  "@alertsValidityUntil": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsCardSemantics": "{severity} alert: {title}, until {time}",
+  "@alertsCardSemantics": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "severity": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsDetailWhere": "Where",
+  "@alertsDetailWhere": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsDetailWhen": "When",
+  "@alertsDetailWhen": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsDetailEnded": "This alert has ended.",
+  "@alertsDetailEnded": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsDetailCancelled": "Cancelled by Saarthee: {reason}",
+  "@alertsDetailCancelled": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsDetailNewer": "There is a newer update",
+  "@alertsDetailNewer": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsDetailNotAvailable": "This alert isn't available.",
+  "@alertsDetailNotAvailable": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsTurnOff": "Turn off alerts like this",
+  "@alertsTurnOff": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsOpenSourceLink": "Open the source page",
+  "@alertsOpenSourceLink": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsTitle": "Alert settings",
+  "@alertsSettingsTitle": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsYourWards": "Your wards",
+  "@alertsSettingsYourWards": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsHomeWard": "Home ward: {ward}",
+  "@alertsSettingsHomeWard": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsSettingsChangeInProfile": "Change in profile",
+  "@alertsSettingsChangeInProfile": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsAddWard": "Add a ward",
+  "@alertsSettingsAddWard": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsRemoveWard": "Remove {ward}",
+  "@alertsSettingsRemoveWard": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsSettingsMaxWards": "You can add up to 5 extra wards.",
+  "@alertsSettingsMaxWards": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsTypes": "Alert types",
+  "@alertsSettingsTypes": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsCriticalOnly": "Only critical alerts",
+  "@alertsSettingsCriticalOnly": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsQuietHours": "Between 10 pm and 7 am we hold non-critical alerts until 7 am. Critical alerts always come through.",
+  "@alertsSettingsQuietHours": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsMutedNote": "Muted alerts still appear in your notifications list.",
+  "@alertsSettingsMutedNote": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsVisitor": "Sign in to keep these settings on all your devices.",
+  "@alertsSettingsVisitor": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsSaveError": "Couldn't save. Try again.",
+  "@alertsSettingsSaveError": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsSettingsPickWard": "Choose a ward",
+  "@alertsSettingsPickWard": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeWaterCut": "Water cut",
+  "@alertTypeWaterCut": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeWaterTiming": "Water timing change",
+  "@alertTypeWaterTiming": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeRoadClosure": "Road closure",
+  "@alertTypeRoadClosure": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeHeat": "Heat",
+  "@alertTypeHeat": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeRainFlood": "Rain and flooding",
+  "@alertTypeRainFlood": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeHealth": "Health",
+  "@alertTypeHealth": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeInitiative": "Civic drives",
+  "@alertTypeInitiative": {
+    "description": "TASK-08 alerts"
+  },
+  "alertTypeOther": "Other",
+  "@alertTypeOther": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsBannerView": "View",
+  "@alertsBannerView": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsBannerDismiss": "Dismiss alert",
+  "@alertsBannerDismiss": {
+    "description": "TASK-08 alerts"
+  },
+  "alertsBannerAnnounce": "New alert: {title}",
+  "@alertsBannerAnnounce": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsBannerAnnounceCritical": "New critical alert: {title}",
+  "@alertsBannerAnnounceCritical": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "alertsIndependenceLine": "Independent citizen app. Not run by or linked to AMC.",
+  "@alertsIndependenceLine": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxTitle": "Notifications",
+  "@inboxTitle": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxToday": "Today",
+  "@inboxToday": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxEarlier": "Earlier",
+  "@inboxEarlier": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxMarkAll": "Mark all as read",
+  "@inboxMarkAll": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxMarkRead": "Mark as read",
+  "@inboxMarkRead": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxUnread": "Unread",
+  "@inboxUnread": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxEmpty": "No notifications yet.",
+  "@inboxEmpty": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxSignedOut": "Sign in to see updates about your reports and alerts.",
+  "@inboxSignedOut": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxSignIn": "Sign in",
+  "@inboxSignIn": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxError": "We couldn't load your notifications.",
+  "@inboxError": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxUpdateError": "Couldn't update. Try again.",
+  "@inboxUpdateError": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxGone": "This item is no longer available.",
+  "@inboxGone": {
+    "description": "TASK-08 alerts"
+  },
+  "inboxBellLabel": "Notifications, {count} unread",
+  "@inboxBellLabel": {
+    "description": "TASK-08 alerts",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

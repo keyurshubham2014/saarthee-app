@@ -56,7 +56,7 @@ void main() {
       0: ['P-02', 'P-01', 'P-03'],
       1: ['P-04'],
       2: ['P-05'],
-      3: ['P-06'],
+      // TASK-08 replaced P-06 with the Alerts tab (checked below).
       4: ['P-07', 'P-08'],
     };
     for (final e in byTab.entries) {
@@ -67,6 +67,10 @@ void main() {
         expect(f, findsOneWidget, reason: id);
       }
     }
+    await tab(t, 3);
+    expect(find.byKey(const ValueKey('alertsSegment')), findsOneWidget);
+    expect(find.byKey(const ValueKey('placeholder.P-06')), findsNothing);
+    await tab(t, 4);
     // TASK-04 replaced P-09 with the account row.
     final me = find.byKey(const Key('myWard.me'));
     await reveal(t, me);

@@ -11,6 +11,11 @@ import '../features/settings/presentation/settings_screen.dart';
 import '../features/shell/my_ward_screen.dart';
 import '../features/shell/shell_scaffold.dart';
 import '../features/shell/tab_placeholders.dart';
+import '../features/alerts/data/alert_models.dart';
+import '../features/alerts/presentation/alert_detail_screen.dart';
+import '../features/alerts/presentation/alert_settings_screen.dart';
+import '../features/alerts/presentation/alerts_tab_screen.dart' as alerts;
+import '../features/inbox/presentation/inbox_screen.dart';
 import 'route_helpers.dart';
 
 // ---------------------------------------------------------------------------
@@ -51,6 +56,18 @@ final List<RouteBase> reportChildRoutes = <RouteBase>[
 /// Child routes under `/alerts`.
 final List<RouteBase> alertsChildRoutes = <RouteBase>[
   // TASK-08 alerts.
+  saartheeRoute(
+    path: 'settings',
+    builder: (_, state) => AlertSettingsScreen(
+      highlightType: state.uri.queryParameters['type'] == null
+          ? null
+          : AlertType.parse(state.uri.queryParameters['type']),
+    ),
+  ),
+  saartheeRoute(
+    path: ':id',
+    builder: (_, state) => AlertDetailScreen(id: state.pathParameters['id']!),
+  ),
 ];
 
 /// Child routes under `/ward`.
@@ -71,6 +88,11 @@ final List<RouteBase> meRoutes = <RouteBase>[
     path: '/me/privacy',
     redirect: requireAccountRedirect,
     builder: (_, _) => const PrivacyScreen(),
+  ),
+  // TASK-08 inbox.
+  saartheeRoute(
+    path: '/me/notifications',
+    builder: (_, _) => const InboxScreen(),
   ),
 ];
 
@@ -117,7 +139,7 @@ StatefulShellRoute buildCitizenShell() => StatefulShellRoute(
       routes: [
         saartheeRoute(
           path: '/alerts',
-          builder: (_, _) => const AlertsTabScreen(),
+          builder: (_, _) => const alerts.AlertsTabScreen(),
           routes: alertsChildRoutes,
         ),
       ],
