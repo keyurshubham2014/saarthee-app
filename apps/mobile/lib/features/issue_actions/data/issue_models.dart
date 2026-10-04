@@ -141,6 +141,7 @@ class IssueEventItem {
     this.note,
     this.photoUrls = const [],
     this.answer,
+    this.level,
     this.createdAt,
   });
 
@@ -163,6 +164,7 @@ class IssueEventItem {
       note: j['note'] as String?,
       photoUrls: [for (final p in (j['photoUrls'] as List? ?? const [])) '$p'],
       answer: meta['answer'] as String?,
+      level: meta['level'] as String?,
       createdAt: _date(j['createdAt']),
     );
   }
@@ -170,6 +172,9 @@ class IssueEventItem {
   final String id, type, actorKind;
   final String? toStatus, wardNameEn, wardNameGu, actorNameEn, actorNameGu;
   final String? repRole, note, answer;
+
+  /// Escalation level of an `escalated` event.
+  final String? level;
   final List<String> photoUrls;
   final DateTime? createdAt;
 }
