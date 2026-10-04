@@ -11,7 +11,7 @@ const font = (f) => 'file://' + join(root, 'apps/mobile/assets/fonts', f);
 const lockup = (lang) => readFileSync(join(root, `docs/brand/lockup-horizontal-${lang}.svg`), 'utf8');
 const T = {
   en: { tag: 'Report it. Track it. See it fixed.', sub: 'Civic issues in Amdavad, followed through to the fix.', ind: 'Independent citizen app. Not run by or linked to AMC.' },
-  gu: { tag: 'ફરિયાદ કરો. ફોલો કરો. ઉકેલ જુઓ.', sub: 'અમદાવાદની નાગરિક સમસ્યાઓ, ઉકેલ સુધી.', ind: 'સ્વતંત્ર નાગરિક એપ. AMC દ્વારા સંચાલિત કે તેની સાથે જોડાયેલી નથી.' },
+  gu: { tag: 'ફરિયાદ કરો. ફોલો કરો. ઉકેલ જુઓ.', sub: 'અમદાવાદની નાગરિક સમસ્યાઓ, ઉકેલ સુધી.', ind: 'નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.' },
 };
 
 // Calm abstract street motif: soft lanes and a junction in Neem tints, bottom-right.
