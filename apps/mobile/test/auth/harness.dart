@@ -65,11 +65,12 @@ Future<(ProviderContainer, GoRouter)> pumpAuthHarness(
   Widget home = const FollowHarness(),
   String initial = '/',
   List<RouteBase> extraRoutes = const [],
+  Map<String, Object> extraPrefs = const {},
 }) async {
   tester.view.physicalSize = const Size(400, 800);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
-  final prefs = await testPrefs(onboardedPrefs());
+  final prefs = await testPrefs({...onboardedPrefs(), ...extraPrefs});
   final router = GoRouter(
     initialLocation: initial,
     routes: [
