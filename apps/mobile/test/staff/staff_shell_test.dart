@@ -145,4 +145,35 @@ void main() {
     expect(find.byType(WardDashboardScreen), findsOneWidget);
     expect(find.byKey(const Key('staff.forbidden')), findsNothing);
   });
+
+  // V2-TASK-14 polish: "Saarthee s…" truncated next to the role chip at 360 dp.
+  testWidgets('360 dp: short "Staff" title and role chip both fit', (t) async {
+    await pumpStaff(
+      t,
+      location: '/staff',
+      role: 'representative',
+      size: const Size(360, 780),
+      overrides: [repConsoleApiProvider.overrideWithValue(FakeRepConsoleApi())],
+    );
+    final title = find.byKey(const Key('staff.title'));
+    expect(t.widget<Text>(title).data, 'Staff');
+    // Test glyphs are square (wider than Mukta/Baloo), so assert layout:
+    // title visible, whole chip before the icon-only Sign out.
+    expect(t.getSize(title).width, greaterThan(0));
+    expect(find.text('Representative'), findsOneWidget);
+    final chip = t.getRect(find.byKey(const Key('staff.roleChip')));
+    final signOut = t.getRect(find.byKey(const Key('staff.signOut')));
+    expect(chip.right, lessThanOrEqualTo(signOut.left));
+    expect(find.byTooltip('Sign out'), findsOneWidget);
+    expect(find.text('Sign out'), findsNothing);
+    expect(t.takeException(), isNull);
+  });
+
+  testWidgets('wide layout keeps the full "Saarthee staff" title', (t) async {
+    await pumpStaff(t, location: '/staff');
+    expect(
+      t.widget<Text>(find.byKey(const Key('staff.title'))).data,
+      'Saarthee staff',
+    );
+  });
 }
