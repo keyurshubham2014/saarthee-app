@@ -1938,5 +1938,413 @@
   "accountChannelUpdates": "અપડેટ્સ",
   "@accountChannelUpdates": {
     "x-review": "pending"
+  },
+  "reportFlowStepWhatTitle": "શું સમસ્યા છે?",
+  "@reportFlowStepWhatTitle": {
+    "x-review": "pending"
+  },
+  "reportFlowStepPhotoTitle": "ફોટો ઉમેરો અને જગ્યા તપાસો",
+  "@reportFlowStepPhotoTitle": {
+    "x-review": "pending"
+  },
+  "reportFlowStepDetailsTitle": "વિગતો ઉમેરો અને તપાસો",
+  "@reportFlowStepDetailsTitle": {
+    "x-review": "pending"
+  },
+  "reportFlowHintPhoto": "ફોટો અને જગ્યા",
+  "@reportFlowHintPhoto": {
+    "x-review": "pending"
+  },
+  "reportFlowHintDetails": "વિગતો",
+  "@reportFlowHintDetails": {
+    "x-review": "pending"
+  },
+  "reportFlowCategoriesError": "અમે યાદી લોડ કરી શક્યા નહીં. ફરી પ્રયાસ કરો",
+  "@reportFlowCategoriesError": {
+    "x-review": "pending"
+  },
+  "reportFlowCategoriesOffline": "તમે ઓફલાઇન છો. સાચવેલી યાદી બતાવીએ છીએ.",
+  "@reportFlowCategoriesOffline": {
+    "x-review": "pending"
+  },
+  "reportFlowAddAnotherPhoto": "બીજો ફોટો ઉમેરો",
+  "@reportFlowAddAnotherPhoto": {
+    "x-review": "pending"
+  },
+  "reportFlowRemovePhoto": "ફોટો {index} કાઢો",
+  "@reportFlowRemovePhoto": {
+    "x-review": "pending"
+  },
+  "reportFlowPhotoLabel": "સમસ્યાનો ફોટો {index}, {time} એ લીધો",
+  "@reportFlowPhotoLabel": {
+    "x-review": "pending"
+  },
+  "reportFlowUploading": "અપલોડ થાય છે…",
+  "@reportFlowUploading": {
+    "x-review": "pending"
+  },
+  "reportFlowRetryUpload": "ફરી અપલોડ કરો",
+  "@reportFlowRetryUpload": {
+    "x-review": "pending"
+  },
+  "reportFlowBlurring": "ચહેરા અને નંબર પ્લેટ ઝાંખા કરીએ છીએ…",
+  "@reportFlowBlurring": {
+    "x-review": "pending"
+  },
+  "reportFlowBlurred": "ચહેરા અને નંબર પ્લેટ ઝાંખા કર્યા",
+  "@reportFlowBlurred": {
+    "x-review": "pending"
+  },
+  "reportFlowBlurMore": "વધુ ઝાંખું કરો",
+  "@reportFlowBlurMore": {
+    "x-review": "pending"
+  },
+  "reportFlowLocationNeeded": "નકશા પર ફરિયાદ મૂકવા માટે અમને તમારું સ્થાન જોઈએ.",
+  "@reportFlowLocationNeeded": {
+    "x-review": "pending"
+  },
+  "reportFlowLocating": "તમારું સ્થાન શોધીએ છીએ…",
+  "@reportFlowLocating": {
+    "x-review": "pending"
+  },
+  "reportFlowWeakGps": "સ્થાન અંદાજિત છે. પિનને ચોક્કસ જગ્યાએ ખેંચો.",
+  "@reportFlowWeakGps": {
+    "x-review": "pending"
+  },
+  "reportFlowInWard": "વોર્ડ: {ward} ({zone} ઝોન)",
+  "@reportFlowInWard": {
+    "x-review": "pending"
+  },
+  "reportFlowWardConfirm": "આ જગ્યા વોર્ડની હદની સહેજ બહાર છે. શું તે {ward} માં છે?",
+  "@reportFlowWardConfirm": {
+    "x-review": "pending"
+  },
+  "reportFlowWardYes": "હા",
+  "@reportFlowWardYes": {
+    "x-review": "pending"
+  },
+  "reportFlowWardChooseAnother": "બીજો વોર્ડ પસંદ કરો",
+  "@reportFlowWardChooseAnother": {
+    "x-review": "pending"
+  },
+  "reportFlowWardMoveHint": "પિનને સાચા વોર્ડમાં ખસેડો.",
+  "@reportFlowWardMoveHint": {
+    "x-review": "pending"
+  },
+  "reportFlowOutsideArea": "આ જગ્યા અમદાવાદના વોર્ડની બહાર છે. સારથી ફક્ત શહેરની અંદરની ફરિયાદો લઈ શકે છે.",
+  "@reportFlowOutsideArea": {
+    "x-review": "pending"
+  },
+  "reportFlowAdjustPin": "પિન ખસેડો",
+  "@reportFlowAdjustPin": {
+    "x-review": "pending"
+  },
+  "reportFlowPinDone": "થઈ ગયું",
+  "@reportFlowPinDone": {
+    "x-review": "pending"
+  },
+  "reportFlowMovePinNorth": "પિન ઉત્તરમાં ખસેડો",
+  "@reportFlowMovePinNorth": {
+    "x-review": "pending"
+  },
+  "reportFlowMovePinSouth": "પિન દક્ષિણમાં ખસેડો",
+  "@reportFlowMovePinSouth": {
+    "x-review": "pending"
+  },
+  "reportFlowMovePinEast": "પિન પૂર્વમાં ખસેડો",
+  "@reportFlowMovePinEast": {
+    "x-review": "pending"
+  },
+  "reportFlowMovePinWest": "પિન પશ્ચિમમાં ખસેડો",
+  "@reportFlowMovePinWest": {
+    "x-review": "pending"
+  },
+  "reportFlowMapLabel": "ફરિયાદના સ્થાનનો નકશો",
+  "@reportFlowMapLabel": {
+    "x-review": "pending"
+  },
+  "reportFlowMapAttribution": "નકશા ડેટા © OpenStreetMap યોગદાનકર્તાઓ",
+  "@reportFlowMapAttribution": {
+    "x-review": "pending"
+  },
+  "reportDupTitle": "નજીકમાં પહેલેથી નોંધાયેલું",
+  "@reportDupTitle": {
+    "x-review": "pending"
+  },
+  "reportDupMeta": "{metres} મી દૂર · {count} મારી પણ",
+  "@reportDupMeta": {
+    "x-review": "pending"
+  },
+  "reportDupAddMeToo": "મારી પણ ફરિયાદ",
+  "@reportDupAddMeToo": {
+    "x-review": "pending"
+  },
+  "reportDupAdded": "ઉમેર્યું",
+  "@reportDupAdded": {
+    "x-review": "pending"
+  },
+  "reportDupDifferent": "ના, મારી અલગ છે",
+  "@reportDupDifferent": {
+    "x-review": "pending"
+  },
+  "reportDupConfirmTitle": "આભાર, તમારો અવાજ ઉમેરાયો",
+  "@reportDupConfirmTitle": {
+    "x-review": "pending"
+  },
+  "reportDupConfirmBody": "તેની સ્થિતિ બદલાશે ત્યારે અમે તમને જણાવીશું. તમારો ડ્રાફ્ટ કાઢી નાખ્યો.",
+  "@reportDupConfirmBody": {
+    "x-review": "pending"
+  },
+  "reportFlowDescriptionLabel": "વર્ણન",
+  "@reportFlowDescriptionLabel": {
+    "x-review": "pending"
+  },
+  "reportFlowDescriptionHint": "શું સુધારવું જોઈએ?",
+  "@reportFlowDescriptionHint": {
+    "x-review": "pending"
+  },
+  "reportFlowCharCount": "{count}/1,000",
+  "@reportFlowCharCount": {
+    "x-review": "pending"
+  },
+  "reportFlowReasonTitle": "અહીં શું સમસ્યા છે?",
+  "@reportFlowReasonTitle": {
+    "x-review": "pending"
+  },
+  "reportReasonEncFootpath": "ફૂટપાથ રોકે છે",
+  "@reportReasonEncFootpath": {
+    "x-review": "pending"
+  },
+  "reportReasonEncRoad": "રસ્તો રોકે છે",
+  "@reportReasonEncRoad": {
+    "x-review": "pending"
+  },
+  "reportReasonEncHawkers": "ફેરિયા કે સ્ટોલ",
+  "@reportReasonEncHawkers": {
+    "x-review": "pending"
+  },
+  "reportReasonEncOther": "અન્ય અવરોધ",
+  "@reportReasonEncOther": {
+    "x-review": "pending"
+  },
+  "reportReasonBldNoPermission": "મંજૂરી વગરનું બાંધકામ",
+  "@reportReasonBldNoPermission": {
+    "x-review": "pending"
+  },
+  "reportReasonBldUnsafe": "અસુરક્ષિત મકાન",
+  "@reportReasonBldUnsafe": {
+    "x-review": "pending"
+  },
+  "reportReasonBldDebris": "રસ્તા પર કાટમાળ",
+  "@reportReasonBldDebris": {
+    "x-review": "pending"
+  },
+  "reportReasonBldOther": "અન્ય",
+  "@reportReasonBldOther": {
+    "x-review": "pending"
+  },
+  "reportFlowSummaryCategory": "શ્રેણી",
+  "@reportFlowSummaryCategory": {
+    "x-review": "pending"
+  },
+  "reportFlowSummaryPhotos": "ફોટા",
+  "@reportFlowSummaryPhotos": {
+    "x-review": "pending"
+  },
+  "reportFlowSummaryPlace": "જગ્યા",
+  "@reportFlowSummaryPlace": {
+    "x-review": "pending"
+  },
+  "reportFlowSummaryDescription": "વર્ણન",
+  "@reportFlowSummaryDescription": {
+    "x-review": "pending"
+  },
+  "reportFlowPhotoCount": "{count, plural, =1{1 ફોટો} other{{count} ફોટા}}",
+  "@reportFlowPhotoCount": {
+    "x-review": "pending"
+  },
+  "reportFlowNone": "કંઈ નહીં",
+  "@reportFlowNone": {
+    "x-review": "pending"
+  },
+  "reportFlowConsent": "તમારી ફરિયાદ, ફોટા અને જગ્યા જાહેર રહેશે. તમારું નામ અને ફોન નંબર ક્યારેય બતાવાતા નથી.",
+  "@reportFlowConsent": {
+    "x-review": "pending"
+  },
+  "reportFlowSubmit": "ફરિયાદ મોકલો",
+  "@reportFlowSubmit": {
+    "x-review": "pending"
+  },
+  "reportFlowQuota": "તમે આજે {count} ફરિયાદો મોકલી છે. તમે કાલે વધુ મોકલી શકો છો.",
+  "@reportFlowQuota": {
+    "x-review": "pending"
+  },
+  "reportFlowPhotoExpired": "તમારો ફોટો અપલોડ જૂનો થઈ ગયો. કૃપા કરીને ફરી ફોટો લો.",
+  "@reportFlowPhotoExpired": {
+    "x-review": "pending"
+  },
+  "reportFlowWardConfirmNeeded": "કૃપા કરીને આ જગ્યાનો વોર્ડ પુષ્ટિ કરો.",
+  "@reportFlowWardConfirmNeeded": {
+    "x-review": "pending"
+  },
+  "reportFlowPhotosPending": "તમારા ફોટા અપલોડ થવાની રાહ જુઓ.",
+  "@reportFlowPhotosPending": {
+    "x-review": "pending"
+  },
+  "reportFlowRecoverFailed": "અમે છેલ્લો ફોટો પાછો મેળવી શક્યા નહીં. કૃપા કરીને ફરી લો.",
+  "@reportFlowRecoverFailed": {
+    "x-review": "pending"
+  },
+  "reportFlowReasonRequired": "એક વિકલ્પ પસંદ કરો.",
+  "@reportFlowReasonRequired": {
+    "x-review": "pending"
+  },
+  "reportErrorWardConfirmation": "આ જગ્યા વોર્ડની હદની સહેજ બહાર છે. કૃપા કરીને વોર્ડ પુષ્ટિ કરો.",
+  "@reportErrorWardConfirmation": {
+    "x-review": "pending"
+  },
+  "reportErrorOwnIssue": "આ ફરિયાદ તમે નોંધાવી છે.",
+  "@reportErrorOwnIssue": {
+    "x-review": "pending"
+  },
+  "reportErrorNotOpen": "આ ફરિયાદ હવે ખુલ્લી નથી.",
+  "@reportErrorNotOpen": {
+    "x-review": "pending"
+  },
+  "reportErrorSuspended": "આ એકાઉન્ટ સ્થગિત છે.",
+  "@reportErrorSuspended": {
+    "x-review": "pending"
+  },
+  "reportDoneTitle": "ફરિયાદ મોકલાઈ. આભાર.",
+  "@reportDoneTitle": {
+    "x-review": "pending"
+  },
+  "reportDoneIssueNumber": "ફરિયાદ {ref}",
+  "@reportDoneIssueNumber": {
+    "x-review": "pending"
+  },
+  "reportDoneAnnounce": "ફરિયાદ મોકલાઈ. ફરિયાદ {ref}",
+  "@reportDoneAnnounce": {
+    "x-review": "pending"
+  },
+  "reportDoneBody": "પડોશીઓ હવે તે જોઈ શકે છે અને \"મારી પણ\" ઉમેરી શકે છે. તેની સ્થિતિ બદલાશે ત્યારે અમે તમને જણાવીશું.",
+  "@reportDoneBody": {
+    "x-review": "pending"
+  },
+  "reportDoneSensitive": "જાહેર થતાં પહેલાં એક મોડરેટર તેને તપાસશે.",
+  "@reportDoneSensitive": {
+    "x-review": "pending"
+  },
+  "reportDoneDone": "થઈ ગયું",
+  "@reportDoneDone": {
+    "x-review": "pending"
+  },
+  "reportHandoffTitle": "AMC માં પણ ફરિયાદ કરો (વૈકલ્પિક)",
+  "@reportHandoffTitle": {
+    "x-review": "pending"
+  },
+  "reportHandoffCategory": "આ માટે AMC ની શ્રેણી: {dept} › {problem}",
+  "@reportHandoffCategory": {
+    "x-review": "pending"
+  },
+  "reportHandoffOther": "AMC ની સાઇટ પર સૌથી નજીકનો પ્રકાર પસંદ કરો.",
+  "@reportHandoffOther": {
+    "x-review": "pending"
+  },
+  "reportHandoffWeb": "AMC ફરિયાદ વેબસાઇટ ખોલો",
+  "@reportHandoffWeb": {
+    "x-review": "pending"
+  },
+  "reportHandoffWhatsapp": "AMC નું WhatsApp વાપરો",
+  "@reportHandoffWhatsapp": {
+    "x-review": "pending"
+  },
+  "reportHandoffCall": "{number} પર ફોન કરો",
+  "@reportHandoffCall": {
+    "x-review": "pending"
+  },
+  "reportHandoffCopy": "AMC માટે વિગતો કૉપિ કરો",
+  "@reportHandoffCopy": {
+    "x-review": "pending"
+  },
+  "reportHandoffCopied": "વિગતો કૉપિ થઈ",
+  "@reportHandoffCopied": {
+    "x-review": "pending"
+  },
+  "reportHandoffFailed": "{target} ખોલી શકાયું નહીં. બીજી રીતે પ્રયાસ કરો.",
+  "@reportHandoffFailed": {
+    "x-review": "pending"
+  },
+  "reportHandoffLinkLater": "પહેલેથી ફરિયાદ કરી છે? તમારો AMC ફરિયાદ નંબર ઉમેરો",
+  "@reportHandoffLinkLater": {
+    "x-review": "pending"
+  },
+  "reportHandoffCopyText": "{category} સમસ્યા {lat},{lng} પર (https://maps.google.com/?q={lat},{lng}), વોર્ડ {ward}. સારથી પર {date} એ નોંધાવી.",
+  "@reportHandoffCopyText": {
+    "x-review": "pending"
+  },
+  "reportBlurTitle": "ચહેરા અને નંબર પ્લેટ ઝાંખા કરો",
+  "@reportBlurTitle": {
+    "x-review": "pending"
+  },
+  "reportBlurHint": "વધુ ઝાંખું કરવા ટેપ કરો અથવા ખેંચો",
+  "@reportBlurHint": {
+    "x-review": "pending"
+  },
+  "reportBlurUndo": "પાછું કરો",
+  "@reportBlurUndo": {
+    "x-review": "pending"
+  },
+  "reportBlurDone": "થઈ ગયું",
+  "@reportBlurDone": {
+    "x-review": "pending"
+  },
+  "reportBlurUnavailable": "આ ફોન પર આપમેળે ઝાંખું કરવાનું ઉપલબ્ધ નથી. ચહેરા અને નંબર પ્લેટ હાથથી ઝાંખા કરો.",
+  "@reportBlurUnavailable": {
+    "x-review": "pending"
+  },
+  "linkCcrsTitle": "તમારો AMC ફરિયાદ નંબર ઉમેરો",
+  "@linkCcrsTitle": {
+    "x-review": "pending"
+  },
+  "linkCcrsField": "AMC ફરિયાદ નંબર",
+  "@linkCcrsField": {
+    "x-review": "pending"
+  },
+  "linkCcrsHelp": "તે AMC એ મોકલેલા SMS અથવા WhatsApp સંદેશમાં છે.",
+  "@linkCcrsHelp": {
+    "x-review": "pending"
+  },
+  "linkCcrsHow": "તમે કેવી રીતે ફરિયાદ કરી?",
+  "@linkCcrsHow": {
+    "x-review": "pending"
+  },
+  "linkCcrsWeb": "વેબસાઇટ",
+  "@linkCcrsWeb": {
+    "x-review": "pending"
+  },
+  "linkCcrsWhatsapp": "WhatsApp",
+  "@linkCcrsWhatsapp": {
+    "x-review": "pending"
+  },
+  "linkCcrsPhone": "ફોન",
+  "@linkCcrsPhone": {
+    "x-review": "pending"
+  },
+  "linkCcrsSave": "સાચવો",
+  "@linkCcrsSave": {
+    "x-review": "pending"
+  },
+  "linkCcrsRequired": "AMC તરફથી મળેલો ફરિયાદ નંબર દાખલ કરો.",
+  "@linkCcrsRequired": {
+    "x-review": "pending"
+  },
+  "linkCcrsConflict": "આ ફરિયાદ સાથે બીજો નંબર પહેલેથી જોડાયેલો છે.",
+  "@linkCcrsConflict": {
+    "x-review": "pending"
+  },
+  "linkCcrsSaved": "ફરિયાદ નંબર સાચવ્યો.",
+  "@linkCcrsSaved": {
+    "x-review": "pending"
   }
 }
