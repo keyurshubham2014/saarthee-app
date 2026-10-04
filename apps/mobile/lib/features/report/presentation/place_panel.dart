@@ -128,7 +128,7 @@ class _PlacePanelState extends ConsumerState<PlacePanel> {
             child: SecondaryButton(
               key: const Key('report.adjustPin'),
               label: l10n.reportFlowAdjustPin,
-              icon: SaartheeIcons.location,
+              icon: SaartheeIcons.editLocation,
               onPressed: () => setState(() => _adjusting = true),
             ),
           )
@@ -143,18 +143,12 @@ class _PlacePanelState extends ConsumerState<PlacePanel> {
               IconButton(
                 tooltip: l10n.reportFlowMovePinNorth,
                 onPressed: () => _arrow(1, 0),
-                icon: Transform.rotate(
-                  angle: math.pi / 2,
-                  child: const Icon(SaartheeIcons.back),
-                ),
+                icon: const Icon(SaartheeIcons.arrowUp),
               ),
               IconButton(
                 tooltip: l10n.reportFlowMovePinSouth,
                 onPressed: () => _arrow(-1, 0),
-                icon: Transform.rotate(
-                  angle: -math.pi / 2,
-                  child: const Icon(SaartheeIcons.back),
-                ),
+                icon: const Icon(SaartheeIcons.arrowDown),
               ),
               IconButton(
                 tooltip: l10n.reportFlowMovePinEast,

@@ -145,4 +145,9 @@ class SaartheeIcons {
   static const IconData badge = Symbols.badge_rounded;
   static const IconData attractions = Symbols.attractions_rounded;
   static const IconData services = Symbols.home_repair_service_rounded;
+
+  // TASK-05 report fixes (append-only): pin nudge arrows, adjust pin.
+  static const IconData arrowUp = Symbols.arrow_upward_rounded;
+  static const IconData arrowDown = Symbols.arrow_downward_rounded;
+  static const IconData editLocation = Symbols.edit_location_alt_rounded;
 }

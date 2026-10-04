@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/core/api/app_error.dart';
 import 'package:saarthee/core/capture/evidence_capture.dart';
 import 'package:saarthee/core/l10n/app_localizations_en.dart';
+import 'package:saarthee/core/theme/icons.dart';
 import 'package:saarthee/core/widgets/widgets.dart';
 import 'package:saarthee/features/report/application/report_draft_controller.dart';
 import 'package:saarthee/features/report/application/report_providers.dart';
@@ -289,6 +290,22 @@ void main() {
         '/report/done',
       );
     }
+
+    testWidgets('AMC hand-off icons match their actions (DS §4)', (t) async {
+      await submitAndOpen(t);
+      for (final (label, icon) in [
+        ('Open AMC complaint website', SaartheeIcons.openInNew),
+        ("Use AMC's WhatsApp", SaartheeIcons.chat),
+        ('Call 155303', SaartheeIcons.call),
+      ]) {
+        final button = find.ancestor(
+          of: find.text(label),
+          matching: find.byType(SecondaryButton),
+        );
+        await t.scrollUntilVisible(find.text(label), 200);
+        expect(t.widget<SecondaryButton>(button).icon, icon, reason: label);
+      }
+    });
 
     testWidgets(
       'primary AMC type in English, independence line, issue number',

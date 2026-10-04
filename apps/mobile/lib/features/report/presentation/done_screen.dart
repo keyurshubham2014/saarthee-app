@@ -119,7 +119,7 @@ class ReportDoneScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.s12),
                 SecondaryButton(
                   label: l10n.reportHandoffWeb,
-                  icon: SaartheeIcons.share,
+                  icon: SaartheeIcons.openInNew,
                   onPressed: () => _open(
                     context,
                     ref,
@@ -141,7 +141,7 @@ class ReportDoneScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpacing.s8),
                 SecondaryButton(
                   label: l10n.reportHandoffCall(AppConfig.amcHelpline),
-                  icon: SaartheeIcons.phone,
+                  icon: SaartheeIcons.call,
                   onPressed: () => _open(
                     context,
                     ref,
