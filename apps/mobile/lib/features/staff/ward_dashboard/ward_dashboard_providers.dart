@@ -7,7 +7,11 @@ import 'ward_dashboard_models.dart';
 /// Wards the switcher offers (server scope: own wards for representatives).
 final wardScopeProvider = FutureProvider.autoDispose<List<ScopeWard>>(
   (ref) => ref.watch(repConsoleApiProvider).scope(),
+  retry: _noRetry,
 );
+
+/// Screens retry explicitly ("Try again"); matches the app-wide policy.
+Duration? _noRetry(int _, Object _) => null;
 
 /// The ward chosen in the switcher (null → first scope ward).
 class SelectedWard extends Notifier<String?> {
@@ -48,7 +52,7 @@ final wardDashboardProvider = FutureProvider.autoDispose
         }
         rethrow;
       }
-    });
+    }, retry: _noRetry);
 
 /// Ward issue list for `/staff/ward/issues` (status / overdue filters).
 typedef WardIssuesArgs = ({String wardId, bool overdue});
@@ -58,4 +62,5 @@ final wardIssuesProvider = FutureProvider.autoDispose
       (ref, a) => ref
           .watch(repConsoleApiProvider)
           .wardIssues(a.wardId, overdue: a.overdue),
+      retry: _noRetry,
     );

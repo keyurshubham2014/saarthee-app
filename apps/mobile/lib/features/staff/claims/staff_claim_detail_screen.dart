@@ -212,7 +212,7 @@ class _EvidenceImage extends ConsumerWidget {
       child: SizedBox(
         width: 160,
         height: 160,
-        child: bytes == null
+        child: bytes == null || bytes.isEmpty
             ? const SizedBox.shrink()
             : InteractiveViewer(
                 child: Image.memory(
