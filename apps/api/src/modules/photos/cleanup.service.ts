@@ -20,7 +20,14 @@ export async function cleanupPhotos(): Promise<CleanupResult> {
   const cutoff = new Date(Date.now() - config.UNATTACHED_PHOTO_TTL_HOURS * 3_600_000);
 
   const orphans = await prisma.photo.findMany({
-    where: { attachedAt: null, deletedAt: null, uploadedAt: { lt: cutoff }, complaint: null, verification: null },
+    where: {
+      attachedAt: null,
+      deletedAt: null,
+      uploadedAt: { lt: cutoff },
+      complaint: null,
+      verification: null,
+      issuePhoto: null,
+    },
     select: { id: true, storageKey: true },
   });
   for (const p of orphans) {

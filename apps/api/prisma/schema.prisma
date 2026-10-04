@@ -2,12 +2,14 @@
 // events identity, views) lives in the migrations because Prisma cannot express it.
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [postgis]
 }
 
 enum SourceTag {
@@ -138,6 +140,11 @@ model Photo {
   complaint            Complaint?    @relation("ComplaintPhoto")
   verification         Verification?
 
+  // v2 (TASK-01): photos are reused by issues.
+  issuePhoto         IssuePhoto?
+  issueEvents        IssueEvent[]
+  issueVerifications IssueVerification[]
+
   @@unique([storageKey], map: "uq_photos_storage_key")
   @@index([sha256], map: "idx_photos_sha256")
   @@index([uploadedForComplaintId], map: "idx_photos_uploaded_for_complaint")
@@ -181,6 +188,8 @@ model Complaint {
   reminders      Reminder[]
   verifications  Verification[]
   events         Event[]
+  /// v2 (TASK-01): the issue this complaint was copied into by legacy:migrate.
+  issue          Issue?
 
   @@unique([clientSubmissionId], map: "uq_complaints_client_submission")
   @@unique([photoId], map: "uq_complaints_photo")
@@ -261,4 +270,314 @@ model Event {
   @@index([complaintId], map: "idx_events_complaint")
   @@index([installId], map: "idx_events_install")
   @@map("events")
+}
+
+// ---------------------------------------------------------------------------------------------------
+// v2 (V2 TASK-01 §5.2, Spec §6). Hand-written SQL in the migrations: CHECKs, partial indexes
+// (idx_users_role, uq_consents_active, idx_issues_sla_open), the issues location trigger, the
+// issue_events append-only trigger and the legacy read-only triggers on v1 tables.
+// Later tasks append their models at the end of this file.
+// ---------------------------------------------------------------------------------------------------
+
+enum UserRole {
+  citizen
+  moderator
+  admin
+  representative
+
+  @@map("user_role")
+}
+
+enum UserStatus {
+  active
+  suspended
+  deleted
+
+  @@map("user_status")
+}
+
+enum AppLanguage {
+  gu
+  en
+
+  @@map("app_language")
+}
+
+enum ConsentPurpose {
+  core_service
+  share_with_representatives
+  share_with_amc_handoff
+  notifications
+
+  @@map("consent_purpose")
+}
+
+enum IssueStatus {
+  reported
+  sent
+  acknowledged
+  in_progress
+  marked_fixed
+  verified
+  reopened
+  rejected
+  merged
+
+  @@map("issue_status")
+}
+
+enum IssueVisibility {
+  public
+  hidden
+
+  @@map("issue_visibility")
+}
+
+enum IssuePhotoKind {
+  report
+  after
+  verification
+
+  @@map("issue_photo_kind")
+}
+
+enum IssueEventType {
+  status_change
+  comment
+  ccrs_linked
+  escalated
+  merged
+  rejected
+
+  @@map("issue_event_type")
+}
+
+enum ActorRole {
+  citizen
+  moderator
+  admin
+  representative
+  system
+
+  @@map("actor_role")
+}
+
+model User {
+  id           String      @id(map: "pk_users") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phoneE164    String?     @map("phone_e164") @db.VarChar(16)
+  firebaseUid  String?     @map("firebase_uid") @db.VarChar(128)
+  displayName  String?     @map("display_name") @db.VarChar(60)
+  /// FK to wards added by TASK-02.
+  homeWardId   String?     @map("home_ward_id") @db.Uuid
+  language     AppLanguage @default(gu)
+  role         UserRole    @default(citizen)
+  status       UserStatus  @default(active)
+  tokenVersion Int         @default(0) @map("token_version")
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  lastSeenAt   DateTime?   @map("last_seen_at") @db.Timestamptz(6)
+  deletedAt    DateTime?   @map("deleted_at") @db.Timestamptz(6)
+
+  consents           Consent[]
+  devices            Device[]
+  reportedIssues     Issue[]
+  issueEvents        IssueEvent[]
+  issueVerifications IssueVerification[]
+  meToos             MeToo[]
+  follows            Follow[]
+
+  @@unique([phoneE164], map: "uq_users_phone")
+  @@unique([firebaseUid], map: "uq_users_firebase_uid")
+  @@map("users")
+}
+
+model Consent {
+  id          String         @id(map: "pk_consents") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String         @map("user_id") @db.Uuid
+  purpose     ConsentPurpose
+  textVersion String         @map("text_version") @db.VarChar(20)
+  grantedAt   DateTime       @default(now()) @map("granted_at") @db.Timestamptz(6)
+  withdrawnAt DateTime?      @map("withdrawn_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_consents_user")
+
+  @@index([userId], map: "idx_consents_user")
+  @@map("consents")
+}
+
+model Device {
+  id         String   @id(map: "pk_devices") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String?  @map("user_id") @db.Uuid
+  installId  String   @map("install_id") @db.Uuid
+  fcmToken   String?  @map("fcm_token") @db.VarChar(4096)
+  platform   Platform
+  appVersion String   @map("app_version") @db.VarChar(20)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  lastSeenAt DateTime @default(now()) @map("last_seen_at") @db.Timestamptz(6)
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_devices_user")
+
+  @@unique([installId], map: "uq_devices_install")
+  @@unique([fcmToken], map: "uq_devices_fcm_token")
+  @@index([userId], map: "idx_devices_user")
+  @@map("devices")
+}
+
+model Category {
+  id          String   @id(map: "pk_categories") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug        String   @db.VarChar(32)
+  nameEn      String   @map("name_en") @db.VarChar(60)
+  nameGu      String   @map("name_gu") @db.VarChar(60)
+  icon        String   @db.VarChar(64)
+  colourToken String   @map("colour_token") @db.VarChar(40)
+  slaDays     Int      @map("sla_days") @db.SmallInt
+  sensitive   Boolean  @default(false)
+  isActive    Boolean  @default(true) @map("is_active")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  issues Issue[]
+
+  @@unique([slug], map: "uq_categories_slug")
+  @@index([isActive, sortOrder], map: "idx_categories_active_order")
+  @@map("categories")
+}
+
+model Issue {
+  id                 String                                 @id(map: "pk_issues") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientSubmissionId String                                 @map("client_submission_id") @db.Uuid
+  reporterId         String?                                @map("reporter_id") @db.Uuid
+  categoryId         String                                 @map("category_id") @db.Uuid
+  title              String                                 @db.VarChar(120)
+  description        String?                                @db.VarChar(1000)
+  lat                Decimal                                @db.Decimal(9, 6)
+  lng                Decimal                                @db.Decimal(9, 6)
+  /// Filled from lat/lng by trigger trg_issues_location; read it only through $queryRaw (src/lib/geo).
+  location           Unsupported("geography(Point, 4326)")?
+  gpsAccuracyM       Decimal?                               @map("gps_accuracy_m") @db.Decimal(8, 2)
+  /// FK to wards added by TASK-02.
+  wardId             String?                                @map("ward_id") @db.Uuid
+  /// FK to zones added by TASK-02.
+  zoneId             String?                                @map("zone_id") @db.Uuid
+  addressText        String?                                @map("address_text") @db.VarChar(200)
+  status             IssueStatus                            @default(reported)
+  statusChangedAt    DateTime                               @default(now()) @map("status_changed_at") @db.Timestamptz(6)
+  slaDueAt           DateTime                               @map("sla_due_at") @db.Timestamptz(6)
+  meTooCount         Int                                    @default(0) @map("me_too_count")
+  followerCount      Int                                    @default(0) @map("follower_count")
+  ccrsNumber         String?                                @map("ccrs_number") @db.VarChar(50)
+  ccrsFiledAt        DateTime?                              @map("ccrs_filed_at") @db.Timestamptz(6)
+  visibility         IssueVisibility                        @default(public)
+  isSensitive        Boolean                                @default(false) @map("is_sensitive")
+  mergedIntoId       String?                                @map("merged_into_id") @db.Uuid
+  legacyComplaintId  String?                                @map("legacy_complaint_id") @db.Uuid
+  createdAt          DateTime                               @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime                               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  reporter        User?      @relation(fields: [reporterId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issues_reporter")
+  category        Category   @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issues_category")
+  mergedInto      Issue?     @relation("IssueMerges", fields: [mergedIntoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issues_merged_into")
+  mergedIssues    Issue[]    @relation("IssueMerges")
+  legacyComplaint Complaint? @relation(fields: [legacyComplaintId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issues_legacy_complaint")
+
+  photos        IssuePhoto[]
+  events        IssueEvent[]
+  verifications IssueVerification[]
+  meToos        MeToo[]
+  follows       Follow[]
+
+  @@unique([clientSubmissionId], map: "uq_issues_client_submission")
+  @@unique([legacyComplaintId], map: "uq_issues_legacy_complaint")
+  @@index([location], map: "idx_issues_location", type: Gist)
+  @@index([status, statusChangedAt(sort: Desc)], map: "idx_issues_status")
+  @@index([wardId, status], map: "idx_issues_ward_status")
+  @@index([categoryId, createdAt(sort: Desc)], map: "idx_issues_category_created")
+  @@index([reporterId], map: "idx_issues_reporter")
+  @@index([mergedIntoId], map: "idx_issues_merged_into")
+  @@map("issues")
+}
+
+model IssuePhoto {
+  issueId  String         @map("issue_id") @db.Uuid
+  photoId  String         @map("photo_id") @db.Uuid
+  kind     IssuePhotoKind
+  position Int            @default(0) @db.SmallInt
+
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_photos_issue")
+  photo Photo @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_photos_photo")
+
+  @@id([issueId, photoId], map: "pk_issue_photos")
+  @@unique([photoId], map: "uq_issue_photos_photo")
+  @@unique([issueId, kind, position], map: "uq_issue_photos_position")
+  @@map("issue_photos")
+}
+
+/// Append-only (trigger trg_issue_events_append_only).
+model IssueEvent {
+  id         String         @id(map: "pk_issue_events") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  issueId    String         @map("issue_id") @db.Uuid
+  actorId    String?        @map("actor_id") @db.Uuid
+  actorRole  ActorRole      @map("actor_role")
+  type       IssueEventType
+  fromStatus IssueStatus?   @map("from_status")
+  toStatus   IssueStatus?   @map("to_status")
+  note       String?        @db.VarChar(500)
+  photoId    String?        @map("photo_id") @db.Uuid
+  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_events_issue")
+  actor User?  @relation(fields: [actorId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issue_events_actor")
+  photo Photo? @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_events_photo")
+
+  @@index([issueId, createdAt], map: "idx_issue_events_issue_created")
+  @@index([actorId], map: "idx_issue_events_actor")
+  @@map("issue_events")
+}
+
+model IssueVerification {
+  id         String             @id(map: "pk_issue_verifications") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  issueId    String             @map("issue_id") @db.Uuid
+  userId     String             @map("user_id") @db.Uuid
+  answer     VerificationResult
+  photoId    String?            @map("photo_id") @db.Uuid
+  lat        Decimal?           @db.Decimal(9, 6)
+  lng        Decimal?           @db.Decimal(9, 6)
+  distanceM  Decimal?           @map("distance_m") @db.Decimal(8, 1)
+  /// Asia/Kolkata calendar day, set by the service (one verification per user, issue and day).
+  createdDay DateTime           @map("created_day") @db.Date
+  createdAt  DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_verifications_issue")
+  user  User   @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_verifications_user")
+  photo Photo? @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_verifications_photo")
+
+  @@unique([issueId, userId, createdDay], map: "uq_issue_verifications_daily")
+  @@index([userId], map: "idx_issue_verifications_user")
+  @@map("issue_verifications")
+}
+
+model MeToo {
+  issueId   String   @map("issue_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_me_toos_issue")
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_me_toos_user")
+
+  @@id([issueId, userId], map: "pk_me_toos")
+  @@index([userId, createdAt(sort: Desc)], map: "idx_me_toos_user_created")
+  @@map("me_toos")
+}
+
+model Follow {
+  issueId   String   @map("issue_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_follows_issue")
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_follows_user")
+
+  @@id([issueId, userId], map: "pk_follows")
+  @@index([userId, createdAt(sort: Desc)], map: "idx_follows_user_created")
+  @@map("follows")
 }

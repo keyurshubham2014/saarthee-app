@@ -75,11 +75,11 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-F-059 | Initiatives (tree drives, clean-ups, health camps) list and detail with organiser and source | TASK-12 | Not Verified | — | — |
 | REQ-F-060 | RSVP to initiatives with reminder 24 h before; staff can mark attendance | TASK-12 | Not Verified | — | — |
 | REQ-F-061 | Seasonal service tips on Home (property-tax rebate window, monsoon, heat) managed by staff | TASK-12 | Not Verified | — | — |
-| REQ-D-001 | PostGIS enabled: compose image `postgis/postgis:17-3.5`, `CREATE EXTENSION postgis` in a new migration, loc... | TASK-01 | Not Verified | — | — |
-| REQ-D-002 | New v2 tables per spec §6 created only through new migrations; applied v1 migrations untouched | TASK-01 | Not Verified | — | — |
-| REQ-D-003 | `users`, `consents`, `devices` tables with constraints (unique phone, unique firebase uid, role enum) | TASK-01 | Not Verified | — | — |
-| REQ-D-004 | `issues`, `issue_photos`, `issue_events`, `issue_verifications`, `me_toos`, `follows` with geography point,... | TASK-01 | Not Verified | — | — |
-| REQ-D-005 | Legacy migration: every v1 complaint copied into `issues` with mapped status and `legacy_complaint_id`; v1 ... | TASK-01 | Not Verified | — | — |
+| REQ-D-001 | PostGIS enabled: compose image `postgis/postgis:17-3.5`, `CREATE EXTENSION postgis` in a new migration, loc... | TASK-01 | Not Verified | Migration enable_postgis + T-01-01 (PostGIS 3.6.4 native arm64, infra/postgis/Dockerfile) pass; AC-1 M-01-01/M-01-02 (db:upgrade-postgis dump+switch+counts) not run: shared container already switched by integrator, no dump in ~/saarthee-backups | 2026-10-04 |
+| REQ-D-002 | New v2 tables per spec §6 created only through new migrations; applied v1 migrations untouched | TASK-01 | Pass | T-01-01 migrations.test.ts (17 migrations; tables; postgis_lib_version) + S-01-01 db:check-v1 (10 unchanged) + db:drift empty | 2026-10-04 |
+| REQ-D-003 | `users`, `consents`, `devices` tables with constraints (unique phone, unique firebase uid, role enum) | TASK-01 | Pass | T-01-02 constraints.test.ts users/consents/devices (named constraints, consent re-grant, deleted-user check) | 2026-10-04 |
+| REQ-D-004 | `issues`, `issue_photos`, `issue_events`, `issue_verifications`, `me_toos`, `follows` with geography point,... | TASK-01 | Pass | T-01-03/T-01-04 constraints.test.ts issues + children (trigger location, GIST/status idx, PK, daily verification, append-only, merged) | 2026-10-04 |
+| REQ-D-005 | Legacy migration: every v1 complaint copied into `issues` with mapped status and `legacy_complaint_id`; v1 ... | TASK-01 | Pass | T-01-05 legacy.test.ts (C1-C11 twice: 11/0 then 0/11; mapping; hidden; no phone; photo privacy) + T-01-06 guard.test.ts + T-01-07 permissions.test.ts (410) + M-01-03 psql DELETE complaints -> LEGACY_READ_ONLY on saarthee_dev_task01 + perf 10k in 1.07s | 2026-10-04 |
 | REQ-D-006 | `zones` and `wards` seeded from the OpenCity KML (48 wards, 7 zones) with boundary version, cross-checked a... | TASK-02 | Not Verified | — | — |
 | REQ-D-007 | `categories` seeded with the 14 v2 categories and `amc_problem_types` mapping | TASK-05 | Not Verified | — | — |
 | REQ-D-008 | `representatives`, `representative_areas`, `assembly_constituencies`, `ward_constituency`, `rep_claims`, `r... | TASK-09 | Not Verified | — | — |
@@ -87,7 +87,7 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-D-010 | `services`, `initiatives`, `rsvps` tables | TASK-12 | Not Verified | — | — |
 | REQ-D-011 | `moderation_flags` and `app_settings` (election mode, flags) tables | TASK-10 | Not Verified | — | — |
 | REQ-D-012 | Ward scorecard computed by a SQL view or materialised view refreshed hourly | TASK-09 | Not Verified | — | — |
-| REQ-D-013 | Development seed for v2: wards, categories, sample citizens, issues in every status, representatives (ficti... | TASK-01 | Not Verified | — | — |
+| REQ-D-013 | Development seed for v2: wards, categories, sample citizens, issues in every status, representatives (ficti... | TASK-01 | Pass | T-01-11 seed.test.ts (twice, idempotent) + dev DB saarthee_dev_task01 seeded twice: 14 categories, 6 users (1 mod, 1 suspended), all 9 statuses, 11 legacy; later modules logged skipped (wards/reps/alerts/services/initiatives filled by TASK-02/08/09/12) | 2026-10-04 |
 | REQ-N-001 | Design tokens per DS §2 replace v1 tokens; no colour literal outside the theme; semantic token names | TASK-03 | Not Verified | — | — |
 | REQ-N-002 | Typography per DS §3 with bundled Gujarati + Latin fonts (subset), Indic line heights, scale to 200% withou... | TASK-03 | Not Verified | — | — |
 | REQ-N-003 | Component library per DS §5 (app bar, bottom nav, buttons, inputs, chips, list rows, cards, status timeline... | TASK-03 | Not Verified | — | — |
@@ -96,7 +96,7 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-N-006 | Dark theme from the same tokens | TASK-03 | Not Verified | — | — |
 | REQ-N-007 | Report sheet completes in ≤ 4 taps after the photo for a typical issue; cold start ≤ 3 s on a low-end phone... | TASK-05 | Not Verified | — | — |
 | REQ-N-008 | Map renders 2,000 issues smoothly using server clustering and client clustering | TASK-07 | Not Verified | — | — |
-| REQ-N-009 | Automated tests: API integration tests (Vitest + Supertest) for auth, issue lifecycle, permissions and rate... | TASK-01 | Not Verified | — | — |
+| REQ-N-009 | Automated tests: API integration tests (Vitest + Supertest) for auth, issue lifecycle, permissions and rate... | TASK-01 | Not Verified | Local: 11 files / 75 tests pass in 24 s (+1 opt-in perf) + guard T-01-12 pass; CI api job written (.github/workflows/ci.yml) but C-01-01 needs a push (integrator) | 2026-10-04 |
 | REQ-N-010 | Flutter widget tests for core components and an integration test of report → verify on the emulator | TASK-14 | Not Verified | — | — |
 | REQ-N-011 | All list endpoints paginated; p95 latency < 400 ms for feed, list and detail on pilot data | TASK-07 | Not Verified | — | — |
 | REQ-S-001 | Firebase ID tokens verified server-side (signature, audience, issuer, expiry); session JWT with token version | TASK-04 | Not Verified | — | — |
@@ -114,8 +114,8 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-S-013 | HTTPS everywhere outside local; cleartext exceptions only in debug builds (profile exception removed) | TASK-13 | Not Verified | — | — |
 | REQ-S-014 | Retention jobs: photos of closed issues after 2 years, logs 14 days, notifications 90 days | TASK-13 | Not Verified | — | — |
 | REQ-S-015 | v1 logging redaction extended to OTP, Firebase tokens, FCM tokens and message bodies | TASK-04 | Not Verified | — | — |
-| REQ-O-001 | Prisma schema updated for v2 with PostGIS columns via `Unsupported` or raw SQL; `prisma generate`, typechec... | TASK-01 | Not Verified | — | — |
-| REQ-O-002 | `npm run demo:reset` and `db:reset` work with v2 seed | TASK-01 | Not Verified | — | — |
+| REQ-O-001 | Prisma schema updated for v2 with PostGIS columns via `Unsupported` or raw SQL; `prisma generate`, typechec... | TASK-01 | Pass | S-01-01: prisma generate, tsc --noEmit, eslint, db:drift empty; Issue.location Unsupported geography; T-01-10 health.test.ts | 2026-10-04 |
+| REQ-O-002 | `npm run demo:reset` and `db:reset` work with v2 seed | TASK-01 | Not Verified | APP_ENV=production demo:reset -> refused exit 1; migrate deploy + seed x2 on saarthee_dev_task01 OK; full db:reset/demo:reset (down -v on shared volume) left to integrator (M-01-04) | 2026-10-04 |
 | REQ-O-003 | Firebase project configuration documented (Android app, SHA fingerprints, service account for the API) with... | TASK-04 | Not Verified | — | — |
 | REQ-O-004 | Cloudflare R2 storage driver implemented behind the storage interface and selectable by `STORAGE_DRIVER` | TASK-13 | Not Verified | — | — |
 | REQ-O-005 | Staging and pilot environments: API behind HTTPS, managed PostgreSQL with PostGIS, environment variables do... | TASK-13 | Not Verified | — | — |

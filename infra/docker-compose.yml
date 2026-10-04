@@ -1,9 +1,14 @@
-# Local PostgreSQL only. The API runs natively (05 §1.1).
+# Local PostgreSQL + PostGIS only. The API runs natively (05 §1.1).
 # Host port 5433 because 5432 is already taken on the dev machine (ASSUMPTION, TASK-01 §5.6); bound to 127.0.0.1 only.
 name: saarthee
 services:
   db:
-    image: postgres:17.6
+    # PostGIS for ward geometry and issue locations (v2 Spec D10). Same PostgreSQL major (17) as v1's
+    # postgres:17.6, so the existing volume is reused (scripts/db-upgrade-postgis.sh dumps first).
+    # Built natively from infra/postgis/Dockerfile (postgres:17.6 + PGDG PostGIS 3): the official
+    # postgis/postgis image is amd64-only and ran under qemu on Apple silicon, which made tests hang.
+    build: ./postgis
+    image: saarthee/postgis:17-3
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -14,7 +19,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10

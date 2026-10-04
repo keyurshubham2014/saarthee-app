@@ -1,5 +1,5 @@
 import type { Request } from 'express';
-import { rateLimit as erl, ipKeyGenerator } from 'express-rate-limit';
+import { MemoryStore, rateLimit as erl, ipKeyGenerator } from 'express-rate-limit';
 import { AppError, errorBody } from '../lib/errors';
 import { logger } from '../lib/logger';
 import { routeTemplate } from './requestLog';
@@ -14,9 +14,20 @@ interface Options {
   logContext?: (req: Request) => Record<string, string>;
 }
 
+// Every limiter's store, so tests can start each case with empty counters (resetRateLimitStores).
+const stores: MemoryStore[] = [];
+
+/** Tests only: clears every in-memory limiter counter. */
+export async function resetRateLimitStores(): Promise<void> {
+  await Promise.all(stores.map((s) => s.resetAll()));
+}
+
 /** In-memory limiter; 429 RATE_LIMITED in the standard shape + Retry-After. */
 export function rateLimit({ windowMs, max, keyGenerator, skipSuccessfulRequests, logContext }: Options) {
+  const store = new MemoryStore();
+  stores.push(store);
   return erl({
+    store,
     windowMs,
     limit: max,
     standardHeaders: 'draft-7',

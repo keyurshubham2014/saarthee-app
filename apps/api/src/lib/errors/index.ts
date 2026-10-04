@@ -19,6 +19,8 @@ export const ERROR_CODES = {
   RATE_LIMITED: { status: 429, message: 'Too many attempts. Please wait a moment and try again.' },
   INTERNAL_ERROR: { status: 500, message: 'Something went wrong. Please try again.' },
   SERVICE_UNAVAILABLE: { status: 503, message: 'The service is unavailable. Please try again later.' },
+  // v2 (append new codes below; one line per code).
+  ENDPOINT_RETIRED: { status: 410, message: 'Please update Saarthee to report issues.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

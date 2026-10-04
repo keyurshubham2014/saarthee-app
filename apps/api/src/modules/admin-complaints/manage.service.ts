@@ -1,6 +1,6 @@
 import type { ExclusionReason } from '@prisma/client';
 import { config } from '../../config';
-import { prisma } from '../../lib/db';
+import { prisma, withLegacyWrite } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { recordServerEvent } from '../../lib/events';
 import { deletePhotoFiles, findAnonymizedPhotosPendingDeletion } from '../photos/cleanup.service';
@@ -148,12 +148,22 @@ export async function anonymizeComplaint(id: string): Promise<{ anonymizedAt: st
   let anonymizedAt = existing.anonymizedAt;
   if (!anonymizedAt) {
     const now = new Date();
-    await prisma.$transaction([
-      prisma.complaint.update({ where: { id }, data: { phoneE164: null, anonymizedAt: now } }),
-      prisma.reminder.updateMany({ where: { complaintId: id, revokedAt: null }, data: { revokedAt: now } }),
-    ]);
+    // v1 tables are read-only in v2; anonymize is the one runtime legacy write (V2 TASK-01 §5.3).
+    await withLegacyWrite(async (tx) => {
+      await tx.complaint.update({ where: { id }, data: { phoneE164: null, anonymizedAt: now } });
+      await tx.reminder.updateMany({ where: { complaintId: id, revokedAt: null }, data: { revokedAt: now } });
+    });
     anonymizedAt = now;
   }
+  // The imported v2 issue (legacy:migrate) no longer shows or references the complaint's photos: unlink
+  // issue_photos and null issue_events.photo_id (append-only table; the legacy-write setting is its bypass).
+  await withLegacyWrite(async (tx) => {
+    await tx.issuePhoto.deleteMany({ where: { issue: { legacyComplaintId: id } } });
+    await tx.issueEvent.updateMany({
+      where: { issue: { legacyComplaintId: id }, photoId: { not: null } },
+      data: { photoId: null },
+    });
+  });
   await deletePhotoFiles(await findAnonymizedPhotosPendingDeletion(id));
   return { anonymizedAt: anonymizedAt.toISOString() };
 }

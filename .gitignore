@@ -29,3 +29,6 @@ apps/mobile/ios/Pods/
 .claude/
 **/.env.test
 !**/.env.test.example
+
+# Vitest JUnit output (CI)
+/apps/api/test-results/

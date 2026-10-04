@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-01 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | None |
 | Blocks | TASK-02, TASK-04, TASK-13 |
 | Requirement IDs | REQ-D-001, REQ-D-002, REQ-D-003, REQ-D-004, REQ-D-005, REQ-D-013, REQ-N-009, REQ-O-001, REQ-O-002 |
 | Primary Spec Refs | Spec §2 (D10, D11), §5, §6, §12; v1 `docs/04-database-design.md` §3 (existing tables) |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -165,7 +165,12 @@ No UI in this task. Developer-facing outputs only:
 - ASSUMPTION: REQ-D-013 is met by the seed framework plus the modules whose tables exist after this task; TASK-02/08/09/12 each add their module under the same contract, and the requirement row is marked Pass here with that note (the full seed is re-checked in TASK-14).
 - ASSUMPTION: REQ-N-009's "auth, permissions and rate limits" are covered now for the code that exists (v1 admin auth, `requireAdmin`, `rateLimit`); citizen auth (TASK-04) and lifecycle (TASK-06) tests are added by those tasks using this harness — CI enforces they run.
 - ASSUMPTION: Retiring v1 write endpoints with 410 is acceptable because v1 was never deployed beyond local demos (v1 REQ-O-022 deferred deployment).
-- ASSUMPTION: If `postgis/postgis:17-3.5` has no `linux/arm64` image for the dev Mac, use the same tag with `platform: linux/amd64` (Rosetta) locally; CI (amd64) is unaffected.
+- ASSUMPTION (revised 2026-10-04): `postgis/postgis:17-3.5` has no `linux/arm64` image. The qemu `linux/amd64` fallback was tried and stalled for minutes (CREATE DATABASE … TEMPLATE, first writes), so local dev builds a native arm64 image from `infra/postgis/Dockerfile` (`postgres:17.6` + PGDG PostGIS 3.6, same PG major, so the volume is reused). CI keeps `postgis/postgis:17-3.5` (amd64). Tests accept PostGIS ≥ 3.5 (local reports 3.6.4).
+- ASSUMPTION: Test isolation uses one migrated template DB per run plus a private copy per test file (`CREATE DATABASE … TEMPLATE … STRATEGY FILE_COPY`) rather than `prisma migrate reset` (the Prisma CLI refuses non-interactive reset from an agent); `resetDb()` is still the per-test reset. Global setup caps `prisma migrate deploy` at 90 s × 3 attempts.
+- ASSUMPTION: Legacy photo privacy — `legacy:migrate` never links a photo that is soft-deleted or belongs to an anonymized complaint (event `photo_id` set NULL), and anonymize after import deletes the issue's `issue_photos` and nulls `issue_events.photo_id` through the legacy-write bypass (events stay, as history).
+- ASSUMPTION: The 10,000-complaint performance check is an opt-in test (`LEGACY_PERF=1`, `test/platform/legacy-perf.test.ts`) so the default suite stays fast; measured 1.07 s.
+- ASSUMPTION: Retired v1 writes (step 9) — `POST /reports`, `GET/POST /verify/*`, admin invite-code/category writes, complaint exclude and reminders → 410 `ENDPOINT_RETIRED`; reads, export, rates and anonymize kept (T-01-07 lists every route).
+- ASSUMPTION: `npm audit --omit=dev` reports 3 high (`prisma` → `@prisma/config` → `deepmerge-ts` stack exhaustion on recursive objects). It is pre-existing (Prisma version unchanged by this task); the only npm fix is a major-flagged change to prisma 6.12.0, and the affected code is the CLI config loader, which handles only trusted local config. Left for the integrator to decide (bump when Prisma publishes a patched release).
 
 ## 6. Implementation Steps
 
@@ -269,15 +274,15 @@ No UI in this task. Developer-facing outputs only:
 
 ### 7.2 Non-Functional Checklist
 
-- [ ] No applied v1 migration file changed (checksum gate green)
-- [ ] All SQL parameterised (`Prisma.sql` / tagged templates); no string-built SQL in scripts
-- [ ] The dump file and `.env.test` are outside git (`git status` clean after the upgrade)
-- [ ] Legacy script and seed never log phone numbers or CCRS numbers (counts only)
-- [ ] Test run leaves no rows in the dev database `saarthee` (guard verified)
-- [ ] Full test suite runs in under 60 s locally; CI api job under 6 min
-- [ ] `legacy:migrate` on 10,000 synthetic complaints completes in under 60 s (batching works)
-- [ ] Every new table, column and constraint name follows the v1 naming convention
-- [ ] New dependencies pinned exactly; `npm audit --omit=dev` shows no high/critical
+- [x] No applied v1 migration file changed (checksum gate green)
+- [x] All SQL parameterised (`Prisma.sql` / tagged templates); no string-built SQL in scripts
+- [x] The dump file and `.env.test` are outside git (`git status` clean after the upgrade)
+- [x] Legacy script and seed never log phone numbers or CCRS numbers (counts only)
+- [x] Test run leaves no rows in the dev database `saarthee` (guard verified)
+- [ ] Full test suite runs in under 60 s locally (24 s, 75 tests); CI api job under 6 min — CI not yet run
+- [x] `legacy:migrate` on 10,000 synthetic complaints completes in under 60 s (batching works)
+- [x] Every new table, column and constraint name follows the v1 naming convention
+- [ ] New dependencies pinned exactly (vitest 4.1.11, supertest 7.3.1, @types/supertest 7.2.1, pg 8.23.1); `npm audit --omit=dev`: 3 high in pre-existing prisma CLI chain (see §5.6)
 
 ## 8. Validation & Testing
 
@@ -354,26 +359,33 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review — open: AC-1 manual upgrade run (M-01-01/02), CI first run (C-01-01), full db:reset/demo:reset on the shared volume (M-01-04), prisma audit decision
 
-**Progress:** 0%
+**Progress:** 95%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migrations, schema, guard, retired routes, legacy import, seed framework, harness and 11 suites (salvaged WIP + native arm64 PostGIS) | 1d799cc, 481f19b, 59a2f7e |
+| 2026-10-04 | Global setup: `migrate deploy` 90 s cap + retry. Full runs sometimes stalled ~15 min with no DB activity: the host froze the process tree (a watchdog `sleep 1` loop overran too); every file passes in seconds | f0d5258 |
+| 2026-10-04 | Legacy photo privacy (import skips anonymized/deleted photos; anonymize nulls event photo refs) + 2 tests | 5543ab5 |
+| 2026-10-04 | Perf: 10,000 complaints imported in 1.07 s (opt-in test) | 72c9305 |
+| 2026-10-04 | CI api job (PostGIS service, both gates, Vitest, JUnit artifact), `.env.test.example` | 6517a80 |
+| 2026-10-04 | Docs (test/README, prisma README, ARCHITECTURE, root quick start); demo:reset v2 summary; production refusal verified | d043e0d, 4b5122b |
+| 2026-10-04 | Verified: 75 tests pass (24 s), tsc, eslint, db:check-v1, db:drift; seed ×2 on dev DB (14 cats, 6 users, 9 statuses, 11 legacy); psql write → LEGACY_READ_ONLY | — |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
-- [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Automated tests added and passing
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [ ] Static checks pass and every AC verified by the checks in §8 — static green; AC-1, AC-9 (CI part), AC-12 (full reset) open
+- [x] Automated tests added and passing
+- [x] Frontend and backend integrated end to end (no mocked data left in place) — no UI in this task
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-01` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-01: …`
+- [x] Committed as `V2-TASK-01: …`
 - [ ] Validator passes

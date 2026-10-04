@@ -20,15 +20,44 @@ jobs:
     needs: changes
     if: needs.changes.outputs.api == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults: { run: { working-directory: apps/api } }
+    # amd64 runner: the official postgis image (local dev on Apple silicon uses infra/postgis/Dockerfile instead).
+    services:
+      db:
+        image: postgis/postgis:17-3.5
+        env: { POSTGRES_USER: saarthee, POSTGRES_PASSWORD: change-me, POSTGRES_DB: saarthee_test }
+        ports: ['5433:5432']
+        options: >-
+          --health-cmd "pg_isready -U saarthee -d saarthee_test"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      # Same URLs as .env.test.example, so the copied file works unchanged.
+      DATABASE_URL: postgresql://saarthee:change-me@127.0.0.1:5433/saarthee_test
+      SHADOW_DATABASE_URL: postgresql://saarthee:change-me@127.0.0.1:5433/saarthee_shadow
+      PGPASSWORD: change-me
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm, cache-dependency-path: apps/api/package-lock.json }
       - run: npm ci
       - run: npx prisma generate
+      - name: v1 migration checksum gate
+        run: npm run db:check-v1
       - run: npm run typecheck
       - run: npm run lint
+      - name: Test env and shadow database
+        run: |
+          cp .env.test.example .env.test
+          psql -h 127.0.0.1 -p 5433 -U saarthee -d postgres -c 'CREATE DATABASE saarthee_shadow'
+      - name: Prisma drift gate
+        run: npm run db:drift
+      - name: API tests (Vitest + Supertest)
+        run: npm test
+      - name: Upload JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: api-junit, path: apps/api/test-results/junit.xml, if-no-files-found: warn }
   mobile:
     needs: changes
     if: needs.changes.outputs.mobile == 'true' && hashFiles('apps/mobile/pubspec.yaml') != ''

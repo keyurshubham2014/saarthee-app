@@ -9,6 +9,9 @@
     "db:reset": "bash scripts/db-reset.sh",
     "api:dev": "npm --prefix apps/api run dev",
     "admin:create": "npm --prefix apps/api run admin:create",
-    "demo:reset": "bash scripts/demo-reset.sh"
+    "demo:reset": "bash scripts/demo-reset.sh",
+    "db:upgrade-postgis": "bash scripts/db-upgrade-postgis.sh",
+    "legacy:migrate": "npm --prefix apps/api run legacy:migrate",
+    "api:test": "npm --prefix apps/api test"
   }
 }

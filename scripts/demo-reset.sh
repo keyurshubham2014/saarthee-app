@@ -17,6 +17,8 @@ else
   echo "==> No emulator/device attached; skipped app data reset"
 fi
 
-echo "==> Expected rates after reset (apps/api/prisma/SEED-EXPECTATIONS.md):"
-bash "$ROOT/scripts/psql.sh" -c 'SELECT * FROM pilot_rates_v ORDER BY 1'
-echo "Demo reset complete. Admin: admin@saarthee.local / Demo-Admin-2026!  Invite code: RWATEST01"
+echo "==> v2 seed after reset (apps/api/prisma/SEED-EXPECTATIONS.md):"
+bash "$ROOT/scripts/psql.sh" -c 'SELECT status, count(*) AS issues FROM issues GROUP BY 1 ORDER BY 1'
+bash "$ROOT/scripts/psql.sh" -c 'SELECT role, status, count(*) AS users FROM users GROUP BY 1, 2 ORDER BY 1, 2'
+bash "$ROOT/scripts/psql.sh" -c 'SELECT count(*) AS categories FROM categories'
+echo "Demo reset complete. Admin: admin@saarthee.local / Demo-Admin-2026!"
