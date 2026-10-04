@@ -1,3 +1,5 @@
+import '../features/discovery/discovery_routes.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +37,8 @@ final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   ...staffContentRoutes,
   // TASK-06 issue lifecycle: /issues/:id, verify, mark fixed, escalate.
   ...issueActionsRoutes,
+  // TASK-07 discovery: /issues list (detail is /issues/:id above).
+  ...discoveryRootRoutes,
 ];
 
 /// Paths reachable before onboarding is done.

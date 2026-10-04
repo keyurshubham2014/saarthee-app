@@ -61,4 +61,8 @@ class AppTimings {
   /// (orientation and rendering are timed separately); 10 s leaves room for
   /// ML Kit's first-use model load on slow phones and emulators.
   static const Duration blurDetectTimeout = Duration(seconds: 10);
+
+  // TASK-07 (append-only).
+  /// Map: reload pins this long after the camera stops moving.
+  static const Duration mapIdleDebounce = Duration(milliseconds: 300);
 }

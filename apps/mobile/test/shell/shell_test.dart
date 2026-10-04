@@ -1,4 +1,4 @@
-// T-03-12 five-tab shell, T-03-11 gallery route, placeholder register.
+// T-03-12 five-tab shell, T-03-11 gallery route; no placeholders left (TASK-07).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -48,41 +48,35 @@ void main() {
     expect(reportIcon.color, SaartheeColors.of(t.element(nav)).sunrise);
   });
 
-  testWidgets(
-    'placeholders still owned by later tasks are in place; replaced ones are gone',
-    (t) async {
-      await pumpApp(t, prefs: onboardedPrefs());
-      const byTab = {
-        // TASK-07 still owns P-01, P-02 (Home) and P-04 (Map). TASK-12 replaced
-        // P-03 and P-08 (test/services/home_ward_sections_test.dart).
-        0: ['P-02', 'P-01'],
-        1: ['P-04'],
-      };
-      for (final e in byTab.entries) {
-        await tab(t, e.key);
-        for (final id in e.value) {
-          final f = find.byKey(ValueKey('placeholder.$id'));
-          await reveal(t, f);
-          expect(f, findsOneWidget, reason: id);
-        }
-      }
-      await tab(t, 2);
-      expect(find.byKey(const Key('report.what')), findsOneWidget);
-      expect(find.byKey(const ValueKey('placeholder.P-05')), findsNothing);
-      await tab(t, 3);
-      expect(find.byKey(const ValueKey('alertsSegment')), findsOneWidget);
-      expect(find.byKey(const ValueKey('placeholder.P-06')), findsNothing);
-      await tab(t, 4);
-      expect(find.byKey(const ValueKey('placeholder.P-07')), findsNothing);
-      final choose = find.byKey(const Key('myWard.chooseWard'));
-      await reveal(t, choose);
-      expect(choose, findsOneWidget);
-      final me = find.byKey(const Key('myWard.me'));
-      await reveal(t, me);
-      expect(me, findsOneWidget);
-      expect(find.byKey(const ValueKey('placeholder.P-09')), findsNothing);
-    },
-  );
+  testWidgets('no placeholders remain: P-01..P-09 are all replaced', (t) async {
+    await pumpApp(t, prefs: onboardedPrefs());
+    final anyPlaceholder = find.byWidgetPredicate((w) {
+      final k = w.key;
+      return k is ValueKey<String> && k.value.startsWith('placeholder.');
+    });
+    // Home (TASK-07 replaced P-01/P-02, TASK-12 P-03): header + feed area.
+    expect(find.byKey(const Key('homeHeader.band')), findsOneWidget);
+    expect(anyPlaceholder, findsNothing);
+    // Map (TASK-07 replaced P-04).
+    await tab(t, 1);
+    expect(find.byKey(const Key('map.civic')), findsOneWidget);
+    expect(find.byKey(const Key('map.showList')), findsOneWidget);
+    expect(anyPlaceholder, findsNothing);
+    await tab(t, 2);
+    expect(find.byKey(const Key('report.what')), findsOneWidget);
+    expect(anyPlaceholder, findsNothing);
+    await tab(t, 3);
+    expect(find.byKey(const ValueKey('alertsSegment')), findsOneWidget);
+    expect(anyPlaceholder, findsNothing);
+    await tab(t, 4);
+    final choose = find.byKey(const Key('myWard.chooseWard'));
+    await reveal(t, choose);
+    expect(choose, findsOneWidget);
+    final me = find.byKey(const Key('myWard.me'));
+    await reveal(t, me);
+    expect(me, findsOneWidget);
+    expect(anyPlaceholder, findsNothing);
+  });
 
   testWidgets('tabs keep their pushed page and scroll; re-tap pops', (t) async {
     await pumpApp(t, prefs: onboardedPrefs());

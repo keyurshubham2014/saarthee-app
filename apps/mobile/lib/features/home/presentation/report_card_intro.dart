@@ -83,7 +83,7 @@ class _ReportCardIntroState extends ConsumerState<ReportCardIntro>
                 animation: _ring,
                 builder: (_, _) => CustomPaint(
                   painter: _RingPainter(
-                    t: Curves.easeOut.transform(_ring.value),
+                    t: SaartheeMotion.standard.transform(_ring.value),
                     color: c.sunrise,
                   ),
                 ),

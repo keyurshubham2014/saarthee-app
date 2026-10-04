@@ -52,9 +52,9 @@ class HomeScreen extends ConsumerWidget {
       ref.invalidate(alertsListProvider(true));
       if (ward == null) return;
       ref.invalidate(homeFeedProvider(ward.id));
-      await ref.read(homeFeedProvider(ward.id).future).catchError(
-        (_) => const HomeFeed(nearby: []),
-      );
+      await ref
+          .read(homeFeedProvider(ward.id).future)
+          .catchError((_) => const HomeFeed(nearby: []));
     }
 
     return Scaffold(

@@ -11,6 +11,7 @@ import 'package:saarthee/core/settings/app_settings.dart';
 import 'package:saarthee/core/settings/motion_preference.dart';
 import 'package:saarthee/core/theme/app_theme.dart';
 import 'package:saarthee/core/theme/motion.dart';
+import 'package:saarthee/features/discovery/data/discovery_api.dart';
 import 'package:saarthee/features/issue_actions/application/escalation.dart';
 import 'package:saarthee/features/issue_actions/data/issue_actions_api.dart';
 import 'package:saarthee/features/issue_actions/issue_actions_routes.dart';
@@ -18,6 +19,7 @@ import 'package:saarthee/features/issue_actions/issue_actions_routes.dart';
 import '../helpers/fake_haptics.dart';
 import '../helpers/motion.dart';
 import '../report/report_fakes.dart';
+import '../discovery/fakes.dart';
 import 'fakes.dart';
 
 /// Home placeholder so `go('/')` has somewhere to land.
@@ -53,6 +55,8 @@ Future<IssueHarness> pumpIssueRoutes(
         haptics ?? FakeSaartheeHaptics(),
       ),
       issueActionsApiProvider.overrideWithValue(api ?? FakeIssueActionsApi()),
+      // TASK-07: /issues/:id is the discovery detail embedding the panel.
+      discoveryApiProvider.overrideWithValue(FakeDiscoveryApi()),
       evidenceCaptureProvider.overrideWithValue(
         capture ?? FakeEvidenceCapture(),
       ),
