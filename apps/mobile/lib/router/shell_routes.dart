@@ -11,6 +11,7 @@ import '../features/settings/presentation/settings_screen.dart';
 import '../features/shell/my_ward_screen.dart';
 import '../features/shell/shell_scaffold.dart';
 import '../features/shell/tab_placeholders.dart';
+import '../features/ward/ward_routes.dart';
 import 'route_helpers.dart';
 
 // ---------------------------------------------------------------------------
@@ -56,6 +57,8 @@ final List<RouteBase> alertsChildRoutes = <RouteBase>[
 /// Child routes under `/ward`.
 final List<RouteBase> wardChildRoutes = <RouteBase>[
   // TASK-09 representatives, TASK-12 services.
+  // TASK-09 my-ward: /ward/:id, /ward/:id/scorecard.
+  ...wardFeatureChildRoutes,
 ];
 
 /// Extra top-level routes inside the My Ward branch (`/me/...`).
@@ -72,6 +75,8 @@ final List<RouteBase> meRoutes = <RouteBase>[
     redirect: requireAccountRedirect,
     builder: (_, _) => const PrivacyScreen(),
   ),
+  // TASK-09 representatives: profile and message form.
+  ...representativeRoutes,
 ];
 
 StatefulShellRoute buildCitizenShell() => StatefulShellRoute(

@@ -2001,5 +2001,428 @@
   "accountChannelUpdates": "Updates",
   "@accountChannelUpdates": {
     "description": "TASK-04 accounts"
+  },
+  "myWardCorporators": "Corporators",
+  "@myWardCorporators": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardMlas": "MLA",
+  "@myWardMlas": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardMps": "MP",
+  "@myWardMps": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardMultiAc": "Your ward is in {count} assembly constituencies.",
+  "@myWardMultiAc": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "myWardOffice": "Ward office",
+  "@myWardOffice": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardOfficeCall": "Call",
+  "@myWardOfficeCall": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardOfficeNone": "Office details are not available yet.",
+  "@myWardOfficeNone": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardScorecardRow": "Ward scorecard",
+  "@myWardScorecardRow": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardScorecardRowHint": "How reported issues are handled in this ward",
+  "@myWardScorecardRowHint": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardSeatPending": "Seat details being checked",
+  "@myWardSeatPending": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardNoReps": "We're still adding representatives for this ward.",
+  "@myWardNoReps": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardLoadError": "We couldn't load your ward.",
+  "@myWardLoadError": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardChooseWard": "Choose your ward",
+  "@myWardChooseWard": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardChooseWardBody": "Pick your ward to see your corporators, MLA and MP.",
+  "@myWardChooseWardBody": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "myWardCachedNote": "You're offline. Showing what we loaded earlier.",
+  "@myWardCachedNote": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repRoleCorporator": "Corporator",
+  "@repRoleCorporator": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repRoleMla": "MLA",
+  "@repRoleMla": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repRoleMp": "MP",
+  "@repRoleMp": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repRoleLineCorporator": "Corporator, Ward {number} {ward}",
+  "@repRoleLineCorporator": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "repRoleLineArea": "{role}, {area}",
+  "@repRoleLineArea": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "role": {
+        "type": "String"
+      },
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "repParty": "Party: {party}",
+  "@repParty": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "party": {
+        "type": "String"
+      }
+    }
+  },
+  "repTerm": "Term: {from}–{to}",
+  "@repTerm": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "repTermOpen": "Term: from {from}",
+  "@repTermOpen": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      }
+    }
+  },
+  "repOfficePhone": "Office phone",
+  "@repOfficePhone": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repMessageButton": "Message {name}",
+  "@repMessageButton": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "repSource": "Source: {domain} · Last checked {date}",
+  "@repSource": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "domain": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "repVerified": "Verified by Saarthee",
+  "@repVerified": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repNeutrality": "Saarthee is independent and treats all representatives the same.",
+  "@repNeutrality": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repNoEmail": "We don't have an official email for this representative yet.",
+  "@repNoEmail": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repNotFound": "This profile isn't available.",
+  "@repNotFound": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repLoadError": "We couldn't load this profile.",
+  "@repLoadError": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "repMessageSemantics": "Message {name}, {role}, ward {number}",
+  "@repMessageSemantics": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "repMessageSemanticsArea": "Message {name}, {role}",
+  "@repMessageSemanticsArea": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "relayTitle": "Message {name}",
+  "@relayTitle": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "relayIssueLabel": "About an issue (optional)",
+  "@relayIssueLabel": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayIssueAttached": "About your reported issue",
+  "@relayIssueAttached": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayIssueNone": "Not about a specific issue",
+  "@relayIssueNone": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayIssueRemove": "Remove issue",
+  "@relayIssueRemove": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relaySubject": "Subject",
+  "@relaySubject": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayMessage": "Message",
+  "@relayMessage": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayCounter": "{count}/1000",
+  "@relayCounter": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "relaySharePhone": "Share my phone number with {name} so their office can call me back",
+  "@relaySharePhone": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "relayNote": "We'll email your message to {name}'s official address. Your phone number stays hidden unless you tick the box. Representatives aren't required to reply.",
+  "@relayNote": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "relayKindness": "Keep it respectful. Messages with abusive language are not sent.",
+  "@relayKindness": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relaySend": "Send message",
+  "@relaySend": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relaySent": "Message sent. We've emailed it to {name}'s office.",
+  "@relaySent": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "relayErrorRateRep": "You've sent 5 messages to this representative today. You can send more tomorrow.",
+  "@relayErrorRateRep": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayErrorRateDaily": "You've sent the most messages allowed today. You can send more tomorrow.",
+  "@relayErrorRateDaily": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayErrorLanguage": "Your message contains words we can't send. Please edit it and try again.",
+  "@relayErrorLanguage": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayErrorOffline": "You're offline. Your message hasn't been sent.",
+  "@relayErrorOffline": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayErrorGeneric": "We couldn't send your message. Please try again.",
+  "@relayErrorGeneric": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relaySubjectShort": "Write a subject of at least 3 characters.",
+  "@relaySubjectShort": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayBodyShort": "Write at least 10 characters.",
+  "@relayBodyShort": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayConsentTitle": "Share messages with representatives?",
+  "@relayConsentTitle": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayConsentBody": "Saarthee will email what you write to the representative's official address. Your phone number is shared only when you tick the box. You can withdraw this any time in Privacy.",
+  "@relayConsentBody": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayConsentAgree": "Agree and continue",
+  "@relayConsentAgree": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "relayConsentCancel": "Not now",
+  "@relayConsentCancel": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardTitle": "Ward {number} scorecard",
+  "@scorecardTitle": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "scorecardSubtitle": "Last {days} days · Updated {time}",
+  "@scorecardSubtitle": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "scorecardMedianAck": "Median days to acknowledge",
+  "@scorecardMedianAck": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardMedianFix": "Median days to fix",
+  "@scorecardMedianFix": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardVerified": "Fixes verified by residents",
+  "@scorecardVerified": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardReopened": "Reopened after fixing",
+  "@scorecardReopened": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardBacklog": "Open issues now",
+  "@scorecardBacklog": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardPer1000": "Reports per 1,000 residents",
+  "@scorecardPer1000": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardIssuesReported": "Reports in the last {days} days: {count}",
+  "@scorecardIssuesReported": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "scorecardNotEnough": "Not enough reports yet",
+  "@scorecardNotEnough": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardNoPopulation": "Ward population not available",
+  "@scorecardNoPopulation": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardMethodTitle": "How we calculate this",
+  "@scorecardMethodTitle": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardMethodBody": "Based only on reports made in Saarthee, not AMC's records. Medians use reports from the last 90 days. A fix counts as verified when a resident confirms it with a photo. Reports per 1,000 residents uses the ward population from {source}, where available. Figures need at least 5 reports.",
+  "@scorecardMethodBody": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "scorecardMethodNoSource": "the official census",
+  "@scorecardMethodNoSource": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardPaused": "The scorecard is paused during the election period.",
+  "@scorecardPaused": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "scorecardLoadError": "We couldn't load the scorecard.",
+  "@scorecardLoadError": {
+    "description": "TASK-09 representatives / My Ward"
+  },
+  "electionBannerText": "Election period until {date}. Some representative information is paused.",
+  "@electionBannerText": {
+    "description": "TASK-09 representatives / My Ward",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -1938,5 +1938,301 @@
   "accountChannelUpdates": "અપડેટ્સ",
   "@accountChannelUpdates": {
     "x-review": "pending"
+  },
+  "myWardCorporators": "કોર્પોરેટરો",
+  "@myWardCorporators": {
+    "x-review": "pending"
+  },
+  "myWardMlas": "ધારાસભ્ય",
+  "@myWardMlas": {
+    "x-review": "pending"
+  },
+  "myWardMps": "સાંસદ",
+  "@myWardMps": {
+    "x-review": "pending"
+  },
+  "myWardMultiAc": "તમારો વોર્ડ {count} વિધાનસભા મતવિસ્તારોમાં આવે છે.",
+  "@myWardMultiAc": {
+    "x-review": "pending"
+  },
+  "myWardOffice": "વોર્ડ કચેરી",
+  "@myWardOffice": {
+    "x-review": "pending"
+  },
+  "myWardOfficeCall": "કૉલ કરો",
+  "@myWardOfficeCall": {
+    "x-review": "pending"
+  },
+  "myWardOfficeNone": "કચેરીની વિગતો હજી ઉપલબ્ધ નથી.",
+  "@myWardOfficeNone": {
+    "x-review": "pending"
+  },
+  "myWardScorecardRow": "વોર્ડ સ્કોરકાર્ડ",
+  "@myWardScorecardRow": {
+    "x-review": "pending"
+  },
+  "myWardScorecardRowHint": "આ વોર્ડમાં નોંધાયેલી સમસ્યાઓનું શું થાય છે",
+  "@myWardScorecardRowHint": {
+    "x-review": "pending"
+  },
+  "myWardSeatPending": "બેઠકની વિગતો ચકાસાઈ રહી છે",
+  "@myWardSeatPending": {
+    "x-review": "pending"
+  },
+  "myWardNoReps": "અમે હજી આ વોર્ડના પ્રતિનિધિઓ ઉમેરી રહ્યા છીએ.",
+  "@myWardNoReps": {
+    "x-review": "pending"
+  },
+  "myWardLoadError": "અમે તમારો વોર્ડ લોડ કરી શક્યા નહીં.",
+  "@myWardLoadError": {
+    "x-review": "pending"
+  },
+  "myWardChooseWard": "તમારો વોર્ડ પસંદ કરો",
+  "@myWardChooseWard": {
+    "x-review": "pending"
+  },
+  "myWardChooseWardBody": "તમારા કોર્પોરેટરો, ધારાસભ્ય અને સાંસદ જોવા માટે તમારો વોર્ડ પસંદ કરો.",
+  "@myWardChooseWardBody": {
+    "x-review": "pending"
+  },
+  "myWardCachedNote": "તમે ઑફલાઇન છો. પહેલાં લોડ કરેલી માહિતી બતાવીએ છીએ.",
+  "@myWardCachedNote": {
+    "x-review": "pending"
+  },
+  "repRoleCorporator": "કોર્પોરેટર",
+  "@repRoleCorporator": {
+    "x-review": "pending"
+  },
+  "repRoleMla": "ધારાસભ્ય",
+  "@repRoleMla": {
+    "x-review": "pending"
+  },
+  "repRoleMp": "સાંસદ",
+  "@repRoleMp": {
+    "x-review": "pending"
+  },
+  "repRoleLineCorporator": "કોર્પોરેટર, વોર્ડ {number} {ward}",
+  "@repRoleLineCorporator": {
+    "x-review": "pending"
+  },
+  "repRoleLineArea": "{role}, {area}",
+  "@repRoleLineArea": {
+    "x-review": "pending"
+  },
+  "repParty": "પક્ષ: {party}",
+  "@repParty": {
+    "x-review": "pending"
+  },
+  "repTerm": "મુદત: {from}–{to}",
+  "@repTerm": {
+    "x-review": "pending"
+  },
+  "repTermOpen": "મુદત: {from} થી",
+  "@repTermOpen": {
+    "x-review": "pending"
+  },
+  "repOfficePhone": "કચેરીનો ફોન",
+  "@repOfficePhone": {
+    "x-review": "pending"
+  },
+  "repMessageButton": "{name} ને સંદેશ મોકલો",
+  "@repMessageButton": {
+    "x-review": "pending"
+  },
+  "repSource": "સ્રોત: {domain} · છેલ્લે ચકાસ્યું {date}",
+  "@repSource": {
+    "x-review": "pending"
+  },
+  "repVerified": "Saarthee દ્વારા ચકાસાયેલ",
+  "@repVerified": {
+    "x-review": "pending"
+  },
+  "repNeutrality": "Saarthee સ્વતંત્ર છે અને બધા પ્રતિનિધિઓ સાથે એકસરખો વ્યવહાર કરે છે.",
+  "@repNeutrality": {
+    "x-review": "pending"
+  },
+  "repNoEmail": "આ પ્રતિનિધિનો સત્તાવાર ઈમેલ અમારી પાસે હજી નથી.",
+  "@repNoEmail": {
+    "x-review": "pending"
+  },
+  "repNotFound": "આ પ્રોફાઇલ ઉપલબ્ધ નથી.",
+  "@repNotFound": {
+    "x-review": "pending"
+  },
+  "repLoadError": "અમે આ પ્રોફાઇલ લોડ કરી શક્યા નહીં.",
+  "@repLoadError": {
+    "x-review": "pending"
+  },
+  "repMessageSemantics": "{name} ને સંદેશ, {role}, વોર્ડ {number}",
+  "@repMessageSemantics": {
+    "x-review": "pending"
+  },
+  "repMessageSemanticsArea": "{name} ને સંદેશ, {role}",
+  "@repMessageSemanticsArea": {
+    "x-review": "pending"
+  },
+  "relayTitle": "{name} ને સંદેશ",
+  "@relayTitle": {
+    "x-review": "pending"
+  },
+  "relayIssueLabel": "કોઈ સમસ્યા વિશે (વૈકલ્પિક)",
+  "@relayIssueLabel": {
+    "x-review": "pending"
+  },
+  "relayIssueAttached": "તમારી નોંધાયેલી સમસ્યા વિશે",
+  "@relayIssueAttached": {
+    "x-review": "pending"
+  },
+  "relayIssueNone": "કોઈ ચોક્કસ સમસ્યા વિશે નથી",
+  "@relayIssueNone": {
+    "x-review": "pending"
+  },
+  "relayIssueRemove": "સમસ્યા દૂર કરો",
+  "@relayIssueRemove": {
+    "x-review": "pending"
+  },
+  "relaySubject": "વિષય",
+  "@relaySubject": {
+    "x-review": "pending"
+  },
+  "relayMessage": "સંદેશ",
+  "@relayMessage": {
+    "x-review": "pending"
+  },
+  "relayCounter": "{count}/1000",
+  "@relayCounter": {
+    "x-review": "pending"
+  },
+  "relaySharePhone": "{name} ની કચેરી મને પાછો કૉલ કરી શકે તે માટે મારો ફોન નંબર શેર કરો",
+  "@relaySharePhone": {
+    "x-review": "pending"
+  },
+  "relayNote": "અમે તમારો સંદેશ {name} ના સત્તાવાર સરનામે ઈમેલ કરીશું. તમે બૉક્સ પર ટિક ન કરો ત્યાં સુધી તમારો ફોન નંબર છુપો રહે છે. પ્રતિનિધિઓએ જવાબ આપવો ફરજિયાત નથી.",
+  "@relayNote": {
+    "x-review": "pending"
+  },
+  "relayKindness": "આદરપૂર્વક લખો. અપશબ્દોવાળા સંદેશા મોકલાતા નથી.",
+  "@relayKindness": {
+    "x-review": "pending"
+  },
+  "relaySend": "સંદેશ મોકલો",
+  "@relaySend": {
+    "x-review": "pending"
+  },
+  "relaySent": "સંદેશ મોકલાયો. અમે તે {name} ની કચેરીને ઈમેલ કર્યો છે.",
+  "@relaySent": {
+    "x-review": "pending"
+  },
+  "relayErrorRateRep": "તમે આજે આ પ્રતિનિધિને 5 સંદેશા મોકલ્યા છે. આવતીકાલે વધુ મોકલી શકશો.",
+  "@relayErrorRateRep": {
+    "x-review": "pending"
+  },
+  "relayErrorRateDaily": "તમે આજે મંજૂર મહત્તમ સંદેશા મોકલી દીધા છે. આવતીકાલે વધુ મોકલી શકશો.",
+  "@relayErrorRateDaily": {
+    "x-review": "pending"
+  },
+  "relayErrorLanguage": "તમારા સંદેશમાં એવા શબ્દો છે જે અમે મોકલી શકતા નથી. કૃપા કરીને ફેરફાર કરીને ફરી પ્રયાસ કરો.",
+  "@relayErrorLanguage": {
+    "x-review": "pending"
+  },
+  "relayErrorOffline": "તમે ઑફલાઇન છો. તમારો સંદેશ મોકલાયો નથી.",
+  "@relayErrorOffline": {
+    "x-review": "pending"
+  },
+  "relayErrorGeneric": "અમે તમારો સંદેશ મોકલી શક્યા નહીં. ફરી પ્રયાસ કરો.",
+  "@relayErrorGeneric": {
+    "x-review": "pending"
+  },
+  "relaySubjectShort": "ઓછામાં ઓછા 3 અક્ષરનો વિષય લખો.",
+  "@relaySubjectShort": {
+    "x-review": "pending"
+  },
+  "relayBodyShort": "ઓછામાં ઓછા 10 અક્ષર લખો.",
+  "@relayBodyShort": {
+    "x-review": "pending"
+  },
+  "relayConsentTitle": "પ્રતિનિધિઓ સાથે સંદેશા શેર કરવા છે?",
+  "@relayConsentTitle": {
+    "x-review": "pending"
+  },
+  "relayConsentBody": "તમે જે લખો તે Saarthee પ્રતિનિધિના સત્તાવાર સરનામે ઈમેલ કરશે. તમે બૉક્સ પર ટિક કરો ત્યારે જ તમારો ફોન નંબર શેર થાય છે. તમે ગોપનીયતામાં ગમે ત્યારે આ પાછું ખેંચી શકો છો.",
+  "@relayConsentBody": {
+    "x-review": "pending"
+  },
+  "relayConsentAgree": "સંમત છું, આગળ વધો",
+  "@relayConsentAgree": {
+    "x-review": "pending"
+  },
+  "relayConsentCancel": "હમણાં નહીં",
+  "@relayConsentCancel": {
+    "x-review": "pending"
+  },
+  "scorecardTitle": "વોર્ડ {number} સ્કોરકાર્ડ",
+  "@scorecardTitle": {
+    "x-review": "pending"
+  },
+  "scorecardSubtitle": "છેલ્લા {days} દિવસ · અપડેટ {time}",
+  "@scorecardSubtitle": {
+    "x-review": "pending"
+  },
+  "scorecardMedianAck": "સ્વીકારવામાં લાગતા સરેરાશ (મધ્યક) દિવસ",
+  "@scorecardMedianAck": {
+    "x-review": "pending"
+  },
+  "scorecardMedianFix": "સુધારવામાં લાગતા સરેરાશ (મધ્યક) દિવસ",
+  "@scorecardMedianFix": {
+    "x-review": "pending"
+  },
+  "scorecardVerified": "રહેવાસીઓએ ચકાસેલા સુધારા",
+  "@scorecardVerified": {
+    "x-review": "pending"
+  },
+  "scorecardReopened": "સુધાર્યા પછી ફરી ખૂલેલી",
+  "@scorecardReopened": {
+    "x-review": "pending"
+  },
+  "scorecardBacklog": "હાલ ખુલ્લી સમસ્યાઓ",
+  "@scorecardBacklog": {
+    "x-review": "pending"
+  },
+  "scorecardPer1000": "દર 1,000 રહેવાસીએ ફરિયાદો",
+  "@scorecardPer1000": {
+    "x-review": "pending"
+  },
+  "scorecardIssuesReported": "છેલ્લા {days} દિવસમાં ફરિયાદો: {count}",
+  "@scorecardIssuesReported": {
+    "x-review": "pending"
+  },
+  "scorecardNotEnough": "હજી પૂરતી ફરિયાદો નથી",
+  "@scorecardNotEnough": {
+    "x-review": "pending"
+  },
+  "scorecardNoPopulation": "વોર્ડની વસ્તી ઉપલબ્ધ નથી",
+  "@scorecardNoPopulation": {
+    "x-review": "pending"
+  },
+  "scorecardMethodTitle": "અમે આ કેવી રીતે ગણીએ છીએ",
+  "@scorecardMethodTitle": {
+    "x-review": "pending"
+  },
+  "scorecardMethodBody": "ફક્ત Saarthee માં થયેલી ફરિયાદો પર આધારિત, AMC ના રેકોર્ડ પર નહીં. મધ્યક છેલ્લા 90 દિવસની ફરિયાદો પરથી ગણાય છે. કોઈ રહેવાસી ફોટા સાથે ખાતરી કરે ત્યારે સુધારો ચકાસાયેલો ગણાય છે. દર 1,000 રહેવાસીએ ફરિયાદો માટે, ઉપલબ્ધ હોય ત્યાં, {source} ની વોર્ડ વસ્તી વપરાય છે. આંકડા માટે ઓછામાં ઓછી 5 ફરિયાદો જરૂરી છે.",
+  "@scorecardMethodBody": {
+    "x-review": "pending"
+  },
+  "scorecardMethodNoSource": "સત્તાવાર વસ્તી ગણતરી",
+  "@scorecardMethodNoSource": {
+    "x-review": "pending"
+  },
+  "scorecardPaused": "ચૂંટણીના સમયગાળા દરમિયાન સ્કોરકાર્ડ થોભાવેલું છે.",
+  "@scorecardPaused": {
+    "x-review": "pending"
+  },
+  "scorecardLoadError": "અમે સ્કોરકાર્ડ લોડ કરી શક્યા નહીં.",
+  "@scorecardLoadError": {
+    "x-review": "pending"
+  },
+  "electionBannerText": "{date} સુધી ચૂંટણીનો સમયગાળો. પ્રતિનિધિઓની કેટલીક માહિતી થોભાવેલી છે.",
+  "@electionBannerText": {
+    "x-review": "pending"
   }
 }
