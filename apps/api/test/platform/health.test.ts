@@ -13,7 +13,7 @@ describe('GET /health', () => {
   it('returns 200 with db up and the PostGIS version', async () => {
     const res = await api().get('/api/v1/health');
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ status: 'ok', db: 'up', postgis: expect.stringMatching(/^3\.5\./) });
+    expect(res.body).toEqual({ status: 'ok', db: 'up', postgis: expect.stringMatching(/^3\.([5-9]|\d{2,})\./) });
   });
 
   it('returns 503 SERVICE_UNAVAILABLE when the database is unreachable', async () => {

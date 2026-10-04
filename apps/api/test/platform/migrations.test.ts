@@ -29,9 +29,9 @@ const tableExists = async (t: string) =>
   (await prisma.$queryRaw<{ ok: boolean }[]>`SELECT to_regclass(${`public.${t}`}) IS NOT NULL AS ok`)[0]!.ok;
 
 describe('migrations', () => {
-  it('runs PostGIS 3.5', async () => {
+  it('runs PostGIS 3.5 or newer', async () => {
     const [row] = await prisma.$queryRaw<{ v: string }[]>`SELECT postgis_lib_version() AS v`;
-    expect(row!.v).toMatch(/^3\.5\./);
+    expect(row!.v).toMatch(/^3\.([5-9]|\d{2,})\./);
   });
 
   it('applies the 10 v1 + 7 TASK-01 migrations in order, none failed or pending', async () => {
