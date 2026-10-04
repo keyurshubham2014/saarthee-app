@@ -13,6 +13,8 @@ export const AUDIT_ACTIONS = [
   'invite_code_updated',
   'category_created',
   'category_updated',
+  // v2 (append below)
+  'retention_run',
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
