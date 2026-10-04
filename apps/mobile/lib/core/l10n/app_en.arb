@@ -1595,5 +1595,9 @@
   "placeholderProfile": "Your profile is coming soon.",
   "@placeholderProfile": {
     "description": "TASK-03 v2"
+  },
+  "settingsDevGallery": "Component gallery (debug)",
+  "@settingsDevGallery": {
+    "description": "Debug-only settings row opening /dev/gallery"
   }
 }

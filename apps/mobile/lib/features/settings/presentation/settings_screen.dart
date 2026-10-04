@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -163,6 +164,13 @@ class SettingsScreen extends ConsumerWidget {
             title: l10n.aboutTitle,
             onTap: () => context.push('/about'),
           ),
+          if (kDebugMode)
+            ListRow(
+              key: const Key('settings.devGallery'),
+              leading: Icon(SaartheeIcons.construction, color: c.textSecondary),
+              title: l10n.settingsDevGallery,
+              onTap: () => context.push('/dev/gallery'),
+            ),
           const SizedBox(height: AppSpacing.s24),
         ],
       ),

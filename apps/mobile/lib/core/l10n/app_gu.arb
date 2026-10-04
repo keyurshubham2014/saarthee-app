@@ -1531,5 +1531,9 @@
   "placeholderProfile": "તમારી પ્રોફાઇલ ટૂંક સમયમાં આવશે.",
   "@placeholderProfile": {
     "x-review": "pending"
+  },
+  "settingsDevGallery": "કમ્પોનન્ટ ગૅલેરી (ડિબગ)",
+  "@settingsDevGallery": {
+    "x-review": "pending"
   }
 }
