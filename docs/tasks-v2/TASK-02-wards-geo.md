@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-02 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | M |
 | Depends On | TASK-01 |
 | Blocks | TASK-05, TASK-08, TASK-09, TASK-12 |
 | Requirement IDs | REQ-F-001, REQ-F-002, REQ-F-003, REQ-D-006 |
 | Primary Spec Refs | Spec §2 (D5, D9, D10), §6 (`zones`, `wards`), §7 (Geo), §8 (`/onboarding/ward`, My Ward); DS §5 (list rows), DS §7 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -154,6 +154,16 @@ No new ARB keys: TASK-03's copy covers locating, nearest-confirm, outside-city, 
 - ASSUMPTION: TASK-03 owns `lib/core/wards/` and the picker UI and runs in parallel; this task's mobile steps (10–11) run after TASK-03's repository exists. If TASK-03 is not merged yet, finish the API side, mark steps 10–11 pending in §13 and complete them once it lands.
 - ASSUMPTION: No bundled ward snapshot — agrees with TASK-03 §5.6 (a bundled list would drift from the boundary-versioned data); offline use relies on TASK-03's `v2.wardsCache`.
 - ASSUMPTION: "Outside all wards and beyond the nearest limit" is 422 `OUTSIDE_SERVICE_AREA` — TASK-03 already handles 422 as "outside city".
+- ASSUMPTION (2026-10-04): Source is OpenCity's "Amdavad Municipal Corporation Wards Map 2024" (resource modified 2025-11-25 → boundary version `opencity-amc-wards-2025-11`). Its KML carries `sourcewardcode` (ward number) and LGD codes, so `geo:crosscheck` also asserts KML code = matched AMC ward number.
+- ASSUMPTION: AMC's list (amccrs.com/AMCPortal/Home/WardList; the old `View/WardList.aspx` is 404) publishes zone, ward name and office address but **no per-ward phone** — `office_phone` is NULL for all 48 wards (helpline 155303 is city-wide, not stored per ward). Ward numbers are not on AMC's page; they come from the OpenCity/LGD codes.
+- ASSUMPTION: Gujarati ward names were compiled by the developer (AMC's Gujarati page was not usable); zone Gujarati names are the §5.2 forms; `office_address_gu` NULL. All need a native reader (Open Question 5).
+- ASSUMPTION: KML→GeoJSON uses a small dependency-free parser (`src/lib/geo/kml.ts`) instead of `@tmcw/togeojson` + `@xmldom/xmldom` — the file is plain machine-written KML (48 Placemarks, one Polygon each, no holes); the parser still supports holes and multi-polygons and is unit-tested. No new dependency to audit.
+- ASSUMPTION: `zones.sort_order` (smallint) added so "ordered by zone sort" has a stored order (Central, North, South, East, West, North West, South West — the order of `amc-ward-list.json`).
+- ASSUMPTION: Ward/zone ids are name-based UUIDv5 (`ward:<number>`, `zone:<code>`, fixed namespace) so ids are identical in every environment, in the app fixture and in caches across resets.
+- ASSUMPTION: The ETag (`W/"<boundaryVersion>-<max(updated_at)>"`) is per data version, not per query; clients cache per URL so `If-None-Match` is only sent for the same URL.
+- ASSUMPTION: `wards` ids accept ward numbers in ASCII or Gujarati digits; a number outside 1–99 (e.g. 999) is 404 `NOT_FOUND` (AC-7) while a non-numeric, non-uuid id is 400.
+- ASSUMPTION: The seed's Nava Vadaj pilot point (TASK-01 `050-issues.ts`) was inside ward 10 (Sardar Patel Stadium); moved to Nava Vadaj's point on surface (23.0693, 72.5626). All pilot points and offsets verified inside their ward.
+- ASSUMPTION: Mobile steps 10–11 (and F-02-01/02/03, M-02-04, AC-10, AC-11) are pending: TASK-03's `lib/core/wards/` is on its own unmerged branch. The API side, the real `apps/mobile/test/fixtures/wards.json` and the shared search case table (`apps/api/test/fixtures/geo/ward-search-cases.json`) are ready for them.
 
 ## 6. Implementation Steps
 
@@ -245,14 +255,14 @@ No new ARB keys: TASK-03's copy covers locating, nearest-confirm, outside-city, 
 
 ### 7.2 Non-Functional Checklist
 
-- [ ] `/geo/locate` p95 < 50 ms on the dev machine with 48 wards (GIST index used — `EXPLAIN` shows index scan)
-- [ ] `/wards` payload without geometry < 15 KB; `?include=geometry` for one ward < 60 KB
-- [ ] Coordinates never logged at info level; ward number only
-- [ ] Every AMC-derived field carries its source (`source` object in `WardDetail`) for TASK-09 to display
-- [ ] Gujarati ward and zone names reviewed by a Gujarati reader (data, not ARB)
-- [ ] Ward search is identical in API and app for the test table (same cases in T-02-07 and F-02-01)
-- [ ] Source files and licence recorded in `SOURCES.md`; no AMC logo or scraped images committed
-- [ ] Import, cross-check and backfill are idempotent and transactional
+- [x] `/geo/locate` p95 < 50 ms on the dev machine with 48 wards (GIST index used — `EXPLAIN` shows index scan)
+- [x] `/wards` payload without geometry < 15 KB; `?include=geometry` for one ward < 60 KB
+- [x] Coordinates never logged at info level; ward number only
+- [x] Every AMC-derived field carries its source (`source` object in `WardDetail`) for TASK-09 to display
+- [ ] Gujarati ward and zone names reviewed by a Gujarati reader (data, not ARB) — Deferred: needs a native Gujarati reader (Open Question 5)
+- [ ] Ward search is identical in API and app for the test table (same cases in T-02-07 and F-02-01) — API side done with `test/fixtures/geo/ward-search-cases.json`; F-02-01 pending TASK-03
+- [x] Source files and licence recorded in `SOURCES.md`; no AMC logo or scraped images committed
+- [x] Import, cross-check and backfill are idempotent and transactional
 
 ## 8. Validation & Testing
 
@@ -325,26 +335,39 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review — API side complete; open: mobile steps 10–11 (F-02-01/02/03, AC-10, AC-11, M-02-04) after TASK-03 merges; Gujarati name review
 
-**Progress:** 0%
+**Progress:** 80%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Sources captured (OpenCity KML, AMC ward list text, aliases, SOURCES.md) | f768457 |
+| 2026-10-04 | geo:convert (dependency-free KML parser), source loader + KML↔AMC matcher | c3cdbb8 |
+| 2026-10-04 | Migrations zones/wards + ward FKs; Prisma models; drift gate green | 46b854f |
+| 2026-10-04 | geo:import (48 wards / 7 zones, idempotent) | 80a1c49 |
+| 2026-10-04 | locatePoint, geo:crosscheck PASS on real data (438.4 km², 0 overlaps, 0 gaps), CROSSCHECK.md | cb29f57 |
+| 2026-10-04 | geo:backfill (dev: checked=23 inside=23) | eb15885 |
+| 2026-10-04 | geo module: /geo/locate, /wards, /wards/{id}, /zones, ETag/304, limiter, OUTSIDE_SERVICE_AREA 422, resolveWard() | 9da604e |
+| 2026-10-04 | Tests T-02-01…T-02-08 | 595053f, 003c17e, ea04918, db4e594 |
+| 2026-10-04 | wards seed module, Nava Vadaj pilot point fix, SEED-EXPECTATIONS v2 section | dbc8d02 |
+| 2026-10-04 | Stable UUIDv5 ids; geo:fixture → apps/mobile/test/fixtures/wards.json | 2c32116 |
+| 2026-10-04 | Perf: locate p50 2.1 ms / p95 4.9 ms (opt-in test), GIST index in plan; known pilot places | 6f756f7 |
+| 2026-10-04 | Verified: full API suite 142 passed + 3 opt-in skipped (22 s), tsc, eslint, db:drift, db:check-v1 | — |
+| 2026-10-04 | Pending: mobile steps 10–11 after TASK-03 merges | — |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [ ] All implementation steps complete — steps 1–9 and 12 (API) done; 10–11 (mobile) pending TASK-03
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing (API: 7 geo files, 67 tests + opt-in perf)
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-02` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-02: …`
+- [x] Committed as `V2-TASK-02: …`
 - [ ] Validator passes
