@@ -35,6 +35,17 @@ class PushRegistrar {
 
   Future<void> dismissPrompt() => _prefs.setBool(promptDismissedKey, true);
 
+  static const launchesKey = 'saarthee.push.launches';
+
+  /// App starts after onboarding; the Home soft prompt waits for the second
+  /// (never at first launch, TASK-04 §5.4).
+  int get launches => _prefs.getInt(launchesKey) ?? 0;
+
+  Future<void> countLaunch() => _prefs.setInt(launchesKey, launches + 1);
+
+  /// Whether Home should offer the soft prompt.
+  bool get shouldPrompt => launches >= 2 && !enabled && !promptDismissed;
+
   /// Asks for the OS permission; on success turns push on and subscribes.
   Future<bool> enable() async {
     final granted = await _messaging.requestPermission();

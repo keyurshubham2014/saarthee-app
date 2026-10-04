@@ -8,6 +8,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/wards/ward_providers.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/presentation/ward_picker_sheet.dart';
+import '../../me/presentation/push_prompt_card.dart';
 import '../../shell/placeholders.dart';
 
 /// Home tab (branch 0): the green header with the Report card, then the
@@ -61,6 +62,8 @@ class HomeScreen extends ConsumerWidget {
           ),
           SliverList.list(
             children: [
+              // TASK-04: push soft prompt (never at first launch).
+              const PushPromptCard(),
               sectionTitle(l10n.homeSectionAlerts),
               const PlaceholderSection(
                 placeholderId: PlaceholderId.p02AlertsStrip,

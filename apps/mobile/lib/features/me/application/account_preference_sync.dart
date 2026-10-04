@@ -59,6 +59,7 @@ final accountPreferenceSyncProvider = Provider<PreferenceSync>(
 /// App start (after onboarding): restore the session, then register the
 /// device and its topics (`POST /devices`).
 final pushStartupProvider = FutureProvider<void>((ref) async {
+  await ref.read(pushRegistrarProvider).countLaunch();
   await ref.read(sessionProvider.notifier).ready;
   await syncPush(ref);
 });
