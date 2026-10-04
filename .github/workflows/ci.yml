@@ -8,6 +8,7 @@ jobs:
     outputs:
       api: ${{ steps.f.outputs.api }}
       mobile: ${{ steps.f.outputs.mobile }}
+      ops: ${{ steps.f.outputs.ops }}
     steps:
       - uses: actions/checkout@v4
       - id: f
@@ -16,6 +17,7 @@ jobs:
           filters: |
             api: ['apps/api/**']
             mobile: ['apps/mobile/**']
+            ops: ['apps/api/**', 'apps/mobile/android/**', 'apps/mobile/ios/**', 'apps/mobile/env/**', 'infra/**', 'scripts/**']
   api:
     needs: changes
     if: needs.changes.outputs.api == 'true'
@@ -36,7 +38,14 @@ jobs:
       DATABASE_URL: postgresql://saarthee:change-me@127.0.0.1:5433/saarthee_test
       SHADOW_DATABASE_URL: postgresql://saarthee:change-me@127.0.0.1:5433/saarthee_shadow
       PGPASSWORD: change-me
+      # T-13-01 runs the storage contract suite against MinIO as the R2 stand-in (V2 TASK-13).
+      R2_TEST_ENDPOINT: http://127.0.0.1:9000
     steps:
+      - name: MinIO (R2 stand-in)
+        working-directory: .
+        run: >-
+          docker run -d --name minio -p 9000:9000
+          minio/minio@sha256:14cea493d9a34af32f524e538b8346cf79f3321eff8e708c1e2960462bd8936e server /data
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: npm, cache-dependency-path: apps/api/package-lock.json }
@@ -70,3 +79,25 @@ jobs:
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test integration_test
       - run: dart analyze
+  ops:
+    # V2 TASK-13 S-13-01: cleartext rule, static site, deploy scripts, production images.
+    needs: changes
+    if: needs.changes.outputs.ops == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: No cleartext outside debug builds
+        run: bash scripts/check-cleartext.sh
+      - name: Privacy and deletion pages
+        run: node scripts/check-site.mjs
+      - name: Shellcheck deploy scripts
+        run: shellcheck -S warning infra/deploy/*.sh scripts/check-cleartext.sh
+      - name: Build API production image
+        run: docker build -t saarthee-api:ci apps/api
+      - name: Build Caddy image (validates both Caddyfiles)
+        run: docker build -f infra/deploy/caddy.Dockerfile -t saarthee-caddy:ci infra/deploy
+      - name: Image runs as non-root and has no secrets
+        run: |
+          test "$(docker run --rm --entrypoint id saarthee-api:ci -u)" = "10001"
+          ! docker history --no-trunc saarthee-api:ci | grep -iE 'password=|secret=|DATABASE_URL=postgres'
