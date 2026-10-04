@@ -494,12 +494,42 @@ class RepresentativeRow extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final c = SaartheeColors.of(context);
     final text = Theme.of(context).textTheme;
+    final message = onMessage == null
+        ? null
+        : OutlinedButton.icon(
+            onPressed: onMessage,
+            icon: const Icon(SaartheeIcons.message, size: AppSpacing.iconSmall),
+            label: Text(l10n.componentMessage),
+            style: OutlinedButton.styleFrom(
+              minimumSize: const Size(
+                AppSpacing.touchTarget,
+                AppSpacing.touchTarget,
+              ),
+            ),
+          );
+    // Large text (≥ 1.5×, DS §7): the button moves under the name so the
+    // name column keeps its width instead of the row overflowing.
+    final stacked = MediaQuery.textScalerOf(context).scale(1) >= 1.5;
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(name, style: text.titleMedium),
+        Text([role, ward, ?party].join(' · '), style: text.bodySmall),
+        if (stacked && message != null) ...[
+          const SizedBox(height: AppSpacing.s8),
+          message,
+        ],
+      ],
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.gutter,
         vertical: AppSpacing.s12,
       ),
       child: Row(
+        crossAxisAlignment: stacked
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
           ExcludeSemantics(
             child: CircleAvatar(
@@ -512,30 +542,8 @@ class RepresentativeRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.s12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: text.titleMedium),
-                Text([role, ward, ?party].join(' · '), style: text.bodySmall),
-              ],
-            ),
-          ),
-          if (onMessage != null)
-            OutlinedButton.icon(
-              onPressed: onMessage,
-              icon: const Icon(
-                SaartheeIcons.message,
-                size: AppSpacing.iconSmall,
-              ),
-              label: Text(l10n.componentMessage),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size(
-                  AppSpacing.touchTarget,
-                  AppSpacing.touchTarget,
-                ),
-              ),
-            ),
+          Expanded(child: details),
+          if (!stacked && message != null) message,
         ],
       ),
     );
