@@ -203,6 +203,7 @@ class _MapTabScreenState extends ConsumerState<MapTabScreen>
     return Scaffold(
       appBar: SaartheeAppBar(title: l10n.navMap, showBack: false),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _Filters(
             filters: _filters,

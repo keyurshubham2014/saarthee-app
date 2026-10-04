@@ -106,9 +106,8 @@ Future<DiscoveryHarness> pumpDiscovery(
           GlobalCupertinoLocalizations.delegate,
         ],
         builder: (context, app) => MediaQuery(
-          data: MediaQuery.of(
-            context,
-          ).copyWith(disableAnimations: disableAnimations),
+          data: MediaQuery.of(context)
+              .copyWith(disableAnimations: disableAnimations),
           child: MotionScope(child: app!),
         ),
       ),

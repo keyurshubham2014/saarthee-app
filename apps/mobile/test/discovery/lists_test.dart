@@ -18,7 +18,11 @@ List<Map<String, dynamic>> page(int from, int n) => [
 void main() {
   testWidgets('W-07-02 infinite scroll to "That\'s all."', (t) async {
     final api = FakeDiscoveryApi(pages: [page(0, 6), page(6, 6), page(12, 3)]);
-    await pumpDiscovery(t, home: const IssuesScreen(wardId: 'w1'), api: api);
+    await pumpDiscovery(
+      t,
+      home: const IssuesScreen(wardId: 'w1'),
+      api: api,
+    );
     await settle(t);
     expect(find.byKey(const Key('issueCard.i0')), findsOneWidget);
     for (var i = 0; i < 12; i++) {

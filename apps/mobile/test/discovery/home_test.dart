@@ -37,11 +37,7 @@ Future<DiscoveryHarness> pumpHome(
   api: api,
   reduced: reduced,
   disableAnimations: disableAnimations,
-  prefs: {
-    ...homeWardPrefs(paldi),
-    reportPulseShownKey: true,
-    ...prefs,
-  },
+  prefs: {...homeWardPrefs(paldi), reportPulseShownKey: true, ...prefs},
   extra: [
     GoRoute(path: '/elsewhere', builder: (_, _) => const SizedBox()),
     GoRoute(path: '/issues', builder: (_, _) => const SizedBox()),
@@ -147,7 +143,9 @@ void main() {
           (w is Container && w.color == c.sunrise),
     );
     expect(sunrise, findsOneWidget);
-    final bandBottom = t.getBottomLeft(find.byKey(const Key('homeHeader.band')));
+    final bandBottom = t.getBottomLeft(
+      find.byKey(const Key('homeHeader.band')),
+    );
     final cardRect = t.getRect(find.byKey(const Key('reportCard')));
     expect(cardRect.top, lessThan(bandBottom.dy));
     expect(cardRect.bottom, greaterThan(bandBottom.dy));
