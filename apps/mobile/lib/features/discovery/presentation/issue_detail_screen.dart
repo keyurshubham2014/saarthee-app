@@ -143,11 +143,11 @@ class _Body extends ConsumerWidget {
             Padding(
               padding: pad,
               child: Text(
-                l10n.discoveryMetaLine(
+                issueSubline(d.title, [
                   d.categoryName(lang),
                   ward,
-                  ageLabel(l10n, d.createdAt),
-                ),
+                ], ageLabel(l10n, d.createdAt)),
+                key: const Key('detail.meta'),
                 style: text.bodySmall,
               ),
             ),
