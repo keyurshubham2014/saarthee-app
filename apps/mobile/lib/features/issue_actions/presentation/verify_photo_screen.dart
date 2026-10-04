@@ -11,6 +11,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../application/issue_providers.dart';
+import '../application/photo_prep.dart';
 import '../data/issue_actions_api.dart';
 import '../data/issue_models.dart';
 import 'common.dart';
@@ -97,11 +98,9 @@ class _VerifyPhotoScreenState extends ConsumerState<VerifyPhotoScreen> {
       _waitingForNetwork = false;
     });
     try {
-      _photoId ??= await api.uploadPhoto(
-        widget.issueId,
-        _photo!.path,
-        'verification',
-      );
+      _photoId ??= await ref
+          .read(issuePhotoUploaderProvider)
+          .upload(widget.issueId, _photo!.path, 'verification');
     } on AppError catch (e) {
       if (!mounted) return;
       setState(() {

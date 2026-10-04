@@ -70,7 +70,12 @@ abstract interface class IssueActionsApi {
   });
 
   /// `POST /photos` with `purpose` after | verification.
-  Future<String> uploadPhoto(String issueId, String path, String purpose);
+  Future<String> uploadPhoto(
+    String issueId,
+    String path,
+    String purpose, {
+    bool blurApplied = false,
+  });
 
   Future<void> changeStatus(
     String issueId, {
@@ -116,12 +121,17 @@ class HttpIssueActionsApi implements IssueActionsApi {
   Future<String> uploadPhoto(
     String issueId,
     String path,
-    String purpose,
-  ) async {
+    String purpose, {
+    bool blurApplied = false,
+  }) async {
     final res = await _api.uploadFile(
       '/photos',
       filePath: path,
-      fields: {'purpose': purpose, 'issueId': issueId, 'blurApplied': 'false'},
+      fields: {
+        'purpose': purpose,
+        'issueId': issueId,
+        'blurApplied': '$blurApplied',
+      },
     );
     return res['photoId'] as String;
   }
