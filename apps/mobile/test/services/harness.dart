@@ -19,6 +19,7 @@ import 'package:saarthee/features/initiatives/data/initiatives_repository.dart';
 import 'package:saarthee/features/services/application/external_links.dart';
 import 'package:saarthee/features/services/data/services_repository.dart';
 import 'package:saarthee/features/services/services_routes.dart';
+import 'package:saarthee/features/staff/content/data/staff_content_api.dart';
 import 'package:saarthee/features/staff/content/presentation/staff_gate.dart';
 import 'package:saarthee/features/staff/content/staff_content_routes.dart';
 
@@ -68,6 +69,7 @@ Future<GoRouter> pumpServices(
   FakeSaartheeHaptics? haptics,
   Map<String, Object> prefs = const {},
   String role = 'citizen',
+  StaffContentApi? staffApi,
   bool? reduced,
   bool disableAnimations = false,
   Size size = const Size(400, 900),
@@ -80,7 +82,10 @@ Future<GoRouter> pumpServices(
   final router = GoRouter(
     initialLocation: location,
     routes: [
-      GoRoute(path: '/', builder: (_, _) => Scaffold(body: home)),
+      GoRoute(
+        path: '/',
+        builder: (_, _) => Scaffold(body: home),
+      ),
       ...servicesRoutes,
       ...staffContentRoutes,
     ],
@@ -92,14 +97,26 @@ Future<GoRouter> pumpServices(
       retry: (_, _) => null,
       overrides: [
         sharedPreferencesProvider.overrideWithValue(p),
-        saartheeHapticsProvider.overrideWithValue(haptics ?? FakeSaartheeHaptics()),
+        saartheeHapticsProvider.overrideWithValue(
+          haptics ?? FakeSaartheeHaptics(),
+        ),
         preferenceSyncProvider.overrideWithValue(FakePreferenceSync()),
         wardsRepositoryProvider.overrideWithValue(FakeWardsRepository()),
-        servicesRepositoryProvider.overrideWithValue(services ?? FakeServicesRepository()),
-        initiativesRepositoryProvider.overrideWithValue(initiatives ?? FakeInitiativesRepository(const [])),
-        externalLauncherProvider.overrideWithValue((launcher ?? LaunchRecorder()).call),
-        rsvpSignInProvider.overrideWithValue((signIn ?? SignInRecorder([])).call),
+        servicesRepositoryProvider.overrideWithValue(
+          services ?? FakeServicesRepository(),
+        ),
+        initiativesRepositoryProvider.overrideWithValue(
+          initiatives ?? FakeInitiativesRepository(const []),
+        ),
+        externalLauncherProvider.overrideWithValue(
+          (launcher ?? LaunchRecorder()).call,
+        ),
+        rsvpSignInProvider.overrideWithValue(
+          (signIn ?? SignInRecorder([])).call,
+        ),
         staffRoleProvider.overrideWithValue(role),
+        if (staffApi != null)
+          staffContentApiProvider.overrideWithValue(staffApi),
         if (reduced != null) reducedMotionProvider.overrideWithValue(reduced),
       ],
       child: MaterialApp.router(
@@ -114,7 +131,8 @@ Future<GoRouter> pumpServices(
           GlobalCupertinoLocalizations.delegate,
         ],
         builder: (context, app) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(disableAnimations: disableAnimations),
+          data: MediaQuery.of(context)
+              .copyWith(disableAnimations: disableAnimations),
           child: MotionScope(child: app!),
         ),
       ),

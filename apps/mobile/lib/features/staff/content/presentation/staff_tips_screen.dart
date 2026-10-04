@@ -135,7 +135,7 @@ class StaffTipFormScreen extends ConsumerWidget {
       ref.invalidate(staffTipsProvider);
       if (context.mounted) {
         showSaartheeToast(context, l10n.staffContentSaved);
-        context.pop();
+        leaveForm(context, '/staff/tips');
       }
       return null;
     }

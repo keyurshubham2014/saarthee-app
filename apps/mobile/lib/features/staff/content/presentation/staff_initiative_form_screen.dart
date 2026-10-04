@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/wards/ward_providers.dart';
@@ -84,7 +83,7 @@ class StaffInitiativeFormScreen extends ConsumerWidget {
       ref.invalidate(staffInitiativesProvider);
       if (context.mounted) {
         showSaartheeToast(context, l10n.staffContentSaved);
-        context.pop();
+        leaveForm(context, '/staff/initiatives');
       }
       return null;
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/motion/staff_motion_scope.dart';
@@ -60,6 +61,17 @@ class StaffPage extends ConsumerWidget {
               ),
       ),
     );
+  }
+}
+
+/// Leaves a saved form: back to the list it came from, or [fallback] when it
+/// was opened directly.
+void leaveForm(BuildContext context, String fallback) {
+  final router = GoRouter.of(context);
+  if (router.canPop()) {
+    router.pop();
+  } else {
+    router.go(fallback);
   }
 }
 

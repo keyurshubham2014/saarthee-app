@@ -122,7 +122,10 @@ class FakeInitiativesRepository implements InitiativesRepository {
   bool fullOnRsvp = false;
 
   @override
-  Future<Cached<List<Initiative>>> list({String? wardId, int limit = 20}) async {
+  Future<Cached<List<Initiative>>> list({
+    String? wardId,
+    int limit = 20,
+  }) async {
     calls.add('list:${wardId ?? 'city'}');
     final items = byId.values
         .where((i) => wardId == null || i.wardId == wardId || i.wardId == null)
