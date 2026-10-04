@@ -147,6 +147,7 @@ class InboxRowState extends State<InboxRow>
       child: Dismissible(
         key: ValueKey('inboxRow.${widget.item.id}'),
         direction: DismissDirection.endToStart,
+        movementDuration: motion.short.duration,
         background: ColoredBox(color: c.surfaceAlt),
         confirmDismiss: (_) async {
           _swiped();

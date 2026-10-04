@@ -152,6 +152,7 @@ class InAppAlertBannerState extends State<InAppAlertBanner>
               (alertPulseScale - 1) *
                   SaartheeMotion.long.curve.transform(pulse.value);
           return FractionalTranslation(
+            key: const ValueKey('inAppAlertSlide'),
             translation: Offset(0, t - 1),
             child: Opacity(
               opacity: slide.value.clamp(0.0, 1.0),
