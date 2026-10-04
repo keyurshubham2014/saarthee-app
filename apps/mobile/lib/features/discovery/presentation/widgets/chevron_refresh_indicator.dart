@@ -36,7 +36,10 @@ class ChevronRefreshPainter extends CustomPainter {
         BrandMarkPainter.routeTurnEnd.dx * k,
         BrandMarkPainter.routeTurnEnd.dy * k,
       )
-      ..lineTo(BrandMarkPainter.routeEnd.dx * k, BrandMarkPainter.routeEnd.dy * k);
+      ..lineTo(
+        BrandMarkPainter.routeEnd.dx * k,
+        BrandMarkPainter.routeEnd.dy * k,
+      );
     final p = progress.clamp(0.0, 1.0);
     final metric = path.computeMetrics().first;
     canvas.drawPath(
@@ -209,9 +212,8 @@ class _ChevronRefreshIndicatorState extends State<ChevronRefreshIndicator>
                                 horizontal: AppSpacing.s8,
                               ),
                               child: Text(
-                                AppLocalizations.of(
-                                  context,
-                                ).discoveryRefreshing,
+                                AppLocalizations.of(context)
+                                    .discoveryRefreshing,
                                 key: const Key('chevronRefresh.label'),
                               ),
                             ),

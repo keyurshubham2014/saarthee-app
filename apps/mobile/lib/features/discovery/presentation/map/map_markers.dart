@@ -34,7 +34,11 @@ class TeardropPin extends StatelessWidget {
         width: width,
         height: height,
         child: CustomPaint(
-          painter: _TeardropPainter(fill: cat.color, ring: ring, edge: c.surface),
+          painter: _TeardropPainter(
+            fill: cat.color,
+            ring: ring,
+            edge: c.surface,
+          ),
           child: Padding(
             padding: const EdgeInsets.only(top: 7, bottom: 17),
             child: Center(
@@ -63,9 +67,19 @@ class _TeardropPainter extends CustomPainter {
     final tip = Offset(size.width / 2, size.height - 1);
     final path = Path()
       ..moveTo(tip.dx, tip.dy)
-      ..quadraticBezierTo(center.dx - r * 0.9, center.dy + r * 0.9, center.dx - r, center.dy)
+      ..quadraticBezierTo(
+        center.dx - r * 0.9,
+        center.dy + r * 0.9,
+        center.dx - r,
+        center.dy,
+      )
       ..arcToPoint(Offset(center.dx + r, center.dy), radius: Radius.circular(r))
-      ..quadraticBezierTo(center.dx + r * 0.9, center.dy + r * 0.9, tip.dx, tip.dy)
+      ..quadraticBezierTo(
+        center.dx + r * 0.9,
+        center.dy + r * 0.9,
+        tip.dx,
+        tip.dy,
+      )
       ..close();
     canvas.drawPath(path, Paint()..color = fill);
     // Status ring around the head (white gap, then the status colour).
@@ -126,16 +140,12 @@ class ClusterBubble extends StatelessWidget {
           shape: BoxShape.circle,
           // DS slate (#4B5768, the neutral "reported" solid).
           color: IssueStatusStyle.styles[IssueStatus.reported]!.solid,
-          border: Border.all(
-            color: hasOverdue ? c.error : c.surface,
-            width: 3,
-          ),
+          border: Border.all(color: hasOverdue ? c.error : c.surface, width: 3),
         ),
         child: Text(
           '$count',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: NeemFixed.white,
-          ),
+          style: Theme.of(context).textTheme.labelLarge
+              ?.copyWith(color: NeemFixed.white),
         ),
       ),
     );

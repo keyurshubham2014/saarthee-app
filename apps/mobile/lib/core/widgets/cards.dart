@@ -182,7 +182,12 @@ class IssueCard extends StatelessWidget {
     this.photo,
     this.photoLabel,
     this.onTap,
+    this.heroId,
   });
+
+  /// TASK-07: with an issue id, the photo and title carry the
+  /// `issue-photo-<id>` / `issue-title-<id>` Hero tags (card → detail, DS §6).
+  final String? heroId;
 
   final String title;
   final String categorySlug;
@@ -212,10 +217,13 @@ class IssueCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (photo != null || photoLabel != null)
-                  PhotoThumb(
-                    image: photo,
-                    semanticLabel: photoLabel ?? title,
-                    radius: 0,
+                  _maybeHero(
+                    heroId == null ? null : 'issue-photo-$heroId',
+                    PhotoThumb(
+                      image: photo,
+                      semanticLabel: photoLabel ?? title,
+                      radius: 0,
+                    ),
                   ),
                 Padding(
                   padding: const EdgeInsets.all(AppSpacing.s14),
@@ -231,7 +239,13 @@ class IssueCard extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(title, style: text.titleMedium),
+                                _maybeHero(
+                                  heroId == null ? null : 'issue-title-$heroId',
+                                  Material(
+                                    type: MaterialType.transparency,
+                                    child: Text(title, style: text.titleMedium),
+                                  ),
+                                ),
                                 Text(wardAndAge, style: text.bodySmall),
                               ],
                             ),
@@ -274,6 +288,9 @@ class IssueCard extends StatelessWidget {
     );
   }
 }
+
+Widget _maybeHero(String? tag, Widget child) =>
+    tag == null ? child : Hero(tag: tag, child: child);
 
 /// One step of a [StatusTimeline].
 class TimelineStep {

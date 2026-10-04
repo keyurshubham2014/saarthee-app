@@ -17,7 +17,11 @@ class HomeHeader extends StatelessWidget {
     required this.onReport,
     required this.onBell,
     this.animateReportCard = true,
+    this.decorateReportCard,
   });
+
+  /// TASK-07 (additive): wraps the Report card (spring + one-time pulse).
+  final Widget Function(Widget card)? decorateReportCard;
 
   /// "Ward 12 · Paldi", or null when no home ward is set ("Set your ward").
   final String? wardLabel;
@@ -120,7 +124,9 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: AppSpacing.s20),
-              ReportCard(onPressed: onReport, animate: animateReportCard),
+              (decorateReportCard ?? (Widget w) => w)(
+                ReportCard(onPressed: onReport, animate: animateReportCard),
+              ),
             ],
           ),
         ),

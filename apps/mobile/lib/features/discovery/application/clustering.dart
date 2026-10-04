@@ -25,9 +25,7 @@ ClusterResult clusterPoints(
     final x = (p.lng + 180) / 360 * scale;
     final s = math.sin(p.lat * math.pi / 180).clamp(-0.9999, 0.9999);
     final y = (0.5 - math.log((1 + s) / (1 - s)) / (4 * math.pi)) * scale;
-    cells
-        .putIfAbsent((x ~/ cellPx, y ~/ cellPx), () => <MapPoint>[])
-        .add(p);
+    cells.putIfAbsent((x ~/ cellPx, y ~/ cellPx), () => <MapPoint>[]).add(p);
   }
   final pins = <MapPoint>[];
   final clusters = <MapCluster>[];
