@@ -67,10 +67,11 @@ case "$PHOTO_DIR" in
   /*/saarthee-data|/*/saarthee-data/*) say "Clearing seeded/uploaded photos in $PHOTO_DIR/photos"; run rm -rf "${PHOTO_DIR:?}/photos" ;;
   *) say "Photo store '$PHOTO_DIR' left as is (not a saarthee data directory)" ;;
 esac
-say "Applying migrations and the v2 seed (apps/api: prisma migrate deploy, prisma db seed)"
+say "Applying migrations and the v2 seed (apps/api: prisma migrate deploy, prisma db seed, legacy:migrate)"
 in_api() { (cd "$ROOT/apps/api" && "$@"); }
 run in_api npx prisma migrate deploy
 run in_api npx prisma db seed
+run in_api npm run --silent legacy:migrate   # v1 fixtures -> hidden legacy issues (SEED-EXPECTATIONS.md totals)
 
 # --- 3. Firebase Auth Emulator -----------------------------------------------------------
 say "Firebase Auth Emulator on $AUTH_EMU"
