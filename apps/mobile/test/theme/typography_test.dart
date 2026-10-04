@@ -49,10 +49,21 @@ void main() {
 
   test('Baloo never below 16 sp and nothing below 12 sp', () {
     final all = [
-      t.displayLarge, t.displayMedium, t.displaySmall, t.headlineLarge,
-      t.headlineMedium, t.headlineSmall, t.titleLarge, t.titleMedium,
-      t.titleSmall, t.bodyLarge, t.bodyMedium, t.bodySmall, t.labelLarge,
-      t.labelMedium, t.labelSmall,
+      t.displayLarge,
+      t.displayMedium,
+      t.displaySmall,
+      t.headlineLarge,
+      t.headlineMedium,
+      t.headlineSmall,
+      t.titleLarge,
+      t.titleMedium,
+      t.titleSmall,
+      t.bodyLarge,
+      t.bodyMedium,
+      t.bodySmall,
+      t.labelLarge,
+      t.labelMedium,
+      t.labelSmall,
       AppTypography.numeric(SaartheeColors.light),
       AppTypography.displayNumber(SaartheeColors.light),
     ];
@@ -66,7 +77,10 @@ void main() {
 
   test('fallback lists Noto Sans Gujarati then Noto Sans', () {
     expect(t.bodyLarge!.fontFamilyFallback, ['NotoSansGujarati', 'NotoSans']);
-    expect(t.displaySmall!.fontFamilyFallback, ['NotoSansGujarati', 'NotoSans']);
+    expect(t.displaySmall!.fontFamilyFallback, [
+      'NotoSansGujarati',
+      'NotoSans',
+    ]);
   });
 
   test('numeric role uses tabular figures and Baloo ships tnum', () {

@@ -1,5 +1,4 @@
 // T-03-21 SaartheeMotion tokens, reduced scheme and reducedMotionProvider.
-import 'package:flutter/animation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -92,9 +91,7 @@ void main() {
       (true, false, true),
     ]) {
       test('system=$system animationsEnabled=$enabled → $expected', () async {
-        final prefs = await testPrefs({
-          PrefKeys.animationsEnabled: enabled,
-        });
+        final prefs = await testPrefs({PrefKeys.animationsEnabled: enabled});
         final c = ProviderContainer(
           overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
         );

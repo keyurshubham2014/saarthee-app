@@ -32,9 +32,7 @@ void main() {
   });
 
   group('T-03-14 instant switch', () {
-    testWidgets('header toggle switches the whole tree, syncs once', (
-      t,
-    ) async {
+    testWidgets('header toggle switches the whole tree, syncs once', (t) async {
       final sync = FakePreferenceSync();
       await pumpApp(t, prefs: onboardedPrefs(), sync: sync);
       expect(find.text('Namaste'), findsOneWidget);

@@ -44,12 +44,10 @@ Future<ProviderContainer> pumpApp(
   addTearDown(tester.view.reset);
   final SharedPreferences p = await testPrefs(prefs);
   final overrideList = [
-      sharedPreferencesProvider.overrideWithValue(p),
-      saartheeHapticsProvider.overrideWithValue(
-        haptics ?? FakeSaartheeHaptics(),
-      ),
-      preferenceSyncProvider.overrideWithValue(sync ?? FakePreferenceSync()),
-      ...overrides,
+    sharedPreferencesProvider.overrideWithValue(p),
+    saartheeHapticsProvider.overrideWithValue(haptics ?? FakeSaartheeHaptics()),
+    preferenceSyncProvider.overrideWithValue(sync ?? FakePreferenceSync()),
+    ...overrides,
   ];
   // A ProviderScope (not Uncontrolled) is disposed with the tree, which
   // cancels the analytics flush timer before the pending-timer check.

@@ -12,7 +12,11 @@ void main() {
     var taps = 0;
     await pumpMotion(
       t,
-      EmptyState(message: 'Nothing here', actionLabel: 'Add', onAction: () => taps++),
+      EmptyState(
+        message: 'Nothing here',
+        actionLabel: 'Add',
+        onAction: () => taps++,
+      ),
     );
     expect(find.text('Nothing here'), findsOneWidget);
     await t.tap(find.text('Add'));
@@ -22,7 +26,10 @@ void main() {
 
   testWidgets('ErrorState: Try again fires', (t) async {
     var retries = 0;
-    await pumpMotion(t, ErrorState(message: 'Failed', onRetry: () => retries++));
+    await pumpMotion(
+      t,
+      ErrorState(message: 'Failed', onRetry: () => retries++),
+    );
     await t.tap(find.text('Try again'));
     expect(retries, 1);
   });
@@ -40,7 +47,9 @@ void main() {
       ),
     );
     expect(
-      find.text("You're offline. Your report is saved and will send automatically."),
+      find.text(
+        "You're offline. Your report is saved and will send automatically.",
+      ),
       findsOneWidget,
     );
     expect(
@@ -50,7 +59,9 @@ void main() {
     expect(find.text('Hello'), findsOneWidget);
   });
 
-  testWidgets('toast: primaryDark, radius 18, 4 s hold, success haptic', (t) async {
+  testWidgets('toast: primaryDark, radius 18, 4 s hold, success haptic', (
+    t,
+  ) async {
     final fake = FakeSaartheeHaptics();
     await pumpMotion(
       t,
@@ -67,7 +78,9 @@ void main() {
     expect(find.text('Saved'), findsOneWidget);
     expect(fake.calls, contains('success'));
     final material = t.widget<Material>(
-      find.ancestor(of: find.text('Saved'), matching: find.byType(Material)).first,
+      find
+          .ancestor(of: find.text('Saved'), matching: find.byType(Material))
+          .first,
     );
     final ctx = t.element(find.text('Saved'));
     expect(material.color, SaartheeColors.of(ctx).primaryDark);

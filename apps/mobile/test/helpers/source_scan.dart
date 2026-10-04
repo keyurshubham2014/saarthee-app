@@ -57,7 +57,9 @@ List<SourceHit> scanFiles(
 
 // ---- Rules -----------------------------------------------------------------
 
-final _colorLiteral = RegExp(r'Color\(0x|(^|[^A-Za-z_])Colors\.(?!transparent)');
+final _colorLiteral = RegExp(
+  r'Color\(0x|(^|[^A-Za-z_])Colors\.(?!transparent)',
+);
 final _fontSize = RegExp(r'\bfontSize\s*:');
 final _materialIcons = RegExp(r'(^|[^A-Za-z_])Icons\.');
 final _v1Tokens = RegExp(

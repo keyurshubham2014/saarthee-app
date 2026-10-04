@@ -53,7 +53,9 @@ void main() {
     });
 
     test('no retired v1 key prefixes remain', () {
-      final retired = RegExp(r'^(invite|welcome|verify|reportStep|reportDraft)');
+      final retired = RegExp(
+        r'^(invite|welcome|verify|reportStep|reportDraft)',
+      );
       final hits = _messageKeys(en).where(retired.hasMatch).toList();
       expect(hits, isEmpty, reason: hits.join(', '));
     });
