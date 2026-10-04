@@ -8,6 +8,7 @@ import '../../../core/theme/icons.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/wards/ward.dart';
 import '../../../core/wards/ward_providers.dart';
+import '../../../core/wards/ward_search.dart';
 import '../../../core/widgets/widgets.dart';
 
 /// Opens the full-screen ward picker (slides up with `springIn`). Returns
@@ -17,20 +18,6 @@ Future<Ward?> showWardPicker(BuildContext context) => showSaartheeSheet<Ward>(
   fullScreen: true,
   builder: (_) => const WardPickerSheet(),
 );
-
-/// Filters [wards] by name (en or gu) or number.
-List<Ward> filterWards(List<Ward> wards, String query) {
-  final q = query.trim().toLowerCase();
-  if (q.isEmpty) return wards;
-  return [
-    for (final w in wards)
-      if ('${w.number}' == q ||
-          '${w.number}'.startsWith(q) ||
-          w.nameEn.toLowerCase().contains(q) ||
-          w.nameGu.contains(q))
-        w,
-  ];
-}
 
 /// Search + zone-grouped ward list (TASK-03 §5.4). Loading = shimmering
 /// skeleton rows that cross-fade to the list; cache + offline banner when
@@ -74,13 +61,13 @@ class _WardPickerSheetState extends ConsumerState<WardPickerSheet> {
       );
     } else if (async.hasValue) {
       final result = async.requireValue;
-      final wards = filterWards(result.wards, _query);
+      final groups = groupAndFilter(result.wards, _query);
       content = Column(
         key: const Key('wardPicker.list'),
         children: [
           if (result.fromCache) const NoticeBanner(kind: NoticeKind.offline),
           Expanded(
-            child: wards.isEmpty
+            child: groups.isEmpty
                 ? ListView(
                     children: [
                       EmptyState(
@@ -90,7 +77,7 @@ class _WardPickerSheetState extends ConsumerState<WardPickerSheet> {
                     ],
                   )
                 : _GroupedList(
-                    wards: wards,
+                    groups: groups,
                     lang: lang,
                     onPick: (w) => Navigator.of(context).pop(w),
                   ),
@@ -157,12 +144,12 @@ class _WardPickerSheetState extends ConsumerState<WardPickerSheet> {
 
 class _GroupedList extends StatelessWidget {
   const _GroupedList({
-    required this.wards,
+    required this.groups,
     required this.lang,
     required this.onPick,
   });
 
-  final List<Ward> wards;
+  final List<ZoneGroup> groups;
   final String lang;
   final ValueChanged<Ward> onPick;
 
@@ -171,19 +158,11 @@ class _GroupedList extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final c = SaartheeColors.of(context);
     final text = Theme.of(context).textTheme;
-    final zones = <String, List<Ward>>{};
-    final zoneOf = <String, Zone>{};
-    for (final w in wards) {
-      zones.putIfAbsent(w.zone.id, () => []).add(w);
-      zoneOf[w.zone.id] = w.zone;
-    }
-    final ids = zones.keys.toList()
-      ..sort((a, b) => zoneOf[a]!.nameEn.compareTo(zoneOf[b]!.nameEn));
     return ListView(
       children: [
-        for (final id in ids) ...[
+        for (final g in groups) ...[
           Container(
-            key: ValueKey('wardPicker.zone.$id'),
+            key: ValueKey('wardPicker.zone.${g.zone.id}'),
             color: c.background,
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.gutter,
@@ -194,12 +173,12 @@ class _GroupedList extends StatelessWidget {
             child: Semantics(
               header: true,
               child: Text(
-                l10n.wardZone(zoneOf[id]!.name(lang)),
+                l10n.wardZone(g.zone.name(lang)),
                 style: text.titleMedium?.copyWith(color: c.textSecondary),
               ),
             ),
           ),
-          for (final w in zones[id]!)
+          for (final w in g.wards)
             ListRow(
               key: ValueKey('wardPicker.ward.${w.id}'),
               title: w.shortLabel(lang),

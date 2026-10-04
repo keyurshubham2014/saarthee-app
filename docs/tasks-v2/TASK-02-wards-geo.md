@@ -163,7 +163,13 @@ No new ARB keys: TASK-03's copy covers locating, nearest-confirm, outside-city, 
 - ASSUMPTION: The ETag (`W/"<boundaryVersion>-<max(updated_at)>"`) is per data version, not per query; clients cache per URL so `If-None-Match` is only sent for the same URL.
 - ASSUMPTION: `wards` ids accept ward numbers in ASCII or Gujarati digits; a number outside 1–99 (e.g. 999) is 404 `NOT_FOUND` (AC-7) while a non-numeric, non-uuid id is 400.
 - ASSUMPTION: The seed's Nava Vadaj pilot point (TASK-01 `050-issues.ts`) was inside ward 10 (Sardar Patel Stadium); moved to Nava Vadaj's point on surface (23.0693, 72.5626). All pilot points and offsets verified inside their ward.
-- ASSUMPTION: Mobile steps 10–11 (and F-02-01/02/03, M-02-04, AC-10, AC-11) are pending: TASK-03's `lib/core/wards/` is on its own unmerged branch. The API side, the real `apps/mobile/test/fixtures/wards.json` and the shared search case table (`apps/api/test/fixtures/geo/ward-search-cases.json`) are ready for them.
+- ASSUMPTION: Mobile steps 10–11 were done after TASK-03 merged (branch `v2/task-02-mobile`); the earlier "pending" note no longer applies.
+- ASSUMPTION (mobile): `groupAndFilter(wards, query)` takes no `Locale` — matching covers English and Gujarati names whatever the app language, so a Gujarati UI can type "paldi" and an English UI "પાલડી"; display language is applied by the picker.
+- ASSUMPTION (mobile): Dart has no built-in Unicode NFC; the app search does not normalise (the API does). Gujarati keyboards emit NFC, and the shared table passes in both.
+- ASSUMPTION (mobile): `OutsideServiceArea` is a subclass of TASK-03's `WardException(WardFailure.outsideCity)` so the onboarding step's existing outside-city state handles it unchanged; any 422 from `/geo/locate` maps to it.
+- ASSUMPTION (mobile): `v2.wardsCache` = `{fetchedAt, boundaryVersion, items}`; rewritten only when the version or any ward differs; an empty 200 list never replaces a good cache; caches written before this change (no `boundaryVersion`) still load offline.
+- ASSUMPTION (mobile): `match: "nearest"` forces `confirm` true even if the server omitted it.
+- ASSUMPTION (mobile): F-02-03 calls `WardsRepository.locate` with fixed coordinates (Paldi 23.012, 72.56; 1 km west of Thaltej's westmost vertex 23.052023, 72.43748 → nearest ward 8; Gandhinagar 23.2156, 72.6369) — deterministic; the GPS path is M-02-04.
 
 ## 6. Implementation Steps
 
@@ -260,7 +266,7 @@ No new ARB keys: TASK-03's copy covers locating, nearest-confirm, outside-city, 
 - [x] Coordinates never logged at info level; ward number only
 - [x] Every AMC-derived field carries its source (`source` object in `WardDetail`) for TASK-09 to display
 - [ ] Gujarati ward and zone names reviewed by a Gujarati reader (data, not ARB) — Deferred: needs a native Gujarati reader (Open Question 5)
-- [ ] Ward search is identical in API and app for the test table (same cases in T-02-07 and F-02-01) — API side done with `test/fixtures/geo/ward-search-cases.json`; F-02-01 pending TASK-03
+- [x] Ward search is identical in API and app for the test table (same cases in T-02-07 and F-02-01) — both read `apps/api/test/fixtures/geo/ward-search-cases.json` (19 cases)
 - [x] Source files and licence recorded in `SOURCES.md`; no AMC logo or scraped images committed
 - [x] Import, cross-check and backfill are idempotent and transactional
 
@@ -335,9 +341,9 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** In Review — API side complete; open: mobile steps 10–11 (F-02-01/02/03, AC-10, AC-11, M-02-04) after TASK-03 merges; Gujarati name review
+**Current status:** In Review — API and mobile steps 10–11 complete (F-02-01/02 and AC-10/AC-11 widget tests green); open: emulator runs of F-02-03 and M-02-04 by the integrator; Gujarati name review
 
-**Progress:** 80%
+**Progress:** 92%
 
 | Date | Progress | Commit |
 |---|---|---|
@@ -353,15 +359,21 @@ Prediction only — exact paths may differ.
 | 2026-10-04 | Stable UUIDv5 ids; geo:fixture → apps/mobile/test/fixtures/wards.json | 2c32116 |
 | 2026-10-04 | Perf: locate p50 2.1 ms / p95 4.9 ms (opt-in test), GIST index in plan; known pilot places | 6f756f7 |
 | 2026-10-04 | Verified: full API suite 142 passed + 3 opt-in skipped (22 s), tsc, eslint, db:drift, db:check-v1 | — |
-| 2026-10-04 | Pending: mobile steps 10–11 after TASK-03 merges | — |
+| 2026-10-04 | Mobile step 10: `ward.dart` (`WardMatch`, `distanceM`, `boundaryVersion`, zone order), `wards_repository.dart` (versioned `v2.wardsCache`, `OutsideServiceArea`), new `ward_search.dart`; picker switched to `groupAndFilter` | 1b6cf05 |
+| 2026-10-04 | F-02-01 `test/wards/ward_search_test.dart` (shared 19-case table + real 48 wards, 26 tests) | see `git log` |
+| 2026-10-04 | F-02-02 `test/wards/wards_repository_test.dart` (12 tests: fixture mapping, cache version, offline, 422) | see `git log` |
+| 2026-10-04 | AC-10/AC-11 widget tests `test/wards/ward_picker_real_data_test.dart` (7 tests, en+gu) | see `git log` |
+| 2026-10-04 | F-02-03 `integration_test/ward_locate_test.dart` written; not run (emulator is the integrator's) | bba6e9b |
+| 2026-10-04 | Verified: `flutter test` 159 passed, `dart analyze` no issues, `dart format --set-exit-if-changed` clean | — |
+| 2026-10-04 | Pending: F-02-03 and M-02-04 on the emulator (integrator) | — |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete — steps 1–9 and 12 (API) done; 10–11 (mobile) pending TASK-03
+- [ ] All implementation steps complete — steps 1–11 done; step 12 M-02-04 (emulator) pending the integrator
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the checks in §8
-- [x] Automated tests added and passing (API: 7 geo files, 67 tests + opt-in perf)
+- [x] Automated tests added and passing (API: 7 geo files, 67 tests + opt-in perf; mobile: 3 files, 45 tests; F-02-03 integration test written, emulator run pending)
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
