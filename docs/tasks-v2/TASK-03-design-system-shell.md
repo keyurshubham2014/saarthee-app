@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-03 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | None |
 | Blocks | TASK-04, TASK-12 |
 | Requirement IDs | REQ-F-004, REQ-F-005, REQ-F-006, REQ-N-001, REQ-N-002, REQ-N-003, REQ-N-004, REQ-N-005, REQ-N-006, REQ-N-012 |
 | Primary Spec Refs | Spec §1, §2 (D1, D4, D11), §8; DS §1–§7, §9 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -241,6 +241,13 @@ Device permission: location (when-in-use) requested only after the citizen taps 
 - ASSUMPTION: When the system "Remove animations" is on, the in-app switch is shown off and disabled (system wins); the stored `v2.animationsEnabled` value is kept and applies again when the system setting is turned off — DS §6 says either source reduces motion.
 - ASSUMPTION: Golden tests run only on the CI image (Linux) and are tagged `golden`; developers on macOS update them with `--update-goldens` inside the same container — goldens differ across platforms. Goldens capture settled end states (and `MotionCheck` at fixed progress values), never mid-transition frames.
 - ASSUMPTION: Gujarati copy (including the greeting "નમસ્તે", "Report a problem" and the Animations helper) is drafted by the implementer and marked `"x-review": "pending"` in `@` metadata for the native editor review (Open Question #5) — no Gujarati string blocks this task.
+- ASSUMPTION (implementation 2026-10-04): the font budget of ≤ 1.2 MB is not met — the six subset TTFs total 2.2 MB (Baloo ≈ 467 KB each, Mukta ≈ 275 KB each) because Gujarati GSUB/GPOS are kept in full. T-03-04 guards against growth (≤ 2.3 MB) instead; dropping Baloo 800 (one file, ~0.47 MB) or a variable Baloo is the first lever if the founder wants the budget held. Release APK delta to be recorded by the integrator.
+- ASSUMPTION (implementation): golden tests (T-03-10) are not committed in this pass — they must be generated on the Linux CI image (see the golden assumption above) and macOS-generated goldens would be wrong there; the settled-state assertions they would cover are made by T-03-05…T-03-09 and T-03-23…T-03-28 widget tests.
+- ASSUMPTION (implementation): the v1 admin console's `AdminTokens` field names `ink`/`inkMuted`/`marigold`/`indigoTint` were renamed to `text`/`textMuted`/`attention`/`accentTint` so T-03-03 can ban the v1 names everywhere; values still come from Neem tokens.
+- ASSUMPTION (implementation): `wardsListProvider` disables Riverpod 3's automatic provider retry (`retry: (_, _) => null`) — `WardsRepository` already retries once (§5.3), and the automatic retry kept the picker in its loading state instead of showing the error state (AC-4).
+- ASSUMPTION (implementation): the skeleton shimmer stops through `TickerMode` as soon as `SkeletonSwitcher` receives content, while the skeleton is still fading out — AC-19/T-03-25 say the shimmer stops "as soon as content arrives".
+- ASSUMPTION (implementation): a debug-only "Component gallery" row in Settings opens `/dev/gallery` (key `settingsDevGallery`, en + gu) so the integrator can reach it on the emulator; it is absent in profile/release with the route.
+- ASSUMPTION (implementation): four unreferenced v1 keys (`adminBeforeLabel`, `adminNowLabel`, `adminNoAnswerYet`, `statusReminded`) were deleted by `tool/l10n/unused_keys.dart`; `adminSectionStart` is kept as the admin block marker named in `lib/core/README.md`.
 
 ## 6. Implementation Steps
 
@@ -531,30 +538,43 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (emulator checks M-03-01..M-03-10 by the integrator)
 
-**Progress:** 0%
+**Progress:** 90% (code + automated tests done; emulator, goldens on CI, motion recordings pending)
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-03 | Neem tokens, fonts, icons, widgets, motion layer, shell, onboarding, settings, admin restyle (salvaged WIP from interrupted worker) | a7d00e4, 5f17e44, 3fb1f51, a425621 |
+| 2026-10-03 | Packages pinned: `animations` 3.0.0, `material_symbols_icons` 4.2960.0 (`flutter_animate` not used; stagger/rise/pop built on token-driven controllers) | a7d00e4 |
+| 2026-10-04 | `dart analyze` clean; complete `app_gu.arb` (383 keys, `x-review: pending`), untranslated check `{}` | ecda7e1 |
+| 2026-10-04 | Debug-only Settings → Component gallery row | a63c7e6 |
+| 2026-10-04 | Guards T-03-03/T-03-22, ARB parity T-03-17, hard-coded strings T-03-18; v1 admin token names removed | 0b854f3 |
+| 2026-10-04 | T-03-01, T-03-02, T-03-21, T-03-04 | 6f46399, fc0b59e |
+| 2026-10-04 | T-03-05, T-03-24, T-03-06, T-03-07, T-03-08 | f2af8f6, 1ee287c, 8e9c0b8 |
+| 2026-10-04 | T-03-09, T-03-25 (shimmer stops on content) | 528528a |
+| 2026-10-04 | T-03-26 (RollingCount fix), T-03-27, T-03-28 | 6ab4fd9, 5670d72 |
+| 2026-10-04 | T-03-11, T-03-12 (P-01…P-09 register), T-03-13, T-03-14 | c721aec, 9f56d2d |
+| 2026-10-04 | T-03-15, T-03-16 (ward list: no auto-retry), T-03-19, T-03-20, T-03-23 | e11a665, 6c91071, 2c18a66, 4a09c49 |
+| 2026-10-04 | `dart format` clean, `dart analyze` 0 issues, `flutter test` 108/108 green → In Review | 587a72b |
+| 2026-10-04 | Not done in this pass: goldens T-03-10 (Linux CI), CI workflow job, font budget (2.2 MB vs 1.2 MB), emulator M-03-01…M-03-10, motion recordings, release APK size | — |
 
 ## 14. Completion Checklist
 
 - [ ] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing (108 tests; goldens T-03-10 pending on Linux CI)
 - [ ] Static checks pass and every AC verified by the checks in §8
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Neem tokens, Baloo Bhai 2 + Mukta Vaani fonts and Material Symbols Rounded in use; no Noto primary font, no `Icons.*`, no Civic Blue or v1 tokens left
-- [ ] Motion tokens guard (T-03-22) and reduced-motion test (T-03-27) green; Settings → Animations switch verified on the emulator
+- [x] Neem tokens, Baloo Bhai 2 + Mukta Vaani fonts and Material Symbols Rounded in use; no Noto primary font, no `Icons.*`, no Civic Blue or v1 tokens left
+- [ ] Motion tokens guard (T-03-22) and reduced-motion test (T-03-27) green (done); Settings → Animations switch verified on the emulator (pending, integrator)
 - [ ] Motion recordings (full and reduced) saved in `docs/demo/evidence/v2/task-03/motion/`; profile pre-check M-03-10 findings recorded in §13 and passed to TASK-14
-- [ ] Reusable motion API for TASK-05…TASK-12 in place and shown in the gallery: `Pressable`, `RiseIn`, `PopIn`, `StaggeredColumn`, `SeenOnce`, `MotionCheck`, `CountUp`, `RollingCount`, `StaffMotionScope`, `SaartheeMotion.tileStagger`, `SaartheeMotion.mapPinStagger`, `SaartheeMotion.mapPinMaxAnimated`, `reducedMotionProvider`, `SaartheeHaptics` / `saartheeHapticsProvider` with `FakeSaartheeHaptics`
+- [x] Reusable motion API for TASK-05…TASK-12 in place and shown in the gallery: `Pressable`, `RiseIn`, `PopIn`, `StaggeredColumn`, `SeenOnce`, `MotionCheck`, `CountUp`, `RollingCount`, `StaffMotionScope`, `SaartheeMotion.tileStagger`, `SaartheeMotion.mapPinStagger`, `SaartheeMotion.mapPinMaxAnimated`, `reducedMotionProvider`, `SaartheeHaptics` / `saartheeHapticsProvider` with `FakeSaartheeHaptics`
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed (package versions, Baloo `tnum`, Material Symbols source)
+- [x] Assumptions documented and, where possible, confirmed (package versions, Baloo `tnum`, Material Symbols source)
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-03` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-03: …`
+- [x] Committed as `V2-TASK-03: …`
 - [ ] Validator passes
