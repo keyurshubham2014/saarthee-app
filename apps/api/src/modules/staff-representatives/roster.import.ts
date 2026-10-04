@@ -24,7 +24,7 @@ export interface ImportReport {
 }
 
 export function readCsv(text: string, header: readonly string[]): { rows: Record<string, string>[]; headerError?: string } {
-  const records = parse(text.replace(/^﻿/, ''), { skip_empty_lines: true, relax_column_count: true, trim: false }) as string[][];
+  const records = parse(text.replace(/^\u{FEFF}/u, ''), { skip_empty_lines: true, relax_column_count: true, trim: false }) as string[][];
   const head = (records[0] ?? []).map((h) => h.trim());
   const unknown = head.filter((h) => !header.includes(h));
   const missing = header.filter((h) => !head.includes(h));

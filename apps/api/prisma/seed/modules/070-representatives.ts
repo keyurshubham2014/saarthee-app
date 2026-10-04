@@ -47,7 +47,8 @@ export default defineSeedModule({
     }
 
     const upsertRep = async (id: string, data: Parameters<typeof prisma.representative.create>[0]['data'], areas: { wardId?: string; assemblyConstituencyId?: number }[]) => {
-      await prisma.representative.upsert({ where: { id }, create: { id, ...data }, update: data });
+      // Create-if-missing: a second run must change nothing (updated_at included).
+      await prisma.representative.upsert({ where: { id }, create: { id, ...data }, update: {} });
       for (const a of areas) {
         const exists = await prisma.representativeArea.findFirst({ where: { representativeId: id, ...a } });
         if (!exists) await prisma.representativeArea.create({ data: { representativeId: id, ...a } });

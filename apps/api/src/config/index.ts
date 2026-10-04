@@ -103,9 +103,6 @@ const checked = schema.superRefine((c, ctx) => {
     ctx.addIssue({ code: 'custom', path: ['GOOGLE_APPLICATION_CREDENTIALS'], message: 'is required for PUSH_DRIVER=fcm / FIREBASE_AUTH_MODE=google' });
   }
   // TASK-09 mail driver rules.
-  if (c.EMAIL_DRIVER === 'file' && !c.EMAIL_FILE_DIR && c.APP_ENV === 'production') {
-    ctx.addIssue({ code: 'custom', path: ['EMAIL_FILE_DIR'], message: 'is required when EMAIL_DRIVER=file in production' });
-  }
   if (c.APP_ENV === 'production' && c.EMAIL_DRIVER === 'memory') {
     ctx.addIssue({ code: 'custom', path: ['EMAIL_DRIVER'], message: 'memory is for tests only' });
   }
