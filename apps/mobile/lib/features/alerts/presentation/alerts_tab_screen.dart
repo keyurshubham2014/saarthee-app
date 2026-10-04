@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,7 @@ import '../../../core/theme/icons.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/alerts/alert_widgets.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../inbox/application/inbox_controller.dart';
 import '../../inbox/presentation/inbox_bell.dart';
 import '../application/alerts_providers.dart';
 import '../data/alert_models.dart';
@@ -101,7 +104,11 @@ class _AlertsList extends ConsumerWidget {
       );
     }
     return RefreshIndicator(
-      onRefresh: () => ref.refresh(alertsListProvider(active).future),
+      onRefresh: () {
+        // Keep the bell badge in step with the list (W-FIX-ALR).
+        unawaited(ref.read(inboxProvider.notifier).refreshIfIdle());
+        return ref.refresh(alertsListProvider(active).future);
+      },
       child: ListView(
         padding: const EdgeInsets.only(bottom: AppSpacing.s24),
         children: [

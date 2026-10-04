@@ -502,6 +502,10 @@ Prediction only — exact paths may differ.
 | 2026-10-04 | Widget tests W-08-01..05, W-08-07, W-08-08 | 08c0f3f |
 | 2026-10-04 | Staff list/composer/approval screens, W-08-06 | 95bd89d |
 | 2026-10-04 | IMD access: not requested by this worker — `Deferred — IMD access` (founder action, Open Question 4) | — |
+| 2026-10-04 | W-FIX-ALR emulator bug 1 (inbox makes no `GET /me/notifications`). Root cause: `inboxProvider` is a keep-alive `AsyncNotifier` (the bell badge reads it) that fetched only on its first build — when the Alerts-tab bell first rendered — and `InboxScreen` only *watched* it, so opening / re-opening Notifications served the cached page (empty, from before the alert's notification row existed) with no request. Fix: the screen calls `refreshIfIdle()` on every open; the provider is keyed on the session token (re-sign-in refetches). Test `test/alerts/inbox_fetch_test.dart` (Dio fake adapter) asserts the request on open, re-open, late session restore, sign-in while the bell is offstage, real secure-store restore, and that rows render; re-open test fails without the fix | 9c18f24 |
+| 2026-10-04 | W-FIX-ALR bug 2 (pull-to-refresh made no request): the empty and error states had no `RefreshIndicator` (only the non-empty list did). Now every signed-in state is pull-to-refresh-able (`AlwaysScrollableScrollPhysics`) and `refresh()` refetches, keeping rows on failure + toast | 9c18f24 |
+| 2026-10-04 | W-FIX-ALR bug 3 (empty state top-left): shared `EmptyState` is fine (min-size block, also used inside lists); the inbox put it straight in the `Scaffold` body (loose constraints). Inbox now places empty / error / signed-out states in a full-height area, centred horizontally at `Alignment(0, -0.4)` (upper middle); test asserts it | 9c18f24 |
+| 2026-10-04 | W-FIX-ALR item 4: bell badge shares `inboxProvider`, so it updates after the inbox loads (test: badge 2 → 1 after swipe); swipe-to-read sends `POST /me/notifications/read` with `{ids}` (test asserts the HTTP call); Alerts-list pull-to-refresh also refreshes the inbox so the badge is not stale. Emulator re-check `Not Verified` (integrator) | 9c18f24 |
 
 ## 14. Completion Checklist
 

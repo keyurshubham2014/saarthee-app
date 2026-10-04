@@ -20,18 +20,29 @@ import 'inbox_row.dart';
 /// `/me/notifications` (REQ-F-040): Today / Earlier, unread bold with a dot,
 /// tap opens the target and marks read, swipe or TalkBack action marks read,
 /// "Mark all as read". Failed updates roll back with a toast (AC-17).
-class InboxScreen extends ConsumerWidget {
+class InboxScreen extends ConsumerStatefulWidget {
   const InboxScreen({super.key});
 
-  Future<void> _run(
-    BuildContext context,
-    Future<void> Function() action,
-  ) async {
+  @override
+  ConsumerState<InboxScreen> createState() => _InboxScreenState();
+}
+
+class _InboxScreenState extends ConsumerState<InboxScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // The inbox provider is kept alive for the bell badge; without this the
+    // screen would show whatever was cached when the bell first built and
+    // never call `GET /me/notifications` again (W-FIX-ALR).
+    unawaited(ref.read(inboxProvider.notifier).refreshIfIdle());
+  }
+
+  Future<void> _run(Future<void> Function() action) async {
     final l10n = AppLocalizations.of(context);
     try {
       await action();
     } catch (_) {
-      if (context.mounted) {
+      if (mounted) {
         showSaartheeToast(
           context,
           l10n.inboxUpdateError,
@@ -41,8 +52,10 @@ class InboxScreen extends ConsumerWidget {
     }
   }
 
+  Future<void> _refresh() => _run(ref.read(inboxProvider.notifier).refresh);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final signedIn = ref.watch(sessionProvider.select((s) => s.signedIn));
     final inbox = ref.watch(inboxProvider);
@@ -56,41 +69,83 @@ class InboxScreen extends ConsumerWidget {
             TextButton(
               key: const ValueKey('inboxMarkAll'),
               onPressed: () =>
-                  _run(context, ref.read(inboxProvider.notifier).markAllRead),
+                  _run(ref.read(inboxProvider.notifier).markAllRead),
               child: Text(l10n.inboxMarkAll),
             ),
         ],
       ),
       body: !signedIn
-          ? EmptyState(
-              message: l10n.inboxSignedOut,
-              icon: SaartheeIcons.notifications,
-              actionLabel: l10n.inboxSignIn,
-              onAction: () =>
-                  ensureSignedIn(context, ref, reason: SignInReason.generic),
+          ? _CentredState(
+              child: EmptyState(
+                message: l10n.inboxSignedOut,
+                icon: SaartheeIcons.notifications,
+                actionLabel: l10n.inboxSignIn,
+                onAction: () =>
+                    ensureSignedIn(context, ref, reason: SignInReason.generic),
+              ),
             )
           : inbox.when(
               loading: () => const SkeletonList(count: 6),
-              error: (_, _) => ErrorState(
-                message: l10n.inboxError,
-                onRetry: () => ref.invalidate(inboxProvider),
+              error: (_, _) => _CentredState(
+                onRefresh: _refresh,
+                child: ErrorState(
+                  message: l10n.inboxError,
+                  onRetry: () => ref.invalidate(inboxProvider),
+                ),
               ),
               data: (page) => page.items.isEmpty
-                  ? EmptyState(
-                      message: l10n.inboxEmpty,
-                      icon: SaartheeIcons.notifications,
+                  ? _CentredState(
+                      onRefresh: _refresh,
+                      child: EmptyState(
+                        key: const ValueKey('inboxEmpty'),
+                        message: l10n.inboxEmpty,
+                        icon: SaartheeIcons.notifications,
+                      ),
                     )
-                  : _List(page: page, run: (a) => _run(context, a)),
+                  : _List(page: page, run: _run, onRefresh: _refresh),
             ),
     );
   }
 }
 
+/// Full-height, pull-to-refresh-able area that places a state block (empty,
+/// error, signed out) centred horizontally in the upper-middle of the screen
+/// (DS §5). [EmptyState] itself is a min-size block so it can also sit inside
+/// lists; the screen provides the placement.
+class _CentredState extends StatelessWidget {
+  const _CentredState({required this.child, this.onRefresh});
+
+  final Widget child;
+  final Future<void> Function()? onRefresh;
+
+  @override
+  Widget build(BuildContext context) {
+    final area = LayoutBuilder(
+      builder: (context, box) => SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: box.maxHeight),
+          child: Align(
+            key: const ValueKey('inboxStateArea'),
+            alignment: const Alignment(0, -0.4),
+            child: child,
+          ),
+        ),
+      ),
+    );
+    final refresh = onRefresh;
+    return refresh == null
+        ? area
+        : RefreshIndicator(onRefresh: refresh, child: area);
+  }
+}
+
 class _List extends ConsumerWidget {
-  const _List({required this.page, required this.run});
+  const _List({required this.page, required this.run, required this.onRefresh});
 
   final InboxPage page;
-  final void Function(Future<void> Function()) run;
+  final Future<void> Function(Future<void> Function()) run;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -113,9 +168,9 @@ class _List extends ConsumerWidget {
       key: ValueKey('inbox.${i.id}'),
       item: i,
       lang: lang,
-      onMarkRead: () => run(() => ctrl.markRead(i.id)),
+      onMarkRead: () => unawaited(run(() => ctrl.markRead(i.id))),
       onOpen: () {
-        run(() => ctrl.markRead(i.id));
+        unawaited(run(() => ctrl.markRead(i.id)));
         final target = safePushRoute(i.route);
         if (target == '/me/notifications' || target == '/') {
           showSaartheeToast(context, l10n.inboxGone, kind: ToastKind.info);
@@ -125,8 +180,9 @@ class _List extends ConsumerWidget {
       },
     );
     return RefreshIndicator(
-      onRefresh: ctrl.refresh,
+      onRefresh: onRefresh,
       child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
         children: [
           if (today.isNotEmpty) header(l10n.inboxToday),
           ...today.map(row),

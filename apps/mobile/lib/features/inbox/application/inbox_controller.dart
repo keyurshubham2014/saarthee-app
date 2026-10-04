@@ -6,18 +6,45 @@ import '../data/inbox_models.dart';
 
 /// Notification inbox (REQ-F-040): last 90 days, read state per user.
 /// Read changes are optimistic and roll back on failure (AC-17).
+///
+/// The provider is kept alive (the bell badge reads it), so a value loaded
+/// once would otherwise be served forever: the inbox screen calls
+/// [refreshIfIdle] every time it opens and pull-to-refresh calls [refresh],
+/// both of which hit `GET /me/notifications` (W-FIX-ALR).
 class InboxController extends AsyncNotifier<InboxPage> {
+  static const _empty = InboxPage(items: [], unreadCount: 0);
+
   AlertsApi get _api => ref.read(alertsApiProvider);
+
+  bool get _signedIn => ref.read(sessionProvider).signedIn;
 
   @override
   Future<InboxPage> build() async {
-    final signedIn = ref.watch(sessionProvider.select((s) => s.signedIn));
-    if (!signedIn) return const InboxPage(items: [], unreadCount: 0);
+    // Keyed on the token, so a new sign-in (or another account) refetches.
+    final token = ref.watch(sessionProvider.select((s) => s.token));
+    if (token == null) return _empty;
     return _api.inbox();
   }
 
+  /// Refetches, keeping the current rows on screen until the reply arrives.
+  /// A failure keeps the rows that were already shown.
   Future<void> refresh() async {
-    state = await AsyncValue.guard(_api.inbox);
+    if (!_signedIn) return;
+    final next = await AsyncValue.guard(_api.inbox);
+    if (next.hasError && state.hasValue) {
+      Error.throwWithStackTrace(next.error!, next.stackTrace!);
+    }
+    state = next;
+  }
+
+  /// Refetch unless a load is already in flight (opening the screen).
+  Future<void> refreshIfIdle() async {
+    if (state.isLoading) return;
+    try {
+      await refresh();
+    } catch (_) {
+      // Rows already shown stay; the next open or pull retries.
+    }
   }
 
   /// Marks one row read (tap, swipe or the TalkBack action). No-op if read.
