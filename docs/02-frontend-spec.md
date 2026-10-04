@@ -1,4 +1,7 @@
 # Frontend Specification (Flutter App)
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -153,6 +156,9 @@ One more lesson from mySociety, relevant to **future** public data (PRD Q3): the
 6. **Never lose someone's effort.** Drafts survive switching to AMC's channels and back, app closures and failed uploads.
 
 ### 2.1 Design Tokens
+
+> **v2:** the "indigo and marigold" tokens are replaced by the "Neem" design system (v2 spec D1, `docs/v2/design-system.md` v2.2).
+
 
 **Visual identity: "Indigo and marigold."** Indigo is a nod to Ahmedabad's textile history and reads as calm and trustworthy on a public-interest tool. Marigold is used sparingly as a highlight for the one thing that needs attention on a screen, always with dark text on it, never as text colour. Backgrounds are cool off-white and white, so photos (the actual evidence) carry the visual weight.
 
@@ -331,6 +337,9 @@ Operator login is reached from About, not from Home: citizens never see admin en
 - **Side effect:** generate and store `installId` (random UUID) on first launch.
 
 ### 4.2 Invite code
+
+> **v2:** invite codes and source tags are retired from the citizen UI (v2 spec D11); v2 identifies citizens by phone OTP (D6, D8). v1 tables stay read-only for history.
+
 - **Route:** `/invite` · **Auth:** none
 - **Purpose:** link this install to a group (Decision 8).
 - **Components:** code text field (letters and digits only, shown uppercase, 6–20 characters), primary "Continue", secondary "I don't have a code".
@@ -408,6 +417,9 @@ Operator login is reached from About, not from Home: citizens never see admin en
 - **Action:** "Done" → Home.
 
 ### 4.11 Verify entry
+
+> **v2:** manual WhatsApp reminders and verify tokens are retired (v2 spec D11). Any signed-in neighbour verifies a fix in the app (spec §5); updates arrive as FCM push + in-app inbox (D9).
+
 - **Route:** `/verify?t=<token>` (deep link) or from `/verify/enter-code`
 - **Data:** GET /verify/complaint and GET /verify/complaint/photo, with the token in `X-Verify-Token`.
 - **Shows:** "Your complaint from {date}"; category; AMC complaint number; the original photo; then "Continue". If `previousVerificationCount > 0`: "You've answered before. You can update your answer."
@@ -473,6 +485,9 @@ Operator login is reached from About, not from Home: citizens never see admin en
   - in an overflow menu, "Remove personal data", which needs a confirm dialog where the operator types the CCRS number.
 
 ### 4.21 Admin: Rates
+
+> **v2:** the H1/H2 rates are retired (v2 spec D11). v2 measures the issue lifecycle instead: reported → acknowledged → fixed → verified by neighbours (spec §5).
+
 - **Route:** `/admin/rates`
 - **Data:** GET /admin/rates.
 - **Display:** a "Trusted sources" card first, then one row per source: complaints, reminded, verified, H1 % and H2 %.
@@ -480,6 +495,9 @@ Operator login is reached from About, not from Home: citizens never see admin en
 - **Copy for small samples:** when verified is under 10 (*assumed threshold*), show "Too few answers to read much into yet" next to the rates.
 
 ### 4.22 Admin: Invite codes, categories, export
+
+> **v2:** invite codes and source tags are retired from the citizen UI (v2 spec D11); v2 identifies citizens by phone OTP (D6, D8). v1 tables stay read-only for history.
+
 - **Invite codes:** list with group label, source tag, active state and complaint count; "New code" form (source tag, group label, optional ward hint, optional custom code); deactivate. Each code has a "Share" button that sends a ready-made message through the OS share sheet ("Install the app and enter code {CODE}"). Install links come at deployment.
 - **Categories:** list with drag-to-reorder, add, edit, deactivate. The note "Placeholder list — replace with AMC's real categories" stays until PRD Q4 is resolved.
 - **Export:** type selector; an "Include phone numbers" toggle (off by default, with the warning "Only turn this on if you need to contact people. Don't share this file."). Downloads the CSV and opens the share sheet.

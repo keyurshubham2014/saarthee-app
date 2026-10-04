@@ -1,4 +1,7 @@
 # Security & Testing
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -76,6 +79,9 @@ flowchart LR
 📎 Implementation: [Backend Spec §3](./03-backend-spec.md#3-authentication--authorization).
 
 ### 2.1 Password Policy (admin only; citizens have no accounts)
+
+> **v2:** citizens now sign in with phone OTP via Firebase Authentication (v2 spec D6, D8); staff roles are citizen, moderator, admin, representative (D3).
+
 | Requirement | Value |
 |-------------|-------|
 | Minimum length | 12 characters (a passphrase is encouraged) |
@@ -193,6 +199,9 @@ The pilot is expected to run before the main DPDP deadline. This spec still assu
 ## 7. Testing Strategy Overview
 
 ### 7.1 Approach for v1: speed first
+
+> **v2:** the v1 "no automated tests" decision is reversed — v2 requires Vitest + Supertest API tests and Flutter widget/integration tests (v2 spec §12).
+
 **Decision (founder, 2026-10-03): no automated test cases in v1, to move faster.** Vitest is the chosen backend framework for when tests are added.
 
 What remains, because it costs almost nothing in build time:

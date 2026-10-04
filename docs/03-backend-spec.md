@@ -1,4 +1,7 @@
 # Backend Specification
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -279,6 +282,11 @@ The phone number appears **only** in ComplaintDetail and in a reminder response,
 
 ### 3.1 Authentication Flow
 
+> **v2:** citizens now sign in with phone OTP via Firebase Authentication (v2 spec D6, D8); staff roles are citizen, moderator, admin, representative (D3).
+
+> **v2:** manual WhatsApp reminders and verify tokens are retired (v2 spec D11). Any signed-in neighbour verifies a fix in the app (spec §5); updates arrive as FCM push + in-app inbox (D9).
+
+
 ```mermaid
 sequenceDiagram
     participant A as Admin (Flutter app)
@@ -408,6 +416,9 @@ flowchart TD
 - **Error handling:** if the app fails to open WhatsApp after the reminder is recorded, the admin can use "Copy message" (02). The reminder still counts as sent, a limitation accepted in 01 Decision 6.
 
 ### 4.5 Verify
+
+> **v2:** manual WhatsApp reminders and verify tokens are retired (v2 spec D11). Any signed-in neighbour verifies a fix in the app (spec §5); updates arrive as FCM push + in-app inbox (D9).
+
 - **Trigger:** the citizen opens the verify link; the app reads the token from the deep link and sends it in `X-Verify-Token`.
 - **Steps:**
   1. GET /verify/complaint: resolve the token (§3.1) and return the summary. Record `verify_opened` (complaint ID only).
@@ -446,6 +457,9 @@ sequenceDiagram
 - **Export:** CSV with one row per record of the requested type. **Phone numbers are left out unless `includePhone=true`.** Every export is logged with the admin ID, type and `includePhone`, but not its contents. Columns follow [04](./04-database-design.md), plus derived status fields for complaints.
 
 ### 4.7 Rates
+
+> **v2:** the H1/H2 rates are retired (v2 spec D11). v2 measures the issue lifecycle instead: reported → acknowledged → fixed → verified by neighbours (spec §5).
+
 GET /admin/rates reads `pilot_rates_v` ([04 §3.9](./04-database-design.md#39-views-read-only-computed)). H1 and H2 are calculated exactly as defined there, with excluded complaints left out and the `trusted` row covering `rwa` + `activist`.
 
 ## 5. Background Jobs & Async Processing

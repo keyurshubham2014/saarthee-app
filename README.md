@@ -1,8 +1,9 @@
 # Saarthee — Ahmedabad civic accountability pilot
 
-- Spec index: [docs/00-master-index.md](docs/00-master-index.md)
-- Task plan and progress: [docs/tasks/00-task-summary.md](docs/tasks/00-task-summary.md)
-- Demo script: [docs/demo/DEMO.md](docs/demo/DEMO.md)
+- **v2 specification (current):** [docs/v2/saarthee-v2-spec.md](docs/v2/saarthee-v2-spec.md) · v2 plan: [docs/tasks-v2/00-task-summary.md](docs/tasks-v2/00-task-summary.md) · v2 demo: [docs/demo/DEMO-v2.md](docs/demo/DEMO-v2.md) · pilot launch: [docs/v2/pilot-launch-checklist.md](docs/v2/pilot-launch-checklist.md)
+- v1 spec index (superseded by v2 where they differ): [docs/00-master-index.md](docs/00-master-index.md)
+- v1 task plan: [docs/tasks/00-task-summary.md](docs/tasks/00-task-summary.md)
+- v1 demo script: [docs/demo/DEMO.md](docs/demo/DEMO.md) (`npm run demo:reset` now restores the v2 demo)
 - Operations (v2): [environments](docs/ops/environments.md) · [deploy](docs/ops/deploy.md) ·
   [backup & restore](docs/ops/backup-restore.md) · [restore drills](docs/ops/restore-drill.md) ·
   [monitoring](docs/ops/monitoring.md) · [Android release](docs/ops/release-android.md)

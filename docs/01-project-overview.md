@@ -1,4 +1,7 @@
 # Project Overview & Architecture
+
+> **Superseded by Saarthee v2** where they differ — see `docs/v2/saarthee-v2-spec.md` and `docs/tasks-v2/00-task-summary.md`.
+
 **Project:** Saarthee (Ahmedabad Civic Accountability)
 **Version:** 1.0
 **Last Updated:** 2026-10-03
@@ -52,6 +55,9 @@ AMC already accepts complaints through several CCRS channels: the 155303 call ce
 - **Kept simple:** a single API service and a single database, with no queues or cache, sized for pilot volume (about 100–200 complaints).
 
 ### 3.3 Success Metrics
+
+> **v2:** the H1/H2 rates are retired (v2 spec D11). v2 measures the issue lifecycle instead: reported → acknowledged → fixed → verified by neighbours (spec §5).
+
 | Metric | Target | Measurement Method |
 |--------|--------|-------------------|
 | Verification rate (H1) | ≥ 30% (trusted sources) | Complaints with at least one verification ÷ complaints reminded; computed from database records |
@@ -283,16 +289,27 @@ sequenceDiagram
 - **Consequences:** Photos are served through the API locally; signed or public URLs are designed at deployment.
 
 ### Decision 6: Manual WhatsApp reminders via click-to-chat
+
+> **v2:** manual WhatsApp reminders and verify tokens are retired (v2 spec D11). Any signed-in neighbour verifies a fix in the app (spec §5); updates arrive as FCM push + in-app inbox (D9).
+
 - **Decision:** The admin taps "Send reminder"; the app records it and opens WhatsApp with the citizen's number and the message pre-filled.
 - **Rationale:** At pilot volume this avoids WhatsApp Business Platform setup and message template approval.
 - **Consequences:** A reminder counts as "sent" when the tap is recorded, even if the operator then doesn't actually send the message.
 
 ### Decision 7: Verify access by unguessable token; no citizen login
+
+> **v2:** manual WhatsApp reminders and verify tokens are retired (v2 spec D11). Any signed-in neighbour verifies a fix in the app (spec §5); updates arrive as FCM push + in-app inbox (D9).
+
+> **v2:** citizens now sign in with phone OTP via Firebase Authentication (v2 spec D6, D8); staff roles are citizen, moderator, admin, representative (D3).
+
 - **Decision:** Each complaint has a random, high-entropy verify token. The verify link carries the token, and the token grants access only to that complaint's verify screen.
 - **Rationale:** Keeps verification to a single tap (PRD US3, US4) without accounts.
 - **Consequences:** Anyone holding the link can verify. This is acceptable for the pilot and covered in [06 Security](./06-security-testing.md). The token never reveals the phone number.
 
 ### Decision 8: Source attribution through invite codes (confirmed 2026-10-03)
+
+> **v2:** invite codes and source tags are retired from the citizen UI (v2 spec D11); v2 identifies citizens by phone OTP (D6, D8). v1 tables stay read-only for history.
+
 - **Context:** The PRD sets the source tag from the invite link. With an installed app, a tag carried in a link is lost during installation unless "deferred deep linking" is used, which needs a hosted service that isn't available locally.
 - **Decision (proposed):** Each group gets an invite code (for example, one per RWA). The citizen enters it once on first launch, or it's pre-filled if they open an invite link with the app already installed. The code maps to a source tag and group ID on the server.
 - **Rationale:** Works offline from any link service, works locally, and still means the citizen never chooses a source tag themselves.
