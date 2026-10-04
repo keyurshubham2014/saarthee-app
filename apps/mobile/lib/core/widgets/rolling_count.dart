@@ -58,7 +58,7 @@ class _RollingCountState extends State<RollingCount>
             builder: (context, _) {
               final t = SaartheeMotion.standard.transform(_c.value);
               final current = Text('${widget.value}', style: widget.style);
-              if (_old == null) return current;
+              if (_old == null || _c.isCompleted) return current;
               return Stack(
                 alignment: Alignment.center,
                 children: [
