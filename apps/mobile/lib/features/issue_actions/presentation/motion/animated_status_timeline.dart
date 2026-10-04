@@ -22,8 +22,15 @@ class AnimatedStatusTimeline extends StatefulWidget {
 }
 
 class _AnimatedStatusTimelineState extends State<AnimatedStatusTimeline> {
-  late Set<String> _seen = {for (final r in widget.rows) r.id};
+  // Filled in initState (not lazily) so the first list never animates.
+  Set<String> _seen = {};
   final Set<String> _animate = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _seen = {for (final r in widget.rows) r.id};
+  }
 
   @override
   void didUpdateWidget(AnimatedStatusTimeline old) {
