@@ -339,4 +339,21 @@ void main() {
       );
     });
   });
+
+  group('pinned primary actions (DS §5)', () {
+    for (final (step, key) in [
+      (ReportStep.photo, 'report.continue'),
+      (ReportStep.details, 'report.submit'),
+    ]) {
+      testWidgets('$key is full width inside the gutters and 56 dp tall', (
+        t,
+      ) async {
+        await pumpReportApp(t, api: FakeReportApi(), draft: draftAt(step));
+        final size = t.getSize(find.byKey(Key(key)));
+        // 400 dp test screen − 2 × 16 dp gutters.
+        expect(size.width, 368);
+        expect(size.height, 56);
+      });
+    }
+  });
 }

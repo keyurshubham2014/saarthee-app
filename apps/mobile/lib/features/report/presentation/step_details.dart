@@ -11,6 +11,7 @@ import '../application/report_providers.dart';
 import '../application/submit_controller.dart';
 import 'report_errors.dart';
 import 'sensitive_reasons.dart';
+import 'pinned_action.dart';
 
 /// Step 3 "Add details and check" (TASK-05 §5.4): description (or the
 /// structured choices for sensitive categories), summary with Change links,
@@ -180,8 +181,7 @@ class _StepDetailsState extends ConsumerState<StepDetails> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(AppSpacing.gutter),
+        PinnedAction(
           child: SubmitReportButton(
             key: const Key('report.submit'),
             label: l10n.reportFlowSubmit,
