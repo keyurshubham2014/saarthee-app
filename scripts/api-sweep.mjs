@@ -5,8 +5,8 @@
 // database used for cleanup of the sweep's own rows. Sign-in uses the Firebase Auth Emulator. Prints PASS/FAIL per
 // check and exits 1 on any FAIL. Never prints secrets, OTPs, tokens or phone numbers.
 import { writeFileSync } from 'node:fs';
-import { closeDb, db } from './api-sweep/auth.mjs';
-import { g2Auth, preClean } from './api-sweep/accounts.mjs';
+import { closeDb, db, signIn } from './api-sweep/auth.mjs';
+import { g2Auth, PHONES, preClean } from './api-sweep/accounts.mjs';
 import { codeTable } from './api-sweep/codes.mjs';
 import { g7Discovery, g8Alerts } from './api-sweep/discovery.mjs';
 import { envSweep } from './api-sweep/env.mjs';
@@ -37,11 +37,13 @@ async function cleanup() {
       await p.initiative.deleteMany({ where: { id: ctx.initiativeId } });
     }
     let erased = 0;
-    for (const s of [ctx.A, ctx.B, ctx.C, ctx.D]) {
-      if (!s?.token) continue;
-      const r = await del('/me', { confirm: 'DELETE' }, { token: s.token });
+    for (const k of ['A', 'B', 'C', 'D']) {
+      if (!ctx[k]?.token) continue;
+      let r = await del('/me', { confirm: 'DELETE' }, { token: ctx[k].token });
+      if (r.status === 401) r = await del('/me', { confirm: 'DELETE' }, { token: (await signIn(PHONES[k])).token });
       if (r.status === 204) erased += 1;
     }
+    check('cleanup erased every sweep citizen (DELETE /me)', erased === 4, `${erased}/4`);
     console.log(`   hidden ${hidden.count} sweep issue(s); erased ${erased} sweep account(s)`);
   } catch (err) {
     console.log(`   cleanup error: ${err.message}`);

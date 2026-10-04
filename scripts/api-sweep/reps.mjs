@@ -42,7 +42,7 @@ export async function g9Representatives(ctx) {
   const c = await post(`/representatives/${REP18(2)}/claims`, { evidencePhotoIds: [ev], note: 'Sweep claim (fictional).' }, { token: ctx.B.token });
   check('POST /representatives/{id}/claims → 201 pending', c.status === 201 && c.data?.status === 'pending', `${c.status} ${c.data?.error?.code ?? ''}`);
   ctx.claimId = c.data?.claimId;
-  expect('second claim while one is pending → 409 CLAIM_ALREADY_PENDING', await post(`/representatives/${REP18(3)}/claims`, { evidencePhotoIds: [await photo(ctx.B.token, 'rep_evidence')] }, { token: ctx.B.token }), 409, 'CLAIM_ALREADY_PENDING');
+  expect('second claim on the same profile while one is pending → 409 CLAIM_ALREADY_PENDING', await post(`/representatives/${REP18(2)}/claims`, { evidencePhotoIds: [await photo(ctx.B.token, 'rep_evidence')] }, { token: ctx.B.token }), 409, 'CLAIM_ALREADY_PENDING');
   const mine = await get('/me/rep-claims', { token: ctx.B.token });
   check('GET /me/rep-claims → 200 with the claim', mine.status === 200 && mine.text.includes(ctx.claimId ?? 'none'), `${mine.status}`);
 }
