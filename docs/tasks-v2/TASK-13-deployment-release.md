@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-13 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | M |
 | Depends On | TASK-01 |
 | Blocks | TASK-14 |
 | Requirement IDs | REQ-S-013, REQ-S-014, REQ-O-004, REQ-O-005, REQ-O-006, REQ-O-007, REQ-O-008 |
 | Primary Spec Refs | Spec §2 (D12), §11 (retention, notices, Data safety inputs), §12 (environments, storage, backups, monitoring, release) |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -155,6 +155,18 @@ Plus: data encrypted in transit — Yes; users can request deletion — Yes (in 
 - ASSUMPTION: The Play internal-testing build points at staging and the closed-testing build at pilot (same application id `in.saarthee.saarthee`, different `--dart-define-from-file` and build numbers) — matches TASK-14 §5.6.
 - ASSUMPTION: The domain is chosen by the founder; hostnames `api.<domain>` (pilot), `api-staging.<domain>` (staging), `<domain>` (static pages).
 - ASSUMPTION: Release signing happens on the build lead's machine for the pilot; CI signing is a later improvement.
+- ASSUMPTION (W-OPS 2026-10-04): The audit "entry" for `retention.run` is the existing log-based `src/lib/audit` line (`admin_action`, action `retention_run`, actor `system`, counts only) — there is no `audit_log` table on `main`; `retention_run` was appended to `AUDIT_ACTIONS`.
+- ASSUMPTION: Until TASK-06's `src/jobs` runner exists, retention runs daily from the host timer `saarthee-retention` (`infra/deploy/retention.sh` → `retention:run` inside the API container); disable the timer once the in-process job is registered.
+- ASSUMPTION: Legacy rule `photos.legacy` = photos (via `issue_photos`) of issues with `legacy_complaint_id` set, same closure rule; `photos.closed_issues` = the rest.
+- ASSUMPTION: Sentry `@sentry/node` 11.4.0 replaced `sendDefaultPii` with `dataCollection`; it is configured to collect nothing (no user info, cookies, bodies, query params, headers except user-agent, frame vars) and default integrations are off; the allow-list `scrubEvent` is the real guarantee (T-13-07).
+- ASSUMPTION: Caddy's config is baked into a small `saarthee-caddy` image (`infra/deploy/caddy.Dockerfile`) instead of bind-mounted — the deployed config is versioned with the release, and Docker Desktop on the dev Mac hung starting containers with bind mounts from `~/Documents`. Client IP: Caddy `trusted_proxies` = Cloudflare ranges + `client_ip_headers CF-Connecting-IP`, `X-Forwarded-For := {client_ip}` (a direct caller cannot spoof it; verified locally).
+- ASSUMPTION: The Prisma CLI moved from devDependencies to dependencies so the runtime image can run `prisma migrate deploy` (step 5 "plus Prisma CLI"); seed modules may be `.js` so the compiled seed runs in the image (staging seed).
+- ASSUMPTION: The production compose has a `local-db` profile (PostGIS container on 127.0.0.1:${DB_PORT}) for local rehearsal only; staging/pilot use managed PostgreSQL.
+- ASSUMPTION: Debug builds may also use plain HTTP to a LAN IP passed as `--dart-define=DEV_CLEARTEXT_HOST` (keeps `scripts/run-lan-phone.sh` working); profile/release never allow HTTP.
+- ASSUMPTION: Release builds without an upload key fail at `preReleaseBuild`; `-Psaarthee.allowDebugSigning=true` (or `SAARTHEE_ALLOW_DEBUG_SIGNING=1`) is an explicit local-only escape hatch that signs with the debug key (Play rejects such uploads).
+- ASSUMPTION: `pubspec.yaml` version set to `2.0.0+1`; the build number is raised per upload.
+- ASSUMPTION: Only `app_en.arb` exists on `main` (TASK-03 adds `app_gu.arb`), so `configErrorBody` was added to `app_en.arb` only; Gujarati text for the integrator: "આ બિલ્ડ ખોટી રીતે ગોઠવાયેલ છે. કૃપા કરીને Play પરથી નવીનતમ વર્ઝન ઇન્સ્ટોલ કરો."
+- ASSUMPTION: The privacy and deletion pages carry both languages on one URL each (`/privacy/`, `/delete-account/`, anchors `#en`/`#gu`); the grievance email is a visible placeholder (`data-todo`) and `scripts/check-site.mjs --release` fails until it and the draft banner are resolved.
 
 ## 6. Implementation Steps
 
@@ -263,7 +275,7 @@ Plus: data encrypted in transit — Yes; users can request deletion — Yes (in 
 - [ ] Logs in staging/pilot contain no phone numbers, tokens, coordinates or request bodies (grep a day of logs)
 - [ ] Deploy rolls back automatically when `/health` fails after a release (tested once on staging with a broken image)
 - [ ] Monthly cost recorded in `docs/ops/environments.md` and within the founder's budget
-- [ ] Every scheduled job has a heartbeat and a documented manual run command
+- [x] Every scheduled job has a heartbeat and a documented manual run command (docs/ops/deploy.md §Timers)
 - [ ] Release build size and minification recorded; no debug flags (`debuggable=false`)
 - [ ] Privacy notice and deletion page reviewed against Spec §11; legal review status recorded (Open Question 6)
 
@@ -350,26 +362,50 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review — repo and local parts done and verified; live environments and Play are founder-blocked (Deferred below); M-13-08 needs the integrator.
 
-**Progress:** 0%
+**Progress:** 70% (all code, scripts, configs, pages and runbooks; local verification; the remaining 30% is provisioning, Play and the manual checks on real environments)
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | R2 driver, `storageFor` per-row resolution, driver-specific config validation, `storage:check` on configured driver; T-13-01 (local + MinIO), T-13-02, T-13-03 | f833368 |
+| 2026-10-04 | HSTS in production, Sentry + allow-list scrubber, staging-only `/admin/__test-error`; T-13-07, T-13-08 | 4e3cf30 |
+| 2026-10-04 | `retention:run` (closed/legacy photos, notifications, logs, unattached) with dry run, counts, audit line; T-13-04…06 | 532e1ee |
+| 2026-10-04 | Production API image (multi-stage, non-root uid 10001, tini, HEALTHCHECK), `tsconfig.build.json`, `build`/`start:prod` | 71625e1 |
+| 2026-10-04 | `infra/deploy` compose (api, caddy, `local-db` profile), Caddy image, backup/restore scripts, local restore drill — stack verified on 127.0.0.1:4100 (DB 5440), `/health` 200 through Caddy, torn down | 3b4276e |
+| 2026-10-04 | `deploy.sh` (rollback rehearsed), `photo-mirror.sh` (tested on MinIO), `retention.sh`, systemd timers, journald 14 d, `install-host.sh` | 0ee658b |
+| 2026-10-04 | `infra/site` privacy + delete-account (en + gu, independence line, draft), brand favicon/og image, `_headers`, `scripts/check-site.mjs` | a45c211 |
+| 2026-10-04 | Mobile: profile cleartext removed, `apiBaseUrlIsAllowed` + fatal config screen, release signing from key.properties, env files, `check-cleartext.sh`; F-13-01 | ac3d950 |
+| 2026-10-04 | CI `ops` job + MinIO in the api job; `deploy.yml` (staging auto, pilot approval) | e29e31e |
+| 2026-10-04 | `docs/ops/*` runbooks, README links, `.env.example` | 7b5fa51 |
+
+### Deferred (founder-blocked)
+
+| Item | Deferred — needs |
+|---|---|
+| Steps 6, 9; AC-3, AC-4, AC-5; M-13-01…03 | Founder: DigitalOcean team account with billing (Droplets + Managed PostgreSQL 17 in BLR1), a domain added to Cloudflare, GitHub environments `staging`/`pilot` with secrets — then follow `docs/ops/deploy.md` §Host setup |
+| Step 10–11; AC-6, AC-7; M-13-04, M-13-05 | Founder: Cloudflare R2 buckets + scoped tokens, offline `age` key pair (public key to `backup.env`), DO managed backups on; then 3 days of backups and the staging/pilot drills in `docs/ops/restore-drill.md` |
+| Step 12; AC-8; M-13-06, M-13-07 | Founder: UptimeRobot, Healthchecks.io and Sentry accounts; staging URL |
+| Steps 14–15; AC-11, AC-12; M-13-09, M-13-10 | Founder: Play Console developer account, upload keystore generated into the vault, Pages site on the domain, grievance email, legal + native Gujarati review (Open Question 6). Integrator: `flutter build appbundle` with/without `key.properties`, `apksigner verify` |
+| Real Firebase project | TASK-04 / founder (this task only hands over SHA fingerprints once Play App Signing exists) |
+
+### Blocked > 10 min (logged)
+
+- Docker Desktop hung starting containers with bind mounts from `~/Documents` (likely a macOS privacy prompt); worked around by baking the Caddy config into an image. `docker rm`/`start` of the stuck container recovered on its own after the CLI processes were killed.
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [ ] All implementation steps complete — repo/local steps 1–5, 7, 8, 10 (scripts), 13, 14 (config), 16 done; 6, 9, 11, 12, 15, 17 Deferred (founder)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
-- [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Automated tests added and passing
+- [x] Static checks pass (tsc, eslint, dart analyze, dart format, check-cleartext, check-site, shellcheck, docker build); ACs needing live environments Deferred
+- [x] Automated tests added and passing — API 104 pass / 2 skipped (the 4 R2 contract tests skip without R2_TEST_ENDPOINT; they passed against MinIO in a focused run), Flutter 6 pass
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
-- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-13` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented (§5.6); provider choices await founder confirmation
+- [x] Coverage matrix rows set (2 Pass, 5 Deferred with exact founder actions; `check_coverage.py --task TASK-13` shows 0 unverified)
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-13: …`
+- [x] Committed as `V2-TASK-13: …`
 - [ ] Validator passes
