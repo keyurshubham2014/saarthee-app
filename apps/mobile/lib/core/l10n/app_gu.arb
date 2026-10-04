@@ -1535,5 +1535,403 @@
   "settingsDevGallery": "કમ્પોનન્ટ ગૅલેરી (ડિબગ)",
   "@settingsDevGallery": {
     "x-review": "pending"
+  },
+  "authSignInTitle": "તમારા ફોનથી સાઇન ઇન કરો",
+  "@authSignInTitle": {
+    "x-review": "pending"
+  },
+  "authReasonGeneric": "આગળ વધવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonGeneric": {
+    "x-review": "pending"
+  },
+  "authReasonReport": "સમસ્યા નોંધાવવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonReport": {
+    "x-review": "pending"
+  },
+  "authReasonMeToo": "“મને પણ” કહેવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonMeToo": {
+    "x-review": "pending"
+  },
+  "authReasonFollow": "સમસ્યા ફોલો કરવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonFollow": {
+    "x-review": "pending"
+  },
+  "authReasonVerify": "સમારકામ તપાસવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonVerify": {
+    "x-review": "pending"
+  },
+  "authReasonMessage": "તમારા પ્રતિનિધિને સંદેશ મોકલવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonMessage": {
+    "x-review": "pending"
+  },
+  "authReasonRsvp": "અભિયાનમાં જોડાવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonRsvp": {
+    "x-review": "pending"
+  },
+  "authReasonProfile": "તમારી પ્રોફાઇલ અને માહિતી જોવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "@authReasonProfile": {
+    "x-review": "pending"
+  },
+  "authPhoneLabel": "મોબાઇલ નંબર",
+  "@authPhoneLabel": {
+    "x-review": "pending"
+  },
+  "authPhoneHelper": "અમે SMS દ્વારા 6 અંકનો કોડ મોકલીશું.",
+  "@authPhoneHelper": {
+    "x-review": "pending"
+  },
+  "authPhoneInvalid": "માન્ય 10 અંકનો ભારતીય મોબાઇલ નંબર દાખલ કરો.",
+  "@authPhoneInvalid": {
+    "x-review": "pending"
+  },
+  "authSendCode": "કોડ મોકલો",
+  "@authSendCode": {
+    "x-review": "pending"
+  },
+  "authTooManyRequests": "ઘણા બધા પ્રયાસો થયા. કૃપા કરીને પછીથી ફરી પ્રયાસ કરો.",
+  "@authTooManyRequests": {
+    "x-review": "pending"
+  },
+  "authUnavailable": "સાઇન ઇન હાલમાં ઉપલબ્ધ નથી. કૃપા કરીને પછીથી ફરી પ્રયાસ કરો.",
+  "@authUnavailable": {
+    "x-review": "pending"
+  },
+  "authOtpTitle": "કોડ દાખલ કરો",
+  "@authOtpTitle": {
+    "x-review": "pending"
+  },
+  "authOtpSentTo": "{phone} પર મોકલેલો 6 અંકનો કોડ દાખલ કરો",
+  "@authOtpSentTo": {
+    "x-review": "pending",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "authOtpLabel": "6 અંકનો કોડ",
+  "@authOtpLabel": {
+    "x-review": "pending"
+  },
+  "authOtpVerify": "ચકાસો",
+  "@authOtpVerify": {
+    "x-review": "pending"
+  },
+  "authOtpWrong": "આ કોડ સાચો નથી. SMS તપાસીને ફરી પ્રયાસ કરો.",
+  "@authOtpWrong": {
+    "x-review": "pending"
+  },
+  "authOtpExpired": "આ કોડની મુદત પૂરી થઈ ગઈ છે. નવો કોડ મોકલો.",
+  "@authOtpExpired": {
+    "x-review": "pending"
+  },
+  "authOtpResend": "કોડ ફરી મોકલો",
+  "@authOtpResend": {
+    "x-review": "pending"
+  },
+  "authOtpResendIn": "{seconds} સેકન્ડમાં કોડ ફરી મોકલો",
+  "@authOtpResendIn": {
+    "x-review": "pending",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authOtpChangeNumber": "નંબર બદલો",
+  "@authOtpChangeNumber": {
+    "x-review": "pending"
+  },
+  "authSignedIn": "સાઇન ઇન થયું",
+  "@authSignedIn": {
+    "x-review": "pending"
+  },
+  "authAgeTitle": "શું તમારી ઉંમર 18 કે તેથી વધુ છે?",
+  "@authAgeTitle": {
+    "x-review": "pending"
+  },
+  "authAgeBody": "સારથી એકાઉન્ટ પુખ્ત વયના (18+) લોકો માટે છે.",
+  "@authAgeBody": {
+    "x-review": "pending"
+  },
+  "authAgeYes": "હા, મારી ઉંમર 18 કે તેથી વધુ છે",
+  "@authAgeYes": {
+    "x-review": "pending"
+  },
+  "authAgeNo": "ના",
+  "@authAgeNo": {
+    "x-review": "pending"
+  },
+  "authConsentCore": "આ સેવા ચલાવવા માટે સારથી મારો ફોન નંબર અને મેં કરેલી ફરિયાદો સાચવે તે માટે હું સંમત છું.",
+  "@authConsentCore": {
+    "x-review": "pending"
+  },
+  "authPrivacyNotice": "ગોપનીયતા સૂચના",
+  "@authPrivacyNotice": {
+    "x-review": "pending"
+  },
+  "authPrivacyNoticeBody": "સારથી તમને સાઇન ઇન કરાવવા માટે તમારો ફોન નંબર અને આ સેવા ચલાવવા માટે તમે કરેલી ફરિયાદો સાચવે છે. તમારું નામ અને નંબર ક્યારેય જાહેરમાં બતાવાતા નથી. તમે ગમે ત્યારે ‘ગોપનીયતા અને તમારી માહિતી’માંથી તમારી માહિતી ડાઉનલોડ કરી શકો છો અથવા એકાઉન્ટ કાઢી શકો છો.",
+  "@authPrivacyNoticeBody": {
+    "x-review": "pending"
+  },
+  "authCreateAccount": "એકાઉન્ટ બનાવો",
+  "@authCreateAccount": {
+    "x-review": "pending"
+  },
+  "authBlockedTitle": "એકાઉન્ટ પુખ્ત વયના લોકો માટે છે",
+  "@authBlockedTitle": {
+    "x-review": "pending"
+  },
+  "authBlockedBody": "માફ કરશો, એકાઉન્ટ માટે તમારી ઉંમર 18 કે તેથી વધુ હોવી જરૂરી છે. તમે હજી પણ સમસ્યાઓ, ચેતવણીઓ અને સેવાઓ જોઈ શકો છો.",
+  "@authBlockedBody": {
+    "x-review": "pending"
+  },
+  "authBackToBrowsing": "જોવાનું ચાલુ રાખો",
+  "@authBackToBrowsing": {
+    "x-review": "pending"
+  },
+  "authErrorTokenInvalid": "અમે તમારું સાઇન ઇન ચકાસી શક્યા નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
+  "@authErrorTokenInvalid": {
+    "x-review": "pending"
+  },
+  "authErrorAgeRequired": "એકાઉન્ટ વાપરવા માટે તમારી ઉંમર 18 કે તેથી વધુ હોવી જરૂરી છે.",
+  "@authErrorAgeRequired": {
+    "x-review": "pending"
+  },
+  "authErrorConsentRequired": "આગળ વધવા માટે કૃપા કરીને શરતો સાથે સંમત થાઓ.",
+  "@authErrorConsentRequired": {
+    "x-review": "pending"
+  },
+  "authErrorSuspended": "આ એકાઉન્ટ સ્થગિત છે.",
+  "@authErrorSuspended": {
+    "x-review": "pending"
+  },
+  "authErrorForbidden": "તમને આ કરવાની પરવાનગી નથી.",
+  "@authErrorForbidden": {
+    "x-review": "pending"
+  },
+  "authErrorWardNotFound": "કૃપા કરીને તમારો વોર્ડ ફરીથી પસંદ કરો.",
+  "@authErrorWardNotFound": {
+    "x-review": "pending"
+  },
+  "authErrorCoreConsent": "તમારા એકાઉન્ટ માટે આ સંમતિ જરૂરી છે. તે પાછી ખેંચવા માટે તમારું એકાઉન્ટ કાઢી નાખો.",
+  "@authErrorCoreConsent": {
+    "x-review": "pending"
+  },
+  "accountTitle": "તમારું એકાઉન્ટ",
+  "@accountTitle": {
+    "x-review": "pending"
+  },
+  "accountSignInRow": "સાઇન ઇન કરો",
+  "@accountSignInRow": {
+    "x-review": "pending"
+  },
+  "accountSignInWhy": "સમસ્યાઓ નોંધાવવા, ફોલો કરવા અને અપડેટ મેળવવા માટે સાઇન ઇન કરો.",
+  "@accountSignInWhy": {
+    "x-review": "pending"
+  },
+  "accountSignedInAs": "{phone} તરીકે સાઇન ઇન",
+  "@accountSignedInAs": {
+    "x-review": "pending",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDisplayName": "દર્શાવવાનું નામ",
+  "@accountDisplayName": {
+    "x-review": "pending"
+  },
+  "accountDisplayNameHelper": "ફક્ત સ્ટાફને દેખાશે, ક્યારેય જાહેરમાં નહીં.",
+  "@accountDisplayNameHelper": {
+    "x-review": "pending"
+  },
+  "accountDisplayNameInvalid": "1 થી 40 અક્ષરો વાપરો.",
+  "@accountDisplayNameInvalid": {
+    "x-review": "pending"
+  },
+  "accountHomeWard": "ઘરનો વોર્ડ",
+  "@accountHomeWard": {
+    "x-review": "pending"
+  },
+  "accountNoWard": "નક્કી નથી",
+  "@accountNoWard": {
+    "x-review": "pending"
+  },
+  "accountWardNumber": "વોર્ડ {number}",
+  "@accountWardNumber": {
+    "x-review": "pending",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "accountLanguage": "ભાષા",
+  "@accountLanguage": {
+    "x-review": "pending"
+  },
+  "accountLanguageGu": "ગુજરાતી",
+  "@accountLanguageGu": {
+    "x-review": "pending"
+  },
+  "accountLanguageEn": "English",
+  "@accountLanguageEn": {
+    "x-review": "pending"
+  },
+  "accountSave": "સાચવો",
+  "@accountSave": {
+    "x-review": "pending"
+  },
+  "accountSaved": "સાચવ્યું.",
+  "@accountSaved": {
+    "x-review": "pending"
+  },
+  "accountPrivacyLink": "ગોપનીયતા અને તમારી માહિતી",
+  "@accountPrivacyLink": {
+    "x-review": "pending"
+  },
+  "accountSignOut": "સાઇન આઉટ",
+  "@accountSignOut": {
+    "x-review": "pending"
+  },
+  "accountSignedOut": "તમે સાઇન આઉટ થયા છો.",
+  "@accountSignedOut": {
+    "x-review": "pending"
+  },
+  "accountOfflineReadOnly": "તમે ઑફલાઇન છો. ઓનલાઇન થયા પછી ફેરફાર કરી શકશો.",
+  "@accountOfflineReadOnly": {
+    "x-review": "pending"
+  },
+  "accountLoadError": "અમે તમારું એકાઉન્ટ લોડ કરી શક્યા નહીં.",
+  "@accountLoadError": {
+    "x-review": "pending"
+  },
+  "accountActionFailed": "તે થયું નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
+  "@accountActionFailed": {
+    "x-review": "pending"
+  },
+  "accountPrivacyTitle": "ગોપનીયતા અને તમારી માહિતી",
+  "@accountPrivacyTitle": {
+    "x-review": "pending"
+  },
+  "accountPrivacySummary": "સારથી તમારો ફોન નંબર, તમે કરેલી ફરિયાદો અને નીચેની પસંદગીઓ સાચવે છે. તમારું નામ અને નંબર ક્યારેય જાહેરમાં બતાવાતા નથી. તમે ગમે ત્યારે તમારી માહિતી ડાઉનલોડ કરી શકો છો અથવા એકાઉન્ટ કાઢી શકો છો.",
+  "@accountPrivacySummary": {
+    "x-review": "pending"
+  },
+  "accountConsentsTitle": "તમારી પસંદગીઓ",
+  "@accountConsentsTitle": {
+    "x-review": "pending"
+  },
+  "accountConsentCore": "તમારું એકાઉન્ટ ચલાવવું",
+  "@accountConsentCore": {
+    "x-review": "pending"
+  },
+  "accountConsentCoreFixed": "તમારા એકાઉન્ટ માટે જરૂરી",
+  "@accountConsentCoreFixed": {
+    "x-review": "pending"
+  },
+  "accountConsentShareReps": "મારી ફરિયાદો પ્રતિનિધિઓ સાથે શેર કરો",
+  "@accountConsentShareReps": {
+    "x-review": "pending"
+  },
+  "accountConsentAmcHandoff": "AMC માં ફરિયાદ કરું ત્યારે વિગતો આપો",
+  "@accountConsentAmcHandoff": {
+    "x-review": "pending"
+  },
+  "accountConsentNotifications": "સૂચનાઓ",
+  "@accountConsentNotifications": {
+    "x-review": "pending"
+  },
+  "accountConsentNotificationsHelper": "તમારા વોર્ડ માટે ચેતવણીઓ અને તમે ફોલો કરો છો તે સમસ્યાઓના અપડેટ.",
+  "@accountConsentNotificationsHelper": {
+    "x-review": "pending"
+  },
+  "accountDownloadData": "મારી માહિતી ડાઉનલોડ કરો",
+  "@accountDownloadData": {
+    "x-review": "pending"
+  },
+  "accountExportPreparing": "તમારી માહિતી તૈયાર થઈ રહી છે…",
+  "@accountExportPreparing": {
+    "x-review": "pending"
+  },
+  "accountExportShareSubject": "મારી સારથી માહિતી",
+  "@accountExportShareSubject": {
+    "x-review": "pending"
+  },
+  "accountDeleteAccount": "મારું એકાઉન્ટ કાઢી નાખો",
+  "@accountDeleteAccount": {
+    "x-review": "pending"
+  },
+  "accountGrievance": "તમારી માહિતી વિશે પ્રશ્નો અથવા ફરિયાદો: {email}",
+  "@accountGrievance": {
+    "x-review": "pending",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDeleteTitle": "તમારું એકાઉન્ટ કાઢી નાખવું છે?",
+  "@accountDeleteTitle": {
+    "x-review": "pending"
+  },
+  "accountDeleteBody": "તમારો ફોન નંબર અને નામ દૂર થશે, તમારા ફોટા કાઢી નખાશે અને તમારી ફરિયાદો તમારી વિગતો વિના જાહેર રહેશે. આ પાછું ફેરવી શકાતું નથી.",
+  "@accountDeleteBody": {
+    "x-review": "pending"
+  },
+  "accountDeleteTypeLabel": "ખાતરી કરવા DELETE લખો",
+  "@accountDeleteTypeLabel": {
+    "x-review": "pending"
+  },
+  "accountDeleteConfirm": "એકાઉન્ટ કાઢી નાખો",
+  "@accountDeleteConfirm": {
+    "x-review": "pending"
+  },
+  "accountDeleteCancel": "રદ કરો",
+  "@accountDeleteCancel": {
+    "x-review": "pending"
+  },
+  "accountDeleted": "તમારું એકાઉન્ટ કાઢી નાખવામાં આવ્યું.",
+  "@accountDeleted": {
+    "x-review": "pending"
+  },
+  "accountPushPromptTitle": "વોર્ડ {number} માટે ચેતવણીઓ મેળવવી છે?",
+  "@accountPushPromptTitle": {
+    "x-review": "pending",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "accountPushPromptTitleCity": "અમદાવાદ માટે ચેતવણીઓ મેળવવી છે?",
+  "@accountPushPromptTitleCity": {
+    "x-review": "pending"
+  },
+  "accountPushPromptBody": "ગરમી, વરસાદ અને પાણીની ચેતવણીઓ અને તમે ફોલો કરો છો તે સમસ્યાઓના અપડેટ. કોઈ જાહેરાત નહીં.",
+  "@accountPushPromptBody": {
+    "x-review": "pending"
+  },
+  "accountPushTurnOn": "ચાલુ કરો",
+  "@accountPushTurnOn": {
+    "x-review": "pending"
+  },
+  "accountPushNotNow": "હમણાં નહીં",
+  "@accountPushNotNow": {
+    "x-review": "pending"
+  },
+  "accountChannelCritical": "અતિ મહત્વની ચેતવણીઓ",
+  "@accountChannelCritical": {
+    "x-review": "pending"
+  },
+  "accountChannelAlerts": "ચેતવણીઓ",
+  "@accountChannelAlerts": {
+    "x-review": "pending"
+  },
+  "accountChannelUpdates": "અપડેટ્સ",
+  "@accountChannelUpdates": {
+    "x-review": "pending"
   }
 }
