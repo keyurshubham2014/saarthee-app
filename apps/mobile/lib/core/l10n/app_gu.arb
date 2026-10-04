@@ -1938,5 +1938,597 @@
   "accountChannelUpdates": "અપડેટ્સ",
   "@accountChannelUpdates": {
     "x-review": "pending"
+  },
+  "servicesTitle": "AMC સેવાઓ",
+  "@servicesTitle": {
+    "x-review": "pending"
+  },
+  "servicesIndependence": "સ્વતંત્ર માર્ગદર્શિકા. લિંક AMCની સત્તાવાર વેબસાઇટ ખોલે છે.",
+  "@servicesIndependence": {
+    "x-review": "pending"
+  },
+  "servicesSearchHint": "સેવાઓ શોધો",
+  "@servicesSearchHint": {
+    "x-review": "pending"
+  },
+  "servicesCategoryAll": "બધી",
+  "@servicesCategoryAll": {
+    "x-review": "pending"
+  },
+  "servicesCategoryTax": "વેરો",
+  "@servicesCategoryTax": {
+    "x-review": "pending"
+  },
+  "servicesCategoryCertificates": "પ્રમાણપત્રો",
+  "@servicesCategoryCertificates": {
+    "x-review": "pending"
+  },
+  "servicesCategoryBuilding": "બાંધકામ",
+  "@servicesCategoryBuilding": {
+    "x-review": "pending"
+  },
+  "servicesCategoryHealth": "આરોગ્ય",
+  "@servicesCategoryHealth": {
+    "x-review": "pending"
+  },
+  "servicesCategoryEducation": "શિક્ષણ",
+  "@servicesCategoryEducation": {
+    "x-review": "pending"
+  },
+  "servicesCategoryTransport": "પરિવહન",
+  "@servicesCategoryTransport": {
+    "x-review": "pending"
+  },
+  "servicesCategoryLeisure": "મનોરંજન",
+  "@servicesCategoryLeisure": {
+    "x-review": "pending"
+  },
+  "servicesCategoryInformation": "માહિતી",
+  "@servicesCategoryInformation": {
+    "x-review": "pending"
+  },
+  "servicesCategoryBusiness": "વ્યવસાય",
+  "@servicesCategoryBusiness": {
+    "x-review": "pending"
+  },
+  "servicesBadgeOnline": "ઓનલાઇન",
+  "@servicesBadgeOnline": {
+    "x-review": "pending"
+  },
+  "servicesBadgeWardOffice": "વોર્ડ ઓફિસ જવું પડે",
+  "@servicesBadgeWardOffice": {
+    "x-review": "pending"
+  },
+  "servicesNoMatch": "“{query}” સાથે મેળ ખાતી કોઈ સેવા નથી.",
+  "@servicesNoMatch": {
+    "x-review": "pending"
+  },
+  "servicesLoadError": "સેવાઓ લોડ ન થઈ શકી.",
+  "@servicesLoadError": {
+    "x-review": "pending"
+  },
+  "servicesHowTo": "કેવી રીતે કરવું",
+  "@servicesHowTo": {
+    "x-review": "pending"
+  },
+  "servicesOpenOnAmc": "AMC વેબસાઇટ પર ખોલો",
+  "@servicesOpenOnAmc": {
+    "x-review": "pending"
+  },
+  "servicesOpensCaption": "{host} ખુલશે. સાર્થી સ્વતંત્ર એપ છે, AMC દ્વારા ચલાવાતી નથી.",
+  "@servicesOpensCaption": {
+    "x-review": "pending"
+  },
+  "servicesYourWardOffice": "તમારી વોર્ડ ઓફિસ",
+  "@servicesYourWardOffice": {
+    "x-review": "pending"
+  },
+  "servicesCall": "ફોન કરો",
+  "@servicesCall": {
+    "x-review": "pending"
+  },
+  "servicesChangeWard": "વોર્ડ બદલો",
+  "@servicesChangeWard": {
+    "x-review": "pending"
+  },
+  "servicesSetWardPrompt": "તમારી વોર્ડ ઓફિસ જોવા તમારો ઘરનો વોર્ડ પસંદ કરો",
+  "@servicesSetWardPrompt": {
+    "x-review": "pending"
+  },
+  "servicesOfficeAddressMissing": "ઓફિસનું સરનામું હજુ પ્રકાશિત નથી.",
+  "@servicesOfficeAddressMissing": {
+    "x-review": "pending"
+  },
+  "servicesSourceLine": "સ્રોત: અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન વેબસાઇટ · છેલ્લે તપાસ્યું {date}",
+  "@servicesSourceLine": {
+    "x-review": "pending"
+  },
+  "servicesSourceOnly": "સ્રોત: અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન વેબસાઇટ",
+  "@servicesSourceOnly": {
+    "x-review": "pending"
+  },
+  "servicesBrokenLink": "{date}એ છેલ્લે તપાસ્યું ત્યારે આ પેજ ખૂલ્યું નહીં. કદાચ ખસેડાયું હોય.",
+  "@servicesBrokenLink": {
+    "x-review": "pending"
+  },
+  "servicesNotListed": "આ સેવા હવે યાદીમાં નથી.",
+  "@servicesNotListed": {
+    "x-review": "pending"
+  },
+  "servicesLinkFailed": "લિંક ખોલી ન શકાઈ.",
+  "@servicesLinkFailed": {
+    "x-review": "pending"
+  },
+  "servicesAllServices": "બધી સેવાઓ",
+  "@servicesAllServices": {
+    "x-review": "pending"
+  },
+  "servicesShortcutPropertyTax": "મિલકત વેરો ભરો",
+  "@servicesShortcutPropertyTax": {
+    "x-review": "pending"
+  },
+  "servicesShortcutBirthDeath": "જન્મ/મરણ નોંધ",
+  "@servicesShortcutBirthDeath": {
+    "x-review": "pending"
+  },
+  "servicesShortcutKankaria": "કાંકરિયા ટિકિટ",
+  "@servicesShortcutKankaria": {
+    "x-review": "pending"
+  },
+  "servicesTipOpen": "ખોલો",
+  "@servicesTipOpen": {
+    "x-review": "pending"
+  },
+  "servicesTipDismiss": "ટીપ બંધ કરો",
+  "@servicesTipDismiss": {
+    "x-review": "pending"
+  },
+  "servicesWardOfficeServices": "વોર્ડ ઓફિસ જવું પડે તેવી સેવાઓ",
+  "@servicesWardOfficeServices": {
+    "x-review": "pending"
+  },
+  "servicesUpcomingDrives": "આગામી કાર્યક્રમો",
+  "@servicesUpcomingDrives": {
+    "x-review": "pending"
+  },
+  "servicesSeeAll": "બધું જુઓ",
+  "@servicesSeeAll": {
+    "x-review": "pending"
+  },
+  "initiativesTitle": "કાર્યક્રમો અને ઇવેન્ટ્સ",
+  "@initiativesTitle": {
+    "x-review": "pending"
+  },
+  "initiativesMyWard": "મારો વોર્ડ",
+  "@initiativesMyWard": {
+    "x-review": "pending"
+  },
+  "initiativesAllCity": "આખું શહેર",
+  "@initiativesAllCity": {
+    "x-review": "pending"
+  },
+  "initiativesEmptyWard": "તમારા વોર્ડમાં કોઈ આગામી કાર્યક્રમ નથી.",
+  "@initiativesEmptyWard": {
+    "x-review": "pending"
+  },
+  "initiativesEmptyCity": "હમણાં કોઈ આગામી કાર્યક્રમ નથી.",
+  "@initiativesEmptyCity": {
+    "x-review": "pending"
+  },
+  "initiativesSeeAllCity": "આખું શહેર જુઓ",
+  "@initiativesSeeAllCity": {
+    "x-review": "pending"
+  },
+  "initiativesLoadError": "કાર્યક્રમો લોડ ન થઈ શક્યા.",
+  "@initiativesLoadError": {
+    "x-review": "pending"
+  },
+  "initiativesTypeTreeDrive": "વૃક્ષારોપણ",
+  "@initiativesTypeTreeDrive": {
+    "x-review": "pending"
+  },
+  "initiativesTypeCleanup": "સફાઈ",
+  "@initiativesTypeCleanup": {
+    "x-review": "pending"
+  },
+  "initiativesTypeHealthCamp": "આરોગ્ય કેમ્પ",
+  "@initiativesTypeHealthCamp": {
+    "x-review": "pending"
+  },
+  "initiativesTypeOther": "કાર્યક્રમ",
+  "@initiativesTypeOther": {
+    "x-review": "pending"
+  },
+  "initiativesBy": "આયોજક: {name}",
+  "@initiativesBy": {
+    "x-review": "pending"
+  },
+  "initiativesGoing": "{count} જઈ રહ્યા છે",
+  "@initiativesGoing": {
+    "x-review": "pending"
+  },
+  "initiativesCapacityLabel": "{capacity} માંથી {count} જઈ રહ્યા છે",
+  "@initiativesCapacityLabel": {
+    "x-review": "pending"
+  },
+  "initiativesOfCapacity": "/ {capacity} જઈ રહ્યા છે",
+  "@initiativesOfCapacity": {
+    "x-review": "pending"
+  },
+  "initiativesGoingSuffix": "જઈ રહ્યા છે",
+  "@initiativesGoingSuffix": {
+    "x-review": "pending"
+  },
+  "initiativesImGoing": "હું આવીશ",
+  "@initiativesImGoing": {
+    "x-review": "pending"
+  },
+  "initiativesYoureGoing": "તમે આવો છો",
+  "@initiativesYoureGoing": {
+    "x-review": "pending"
+  },
+  "initiativesCancelRsvp": "RSVP રદ કરો",
+  "@initiativesCancelRsvp": {
+    "x-review": "pending"
+  },
+  "initiativesRsvpCancelled": "RSVP રદ થયું",
+  "@initiativesRsvpCancelled": {
+    "x-review": "pending"
+  },
+  "initiativesFull": "આ કાર્યક્રમ ભરાઈ ગયો છે",
+  "@initiativesFull": {
+    "x-review": "pending"
+  },
+  "initiativesCancelledBanner": "આયોજકે રદ કર્યો",
+  "@initiativesCancelledBanner": {
+    "x-review": "pending"
+  },
+  "initiativesNotOpen": "આ કાર્યક્રમ RSVP લેતો નથી.",
+  "@initiativesNotOpen": {
+    "x-review": "pending"
+  },
+  "initiativesStarted": "આ કાર્યક્રમ શરૂ થઈ ગયો છે.",
+  "@initiativesStarted": {
+    "x-review": "pending"
+  },
+  "initiativesRemindFooter": "અમે એક દિવસ પહેલાં યાદ અપાવીશું.",
+  "@initiativesRemindFooter": {
+    "x-review": "pending"
+  },
+  "initiativesWhen": "ક્યારે",
+  "@initiativesWhen": {
+    "x-review": "pending"
+  },
+  "initiativesWhere": "ક્યાં",
+  "@initiativesWhere": {
+    "x-review": "pending"
+  },
+  "initiativesOpenInMaps": "નકશામાં ખોલો",
+  "@initiativesOpenInMaps": {
+    "x-review": "pending"
+  },
+  "initiativesSource": "સ્રોત",
+  "@initiativesSource": {
+    "x-review": "pending"
+  },
+  "initiativesNotFound": "આ કાર્યક્રમ હવે યાદીમાં નથી.",
+  "@initiativesNotFound": {
+    "x-review": "pending"
+  },
+  "initiativesRsvpError": "તમારું RSVP અપડેટ ન થયું. ફરી પ્રયાસ કરો.",
+  "@initiativesRsvpError": {
+    "x-review": "pending"
+  },
+  "initiativesCityWide": "આખા શહેર માટે",
+  "@initiativesCityWide": {
+    "x-review": "pending"
+  },
+  "initiativesTimeRange": "{date}, {start}–{end}",
+  "@initiativesTimeRange": {
+    "x-review": "pending"
+  },
+  "staffContentServicesTitle": "સેવાઓ",
+  "@staffContentServicesTitle": {
+    "x-review": "pending"
+  },
+  "staffContentInitiativesTitle": "કાર્યક્રમો",
+  "@staffContentInitiativesTitle": {
+    "x-review": "pending"
+  },
+  "staffContentTipsTitle": "મોસમી ટીપ્સ",
+  "@staffContentTipsTitle": {
+    "x-review": "pending"
+  },
+  "staffContentAttendanceTitle": "હાજરી",
+  "@staffContentAttendanceTitle": {
+    "x-review": "pending"
+  },
+  "staffContentForbidden": "તમને આ પેજની ઍક્સેસ નથી.",
+  "@staffContentForbidden": {
+    "x-review": "pending"
+  },
+  "staffContentLoadError": "આ પેજ લોડ ન થયું.",
+  "@staffContentLoadError": {
+    "x-review": "pending"
+  },
+  "staffContentBrokenOnly": "માત્ર તૂટેલી લિંક",
+  "@staffContentBrokenOnly": {
+    "x-review": "pending"
+  },
+  "staffContentLinkOk": "બરાબર",
+  "@staffContentLinkOk": {
+    "x-review": "pending"
+  },
+  "staffContentLinkBroken": "તૂટેલી {code}",
+  "@staffContentLinkBroken": {
+    "x-review": "pending"
+  },
+  "staffContentLinkNotChecked": "તપાસ્યું નથી",
+  "@staffContentLinkNotChecked": {
+    "x-review": "pending"
+  },
+  "staffContentLastChecked": "છેલ્લે તપાસ્યું {date}",
+  "@staffContentLastChecked": {
+    "x-review": "pending"
+  },
+  "staffContentVerified": "ચકાસ્યું {date}",
+  "@staffContentVerified": {
+    "x-review": "pending"
+  },
+  "staffContentCheckNow": "હમણાં લિંક તપાસો",
+  "@staffContentCheckNow": {
+    "x-review": "pending"
+  },
+  "staffContentDeactivate": "નિષ્ક્રિય કરો",
+  "@staffContentDeactivate": {
+    "x-review": "pending"
+  },
+  "staffContentInactive": "નિષ્ક્રિય",
+  "@staffContentInactive": {
+    "x-review": "pending"
+  },
+  "staffContentEdit": "ફેરફાર કરો",
+  "@staffContentEdit": {
+    "x-review": "pending"
+  },
+  "staffContentNewService": "નવી સેવા",
+  "@staffContentNewService": {
+    "x-review": "pending"
+  },
+  "staffContentNewInitiative": "નવો કાર્યક્રમ",
+  "@staffContentNewInitiative": {
+    "x-review": "pending"
+  },
+  "staffContentNewTip": "નવી ટીપ",
+  "@staffContentNewTip": {
+    "x-review": "pending"
+  },
+  "staffContentSave": "સાચવો",
+  "@staffContentSave": {
+    "x-review": "pending"
+  },
+  "staffContentSaved": "સાચવ્યું",
+  "@staffContentSaved": {
+    "x-review": "pending"
+  },
+  "staffContentDelete": "કાઢી નાખો",
+  "@staffContentDelete": {
+    "x-review": "pending"
+  },
+  "staffContentFieldSlug": "ટૂંકું નામ (slug)",
+  "@staffContentFieldSlug": {
+    "x-review": "pending"
+  },
+  "staffContentFieldCategory": "શ્રેણી",
+  "@staffContentFieldCategory": {
+    "x-review": "pending"
+  },
+  "staffContentFieldNameEn": "નામ (અંગ્રેજી)",
+  "@staffContentFieldNameEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldNameGu": "નામ (ગુજરાતી)",
+  "@staffContentFieldNameGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldDepartmentEn": "વિભાગ (અંગ્રેજી)",
+  "@staffContentFieldDepartmentEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldDepartmentGu": "વિભાગ (ગુજરાતી)",
+  "@staffContentFieldDepartmentGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldSummaryEn": "સારાંશ (અંગ્રેજી)",
+  "@staffContentFieldSummaryEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldSummaryGu": "સારાંશ (ગુજરાતી)",
+  "@staffContentFieldSummaryGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldHowToEn": "પગલાં (અંગ્રેજી)",
+  "@staffContentFieldHowToEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldHowToGu": "પગલાં (ગુજરાતી)",
+  "@staffContentFieldHowToGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldUrl": "સત્તાવાર લિંક (https)",
+  "@staffContentFieldUrl": {
+    "x-review": "pending"
+  },
+  "staffContentFieldOnline": "પૂરેપૂરું ઓનલાઇન થઈ શકે",
+  "@staffContentFieldOnline": {
+    "x-review": "pending"
+  },
+  "staffContentFieldWardOffice": "વોર્ડ ઓફિસ જવું પડે",
+  "@staffContentFieldWardOffice": {
+    "x-review": "pending"
+  },
+  "staffContentFieldSortOrder": "ક્રમ",
+  "@staffContentFieldSortOrder": {
+    "x-review": "pending"
+  },
+  "staffContentFieldActive": "સક્રિય",
+  "@staffContentFieldActive": {
+    "x-review": "pending"
+  },
+  "staffContentMarkVerified": "આજે માહિતી ચકાસી તરીકે નોંધો",
+  "@staffContentMarkVerified": {
+    "x-review": "pending"
+  },
+  "staffContentStepsPreview": "પૂર્વદર્શન",
+  "@staffContentStepsPreview": {
+    "x-review": "pending"
+  },
+  "staffContentErrorRequired": "જરૂરી છે.",
+  "@staffContentErrorRequired": {
+    "x-review": "pending"
+  },
+  "staffContentErrorHttps": "પૂરી https:// લિંક વાપરો.",
+  "@staffContentErrorHttps": {
+    "x-review": "pending"
+  },
+  "staffContentErrorSlug": "3–60 નાના અક્ષર, અંક કે ડેશ વાપરો.",
+  "@staffContentErrorSlug": {
+    "x-review": "pending"
+  },
+  "staffContentErrorSteps": "દરેક પગલું અલગ લીટીમાં \"1. …\" રીતે લખો.",
+  "@staffContentErrorSteps": {
+    "x-review": "pending"
+  },
+  "staffContentErrorNumber": "પૂર્ણાંક લખો.",
+  "@staffContentErrorNumber": {
+    "x-review": "pending"
+  },
+  "staffContentErrorSummary": "હાઇલાઇટ કરેલાં ખાનાં સુધારો.",
+  "@staffContentErrorSummary": {
+    "x-review": "pending"
+  },
+  "staffContentErrorSlugTaken": "આ ટૂંકું નામ પહેલેથી વપરાયું છે.",
+  "@staffContentErrorSlugTaken": {
+    "x-review": "pending"
+  },
+  "staffContentPublish": "પ્રકાશિત કરો",
+  "@staffContentPublish": {
+    "x-review": "pending"
+  },
+  "staffContentCancelDrive": "કાર્યક્રમ રદ કરો",
+  "@staffContentCancelDrive": {
+    "x-review": "pending"
+  },
+  "staffContentComplete": "પૂર્ણ તરીકે નોંધો",
+  "@staffContentComplete": {
+    "x-review": "pending"
+  },
+  "staffContentStatusDraft": "ડ્રાફ્ટ",
+  "@staffContentStatusDraft": {
+    "x-review": "pending"
+  },
+  "staffContentStatusPublished": "પ્રકાશિત",
+  "@staffContentStatusPublished": {
+    "x-review": "pending"
+  },
+  "staffContentStatusCancelled": "રદ",
+  "@staffContentStatusCancelled": {
+    "x-review": "pending"
+  },
+  "staffContentStatusCompleted": "પૂર્ણ",
+  "@staffContentStatusCompleted": {
+    "x-review": "pending"
+  },
+  "staffContentAttended": "હાજર",
+  "@staffContentAttended": {
+    "x-review": "pending"
+  },
+  "staffContentSaveAttendance": "હાજરી સાચવો",
+  "@staffContentSaveAttendance": {
+    "x-review": "pending"
+  },
+  "staffContentAttendanceLocked": "કાર્યક્રમ શરૂ થાય ત્યારે હાજરી નોંધી શકાશે.",
+  "@staffContentAttendanceLocked": {
+    "x-review": "pending"
+  },
+  "staffContentNoRsvps": "હજુ કોઈ RSVP નથી.",
+  "@staffContentNoRsvps": {
+    "x-review": "pending"
+  },
+  "staffContentPhoneLast4": "ફોન ••{digits}",
+  "@staffContentPhoneLast4": {
+    "x-review": "pending"
+  },
+  "staffContentFieldTitleEn": "શીર્ષક (અંગ્રેજી)",
+  "@staffContentFieldTitleEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldTitleGu": "શીર્ષક (ગુજરાતી)",
+  "@staffContentFieldTitleGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldBodyEn": "લખાણ (અંગ્રેજી)",
+  "@staffContentFieldBodyEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldBodyGu": "લખાણ (ગુજરાતી)",
+  "@staffContentFieldBodyGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldDescriptionEn": "વર્ણન (અંગ્રેજી)",
+  "@staffContentFieldDescriptionEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldDescriptionGu": "વર્ણન (ગુજરાતી)",
+  "@staffContentFieldDescriptionGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldOrganiserName": "આયોજકનું નામ",
+  "@staffContentFieldOrganiserName": {
+    "x-review": "pending"
+  },
+  "staffContentFieldSourceUrl": "સ્રોત લિંક (AMC માટે જરૂરી)",
+  "@staffContentFieldSourceUrl": {
+    "x-review": "pending"
+  },
+  "staffContentFieldPlaceEn": "મળવાનું સ્થળ (અંગ્રેજી)",
+  "@staffContentFieldPlaceEn": {
+    "x-review": "pending"
+  },
+  "staffContentFieldPlaceGu": "મળવાનું સ્થળ (ગુજરાતી)",
+  "@staffContentFieldPlaceGu": {
+    "x-review": "pending"
+  },
+  "staffContentFieldStart": "શરૂઆત (YYYY-MM-DD HH:MM)",
+  "@staffContentFieldStart": {
+    "x-review": "pending"
+  },
+  "staffContentFieldEnd": "સમાપ્તિ (YYYY-MM-DD HH:MM)",
+  "@staffContentFieldEnd": {
+    "x-review": "pending"
+  },
+  "staffContentFieldCapacity": "ક્ષમતા (ખાલી = મર્યાદા નહીં)",
+  "@staffContentFieldCapacity": {
+    "x-review": "pending"
+  },
+  "staffContentFieldServiceSlug": "જોડાયેલી સેવાનું ટૂંકું નામ (વૈકલ્પિક)",
+  "@staffContentFieldServiceSlug": {
+    "x-review": "pending"
+  },
+  "staffContentFieldActiveFrom": "ક્યારથી (YYYY-MM-DD)",
+  "@staffContentFieldActiveFrom": {
+    "x-review": "pending"
+  },
+  "staffContentFieldActiveTo": "ક્યાં સુધી (YYYY-MM-DD)",
+  "@staffContentFieldActiveTo": {
+    "x-review": "pending"
+  },
+  "staffContentErrorDate": "બતાવેલું ફોર્મેટ વાપરો.",
+  "@staffContentErrorDate": {
+    "x-review": "pending"
+  },
+  "servicesOfflineCached": "તમે ઓફલાઇન છો. છેલ્લી સાચવેલી યાદી બતાવીએ છીએ.",
+  "@servicesOfflineCached": {
+    "x-review": "pending"
   }
 }
