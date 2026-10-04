@@ -92,14 +92,16 @@ class _Layout extends ConsumerWidget {
   final Widget child;
 
   Widget _body(BuildContext context) {
+    // TASK-11: the ward dashboard is a representative's default page. Checked
+    // first: `/staff` belongs to the staff Dashboard item, which representatives
+    // don't hold, so the role check below would refuse it.
+    if (staff.role == 'representative' && location == '/staff') {
+      return const WardDashboardScreen();
+    }
     final owner = staffItemFor(location);
     if (location == '/staff/forbidden' ||
         (owner != null && !owner.roles.contains(staff.role))) {
       return StaffForbiddenView(showDashboard: staff.role != 'representative');
-    }
-    // TASK-11: the ward dashboard is a representative's default page.
-    if (staff.role == 'representative' && location == '/staff') {
-      return const WardDashboardScreen();
     }
     return child;
   }

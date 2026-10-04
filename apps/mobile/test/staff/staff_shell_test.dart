@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/features/staff/shared/staff_shared.dart';
 import 'package:saarthee/features/staff/shell/staff_shell.dart';
+import 'package:saarthee/features/staff/ward_dashboard/rep_console_api.dart';
+import 'package:saarthee/features/staff/ward_dashboard/ward_dashboard_screen.dart';
 
+import 'rep_console_fakes.dart';
 import 'staff_harness.dart';
 
 List<String> _navRoutes(WidgetTester t) => [
@@ -127,4 +130,19 @@ void main() {
       );
     },
   );
+
+  testWidgets('TASK-11 a representative at /staff gets the ward dashboard', (
+    t,
+  ) async {
+    // Regression (emulator 2026-10-04): `/staff` belongs to the Dashboard item,
+    // which representatives don't hold, so the role check refused the page.
+    await pumpStaff(
+      t,
+      location: '/staff',
+      role: 'representative',
+      overrides: [repConsoleApiProvider.overrideWithValue(FakeRepConsoleApi())],
+    );
+    expect(find.byType(WardDashboardScreen), findsOneWidget);
+    expect(find.byKey(const Key('staff.forbidden')), findsNothing);
+  });
 }
