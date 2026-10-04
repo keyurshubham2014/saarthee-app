@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-12 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P1 |
 | Size | M |
 | Depends On | TASK-02, TASK-03, TASK-04 |
 | Blocks | TASK-14 |
 | Requirement IDs | REQ-F-057, REQ-F-058, REQ-F-059, REQ-F-060, REQ-F-061, REQ-D-010 |
 | Primary Spec Refs | Spec §1 (independence), §3, §6 (`services`, `initiatives`, `rsvps`), §7 (Services & initiatives, Staff), §8 (`/services`, `/initiatives`), §9 (initiative reminders, quiet hours), §11; DS §1, §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons), §5, §6 (Motion: Initiative RSVP; Staff console), §7, §9 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -255,6 +255,17 @@ Spec §3 gives admins management of services and initiatives; moderators only re
 - ASSUMPTION: The RSVP morph runs only after the server confirms (no optimistic morph), because capacity can make the RSVP fail; the in-button progress (DS §5) covers the wait.
 - ASSUMPTION: The digit-roll widget `RollingCount` comes from TASK-03 if it provides one; otherwise whichever of TASK-07/TASK-08/TASK-12 lands first creates it in `lib/core/widgets/rolling_count.dart` and the others reuse it.
 - ASSUMPTION: Service and initiative copy in Gujarati is drafted by the implementer and reviewed by the native editor (Open Question #5) before TASK-14.
+- ASSUMPTION (2026-10-04, implementation): Seeded active services carry `verified_at` = 2026-10-03 00:00 IST, the date their URLs were found on the official sites (recorded in `prisma/seed-data/services-types.ts` `SERVICES_SOURCE`); `amc-schools` is inactive with `verified_at` NULL and the AMC home page as a placeholder URL (the `https://` CHECK needs a value).
+- ASSUMPTION: The link checker uses its own `node:https` transport that allows legacy TLS renegotiation and adds the public Sectigo "Public Server Authentication CA OV R36" intermediate (`src/lib/linkcheck/intermediates.ts`): `ahmedabadcity.gov.in` and `tender.nprocure.com` need both, which browsers and curl handle but Node's fetch does not, so every AMC link was falsely "broken" (`tls`). Certificate verification stays on; only HEAD/GET without credentials are sent.
+- ASSUMPTION: Retries apply to plain network errors only (one retry after 30 s); timeouts, DNS and TLS failures are recorded at once — retrying a 10 s timeout would make the monthly run slow and the spec names "network error".
+- ASSUMPTION: Staff audit entries are structured `staff_action` log lines through `staffAudit()` in `src/lib/audit` (`{actor, role, action, targetType, targetId}` + non-personal extras such as status from/to and counts) — the audit helper is log-based on main; TASK-10 may persist them.
+- ASSUMPTION: Error codes added: `INITIATIVE_STARTED` (409, cancel after the start), `INITIATIVE_NOT_STARTED` (409, attendance before the start) and `INVALID_TRANSITION` (409) besides the three named in §5.3. Status transitions: draft→published|cancelled, published→completed|cancelled, completed→cancelled; only cancelling a *published* drive notifies going citizens.
+- ASSUMPTION: `initiatives.location` is filled by a trigger from `lat`/`lng` (CHECK: both or neither), so the API and Prisma only write the two numbers.
+- ASSUMPTION: The app loads the whole directory (≈ 20 rows) once and filters category/search on the device over both languages, so search also works on the offline cache; the API's `?category&q` stays for other clients.
+- ASSUMPTION: Scheduled work is exported, not registered (wave-3 rule): `src/modules/services/jobs.ts` (`services-check-links`, cron `0 6 1 * *`, tz Asia/Kolkata) and `src/modules/initiatives/jobs.ts` (`initiatives-remind`, every 15 min); the integrator wires them into TASK-06's `src/jobs`. Both are also runnable by hand (`npm run services:check-links`, `npm run initiatives:remind`).
+- ASSUMPTION: The dev-seed monsoon tip runs 1 June–15 October (the city's monsoon often withdraws in early October), so a tip is visible on Home when the demo runs in early October; staff set real windows in production.
+- ASSUMPTION: Staff screens are standalone routes guarded by sign-in (`requireAccountRedirect`) and by the session's role (`StaffPage`, `StaffMotionScope`); rows are edited from their list (row passed as route `extra`). Ward is entered by number on staff forms. TASK-10 adds them to its `/staff` navigation.
+- ASSUMPTION: Reminder titles say "Tomorrow: …" as specified even when a drive is less than 24 h but more than 1 h away.
 
 ## 6. Implementation Steps
 
@@ -472,29 +483,54 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (all automated work done; emulator checks for the integrator)
 
-**Progress:** 0%
+**Progress:** 90% (remaining: emulator M-12-01, M-12-03, M-12-05..M-12-08; M-12-04 needs Firebase)
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migration (4 tables, CHECKs, location trigger), 18-service seed + `services:seed`, dev seed (6 drives, 3 tips), public/staff APIs, link checker, reminder job, privacy hooks, `jobs.ts` exports | 1762c44 |
+| 2026-10-04 | API tests T-12-01..T-12-14 (24 new tests; API suite 227 passed, 4 skipped) | 2d1297a |
+| 2026-10-04 | Link-checker transport for AMC TLS quirks; live check 16/17 OK | d7dea09 |
+| 2026-10-04 | App: services list/detail, initiatives list/detail, `RsvpButton` morph + `RollingCount`, Home tip/drives/shortcuts (P-03), My Ward services (P-08), staff screens, ARB en+gu (153 keys) | 4405138, e23d5bd |
+| 2026-10-04 | Widget tests T-12-15..T-12-21 (20 new; mobile suite 216 passed); staff steps preview | 69a1f79, 69f953f, 80642cf |
+
+Static checks (2026-10-04): API `npx tsc --noEmit` clean, `npx eslint .` clean, `npm run db:drift` clean, `npx vitest run` 227 passed / 4 skipped. Mobile `dart analyze` no issues, `dart format --set-exit-if-changed lib test` clean, `flutter test` 216 passed (includes the no-`Duration(`-literal and no-hard-coded-string guards).
+
+**M-12-02 — `services:check-links` against the live sites (2026-10-04, from the dev machine, UA `SaartheeLinkCheck/1.0`):**
+
+| Slug | Result | Note |
+|---|---|---|
+| property-tax-pay, property-tax-bill, property-name-transfer, professional-tax | OK 200 | |
+| birth-death-search, building-permission, fire-noc | OK 200 | |
+| amc-hospitals, urban-health-centres, amts, rti, civic-centres, amc-online-services | OK 200 | |
+| kankaria-tickets, riverfront, tenders | OK 200 | |
+| brts (`https://www.ahmedabadbrts.org`) | BROKEN — timeout | Also times out with curl (http and https) from this machine; flagged, URL kept (it may block non-Indian networks). Staff: re-check from the server; if still down, find the current Janmarg URL and edit the service. |
+| amc-schools | not checked (inactive) | URL still to verify (§5.6) |
+
+The first run reported every ahmedabadcity.gov.in / nprocure link as `tls` (Node refuses legacy renegotiation and the servers omit the Sectigo intermediate); fixed in the checker transport (§5.6), not in the data.
+
+Blocked / deferred:
+- M-12-04 (real push reminder on the emulator) — Deferred — needs a Firebase project and `PUSH_DRIVER=fcm`; the job itself is verified with the memory driver (T-12-08).
+- M-12-07 / M-12-08 recordings — need the emulator (integrator owns it).
+- Placeholder P-03/P-08 replaced; `find.byType(PlaceholderSection)` is still non-zero on Home and My Ward because P-01, P-02 (TASK-07/08) and P-07 (TASK-09) remain — T-12-18 checks P-03 and P-08 by key instead, and TASK-03's shell test now expects P-01..P-07 only.
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
-- [ ] All behavioral acceptance criteria verified in the running application
-- [ ] Non-functional checklist fully ticked
-- [ ] Automated tests added and passing
-- [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
-- [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
-- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-12` shows 0 unverified)
-- [ ] Task file progress log and status updated
-- [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-12: …`
-- [ ] Validator passes
-- [ ] Services and initiatives screens match Neem v2.2 visuals (tokens, type, radii, Rounded icons, no `sunrise`)
-- [ ] RSVP "Going" morph and rolling attendee count implemented with `SaartheeMotion` tokens; T-12-20 and T-12-21 pass
-- [ ] Motion recordings saved to `docs/demo/v2-evidence/motion/` (M-12-07, M-12-08)
+- [x] All implementation steps complete (step 16 manual checks: M-12-02 done; the rest need the emulator)
+- [ ] All behavioral acceptance criteria verified in the running application — integrator (emulator steps in the worker report)
+- [ ] Non-functional checklist fully ticked — p95 timing, TalkBack and 2.0× text need the emulator / a timed run
+- [x] Automated tests added and passing (T-12-01..T-12-21)
+- [x] Static checks pass and every AC verified by the checks in §8 (automated part)
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
+- [ ] Error, loading, empty, and unauthorized states verified — widget-tested; emulator pass pending
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
+- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence — REQ-D-010, REQ-F-058 Pass; four rows await the emulator
+- [x] Task file progress log and status updated
+- [ ] `00-task-summary.md` updated — integrator
+- [x] Committed as `V2-TASK-12: …`
+- [ ] Validator passes — integrator
+- [x] Services and initiatives screens match Neem v2.2 visuals (tokens, type, radii, Rounded icons, no `sunrise`) — by construction; emulator look pending
+- [x] RSVP "Going" morph and rolling attendee count implemented with `SaartheeMotion` tokens; T-12-20 and T-12-21 pass
+- [ ] Motion recordings saved to `docs/demo/v2-evidence/motion/` (M-12-07, M-12-08) — integrator
