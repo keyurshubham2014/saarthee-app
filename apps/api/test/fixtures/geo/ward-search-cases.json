@@ -1,0 +1,32 @@
+{
+  "description": "Ward search cases shared by API T-02-07 (test/geo/ward-search.test.ts) and app F-02-01 (ward_search_test.dart). Wards are real names from amc-ward-list.json.",
+  "wards": [
+    { "number": 6, "nameEn": "Nava Vadaj", "nameGu": "નવા વાડજ" },
+    { "number": 15, "nameEn": "Asarva", "nameGu": "અસારવા" },
+    { "number": 18, "nameEn": "Navrangpura", "nameGu": "નવરંગપુરા" },
+    { "number": 30, "nameEn": "Paldi", "nameGu": "પાલડી" },
+    { "number": 43, "nameEn": "Bhaipura-Hatkeshwar", "nameGu": "ભાઈપુરા-હાટકેશ્વર" },
+    { "number": 48, "nameEn": "Ramol-Hathijan", "nameGu": "રામોલ-હાથીજણ" }
+  ],
+  "cases": [
+    { "query": "", "expect": [6, 15, 18, 30, 43, 48] },
+    { "query": "paldi", "expect": [30] },
+    { "query": "PALDI", "expect": [30] },
+    { "query": "  Pal ", "expect": [30] },
+    { "query": "પાલડી", "expect": [30] },
+    { "query": "પાલ", "expect": [30] },
+    { "query": "nava", "expect": [6] },
+    { "query": "nav", "expect": [6, 18] },
+    { "query": "navavadaj", "expect": [6] },
+    { "query": "nava-vadaj", "expect": [6] },
+    { "query": "15", "expect": [15] },
+    { "query": "૧૫", "expect": [15] },
+    { "query": "Ward 15", "expect": [15] },
+    { "query": "વોર્ડ ૧૫", "expect": [15] },
+    { "query": "1", "expect": [] },
+    { "query": "bhaipura hatkeshwar", "expect": [43] },
+    { "query": "હાટકેશ્વર", "expect": [43] },
+    { "query": "ward", "expect": [6, 15, 18, 30, 43, 48] },
+    { "query": "zzz", "expect": [] }
+  ]
+}
