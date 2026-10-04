@@ -19,6 +19,7 @@ import 'duplicate_panel.dart';
 import 'motion/photo_fly_in.dart';
 import 'photo_strip.dart';
 import 'place_panel.dart';
+import 'pinned_action.dart';
 
 /// Step 2 "Add a photo and check the place" (TASK-05 §5.4).
 class StepPhoto extends ConsumerStatefulWidget {
@@ -239,8 +240,7 @@ class _StepPhotoState extends ConsumerState<StepPhoto> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(AppSpacing.gutter),
+        PinnedAction(
           child: PrimaryButton(
             key: const Key('report.continue'),
             label: l10n.commonContinue,

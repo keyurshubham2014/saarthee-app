@@ -10,6 +10,7 @@ import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../application/photo_pipeline.dart';
 import '../application/report_draft_controller.dart';
+import 'pinned_action.dart';
 
 /// `/report/photo/blur` (TASK-05 §5.4, REQ-S-007 P1): manual blur tool. Tap
 /// blurs a square around the point, drag blurs the dragged rectangle; Undo
@@ -156,11 +157,11 @@ class _BlurScreenState extends ConsumerState<BlurScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(AppSpacing.gutter),
+          PinnedAction(
             child: PrimaryButton(
               key: const Key('report.blur.done'),
               label: l10n.reportBlurDone,
+              pinned: true,
               isLoading: _saving,
               onPressed: _saving ? null : _done,
             ),

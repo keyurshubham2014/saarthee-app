@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/core/api/app_error.dart';
 import 'package:saarthee/core/capture/evidence_capture.dart';
 import 'package:saarthee/core/l10n/app_localizations_en.dart';
+import 'package:saarthee/core/theme/icons.dart';
 import 'package:saarthee/core/widgets/widgets.dart';
 import 'package:saarthee/features/report/application/report_draft_controller.dart';
 import 'package:saarthee/features/report/application/report_providers.dart';
@@ -290,6 +291,22 @@ void main() {
       );
     }
 
+    testWidgets('AMC hand-off icons match their actions (DS §4)', (t) async {
+      await submitAndOpen(t);
+      for (final (label, icon) in [
+        ('Open AMC complaint website', SaartheeIcons.openInNew),
+        ("Use AMC's WhatsApp", SaartheeIcons.chat),
+        ('Call 155303', SaartheeIcons.call),
+      ]) {
+        final button = find.ancestor(
+          of: find.text(label),
+          matching: find.byType(SecondaryButton),
+        );
+        await t.scrollUntilVisible(find.text(label), 200);
+        expect(t.widget<SecondaryButton>(button).icon, icon, reason: label);
+      }
+    });
+
     testWidgets(
       'primary AMC type in English, independence line, issue number',
       (t) async {
@@ -338,5 +355,22 @@ void main() {
         findsOneWidget,
       );
     });
+  });
+
+  group('pinned primary actions (DS §5)', () {
+    for (final (step, key) in [
+      (ReportStep.photo, 'report.continue'),
+      (ReportStep.details, 'report.submit'),
+    ]) {
+      testWidgets('$key is full width inside the gutters and 56 dp tall', (
+        t,
+      ) async {
+        await pumpReportApp(t, api: FakeReportApi(), draft: draftAt(step));
+        final size = t.getSize(find.byKey(Key(key)));
+        // 400 dp test screen − 2 × 16 dp gutters.
+        expect(size.width, 368);
+        expect(size.height, 56);
+      });
+    }
   });
 }

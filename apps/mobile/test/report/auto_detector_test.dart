@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/core/capture/blur/face_plate_detector.dart';
 import 'package:saarthee/core/capture/blur/mlkit_detector.dart';
+import 'package:saarthee/core/config/timings.dart';
 import 'package:saarthee/features/report/application/photo_pipeline.dart';
 
 import 'report_fakes.dart';
@@ -55,6 +56,17 @@ class FakeDetector implements FaceAndPlateDetector {
     if (error != null) return Future.error(error!);
     return Future.value(result);
   }
+}
+
+/// Answers after 120 ms (inside the tests' 200 ms detection timeout, after
+/// orientation, which is not counted against it).
+class SlowDetector implements FaceAndPlateDetector {
+  SlowDetector(this.result);
+  final List<BlurBox> result;
+
+  @override
+  Future<List<BlurBox>?> detect(String imagePath) =>
+      Future.delayed(const Duration(milliseconds: 120), () => result);
 }
 
 Future<Size?> size1000x500(String _) async => const Size(1000, 500);
@@ -139,6 +151,19 @@ void main() {
     test('returns the detector boxes', () async {
       const box = BlurBox(0.1, 0.1, 0.2, 0.2);
       expect(await run(FakeDetector(const [box])), [box]);
+    });
+
+    test('empty pass → [] (ran, found nothing), not null', () async {
+      expect(await run(FakeDetector(const [])), isEmpty);
+    });
+
+    test('slow detection inside the timeout keeps its boxes', () async {
+      const box = BlurBox(0.2, 0.2, 0.1, 0.1);
+      expect(await run(SlowDetector([box])), [box]);
+    });
+
+    test('timeout covers detection only and allows a cold ML Kit', () {
+      expect(AppTimings.blurDetectTimeout, const Duration(seconds: 10));
     });
 
     test('timeout → null', () async {
