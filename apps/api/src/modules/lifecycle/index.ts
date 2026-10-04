@@ -8,6 +8,7 @@ import { config } from '../../config';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { logger } from '../../lib/logger';
+import { writeAudit } from '../../lib/audit/staff';
 import { rateLimit } from '../../middleware/rateLimit';
 import { optionalUser, requireUser } from '../../middleware/requireUser';
 import { validate } from '../../middleware/validate';
@@ -71,6 +72,10 @@ lifecycleRouter.post('/issues/:id/status', requireUser, validate({ params: idPar
   if (actor.kind === 'reporter') await assertStatusQuota(user.id);
   const r = await transition(id, b.to, actor, { note: b.note, photoIds: b.photoIds, clientActionId: b.clientActionId, expectedStatus: b.expectedStatus });
   if (actor.kind !== 'reporter') logger.info({ requestId: req.id, actorId: user.id, role: user.role, action: 'issue_status_changed', targetId: id, to: b.to }, 'staff_action');
+  // TASK-11: representative actions are audited (ids and enums only, never the note).
+  if (actor.kind === 'representative' && !r.repeated) {
+    writeAudit({ requestId: req.id, actorId: user.id, actorKind: 'user', role: 'representative', action: 'rep_issue_status', targetType: 'issue', targetId: id, extra: { to: b.to, hasNote: Boolean(b.note?.trim()) } });
+  }
   const e = r.event;
   res.json({
     issue: serializeIssue(r.issue),
@@ -81,6 +86,8 @@ lifecycleRouter.post('/issues/:id/status', requireUser, validate({ params: idPar
 
 lifecycleRouter.post('/issues/:id/verifications', requireUser, validate({ params: idParams, body: verificationBody }), async (req, res) => {
   const { id } = res.locals.params as z.infer<typeof idParams>;
+  // TASK-11 (AC-10): verification is for residents only; representatives never verify.
+  if (req.user!.role === 'representative') throw new AppError('FORBIDDEN_ROLE');
   const r = await submitVerification(req.user!, id, req.body as z.infer<typeof verificationBody>, res);
   res.status(r.created ? 201 : 200).json(r.body);
 });

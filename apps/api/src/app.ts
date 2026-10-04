@@ -43,7 +43,8 @@ export function createApp() {
       next();
     });
   }
-  app.use(express.json({ limit: '64kb' }));
+  // TASK-11: signed webhooks (POST /webhooks/*) verify the HMAC over the exact bytes received.
+  app.use(express.json({ limit: '64kb', verify: (req, _res, buf) => { if (req.url?.startsWith('/api/v1/webhooks/')) (req as { rawBody?: Buffer }).rawBody = buf; } }));
   app.use('/api/v1', apiRouter);
   app.use(notFound);
   app.use(errorHandler);

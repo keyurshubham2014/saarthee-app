@@ -20,11 +20,12 @@ const mediaLimiter = rateLimit({ windowMs: 60_000, max: 120 });
 const fields = z
   .object({
     // TASK-06: after (mark fixed) and verification photos name the issue they are for.
-    purpose: z.enum(['report', 'after', 'verification'], { error: 'Must be report, after or verification.' }),
+    // TASK-11: rep_evidence = private representative-claim evidence (admin-only reads).
+    purpose: z.enum(['report', 'after', 'verification', 'rep_evidence'], { error: 'Must be report, after, verification or rep_evidence.' }),
     issueId: z.uuid().optional(),
     blurApplied: z.enum(['true', 'false']).optional().transform((v) => v === 'true'),
   })
-  .refine((b) => b.purpose === 'report' || b.issueId !== undefined, { path: ['issueId'], message: 'issueId is required for this purpose.' });
+  .refine((b) => b.purpose === 'report' || b.purpose === 'rep_evidence' || b.issueId !== undefined, { path: ['issueId'], message: 'issueId is required for this purpose.' });
 
 // V2 TASK-05: signed-in citizens only; the photo is owned (uploaded_by_user_id) and counted against
 // QUOTA_PHOTOS_PER_DAY. The v1 pipeline (re-encode, EXIF/GPS strip, resize) still applies.

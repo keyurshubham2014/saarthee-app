@@ -36,14 +36,27 @@ export interface TransitionResult {
   afterCommit: () => Promise<void>;
 }
 
-/** Verified, active representative's wards (empty when the user is not a verified representative). */
+/** Verified, active, in-term representative's wards (TASK-11 `rep_scope_wards_v`; MLA/MP via constituency). */
 export async function representativeWardIds(userId: string, db: Tx | typeof prisma = prisma): Promise<string[]> {
-  const rep = await db.representative.findUnique({
-    where: { userId },
-    select: { verifiedAt: true, isActive: true, areas: { select: { wardId: true } } },
-  });
-  if (!rep || !rep.verifiedAt || !rep.isActive) return [];
-  return rep.areas.map((a) => a.wardId).filter((w): w is string => w !== null);
+  const rows = await db.$queryRaw<{ ward_id: string }[]>`
+    SELECT DISTINCT ward_id::text FROM rep_scope_wards_v WHERE user_id = ${userId}::uuid`;
+  return rows.map((r) => r.ward_id);
+}
+
+/**
+ * TASK-11 pre-transition hooks: run inside the transaction after the row lock and before the state-machine
+ * table check (the representative ward-scope and rule-table guard registers here). Throw an AppError to refuse.
+ */
+export type PreTransitionHook = (
+  tx: Tx,
+  issue: Pick<Issue, 'id' | 'status' | 'wardId'>,
+  to: IssueStatus,
+  actor: TransitionActor,
+  opts: TransitionOptions,
+) => Promise<void>;
+const preTransitionHooks: PreTransitionHook[] = [];
+export function registerPreTransitionHook(hook: PreTransitionHook): void {
+  if (!preTransitionHooks.includes(hook)) preTransitionHooks.push(hook);
 }
 
 /** `reporter` when the user reported this issue, else their role. */
@@ -80,6 +93,7 @@ export async function transitionInTx(tx: Tx, issueId: string, to: IssueStatus, a
   if (opts.expectedStatus && opts.expectedStatus !== issue.status) {
     throw new AppError('STALE_STATUS', { details: [{ field: 'expectedStatus', issue: issue.status }] });
   }
+  for (const hook of preTransitionHooks) await hook(tx, issue, to, actor, opts);
   const check = checkTransition(issue.status, to, actor.kind);
   if (!check.ok) throw new AppError(check.code);
   const { rule } = check;

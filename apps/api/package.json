@@ -22,6 +22,8 @@
     "push:flush": "tsx --env-file=.env scripts/push-flush.ts",
     "alerts:ingest": "tsx --env-file=.env scripts/alerts-ingest.ts",
     "jobs:run": "tsx --env-file=.env scripts/jobs-run.ts",
+    "reps:expire": "tsx --env-file=.env scripts/reps-expire.ts",
+    "mail:inbound-sim": "tsx --env-file=.env scripts/mail-inbound-sim.ts",
     "push:test": "tsx --env-file=.env scripts/push-test.ts",
     "auth:emulator-check": "tsx --env-file=.env scripts/auth-emulator-check.ts",
     "test": "vitest run",

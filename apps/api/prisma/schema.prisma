@@ -34,6 +34,8 @@ enum PhotoPurpose {
   verification
   /// TASK-06: "after" photo attached when an issue is marked fixed.
   after
+  /// TASK-11: private claim evidence (admin-only reads, never attached to an issue).
+  rep_evidence
 
   @@map("photo_purpose")
 }
@@ -779,6 +781,10 @@ enum RepClaimStatus {
   pending
   approved
   rejected
+  /// TASK-11.
+  expired
+  revoked
+  withdrawn
 
   @@map("rep_claim_status")
 }
@@ -870,6 +876,12 @@ model RepClaim {
   decidedAt        DateTime?      @map("decided_at") @db.Timestamptz(6)
   note             String?        @db.VarChar(500)
   createdAt        DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// TASK-11 review fields (partial unique index rep_claims_one_pending lives in SQL only).
+  phoneMatch       Boolean        @default(false) @map("phone_match")
+  claimantNote     String?        @map("claimant_note") @db.VarChar(500)
+  rejectReason     String?        @map("reject_reason") @db.VarChar(300)
+  verifiedMethod   String?        @map("verified_method") @db.VarChar(30)
+  termEnd          DateTime?      @map("term_end") @db.Date
 
   representative Representative @relation(fields: [representativeId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_rep_claims_rep")
   user           User           @relation("RepClaimUser", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_rep_claims_user")
@@ -877,6 +889,7 @@ model RepClaim {
 
   @@index([representativeId], map: "idx_rep_claims_rep")
   @@index([userId], map: "idx_rep_claims_user")
+  @@index([status, createdAt], map: "idx_rep_claims_status_created")
   @@map("rep_claims")
 }
 
@@ -895,12 +908,20 @@ model RepMessage {
   providerMessageId String?          @map("provider_message_id") @db.VarChar(200)
   sentAt            DateTime?        @map("sent_at") @db.Timestamptz(6)
   createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// TASK-11 reply tracking (Reply-To reply+<token>@MAIL_REPLY_DOMAIN) and representative read state.
+  replyToken        String?          @map("reply_token") @db.Char(32)
+  repliedAt         DateTime?        @map("replied_at") @db.Timestamptz(6)
+  replyChannel      String?          @map("reply_channel") @db.VarChar(10)
+  replyBody         String?          @map("reply_body") @db.VarChar(2000)
+  readByRepAt       DateTime?        @map("read_by_rep_at") @db.Timestamptz(6)
 
   representative Representative @relation(fields: [representativeId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_rep_messages_rep")
   citizen        User?          @relation("RepMessageCitizen", fields: [citizenId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_rep_messages_citizen")
   issue          Issue?         @relation(fields: [issueId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_rep_messages_issue")
 
   @@unique([clientMessageId], map: "uq_rep_messages_client_message")
+  @@unique([replyToken], map: "uq_rep_messages_reply_token")
+  @@index([representativeId, createdAt], map: "idx_rep_messages_rep_created")
   @@index([citizenId, representativeId, createdAt], map: "idx_rep_messages_citizen_rep_created")
   @@index([status, nextAttemptAt], map: "idx_rep_messages_status")
   @@map("rep_messages")

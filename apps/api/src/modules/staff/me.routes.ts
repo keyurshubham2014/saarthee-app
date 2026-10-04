@@ -9,10 +9,10 @@ export const meRouter = Router();
 
 /** Server-side nav keys per role (§5.4 order); the app's StaffNavItem registry is the UX source. */
 export const STAFF_NAV: Record<StaffRole, string[]> = {
-  admin: ['dashboard', 'moderation', 'alerts', 'representatives', 'services', 'initiatives', 'tips', 'categories', 'users', 'settings', 'exports'],
+  admin: ['dashboard', 'moderation', 'alerts', 'representatives', 'services', 'initiatives', 'tips', 'categories', 'users', 'settings', 'exports', 'claims'],
   moderator: ['dashboard', 'moderation', 'alerts'],
-  // TASK-11 adds ward_dashboard, ward_issues, messages when its screens land.
-  representative: [],
+  // TASK-11 representative console.
+  representative: ['ward_dashboard', 'ward_issues', 'messages'],
 };
 
 meRouter.get('/staff/me', ...allStaff, async (req, res) => {

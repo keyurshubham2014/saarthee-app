@@ -24,6 +24,9 @@ import { lifecycleRouter } from './modules/lifecycle';
 import { escalationRouter } from './modules/escalation';
 import { staffRouter } from './modules/staff';
 import { flagsRouter } from './modules/flags';
+import { repClaimsRouter } from './modules/rep-claims';
+import { wardDashboardRouter } from './modules/ward-dashboard';
+import { repMessagesRouter } from './modules/rep-messages';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -58,3 +61,7 @@ apiRouter.use(escalationRouter);
 // TASK-10: staff console (moderation, issue tools, users & roles, categories, settings, exports) and citizen flags.
 apiRouter.use(staffRouter);
 apiRouter.use(flagsRouter);
+// TASK-11: representative claims, ward dashboard/actions (registers the representative transition hook), messages.
+apiRouter.use(repClaimsRouter);
+apiRouter.use(wardDashboardRouter);
+apiRouter.use(repMessagesRouter);

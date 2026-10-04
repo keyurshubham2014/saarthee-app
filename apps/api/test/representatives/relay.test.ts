@@ -40,7 +40,7 @@ describe('relay happy path (T-09-03, AC-3)', () => {
     expect(mail.sent).toHaveLength(1);
     const m = mail.sent[0]!;
     expect(m.to).toBe('office.test@example.org');
-    expect(m.replyTo).toBe('ops@saarthee.in');
+    expect(m.replyTo).toMatch(/^reply\+[0-9a-f]{32}@reply\.saarthee\.local$/); // TASK-11 reply tracking
     expect(m.subject).toBe('[Saarthee] Message from a resident of Ward 1 Alpha: Streetlight out on our lane');
     expect(m.text).toContain(`/issues/${issue.id}`);
     expect(m.text).toContain('The resident chose not to share their phone number.');

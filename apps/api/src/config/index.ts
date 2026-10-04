@@ -117,6 +117,12 @@ const schema = z.object({
   AUDIT_RETENTION_DAYS: int(1).default(365),
   EXPORT_MAX_ROWS: int(1).default(50_000),
   EXPORT_HMAC_SECRET: optionalEmpty(z.string().min(16)),
+  // TASK-11 representative claims, ward dashboard, reply-by-email tracking.
+  REP_CLAIM_MAX_PER_DAY: int(1).default(3),
+  REP_EXPORT_MAX_PER_HOUR: int(1).default(10),
+  MAIL_INBOUND_SECRET: optionalEmpty(z.string().min(16)),
+  MAIL_REPLY_DOMAIN: z.string().regex(/^[a-z0-9.-]+$/).default('reply.saarthee.local'),
+  REP_DASHBOARD_HOTSPOT_CELL_M: int(10).max(5000).default(150),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;

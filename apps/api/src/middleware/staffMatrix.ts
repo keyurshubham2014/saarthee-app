@@ -74,4 +74,18 @@ export const STAFF_MATRIX: Record<string, StaffRole[]> = {
   'POST /staff/tips': A,
   'PATCH /staff/tips/:id': A,
   'DELETE /staff/tips/:id': A,
+  // TASK-11 — representative claims (moderators read; evidence and decisions admin only), ward console, messages.
+  'GET /staff/rep-claims': AM,
+  'GET /staff/rep-claims/:id': AM,
+  'GET /staff/rep-claims/:id/evidence/:photoId': A,
+  'POST /staff/rep-claims/:id/decide': A,
+  'POST /staff/representatives/:id/revoke-verification': A,
+  'GET /staff/ward/scope': AMR,
+  'GET /staff/ward-dashboard': AMR,
+  'GET /staff/ward-dashboard/export': AMR,
+  'GET /staff/ward/issues': AMR,
+  'POST /staff/issues/:id/comments': AMR,
+  'GET /staff/rep-messages': ['representative'],
+  'GET /staff/rep-messages/:id': ['representative'],
+  'POST /staff/rep-messages/:id/reply': ['representative'],
 };

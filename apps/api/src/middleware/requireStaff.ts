@@ -69,13 +69,11 @@ async function resolve(token: string): Promise<{ actorId: string; actorKind: 'us
 }
 
 /**
- * TASK-10: wards a representative serves — `representatives.user_id → representative_areas.ward_id` (verified,
- * active link only). TASK-11 replaces this with its `rep_scope_wards_v` view (MLA/MP wards via ward_constituency).
+ * Wards a representative serves (TASK-11 `rep_scope_wards_v`): verified, active and in term (request-time
+ * term check), corporator wards plus MLA/MP wards through ward_constituency.
  */
 export async function representativeWardIds(userId: string): Promise<string[]> {
-  const rows = await prisma.representativeArea.findMany({
-    where: { wardId: { not: null }, representative: { userId, isActive: true, verifiedAt: { not: null } } },
-    select: { wardId: true },
-  });
-  return [...new Set(rows.map((r) => r.wardId!))];
+  const rows = await prisma.$queryRaw<{ ward_id: string }[]>`
+    SELECT DISTINCT ward_id::text FROM rep_scope_wards_v WHERE user_id = ${userId}::uuid`;
+  return rows.map((r) => r.ward_id);
 }

@@ -28,6 +28,22 @@ export function initials(nameEn: string): string {
 
 const isoDate = (d: Date | null) => (d ? d.toISOString().slice(0, 10) : null);
 
+/** TASK-11: verification is per term — it ends at term_end (IST calendar date) even before reps:expire runs. */
+function termOver(termEnd: Date | null, at = new Date()): boolean {
+  if (!termEnd) return false;
+  const ist = new Date(at.getTime() + 330 * 60_000);
+  return termEnd.getTime() < Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate());
+}
+
+/** TASK-11 public verification block (method, date, valid until) — never the linked user or claimant. */
+export async function verificationOf(r: { id: string; verifiedAt: Date | null; verifiedMethod: string | null; termEnd: Date | null }) {
+  if (r.verifiedAt && !termOver(r.termEnd)) {
+    return { status: 'verified' as const, method: r.verifiedMethod, verifiedAt: r.verifiedAt.toISOString(), validUntil: isoDate(r.termEnd) };
+  }
+  const ended = r.verifiedAt !== null || (await prisma.repClaim.count({ where: { representativeId: r.id, status: 'expired' } })) > 0;
+  return { status: ended ? ('expired' as const) : ('unverified' as const), method: null, verifiedAt: null, validUntil: null };
+}
+
 export function summary(r: RepRow, wardNumber?: number) {
   const ac = r.areas.find((a) => a.assemblyConstituency)?.assemblyConstituency;
   const ward = r.areas.find((a) => a.ward)?.ward;
@@ -42,7 +58,7 @@ export function summary(r: RepRow, wardNumber?: number) {
     acNameGu: r.role === 'mla' ? (ac?.nameGu ?? null) : r.role === 'mp' ? (ac?.pcNameGu ?? null) : null,
     initials: initials(r.nameEn),
     canMessage: r.isActive && r.publicEmail !== null,
-    verified: r.verifiedAt !== null,
+    verified: r.verifiedAt !== null && !termOver(r.termEnd),
   };
 }
 
@@ -116,5 +132,6 @@ export async function representativeDetail(id: string) {
           },
     ),
     electionMode: await electionStatus(wardIds[0]),
+    verification: await verificationOf(r),
   };
 }

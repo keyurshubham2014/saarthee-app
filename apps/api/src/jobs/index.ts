@@ -4,6 +4,7 @@ import { jobs as initiativeJobs } from '../modules/initiatives/jobs';
 import { lifecycleJobs } from '../modules/lifecycle/jobs';
 import { jobs as representativeJobs } from '../modules/representatives/jobs';
 import { jobs as serviceJobs } from '../modules/services/jobs';
+import { jobs as repClaimJobs } from '../modules/rep-claims/jobs';
 import { listJobs, registerJobs } from './runner';
 import type { JobDefinition } from './types';
 
@@ -33,6 +34,8 @@ export function appJobs(): JobDefinition[] {
     ...[...serviceJobs, ...initiativeJobs].map((j): JobDefinition => ({ ...j, run: async () => void (await j.run()) })),
     // TASK-06: hourly SLA overdue flag + notification, CCRS 24 h reopen reminder.
     ...lifecycleJobs,
+    // TASK-11: daily representative verification expiry at term end.
+    ...repClaimJobs.map((j): JobDefinition => ({ ...j, run: async () => void (await j.run()) })),
   ];
 }
 
