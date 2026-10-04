@@ -256,7 +256,7 @@ void main() {
     await t.pumpAndSettle();
     expect(
       api.calls,
-      containsAllInOrder(['upload:10', 'status:i1:marked_fixed:photo-1']),
+      containsAllInOrder(['upload:i1:10', 'status:i1:marked_fixed:photo-1']),
     );
     await _drain(t);
   });

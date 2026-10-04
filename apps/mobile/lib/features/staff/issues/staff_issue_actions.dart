@@ -139,7 +139,8 @@ class _StaffIssueActionsState extends ConsumerState<StaffIssueActions> {
               if (input == null) return;
               await _run('mark_fixed', (api) async {
                 final photos = <String>[
-                  if (input.photo != null) await api.uploadPhoto(input.photo!),
+                  if (input.photo != null)
+                    await api.uploadPhoto(issue.id, input.photo!),
                 ];
                 await api.status(
                   issue.id,
