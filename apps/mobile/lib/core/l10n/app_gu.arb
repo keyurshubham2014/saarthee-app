@@ -3730,5 +3730,301 @@
   "staffContentFieldOrganiser": "આયોજક ({options})",
   "@staffContentFieldOrganiser": {
     "x-review": "pending"
+  },
+  "issueActionsStatusAnnounce": "સ્થિતિ બદલાઈ: {status}",
+  "@issueActionsStatusAnnounce": {
+    "x-review": "pending"
+  },
+  "issueActionsStatusFixedUnverified": "ઉકેલાયેલ (ચકાસાયેલ નથી)",
+  "@issueActionsStatusFixedUnverified": {
+    "x-review": "pending"
+  },
+  "issueActionsActorResident": "{ward}ના એક રહેવાસી",
+  "@issueActionsActorResident": {
+    "x-review": "pending"
+  },
+  "issueActionsActorCorporator": "વોર્ડ કોર્પોરેટર {name}",
+  "@issueActionsActorCorporator": {
+    "x-review": "pending"
+  },
+  "issueActionsActorRepresentative": "પ્રતિનિધિ {name}",
+  "@issueActionsActorRepresentative": {
+    "x-review": "pending"
+  },
+  "issueActionsActorModerator": "સારથી મોડરેટર",
+  "@issueActionsActorModerator": {
+    "x-review": "pending"
+  },
+  "issueActionsActorSystem": "સારથી",
+  "@issueActionsActorSystem": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineTitle": "શું થયું",
+  "@issueActionsTimelineTitle": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineAnswerFixed": "ઉકેલાયું હોવાનું કહ્યું",
+  "@issueActionsTimelineAnswerFixed": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineAnswerNotFixed": "હજી ઉકેલાયું નથી એમ કહ્યું",
+  "@issueActionsTimelineAnswerNotFixed": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineEscalated": "આગળ રજૂઆત કરી",
+  "@issueActionsTimelineEscalated": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineCcrsLinked": "AMC ફરિયાદ જોડાઈ",
+  "@issueActionsTimelineCcrsLinked": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineCcrsClosed": "AMCએ ફરિયાદ બંધ કરી",
+  "@issueActionsTimelineCcrsClosed": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineOverdue": "લક્ષ્ય તારીખ વીતી ગઈ",
+  "@issueActionsTimelineOverdue": {
+    "x-review": "pending"
+  },
+  "issueActionsTimelineAfterPhoto": "પછીનો ફોટો",
+  "@issueActionsTimelineAfterPhoto": {
+    "x-review": "pending"
+  },
+  "issueActionsDetailTitle": "સમસ્યા",
+  "@issueActionsDetailTitle": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyTitle": "ઉકેલાયું છે?",
+  "@issueActionsVerifyTitle": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyBefore": "પહેલાં",
+  "@issueActionsVerifyBefore": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyAfter": "પછી",
+  "@issueActionsVerifyAfter": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyNoPhoto": "હજી ફોટો નથી",
+  "@issueActionsVerifyNoPhoto": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyYes": "હા, ઉકેલાઈ ગયું છે",
+  "@issueActionsVerifyYes": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyNo": "હજી ઉકેલાયું નથી",
+  "@issueActionsVerifyNo": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyClosed": "આ સમસ્યા હવે તપાસી શકાતી નથી.",
+  "@issueActionsVerifyClosed": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyPhotoTitle": "જગ્યા પર ફોટો લો",
+  "@issueActionsVerifyPhotoTitle": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyTakePhoto": "ફોટો લો",
+  "@issueActionsVerifyTakePhoto": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyRetake": "ફરી લો",
+  "@issueActionsVerifyRetake": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyLocating": "તમારું સ્થાન શોધી રહ્યા છીએ…",
+  "@issueActionsVerifyLocating": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyDistance": "તમે સમસ્યાથી લગભગ {metres} મી. દૂર છો.",
+  "@issueActionsVerifyDistance": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyTooFar": "ચકાસવા માટે તમે સમસ્યાથી {radius} મી.ની અંદર હોવા જોઈએ. તમે લગભગ {metres} મી. દૂર છો.",
+  "@issueActionsVerifyTooFar": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyInaccurate": "સ્થાન અંદાજિત છે. ખુલ્લામાં જઈને ફરી પ્રયાસ કરો.",
+  "@issueActionsVerifyInaccurate": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyNoteLabel": "કંઈ ઉમેરવું છે? (વૈકલ્પિક)",
+  "@issueActionsVerifyNoteLabel": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifySend": "મોકલો",
+  "@issueActionsVerifySend": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifySending": "મોકલી રહ્યા છીએ",
+  "@issueActionsVerifySending": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyRetryUpload": "ફરી અપલોડ કરો",
+  "@issueActionsVerifyRetryUpload": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyAlready": "તમે આજે જવાબ આપી દીધો છે. આભાર.",
+  "@issueActionsVerifyAlready": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyOffline": "તમે ઓફલાઇન છો. તમારો જવાબ રાખ્યો છે અને ઓનલાઇન થતાં મોકલાશે.",
+  "@issueActionsVerifyOffline": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyToastVerified": "તપાસવા બદલ આભાર. હવે તે ચકાસાયેલ છે.",
+  "@issueActionsVerifyToastVerified": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyToastReopened": "તપાસવા બદલ આભાર. તે ફરી ખોલાયું છે.",
+  "@issueActionsVerifyToastReopened": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyToastRecorded": "તપાસવા બદલ આભાર. તમારો જવાબ નોંધાયો છે.",
+  "@issueActionsVerifyToastRecorded": {
+    "x-review": "pending"
+  },
+  "issueActionsVerifyCta": "ઉકેલાયું છે કે નહીં તપાસો",
+  "@issueActionsVerifyCta": {
+    "x-review": "pending"
+  },
+  "issueActionsMarkFixedTitle": "ઉકેલાયેલ તરીકે ચિહ્નિત કરો",
+  "@issueActionsMarkFixedTitle": {
+    "x-review": "pending"
+  },
+  "issueActionsMarkFixedAddPhoto": "પછીનો ફોટો ઉમેરો (વૈકલ્પિક)",
+  "@issueActionsMarkFixedAddPhoto": {
+    "x-review": "pending"
+  },
+  "issueActionsMarkFixedNote": "નોંધ (વૈકલ્પિક)",
+  "@issueActionsMarkFixedNote": {
+    "x-review": "pending"
+  },
+  "issueActionsMarkFixedHelper": "પડોશીઓને ફોટો સાથે ખાતરી કરવા કહેવામાં આવશે.",
+  "@issueActionsMarkFixedHelper": {
+    "x-review": "pending"
+  },
+  "issueActionsMarkFixedDone": "ઉકેલાયેલ તરીકે ચિહ્નિત કર્યું.",
+  "@issueActionsMarkFixedDone": {
+    "x-review": "pending"
+  },
+  "issueActionsRemovePhoto": "ફોટો દૂર કરો",
+  "@issueActionsRemovePhoto": {
+    "x-review": "pending"
+  },
+  "issueActionsStale": "તમે અહીં હતા ત્યારે આ સમસ્યા બદલાઈ.",
+  "@issueActionsStale": {
+    "x-review": "pending"
+  },
+  "issueActionsReload": "ફરી લોડ કરો",
+  "@issueActionsReload": {
+    "x-review": "pending"
+  },
+  "issueActionsForbidden": "તમે આ સમસ્યા બદલી શકતા નથી.",
+  "@issueActionsForbidden": {
+    "x-review": "pending"
+  },
+  "issueActionsAcknowledge": "સ્વીકારો",
+  "@issueActionsAcknowledge": {
+    "x-review": "pending"
+  },
+  "issueActionsStartWork": "કામ શરૂ કરો",
+  "@issueActionsStartWork": {
+    "x-review": "pending"
+  },
+  "issueActionsReject": "અસ્વીકાર કરો",
+  "@issueActionsReject": {
+    "x-review": "pending"
+  },
+  "issueActionsRejectReason": "કારણ (નોંધાવનારને દેખાશે)",
+  "@issueActionsRejectReason": {
+    "x-review": "pending"
+  },
+  "issueActionsUpdated": "અપડેટ થયું.",
+  "@issueActionsUpdated": {
+    "x-review": "pending"
+  },
+  "issueActionsEscalateCta": "આગળ રજૂઆત કરો",
+  "@issueActionsEscalateCta": {
+    "x-review": "pending"
+  },
+  "issueActionsEscalateTitle": "આ સમસ્યાની આગળ રજૂઆત કરો",
+  "@issueActionsEscalateTitle": {
+    "x-review": "pending"
+  },
+  "issueActionsLevelCorporators": "કોર્પોરેટરો",
+  "@issueActionsLevelCorporators": {
+    "x-review": "pending"
+  },
+  "issueActionsLevelZoneOffice": "ઝોન કચેરી",
+  "@issueActionsLevelZoneOffice": {
+    "x-review": "pending"
+  },
+  "issueActionsLevelDmc": "ડેપ્યુટી મ્યુનિસિપલ કમિશનર",
+  "@issueActionsLevelDmc": {
+    "x-review": "pending"
+  },
+  "issueActionsLevelCommissioner": "મ્યુનિસિપલ કમિશનર",
+  "@issueActionsLevelCommissioner": {
+    "x-review": "pending"
+  },
+  "issueActionsSuggested": "સૂચવેલ",
+  "@issueActionsSuggested": {
+    "x-review": "pending"
+  },
+  "issueActionsMessagePreview": "સંદેશ",
+  "@issueActionsMessagePreview": {
+    "x-review": "pending"
+  },
+  "issueActionsMessageCorporator": "{name}ને સંદેશ મોકલો",
+  "@issueActionsMessageCorporator": {
+    "x-review": "pending"
+  },
+  "issueActionsEmailTarget": "{label}ને ઇમેઇલ કરો",
+  "@issueActionsEmailTarget": {
+    "x-review": "pending"
+  },
+  "issueActionsCallTarget": "{label}ને ફોન કરો",
+  "@issueActionsCallTarget": {
+    "x-review": "pending"
+  },
+  "issueActionsCopyMessage": "સંદેશ કૉપિ કરો",
+  "@issueActionsCopyMessage": {
+    "x-review": "pending"
+  },
+  "issueActionsCopied": "સંદેશ કૉપિ થયો.",
+  "@issueActionsCopied": {
+    "x-review": "pending"
+  },
+  "issueActionsShare": "શેર કરો",
+  "@issueActionsShare": {
+    "x-review": "pending"
+  },
+  "issueActionsEscalateNote": "સારથી તમારા માટે આ સંદેશ તૈયાર કરે છે. આ સત્તાવાર ફરિયાદ નથી.",
+  "@issueActionsEscalateNote": {
+    "x-review": "pending"
+  },
+  "issueActionsCcrsQuestion": "AMCએ તમારી ફરિયાદ બંધ કરી?",
+  "@issueActionsCcrsQuestion": {
+    "x-review": "pending"
+  },
+  "issueActionsCcrsYes": "હા, AMCએ બંધ કરી",
+  "@issueActionsCcrsYes": {
+    "x-review": "pending"
+  },
+  "issueActionsCcrsBanner": "AMC કહે છે કે તે બંધ છે. જો ઉકેલાયું ન હોય, તો {time} પહેલાં (24 કલાક) AMCની સાઇટ પર ફરી ખોલો.",
+  "@issueActionsCcrsBanner": {
+    "x-review": "pending"
+  },
+  "issueActionsCcrsOpenSite": "AMC સાઇટ ખોલો",
+  "@issueActionsCcrsOpenSite": {
+    "x-review": "pending"
+  },
+  "issueActionsCcrsVerify": "ઉકેલાયું છે — ચકાસો",
+  "@issueActionsCcrsVerify": {
+    "x-review": "pending"
   }
 }
