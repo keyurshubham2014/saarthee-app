@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-08 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-02, TASK-04 |
 | Blocks | TASK-14 |
 | Requirement IDs | REQ-F-035, REQ-F-036, REQ-F-037, REQ-F-038, REQ-F-039, REQ-F-040, REQ-F-041, REQ-D-009, REQ-S-011, REQ-F-065 |
 | Primary Spec Refs | Spec §2 (D3, D9), §3, §6 (`alerts`, `alert_wards`, `subscriptions`, `notifications`), §7 (Alerts, Staff), §8 (`/alerts*`, `/staff/*`), §9, §11; DS §1, §2 (alert severity), §3, §4 (radii, Rounded icons), §5 (Alert card, Banners, Toast), §6 (Motion: New alert while open, Inbox), §7 (accessibility), §8 (Alert flow), §9 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -218,6 +218,17 @@ Staff identity contract (shared with TASK-09/TASK-10/TASK-11): staff routes use 
 - ASSUMPTION: Swipe-to-read marks read only (no delete; no undo); swiping an already-read row does nothing. TalkBack users get the same via a custom semantics action.
 - ASSUMPTION: The digit-roll widget `RollingCount` comes from TASK-03 if it provides one; otherwise whichever of TASK-07/TASK-08/TASK-12 lands first creates it in `lib/core/widgets/rolling_count.dart` and the others reuse it.
 - ASSUMPTION: TASK-08 does not depend on TASK-06; if TASK-06's `src/jobs` runner has not landed, this task creates it with TASK-06's contract (`JOBS_ENABLED`, advisory lock per job, `npm run jobs:run -- <name>`) and TASK-06 reuses it.
+- ASSUMPTION (landed): the shared runner `apps/api/src/jobs` was created here first (commit b9f4092): registry of `{name, everyMs | cron, run}` with a tiny built-in 5-field cron matcher (no new dependency), one `pg_try_advisory_xact_lock(hashtext('saarthee.job:<name>'))` per run held in a transaction plus an in-process no-overlap flag, scheduler started by `server.ts` only when `JOBS_ENABLED=true` (default false), `npm run jobs:run -- <name|--list>`. `push-flush` (every 5 min) and `alerts-expire` (every minute) are registered; modules export jobs and the integrator appends them in `appJobs()`.
+- ASSUMPTION: ward and zone ids are UUIDs (TASK-02), so `GET /alerts?wards=` takes ward ids, `target.wardIds`/`zoneId`, `alerts.target_zone_id` and `subscriptions.scope_id` are `uuid`; topics still use the ward number (`ward_12`) and the lower-cased zone code (`zone_west`).
+- ASSUMPTION: the staff guard is a new `requireStaff(...roles)` middleware (`src/middleware/requireStaff.ts`) implementing the §5.5 contract (v2 user token with current DB role, or a v1 admin JWT as `admin`; sets `req.staff`) instead of changing TASK-04's `requireRole`, so citizen routes are untouched. Audit lines use a new `staffAudit()` with actor id/kind/role and alert id only.
+- ASSUMPTION: filtered device sends are stored as one `notifications` row per batch of ≤ 500 devices in a new additive column `target_device_ids uuid[]`; each device gets its own push language. Visitors' home ward for matching lives in a new additive `devices.home_ward_id`, set by `PUT /devices/{installId}/subscriptions`.
+- ASSUMPTION: the Android notification `tag` is derived from the row (`alert:<ref_id>` for `kind=alert`), so held rows flushed later keep it without a new column.
+- ASSUMPTION: `GET/PUT …/subscriptions` also return `topics` (base topics without `__lang`, empty when preferences are custom); the app stores them and the TASK-04 push registrar subscribes `<topic>__<lang>` (additive change in `lib/core/push/push_registrar.dart`).
+- ASSUMPTION: the real SACHET feed for Gujarat is the RSS `https://sachet.ndma.gov.in/cap_public_website/rss/rss_gujarat.xml` (the `CapFeed` URL serves an HTML page); CAP files use the `cap:` prefix and have no inline polygon (a separate "Polygon URL" parameter), so Ahmedabad matching uses `areaDesc` plus inline polygons when present. Fixtures: the real RSS structure, one real CAP file (Amreli) and two fictional Ahmedabad CAP files in the same format.
+- ASSUMPTION: the inbox route `/me/notifications` lives in the My Ward branch; the bell is on the Alerts tab app bar and opens it (Home header bell is TASK-07's).
+- ASSUMPTION: no foreground FCM stream existed (FCM is Deferred in TASK-04), so `lib/core/push/foreground_push.dart` adds one (`ForegroundPush.deliver`) for the future FCM implementation; until then the banner is also raised when a reload of the active list contains a new alert id.
+- ASSUMPTION: `RollingCount` already exists (TASK-03 `lib/core/widgets/rolling_count.dart`) and is reused for the bell badge.
+- ASSUMPTION: staff screens use a local `StaffPageScaffold` + `StaffNavItem` registry (`features/staff/shared/staff_shared.dart`) and `lib/router/staff_routes.dart` until TASK-10's console shell lands; they are reachable at `/staff/alerts` for signed-in moderator/admin sessions (UX check; the API enforces roles). Approval times are not stored (`approved_by` is an id array), so the panel shows names and roles only.
 
 ## 6. Implementation Steps
 
@@ -475,30 +486,40 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (all automated work done; emulator checks and FCM/IMD items pending)
 
-**Progress:** 0%
+**Progress:** 90%
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Shared job runner `src/jobs` (TASK-06 contract) + tests | b9f4092 |
+| 2026-10-04 | Migration, Prisma models, config, clock, quiet hours, `requireStaff`, push `notifyDevices`/tag/withdraw | 4878a22 |
+| 2026-10-04 | Alerts API + staff-alerts API, T-08-02..06, T-08-16 | dc0f8bc |
+| 2026-10-04 | SACHET CAP adapter (drafts only), `alerts-expire`, `alerts:ingest`, fixtures from the live feed, T-08-15; M-08-02 dry run on the live feed: 10 items, 0 Ahmedabad, failed=0 | a7143d1 |
+| 2026-10-04 | T-08-07..14, privacy export/erasure for subscriptions | a26e8c4 |
+| 2026-10-04 | Dev seed (every severity/status, subscriptions, inbox rows) | ba4fa8d |
+| 2026-10-04 | App: Alerts tab, detail, settings, inbox + bell, in-app banner, shared alert widgets | e47d9b6 |
+| 2026-10-04 | Widget tests W-08-01..05, W-08-07, W-08-08 | 08c0f3f |
+| 2026-10-04 | Staff list/composer/approval screens, W-08-06 | 95bd89d |
+| 2026-10-04 | IMD access: not requested by this worker — `Deferred — IMD access` (founder action, Open Question 4) | — |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete (IMD adapter Deferred — IMD access)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the tests and manual checks in §8
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing (API 241 passed + 4 skipped, mobile 217)
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-08` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-08: …`
+- [x] Committed as `V2-TASK-08: …`
 - [ ] Validator passes
 - [ ] Alert cards and banners match Neem v2.2 (radius 18, no side bars, Rounded icons, Neem type)
-- [ ] REQ-F-065 motion implemented with `SaartheeMotion` tokens only; W-08-07 and W-08-08 pass
+- [x] REQ-F-065 motion implemented with `SaartheeMotion` tokens only; W-08-07 and W-08-08 pass
 - [ ] Reduced-motion variants verified (system setting and in-app switch)
 - [ ] Motion screen recordings saved to `docs/demo/v2-evidence/motion/` (M-08-09, M-08-10)
