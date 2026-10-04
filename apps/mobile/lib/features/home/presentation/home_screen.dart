@@ -9,6 +9,7 @@ import '../../../core/wards/ward_providers.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/presentation/ward_picker_sheet.dart';
 import '../../me/presentation/push_prompt_card.dart';
+import '../../services/presentation/home_services_section.dart';
 import '../../shell/placeholders.dart';
 
 /// Home tab (branch 0): the green header with the Report card, then the
@@ -72,8 +73,8 @@ class HomeScreen extends ConsumerWidget {
               const PlaceholderSection(
                 placeholderId: PlaceholderId.p01NearbyIssues,
               ),
-              sectionTitle(l10n.homeSectionDrives),
-              const PlaceholderSection(placeholderId: PlaceholderId.p03Drives),
+              // TASK-12: tip, drives and service shortcuts (replaces P-03).
+              const HomeServicesSection(),
               const SizedBox(height: AppSpacing.s40),
             ],
           ),

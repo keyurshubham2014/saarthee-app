@@ -12,6 +12,8 @@ import '../features/onboarding/presentation/intro_screen.dart';
 import '../features/onboarding/presentation/language_screen.dart';
 import '../features/onboarding/presentation/ward_screen.dart';
 import '../features/report/report_routes.dart';
+import '../features/services/services_routes.dart';
+import '../features/staff/content/staff_content_routes.dart';
 import 'admin_routes.dart';
 import 'route_helpers.dart';
 import 'shell_routes.dart';
@@ -27,6 +29,9 @@ final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   ...authRoutes,
   // TASK-05 report: link an AMC complaint number.
   ...reportRootRoutes,
+  // TASK-12 services and initiatives (+ staff content screens).
+  ...servicesRoutes,
+  ...staffContentRoutes,
 ];
 
 /// Paths reachable before onboarding is done.

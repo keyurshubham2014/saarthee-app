@@ -38,7 +38,10 @@
     "constituencies:import": "tsx --env-file=.env scripts/import-representatives.ts --constituencies",
     "relay:flush": "tsx --env-file=.env scripts/relay-jobs.ts relay-send",
     "scorecard:refresh": "tsx --env-file=.env scripts/relay-jobs.ts scorecard-refresh",
-    "amc:problems:fetch": "tsx --env-file=.env scripts/fetch-amc-problems.ts"
+    "amc:problems:fetch": "tsx --env-file=.env scripts/fetch-amc-problems.ts",
+    "services:seed": "tsx --env-file=.env scripts/seed-services.ts",
+    "services:check-links": "tsx --env-file=.env scripts/check-service-links.ts",
+    "initiatives:remind": "tsx --env-file=.env scripts/remind-initiatives.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed/index.ts"

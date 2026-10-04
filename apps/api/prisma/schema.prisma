@@ -399,6 +399,12 @@ model User {
   repClaimsReviewed  RepClaim[]          @relation("RepClaimReviewer")
   repMessages        RepMessage[]        @relation("RepMessageCitizen")
   uploadedPhotos     Photo[]             @relation("PhotoUploadedBy")
+  // TASK-12 services and initiatives.
+  initiativesCreated Initiative[]        @relation("InitiativeCreatedBy")
+  initiativesUpdated Initiative[]        @relation("InitiativeUpdatedBy")
+  rsvps              Rsvp[]              @relation("RsvpUser")
+  rsvpsMarked        Rsvp[]              @relation("RsvpMarkedBy")
+  serviceTips        ServiceTip[]        @relation("ServiceTipCreatedBy")
   homeWard           Ward?               @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_users_home_ward")
   subscriptions      Subscription[]
 
@@ -663,6 +669,9 @@ model Ward {
   constituencies WardConstituency[]
   alertWards  AlertWard[]
   homeDevices Device[]
+  // TASK-12.
+  initiatives Initiative[]
+  serviceTips ServiceTip[]
 
   @@unique([number], map: "uq_wards_number")
   @@index([zoneId], map: "idx_wards_zone")
@@ -1029,4 +1038,119 @@ model Subscription {
   device Device? @relation(fields: [deviceId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_subscriptions_device")
 
   @@map("subscriptions")
+}
+
+/// TASK-12 (REQ-F-057, REQ-D-010): AMC services directory. category/slug/url CHECKs are hand-written in the
+/// migration. Production rows come from `npm run services:seed` (prisma/seed-data/services.ts).
+model Service {
+  id              String    @id(map: "pk_services") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug            String    @db.VarChar(60)
+  category        String    @db.VarChar(20)
+  nameEn          String    @map("name_en") @db.VarChar(80)
+  nameGu          String    @map("name_gu") @db.VarChar(80)
+  department      String    @db.VarChar(100)
+  departmentGu    String    @map("department_gu") @db.VarChar(100)
+  summaryEn       String    @map("summary_en") @db.VarChar(300)
+  summaryGu       String    @map("summary_gu") @db.VarChar(300)
+  howToEn         String    @map("how_to_en")
+  howToGu         String    @map("how_to_gu")
+  url             String    @db.VarChar(500)
+  online          Boolean
+  visitWardOffice Boolean   @default(false) @map("visit_ward_office")
+  sortOrder       Int       @default(100) @map("sort_order")
+  isActive        Boolean   @default(true) @map("is_active")
+  linkOk          Boolean?  @map("link_ok")
+  linkStatusCode  Int?      @map("link_status_code")
+  linkError       String?   @map("link_error") @db.VarChar(40)
+  lastCheckedAt   DateTime? @map("last_checked_at") @db.Timestamptz(6)
+  verifiedAt      DateTime? @map("verified_at") @db.Timestamptz(6)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  tips ServiceTip[]
+
+  @@unique([slug], map: "uq_services_slug")
+  @@index([category, sortOrder], map: "idx_services_category_sort")
+  @@map("services")
+}
+
+/// TASK-12 (REQ-F-059): civic drives and events. type/organiser/status/time/capacity/source CHECKs are
+/// hand-written in the migration. going_count is maintained inside the RSVP transaction.
+model Initiative {
+  id             String                                 @id(map: "pk_initiatives") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  titleEn        String                                 @map("title_en") @db.VarChar(100)
+  titleGu        String                                 @map("title_gu") @db.VarChar(100)
+  descriptionEn  String                                 @map("description_en") @db.VarChar(1000)
+  descriptionGu  String                                 @map("description_gu") @db.VarChar(1000)
+  type           String                                 @db.VarChar(20)
+  organiser      String                                 @db.VarChar(20)
+  organiserName  String                                 @map("organiser_name") @db.VarChar(100)
+  sourceUrl      String?                                @map("source_url") @db.VarChar(500)
+  wardId         String?                                @map("ward_id") @db.Uuid
+  locationTextEn String                                 @map("location_text_en") @db.VarChar(200)
+  locationTextGu String                                 @map("location_text_gu") @db.VarChar(200)
+  location       Unsupported("geography(Point, 4326)")?
+  lat            Decimal?                               @db.Decimal(9, 6)
+  lng            Decimal?                               @db.Decimal(9, 6)
+  startsAt       DateTime                               @map("starts_at") @db.Timestamptz(6)
+  endsAt         DateTime                               @map("ends_at") @db.Timestamptz(6)
+  capacity       Int?
+  status         String                                 @db.VarChar(20)
+  goingCount     Int                                    @default(0) @map("going_count")
+  reminderSentAt DateTime?                              @map("reminder_sent_at") @db.Timestamptz(6)
+  createdById    String?                                @map("created_by") @db.Uuid
+  updatedById    String?                                @map("updated_by") @db.Uuid
+  createdAt      DateTime                               @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime                               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  ward      Ward?  @relation(fields: [wardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_initiatives_ward")
+  createdBy User?  @relation("InitiativeCreatedBy", fields: [createdById], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_initiatives_created_by")
+  updatedBy User?  @relation("InitiativeUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_initiatives_updated_by")
+  rsvps     Rsvp[]
+
+  @@index([status, startsAt], map: "idx_initiatives_status_starts")
+  @@index([wardId, startsAt], map: "idx_initiatives_ward_starts")
+  @@map("initiatives")
+}
+
+/// TASK-12 (REQ-F-060): one RSVP per user per initiative; status CHECK hand-written.
+model Rsvp {
+  initiativeId       String   @map("initiative_id") @db.Uuid
+  userId             String   @map("user_id") @db.Uuid
+  status             String   @db.VarChar(20)
+  attendanceMarkedBy String?  @map("attendance_marked_by") @db.Uuid
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt          DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  initiative Initiative @relation(fields: [initiativeId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_rsvps_initiative")
+  user       User       @relation("RsvpUser", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_rsvps_user")
+  markedBy   User?      @relation("RsvpMarkedBy", fields: [attendanceMarkedBy], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_rsvps_marked_by")
+
+  @@id([initiativeId, userId], map: "pk_rsvps")
+  @@index([userId], map: "idx_rsvps_user")
+  @@map("rsvps")
+}
+
+/// TASK-12 (REQ-F-061, P2): seasonal tips shown on Home; active window CHECK hand-written.
+model ServiceTip {
+  id          String   @id(map: "pk_service_tips") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  titleEn     String   @map("title_en") @db.VarChar(80)
+  titleGu     String   @map("title_gu") @db.VarChar(80)
+  bodyEn      String   @map("body_en") @db.VarChar(240)
+  bodyGu      String   @map("body_gu") @db.VarChar(240)
+  serviceId   String?  @map("service_id") @db.Uuid
+  wardId      String?  @map("ward_id") @db.Uuid
+  activeFrom  DateTime @map("active_from") @db.Date
+  activeTo    DateTime @map("active_to") @db.Date
+  isActive    Boolean  @default(true) @map("is_active")
+  createdById String?  @map("created_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  service   Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_service_tips_service")
+  ward      Ward?    @relation(fields: [wardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_service_tips_ward")
+  createdBy User?    @relation("ServiceTipCreatedBy", fields: [createdById], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_service_tips_created_by")
+
+  @@index([activeFrom, activeTo], map: "idx_service_tips_window")
+  @@map("service_tips")
 }

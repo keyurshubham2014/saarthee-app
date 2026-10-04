@@ -132,4 +132,17 @@ class SaartheeIcons {
   static const IconData delete = Symbols.delete_rounded;
   static const IconData privacy = Symbols.shield_person_rounded;
   static const IconData phone = Symbols.smartphone_rounded;
+
+  // TASK-12 services and initiatives (append-only).
+  static const IconData globe = Symbols.language_rounded;
+  static const IconData apartment = Symbols.apartment_rounded;
+  static const IconData event = Symbols.event_rounded;
+  static const IconData cleaning = Symbols.cleaning_services_rounded;
+  static const IconData medical = Symbols.medical_services_rounded;
+  static const IconData openInNew = Symbols.open_in_new_rounded;
+  static const IconData call = Symbols.call_rounded;
+  static const IconData receipt = Symbols.receipt_long_rounded;
+  static const IconData badge = Symbols.badge_rounded;
+  static const IconData attractions = Symbols.attractions_rounded;
+  static const IconData services = Symbols.home_repair_service_rounded;
 }

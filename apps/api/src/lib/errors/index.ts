@@ -52,6 +52,13 @@ export const ERROR_CODES = {
   ALERT_SECOND_APPROVER_ADMIN: { status: 403, message: 'The second approval for Warning and Critical alerts must come from an admin.' },
   ALERT_ALREADY_SUPERSEDED: { status: 409, message: 'This alert already has an update.' },
   SIGNED_IN_USE_ME: { status: 409, message: 'You are signed in. Your settings are saved to your account.' },
+  // TASK-12 (services and initiatives).
+  INITIATIVE_NOT_OPEN: { status: 409, message: 'This drive is not taking RSVPs.' },
+  INITIATIVE_FULL: { status: 409, message: 'This drive is full.' },
+  INITIATIVE_STARTED: { status: 409, message: 'This drive has already started.' },
+  INITIATIVE_NOT_STARTED: { status: 409, message: 'Attendance can be marked once the drive starts.' },
+  INVALID_TRANSITION: { status: 409, message: 'That status change is not allowed.' },
+  SLUG_TAKEN: { status: 409, message: 'That short name is already used.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

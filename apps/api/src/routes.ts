@@ -17,6 +17,9 @@ import { categoriesRouter } from './modules/categories';
 import { issuesRouter } from './modules/issues';
 import { alertsRouter } from './modules/alerts';
 import { staffAlertsRouter } from './modules/staff-alerts';
+import { servicesRouter } from './modules/services';
+import { initiativesRouter } from './modules/initiatives';
+import { staffContentRouter } from './modules/staff-content';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -41,3 +44,7 @@ apiRouter.use(issuesRouter);
 // TASK-08: civic alerts, subscriptions, notification inbox; staff alert composer and approval.
 apiRouter.use(alertsRouter);
 apiRouter.use(staffAlertsRouter);
+// TASK-12: AMC services directory, civic initiatives and their staff APIs.
+apiRouter.use(servicesRouter);
+apiRouter.use(initiativesRouter);
+apiRouter.use(staffContentRouter);

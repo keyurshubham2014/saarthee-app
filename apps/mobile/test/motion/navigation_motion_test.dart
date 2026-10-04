@@ -63,6 +63,8 @@ void main() {
       120,
       scrollable: find.byType(Scrollable).hitTestable().first,
     );
+    await t.ensureVisible(find.byKey(const Key('myWard.settings')));
+    await t.pumpAndSettle();
     await t.tap(find.byKey(const Key('myWard.settings')));
     await t.pumpAndSettle();
     await t.scrollUntilVisible(

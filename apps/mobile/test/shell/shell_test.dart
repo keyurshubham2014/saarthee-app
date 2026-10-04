@@ -53,9 +53,10 @@ void main() {
     (t) async {
       await pumpApp(t, prefs: onboardedPrefs());
       const byTab = {
-        0: ['P-02', 'P-01', 'P-03'],
+        // TASK-07 still owns P-01, P-02 (Home) and P-04 (Map). TASK-12 replaced
+        // P-03 and P-08 (test/services/home_ward_sections_test.dart).
+        0: ['P-02', 'P-01'],
         1: ['P-04'],
-        4: ['P-08'], // TASK-09 replaced P-07; TASK-04 replaced P-09.
       };
       for (final e in byTab.entries) {
         await tab(t, e.key);

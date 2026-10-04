@@ -11,7 +11,7 @@ import '../../core/widgets/widgets.dart';
 import '../me/presentation/me_row.dart';
 import '../ward/presentation/ward_reps_section.dart';
 import '../onboarding/presentation/ward_picker_sheet.dart';
-import 'placeholders.dart';
+import '../services/presentation/ward_services_section.dart';
 
 /// My Ward tab (branch 4): ward header, Settings and About rows, and the
 /// sections later tasks fill (P-07 representatives — TASK-09, P-08 ward services,
@@ -100,9 +100,8 @@ class MyWardScreen extends ConsumerWidget {
           ] else
             WardRepresentativesSection(wardId: ward.id),
           sectionTitle(l10n.myWardSectionServices),
-          const PlaceholderSection(
-            placeholderId: PlaceholderId.p08WardServices,
-          ),
+          // TASK-12: replaces placeholder P-08.
+          const WardServicesSection(),
           sectionTitle(l10n.myWardSectionYou),
           // TASK-04: replaces placeholder P-09.
           const MeRow(),

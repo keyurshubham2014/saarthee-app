@@ -3526,5 +3526,701 @@
   "staffAlertsRoleAdmin": "admin",
   "@staffAlertsRoleAdmin": {
     "description": "TASK-08 staff alerts"
+  },
+  "servicesTitle": "AMC services",
+  "@servicesTitle": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesIndependence": "Independent guide. Links open AMC's official websites.",
+  "@servicesIndependence": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesSearchHint": "Search services",
+  "@servicesSearchHint": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryAll": "All",
+  "@servicesCategoryAll": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryTax": "Tax",
+  "@servicesCategoryTax": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryCertificates": "Certificates",
+  "@servicesCategoryCertificates": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryBuilding": "Building",
+  "@servicesCategoryBuilding": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryHealth": "Health",
+  "@servicesCategoryHealth": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryEducation": "Education",
+  "@servicesCategoryEducation": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryTransport": "Transport",
+  "@servicesCategoryTransport": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryLeisure": "Leisure",
+  "@servicesCategoryLeisure": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryInformation": "Information",
+  "@servicesCategoryInformation": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCategoryBusiness": "Business",
+  "@servicesCategoryBusiness": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesBadgeOnline": "Online",
+  "@servicesBadgeOnline": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesBadgeWardOffice": "Visit ward office",
+  "@servicesBadgeWardOffice": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesNoMatch": "No service matches “{query}”.",
+  "@servicesNoMatch": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "servicesLoadError": "We couldn't load services.",
+  "@servicesLoadError": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesHowTo": "How to do it",
+  "@servicesHowTo": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesOpenOnAmc": "Open on AMC website",
+  "@servicesOpenOnAmc": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesOpensCaption": "Opens {host}. Saarthee is an independent app, not run by AMC.",
+  "@servicesOpensCaption": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "servicesYourWardOffice": "Your ward office",
+  "@servicesYourWardOffice": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesCall": "Call",
+  "@servicesCall": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesChangeWard": "Change ward",
+  "@servicesChangeWard": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesSetWardPrompt": "Set your home ward to see your ward office",
+  "@servicesSetWardPrompt": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesOfficeAddressMissing": "Office address not published yet.",
+  "@servicesOfficeAddressMissing": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesSourceLine": "Source: Amdavad Municipal Corporation website · Last checked {date}",
+  "@servicesSourceLine": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "servicesSourceOnly": "Source: Amdavad Municipal Corporation website",
+  "@servicesSourceOnly": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesBrokenLink": "We couldn't open this page when we last checked on {date}. It may have moved.",
+  "@servicesBrokenLink": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "servicesNotListed": "This service is no longer listed.",
+  "@servicesNotListed": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesLinkFailed": "Couldn't open the link.",
+  "@servicesLinkFailed": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesAllServices": "All services",
+  "@servicesAllServices": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesShortcutPropertyTax": "Pay property tax",
+  "@servicesShortcutPropertyTax": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesShortcutBirthDeath": "Birth/death records",
+  "@servicesShortcutBirthDeath": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesShortcutKankaria": "Kankaria tickets",
+  "@servicesShortcutKankaria": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesTipOpen": "Open",
+  "@servicesTipOpen": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesTipDismiss": "Dismiss tip",
+  "@servicesTipDismiss": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesWardOfficeServices": "Needs a ward office visit",
+  "@servicesWardOfficeServices": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesUpcomingDrives": "Upcoming drives",
+  "@servicesUpcomingDrives": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "servicesSeeAll": "See all",
+  "@servicesSeeAll": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesTitle": "Drives and events",
+  "@initiativesTitle": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesMyWard": "My ward",
+  "@initiativesMyWard": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesAllCity": "All city",
+  "@initiativesAllCity": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesEmptyWard": "No upcoming drives in your ward.",
+  "@initiativesEmptyWard": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesEmptyCity": "No upcoming drives right now.",
+  "@initiativesEmptyCity": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesSeeAllCity": "See all city",
+  "@initiativesSeeAllCity": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesLoadError": "We couldn't load drives.",
+  "@initiativesLoadError": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesTypeTreeDrive": "Tree drive",
+  "@initiativesTypeTreeDrive": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesTypeCleanup": "Clean-up",
+  "@initiativesTypeCleanup": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesTypeHealthCamp": "Health camp",
+  "@initiativesTypeHealthCamp": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesTypeOther": "Event",
+  "@initiativesTypeOther": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesBy": "By {name}",
+  "@initiativesBy": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "initiativesGoing": "{count} going",
+  "@initiativesGoing": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "initiativesCapacityLabel": "{count} of {capacity} going",
+  "@initiativesCapacityLabel": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "capacity": {
+        "type": "int"
+      }
+    }
+  },
+  "initiativesOfCapacity": "of {capacity} going",
+  "@initiativesOfCapacity": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "capacity": {
+        "type": "int"
+      }
+    }
+  },
+  "initiativesGoingSuffix": "going",
+  "@initiativesGoingSuffix": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesImGoing": "I'm going",
+  "@initiativesImGoing": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesYoureGoing": "You're going",
+  "@initiativesYoureGoing": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesCancelRsvp": "Cancel RSVP",
+  "@initiativesCancelRsvp": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesRsvpCancelled": "RSVP cancelled",
+  "@initiativesRsvpCancelled": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesFull": "This drive is full",
+  "@initiativesFull": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesCancelledBanner": "Cancelled by the organiser",
+  "@initiativesCancelledBanner": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesNotOpen": "This drive is not taking RSVPs.",
+  "@initiativesNotOpen": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesStarted": "This drive has already started.",
+  "@initiativesStarted": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesRemindFooter": "We'll remind you a day before.",
+  "@initiativesRemindFooter": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesWhen": "When",
+  "@initiativesWhen": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesWhere": "Where",
+  "@initiativesWhere": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesOpenInMaps": "Open in maps",
+  "@initiativesOpenInMaps": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesSource": "Source",
+  "@initiativesSource": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesNotFound": "This drive is no longer listed.",
+  "@initiativesNotFound": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesRsvpError": "Couldn't update your RSVP. Please try again.",
+  "@initiativesRsvpError": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesCityWide": "City-wide",
+  "@initiativesCityWide": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "initiativesTimeRange": "{date}, {start}–{end}",
+  "@initiativesTimeRange": {
+    "description": "TASK-12 services and initiatives",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentServicesTitle": "Services",
+  "@staffContentServicesTitle": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentInitiativesTitle": "Initiatives",
+  "@staffContentInitiativesTitle": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentTipsTitle": "Seasonal tips",
+  "@staffContentTipsTitle": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentAttendanceTitle": "Attendance",
+  "@staffContentAttendanceTitle": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentForbidden": "You don't have access to this page.",
+  "@staffContentForbidden": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentLoadError": "Couldn't load this page.",
+  "@staffContentLoadError": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentBrokenOnly": "Broken links only",
+  "@staffContentBrokenOnly": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentLinkOk": "OK",
+  "@staffContentLinkOk": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentLinkBroken": "Broken {code}",
+  "@staffContentLinkBroken": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentLinkNotChecked": "Not checked",
+  "@staffContentLinkNotChecked": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentLastChecked": "Last checked {date}",
+  "@staffContentLastChecked": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentVerified": "Verified {date}",
+  "@staffContentVerified": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentCheckNow": "Check link now",
+  "@staffContentCheckNow": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentDeactivate": "Deactivate",
+  "@staffContentDeactivate": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentInactive": "Inactive",
+  "@staffContentInactive": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentEdit": "Edit",
+  "@staffContentEdit": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentNewService": "New service",
+  "@staffContentNewService": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentNewInitiative": "New initiative",
+  "@staffContentNewInitiative": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentNewTip": "New tip",
+  "@staffContentNewTip": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentSave": "Save",
+  "@staffContentSave": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentSaved": "Saved",
+  "@staffContentSaved": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentDelete": "Delete",
+  "@staffContentDelete": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldSlug": "Short name (slug)",
+  "@staffContentFieldSlug": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldCategory": "Category",
+  "@staffContentFieldCategory": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldNameEn": "Name (English)",
+  "@staffContentFieldNameEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldNameGu": "Name (Gujarati)",
+  "@staffContentFieldNameGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldDepartmentEn": "Department (English)",
+  "@staffContentFieldDepartmentEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldDepartmentGu": "Department (Gujarati)",
+  "@staffContentFieldDepartmentGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldSummaryEn": "Summary (English)",
+  "@staffContentFieldSummaryEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldSummaryGu": "Summary (Gujarati)",
+  "@staffContentFieldSummaryGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldHowToEn": "How-to steps (English)",
+  "@staffContentFieldHowToEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldHowToGu": "How-to steps (Gujarati)",
+  "@staffContentFieldHowToGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldUrl": "Official link (https)",
+  "@staffContentFieldUrl": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldOnline": "Can be done fully online",
+  "@staffContentFieldOnline": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldWardOffice": "Needs a ward office visit",
+  "@staffContentFieldWardOffice": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldSortOrder": "Sort order",
+  "@staffContentFieldSortOrder": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldActive": "Active",
+  "@staffContentFieldActive": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentMarkVerified": "Mark content verified today",
+  "@staffContentMarkVerified": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentStepsPreview": "Preview",
+  "@staffContentStepsPreview": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorRequired": "Required.",
+  "@staffContentErrorRequired": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorHttps": "Use a full https:// link.",
+  "@staffContentErrorHttps": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorSlug": "Use 3–60 lowercase letters, numbers or dashes.",
+  "@staffContentErrorSlug": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorSteps": "Write each step on its own line as \"1. …\".",
+  "@staffContentErrorSteps": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorNumber": "Enter a whole number.",
+  "@staffContentErrorNumber": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorSummary": "Please fix the highlighted fields.",
+  "@staffContentErrorSummary": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorSlugTaken": "That short name is already used.",
+  "@staffContentErrorSlugTaken": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentPublish": "Publish",
+  "@staffContentPublish": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentCancelDrive": "Cancel drive",
+  "@staffContentCancelDrive": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentComplete": "Mark completed",
+  "@staffContentComplete": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentStatusDraft": "Draft",
+  "@staffContentStatusDraft": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentStatusPublished": "Published",
+  "@staffContentStatusPublished": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentStatusCancelled": "Cancelled",
+  "@staffContentStatusCancelled": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentStatusCompleted": "Completed",
+  "@staffContentStatusCompleted": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentAttended": "Attended",
+  "@staffContentAttended": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentSaveAttendance": "Save attendance",
+  "@staffContentSaveAttendance": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentAttendanceLocked": "Attendance opens when the drive starts.",
+  "@staffContentAttendanceLocked": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentNoRsvps": "No RSVPs yet.",
+  "@staffContentNoRsvps": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentPhoneLast4": "Phone ••{digits}",
+  "@staffContentPhoneLast4": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "digits": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentFieldTitleEn": "Title (English)",
+  "@staffContentFieldTitleEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldTitleGu": "Title (Gujarati)",
+  "@staffContentFieldTitleGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldBodyEn": "Text (English)",
+  "@staffContentFieldBodyEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldBodyGu": "Text (Gujarati)",
+  "@staffContentFieldBodyGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldDescriptionEn": "Description (English)",
+  "@staffContentFieldDescriptionEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldDescriptionGu": "Description (Gujarati)",
+  "@staffContentFieldDescriptionGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldOrganiserName": "Organiser name",
+  "@staffContentFieldOrganiserName": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldSourceUrl": "Source link (needed for AMC)",
+  "@staffContentFieldSourceUrl": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldPlaceEn": "Meeting point (English)",
+  "@staffContentFieldPlaceEn": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldPlaceGu": "Meeting point (Gujarati)",
+  "@staffContentFieldPlaceGu": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldStart": "Starts (YYYY-MM-DD HH:MM)",
+  "@staffContentFieldStart": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldEnd": "Ends (YYYY-MM-DD HH:MM)",
+  "@staffContentFieldEnd": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldCapacity": "Capacity (blank = no limit)",
+  "@staffContentFieldCapacity": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldServiceSlug": "Linked service short name (optional)",
+  "@staffContentFieldServiceSlug": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldActiveFrom": "Active from (YYYY-MM-DD)",
+  "@staffContentFieldActiveFrom": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldActiveTo": "Active to (YYYY-MM-DD)",
+  "@staffContentFieldActiveTo": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentErrorDate": "Use the format shown.",
+  "@staffContentErrorDate": {
+    "description": "TASK-12 staff content"
+  },
+  "servicesOfflineCached": "You're offline. Showing the last saved list.",
+  "@servicesOfflineCached": {
+    "description": "TASK-12 services and initiatives"
+  },
+  "staffContentFieldWardNumber": "Ward number (blank = city-wide)",
+  "@staffContentFieldWardNumber": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldLat": "Latitude",
+  "@staffContentFieldLat": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldLng": "Longitude",
+  "@staffContentFieldLng": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldType": "Type ({options})",
+  "@staffContentFieldType": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "options": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentFieldOrganiser": "Organiser ({options})",
+  "@staffContentFieldOrganiser": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "options": {
+        "type": "String"
+      }
+    }
   }
 }

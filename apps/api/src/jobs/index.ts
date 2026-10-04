@@ -1,6 +1,8 @@
 import { flushQueued } from '../lib/push';
 import { alertJobs } from '../modules/alerts/jobs';
+import { jobs as initiativeJobs } from '../modules/initiatives/jobs';
 import { jobs as representativeJobs } from '../modules/representatives/jobs';
+import { jobs as serviceJobs } from '../modules/services/jobs';
 import { listJobs, registerJobs } from './runner';
 import type { JobDefinition } from './types';
 
@@ -26,6 +28,8 @@ export function appJobs(): JobDefinition[] {
     ...alertJobs(),
     // TASK-09: relay outbox and hourly scorecard refresh.
     ...representativeJobs.map((j): JobDefinition => ({ ...j, run: async () => void (await j.run()) })),
+    // TASK-12: monthly service link check and initiative reminders.
+    ...[...serviceJobs, ...initiativeJobs].map((j): JobDefinition => ({ ...j, run: async () => void (await j.run()) })),
   ];
 }
 
