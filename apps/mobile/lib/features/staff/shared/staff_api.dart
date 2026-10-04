@@ -50,7 +50,7 @@ class StaffApi {
     {'reason': reason},
   );
 
-  /// Acknowledge / in progress / mark fixed (TASK-06 stand-in endpoint).
+  /// Acknowledge / in progress / mark fixed (`/staff/issues/{id}/status`, backed by TASK-06 transition()).
   Future<Json> status(
     String id,
     String to, {
