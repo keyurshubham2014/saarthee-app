@@ -21,6 +21,16 @@ export const ERROR_CODES = {
   SERVICE_UNAVAILABLE: { status: 503, message: 'The service is unavailable. Please try again later.' },
   // v2 (append new codes below; one line per code).
   ENDPOINT_RETIRED: { status: 410, message: 'Please update Saarthee to report issues.' },
+  // TASK-04 (citizen accounts).
+  AUTH_REQUIRED: { status: 401, message: 'Please sign in to continue.' },
+  FIREBASE_TOKEN_INVALID: { status: 401, message: "We couldn't confirm your sign-in. Please try again." },
+  AGE_CONFIRMATION_REQUIRED: { status: 403, message: 'You need to be 18 or older to use an account.' },
+  CONSENT_REQUIRED: { status: 422, message: 'Please agree to the terms to continue.' },
+  CORE_CONSENT_REQUIRED: { status: 409, message: 'This consent is needed for your account. To withdraw it, delete your account.' },
+  ACCOUNT_SUSPENDED: { status: 403, message: 'This account is suspended.' },
+  FORBIDDEN: { status: 403, message: "You don't have permission to do this." },
+  WARD_NOT_FOUND: { status: 422, message: 'Please choose your ward again.' },
+  FIREBASE_UNAVAILABLE: { status: 503, message: 'Sign-in is unavailable right now. Please try again later.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

@@ -13,6 +13,9 @@ export const AUDIT_ACTIONS = [
   'invite_code_updated',
   'category_created',
   'category_updated',
+  // TASK-04 citizen actions (actor = the user; id only, no PII).
+  'user.signed_in',
+  'user.deleted',
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
