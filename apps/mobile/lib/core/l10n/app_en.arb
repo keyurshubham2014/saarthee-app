@@ -5486,5 +5486,18 @@
   "repMsgAwaiting": "Waiting for a reply",
   "@repMsgAwaiting": {
     "description": "TASK-11 representative claim / ward dashboard / messages"
+  },
+  "polishHotspotRow": "{count, plural, =1{1 open issue in one spot} other{{count} open issues in one spot}}",
+  "@polishHotspotRow": {
+    "description": "TASK-14 polish: ward dashboard hotspot row (no raw coordinates)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "polishStaffTitleShort": "Staff",
+  "@polishStaffTitleShort": {
+    "description": "TASK-14 polish: staff app bar title below 600 dp, next to the role chip"
   }
 }

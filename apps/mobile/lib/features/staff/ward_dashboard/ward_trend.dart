@@ -125,12 +125,10 @@ class HotspotList extends StatelessWidget {
       child: Column(
         children: [
           for (final h in d.hotspots)
+            // The payload has no locality name and `/map` takes no centre
+            // parameter, so the row reads as a count, never raw coordinates.
             ListRow(
-              title: l10n.wardDashHotspotRow(
-                h.count,
-                h.lat.toStringAsFixed(4),
-                h.lng.toStringAsFixed(4),
-              ),
+              title: l10n.polishHotspotRow(h.count),
               showChevron: false,
             ),
         ],

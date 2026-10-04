@@ -4879,5 +4879,13 @@
   "repMsgAwaiting": "જવાબની રાહ",
   "@repMsgAwaiting": {
     "x-review": "pending"
+  },
+  "polishHotspotRow": "{count, plural, =1{એક જ જગ્યાએ 1 ખુલ્લી સમસ્યા} other{એક જ જગ્યાએ {count} ખુલ્લી સમસ્યાઓ}}",
+  "@polishHotspotRow": {
+    "x-review": "pending"
+  },
+  "polishStaffTitleShort": "સ્ટાફ",
+  "@polishStaffTitleShort": {
+    "x-review": "pending"
   }
 }
