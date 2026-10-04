@@ -14,8 +14,34 @@ String composerProblemText(AppLocalizations l10n, String kind) =>
       'tooShort' => l10n.staffAlertsErrTooShort,
       'https' => l10n.staffAlertsErrHttps,
       'window' => l10n.staffAlertsErrWindow,
+      'invalid' => l10n.staffAlertsErrInvalid,
       _ => l10n.staffAlertsErrRequired,
     };
+
+/// Server validation field path (`target.wardIds`, `titleEn`) → composer
+/// field key. The area picker is `target` on the wire.
+String composerServerField(String path) {
+  final head = path.split('.').first;
+  return head == 'target' ? 'area' : head;
+}
+
+/// Server validation issue (English zod text, never shown) → problem kind.
+/// An empty ward list ("at least 1") on the area reads as "Fill this in."
+String composerServerProblem(String issue, {String field = ''}) {
+  final i = issue.toLowerCase();
+  if (field == 'area') return 'required';
+  if (i.contains('required') || i.contains('received undefined')) {
+    return 'required';
+  }
+  if (i.contains('at most') || i.contains('too big') || i.contains('<=')) {
+    return 'tooLong';
+  }
+  if (i.contains('at least') || i.contains('too small') || i.contains('>=')) {
+    return 'tooShort';
+  }
+  if (i.contains('https')) return 'https';
+  return 'invalid';
+}
 
 /// Label above a field (DS: labels above fields).
 class FieldLabel extends StatelessWidget {

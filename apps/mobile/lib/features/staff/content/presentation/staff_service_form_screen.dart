@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/api/app_error.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../../services/data/service_models.dart' show serviceCategories;
+import '../../../services/data/service_models.dart'
+    show pick, serviceCategories;
 import '../application/content_validators.dart';
 import '../data/staff_content_api.dart';
 import 'content_form.dart';
@@ -56,7 +57,13 @@ class StaffServiceFormScreen extends ConsumerWidget {
     }
 
     return StaffPage(
-      title: e == null ? l10n.staffContentNewService : s('nameEn'),
+      title: e == null
+          ? l10n.staffContentNewService
+          : pick(
+              Localizations.localeOf(context).languageCode,
+              s('nameEn'),
+              s('nameGu'),
+            ),
       roles: adminOnly,
       child: ContentForm(
         key: const Key('staff.serviceForm'),

@@ -40,9 +40,11 @@ class StaffPage extends ConsumerWidget {
     final allowed = roles.contains(ref.watch(staffRoleProvider));
     return StaffMotionScope(
       child: Scaffold(
+        // The console header (StaffShell) holds the language toggle.
         appBar: SaartheeAppBar(
           title: title,
           actions: allowed ? actions : const [],
+          showLanguageToggle: false,
         ),
         floatingActionButton: allowed ? floatingActionButton : null,
         floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,

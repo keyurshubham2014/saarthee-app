@@ -5,6 +5,19 @@ import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../services/data/service_models.dart' show parseSteps;
+import '../../shared/staff_errors.dart';
+
+/// Server validation issue (English zod text, never shown) → ARB text.
+String contentServerIssue(AppLocalizations l10n, String issue) {
+  final i = issue.toLowerCase();
+  if (i.contains('required') || i.contains('received undefined')) {
+    return l10n.staffContentErrorRequired;
+  }
+  if (i.contains('https') || i.contains('url')) {
+    return l10n.staffContentErrorHttps;
+  }
+  return l10n.errorValidationFailed;
+}
 
 /// One form field. Text fields validate with [validator]; switches use
 /// [initialBool].
@@ -18,7 +31,8 @@ class FieldSpec {
     this.keyboardType,
     this.stepsPreview = false,
   }) : isSwitch = false,
-       initialBool = false;
+       initialBool = false,
+       options = null;
 
   const FieldSpec.toggle(this.name, this.label, {this.initialBool = false})
     : isSwitch = true,
@@ -26,7 +40,25 @@ class FieldSpec {
       validator = null,
       maxLines = 1,
       keyboardType = null,
-      stepsPreview = false;
+      stepsPreview = false,
+      options = null;
+
+  /// Dropdown of fixed API values; [options] maps value → shown label. The
+  /// submitted value is the API value (a string, like text fields).
+  const FieldSpec.choice(
+    this.name,
+    this.label, {
+    required Map<String, String> this.options,
+    this.initial = '',
+  }) : isSwitch = false,
+       initialBool = false,
+       validator = null,
+       maxLines = 1,
+       keyboardType = null,
+       stepsPreview = false;
+
+  /// Value → label for a dropdown field (null for text and switch fields).
+  final Map<String, String>? options;
 
   /// Shows the numbered steps as citizens will see them, under the field.
   final bool stepsPreview;
@@ -87,7 +119,9 @@ class _ContentFormState extends State<ContentForm> {
   Future<void> _submit() async {
     final errors = <String, String>{};
     for (final f in widget.rows.expand((r) => r)) {
-      final e = f.validator?.call(_text[f.name]?.text ?? '');
+      final e = f.options != null && _text[f.name]!.text.isEmpty
+          ? AppLocalizations.of(context).staffContentErrorRequired
+          : f.validator?.call(_text[f.name]?.text ?? '');
       if (e != null) errors[f.name] = e;
     }
     setState(() => _errors = errors);
@@ -101,8 +135,13 @@ class _ContentFormState extends State<ContentForm> {
     try {
       server = await widget.onSubmit(values);
     } on AppError catch (e) {
-      server = {for (final d in e.details) d.field: d.issue};
-      if (server.isEmpty) server = {'_': e.message};
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context);
+      server = {
+        for (final d in e.details)
+          d.field.split('.').first: contentServerIssue(l10n, d.issue),
+      };
+      if (server.isEmpty) server = {'_': staffErrorMessage(l10n, e)};
     }
     if (!mounted) return;
     setState(() {
@@ -112,6 +151,28 @@ class _ContentFormState extends State<ContentForm> {
   }
 
   Widget _field(FieldSpec f) {
+    final options = f.options;
+    if (options != null) {
+      final current = _text[f.name]!.text;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(f.label, style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: AppSpacing.s8),
+          DropdownButtonFormField<String>(
+            key: Key('form.${f.name}'),
+            initialValue: options.containsKey(current) ? current : null,
+            isExpanded: true,
+            decoration: InputDecoration(errorText: _errors[f.name]),
+            items: [
+              for (final o in options.entries)
+                DropdownMenuItem(value: o.key, child: Text(o.value)),
+            ],
+            onChanged: (v) => setState(() => _text[f.name]!.text = v ?? ''),
+          ),
+        ],
+      );
+    }
     if (f.isSwitch) {
       return SwitchListTile(
         key: Key('form.${f.name}'),

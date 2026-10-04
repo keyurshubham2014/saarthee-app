@@ -41,6 +41,10 @@ String appErrorMessage(AppLocalizations l10n, AppError error) {
       return rateLimitMessage(l10n, error.retryAfter);
     case 'SERVICE_UNAVAILABLE':
       return l10n.errorServiceUnavailable;
+    case 'IDEMPOTENCY_KEY_REUSED':
+      return l10n.errorIdempotencyReused;
+    case 'CCRS_NOT_LINKED':
+      return l10n.errorCcrsNotLinked;
     case AppError.offlineCode:
       return l10n.errorOffline;
     case AppError.timeoutCode:

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/api/app_error.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/settings/locale_controller.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/widgets/alerts/validity_format.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../shared/staff_errors.dart';
 import '../../shared/staff_shared.dart';
 import '../application/staff_alerts_providers.dart';
 import '../data/staff_alerts_api.dart';
@@ -43,12 +43,9 @@ class _State extends ConsumerState<StaffAlertDetailScreen> {
       }
     } catch (e) {
       if (mounted) {
-        final err = AppError.from(e);
         showSaartheeToast(
           context,
-          l10n.staffAlertsActionError(
-            err.message.isEmpty ? err.code : err.message,
-          ),
+          staffErrorMessage(l10n, e),
           kind: ToastKind.error,
         );
       }

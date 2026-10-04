@@ -12,6 +12,7 @@ import '../../../../core/wards/ward_providers.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../alerts/data/alert_models.dart';
 import '../../../alerts/presentation/alert_labels.dart';
+import '../../shared/staff_errors.dart';
 import '../../shared/staff_shared.dart';
 import '../application/staff_alerts_providers.dart';
 import '../data/staff_alerts_api.dart';
@@ -84,13 +85,17 @@ class StaffAlertComposerScreenState
       final err = AppError.from(e);
       setState(
         () => problems = {
-          for (final x in err.details) x.field.split('.').first: 'required',
+          for (final x in err.details)
+            composerServerField(x.field): composerServerProblem(
+              x.issue,
+              field: composerServerField(x.field),
+            ),
         },
       );
       if (problems.isEmpty && mounted) {
         showSaartheeToast(
           context,
-          AppLocalizations.of(context).staffAlertsActionError(err.code),
+          staffErrorMessage(AppLocalizations.of(context), err),
           kind: ToastKind.error,
         );
       }
@@ -121,6 +126,8 @@ class StaffAlertComposerScreenState
       'validTo': l10n.staffAlertsFieldValidTo,
       'validFrom': l10n.staffAlertsFieldValidFrom,
       'area': l10n.staffAlertsFieldArea,
+      'type': l10n.staffAlertsFieldType,
+      'severity': l10n.staffAlertsFieldSeverity,
     };
     return StaffPageScaffold(
       title: l10n.staffAlertsNew,
@@ -146,7 +153,9 @@ class StaffAlertComposerScreenState
                       for (final f in problems.keys)
                         TextButton(
                           onPressed: () => _focus[f]?.requestFocus(),
-                          child: Text('${labels[f] ?? f}: ${_err(f)}'),
+                          child: Text(
+                            '${labels[f] ?? l10n.staffAlertsFieldGeneric}: ${_err(f)}',
+                          ),
                         ),
                     ],
                   ),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/api/app_error.dart';
-import '../../../core/api/error_messages.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
+import 'staff_errors.dart';
 
 /// TASK-11 helpers shared by the staff console and the citizen claim flow
 /// (kept here so the staff web build never reaches citizen-only code).
 
-/// TASK-11 error codes → ARB text (falls back to the shared mapping).
+/// TASK-11 error codes → ARB text (falls back to the staff/shared mapping,
+/// which covers NOT_VERIFIED and ALREADY_REPLIED).
 String repErrorMessage(AppLocalizations l10n, Object error) {
   final e = AppError.from(error);
   return switch (e.code) {
@@ -20,7 +21,7 @@ String repErrorMessage(AppLocalizations l10n, Object error) {
     'WARD_OUT_OF_SCOPE' => l10n.wardDashErrorOutOfScope,
     'ELECTION_MODE_FROZEN' => l10n.wardDashErrorFrozen,
     'CLAIM_NOT_PENDING' => l10n.repClaimConflict,
-    _ => appErrorMessage(l10n, e),
+    _ => staffErrorMessage(l10n, e),
   };
 }
 

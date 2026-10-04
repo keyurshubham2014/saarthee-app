@@ -65,89 +65,100 @@ class _StaffLoginScreenState extends ConsumerState<StaffLoginScreen> {
     final text = Theme.of(context).textTheme;
     return StaffMotionScope(
       child: Scaffold(
-        body: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.s24),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: ExcludeSemantics(
-                      child: BrandMark(key: Key('staff.login.mark'), size: 56),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.s16),
-                  Text(l10n.staffConsoleTitle, style: text.titleMedium),
-                  const SizedBox(height: AppSpacing.s8),
-                  Semantics(
-                    header: true,
-                    child: Text(
-                      l10n.staffLoginTitle,
-                      style: text.headlineSmall,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.s24),
-                  PrimaryButton(
-                    key: const Key('staff.login.phone'),
-                    label: l10n.staffLoginPhone,
-                    icon: SaartheeIcons.phone,
-                    onPressed: () async {
-                      final ok = await context.push<bool>(
-                        signInLocation(from: '/staff'),
-                      );
-                      ref.invalidate(staffMeProvider);
-                      if (ok == true && context.mounted) context.go('/staff');
-                    },
-                  ),
-                  const SizedBox(height: AppSpacing.s12),
-                  if (!_showEmail)
-                    TertiaryButton(
-                      key: const Key('staff.login.emailLink'),
-                      label: l10n.staffLoginEmailLink,
-                      onPressed: () => setState(() => _showEmail = true),
-                    )
-                  else ...[
-                    TextField(
-                      key: const Key('staff.login.email'),
-                      controller: _email,
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                      decoration: InputDecoration(
-                        labelText: l10n.staffLoginEmail,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.s12),
-                    TextField(
-                      key: const Key('staff.login.password'),
-                      controller: _password,
-                      obscureText: true,
-                      autofillHints: const [AutofillHints.password],
-                      decoration: InputDecoration(
-                        labelText: l10n.staffLoginPassword,
-                      ),
-                      onSubmitted: (_) => _signIn(),
-                    ),
-                    const SizedBox(height: AppSpacing.s16),
-                    SecondaryButton(
-                      key: const Key('staff.login.submit'),
-                      label: l10n.staffLoginSubmit,
-                      isLoading: _busy,
-                      onPressed: _signIn,
-                    ),
-                  ],
-                  if (_error != null) ...[
-                    const SizedBox(height: AppSpacing.s12),
-                    InlineFieldError(
-                      key: const Key('staff.login.error'),
-                      message: _error!,
-                    ),
-                  ],
-                ],
+        body: SafeArea(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              _form(context, l10n, text),
+              const PositionedDirectional(
+                top: AppSpacing.s8,
+                end: AppSpacing.s8,
+                child: LanguageToggle(),
               ),
-            ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _form(BuildContext context, AppLocalizations l10n, TextTheme text) {
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.s24),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: ExcludeSemantics(
+                  child: BrandMark(key: Key('staff.login.mark'), size: 56),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.s16),
+              Text(l10n.staffConsoleTitle, style: text.titleMedium),
+              const SizedBox(height: AppSpacing.s8),
+              Semantics(
+                header: true,
+                child: Text(l10n.staffLoginTitle, style: text.headlineSmall),
+              ),
+              const SizedBox(height: AppSpacing.s24),
+              PrimaryButton(
+                key: const Key('staff.login.phone'),
+                label: l10n.staffLoginPhone,
+                icon: SaartheeIcons.phone,
+                onPressed: () async {
+                  final ok = await context.push<bool>(
+                    signInLocation(from: '/staff'),
+                  );
+                  ref.invalidate(staffMeProvider);
+                  if (ok == true && context.mounted) context.go('/staff');
+                },
+              ),
+              const SizedBox(height: AppSpacing.s12),
+              if (!_showEmail)
+                TertiaryButton(
+                  key: const Key('staff.login.emailLink'),
+                  label: l10n.staffLoginEmailLink,
+                  onPressed: () => setState(() => _showEmail = true),
+                )
+              else ...[
+                TextField(
+                  key: const Key('staff.login.email'),
+                  controller: _email,
+                  keyboardType: TextInputType.emailAddress,
+                  autofillHints: const [AutofillHints.email],
+                  decoration: InputDecoration(labelText: l10n.staffLoginEmail),
+                ),
+                const SizedBox(height: AppSpacing.s12),
+                TextField(
+                  key: const Key('staff.login.password'),
+                  controller: _password,
+                  obscureText: true,
+                  autofillHints: const [AutofillHints.password],
+                  decoration: InputDecoration(
+                    labelText: l10n.staffLoginPassword,
+                  ),
+                  onSubmitted: (_) => _signIn(),
+                ),
+                const SizedBox(height: AppSpacing.s16),
+                SecondaryButton(
+                  key: const Key('staff.login.submit'),
+                  label: l10n.staffLoginSubmit,
+                  isLoading: _busy,
+                  onPressed: _signIn,
+                ),
+              ],
+              if (_error != null) ...[
+                const SizedBox(height: AppSpacing.s12),
+                InlineFieldError(
+                  key: const Key('staff.login.error'),
+                  message: _error!,
+                ),
+              ],
+            ],
           ),
         ),
       ),

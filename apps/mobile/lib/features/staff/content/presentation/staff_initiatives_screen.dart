@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/api/app_error.dart';
-import '../../../../core/api/error_messages.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/icons.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../services/data/service_models.dart' show pick;
+import '../../shared/staff_errors.dart';
 import '../application/content_validators.dart';
 import '../data/staff_content_api.dart';
 import 'staff_gate.dart';
@@ -42,7 +43,7 @@ class StaffInitiativesScreen extends ConsumerWidget {
         if (context.mounted) {
           showSaartheeToast(
             context,
-            appErrorMessage(l10n, e),
+            staffErrorMessage(l10n, e),
             kind: ToastKind.error,
           );
         }
@@ -74,7 +75,13 @@ class StaffInitiativesScreen extends ConsumerWidget {
             final status = '${r['status']}';
             return ListTile(
               key: Key('staff.initiative.$id'),
-              title: Text(str(r['titleEn'])),
+              title: Text(
+                pick(
+                  Localizations.localeOf(context).languageCode,
+                  str(r['titleEn']),
+                  str(r['titleGu']),
+                ),
+              ),
               subtitle: Text(
                 '${staffStatusLabel(l10n, status)} · ${isoToIstInput('${r['startsAt']}')} · ${l10n.initiativesGoing((r['goingCount'] as num?)?.toInt() ?? 0)}',
               ),

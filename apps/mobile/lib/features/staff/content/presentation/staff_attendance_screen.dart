@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/api/app_error.dart';
-import '../../../../core/api/error_messages.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../shared/staff_errors.dart';
 import '../data/staff_content_api.dart';
 import 'staff_gate.dart';
 
@@ -55,7 +55,7 @@ class _StaffAttendanceScreenState extends ConsumerState<StaffAttendanceScreen> {
       if (mounted) {
         showSaartheeToast(
           context,
-          appErrorMessage(l10n, e),
+          staffErrorMessage(l10n, e),
           kind: ToastKind.error,
         );
       }

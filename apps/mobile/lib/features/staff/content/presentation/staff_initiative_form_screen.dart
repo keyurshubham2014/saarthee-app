@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/wards/ward_providers.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../services/data/service_models.dart' show pick;
 import '../application/content_validators.dart';
 import '../data/staff_content_api.dart';
 import 'content_form.dart';
@@ -11,7 +12,6 @@ import 'staff_gate.dart';
 import 'staff_initiatives_screen.dart';
 
 const _types = ['tree_drive', 'cleanup', 'health_camp', 'other'];
-const _organisers = ['AMC', 'RWA', 'NGO', 'Saarthee'];
 
 /// `/staff/initiatives/new` and `/staff/initiatives/:id` (admin): titles,
 /// descriptions, type, organiser + name, source (needed for AMC), ward
@@ -89,7 +89,13 @@ class StaffInitiativeFormScreen extends ConsumerWidget {
     }
 
     return StaffPage(
-      title: e == null ? l10n.staffContentNewInitiative : s('titleEn'),
+      title: e == null
+          ? l10n.staffContentNewInitiative
+          : pick(
+              Localizations.localeOf(context).languageCode,
+              s('titleEn'),
+              s('titleGu'),
+            ),
       roles: adminOnly,
       child: ContentForm(
         key: const Key('staff.initiativeForm'),
@@ -133,11 +139,16 @@ class StaffInitiativeFormScreen extends ConsumerWidget {
               initial: e == null ? 'cleanup' : s('type'),
               validator: (x) => oneOf(x, _types),
             ),
-            FieldSpec.text(
+            FieldSpec.choice(
               'organiser',
-              l10n.staffContentFieldOrganiser(_organisers.join(' / ')),
+              l10n.staffContentFieldOrganiserPick,
               initial: e == null ? 'RWA' : s('organiser'),
-              validator: (x) => oneOf(x, _organisers),
+              options: {
+                'AMC': l10n.staffOrganiserAmc,
+                'RWA': l10n.staffOrganiserRwa,
+                'NGO': l10n.staffOrganiserNgo,
+                'Saarthee': l10n.staffOrganiserSaarthee,
+              },
             ),
           ],
           [

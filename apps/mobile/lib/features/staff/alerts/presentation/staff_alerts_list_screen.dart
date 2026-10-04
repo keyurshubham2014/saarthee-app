@@ -102,7 +102,12 @@ class _Row extends StatelessWidget {
     return ListTile(
       key: ValueKey('staffAlert.${alert.id}'),
       leading: Icon(tone.icon, color: c.isDark ? tone.tint : tone.solid),
-      title: Text(alert.titleEn.isEmpty ? alert.titleGu : alert.titleEn),
+      title: Text(
+        // App language first; drafts may have only one language filled.
+        lang == 'gu' && alert.titleGu.isNotEmpty
+            ? alert.titleGu
+            : (alert.titleEn.isEmpty ? alert.titleGu : alert.titleEn),
+      ),
       subtitle: Text(
         [
           alertSeverityLabel(l10n, alert.severity),

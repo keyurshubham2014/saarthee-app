@@ -7,6 +7,7 @@ import '../../../../core/theme/icons.dart';
 import '../../../../core/theme/tokens.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../services/data/service_models.dart' show pick;
 import '../data/staff_content_api.dart';
 import 'staff_gate.dart';
 
@@ -90,7 +91,14 @@ class _StaffServicesScreenState extends ConsumerState<StaffServicesScreen> {
                   final verified = when(s['verifiedAt']);
                   return ListTile(
                     key: Key('staff.service.${s['slug']}'),
-                    title: Text(str(s['nameEn']), style: text.titleMedium),
+                    title: Text(
+                      pick(
+                        Localizations.localeOf(context).languageCode,
+                        str(s['nameEn']),
+                        str(s['nameGu']),
+                      ),
+                      style: text.titleMedium,
+                    ),
                     subtitle: Text(
                       [
                         '${s['category']}',

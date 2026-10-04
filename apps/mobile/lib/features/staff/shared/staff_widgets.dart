@@ -6,6 +6,9 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../shell/staff_motion.dart';
+import 'staff_errors.dart';
+
+export 'staff_errors.dart' show staffErrorMessage;
 
 /// Loading skeleton → content / error, cross-faded over `short` (DS §6
 /// staff row); reduced motion → instant.
@@ -169,9 +172,10 @@ Future<String?> askStaffReason(
   return result;
 }
 
-/// Error text for a failed staff action.
+/// Error text for a failed staff action: localized by error code (never the
+/// server's English message).
 String staffErrorText(AppLocalizations l10n, Object e) =>
-    l10n.staffActionError(e is AppError ? e.message : l10n.staffLoadError);
+    staffErrorMessage(l10n, e);
 
 bool isStaleError(Object e) =>
     e is AppError &&

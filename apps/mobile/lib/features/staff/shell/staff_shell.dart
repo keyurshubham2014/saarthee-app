@@ -31,8 +31,9 @@ StaffNavItem? staffItemFor(String location) {
 }
 
 /// TASK-10 staff console shell (web and in-app `/staff`): header with
-/// "Saarthee staff", role chip and Sign out; side navigation ≥ 840 dp, menu
-/// drawer below; role-aware items from the registry; `StaffMotionScope`.
+/// "Saarthee staff", role chip, language toggle and Sign out; side navigation
+/// ≥ 840 dp, menu drawer below; role-aware items from the registry;
+/// `StaffMotionScope`.
 class StaffShell extends ConsumerWidget {
   const StaffShell({super.key, required this.location, required this.child});
 
@@ -134,7 +135,8 @@ class _Layout extends ConsumerWidget {
   }
 }
 
-/// Console header: brand title, role chip, Sign out (DS §9 Staff).
+/// Console header: brand title, role chip, language toggle, Sign out (DS §9
+/// Staff).
 class StaffHeader extends ConsumerWidget implements PreferredSizeWidget {
   const StaffHeader({super.key, required this.staff, required this.showMenu});
 
@@ -213,6 +215,9 @@ class StaffHeader extends ConsumerWidget implements PreferredSizeWidget {
         ],
       ),
       actions: [
+        // The one language switch for every console page (pages inside the
+        // shell hide their own).
+        const LanguageToggle(),
         // Below 600 dp Sign out is icon-only (tooltip + semantics keep the
         // label) so the title and role chip both fit.
         if (narrow)

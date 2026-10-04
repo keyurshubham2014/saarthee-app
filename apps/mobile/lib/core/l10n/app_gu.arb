@@ -192,6 +192,70 @@
   "@errorTimeout": {
     "x-review": "pending"
   },
+  "errorAlertStateInvalid": "આ ચેતવણી બદલાઈ ગઈ છે. ફરી લોડ કરીને પ્રયાસ કરો.",
+  "@errorAlertStateInvalid": {
+    "x-review": "pending"
+  },
+  "errorAlertApprovalsMissing": "આ ચેતવણી પ્રકાશિત કરતાં પહેલાં તેને જરૂરી મંજૂરીઓ મળવી જોઈએ.",
+  "@errorAlertApprovalsMissing": {
+    "x-review": "pending"
+  },
+  "errorAlertAlreadyApproved": "તમે આ ચેતવણી પહેલેથી મંજૂર કરી છે.",
+  "@errorAlertAlreadyApproved": {
+    "x-review": "pending"
+  },
+  "errorAlertSecondApproverAdmin": "બીજી મંજૂરી એડમિન તરફથી હોવી જોઈએ.",
+  "@errorAlertSecondApproverAdmin": {
+    "x-review": "pending"
+  },
+  "errorAlertSuperseded": "આ ચેતવણીની જગ્યાએ નવી ચેતવણી આવી ગઈ છે.",
+  "@errorAlertSuperseded": {
+    "x-review": "pending"
+  },
+  "errorAlertIncomplete": "મોકલતાં પહેલાં બંને ભાષામાં બધાં જરૂરી ખાનાં ભરો.",
+  "@errorAlertIncomplete": {
+    "x-review": "pending"
+  },
+  "errorMergeInvalid": "આ સમસ્યાઓ મર્જ કરી શકાતી નથી.",
+  "@errorMergeInvalid": {
+    "x-review": "pending"
+  },
+  "errorSelfSuspend": "તમે પોતાને સસ્પેન્ડ કરી શકતા નથી.",
+  "@errorSelfSuspend": {
+    "x-review": "pending"
+  },
+  "errorUserStateInvalid": "આ એકાઉન્ટ પહેલેથી બદલાઈ ગયું છે. યાદી ફરી લોડ કરો.",
+  "@errorUserStateInvalid": {
+    "x-review": "pending"
+  },
+  "errorRoleChangeInvalid": "આ ભૂમિકા અહીં બદલી શકાતી નથી.",
+  "@errorRoleChangeInvalid": {
+    "x-review": "pending"
+  },
+  "errorSettingUnknown": "આ સેટિંગ અસ્તિત્વમાં નથી.",
+  "@errorSettingUnknown": {
+    "x-review": "pending"
+  },
+  "errorInitiativeNotStarted": "અભિયાન શરૂ થાય ત્યારે હાજરી નોંધી શકાશે.",
+  "@errorInitiativeNotStarted": {
+    "x-review": "pending"
+  },
+  "errorNotVerified": "આ પ્રતિનિધિ ચકાસાયેલા નથી.",
+  "@errorNotVerified": {
+    "x-review": "pending"
+  },
+  "errorAlreadyReplied": "તમે આ સંદેશનો જવાબ પહેલેથી આપી દીધો છે.",
+  "@errorAlreadyReplied": {
+    "x-review": "pending"
+  },
+  "errorIdempotencyReused": "આ સમસ્યા પહેલેથી નોંધાવાઈ ગઈ છે. નવી સમસ્યા નોંધાવો.",
+  "@errorIdempotencyReused": {
+    "x-review": "pending"
+  },
+  "errorCcrsNotLinked": "પહેલાં AMC ફરિયાદ નંબર ઉમેરો.",
+  "@errorCcrsNotLinked": {
+    "x-review": "pending"
+  },
   "aboutTitle": "એપ વિશે",
   "@aboutTitle": {
     "x-review": "pending"
@@ -388,11 +452,11 @@
   "@wardLocationRationale": {
     "x-review": "pending"
   },
-  "wardLocateResult": "તમે {ward} ({zone}) માં છો. શું આ તમારો ઘરનો વોર્ડ છે?",
+  "wardLocateResult": "તમે {ward} ({zone})માં છો. શું આ તમારો ઘરનો વોર્ડ છે?",
   "@wardLocateResult": {
     "x-review": "pending"
   },
-  "wardLocateConfirm": "તમે {ward} ની સહેજ બહાર હો એમ લાગે છે. શું આ સાચું છે?",
+  "wardLocateConfirm": "તમે {ward}ની સહેજ બહાર હો એમ લાગે છે. શું આ સાચું છે?",
   "@wardLocateConfirm": {
     "x-review": "pending"
   },
@@ -1167,7 +1231,7 @@
   "@repOfficePhone": {
     "x-review": "pending"
   },
-  "repMessageButton": "{name} ને સંદેશ મોકલો",
+  "repMessageButton": "{name}ને સંદેશ મોકલો",
   "@repMessageButton": {
     "x-review": "pending"
   },
@@ -1195,15 +1259,15 @@
   "@repLoadError": {
     "x-review": "pending"
   },
-  "repMessageSemantics": "{name} ને સંદેશ, {role}, વોર્ડ {number}",
+  "repMessageSemantics": "{name}ને સંદેશ, {role}, વોર્ડ {number}",
   "@repMessageSemantics": {
     "x-review": "pending"
   },
-  "repMessageSemanticsArea": "{name} ને સંદેશ, {role}",
+  "repMessageSemanticsArea": "{name}ને સંદેશ, {role}",
   "@repMessageSemanticsArea": {
     "x-review": "pending"
   },
-  "relayTitle": "{name} ને સંદેશ",
+  "relayTitle": "{name}ને સંદેશ",
   "@relayTitle": {
     "x-review": "pending"
   },
@@ -1235,11 +1299,11 @@
   "@relayCounter": {
     "x-review": "pending"
   },
-  "relaySharePhone": "{name} ની ઑફિસ મને પાછો કૉલ કરી શકે તે માટે મારો ફોન નંબર શેર કરો",
+  "relaySharePhone": "{name}ની ઑફિસ મને પાછો કૉલ કરી શકે તે માટે મારો ફોન નંબર શેર કરો",
   "@relaySharePhone": {
     "x-review": "pending"
   },
-  "relayNote": "અમે તમારો સંદેશ {name} ના સત્તાવાર સરનામે ઈમેલ કરીશું. તમે બૉક્સ પર ટિક ન કરો ત્યાં સુધી તમારો ફોન નંબર છુપો રહે છે. પ્રતિનિધિઓએ જવાબ આપવો ફરજિયાત નથી.",
+  "relayNote": "અમે તમારો સંદેશ {name}ના સત્તાવાર સરનામે ઈમેલ કરીશું. તમે બૉક્સ પર ટિક ન કરો ત્યાં સુધી તમારો ફોન નંબર છુપો રહે છે. પ્રતિનિધિઓએ જવાબ આપવો ફરજિયાત નથી.",
   "@relayNote": {
     "x-review": "pending"
   },
@@ -1251,7 +1315,7 @@
   "@relaySend": {
     "x-review": "pending"
   },
-  "relaySent": "સંદેશ મોકલાયો. અમે તે {name} ની ઑફિસને ઈમેલ કર્યો છે.",
+  "relaySent": "સંદેશ મોકલાયો. અમે તે {name}ની ઑફિસને ઈમેલ કર્યો છે.",
   "@relaySent": {
     "x-review": "pending"
   },
@@ -1347,7 +1411,7 @@
   "@scorecardMethodTitle": {
     "x-review": "pending"
   },
-  "scorecardMethodBody": "ફક્ત સારથી પર થયેલા રિપોર્ટ પર આધારિત, AMC ના રેકોર્ડ પર નહીં. મધ્યક છેલ્લા 90 દિવસના રિપોર્ટ પરથી ગણાય છે. કોઈ રહેવાસી ફોટા સાથે ખાતરી કરે ત્યારે ઉકેલ ચકાસાયેલો ગણાય છે. દર 1,000 રહેવાસીએ રિપોર્ટ ગણવા માટે, ઉપલબ્ધ હોય ત્યાં, {source} ની વોર્ડ વસ્તી વપરાય છે. આંકડા માટે ઓછામાં ઓછા 5 રિપોર્ટ જરૂરી છે.",
+  "scorecardMethodBody": "ફક્ત સારથી પર થયેલા રિપોર્ટ પર આધારિત, AMC ના રેકોર્ડ પર નહીં. મધ્યક છેલ્લા 90 દિવસના રિપોર્ટ પરથી ગણાય છે. કોઈ રહેવાસી ફોટા સાથે ખાતરી કરે ત્યારે ઉકેલ ચકાસાયેલો ગણાય છે. દર 1,000 રહેવાસીએ રિપોર્ટ ગણવા માટે, ઉપલબ્ધ હોય ત્યાં, {source}ની વોર્ડ વસ્તી વપરાય છે. આંકડા માટે ઓછામાં ઓછા 5 રિપોર્ટ જરૂરી છે.",
   "@scorecardMethodBody": {
     "x-review": "pending"
   },
@@ -1443,7 +1507,7 @@
   "@reportFlowInWard": {
     "x-review": "pending"
   },
-  "reportFlowWardConfirm": "આ જગ્યા વોર્ડની હદની સહેજ બહાર છે. શું તે {ward} માં છે?",
+  "reportFlowWardConfirm": "આ જગ્યા વોર્ડની હદની સહેજ બહાર છે. શું તે {ward}માં છે?",
   "@reportFlowWardConfirm": {
     "x-review": "pending"
   },
@@ -1603,7 +1667,7 @@
   "@reportFlowSubmit": {
     "x-review": "pending"
   },
-  "reportFlowQuota": "તમે આજે {count} રિપોર્ટ મોકલ્યા છે. કાલે વધુ મોકલી શકશો.",
+  "reportFlowQuota": "{count, plural, =1{તમે આજે 1 રિપોર્ટ મોકલ્યો છે.} other{તમે આજે {count} રિપોર્ટ મોકલ્યા છે.}} કાલે વધુ મોકલી શકશો.",
   "@reportFlowQuota": {
     "x-review": "pending"
   },
@@ -2127,6 +2191,10 @@
   "@staffAlertsFieldArea": {
     "x-review": "pending"
   },
+  "staffAlertsFieldGeneric": "આ ખાનું",
+  "@staffAlertsFieldGeneric": {
+    "x-review": "pending"
+  },
   "staffAlertsAreaWards": "વોર્ડ",
   "@staffAlertsAreaWards": {
     "x-review": "pending"
@@ -2155,6 +2223,10 @@
   "@staffAlertsErrRequired": {
     "x-review": "pending"
   },
+  "staffAlertsErrInvalid": "આ વિગત તપાસો.",
+  "@staffAlertsErrInvalid": {
+    "x-review": "pending"
+  },
   "staffAlertsErrTooLong": "ખૂબ લાંબું.",
   "@staffAlertsErrTooLong": {
     "x-review": "pending"
@@ -2179,7 +2251,7 @@
   "@staffAlertsApprovedBy": {
     "x-review": "pending"
   },
-  "staffAlertsNeedsMore": "હજી {count} મંજૂરી જોઈએ",
+  "staffAlertsNeedsMore": "{count, plural, =1{હજી 1 મંજૂરી જોઈએ} other{હજી {count} મંજૂરી જોઈએ}}",
   "@staffAlertsNeedsMore": {
     "x-review": "pending"
   },
@@ -2211,11 +2283,11 @@
   "@staffAlertsUpdate": {
     "x-review": "pending"
   },
-  "staffAlertsConfirmPublish": "આ {area} માં દરેકને હમણાં જાણ કરશે.",
+  "staffAlertsConfirmPublish": "આ {area}માં દરેકને હમણાં જાણ કરશે.",
   "@staffAlertsConfirmPublish": {
     "x-review": "pending"
   },
-  "staffAlertsConfirmPublishQuiet": "આ {area} માં દરેકને સવારે 7:00 વાગ્યે જાણ કરશે (શાંત સમય).",
+  "staffAlertsConfirmPublishQuiet": "આ {area}માં દરેકને સવારે 7:00 વાગ્યે જાણ કરશે (શાંત સમય).",
   "@staffAlertsConfirmPublishQuiet": {
     "x-review": "pending"
   },
@@ -2861,6 +2933,26 @@
   },
   "staffContentFieldOrganiser": "આયોજક ({options})",
   "@staffContentFieldOrganiser": {
+    "x-review": "pending"
+  },
+  "staffContentFieldOrganiserPick": "આયોજક",
+  "@staffContentFieldOrganiserPick": {
+    "x-review": "pending"
+  },
+  "staffOrganiserAmc": "AMC",
+  "@staffOrganiserAmc": {
+    "x-review": "pending"
+  },
+  "staffOrganiserRwa": "રહેવાસી મંડળ (RWA)",
+  "@staffOrganiserRwa": {
+    "x-review": "pending"
+  },
+  "staffOrganiserNgo": "સ્વૈચ્છિક સંસ્થા (NGO)",
+  "@staffOrganiserNgo": {
+    "x-review": "pending"
+  },
+  "staffOrganiserSaarthee": "સારથી",
+  "@staffOrganiserSaarthee": {
     "x-review": "pending"
   },
   "issueActionsStatusAnnounce": "સ્થિતિ બદલાઈ: {status}",
@@ -3787,7 +3879,7 @@
   "@staffSettingsScopeWards": {
     "x-review": "pending"
   },
-  "staffSettingsWardsCount": "{count} વોર્ડ પસંદ કર્યા",
+  "staffSettingsWardsCount": "{count, plural, =1{1 વોર્ડ પસંદ કર્યો} other{{count} વોર્ડ પસંદ કર્યા}}",
   "@staffSettingsWardsCount": {
     "x-review": "pending"
   },

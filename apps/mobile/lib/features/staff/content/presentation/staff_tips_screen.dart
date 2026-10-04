@@ -6,6 +6,7 @@ import '../../../../core/l10n/app_localizations.dart';
 import '../../../../core/theme/icons.dart';
 import '../../../../core/wards/ward_providers.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../services/data/service_models.dart' show pick;
 import '../application/content_validators.dart';
 import '../data/staff_content_api.dart';
 import 'content_form.dart';
@@ -48,7 +49,13 @@ class StaffTipsScreen extends ConsumerWidget {
             final id = '${t['id']}';
             return ListTile(
               key: Key('staff.tip.$id'),
-              title: Text(str(t['titleEn'])),
+              title: Text(
+                pick(
+                  Localizations.localeOf(context).languageCode,
+                  str(t['titleEn']),
+                  str(t['titleGu']),
+                ),
+              ),
               subtitle: Text(
                 '${t['activeFrom']} – ${t['activeTo']}${t['isActive'] == true ? '' : ' · ${l10n.staffContentInactive}'}',
               ),
@@ -141,7 +148,13 @@ class StaffTipFormScreen extends ConsumerWidget {
     }
 
     return StaffPage(
-      title: e == null ? l10n.staffContentNewTip : s('titleEn'),
+      title: e == null
+          ? l10n.staffContentNewTip
+          : pick(
+              Localizations.localeOf(context).languageCode,
+              s('titleEn'),
+              s('titleGu'),
+            ),
       roles: adminOnly,
       child: ContentForm(
         key: const Key('staff.tipForm'),

@@ -111,6 +111,70 @@
   "errorServiceUnavailable": "The service is unavailable. Please try again later.",
   "errorOffline": "You're offline. Your answers are saved.",
   "errorTimeout": "That took too long. Please try again.",
+  "errorAlertStateInvalid": "This alert has changed. Reload and try again.",
+  "@errorAlertStateInvalid": {
+    "description": "Staff console / API error message"
+  },
+  "errorAlertApprovalsMissing": "This alert needs its approvals before it can be published.",
+  "@errorAlertApprovalsMissing": {
+    "description": "Staff console / API error message"
+  },
+  "errorAlertAlreadyApproved": "You have already approved this alert.",
+  "@errorAlertAlreadyApproved": {
+    "description": "Staff console / API error message"
+  },
+  "errorAlertSecondApproverAdmin": "The second approval must come from an admin.",
+  "@errorAlertSecondApproverAdmin": {
+    "description": "Staff console / API error message"
+  },
+  "errorAlertSuperseded": "A newer alert has replaced this one.",
+  "@errorAlertSuperseded": {
+    "description": "Staff console / API error message"
+  },
+  "errorAlertIncomplete": "Fill in all required fields in both languages before submitting.",
+  "@errorAlertIncomplete": {
+    "description": "Staff console / API error message"
+  },
+  "errorMergeInvalid": "These issues can't be merged.",
+  "@errorMergeInvalid": {
+    "description": "Staff console / API error message"
+  },
+  "errorSelfSuspend": "You can't suspend yourself.",
+  "@errorSelfSuspend": {
+    "description": "Staff console / API error message"
+  },
+  "errorUserStateInvalid": "This account has already changed. Reload the list.",
+  "@errorUserStateInvalid": {
+    "description": "Staff console / API error message"
+  },
+  "errorRoleChangeInvalid": "This role can't be changed here.",
+  "@errorRoleChangeInvalid": {
+    "description": "Staff console / API error message"
+  },
+  "errorSettingUnknown": "This setting doesn't exist.",
+  "@errorSettingUnknown": {
+    "description": "Staff console / API error message"
+  },
+  "errorInitiativeNotStarted": "Attendance opens when the drive starts.",
+  "@errorInitiativeNotStarted": {
+    "description": "Staff console / API error message"
+  },
+  "errorNotVerified": "This representative isn't verified.",
+  "@errorNotVerified": {
+    "description": "Staff console / API error message"
+  },
+  "errorAlreadyReplied": "You have already replied to this message.",
+  "@errorAlreadyReplied": {
+    "description": "Staff console / API error message"
+  },
+  "errorIdempotencyReused": "This report was already sent. Start a new report.",
+  "@errorIdempotencyReused": {
+    "description": "Staff console / API error message"
+  },
+  "errorCcrsNotLinked": "Add the AMC complaint number first.",
+  "@errorCcrsNotLinked": {
+    "description": "Staff console / API error message"
+  },
   "aboutTitle": "About",
   "aboutOperatorLogin": "Operator login",
   "reportPhotoTake": "Take photo",
@@ -1712,7 +1776,7 @@
   "@reportFlowSubmit": {
     "description": "TASK-05 report"
   },
-  "reportFlowQuota": "You've sent {count} reports today. You can send more tomorrow.",
+  "reportFlowQuota": "{count, plural, =1{You've sent 1 report today.} other{You've sent {count} reports today.}} You can send more tomorrow.",
   "@reportFlowQuota": {
     "description": "TASK-05 report",
     "placeholders": {
@@ -2374,6 +2438,10 @@
   "@staffAlertsFieldArea": {
     "description": "TASK-08 staff alerts"
   },
+  "staffAlertsFieldGeneric": "This field",
+  "@staffAlertsFieldGeneric": {
+    "description": "TASK-08 staff alerts"
+  },
   "staffAlertsAreaWards": "Wards",
   "@staffAlertsAreaWards": {
     "description": "TASK-08 staff alerts"
@@ -2410,6 +2478,10 @@
   "@staffAlertsErrRequired": {
     "description": "TASK-08 staff alerts"
   },
+  "staffAlertsErrInvalid": "Check this value.",
+  "@staffAlertsErrInvalid": {
+    "description": "TASK-08 staff alerts"
+  },
   "staffAlertsErrTooLong": "Too long.",
   "@staffAlertsErrTooLong": {
     "description": "TASK-08 staff alerts"
@@ -2442,7 +2514,7 @@
       }
     }
   },
-  "staffAlertsNeedsMore": "Needs {count} more approval",
+  "staffAlertsNeedsMore": "{count, plural, =1{Needs 1 more approval} other{Needs {count} more approvals}}",
   "@staffAlertsNeedsMore": {
     "description": "TASK-08 staff alerts",
     "placeholders": {
@@ -3229,6 +3301,26 @@
         "type": "String"
       }
     }
+  },
+  "staffContentFieldOrganiserPick": "Organiser",
+  "@staffContentFieldOrganiserPick": {
+    "description": "TASK-12 staff content"
+  },
+  "staffOrganiserAmc": "AMC",
+  "@staffOrganiserAmc": {
+    "description": "TASK-12 staff content"
+  },
+  "staffOrganiserRwa": "Residents' association (RWA)",
+  "@staffOrganiserRwa": {
+    "description": "TASK-12 staff content"
+  },
+  "staffOrganiserNgo": "Voluntary organisation (NGO)",
+  "@staffOrganiserNgo": {
+    "description": "TASK-12 staff content"
+  },
+  "staffOrganiserSaarthee": "Saarthee",
+  "@staffOrganiserSaarthee": {
+    "description": "TASK-12 staff content"
   },
   "issueActionsStatusAnnounce": "Status changed to {status}",
   "@issueActionsStatusAnnounce": {
@@ -4268,7 +4360,7 @@
   "@staffSettingsScopeWards": {
     "description": "TASK-10 staff console"
   },
-  "staffSettingsWardsCount": "{count} wards chosen",
+  "staffSettingsWardsCount": "{count, plural, =1{1 ward chosen} other{{count} wards chosen}}",
   "@staffSettingsWardsCount": {
     "description": "TASK-10 staff console",
     "placeholders": {
