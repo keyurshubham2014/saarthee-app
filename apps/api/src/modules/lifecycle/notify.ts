@@ -80,13 +80,14 @@ async function names(issueId: string): Promise<Names | null> {
 export async function notifyIssue(
   issueId: string,
   kind: keyof typeof TEMPLATES,
-  opts: { actorUserId?: string | null; recipients?: string[]; days?: number; until?: Date; ignoreQuietHours?: boolean } = {},
+  opts: { actorUserId?: string | null; recipients?: string[]; except?: string[]; days?: number; until?: Date; ignoreQuietHours?: boolean } = {},
 ): Promise<number> {
   const template = TEMPLATES[kind];
   const n = template && (await names(issueId));
   if (!template || !n) return 0;
   const userIds = opts.recipients ?? (await prisma.follow.findMany({ where: { issueId }, select: { userId: true } })).map((f) => f.userId);
-  const recipients = [...new Set(userIds)].filter((u) => u !== opts.actorUserId);
+  const except = new Set(opts.except ?? []);
+  const recipients = [...new Set(userIds)].filter((u) => u !== opts.actorUserId && !except.has(u));
   const { title, body } = template(n, opts);
   const sendAfter = opts.ignoreQuietHours ? undefined : (quietHoursEnd(clockNow(), config.QUIET_HOURS) ?? undefined);
   const msg: PushMessage = {
@@ -104,7 +105,7 @@ export async function notifyIssue(
 }
 
 /** Hooked by transition() after commit. `sent`/`merged` are not announced. */
-export async function notifyStatusChange(issueId: string, to: IssueStatus, actorUserId: string | null): Promise<void> {
+export async function notifyStatusChange(issueId: string, to: IssueStatus, actorUserId: string | null, except?: string[]): Promise<void> {
   if (!TEMPLATES[to]) return;
-  await notifyIssue(issueId, to, { actorUserId });
+  await notifyIssue(issueId, to, { actorUserId, except });
 }

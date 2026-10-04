@@ -50,7 +50,7 @@ class StaffApi {
     {'reason': reason},
   );
 
-  /// Acknowledge / in progress / mark fixed (TASK-06 stand-in endpoint).
+  /// Acknowledge / in progress / mark fixed (`/staff/issues/{id}/status`, backed by TASK-06 transition()).
   Future<Json> status(
     String id,
     String to, {
@@ -93,12 +93,15 @@ class StaffApi {
 
   /// After photo for "Mark as fixed": `POST /photos` from bytes (works on the
   /// web build too). Needs the phone session (the endpoint is citizen-auth).
-  Future<String> uploadPhoto(List<int> bytes) async {
+  /// `purpose: after` + `issueId`, as TASK-06's transition() accepts only
+  /// after-purpose photos when marking fixed (W-INT10).
+  Future<String> uploadPhoto(String issueId, List<int> bytes) async {
     try {
       final res = await _client.dio.post<dynamic>(
         '/photos',
         data: FormData.fromMap({
-          'purpose': 'report',
+          'purpose': 'after',
+          'issueId': issueId,
           'photo': MultipartFile.fromBytes(
             bytes,
             filename: 'after.jpg',

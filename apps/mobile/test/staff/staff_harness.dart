@@ -102,8 +102,8 @@ class FakeStaffApi implements StaffApi {
     String? expectedStatus,
   }) => _maybeFail('status:$id:$to:${photoIds.join(',')}', () => issues[id]!);
   @override
-  Future<String> uploadPhoto(List<int> bytes) async {
-    calls.add('upload:${bytes.length}');
+  Future<String> uploadPhoto(String issueId, List<int> bytes) async {
+    calls.add('upload:$issueId:${bytes.length}');
     return 'photo-1';
   }
 

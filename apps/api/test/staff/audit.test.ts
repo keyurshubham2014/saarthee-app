@@ -24,7 +24,7 @@ describe('audit (T-10-02)', () => {
     const cat = await makeCategory();
     const ev = await comment(i5!.id, reporter.user.id);
     const flag = await post(reporter.auth, `/issues/${i5!.id}/flags`, { reason: 'spam', note: SECRET_NOTE });
-    const photo = await makePhoto({ uploadedByUserId: mod.user.id, attachedAt: null });
+    const photo = await makePhoto({ uploadedByUserId: mod.user.id, attachedAt: null, purpose: 'after' });
 
     const steps: [string, () => Promise<{ status: number }>][] = [
       ['issue_rejected', () => post(mod.auth, `/staff/issues/${i1!.id}/reject`, { reason: 'spam', note: SECRET_NOTE })],

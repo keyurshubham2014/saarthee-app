@@ -1,13 +1,14 @@
 /**
  * Moderation actions (TASK-10 §5.3). Each runs in one transaction with a row lock and appends issue_events.
- * Status writes go only through status.service (`writeStatus`) so TASK-06's `transition()` can replace it.
+ * Status writes go only through TASK-06's `transitionInTx()` (via status.service `transitionAsStaff`), inside the
+ * same transaction as the side effects; its `afterCommit()` notifications run after commit (W-INT10).
  */
 import { now } from '../../lib/clock';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { logger } from '../../lib/logger';
 import { notifyUser } from '../../lib/push';
-import { lockIssue, TERMINAL_OPEN, writeStatus, type StatusActor } from './status.service';
+import { lockIssue, TERMINAL_OPEN, transitionAsStaff, type StatusActor } from './status.service';
 
 export const REJECT_REASONS = ['spam', 'duplicate', 'out_of_area', 'private_individual', 'not_civic', 'other'] as const;
 export type RejectReason = (typeof REJECT_REASONS)[number];
@@ -31,14 +32,19 @@ async function actionFlags(tx: Parameters<Parameters<typeof prisma.$transaction>
 }
 
 export async function rejectIssue(id: string, actor: StatusActor, reason: RejectReason, note?: string) {
-  const issue = await prisma.$transaction(async (tx) => {
+  const { issue, afterCommit } = await prisma.$transaction(async (tx) => {
     const locked = await lockIssue(tx, id);
     if (!TERMINAL_OPEN.includes(locked.status)) throw new AppError('ISSUE_STATE_INVALID');
-    await writeStatus(tx, locked, 'rejected', actor, { note: note ? `${reason}: ${note}` : reason, eventType: 'rejected' });
+    // The reporter gets the reason-specific message below; other followers get TASK-06's "Issue closed".
+    const t = await transitionAsStaff(tx, id, 'rejected', actor, {
+      note: note ? `${reason}: ${note}` : reason,
+      notifyExcept: locked.reporter_id ? [locked.reporter_id] : [],
+    });
     await tx.issue.update({ where: { id }, data: stamp(actor) });
     await actionFlags(tx, [id], actor);
-    return locked;
+    return { issue: locked, afterCommit: t.afterCommit };
   });
+  await afterCommit();
   if (issue.reporter_id) {
     const text = REASON_TEXT[reason];
     await notifyUser(issue.reporter_id, {
@@ -51,7 +57,7 @@ export async function rejectIssue(id: string, actor: StatusActor, reason: Reject
 
 export async function mergeIssue(id: string, targetId: string, actor: StatusActor, note?: string) {
   if (id === targetId) throw new AppError('MERGE_INVALID');
-  await prisma.$transaction(async (tx) => {
+  const afterCommit = await prisma.$transaction(async (tx) => {
     // Lock in a stable order to avoid deadlocks between opposite merges.
     const [first, second] = [id, targetId].sort();
     const a = await lockIssue(tx, first!);
@@ -62,7 +68,7 @@ export async function mergeIssue(id: string, targetId: string, actor: StatusActo
     if (!TERMINAL_OPEN.includes(target.status) || target.status === 'marked_fixed' || target.visibility === 'hidden') {
       throw new AppError('MERGE_INVALID');
     }
-    await writeStatus(tx, source, 'merged', actor, { note: note ?? null, mergedIntoId: targetId, eventType: 'merged' });
+    const t = await transitionAsStaff(tx, id, 'merged', actor, { note: note ?? null, mergedIntoId: targetId });
     await tx.issue.update({ where: { id }, data: stamp(actor) });
     await tx.$executeRaw`
       INSERT INTO me_toos (issue_id, user_id, created_at)
@@ -86,7 +92,9 @@ export async function mergeIssue(id: string, targetId: string, actor: StatusActo
       data: { issueId: targetId, actorId: actor.actorId, actorRole: actor.actorRole, type: 'merged', note: `merged_from:${id}`, createdAt: now() },
     });
     await actionFlags(tx, [id], actor);
+    return t.afterCommit;
   });
+  await afterCommit();
 }
 
 export async function recategoriseIssue(

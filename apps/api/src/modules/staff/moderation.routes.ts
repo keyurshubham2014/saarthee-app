@@ -90,7 +90,7 @@ moderationRouter.post('/staff/issues/:id/reviewed', ...moderators, validate({ pa
   res.json(await staffIssueDetail(id));
 });
 
-/** Acknowledge / in progress / mark fixed (thin; status.service is the swap point for TASK-06). */
+/** Acknowledge / in progress / mark fixed (thin; status.service calls TASK-06's transitionInTx). */
 moderationRouter.post('/staff/issues/:id/status', ...moderators, validate({ params: idParams, body: statusBody }), async (req, res) => {
   const id = idOf(res);
   const body = req.body as z.infer<typeof statusBody>;

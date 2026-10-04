@@ -455,6 +455,7 @@ Prediction only — exact paths may differ.
 | 2026-10-04 | API tests T-06-01…16 + single-writer static check + `GET /issues/{id}/lifecycle` (363 API tests green, tsc/eslint clean, drift gate OK) | 57bc826, 78ff44a, 57c320f, d8b08e3 |
 | 2026-10-04 | App: data/providers, ARB `issueActions*` block (en+gu, gu pending review), `AnimatedStatusChip`, `AnimatedStatusTimeline`, `SendProgressButton`, verify 2 steps + toast, mark fixed, escalate, AMC-closed sheet/banner, `IssueStatusActions`, `/issues/:id` interim screen, routes + v1 `/verify/*` redirect, push allow-list `/issues/:id/verify` | dcb6f57…c79d9c1 |
 | 2026-10-04 | Widget tests W-06-01…09 (+ mark fixed), 341 Flutter tests green, `dart analyze` 0, format clean; emulator integration test `integration_test/report_verify_test.dart` written (not run here) | 9cdeedd…HEAD |
+| 2026-10-04 | W-INT10 integration: TASK-10 staff console now calls `transitionInTx()` for status / reject / merge (single-writer test green). `TransitionOptions` gains `mergedIntoId` (required for and only for `merged`, written in the same UPDATE for `ck_issues_merged`) and `notifyExcept` (followers skipped in the after-commit fan-out); `TransitionActor.userId = null` + `kind: admin` documented for v1 email admins (caller sets `meta.adminUserId`). Rule table unchanged (reject/merge rows already matched TASK-10). Tests `test/lifecycle/integration-options.test.ts` | f9a4343, 14c75f6 |
 
 ## 14. Completion Checklist
 

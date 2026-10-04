@@ -15,7 +15,11 @@ const DAY_MS = 86_400_000;
 const AFTER_PHOTO_MAX = 3;
 
 export interface TransitionActor {
-  /** null for `system`. */
+  /**
+   * null for `system`, and for a v1 email admin (an `admin_users` row with no `users` row, kind `admin`):
+   * the caller then records who acted as `meta.adminUserId` (integration W-INT10). Such an actor cannot
+   * attach photos (PHOTO_UNUSABLE) because photos are owned by a users row.
+   */
   userId: string | null;
   kind: ActorKind;
 }
@@ -26,6 +30,13 @@ export interface TransitionOptions {
   clientActionId?: string;
   expectedStatus?: IssueStatus;
   meta?: Prisma.InputJsonObject;
+  /**
+   * Required for (and only for) `to = 'merged'`: written in the same UPDATE as the status because
+   * `ck_issues_merged` ties `status = 'merged'` to `merged_into_id`. W-INT10.
+   */
+  mergedIntoId?: string;
+  /** Followers left out of the after-commit notification (e.g. a reporter told separately). W-INT10. */
+  notifyExcept?: string[];
 }
 
 export interface TransitionResult {
@@ -91,6 +102,9 @@ export async function transitionInTx(tx: Tx, issueId: string, to: IssueStatus, a
   if (rule.noteRequired && !opts.note?.trim()) {
     throw new AppError('VALIDATION_FAILED', { details: [{ field: 'note', issue: 'Add a reason.' }] });
   }
+  if ((to === 'merged') !== Boolean(opts.mergedIntoId) || opts.mergedIntoId === issueId) {
+    throw new AppError('VALIDATION_FAILED', { details: [{ field: 'mergedIntoId', issue: 'A merge needs one other target issue.' }] });
+  }
   if (opts.photoIds?.length && to !== 'marked_fixed') {
     throw new AppError('VALIDATION_FAILED', { details: [{ field: 'photoIds', issue: 'Photos can be added only when marking fixed.' }] });
   }
@@ -99,6 +113,7 @@ export async function transitionInTx(tx: Tx, issueId: string, to: IssueStatus, a
   const data: Prisma.IssueUncheckedUpdateInput = { status: to, statusChangedAt: at, statusVersion: { increment: 1 } };
   if (to === 'marked_fixed') Object.assign(data, { markedFixedAt: at, verifiedAt: null });
   if (to === 'verified') data.verifiedAt = at;
+  if (to === 'merged') data.mergedIntoId = opts.mergedIntoId;
   if (to === 'reopened') {
     Object.assign(data, { reopenedCount: { increment: 1 }, slaDueAt: new Date(at.getTime() + issue.category.slaDays * DAY_MS), overdueNotifiedAt: null, verifiedAt: null });
   }
@@ -113,7 +128,7 @@ export async function transitionInTx(tx: Tx, issueId: string, to: IssueStatus, a
       clientActionId: opts.clientActionId ?? null, meta: opts.meta ?? Prisma.JsonNull, createdAt: at,
     },
   });
-  return { issue: updated, event, repeated: false, afterCommit: () => notifyStatusChange(issueId, to, actor.userId) };
+  return { issue: updated, event, repeated: false, afterCommit: () => notifyStatusChange(issueId, to, actor.userId, opts.notifyExcept) };
 }
 
 /** Changes an issue's status in its own transaction, then notifies followers. Every status write goes here. */
