@@ -15,10 +15,15 @@ List<Ward> _realWards() => ApiWardsRepository.parseWards(
 
 void main() {
   group('F-02-01 shared search table', () {
-    final table =
-        jsonDecode(File(_sharedCases).readAsStringSync())
-            as Map<String, dynamic>;
-    const zone = Zone(id: 'z', code: 'west', nameEn: 'West', nameGu: 'પશ્ચિમ ઝોન');
+    final table = jsonDecode(
+      File(_sharedCases).readAsStringSync(),
+    ) as Map<String, dynamic>;
+    const zone = Zone(
+      id: 'z',
+      code: 'west',
+      nameEn: 'West',
+      nameGu: 'પશ્ચિમ ઝોન',
+    );
     final wards = [
       for (final w in table['wards'] as List)
         Ward(
@@ -75,13 +80,13 @@ void main() {
     });
 
     test('Gujarati and transliterated names match either script', () {
-      expect(
-        groupAndFilter(wards, 'પાલડી').single.wards.single.number,
-        30,
-      );
+      expect(groupAndFilter(wards, 'પાલડી').single.wards.single.number, 30);
       expect(groupAndFilter(wards, 'PALDI').single.wards.single.number, 30);
       expect(
-        groupAndFilter(wards, 'nava').expand((g) => g.wards).map((w) => w.nameEn),
+        groupAndFilter(
+          wards,
+          'nava',
+        ).expand((g) => g.wards).map((w) => w.nameEn),
         contains('Nava Vadaj'),
       );
     });
@@ -96,7 +101,12 @@ void main() {
 
   test('unknown zone codes sort after the AMC zones', () {
     const odd = Zone(id: 'x', code: 'airport', nameEn: 'Airport', nameGu: 'એ');
-    const central = Zone(id: 'c', code: 'central', nameEn: 'Central', nameGu: 'મ');
+    const central = Zone(
+      id: 'c',
+      code: 'central',
+      nameEn: 'Central',
+      nameGu: 'મ',
+    );
     final groups = groupAndFilter(const [
       Ward(id: '1', number: 1, nameEn: 'A', nameGu: 'અ', zone: odd),
       Ward(id: '2', number: 2, nameEn: 'B', nameGu: 'બ', zone: central),
