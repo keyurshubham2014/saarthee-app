@@ -59,20 +59,24 @@ class _MeTooButtonState extends ConsumerState<MeTooButton>
   }
 
   Future<void> _tap() async {
+    // The intent is fixed at the tap: after a sign-in the refreshed state may
+    // already show it (e.g. the reporter), and a toggle would undo it.
+    final turningOn = !ref.read(socialProvider(widget.issueId)).hasMeToo;
     if (!await ensureSignedIn(context, ref, reason: SignInReason.meToo)) {
       return;
     }
     if (!mounted) return;
     ref.read(saartheeHapticsProvider).light();
     final spec = SaartheeMotion.of(context).springIn;
-    final turningOn = !ref.read(socialProvider(widget.issueId)).hasMeToo;
-    if (turningOn && !spec.isInstant) {
+    if (turningOn &&
+        !ref.read(socialProvider(widget.issueId)).hasMeToo &&
+        !spec.isInstant) {
       _c.duration = spec.duration;
       _c.forward(from: 0);
     }
     final ok = await ref
         .read(socialProvider(widget.issueId).notifier)
-        .toggleMeToo();
+        .setMeToo(turningOn);
     if (!ok && mounted) _failed(context);
   }
 
@@ -145,6 +149,7 @@ class FollowButton extends ConsumerWidget {
         onPressed: !enabled
             ? null
             : () async {
+                final want = !on; // intent fixed at the tap (see Me too)
                 if (!await ensureSignedIn(
                   context,
                   ref,
@@ -154,7 +159,7 @@ class FollowButton extends ConsumerWidget {
                 }
                 final ok = await ref
                     .read(socialProvider(issueId).notifier)
-                    .toggleFollow();
+                    .setFollow(want);
                 if (!ok && context.mounted) _failed(context);
               },
         style: OutlinedButton.styleFrom(

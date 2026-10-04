@@ -49,11 +49,15 @@ class SocialController extends Notifier<SocialState> {
 
   /// Toggles Me too optimistically (Me too also follows). Returns false and
   /// rolls the count back when the server refuses or the network fails.
-  Future<bool> toggleMeToo() async {
+  Future<bool> toggleMeToo() => setMeToo(!state.hasMeToo);
+
+  /// Sets Me too to [on] (no-op when already so). Used for actions resumed
+  /// after sign-in, where the refreshed state may already reflect it.
+  Future<bool> setMeToo(bool on) async {
     if (_busy) return true;
+    if (state.hasMeToo == on) return true;
     _busy = true;
     final before = state;
-    final on = !before.hasMeToo;
     state = before.copyWith(
       hasMeToo: on,
       meTooCount: before.meTooCount + (on ? 1 : -1),
@@ -74,11 +78,14 @@ class SocialController extends Notifier<SocialState> {
   }
 
   /// Toggles Follow optimistically; rolls back on failure.
-  Future<bool> toggleFollow() async {
+  Future<bool> toggleFollow() => setFollow(!state.isFollowing);
+
+  /// Sets Follow to [on] (no-op when already so); see [setMeToo].
+  Future<bool> setFollow(bool on) async {
     if (_busy) return true;
+    if (state.isFollowing == on) return true;
     _busy = true;
     final before = state;
-    final on = !before.isFollowing;
     state = before.copyWith(isFollowing: on);
     try {
       await ref.read(discoveryApiProvider).follow(issueId, on: on);
