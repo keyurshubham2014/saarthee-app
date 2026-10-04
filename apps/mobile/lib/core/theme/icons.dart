@@ -127,4 +127,9 @@ class SaartheeIcons {
 
   // Admin console (v1, restyled).
   static const IconData block = Symbols.block_rounded;
+
+  // TASK-04 accounts (append-only).
+  static const IconData delete = Symbols.delete_rounded;
+  static const IconData privacy = Symbols.shield_person_rounded;
+  static const IconData phone = Symbols.smartphone_rounded;
 }
