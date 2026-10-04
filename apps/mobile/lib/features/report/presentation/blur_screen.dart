@@ -9,6 +9,7 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
 import '../application/photo_pipeline.dart';
+import '../application/report_draft_controller.dart';
 
 /// `/report/photo/blur` (TASK-05 §5.4, REQ-S-007 P1): manual blur tool. Tap
 /// blurs a square around the point, drag blurs the dragged rectangle; Undo
@@ -50,8 +51,16 @@ class _BlurScreenState extends ConsumerState<BlurScreen> {
     final l10n = AppLocalizations.of(context);
     final c = SaartheeColors.of(context);
     final text = Theme.of(context).textTheme;
+    // The automatic pass ran on this photo unless the detector is missing
+    // or failed / timed out (then the photo is not marked blurred).
+    final photo = ref
+        .watch(reportDraftProvider)
+        ?.photos
+        .where((p) => p.localPath == widget.photoPath)
+        .firstOrNull;
     final auto =
-        ref.watch(faceAndPlateDetectorProvider) is! UnavailableDetector;
+        ref.watch(faceAndPlateDetectorProvider) is! UnavailableDetector &&
+        (photo?.blurApplied ?? false);
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.reportBlurTitle),

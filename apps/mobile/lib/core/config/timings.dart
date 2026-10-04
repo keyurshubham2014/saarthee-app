@@ -41,4 +41,8 @@ class AppTimings {
   // TASK-05 (append-only).
   /// Duplicate check after the report pin settles.
   static const Duration nearbyDebounce = Duration(milliseconds: 500);
+
+  /// On-device face and plate detection per photo (REQ-S-007); on timeout
+  /// the flow falls back to the manual blur tool.
+  static const Duration blurDetectTimeout = Duration(seconds: 6);
 }
