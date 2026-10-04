@@ -1,5 +1,6 @@
 // T-02-03 (AC-3, AC-4) and T-02-04 (AC-5): GET /api/v1/geo/locate.
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { PILOT_POINTS } from '../../prisma/seed/modules/050-issues';
 import { logger } from '../../src/lib/logger';
 import { resetRateLimitStores } from '../../src/middleware/rateLimit';
 import { resolveWard } from '../../src/modules/geo';
@@ -94,6 +95,15 @@ describe('locate on the committed real wards (AC-3)', () => {
       expect(res.body, `ward ${n}`).toMatchObject({ ward: { number: n }, match: 'inside', confirm: false, distanceM: 0 });
     }
   }, 60_000);
+
+  it('M-02-02 known places (the 5 pilot wards, Spec D5) resolve to the expected ward', async () => {
+    const expected = { paldi: [30, 'Paldi'], navrangpura: [18, 'Navrangpura'], vasna: [31, 'Vasna'], naranpura: [9, 'Naranpura'], navaVadaj: [6, 'Nava Vadaj'] } as const;
+    for (const [key, { lat, lng }] of Object.entries(PILOT_POINTS)) {
+      const res = await locate(`lat=${lat}&lng=${lng}`);
+      const [number, nameEn] = expected[key as keyof typeof expected];
+      expect(res.body, key).toMatchObject({ ward: { number, nameEn }, zone: { code: 'west' }, match: 'inside' });
+    }
+  });
 
   it('Paldi cross-roads → ward 30 Paldi (west); Gandhinagar → 422', async () => {
     const paldi = await locate('lat=23.012&lng=72.56');
