@@ -148,7 +148,7 @@ class _AdminCategoriesScreenState extends ConsumerState<AdminCategoriesScreen> {
                       c.isActive ? l10n.adminActive : l10n.adminInactive,
                     ].join(' · '),
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: c.isActive ? tokens.inkMuted : tokens.notFixed,
+                      color: c.isActive ? tokens.textMuted : tokens.notFixed,
                     ),
                   ),
                   trailing: PopupMenuButton<String>(

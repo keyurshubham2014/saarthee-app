@@ -130,8 +130,8 @@ class _AdminInviteCodesScreenState
                             AdminTag(
                               icon: SaartheeIcons.group,
                               label: sourceLabel(l10n, c.sourceTag),
-                              background: tokens.indigoTint,
-                              foreground: tokens.ink,
+                              background: tokens.accentTint,
+                              foreground: tokens.text,
                             ),
                             AdminTag(
                               icon: c.isActive
@@ -143,7 +143,7 @@ class _AdminInviteCodesScreenState
                               background: c.isActive
                                   ? tokens.fixedTint
                                   : tokens.neutralTint,
-                              foreground: tokens.ink,
+                              foreground: tokens.text,
                             ),
                             Text(
                               l10n.adminInviteCodeComplaints(c.complaintCount),

@@ -276,10 +276,10 @@ class _AdminMessageBannerState extends State<AdminMessageBanner> {
     final l10n = adminL10n(context);
     final background = widget.isError
         ? scheme.errorContainer
-        : scheme.secondaryContainer;
+        : scheme.primaryContainer;
     final foreground = widget.isError
         ? scheme.onErrorContainer
-        : scheme.onSecondaryContainer;
+        : scheme.onPrimaryContainer;
     return Semantics(
       liveRegion: true,
       container: true,
@@ -336,12 +336,12 @@ class AdminStatusChip extends StatelessWidget {
       ComplaintStatus.reminded => (
         SaartheeIcons.hourglass,
         tokens.waitingTint,
-        tokens.ink,
+        tokens.text,
       ),
       ComplaintStatus.filed => (
         SaartheeIcons.description,
         tokens.neutralTint,
-        tokens.ink,
+        tokens.text,
       ),
     };
     return AdminTag(

@@ -79,13 +79,13 @@ class ComplaintListItem extends StatelessWidget {
                         Text(
                           c.groupLabel ?? l10n.adminNoGroup,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: tokens.inkMuted,
+                            color: tokens.textMuted,
                           ),
                         ),
                         Text(
                           '$ageLine · ${l10n.adminReminderCount(c.reminderCount)}',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: tokens.inkMuted,
+                            color: tokens.textMuted,
                           ),
                         ),
                       ],
@@ -108,21 +108,21 @@ class ComplaintListItem extends StatelessWidget {
                         icon: SaartheeIcons.block,
                         label: l10n.adminTagExcluded,
                         background: tokens.notFixedTint,
-                        foreground: tokens.ink,
+                        foreground: tokens.text,
                       ),
                     if (c.ccrsDuplicate)
                       AdminTag(
                         icon: SaartheeIcons.copy,
                         label: l10n.adminTagDuplicate,
                         background: tokens.waitingTint,
-                        foreground: tokens.ink,
+                        foreground: tokens.text,
                       ),
                     if (c.anonymized)
                       AdminTag(
                         icon: SaartheeIcons.personOff,
                         label: l10n.adminTagAnonymized,
                         background: tokens.neutralTint,
-                        foreground: tokens.ink,
+                        foreground: tokens.text,
                       ),
                   ],
                 ),

@@ -8,30 +8,30 @@ import '../../../../core/theme/tokens.dart';
 @immutable
 class AdminTokens extends ThemeExtension<AdminTokens> {
   const AdminTokens({
-    required this.ink,
-    required this.inkMuted,
-    required this.marigold,
+    required this.text,
+    required this.textMuted,
+    required this.attention,
     required this.fixed,
     required this.fixedTint,
     required this.notFixed,
     required this.notFixedTint,
     required this.waitingTint,
     required this.neutralTint,
-    required this.indigoTint,
+    required this.accentTint,
   });
 
   /// Derives the admin colours from the Neem tokens.
   factory AdminTokens.fromColors(SaartheeColors c) => AdminTokens(
-    ink: c.textPrimary,
-    inkMuted: c.textSecondary,
-    marigold: c.warningTint,
+    text: c.textPrimary,
+    textMuted: c.textSecondary,
+    attention: c.warningTint,
     fixed: c.success,
     fixedTint: c.successTint,
     notFixed: c.error,
     notFixedTint: c.errorTint,
     waitingTint: c.warningTint,
     neutralTint: c.surfaceAlt,
-    indigoTint: c.primaryContainer,
+    accentTint: c.primaryContainer,
   );
 
   /// Light-theme values.
@@ -41,18 +41,18 @@ class AdminTokens extends ThemeExtension<AdminTokens> {
       Theme.of(context).extension<AdminTokens>() ??
       AdminTokens.fromColors(SaartheeColors.of(context));
 
-  final Color ink;
-  final Color inkMuted;
+  final Color text;
+  final Color textMuted;
 
-  /// Attention fill (Due badge); always with [ink] text, never as text colour.
-  final Color marigold;
+  /// Attention fill (Due badge); always with [text] text, never as text colour.
+  final Color attention;
   final Color fixed;
   final Color fixedTint;
   final Color notFixed;
   final Color notFixedTint;
   final Color waitingTint;
   final Color neutralTint;
-  final Color indigoTint;
+  final Color accentTint;
 
   @override
   AdminTokens copyWith() => this;

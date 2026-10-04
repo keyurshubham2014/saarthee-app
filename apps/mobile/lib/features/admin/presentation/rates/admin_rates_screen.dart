@@ -123,7 +123,7 @@ class _RateCard extends StatelessWidget {
           Text(value, key: Key(key), style: theme.textTheme.titleLarge),
           Text(
             label,
-            style: theme.textTheme.bodySmall?.copyWith(color: tokens.inkMuted),
+            style: theme.textTheme.bodySmall?.copyWith(color: tokens.textMuted),
           ),
         ],
       ),
@@ -133,7 +133,7 @@ class _RateCard extends StatelessWidget {
       margin: EdgeInsets.zero,
       elevation: 0,
       color: highlighted
-          ? tokens.indigoTint
+          ? tokens.accentTint
           : theme.colorScheme.surfaceContainerLowest,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -183,7 +183,7 @@ class _RateCard extends StatelessWidget {
               const SizedBox(height: 12),
               Row(
                 children: <Widget>[
-                  Icon(SaartheeIcons.info, color: tokens.inkMuted),
+                  Icon(SaartheeIcons.info, color: tokens.textMuted),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

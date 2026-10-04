@@ -260,7 +260,7 @@ class _DetailBody extends ConsumerWidget {
           minTileHeight: 48,
           title: Text(
             label,
-            style: theme.textTheme.bodySmall?.copyWith(color: tokens.inkMuted),
+            style: theme.textTheme.bodySmall?.copyWith(color: tokens.textMuted),
           ),
           subtitle: Text(value, style: theme.textTheme.bodyLarge),
           trailing: trailing,
@@ -325,14 +325,14 @@ class _DetailBody extends ConsumerWidget {
                         exclusionReasonLabel(l10n, s.exclusionReason!),
                       ),
                 background: tokens.notFixedTint,
-                foreground: tokens.ink,
+                foreground: tokens.text,
               ),
             if (d.isAnonymized)
               AdminTag(
                 icon: SaartheeIcons.personOff,
                 label: l10n.adminTagAnonymized,
                 background: tokens.neutralTint,
-                foreground: tokens.ink,
+                foreground: tokens.text,
               ),
           ],
         ),
@@ -350,7 +350,7 @@ class _DetailBody extends ConsumerWidget {
                   icon: SaartheeIcons.copy,
                   label: l10n.adminTagDuplicate,
                   background: tokens.waitingTint,
-                  foreground: tokens.ink,
+                  foreground: tokens.text,
                 )
               : null,
         ),
@@ -377,7 +377,7 @@ class _DetailBody extends ConsumerWidget {
             title: Text(
               l10n.adminFactPhone,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: tokens.inkMuted,
+                color: tokens.textMuted,
               ),
             ),
             subtitle: Text(
@@ -516,7 +516,7 @@ class _DetailBody extends ConsumerWidget {
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: v.distanceWarning
                                 ? tokens.notFixed
-                                : tokens.inkMuted,
+                                : tokens.textMuted,
                           ),
                         ),
                       if (v.sameImageAsReport)

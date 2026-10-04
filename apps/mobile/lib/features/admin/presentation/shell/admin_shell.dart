@@ -27,8 +27,8 @@ class AdminShell extends ConsumerWidget {
       label: showBadge ? l10n.adminDueBadgeSemantics(dueCount) : null,
       child: Badge(
         isLabelVisible: showBadge,
-        backgroundColor: tokens.marigold,
-        textColor: tokens.ink,
+        backgroundColor: tokens.attention,
+        textColor: tokens.text,
         label: Text(showBadge ? '$dueCount' : ''),
         child: Icon(icon),
       ),
