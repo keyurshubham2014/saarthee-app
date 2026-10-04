@@ -73,6 +73,13 @@ class _StaffLoginScreenState extends ConsumerState<StaffLoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  const Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: ExcludeSemantics(
+                      child: BrandMark(key: Key('staff.login.mark'), size: 56),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s16),
                   Text(l10n.staffConsoleTitle, style: text.titleMedium),
                   const SizedBox(height: AppSpacing.s8),
                   Semantics(

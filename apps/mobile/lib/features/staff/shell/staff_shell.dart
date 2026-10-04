@@ -165,6 +165,14 @@ class StaffHeader extends ConsumerWidget implements PreferredSizeWidget {
       titleSpacing: showMenu ? 0 : AppSpacing.gutter,
       title: Row(
         children: [
+          // Decorative next to the title text (it already names the app);
+          // wide layout only — at 360 dp the menu, title and role chip fill the bar.
+          if (!showMenu) ...[
+            const ExcludeSemantics(
+              child: BrandMark(key: Key('staff.brandMark'), size: 28),
+            ),
+            const SizedBox(width: AppSpacing.s8),
+          ],
           Flexible(
             child: Text(
               l10n.staffConsoleTitle,

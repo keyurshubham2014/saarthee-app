@@ -36,6 +36,7 @@ void main() {
     ]);
     expect(find.text('Administration'), findsOneWidget);
     expect(find.byKey(const Key('staff.roleChip')), findsOneWidget);
+    expect(find.byKey(const Key('staff.brandMark')), findsOneWidget);
     expect(find.text('Admin'), findsWidgets);
     expect(find.text('Sign out'), findsOneWidget);
   });
