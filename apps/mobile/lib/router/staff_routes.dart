@@ -4,6 +4,11 @@ import '../features/staff/alerts/presentation/staff_alert_composer_screen.dart';
 import '../features/staff/alerts/presentation/staff_alert_detail_screen.dart';
 import '../features/staff/alerts/presentation/staff_alerts_list_screen.dart';
 import '../features/staff/categories/staff_categories_screen.dart';
+import '../features/staff/claims/staff_claim_detail_screen.dart';
+import '../features/staff/claims/staff_claims_screen.dart';
+import '../features/staff/messages/rep_messages_screen.dart';
+import '../features/staff/ward_dashboard/ward_dashboard_screen.dart';
+import '../features/staff/ward_dashboard/ward_issues_screen.dart';
 import '../features/staff/content/staff_content_routes.dart';
 import '../features/staff/dashboard/staff_dashboard_screen.dart';
 import '../features/staff/exports/staff_exports_screen.dart';
@@ -95,6 +100,37 @@ final List<RouteBase> staffRoutes = <RouteBase>[
       ),
       // TASK-12 services, initiatives and tips.
       ...staffContentRoutes,
+      // TASK-11 representative console and claim review.
+      staffRoute(
+        path: '/staff/ward',
+        redirect: (c, s) => staffSignedInRedirect(c, s),
+        builder: (_, _) => const WardDashboardScreen(),
+      ),
+      staffRoute(
+        path: '/staff/ward/issues',
+        redirect: (c, s) => staffSignedInRedirect(c, s),
+        builder: (_, _) => const WardIssuesScreen(),
+      ),
+      staffRoute(
+        path: '/staff/messages',
+        redirect: (c, s) => staffSignedInRedirect(c, s),
+        builder: (_, _) => const RepMessagesScreen(),
+      ),
+      staffRoute(
+        path: '/staff/messages/:id',
+        redirect: (c, s) => staffSignedInRedirect(c, s),
+        builder: (_, s) => RepMessageDetailScreen(id: s.pathParameters['id']!),
+      ),
+      staffRoute(
+        path: '/staff/claims',
+        redirect: (c, s) => staffSignedInRedirect(c, s),
+        builder: (_, _) => const StaffClaimsScreen(),
+      ),
+      staffRoute(
+        path: '/staff/claims/:id',
+        redirect: (c, s) => staffSignedInRedirect(c, s),
+        builder: (_, s) => StaffClaimDetailScreen(id: s.pathParameters['id']!),
+      ),
     ],
   ),
 ];

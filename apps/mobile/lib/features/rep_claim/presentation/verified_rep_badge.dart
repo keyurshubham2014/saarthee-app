@@ -5,15 +5,8 @@ import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/icons.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/utils/formatters.dart';
+import '../../staff/shared/rep_shared.dart';
 import '../data/rep_claim_api.dart';
-
-String repMethodLabel(AppLocalizations l10n, String? method) =>
-    switch (method) {
-      'official_gazette' => l10n.repClaimMethodGazette,
-      'in_person' => l10n.repClaimMethodInPerson,
-      'official_email' => l10n.repClaimMethodEmail,
-      _ => l10n.repClaimMethodCertificate,
-    };
 
 /// TASK-11 verification row on `/representatives/:id` (REQ-F-053, AC-3/5):
 /// verified → badge + "Checked by Saarthee on … · method · Valid until …";

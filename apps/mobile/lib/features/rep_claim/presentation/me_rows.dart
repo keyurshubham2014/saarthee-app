@@ -7,38 +7,8 @@ import '../../../core/settings/locale_controller.dart';
 import '../../../core/theme/icons.dart';
 import '../../../core/theme/tokens.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../staff/shared/rep_shared.dart';
 import '../data/rep_claim_api.dart';
-
-/// Claim status chip: icon + word, DS §2 status tints (no new colours).
-class ClaimStatusChip extends StatelessWidget {
-  const ClaimStatusChip({super.key, required this.status, this.reason});
-
-  final String status;
-  final String? reason;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final (IssueStatus tone, String label) = switch (status) {
-      'approved' => (IssueStatus.verified, l10n.repClaimStatusApproved),
-      'rejected' => (
-        IssueStatus.rejected,
-        reason == null
-            ? l10n.repClaimStatusRejected
-            : l10n.repClaimStatusRejectedReason(reason!),
-      ),
-      'expired' => (IssueStatus.reported, l10n.repClaimStatusExpired),
-      'withdrawn' => (IssueStatus.reported, l10n.repClaimStatusWithdrawn),
-      'revoked' => (IssueStatus.rejected, l10n.repClaimStatusRevoked),
-      _ => (IssueStatus.acknowledged, l10n.repClaimStatusPending),
-    };
-    return ToneChip(
-      key: Key('claimStatus.$status'),
-      tone: IssueStatusStyle.of(tone),
-      label: label,
-    );
-  }
-}
 
 /// `/me` → "My representative claims" (hidden while there are none).
 class MyRepClaimsRow extends ConsumerWidget {

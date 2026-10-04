@@ -26,6 +26,8 @@ void main() {
       '/staff',
       '/staff/moderation',
       '/staff/alerts',
+      '/staff/ward', // TASK-11
+      '/staff/ward/issues',
       '/staff/services',
       '/staff/initiatives',
       '/staff/tips',
@@ -34,18 +36,29 @@ void main() {
       '/staff/settings',
       '/staff/exports',
     ]);
+    // TASK-11 Claims is last (below the fold of the lazily built nav list).
+    expect(staffNavFor('admin').last.route, '/staff/claims');
     expect(find.text('Administration'), findsOneWidget);
     expect(find.byKey(const Key('staff.roleChip')), findsOneWidget);
     expect(find.text('Admin'), findsWidgets);
     expect(find.text('Sign out'), findsOneWidget);
   });
 
-  testWidgets('W-10-01 moderator sees Dashboard, Moderation, Alerts only', (
-    t,
-  ) async {
-    await pumpStaff(t, location: '/staff', role: 'moderator');
-    expect(_navRoutes(t), ['/staff', '/staff/moderation', '/staff/alerts']);
-  });
+  testWidgets(
+    'W-10-01 moderator sees Dashboard, Moderation, Alerts (+ TASK-11 ward, claims)',
+    (t) async {
+      await pumpStaff(t, location: '/staff', role: 'moderator');
+      expect(_navRoutes(t), [
+        '/staff',
+        '/staff/moderation',
+        '/staff/alerts',
+        // TASK-11 ward console (any ward) and claims (read only).
+        '/staff/ward',
+        '/staff/ward/issues',
+        '/staff/claims',
+      ]);
+    },
+  );
 
   testWidgets(
     'W-10-01 moderator opening an admin page gets the forbidden page',
@@ -60,16 +73,13 @@ void main() {
 
   test('W-10-01 the registry only lists landed screens; email admins get TASK-10/08 items', () {
     final routes = staffNavItems.map((i) => i.route).toSet();
-    expect(
-      routes.any(
-        (r) =>
-            r.contains('representatives') ||
-            r.contains('claims') ||
-            r.contains('ward'),
-      ),
-      isFalse,
-    );
-    expect(staffNavFor('representative'), isEmpty);
+    expect(routes.any((r) => r.contains('representatives')), isFalse);
+    // TASK-11 landed the representative console.
+    expect(staffNavFor('representative').map((i) => i.route), [
+      '/staff/ward',
+      '/staff/ward/issues',
+      '/staff/messages',
+    ]);
     expect(
       staffNavFor('admin', emailSession: true).map((i) => i.route),
       isNot(contains('/staff/services')),

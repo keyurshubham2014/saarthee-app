@@ -1,10 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../core/api/app_error.dart';
-import '../../../core/l10n/app_localizations.dart';
-import '../../../core/api/error_messages.dart';
 import '../data/rep_claim_api.dart';
+
+export '../../staff/shared/rep_shared.dart' show repErrorMessage;
 
 /// Camera or gallery evidence picker (claims accept either; overridable in
 /// tests). Compressed on the device like report photos.
@@ -124,18 +123,3 @@ final claimDraftProvider =
     NotifierProvider.family<ClaimDraftController, ClaimDraft, String>(
       ClaimDraftController.new,
     );
-
-/// TASK-11 error codes → ARB text (falls back to the shared mapping).
-String repErrorMessage(AppLocalizations l10n, Object error) {
-  final e = AppError.from(error);
-  return switch (e.code) {
-    'CLAIM_ALREADY_PENDING' => l10n.repClaimErrorPending,
-    'REPRESENTATIVE_ALREADY_VERIFIED' => l10n.repClaimErrorVerified,
-    'REPRESENTATIVE_TERM_ENDED' => l10n.repClaimErrorTermEnded,
-    'ROLE_CONFLICT' => l10n.repClaimErrorRoleConflict,
-    'WARD_OUT_OF_SCOPE' => l10n.wardDashErrorOutOfScope,
-    'ELECTION_MODE_FROZEN' => l10n.wardDashErrorFrozen,
-    'CLAIM_NOT_PENDING' => l10n.repClaimConflict,
-    _ => appErrorMessage(l10n, e),
-  };
-}

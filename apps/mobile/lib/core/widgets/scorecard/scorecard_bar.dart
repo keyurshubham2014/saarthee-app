@@ -17,6 +17,7 @@ class ScorecardBar extends ConsumerStatefulWidget {
     required this.fraction,
     required this.animateKey,
     this.height = 8,
+    this.vertical = false,
   });
 
   /// 0..1 (clamped).
@@ -24,7 +25,13 @@ class ScorecardBar extends ConsumerStatefulWidget {
 
   /// Session key, e.g. `scorecard:<wardId>:verified`.
   final String animateKey;
+
+  /// Bar thickness (its height when horizontal, its width when vertical).
   final double height;
+
+  /// TASK-11: vertical column (trend chart) growing up from the baseline
+  /// (`scaleY` from the bottom edge); fills the parent's height.
+  final bool vertical;
 
   @override
   ConsumerState<ScorecardBar> createState() => _ScorecardBarState();
@@ -72,6 +79,38 @@ class _ScorecardBarState extends ConsumerState<ScorecardBar>
     final c = SaartheeColors.of(context);
     final target = widget.fraction.clamp(0.0, 1.0);
     final radius = BorderRadius.circular(widget.height);
+    if (widget.vertical) {
+      return ExcludeSemantics(
+        child: ClipRRect(
+          borderRadius: radius,
+          child: Container(
+            width: widget.height,
+            color: c.surfaceAlt,
+            alignment: Alignment.bottomCenter,
+            child: FractionallySizedBox(
+              heightFactor: target,
+              widthFactor: 1,
+              child: AnimatedBuilder(
+                animation: _c,
+                builder: (context, child) => Transform.scale(
+                  key: const Key('scorecardBar.fill'),
+                  scaleX: 1,
+                  scaleY: SaartheeMotion.long.curve.transform(_c.value),
+                  alignment: Alignment.bottomCenter,
+                  child: child,
+                ),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: c.primary,
+                    borderRadius: radius,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return ExcludeSemantics(
       child: ClipRRect(
         borderRadius: radius,
