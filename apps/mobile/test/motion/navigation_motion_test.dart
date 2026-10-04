@@ -18,9 +18,14 @@ void main() {
     await pumpMotion(t, const LaunchGate(child: Text('first screen')));
     final gate = t.state<LaunchGateState>(find.byType(LaunchGate));
     expect(gate.markScale, closeTo(0.92, 0.001));
+    // Cold start: frame 1 is only the mark; the first screen is built once
+    // the mark is in place.
+    expect(find.text('first screen'), findsNothing);
     await t.pump(_ms * 16);
     await t.pump(_ms * 280);
     expect(gate.markScale, closeTo(1.0, 0.001));
+    await t.pump();
+    expect(find.text('first screen'), findsOneWidget);
     await t.pump(_ms * 300);
     await t.pump(_ms * 300);
     expect(find.byKey(const Key('launch.overlay')), findsNothing);
