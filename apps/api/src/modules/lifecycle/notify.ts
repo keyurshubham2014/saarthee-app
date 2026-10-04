@@ -80,7 +80,7 @@ async function names(issueId: string): Promise<Names | null> {
 export async function notifyIssue(
   issueId: string,
   kind: keyof typeof TEMPLATES,
-  opts: { actorUserId?: string | null; recipients?: string[]; days?: number; until?: Date } = {},
+  opts: { actorUserId?: string | null; recipients?: string[]; days?: number; until?: Date; ignoreQuietHours?: boolean } = {},
 ): Promise<number> {
   const template = TEMPLATES[kind];
   const n = template && (await names(issueId));
@@ -88,7 +88,7 @@ export async function notifyIssue(
   const userIds = opts.recipients ?? (await prisma.follow.findMany({ where: { issueId }, select: { userId: true } })).map((f) => f.userId);
   const recipients = [...new Set(userIds)].filter((u) => u !== opts.actorUserId);
   const { title, body } = template(n, opts);
-  const sendAfter = quietHoursEnd(clockNow(), config.QUIET_HOURS) ?? undefined;
+  const sendAfter = opts.ignoreQuietHours ? undefined : (quietHoursEnd(clockNow(), config.QUIET_HOURS) ?? undefined);
   const msg: PushMessage = {
     kind: 'issue_update', refId: issueId, route: kind === 'marked_fixed' ? `/issues/${issueId}/verify` : `/issues/${issueId}`,
     title, body, channel: 'updates', sendAfter,
