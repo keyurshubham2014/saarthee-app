@@ -30,4 +30,11 @@ class AppTimings {
 
   /// India Standard Time offset from UTC (admin timestamps).
   static const Duration istOffset = Duration(hours: 5, minutes: 30);
+
+  // TASK-04 (append-only).
+  /// "Resend code" unlocks after this wait on the OTP screen.
+  static const Duration otpResendWait = Duration(seconds: 30);
+
+  /// Countdown tick (OTP resend timer).
+  static const Duration countdownTick = Duration(seconds: 1);
 }
