@@ -5,6 +5,8 @@
 // once with `MediaQuery.disableAnimations: true` — and asserts no
 // exception (layout overflow is a FlutterError), the caller's semantics
 // checks, and that the rendered text is identical in both passes.
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/core/l10n/app_localizations.dart';
@@ -12,8 +14,10 @@ import 'package:saarthee/core/l10n/app_localizations.dart';
 import 'motion.dart';
 
 typedef ComponentBuilder = Widget Function(AppLocalizations l10n);
-typedef ComponentCheck =
-    Future<void> Function(WidgetTester t, AppLocalizations l10n);
+typedef ComponentCheck = Future<void> Function(
+  WidgetTester t,
+  AppLocalizations l10n,
+);
 
 const matrixLocales = [Locale('en'), Locale('gu')];
 const matrixScales = [1.0, 2.0];
@@ -92,6 +96,12 @@ List<String> renderedTexts(WidgetTester t) => [
   for (final e in t.widgetList<EditableText>(find.byType(EditableText)))
     e.controller.text,
 ];
+
+/// 1×1 PNG for photo slots (issue card thumbnail, timeline after-photo).
+final tinyPng = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA'
+  '60e6kgAAAABJRU5ErkJggg==',
+);
 
 /// Asserts a semantics node with exactly [label] exists.
 void expectSemantics(String label) =>
