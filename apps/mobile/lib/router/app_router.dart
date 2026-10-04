@@ -11,6 +11,8 @@ import '../features/dev/gallery_screen.dart';
 import '../features/onboarding/presentation/intro_screen.dart';
 import '../features/onboarding/presentation/language_screen.dart';
 import '../features/onboarding/presentation/ward_screen.dart';
+import '../features/services/services_routes.dart';
+import '../features/staff/content/staff_content_routes.dart';
 import 'admin_routes.dart';
 import 'route_helpers.dart';
 import 'shell_routes.dart';
@@ -23,6 +25,9 @@ final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   // TASK-04 accounts: sign-in flow.
   ...authRoutes,
+  // TASK-12 services and initiatives (+ staff content screens).
+  ...servicesRoutes,
+  ...staffContentRoutes,
 ];
 
 /// Paths reachable before onboarding is done.

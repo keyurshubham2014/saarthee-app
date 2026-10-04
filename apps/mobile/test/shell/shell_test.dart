@@ -48,16 +48,18 @@ void main() {
     expect(reportIcon.color, SaartheeColors.of(t.element(nav)).sunrise);
   });
 
-  testWidgets('placeholders P-01..P-08 are in place; P-09 → account row', (
+  testWidgets('placeholders P-01..P-07 are in place; P-09 → account row', (
     t,
   ) async {
     await pumpApp(t, prefs: onboardedPrefs());
+    // TASK-12 replaced P-03 (Home drives/services) and P-08 (My Ward
+    // services); see test/services/home_ward_sections_test.dart.
     const byTab = {
-      0: ['P-02', 'P-01', 'P-03'],
+      0: ['P-02', 'P-01'],
       1: ['P-04'],
       2: ['P-05'],
       3: ['P-06'],
-      4: ['P-07', 'P-08'],
+      4: ['P-07'],
     };
     for (final e in byTab.entries) {
       await tab(t, e.key);

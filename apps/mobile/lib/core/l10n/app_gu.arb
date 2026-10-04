@@ -2530,5 +2530,25 @@
   "servicesOfflineCached": "તમે ઓફલાઇન છો. છેલ્લી સાચવેલી યાદી બતાવીએ છીએ.",
   "@servicesOfflineCached": {
     "x-review": "pending"
+  },
+  "staffContentFieldWardNumber": "વોર્ડ નંબર (ખાલી = આખું શહેર)",
+  "@staffContentFieldWardNumber": {
+    "x-review": "pending"
+  },
+  "staffContentFieldLat": "અક્ષાંશ",
+  "@staffContentFieldLat": {
+    "x-review": "pending"
+  },
+  "staffContentFieldLng": "રેખાંશ",
+  "@staffContentFieldLng": {
+    "x-review": "pending"
+  },
+  "staffContentFieldType": "પ્રકાર ({options})",
+  "@staffContentFieldType": {
+    "x-review": "pending"
+  },
+  "staffContentFieldOrganiser": "આયોજક ({options})",
+  "@staffContentFieldOrganiser": {
+    "x-review": "pending"
   }
 }

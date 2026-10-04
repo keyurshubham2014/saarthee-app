@@ -2667,5 +2667,35 @@
   "servicesOfflineCached": "You're offline. Showing the last saved list.",
   "@servicesOfflineCached": {
     "description": "TASK-12 services and initiatives"
+  },
+  "staffContentFieldWardNumber": "Ward number (blank = city-wide)",
+  "@staffContentFieldWardNumber": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldLat": "Latitude",
+  "@staffContentFieldLat": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldLng": "Longitude",
+  "@staffContentFieldLng": {
+    "description": "TASK-12 staff content"
+  },
+  "staffContentFieldType": "Type ({options})",
+  "@staffContentFieldType": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "options": {
+        "type": "String"
+      }
+    }
+  },
+  "staffContentFieldOrganiser": "Organiser ({options})",
+  "@staffContentFieldOrganiser": {
+    "description": "TASK-12 staff content",
+    "placeholders": {
+      "options": {
+        "type": "String"
+      }
+    }
   }
 }

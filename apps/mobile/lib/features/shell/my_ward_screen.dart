@@ -10,6 +10,7 @@ import '../../core/wards/ward_providers.dart';
 import '../../core/widgets/widgets.dart';
 import '../me/presentation/me_row.dart';
 import '../onboarding/presentation/ward_picker_sheet.dart';
+import '../services/presentation/ward_services_section.dart';
 import 'placeholders.dart';
 
 /// My Ward tab (branch 4): ward header, Settings and About rows, and the
@@ -90,9 +91,8 @@ class MyWardScreen extends ConsumerWidget {
             placeholderId: PlaceholderId.p07Representatives,
           ),
           sectionTitle(l10n.myWardSectionServices),
-          const PlaceholderSection(
-            placeholderId: PlaceholderId.p08WardServices,
-          ),
+          // TASK-12: replaces placeholder P-08.
+          const WardServicesSection(),
           sectionTitle(l10n.myWardSectionYou),
           // TASK-04: replaces placeholder P-09.
           const MeRow(),
