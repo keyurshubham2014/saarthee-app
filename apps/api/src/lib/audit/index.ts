@@ -18,6 +18,13 @@ export const AUDIT_ACTIONS = [
   // TASK-04 citizen actions (actor = the user; id only, no PII).
   'user.signed_in',
   'user.deleted',
+  // TASK-09 staff roster actions (actor = staff user id; counts only for imports).
+  'rep_created',
+  'rep_updated',
+  'rep_deactivated',
+  'rep_roster_imported',
+  'ward_constituencies_updated',
+  'election_mode_set',
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];

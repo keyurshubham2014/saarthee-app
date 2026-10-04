@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-09 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | M |
 | Depends On | TASK-02, TASK-04 |
 | Blocks | TASK-11 |
 | Requirement IDs | REQ-F-042, REQ-F-043, REQ-F-044, REQ-F-045, REQ-F-046, REQ-F-047, REQ-D-008, REQ-D-012, REQ-S-009, REQ-S-012 |
 | Primary Spec Refs | Spec §2 (D2, D5), §3, §6 (`representatives` … `rep_messages`, `app_settings`), §7 (Representatives, Public stats, Staff, rate limits), §8 (`/ward*`, `/representatives/*`), §11 (neutrality, election mode); DS §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons), §5 (Representative row, Stat tiles, Toast, Banners), §6 (Motion: My Ward, Scorecard and dashboards), §7 (accessibility), §8 (Find my corporators), §9 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -188,6 +188,18 @@ Staff endpoints use TASK-04's `requireRole(...roles)` with the staff extension (
 - ASSUMPTION: Scorecard "bars" are shown for the two percentage metrics (verified %, reopened %); the other tiles are numbers only. DS §6 says "bars grow" without listing which metrics.
 - ASSUMPTION: Scorecard first-view tracking is per app session (cleared on process restart), not persisted.
 - ASSUMPTION: `rep_messages` are kept 1 year, included in `/me/export` (via `registerExportSection`), and set `citizen_id = NULL` on account deletion (via `registerErasureStep`; body kept for the representative's record) — spec silent; legal review.
+- ASSUMPTION (worker, 2026-10-04): Ward ids are TASK-02 UUIDs, so every `{id}` path and `wardIds` in election mode use UUIDs (the spec's integers were illustrative).
+- ASSUMPTION (worker): Office-phone rule — a number is a landline only when written in STD form with the Ahmedabad code (`079…`, `0 79…`, `+91 79…`); any bare 10-digit number starting 6–9 (including `79…`) is treated as a mobile and refused. Stored as `+9179XXXXXXXX`.
+- ASSUMPTION (worker): The profanity lists are TypeScript arrays (`src/lib/profanity/words.ts`) instead of `.txt` files so the compiled build carries them; deliberately short and conservative (no political words, "useless"/"corrupt" allowed); native Gujarati review pending.
+- ASSUMPTION (worker): `CONSENT_REQUIRED` already exists (TASK-04, 422); the relay returns it with status 403 and its own message, as §5.3 specifies, without changing the shared code.
+- ASSUMPTION (worker): `rep_messages` gains `next_attempt_at` (outbox backoff 30 s / 2 min, 3 attempts); sends claim a row with an atomic `UPDATE … RETURNING` so two runners never send the same message. The route awaits the immediate attempt (failures stay queued for the job), so the response stays `queued` and tests are deterministic.
+- ASSUMPTION (worker): The relay subject names the citizen's home ward ("a resident of Ward 30 Paldi"), or "a resident of Ahmedabad" when none is set; Reply-To is `EMAIL_OPS_ADDRESS` until TASK-11.
+- ASSUMPTION (worker): The 90-day window is fixed in the view definition (a materialised view takes no parameters); `SCORECARD_MIN_SAMPLE` is applied in the API from per-metric sample columns stored in the view. `verified_pct` = verified ÷ (verified + reopened + marked_fixed for over 7 days) by current status; `reopen_pct` = issues with any reopened event ÷ issues ever marked fixed.
+- ASSUMPTION (worker): `representative_areas` has a surrogate uuid PK plus the two UNIQUE pairs; `assembly_constituencies` columns are VARCHAR(80); `app_settings` is created with `IF NOT EXISTS` and PK name `pk_app_settings`.
+- ASSUMPTION (worker): Jobs are exported from `src/modules/representatives/jobs.ts` (`relay-send` every 30 s, `scorecard-refresh` cron `5 * * * *`) per WORKER-RULES-WAVE3; `npm run relay:flush` / `npm run scorecard:refresh` run them by hand until the integrator registers them in `src/jobs`.
+- ASSUMPTION (worker): The message form has no "pick from my reports" list (needs TASK-07's my-reports API); an issue arrives only via `?issueId=` (TASK-06 escalation) and can be removed. The scorecard "first view" is the first mount of a tile in the session (the six tiles fit on one phone screen), not a visibility detector. Offline My Ward/scorecard fall back to the last copy loaded in this session (not persisted).
+- ASSUMPTION (worker): Every representative row keeps the same layout; with no official email its "Message" button is shown disabled (neutrality) and the profile explains why.
+- ASSUMPTION (worker): The "Message sent" toast is shown from the form and stays in the root overlay while the form pops back to the profile (same visual result as showing it after the pop).
 
 ## 6. Implementation Steps
 
@@ -415,12 +427,25 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (worker W-WARD, branch `v2/task-09-representatives-my-ward`)
 
-**Progress:** 0%
+**Progress:** 85% — API, seed, importer, relay, scorecard, election mode and the citizen app screens are done and tested. Still open: emulator checks, the real roster, SES and the staff app screens.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migrations (representatives, app_settings, ward_scorecard_mv), Prisma models, mail (file/ses/memory) and profanity libs, public/relay/scorecard/settings/staff modules, importer CLI | 69d1866 |
+| 2026-10-04 | Fictional "Sample" seed (24 reps, 3 sample ACs, election mode off, scorecard refreshed; idempotent); T-09-01..07, 13, 14 | bdb7903 |
+| 2026-10-04 | T-09-08..12 (importer, staff CRUD, scorecard hand calculation, concurrent refresh, election mode); API 244 tests green | fa35238 |
+| 2026-10-04 | App: My Ward section (replaces P-07, account row kept), `/ward/:id`, profile, message form + consent sheet + "Message sent" toast, scorecard; shared `lib/core/widgets/scorecard/`; 74 ARB keys en+gu | a559853 |
+| 2026-10-04 | W-09-01..07 + My Ward tab test; mobile 225 tests green | c8bca5f, d83a1a1 |
+| 2026-10-04 | `data/representatives/SOURCES.md` + header-only CSV templates | 66eb3fd |
+
+Open items:
+- **Emulator (integrator):** M-09-03, M-09-04, M-09-05, M-09-06 and motion recordings M-09-08/M-09-09 (`docs/demo/v2-evidence/motion/t09-*.mp4`) — not run (workers may not use the emulator).
+- **Deferred — roster compilation:** real 2026–31 roster for the 5 pilot wards + MLAs/MPs + ward↔AC mapping (step 5, M-09-01, M-09-07). Sources and import commands are in `apps/api/data/representatives/SOURCES.md`.
+- **Deferred — needs SES sending-domain verification (SPF/DKIM/DMARC) and production access (founder):** M-09-02. The `ses` driver is built behind `EMAIL_DRIVER=ses`.
+- **Deferred — TASK-10 staff shell:** staff app screens `/staff/representatives` (list, edit, mapping editor), step 16. The staff API they call is complete and tested (T-09-09, T-09-12).
+- **Integrator:** register `src/modules/representatives/jobs.ts` (`relay-send` 30 s, `scorecard-refresh` hourly) in the `src/jobs` runner.
 
 ## 14. Completion Checklist
 
@@ -428,17 +453,17 @@ Prediction only — exact paths may differ.
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the tests and manual checks in §8
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-09` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-09: …`
+- [x] Committed as `V2-TASK-09: …`
 - [ ] Validator passes
 - [ ] My Ward, profile, message and scorecard match Neem v2.2 (tokens, type, radii, Rounded icons)
-- [ ] DS §6 motion (row stagger, "Message sent" toast with drawn check, scorecard `CountUp` + bars on first view) implemented with `SaartheeMotion` tokens; W-09-06 and W-09-07 pass
-- [ ] Shared scorecard widgets exported in `lib/core/widgets/scorecard/` for TASK-11
+- [x] DS §6 motion (row stagger, "Message sent" toast with drawn check, scorecard `CountUp` + bars on first view) implemented with `SaartheeMotion` tokens; W-09-06 and W-09-07 pass
+- [x] Shared scorecard widgets exported in `lib/core/widgets/scorecard/` for TASK-11
 - [ ] Reduced-motion variants verified; motion recordings saved to `docs/demo/v2-evidence/motion/` (M-09-08, M-09-09)

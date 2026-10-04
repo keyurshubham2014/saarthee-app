@@ -387,6 +387,11 @@ model User {
   issueVerifications IssueVerification[]
   meToos             MeToo[]
   follows            Follow[]
+  /// TASK-09 back-relations.
+  representative     Representative?     @relation("RepresentativeUser")
+  repClaims          RepClaim[]          @relation("RepClaimUser")
+  repClaimsReviewed  RepClaim[]          @relation("RepClaimReviewer")
+  repMessages        RepMessage[]        @relation("RepMessageCitizen")
   homeWard           Ward?               @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_users_home_ward")
 
   @@unique([phoneE164], map: "uq_users_phone")
@@ -497,6 +502,7 @@ model Issue {
   verifications IssueVerification[]
   meToos        MeToo[]
   follows       Follow[]
+  repMessages   RepMessage[]
 
   @@unique([clientSubmissionId], map: "uq_issues_client_submission")
   @@unique([legacyComplaintId], map: "uq_issues_legacy_complaint")
@@ -634,9 +640,12 @@ model Ward {
   createdAt       DateTime                                    @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime                                    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  zone      Zone    @relation(fields: [zoneId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_wards_zone")
-  issues    Issue[]
-  homeUsers User[]
+  zone           Zone                 @relation(fields: [zoneId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_wards_zone")
+  issues         Issue[]
+  homeUsers      User[]
+  /// TASK-09 back-relations.
+  repAreas       RepresentativeArea[]
+  constituencies WardConstituency[]
 
   @@unique([number], map: "uq_wards_number")
   @@index([zoneId], map: "idx_wards_zone")
@@ -673,4 +682,169 @@ model Notification {
   @@index([userId, createdAt(sort: Desc)], map: "idx_notifications_user_created")
   @@index([kind, refId], map: "idx_notifications_kind_ref")
   @@map("notifications")
+}
+
+// ---------------------------------------------------------------------------------------------------
+// V2 TASK-09: representatives, ward ↔ assembly constituency mapping, relay messages, app settings.
+// CHECKs (ck_representatives_*, ck_representative_areas_one, ck_rep_messages_*, ck_app_settings_key), the
+// expression index uq_representatives_import_key (role, lower(name_en), term_start) and the materialised view
+// ward_scorecard_mv are hand-written in migrations 20261009090000/0100/0200.
+// ---------------------------------------------------------------------------------------------------
+
+enum RepRole {
+  corporator
+  mla
+  mp
+
+  @@map("rep_role")
+}
+
+enum RepMessageStatus {
+  queued
+  sent
+  failed
+  replied
+
+  @@map("rep_message_status")
+}
+
+enum RepClaimStatus {
+  pending
+  approved
+  rejected
+
+  @@map("rep_claim_status")
+}
+
+model Representative {
+  id               String    @id(map: "pk_representatives") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nameEn           String    @map("name_en") @db.VarChar(120)
+  nameGu           String    @map("name_gu") @db.VarChar(120)
+  role             RepRole
+  partyText        String?   @map("party_text") @db.VarChar(80)
+  termStart        DateTime  @map("term_start") @db.Date
+  termEnd          DateTime? @map("term_end") @db.Date
+  publicPhone      String?   @map("public_phone") @db.VarChar(16)
+  publicEmail      String?   @map("public_email") @db.VarChar(254)
+  contactConsentAt DateTime? @map("contact_consent_at") @db.Timestamptz(6)
+  photoUrl         String?   @map("photo_url") @db.VarChar(500)
+  sourceUrl        String    @map("source_url") @db.VarChar(500)
+  lastVerifiedAt   DateTime  @map("last_verified_at") @db.Date
+  userId           String?   @map("user_id") @db.Uuid
+  verifiedAt       DateTime? @map("verified_at") @db.Timestamptz(6)
+  verifiedMethod   String?   @map("verified_method") @db.VarChar(40)
+  isActive         Boolean   @default(true) @map("is_active")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user     User?                @relation("RepresentativeUser", fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_representatives_user")
+  areas    RepresentativeArea[]
+  claims   RepClaim[]
+  messages RepMessage[]
+
+  @@unique([userId], map: "uq_representatives_user")
+  @@map("representatives")
+}
+
+model AssemblyConstituency {
+  id        Int    @id(map: "pk_assembly_constituencies") @default(autoincrement())
+  number    Int
+  nameEn    String @map("name_en") @db.VarChar(80)
+  nameGu    String @map("name_gu") @db.VarChar(80)
+  pcNameEn  String @map("pc_name_en") @db.VarChar(80)
+  pcNameGu  String @map("pc_name_gu") @db.VarChar(80)
+  sourceUrl String @map("source_url") @db.VarChar(500)
+
+  areas RepresentativeArea[]
+  wards WardConstituency[]
+
+  @@unique([number], map: "uq_assembly_constituencies_number")
+  @@map("assembly_constituencies")
+}
+
+model RepresentativeArea {
+  id                     String  @id(map: "pk_representative_areas") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  representativeId       String  @map("representative_id") @db.Uuid
+  wardId                 String? @map("ward_id") @db.Uuid
+  assemblyConstituencyId Int?    @map("assembly_constituency_id")
+
+  representative       Representative        @relation(fields: [representativeId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_representative_areas_rep")
+  ward                 Ward?                 @relation(fields: [wardId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_representative_areas_ward")
+  assemblyConstituency AssemblyConstituency? @relation(fields: [assemblyConstituencyId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_representative_areas_ac")
+
+  @@unique([representativeId, wardId], map: "uq_representative_areas_ward")
+  @@unique([representativeId, assemblyConstituencyId], map: "uq_representative_areas_ac")
+  @@index([wardId], map: "idx_representative_areas_ward")
+  @@index([assemblyConstituencyId], map: "idx_representative_areas_ac")
+  @@map("representative_areas")
+}
+
+model WardConstituency {
+  wardId                 String @map("ward_id") @db.Uuid
+  assemblyConstituencyId Int    @map("assembly_constituency_id")
+  sourceUrl              String @map("source_url") @db.VarChar(500)
+
+  ward                 Ward                 @relation(fields: [wardId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_ward_constituency_ward")
+  assemblyConstituency AssemblyConstituency @relation(fields: [assemblyConstituencyId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_ward_constituency_ac")
+
+  @@id([wardId, assemblyConstituencyId], map: "pk_ward_constituency")
+  @@index([assemblyConstituencyId], map: "idx_ward_constituency_ac")
+  @@map("ward_constituency")
+}
+
+model RepClaim {
+  id               String         @id(map: "pk_rep_claims") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  representativeId String         @map("representative_id") @db.Uuid
+  userId           String         @map("user_id") @db.Uuid
+  evidencePhotoIds String[]       @default([]) @map("evidence_photo_ids") @db.Uuid
+  otpVerified      Boolean        @default(false) @map("otp_verified")
+  status           RepClaimStatus @default(pending)
+  reviewerId       String?        @map("reviewer_id") @db.Uuid
+  decidedAt        DateTime?      @map("decided_at") @db.Timestamptz(6)
+  note             String?        @db.VarChar(500)
+  createdAt        DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  representative Representative @relation(fields: [representativeId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_rep_claims_rep")
+  user           User           @relation("RepClaimUser", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_rep_claims_user")
+  reviewer       User?          @relation("RepClaimReviewer", fields: [reviewerId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_rep_claims_reviewer")
+
+  @@index([representativeId], map: "idx_rep_claims_rep")
+  @@index([userId], map: "idx_rep_claims_user")
+  @@map("rep_claims")
+}
+
+model RepMessage {
+  id                String           @id(map: "pk_rep_messages") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientMessageId   String           @map("client_message_id") @db.Uuid
+  representativeId  String           @map("representative_id") @db.Uuid
+  citizenId         String?          @map("citizen_id") @db.Uuid
+  issueId           String?          @map("issue_id") @db.Uuid
+  subject           String           @db.VarChar(120)
+  body              String           @db.VarChar(1000)
+  sharePhone        Boolean          @default(false) @map("share_phone")
+  status            RepMessageStatus @default(queued)
+  attempts          Int              @default(0)
+  nextAttemptAt     DateTime?        @map("next_attempt_at") @db.Timestamptz(6)
+  providerMessageId String?          @map("provider_message_id") @db.VarChar(200)
+  sentAt            DateTime?        @map("sent_at") @db.Timestamptz(6)
+  createdAt         DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  representative Representative @relation(fields: [representativeId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_rep_messages_rep")
+  citizen        User?          @relation("RepMessageCitizen", fields: [citizenId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_rep_messages_citizen")
+  issue          Issue?         @relation(fields: [issueId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_rep_messages_issue")
+
+  @@unique([clientMessageId], map: "uq_rep_messages_client_message")
+  @@index([citizenId, representativeId, createdAt], map: "idx_rep_messages_citizen_rep_created")
+  @@index([status, nextAttemptAt], map: "idx_rep_messages_status")
+  @@map("rep_messages")
+}
+
+/// REQ-D-011 (DDL owned by TASK-10 §5.2, created by TASK-09). Keys allow-listed in code.
+model AppSetting {
+  key       String   @id(map: "pk_app_settings")
+  value     Json
+  updatedBy String?  @map("updated_by") @db.Uuid
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@map("app_settings")
 }

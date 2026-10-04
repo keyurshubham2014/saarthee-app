@@ -74,5 +74,6 @@ Issues per ward after the `wards` module's backfill (`geo:backfill checked=23 in
 | 31 Vasna | 2 | 0 |
 
 Seeded issues sit only in the 5 pilot wards (Spec D5); legacy v1 fixtures keep their original coordinates.
-Still skipped: `representatives` (TASK-09), `alerts` (TASK-08), `services`, `initiatives` (TASK-12).
+`representatives` (TASK-09): 24 fictional "Sample" representatives — 4 corporators in each pilot ward (6, 9, 18, 30, 31; the 4th Paldi seat has no email), 3 MLAs over 3 sample constituencies 901–903 (Paldi spans 901 and 902), 1 MP; fictional 079 0000 NNNN office landlines only; election mode off; `ward_scorecard_mv` refreshed.
+Still skipped: `alerts` (TASK-08), `services`, `initiatives` (TASK-12).
 Verified 2026-10-04 on a freshly migrated `saarthee_dev_task01`.

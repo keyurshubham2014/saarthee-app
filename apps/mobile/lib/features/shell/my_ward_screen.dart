@@ -9,11 +9,12 @@ import '../../core/theme/tokens.dart';
 import '../../core/wards/ward_providers.dart';
 import '../../core/widgets/widgets.dart';
 import '../me/presentation/me_row.dart';
+import '../ward/presentation/ward_reps_section.dart';
 import '../onboarding/presentation/ward_picker_sheet.dart';
 import 'placeholders.dart';
 
 /// My Ward tab (branch 4): ward header, Settings and About rows, and the
-/// sections later tasks fill (P-07 representatives, P-08 ward services,
+/// sections later tasks fill (P-07 representatives — TASK-09, P-08 ward services,
 /// P-09 profile).
 class MyWardScreen extends ConsumerWidget {
   const MyWardScreen({super.key});
@@ -85,10 +86,19 @@ class MyWardScreen extends ConsumerWidget {
               ),
             ),
           ),
-          sectionTitle(l10n.myWardSectionRepresentatives),
-          const PlaceholderSection(
-            placeholderId: PlaceholderId.p07Representatives,
-          ),
+          // TASK-09: replaces placeholder P-07 (representatives, ward office,
+          // scorecard link).
+          if (ward == null) ...[
+            sectionTitle(l10n.myWardSectionRepresentatives),
+            EmptyState(
+              key: const Key('myWard.chooseWard'),
+              icon: SaartheeIcons.navMyWard,
+              message: l10n.myWardChooseWardBody,
+              actionLabel: l10n.myWardChooseWard,
+              onAction: pickWard,
+            ),
+          ] else
+            WardRepresentativesSection(wardId: ward.id),
           sectionTitle(l10n.myWardSectionServices),
           const PlaceholderSection(
             placeholderId: PlaceholderId.p08WardServices,
