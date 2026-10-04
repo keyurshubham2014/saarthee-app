@@ -1,0 +1,5 @@
+{"type":"FeatureCollection","name":"fixture-v1","features":[
+{"type":"Feature","properties":{"kmlName":"Alpha","wardNumber":1,"lgdCode":null},"geometry":{"type":"MultiPolygon","coordinates":[[[[72.5,23.0],[72.51,23.0],[72.51,23.01],[72.5,23.01],[72.5,23.0]]]]}},
+{"type":"Feature","properties":{"kmlName":"Beta","wardNumber":2,"lgdCode":null},"geometry":{"type":"MultiPolygon","coordinates":[[[[72.51,23.0],[72.52,23.0],[72.52,23.01],[72.51,23.01],[72.51,23.0]]]]}},
+{"type":"Feature","properties":{"kmlName":"Gama Nagar","wardNumber":3,"lgdCode":null},"geometry":{"type":"MultiPolygon","coordinates":[[[[72.52,23.0],[72.53,23.0],[72.53,23.01],[72.52,23.01],[72.52,23.0]]]]}}
+]}

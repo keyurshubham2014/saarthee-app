@@ -1,0 +1,13 @@
+{
+  "fetchedAt": "2026-10-04T10:35:00+05:30",
+  "sourceUrl": "https://example.test/ward-list",
+  "zones": [
+    { "code": "west", "nameEn": "West", "nameGu": "પશ્ચિમ ઝોન" },
+    { "code": "east", "nameEn": "East", "nameGu": "પૂર્વ ઝોન" }
+  ],
+  "wards": [
+    { "number": 1, "nameEn": "Alpha", "nameGu": "આલ્ફા", "amcListName": "Alpha", "zoneCode": "west", "officeAddressEn": "Alpha Ward Office, Test Road", "officeAddressGu": null, "officePhone": "079 1234 5678", "sourceUrl": "https://example.test/ward-list" },
+    { "number": 2, "nameEn": "Beta", "nameGu": "બીટા", "amcListName": "Beta", "zoneCode": "west", "officeAddressEn": "Beta Ward Office, Test Road", "officeAddressGu": null, "officePhone": null, "sourceUrl": "https://example.test/ward-list" },
+    { "number": 3, "nameEn": "Gamma Nagar", "nameGu": "ગામા નગર", "amcListName": "Gamma nagar", "zoneCode": "east", "officeAddressEn": null, "officeAddressGu": null, "officePhone": null, "sourceUrl": "https://example.test/ward-list" }
+  ]
+}
