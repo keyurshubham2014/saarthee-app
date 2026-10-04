@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../l10n/app_localizations.dart';
 import '../theme/icons.dart';
@@ -62,6 +63,9 @@ class LabeledTextField extends StatelessWidget {
     this.prefixIcon,
     this.autofillHints,
     this.fieldKey,
+    this.prefixText,
+    this.inputFormatters,
+    this.enabled = true,
   });
 
   final String label;
@@ -80,6 +84,11 @@ class LabeledTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final Iterable<String>? autofillHints;
   final Key? fieldKey;
+
+  /// Fixed prefix inside the field, e.g. "+91" (TASK-04 phone field).
+  final String? prefixText;
+  final List<TextInputFormatter>? inputFormatters;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +112,13 @@ class LabeledTextField extends StatelessWidget {
           obscureText: obscureText,
           maxLines: obscureText ? 1 : maxLines,
           autofillHints: autofillHints,
+          inputFormatters: inputFormatters,
+          enabled: enabled,
           style: text.bodyLarge,
           decoration: InputDecoration(
             hintText: hint,
+            prefixText: prefixText == null ? null : '$prefixText ',
+            prefixStyle: text.bodyLarge,
             prefixIcon: prefixIcon == null
                 ? null
                 : Icon(prefixIcon, color: c.textSecondary),

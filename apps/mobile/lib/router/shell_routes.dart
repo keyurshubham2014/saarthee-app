@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/motion/transitions.dart';
+import '../features/auth/application/ensure_signed_in.dart';
 import '../features/home/presentation/about_screen.dart';
+import '../features/me/presentation/me_screen.dart';
+import '../features/me/presentation/privacy_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/shell/my_ward_screen.dart';
@@ -63,6 +66,12 @@ final List<RouteBase> meRoutes = <RouteBase>[
   ),
   saartheeRoute(path: '/about', builder: (_, _) => const AboutScreen()),
   // TASK-04 accounts: /me, sign-in, privacy.
+  saartheeRoute(path: '/me', builder: (_, _) => const MeScreen()),
+  saartheeRoute(
+    path: '/me/privacy',
+    redirect: requireAccountRedirect,
+    builder: (_, _) => const PrivacyScreen(),
+  ),
 ];
 
 StatefulShellRoute buildCitizenShell() => StatefulShellRoute(

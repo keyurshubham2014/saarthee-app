@@ -94,10 +94,13 @@ describe('retention › notifications and logs (T-13-05)', () => {
   let logDir: string;
   beforeEach(async () => {
     logDir = await mkdtemp(path.join(tmpdir(), 'saarthee-logs-'));
+    // TASK-04 now creates the real notifications table; these cases use their own minimal one
+    // (this file runs in its own database copy, so dropping it here is safe).
+    await prisma.$executeRawUnsafe('DROP TABLE IF EXISTS notifications CASCADE');
   });
   afterEach(async () => {
     await rm(logDir, { recursive: true, force: true });
-    await prisma.$executeRawUnsafe('DROP TABLE IF EXISTS notifications');
+    await prisma.$executeRawUnsafe('DROP TABLE IF EXISTS notifications CASCADE');
   });
 
   it('skips notifications while the table does not exist', async () => {

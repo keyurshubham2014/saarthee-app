@@ -15,6 +15,9 @@ export const AUDIT_ACTIONS = [
   'category_updated',
   // v2 (append below)
   'retention_run',
+  // TASK-04 citizen actions (actor = the user; id only, no PII).
+  'user.signed_in',
+  'user.deleted',
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
@@ -33,4 +36,9 @@ export function auditLog(
     { requestId: req?.id, adminId: req?.admin?.id, action, targetId: targetId ?? undefined, ...(extra ?? {}) },
     'admin_action',
   );
+}
+
+/** Citizen self-action audit line (TASK-04): action + user id only — never phone, name or tokens. */
+export function userAudit(requestId: string | undefined, action: 'user.signed_in' | 'user.deleted', userId: string): void {
+  logger.info({ requestId, actorId: userId, action, targetId: userId }, 'user_action');
 }

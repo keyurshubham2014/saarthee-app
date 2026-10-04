@@ -12,6 +12,10 @@ beforeAll(async () => {
   process.env.APP_ENV = 'production';
   process.env.TRUST_PROXY = 'true';
   process.env.DEPLOY_ENV = 'pilot';
+  // TASK-04 production rules: real Firebase verification (never called in this file).
+  process.env.FIREBASE_AUTH_MODE = 'google';
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = '/run/secrets/firebase-sa.json';
+  process.env.PUSH_DRIVER = 'log';
   app = (await import('../../src/app')).createApp();
   reset = (await import('../../src/middleware/rateLimit')).resetRateLimitStores;
 });

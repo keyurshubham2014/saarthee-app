@@ -52,6 +52,20 @@ const schema = z.object({
   SEED_ADMIN_PASSWORD: optionalEmpty(z.string()),
   // V2 TASK-02: /geo/locate nearest-ward fallback limit (metres) outside every ward polygon.
   GEO_NEAREST_MAX_M: z.preprocess((v) => (v === '' || v === undefined ? 3000 : v), z.coerce.number().positive().max(50_000)),
+  // v2 TASK-04 (citizen accounts and push). Defaults keep local dev and tests runnable without Firebase.
+  /** google = firebase-admin against Google certs; emulator = Firebase Auth Emulator; fake = tests only. */
+  FIREBASE_AUTH_MODE: z.enum(['google', 'emulator', 'fake']).default('emulator'),
+  FIREBASE_PROJECT_ID: z.string().regex(/^[a-z0-9-]{4,40}$/).default('demo-saarthee'),
+  FIREBASE_AUTH_EMULATOR_HOST: z.string().regex(/^[A-Za-z0-9.-]+:\d{2,5}$/).default('127.0.0.1:9099'),
+  GOOGLE_APPLICATION_CREDENTIALS: optionalEmpty(z.string().refine((v) => v.startsWith('/'), 'must be an absolute path')),
+  USER_JWT_AUDIENCE: z.string().min(1).default('saarthee-app'),
+  USER_JWT_EXPIRES_IN: z.string().regex(/^\d+[smhd]$/, 'must look like 8h, 30m, 30d').default('30d'),
+  PUSH_DRIVER: z.enum(['fcm', 'log', 'memory']).default('log'),
+  CONSENT_TEXT_VERSIONS_V2: z
+    .string()
+    .default('v2-1')
+    .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
+  GRIEVANCE_EMAIL: z.email().default('privacy@saarthee.in'),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;
@@ -64,6 +78,19 @@ const checked = schema.superRefine((c, ctx) => {
     for (const name of R2_REQUIRED) {
       if (!c[name]) ctx.addIssue({ code: 'custom', path: [name], message: 'is required when STORAGE_DRIVER=cloudflare_r2' });
     }
+  }
+  // TASK-04 cross-field rules (variable names only, never values).
+  if (c.USER_JWT_AUDIENCE === c.JWT_AUDIENCE) {
+    ctx.addIssue({ code: 'custom', path: ['USER_JWT_AUDIENCE'], message: 'must differ from JWT_AUDIENCE' });
+  }
+  if (c.APP_ENV === 'production' && c.FIREBASE_AUTH_MODE !== 'google') {
+    ctx.addIssue({ code: 'custom', path: ['FIREBASE_AUTH_MODE'], message: 'must be google in production' });
+  }
+  if (c.APP_ENV === 'production' && c.PUSH_DRIVER === 'memory') {
+    ctx.addIssue({ code: 'custom', path: ['PUSH_DRIVER'], message: 'memory is for tests only' });
+  }
+  if ((c.PUSH_DRIVER === 'fcm' || c.FIREBASE_AUTH_MODE === 'google') && !c.GOOGLE_APPLICATION_CREDENTIALS) {
+    ctx.addIssue({ code: 'custom', path: ['GOOGLE_APPLICATION_CREDENTIALS'], message: 'is required for PUSH_DRIVER=fcm / FIREBASE_AUTH_MODE=google' });
   }
 });
 

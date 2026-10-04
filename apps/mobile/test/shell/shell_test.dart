@@ -48,14 +48,16 @@ void main() {
     expect(reportIcon.color, SaartheeColors.of(t.element(nav)).sunrise);
   });
 
-  testWidgets('placeholders P-01..P-09 are in place', (t) async {
+  testWidgets('placeholders P-01..P-08 are in place; P-09 → account row', (
+    t,
+  ) async {
     await pumpApp(t, prefs: onboardedPrefs());
     const byTab = {
       0: ['P-02', 'P-01', 'P-03'],
       1: ['P-04'],
       2: ['P-05'],
       3: ['P-06'],
-      4: ['P-07', 'P-08', 'P-09'],
+      4: ['P-07', 'P-08'],
     };
     for (final e in byTab.entries) {
       await tab(t, e.key);
@@ -65,6 +67,11 @@ void main() {
         expect(f, findsOneWidget, reason: id);
       }
     }
+    // TASK-04 replaced P-09 with the account row.
+    final me = find.byKey(const Key('myWard.me'));
+    await reveal(t, me);
+    expect(me, findsOneWidget);
+    expect(find.byKey(const ValueKey('placeholder.P-09')), findsNothing);
   });
 
   testWidgets('tabs keep their pushed page and scroll; re-tap pops', (t) async {

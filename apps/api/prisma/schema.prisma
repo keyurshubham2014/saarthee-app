@@ -363,20 +363,24 @@ enum ActorRole {
 }
 
 model User {
-  id           String      @id(map: "pk_users") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  phoneE164    String?     @map("phone_e164") @db.VarChar(16)
-  firebaseUid  String?     @map("firebase_uid") @db.VarChar(128)
-  displayName  String?     @map("display_name") @db.VarChar(60)
-  homeWardId   String?     @map("home_ward_id") @db.Uuid
-  language     AppLanguage @default(gu)
-  role         UserRole    @default(citizen)
-  status       UserStatus  @default(active)
-  tokenVersion Int         @default(0) @map("token_version")
-  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
-  lastSeenAt   DateTime?   @map("last_seen_at") @db.Timestamptz(6)
-  deletedAt    DateTime?   @map("deleted_at") @db.Timestamptz(6)
+  id             String      @id(map: "pk_users") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phoneE164      String?     @map("phone_e164") @db.VarChar(16)
+  firebaseUid    String?     @map("firebase_uid") @db.VarChar(128)
+  displayName    String?     @map("display_name") @db.VarChar(60)
+  /// FK to wards added by TASK-02.
+  homeWardId     String?     @map("home_ward_id") @db.Uuid
+  language       AppLanguage @default(gu)
+  role           UserRole    @default(citizen)
+  status         UserStatus  @default(active)
+  tokenVersion   Int         @default(0) @map("token_version")
+  createdAt      DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  lastSeenAt     DateTime?   @map("last_seen_at") @db.Timestamptz(6)
+  deletedAt      DateTime?   @map("deleted_at") @db.Timestamptz(6)
+  /// TASK-04: self-declared 18+ confirmation (no birth date stored).
+  ageConfirmedAt DateTime?   @map("age_confirmed_at") @db.Timestamptz(6)
 
   consents           Consent[]
+  notifications      Notification[]
   devices            Device[]
   reportedIssues     Issue[]
   issueEvents        IssueEvent[]
@@ -402,20 +406,25 @@ model Consent {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_consents_user")
 
   @@index([userId], map: "idx_consents_user")
+  @@index([userId, purpose], map: "idx_consents_user_purpose")
   @@map("consents")
 }
 
 model Device {
-  id         String   @id(map: "pk_devices") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId     String?  @map("user_id") @db.Uuid
-  installId  String   @map("install_id") @db.Uuid
-  fcmToken   String?  @map("fcm_token") @db.VarChar(4096)
+  id         String      @id(map: "pk_devices") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String?     @map("user_id") @db.Uuid
+  installId  String      @map("install_id") @db.Uuid
+  fcmToken   String?     @map("fcm_token") @db.VarChar(4096)
   platform   Platform
-  appVersion String   @map("app_version") @db.VarChar(20)
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  lastSeenAt DateTime @default(now()) @map("last_seen_at") @db.Timestamptz(6)
+  appVersion String      @map("app_version") @db.VarChar(20)
+  createdAt  DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  lastSeenAt DateTime    @default(now()) @map("last_seen_at") @db.Timestamptz(6)
+  /// TASK-04: push language (topic suffix) and the topics last reported by the app (diagnostic only).
+  language   AppLanguage @default(gu)
+  topics     String[]    @default([])
 
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_devices_user")
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_devices_user")
+  notifications Notification[]
 
   @@unique([installId], map: "uq_devices_install")
   @@unique([fcmToken], map: "uq_devices_fcm_token")
@@ -633,4 +642,35 @@ model Ward {
   @@index([zoneId], map: "idx_wards_zone")
   @@index([geom], map: "idx_wards_geom", type: Gist)
   @@map("wards")
+}
+
+/// TASK-04: push delivery log (REQ-F-011). kind/status/channel/topic CHECKs and the partial queue index
+/// idx_notifications_queued are hand-written in the migration. TASK-08 extends this table.
+model Notification {
+  id                 String    @id(map: "pk_notifications") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId             String?   @map("user_id") @db.Uuid
+  deviceId           String?   @map("device_id") @db.Uuid
+  topic              String?   @db.VarChar(60)
+  kind               String
+  refId              String?   @map("ref_id")
+  route              String?
+  channel            String    @default("updates") @db.VarChar(20)
+  titleEn            String    @map("title_en") @db.VarChar(120)
+  titleGu            String    @map("title_gu") @db.VarChar(120)
+  bodyEn             String    @map("body_en") @db.VarChar(400)
+  bodyGu             String    @map("body_gu") @db.VarChar(400)
+  status             String
+  sendAfter          DateTime? @map("send_after") @db.Timestamptz(6)
+  sentAt             DateTime? @map("sent_at") @db.Timestamptz(6)
+  providerMessageIds String[]  @default([]) @map("provider_message_ids")
+  errorCode          String?   @map("error_code")
+  readAt             DateTime? @map("read_at") @db.Timestamptz(6)
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_notifications_user")
+  device Device? @relation(fields: [deviceId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_notifications_device")
+
+  @@index([userId, createdAt(sort: Desc)], map: "idx_notifications_user_created")
+  @@index([kind, refId], map: "idx_notifications_kind_ref")
+  @@map("notifications")
 }

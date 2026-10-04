@@ -8,6 +8,7 @@ import '../../core/theme/icons.dart';
 import '../../core/theme/tokens.dart';
 import '../../core/wards/ward_providers.dart';
 import '../../core/widgets/widgets.dart';
+import '../me/presentation/me_row.dart';
 import '../onboarding/presentation/ward_picker_sheet.dart';
 import 'placeholders.dart';
 
@@ -93,7 +94,8 @@ class MyWardScreen extends ConsumerWidget {
             placeholderId: PlaceholderId.p08WardServices,
           ),
           sectionTitle(l10n.myWardSectionYou),
-          const PlaceholderSection(placeholderId: PlaceholderId.p09Profile),
+          // TASK-04: replaces placeholder P-09.
+          const MeRow(),
           const Divider(),
           ListRow(
             key: const Key('myWard.settings'),

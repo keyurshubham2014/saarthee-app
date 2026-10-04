@@ -36,7 +36,52 @@ export function verifyAdminToken(token: string): VerifyResult {
     if (typeof payload === 'string' || typeof payload.sub !== 'string' || !Number.isInteger(payload.tv)) {
       return { status: 'invalid' };
     }
+    // Citizen tokens carry typ "user" (TASK-04) and a different audience; never accept them here.
+    if (payload.typ !== undefined) return { status: 'invalid' };
     return { status: 'ok', adminId: payload.sub, tokenVersion: payload.tv as number };
+  } catch (err) {
+    if (err instanceof jwt.TokenExpiredError) return { status: 'expired' };
+    return { status: 'invalid' };
+  }
+}
+
+export interface UserTokenSubject {
+  id: string;
+  tokenVersion: number;
+  role: string;
+}
+
+export type UserVerifyResult =
+  | { status: 'ok'; userId: string; tokenVersion: number }
+  | { status: 'expired' }
+  | { status: 'invalid' };
+
+/** Citizen session JWT (TASK-04 §5.2): HS256, sub, tv, role, typ "user", iss, aud = USER_JWT_AUDIENCE. */
+export function signUserToken(user: UserTokenSubject): { accessToken: string; expiresAt: Date } {
+  const accessToken = jwt.sign({ tv: user.tokenVersion, role: user.role, typ: 'user' }, config.JWT_SECRET, {
+    algorithm: 'HS256',
+    subject: user.id,
+    issuer: config.JWT_ISSUER,
+    audience: config.USER_JWT_AUDIENCE,
+    expiresIn: config.USER_JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'],
+  });
+  const decoded = jwt.decode(accessToken) as { exp: number };
+  return { accessToken, expiresAt: new Date(decoded.exp * 1000) };
+}
+
+/** Verifies a citizen token: HS256, expiry, issuer, the user audience and typ "user". */
+export function verifyUserToken(token: string): UserVerifyResult {
+  try {
+    const payload = jwt.verify(token, config.JWT_SECRET, {
+      algorithms: ['HS256'],
+      issuer: config.JWT_ISSUER,
+      audience: config.USER_JWT_AUDIENCE,
+    });
+    if (typeof payload === 'string' || typeof payload.sub !== 'string' || !Number.isInteger(payload.tv)) {
+      return { status: 'invalid' };
+    }
+    if (payload.typ !== 'user') return { status: 'invalid' };
+    return { status: 'ok', userId: payload.sub, tokenVersion: payload.tv as number };
   } catch (err) {
     if (err instanceof jwt.TokenExpiredError) return { status: 'expired' };
     return { status: 'invalid' };

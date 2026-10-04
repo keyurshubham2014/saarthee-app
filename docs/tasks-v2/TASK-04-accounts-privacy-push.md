@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-04 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-01, TASK-03 |
 | Blocks | TASK-05, TASK-08, TASK-09, TASK-10, TASK-12 |
 | Requirement IDs | REQ-F-007, REQ-F-008, REQ-F-009, REQ-F-010, REQ-F-011, REQ-S-001, REQ-S-003, REQ-S-004, REQ-S-005, REQ-S-015, REQ-O-003 |
 | Primary Spec Refs | Spec §2 (D6, D8, D9), §3, §6 (`users`, `consents`, `devices`, `notifications`), §7 (Auth & me), §9, §11; DS §2, §3, §4, §5, §6, §7, §9 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -216,6 +216,18 @@ Push on device:
 - ASSUMPTION: Consent text version `v2-1`; wording drafted here, legal review pending (Open Question #6).
 - ASSUMPTION: Display name is never shown publicly (REQ-S-006); it is used only for staff views and representative relay when the citizen opts in.
 - ASSUMPTION: If TASK-01 already created `token_version` or the devices constraints, the migration uses `ADD COLUMN IF NOT EXISTS` / `CREATE UNIQUE INDEX IF NOT EXISTS` and records which parts were no-ops in §13.
+- ASSUMPTION (worker, 2026-10-04): The app does **not** add `firebase_core` / `firebase_auth` / `firebase_messaging` / `flutter_local_notifications` yet — they need `google-services.json` and the Gradle `google-services` plugin, which cannot be built or verified without a real Firebase project (and workers may not run Gradle). Instead the app talks to Firebase through an `AuthGateway` interface; this build ships `EmulatorAuthGateway` (Identity Toolkit / Secure Token REST of the Firebase Auth Emulator), selected with `--dart-define=AUTH_EMULATOR_HOST=10.0.2.2:9099`; without it `UnconfiguredAuthGateway` shows "Sign-in is unavailable". Push goes through a `PushMessaging` port with `LocalOnlyPushMessaging` (topic bookkeeping + `POST /devices`, no delivery). Real-Firebase delivery: **Deferred — needs Firebase project**.
+- ASSUMPTION (worker): API Firebase verification is selected by `FIREBASE_AUTH_MODE=google|emulator|fake` (default `emulator`, project `demo-saarthee`; production refuses anything but `google`). `google` = firebase-admin 13.10.0 (Google certs + revocation); `emulator` = claim checks on the emulator's unsigned tokens + emulator lookup for disabled/revoked users; `fake` = tests. All three share one claim checker (aud, iss, sub, exp, iat, auth_time, `sign_in_provider = phone`, `phone_number`).
+- ASSUMPTION (worker): A committed root `firebase.json` configures only the emulators (auth on 0.0.0.0:9099, Emulator UI disabled because its default port 4000 is the API's; hub 4410, logging 4510). It holds no project or secret.
+- ASSUMPTION (worker): New vs existing account is detected by calling `POST /auth/firebase` with `ageConfirmed:false` after the OTP; 403 `AGE_CONFIRMATION_REQUIRED` (nothing stored) sends the person to `/sign-in/age`. Existing accounts never see the age screen again.
+- ASSUMPTION (worker): At sign-in an existing account keeps its own language; `homeWardId` from the device is applied only when the account has none (step 17). New accounts take both from the device.
+- ASSUMPTION (worker): `GET /me/export` shows the phone **masked** (NF checklist: the phone is never returned unmasked by any endpoint); the person already knows their own number.
+- ASSUMPTION (worker): Logger redaction of `code` is path-scoped (`req.body.code`, `body.code`, `payload.code`, `data.code`) because the top-level `code` key carries our error codes (`{code}` lines); every other listed key is redacted at any depth up to four levels.
+- ASSUMPTION (worker): `notifications.kind/status` are TEXT + CHECK (as specified) and the table gets one extra column `channel` (`critical_alerts|alerts|updates`, CHECK) so deferred rows can be sent later with the right Android channel; `devices.language` reuses the existing `app_language` enum instead of VARCHAR(2)+CHECK.
+- ASSUMPTION (worker): `homeWardId` is validated against TASK-02's `wards` table when it exists (`to_regclass`); before TASK-02 is merged any UUID is accepted and `homeWard` returns `{id, number:null, nameEn:null, nameGu:null}`.
+- ASSUMPTION (worker): Push is blocked by an explicit **withdrawal** of the notifications consent (latest row withdrawn) or a declined OS permission; visitors and accounts that never decided follow the device opt-in. "Turn on" on the Home soft prompt grants the notifications consent when signed in. The prompt appears from the second app start after onboarding (launch counter), never at first launch.
+- ASSUMPTION (worker): Account deletion also needs `photos:cleanup` to retry failed file deletions; the cleanup now has a third pass for photos that were attached once and are linked to nothing (erased report/verification photos).
+- ASSUMPTION (worker): Audit lines for citizens are `user_action` log lines (`user.signed_in`, `user.deleted`, actor = target = user id, no PII) via `userAudit()`; v1 `admin_action` lines are unchanged.
 
 ## 6. Implementation Steps
 
@@ -443,26 +455,41 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review
 
-**Progress:** 0%
+**Progress:** 90% — everything buildable without a Firebase project is done and tested; emulator click-through by the integrator and real-Firebase items remain.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migration `20261005040000_v2_auth_push_foundation` (users.age_confirmed_at, devices.language/topics, idx_consents_user_purpose, notifications) + firebase-admin 13.10.0; drift gate clean | 35e07c6 |
+| 2026-10-04 | Config, error codes, redaction + log capture tap, user session JWT (`typ:user`, own audience), FirebaseGateway google/emulator/fake | ff6eb53 |
+| 2026-10-04 | requireUser / optionalUser / requireRole; push service (notifyTopic, notifyUser, flushQueued; fcm/log/memory) | 7b1345d |
+| 2026-10-04 | me module (profile, consents, export/erasure registries, DELETE /me), photos:cleanup retry pass | d222c14 |
+| 2026-10-04 | auth + devices modules, routes, push:flush / push:test | 5cc9085 |
+| 2026-10-04 | API tests T-04-01…16 + emulator-gateway test (107 green) | 39770ca … bd1b6ff |
+| 2026-10-04 | firebase-setup.md, firebase.json, CI `secret-files`, env examples, `auth:emulator-check` run against the real Auth Emulator (201/200/204, emulator user deleted) | fabfa26, 741d6f5, c7aa896 |
+| 2026-10-04 | App: auth data layer, session + interceptor, sign-in/OTP/age/blocked, /me, /me/privacy, AccountPreferenceSync, core/push, Home soft prompt, ARB (92 keys en+gu) | 97a6e39 … 38def67 |
+| 2026-10-04 | Flutter tests T-04-17…22 + interceptor/prompt tests (145 green) | 6e44200 … 947ff3f |
+
+Notes:
+- Migration no-ops (TASK-01 already had them): `users.token_version`, `users.deleted_at`, nullable `phone_e164`/`firebase_uid`, `ck_users_deleted`, `uq_devices_install`, `idx_devices_user`, nullable `devices.fcm_token`, consent purpose enum. Added with `IF NOT EXISTS`.
+- Shared/core edits (additive): `src/routes.ts` (3 routers), `src/lib/errors` (9 codes), `src/lib/audit` (2 actions + `userAudit`), `src/lib/logger` (keys + `captureLogs`), `src/lib/tokens` (user tokens; admin verify rejects `typ`), `src/config` (TASK-04 vars with defaults), `modules/photos/cleanup.service.ts` (detached-photo pass); app: `core/config/timings.dart` (+2), `core/theme/icons.dart` (+3), `core/widgets/inputs.dart` (`prefixText`, `inputFormatters`, `enabled`), `main.dart` (PreferenceSync override + start-up push sync), `router/app_router.dart` + `shell_routes.dart` (append blocks), `features/shell/my_ward_screen.dart` (P-09 → `MeRow`), `features/home/presentation/home_screen.dart` (`PushPromptCard`), `test/shell/shell_test.dart` (P-09 expectation → account row).
+- Deferred — needs Firebase project: Firebase SDK `AuthGateway`/`PushMessaging` implementations, `google-services.json` + Gradle plugin, real FCM sends (M-04-05), Google-cert verification path in production, fresh-clone run (M-04-07). Deferred — needs physical phone: real SMS + auto-retrieval (M-04-02). Deferred — native Gujarati / legal review of consent text `v2-1` (Open Question #6).
+- Blocked: none.
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
-- [ ] All behavioral acceptance criteria verified in the running application
-- [ ] Non-functional checklist fully ticked
-- [ ] Automated tests added and passing
-- [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
-- [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
-- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-04` shows 0 unverified)
-- [ ] Task file progress log and status updated
-- [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-04: …`
+- [x] All implementation steps complete (steps 13 and 18 delivered as ports with emulator/local implementations; SDK parts Deferred — needs Firebase project)
+- [ ] All behavioral acceptance criteria verified in the running application (emulator M-04-01/03/04/06 pending — integrator)
+- [ ] Non-functional checklist fully ticked (2.0× Gujarati text and 48 dp checks need the emulator)
+- [x] Automated tests added and passing (API 107 + 1 skipped; mobile 145)
+- [x] Static checks pass and every AC verified by the checks in §8 (tsc, eslint, drift gate, secret-file check, dart analyze, dart format)
+- [ ] Frontend and backend integrated end to end (no mocked data left in place) — API verified against the Auth Emulator; app ↔ API on the emulator pending
+- [ ] Error, loading, empty, and unauthorized states verified (widget-tested; emulator pending)
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
+- [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (REQ-F-008 Pass; others Not Verified with evidence)
+- [x] Task file progress log and status updated
+- [ ] `00-task-summary.md` updated (integrator)
+- [x] Committed as `V2-TASK-04: …`
 - [ ] Validator passes

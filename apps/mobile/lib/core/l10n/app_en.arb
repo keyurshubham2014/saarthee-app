@@ -1603,5 +1603,403 @@
   "configErrorBody": "This build is misconfigured. Please install the latest version from Play.",
   "@configErrorBody": {
     "description": "TASK-13 fatal config screen"
+  },
+  "authSignInTitle": "Sign in with your phone",
+  "@authSignInTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonGeneric": "Please sign in to continue.",
+  "@authReasonGeneric": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonReport": "To report an issue, please sign in.",
+  "@authReasonReport": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonMeToo": "To say “Me too”, please sign in.",
+  "@authReasonMeToo": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonFollow": "To follow an issue, please sign in.",
+  "@authReasonFollow": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonVerify": "To check a fix, please sign in.",
+  "@authReasonVerify": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonMessage": "To message your representative, please sign in.",
+  "@authReasonMessage": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonRsvp": "To join a drive, please sign in.",
+  "@authReasonRsvp": {
+    "description": "TASK-04 accounts"
+  },
+  "authReasonProfile": "To see your profile and your data, please sign in.",
+  "@authReasonProfile": {
+    "description": "TASK-04 accounts"
+  },
+  "authPhoneLabel": "Mobile number",
+  "@authPhoneLabel": {
+    "description": "TASK-04 accounts"
+  },
+  "authPhoneHelper": "We'll send a 6-digit code by SMS.",
+  "@authPhoneHelper": {
+    "description": "TASK-04 accounts"
+  },
+  "authPhoneInvalid": "Enter a valid 10-digit Indian mobile number.",
+  "@authPhoneInvalid": {
+    "description": "TASK-04 accounts"
+  },
+  "authSendCode": "Send code",
+  "@authSendCode": {
+    "description": "TASK-04 accounts"
+  },
+  "authTooManyRequests": "Too many attempts. Please try again later.",
+  "@authTooManyRequests": {
+    "description": "TASK-04 accounts"
+  },
+  "authUnavailable": "Sign-in is unavailable right now. Please try again later.",
+  "@authUnavailable": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpTitle": "Enter the code",
+  "@authOtpTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpSentTo": "Enter the 6-digit code sent to {phone}",
+  "@authOtpSentTo": {
+    "description": "TASK-04 accounts",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "authOtpLabel": "6-digit code",
+  "@authOtpLabel": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpVerify": "Verify",
+  "@authOtpVerify": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpWrong": "That code is not right. Check the SMS and try again.",
+  "@authOtpWrong": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpExpired": "This code has expired. Send a new one.",
+  "@authOtpExpired": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpResend": "Resend code",
+  "@authOtpResend": {
+    "description": "TASK-04 accounts"
+  },
+  "authOtpResendIn": "Resend code in {seconds} s",
+  "@authOtpResendIn": {
+    "description": "TASK-04 accounts",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "authOtpChangeNumber": "Change number",
+  "@authOtpChangeNumber": {
+    "description": "TASK-04 accounts"
+  },
+  "authSignedIn": "Signed in",
+  "@authSignedIn": {
+    "description": "TASK-04 accounts"
+  },
+  "authAgeTitle": "Are you 18 or older?",
+  "@authAgeTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "authAgeBody": "Saarthee accounts are for adults (18+).",
+  "@authAgeBody": {
+    "description": "TASK-04 accounts"
+  },
+  "authAgeYes": "Yes, I am 18 or older",
+  "@authAgeYes": {
+    "description": "TASK-04 accounts"
+  },
+  "authAgeNo": "No",
+  "@authAgeNo": {
+    "description": "TASK-04 accounts"
+  },
+  "authConsentCore": "I agree that Saarthee stores my phone number and the reports I make to run this service.",
+  "@authConsentCore": {
+    "description": "TASK-04 accounts"
+  },
+  "authPrivacyNotice": "Privacy notice",
+  "@authPrivacyNotice": {
+    "description": "TASK-04 accounts"
+  },
+  "authPrivacyNoticeBody": "Saarthee stores your phone number to sign you in and the reports you make to run this service. Your name and number are never shown publicly. You can download your data or delete your account at any time from Privacy and your data.",
+  "@authPrivacyNoticeBody": {
+    "description": "TASK-04 accounts"
+  },
+  "authCreateAccount": "Create account",
+  "@authCreateAccount": {
+    "description": "TASK-04 accounts"
+  },
+  "authBlockedTitle": "Accounts are for adults",
+  "@authBlockedTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "authBlockedBody": "Sorry, you need to be 18 or older to have an account. You can still browse issues, alerts and services.",
+  "@authBlockedBody": {
+    "description": "TASK-04 accounts"
+  },
+  "authBackToBrowsing": "Back to browsing",
+  "@authBackToBrowsing": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorTokenInvalid": "We couldn't confirm your sign-in. Please try again.",
+  "@authErrorTokenInvalid": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorAgeRequired": "You need to be 18 or older to use an account.",
+  "@authErrorAgeRequired": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorConsentRequired": "Please agree to the terms to continue.",
+  "@authErrorConsentRequired": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorSuspended": "This account is suspended.",
+  "@authErrorSuspended": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorForbidden": "You don't have permission to do this.",
+  "@authErrorForbidden": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorWardNotFound": "Please choose your ward again.",
+  "@authErrorWardNotFound": {
+    "description": "TASK-04 accounts"
+  },
+  "authErrorCoreConsent": "This consent is needed for your account. To withdraw it, delete your account.",
+  "@authErrorCoreConsent": {
+    "description": "TASK-04 accounts"
+  },
+  "accountTitle": "Your account",
+  "@accountTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSignInRow": "Sign in",
+  "@accountSignInRow": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSignInWhy": "Sign in to report issues, follow them and get updates.",
+  "@accountSignInWhy": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSignedInAs": "Signed in as {phone}",
+  "@accountSignedInAs": {
+    "description": "TASK-04 accounts",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDisplayName": "Display name",
+  "@accountDisplayName": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDisplayNameHelper": "Shown only to staff, never publicly.",
+  "@accountDisplayNameHelper": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDisplayNameInvalid": "Use 1 to 40 characters.",
+  "@accountDisplayNameInvalid": {
+    "description": "TASK-04 accounts"
+  },
+  "accountHomeWard": "Home ward",
+  "@accountHomeWard": {
+    "description": "TASK-04 accounts"
+  },
+  "accountNoWard": "Not set",
+  "@accountNoWard": {
+    "description": "TASK-04 accounts"
+  },
+  "accountWardNumber": "Ward {number}",
+  "@accountWardNumber": {
+    "description": "TASK-04 accounts",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "accountLanguage": "Language",
+  "@accountLanguage": {
+    "description": "TASK-04 accounts"
+  },
+  "accountLanguageGu": "ગુજરાતી",
+  "@accountLanguageGu": {
+    "description": "TASK-04 accounts"
+  },
+  "accountLanguageEn": "English",
+  "@accountLanguageEn": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSave": "Save",
+  "@accountSave": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSaved": "Saved.",
+  "@accountSaved": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPrivacyLink": "Privacy and your data",
+  "@accountPrivacyLink": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSignOut": "Sign out",
+  "@accountSignOut": {
+    "description": "TASK-04 accounts"
+  },
+  "accountSignedOut": "You're signed out.",
+  "@accountSignedOut": {
+    "description": "TASK-04 accounts"
+  },
+  "accountOfflineReadOnly": "You're offline. You can make changes when you're back online.",
+  "@accountOfflineReadOnly": {
+    "description": "TASK-04 accounts"
+  },
+  "accountLoadError": "We couldn't load your account.",
+  "@accountLoadError": {
+    "description": "TASK-04 accounts"
+  },
+  "accountActionFailed": "That didn't work. Please try again.",
+  "@accountActionFailed": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPrivacyTitle": "Privacy and your data",
+  "@accountPrivacyTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPrivacySummary": "Saarthee stores your phone number, the reports you make and the choices below. Your name and number are never shown publicly. You can download your data or delete your account at any time.",
+  "@accountPrivacySummary": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentsTitle": "Your choices",
+  "@accountConsentsTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentCore": "Running your account",
+  "@accountConsentCore": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentCoreFixed": "Needed for your account",
+  "@accountConsentCoreFixed": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentShareReps": "Share my reports with representatives",
+  "@accountConsentShareReps": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentAmcHandoff": "Hand-off details when I file with AMC",
+  "@accountConsentAmcHandoff": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentNotifications": "Notifications",
+  "@accountConsentNotifications": {
+    "description": "TASK-04 accounts"
+  },
+  "accountConsentNotificationsHelper": "Alerts for your ward and updates on issues you follow.",
+  "@accountConsentNotificationsHelper": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDownloadData": "Download my data",
+  "@accountDownloadData": {
+    "description": "TASK-04 accounts"
+  },
+  "accountExportPreparing": "Preparing your data…",
+  "@accountExportPreparing": {
+    "description": "TASK-04 accounts"
+  },
+  "accountExportShareSubject": "My Saarthee data",
+  "@accountExportShareSubject": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDeleteAccount": "Delete my account",
+  "@accountDeleteAccount": {
+    "description": "TASK-04 accounts"
+  },
+  "accountGrievance": "Questions or complaints about your data: {email}",
+  "@accountGrievance": {
+    "description": "TASK-04 accounts",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountDeleteTitle": "Delete your account?",
+  "@accountDeleteTitle": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDeleteBody": "Your phone number and name are removed, your photos are deleted and your reports stay public without your details. This cannot be undone.",
+  "@accountDeleteBody": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDeleteTypeLabel": "Type DELETE to confirm",
+  "@accountDeleteTypeLabel": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDeleteConfirm": "Delete account",
+  "@accountDeleteConfirm": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDeleteCancel": "Cancel",
+  "@accountDeleteCancel": {
+    "description": "TASK-04 accounts"
+  },
+  "accountDeleted": "Your account was deleted.",
+  "@accountDeleted": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPushPromptTitle": "Get alerts for Ward {number}?",
+  "@accountPushPromptTitle": {
+    "description": "TASK-04 accounts",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "accountPushPromptTitleCity": "Get alerts for Ahmedabad?",
+  "@accountPushPromptTitleCity": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPushPromptBody": "Heat, rain and water alerts and updates on issues you follow. No ads.",
+  "@accountPushPromptBody": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPushTurnOn": "Turn on",
+  "@accountPushTurnOn": {
+    "description": "TASK-04 accounts"
+  },
+  "accountPushNotNow": "Not now",
+  "@accountPushNotNow": {
+    "description": "TASK-04 accounts"
+  },
+  "accountChannelCritical": "Critical alerts",
+  "@accountChannelCritical": {
+    "description": "TASK-04 accounts"
+  },
+  "accountChannelAlerts": "Alerts",
+  "@accountChannelAlerts": {
+    "description": "TASK-04 accounts"
+  },
+  "accountChannelUpdates": "Updates",
+  "@accountChannelUpdates": {
+    "description": "TASK-04 accounts"
   }
 }
