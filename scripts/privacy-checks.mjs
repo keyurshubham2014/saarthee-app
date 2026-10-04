@@ -43,8 +43,17 @@ async function runV2(ctx) {
     }
   };
   try {
-    const f = await setup(ctx);
-    await prepareClaimsAndRelay(ctx, f);
+    let f;
+    try {
+      f = await setup(ctx);
+      await prepareClaimsAndRelay(ctx, f);
+    } catch (e) {
+      // e.g. no Auth Emulator (staging): report it, still run the transport check.
+      ctx.results.push({ id: 'P2-setup', ok: false, status: 'FAIL' });
+      console.log(`FAIL  P2-setup — fixtures could not be created: ${e.message}`);
+      await safe(p212)();
+      return;
+    }
     console.log(`v2 fixtures ready (run ${f.run}, ward ${f.ward.nameEn})\n`);
     steps.push(
       () => safe(p201)(f),
