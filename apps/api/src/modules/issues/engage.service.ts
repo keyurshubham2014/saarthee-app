@@ -9,6 +9,7 @@ import { AppError } from '../../lib/errors';
 import { pointSql } from '../../lib/geo';
 import { assertDailyQuota } from '../../lib/quota';
 import { normalizeCcrs } from '../../lib/validation';
+import { transitionInTx } from '../lifecycle/lifecycle.service';
 
 export const OPEN_STATUSES: IssueStatus[] = ['reported', 'sent', 'acknowledged', 'in_progress', 'reopened'];
 
@@ -95,17 +96,14 @@ export async function linkCcrs(userId: string, issueId: string, rawNumber: strin
     return { ccrsNumber, ccrsFiledAt: issue.ccrsFiledAt, status: issue.status };
   }
   const now = new Date();
-  return prisma.$transaction(async (tx) => {
-    const moveToSent = issue.status === 'reported';
-    const updated = await tx.issue.update({
-      where: { id: issueId },
-      data: { ccrsNumber, ccrsFiledAt: now, ...(moveToSent ? { status: 'sent' as const, statusChangedAt: now } : {}) },
-      select: { ccrsNumber: true, ccrsFiledAt: true, status: true },
-    });
+  const { body, afterCommit } = await prisma.$transaction(async (tx) => {
+    const updated = await tx.issue.update({ where: { id: issueId }, data: { ccrsNumber, ccrsFiledAt: now }, select: { ccrsNumber: true, ccrsFiledAt: true, status: true } });
     await tx.issueEvent.create({ data: { issueId, actorId: userId, actorRole: 'citizen', type: 'ccrs_linked', note: `via:${filedVia}` } });
-    if (moveToSent) {
-      await tx.issueEvent.create({ data: { issueId, actorId: userId, actorRole: 'citizen', type: 'status_change', fromStatus: 'reported', toStatus: 'sent' } });
-    }
-    return updated;
+    // TASK-06: the status write goes through the lifecycle state machine (reported → sent).
+    if (updated.status !== 'reported') return { body: updated, afterCommit: async () => {} };
+    const t = await transitionInTx(tx, issueId, 'sent', { userId, kind: 'reporter' });
+    return { body: { ...updated, status: t.issue.status }, afterCommit: t.afterCommit };
   });
+  await afterCommit();
+  return body;
 }

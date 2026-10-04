@@ -20,6 +20,8 @@ import { staffAlertsRouter } from './modules/staff-alerts';
 import { servicesRouter } from './modules/services';
 import { initiativesRouter } from './modules/initiatives';
 import { staffContentRouter } from './modules/staff-content';
+import { lifecycleRouter } from './modules/lifecycle';
+import { escalationRouter } from './modules/escalation';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -48,3 +50,6 @@ apiRouter.use(staffAlertsRouter);
 apiRouter.use(servicesRouter);
 apiRouter.use(initiativesRouter);
 apiRouter.use(staffContentRouter);
+// TASK-06: issue lifecycle (status, verifications, events, AMC closed it) and escalation messages.
+apiRouter.use(lifecycleRouter);
+apiRouter.use(escalationRouter);

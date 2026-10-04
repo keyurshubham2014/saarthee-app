@@ -32,6 +32,8 @@ enum VerificationResult {
 enum PhotoPurpose {
   report
   verification
+  /// TASK-06: "after" photo attached when an issue is marked fixed.
+  after
 
   @@map("photo_purpose")
 }
@@ -354,6 +356,10 @@ enum IssueEventType {
   escalated
   merged
   rejected
+  /// TASK-06.
+  ccrs_closed
+  verification
+  system
 
   @@map("issue_event_type")
 }
@@ -507,6 +513,14 @@ model Issue {
   legacyComplaintId  String?                                @map("legacy_complaint_id") @db.Uuid
   createdAt          DateTime                               @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime                               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  /// TASK-06 lifecycle. Status is written only through modules/lifecycle transition().
+  markedFixedAt      DateTime?                              @map("marked_fixed_at") @db.Timestamptz(6)
+  verifiedAt         DateTime?                              @map("verified_at") @db.Timestamptz(6)
+  reopenedCount      Int                                    @default(0) @map("reopened_count")
+  overdueNotifiedAt  DateTime?                              @map("overdue_notified_at") @db.Timestamptz(6)
+  ccrsClosedAt       DateTime?                              @map("ccrs_closed_at") @db.Timestamptz(6)
+  ccrsReminderSentAt DateTime?                              @map("ccrs_reminder_sent_at") @db.Timestamptz(6)
+  statusVersion      Int                                    @default(0) @map("status_version")
 
   reporter        User?      @relation(fields: [reporterId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issues_reporter")
   category        Category   @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issues_category")
@@ -533,6 +547,7 @@ model Issue {
   @@index([reporterId], map: "idx_issues_reporter")
   @@index([reporterId, createdAt(sort: Desc)], map: "idx_issues_reporter_created")
   @@index([mergedIntoId], map: "idx_issues_merged_into")
+  @@index([status, slaDueAt], map: "idx_issues_status_sla")
   @@map("issues")
 }
 
@@ -553,44 +568,52 @@ model IssuePhoto {
 
 /// Append-only (trigger trg_issue_events_append_only).
 model IssueEvent {
-  id         String         @id(map: "pk_issue_events") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  issueId    String         @map("issue_id") @db.Uuid
-  actorId    String?        @map("actor_id") @db.Uuid
-  actorRole  ActorRole      @map("actor_role")
-  type       IssueEventType
-  fromStatus IssueStatus?   @map("from_status")
-  toStatus   IssueStatus?   @map("to_status")
-  note       String?        @db.VarChar(500)
-  photoId    String?        @map("photo_id") @db.Uuid
-  createdAt  DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  id             String         @id(map: "pk_issue_events") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  issueId        String         @map("issue_id") @db.Uuid
+  actorId        String?        @map("actor_id") @db.Uuid
+  actorRole      ActorRole      @map("actor_role")
+  type           IssueEventType
+  fromStatus     IssueStatus?   @map("from_status")
+  toStatus       IssueStatus?   @map("to_status")
+  note           String?        @db.VarChar(500)
+  photoId        String?        @map("photo_id") @db.Uuid
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// TASK-06: idempotent actions and non-PII details ({distanceM, answer, level}).
+  clientActionId String?        @map("client_action_id") @db.Uuid
+  meta           Json?
 
   issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_events_issue")
   actor User?  @relation(fields: [actorId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issue_events_actor")
   photo Photo? @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_events_photo")
 
+  @@unique([clientActionId], map: "uq_issue_events_client_action")
   @@index([issueId, createdAt], map: "idx_issue_events_issue_created")
   @@index([actorId], map: "idx_issue_events_actor")
   @@map("issue_events")
 }
 
 model IssueVerification {
-  id         String             @id(map: "pk_issue_verifications") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  issueId    String             @map("issue_id") @db.Uuid
-  userId     String             @map("user_id") @db.Uuid
-  answer     VerificationResult
-  photoId    String?            @map("photo_id") @db.Uuid
-  lat        Decimal?           @db.Decimal(9, 6)
-  lng        Decimal?           @db.Decimal(9, 6)
-  distanceM  Decimal?           @map("distance_m") @db.Decimal(8, 1)
+  id                 String             @id(map: "pk_issue_verifications") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  issueId            String             @map("issue_id") @db.Uuid
+  userId             String             @map("user_id") @db.Uuid
+  answer             VerificationResult
+  photoId            String?            @map("photo_id") @db.Uuid
+  lat                Decimal?           @db.Decimal(9, 6)
+  lng                Decimal?           @db.Decimal(9, 6)
+  distanceM          Decimal?           @map("distance_m") @db.Decimal(8, 1)
   /// Asia/Kolkata calendar day, set by the service (one verification per user, issue and day).
-  createdDay DateTime           @map("created_day") @db.Date
-  createdAt  DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdDay         DateTime           @map("created_day") @db.Date
+  createdAt          DateTime           @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// TASK-06.
+  gpsAccuracyM       Decimal?           @map("gps_accuracy_m") @db.Decimal(8, 2)
+  clientSubmissionId String?            @map("client_submission_id") @db.Uuid
 
   issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_verifications_issue")
   user  User   @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_verifications_user")
   photo Photo? @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_verifications_photo")
 
   @@unique([issueId, userId, createdDay], map: "uq_issue_verifications_daily")
+  @@unique([clientSubmissionId], map: "uq_issue_verifications_client_submission")
   @@index([userId], map: "idx_issue_verifications_user")
   @@map("issue_verifications")
 }
@@ -634,9 +657,10 @@ model Zone {
   createdAt DateTime                                     @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt DateTime                                     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  wards  Ward[]
-  issues Issue[]
-  alerts Alert[]
+  wards              Ward[]
+  issues             Issue[]
+  alerts             Alert[]
+  escalationContacts EscalationContact[]
 
   @@unique([code], map: "uq_zones_code")
   @@index([geom], map: "idx_zones_geom", type: Gist)
@@ -667,11 +691,11 @@ model Ward {
   /// TASK-09 back-relations.
   repAreas       RepresentativeArea[]
   constituencies WardConstituency[]
-  alertWards  AlertWard[]
-  homeDevices Device[]
+  alertWards     AlertWard[]
+  homeDevices    Device[]
   // TASK-12.
-  initiatives Initiative[]
-  serviceTips ServiceTip[]
+  initiatives    Initiative[]
+  serviceTips    ServiceTip[]
 
   @@unique([number], map: "uq_wards_number")
   @@index([zoneId], map: "idx_wards_zone")
@@ -1153,4 +1177,27 @@ model ServiceTip {
 
   @@index([activeFrom, activeTo], map: "idx_service_tips_window")
   @@map("service_tips")
+}
+
+// V2 TASK-06: escalation ladder contacts (zone office, Deputy Municipal Commissioner, Municipal Commissioner).
+// ck_escalation_contacts_level and the partial index uq_escalation_contacts_level_citywide are hand-written in
+// migration 20261014060000_v2_lifecycle.
+model EscalationContact {
+  id             String   @id(map: "pk_escalation_contacts") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  level          String   @db.VarChar(30)
+  zoneId         String?  @map("zone_id") @db.Uuid
+  titleEn        String   @map("title_en") @db.VarChar(160)
+  titleGu        String   @map("title_gu") @db.VarChar(200)
+  email          String?  @db.VarChar(254)
+  phone          String?  @db.VarChar(20)
+  sourceUrl      String   @map("source_url") @db.VarChar(500)
+  lastVerifiedAt DateTime @map("last_verified_at") @db.Date
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  zone Zone? @relation(fields: [zoneId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_escalation_contacts_zone")
+
+  @@unique([level, zoneId], map: "uq_escalation_contacts_level_zone")
+  @@map("escalation_contacts")
 }

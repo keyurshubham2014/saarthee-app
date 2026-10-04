@@ -4222,5 +4222,354 @@
         "type": "String"
       }
     }
+  },
+  "issueActionsStatusAnnounce": "Status changed to {status}",
+  "@issueActionsStatusAnnounce": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsStatusFixedUnverified": "Fixed (not verified)",
+  "@issueActionsStatusFixedUnverified": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsActorResident": "A resident of {ward}",
+  "@issueActionsActorResident": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsActorCorporator": "Ward corporator {name}",
+  "@issueActionsActorCorporator": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsActorRepresentative": "Representative {name}",
+  "@issueActionsActorRepresentative": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsActorModerator": "Saarthee moderator",
+  "@issueActionsActorModerator": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsActorSystem": "Saarthee",
+  "@issueActionsActorSystem": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineTitle": "What happened",
+  "@issueActionsTimelineTitle": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineAnswerFixed": "Said it's fixed",
+  "@issueActionsTimelineAnswerFixed": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineAnswerNotFixed": "Said it's still not fixed",
+  "@issueActionsTimelineAnswerNotFixed": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineEscalated": "Escalated",
+  "@issueActionsTimelineEscalated": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineCcrsLinked": "AMC complaint linked",
+  "@issueActionsTimelineCcrsLinked": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineCcrsClosed": "AMC closed the complaint",
+  "@issueActionsTimelineCcrsClosed": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineOverdue": "Past its target date",
+  "@issueActionsTimelineOverdue": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsTimelineAfterPhoto": "After photo",
+  "@issueActionsTimelineAfterPhoto": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsDetailTitle": "Issue",
+  "@issueActionsDetailTitle": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyTitle": "Is it fixed?",
+  "@issueActionsVerifyTitle": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyBefore": "Before",
+  "@issueActionsVerifyBefore": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyAfter": "After",
+  "@issueActionsVerifyAfter": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyNoPhoto": "No photo yet",
+  "@issueActionsVerifyNoPhoto": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyYes": "Yes, it's fixed",
+  "@issueActionsVerifyYes": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyNo": "Still not fixed",
+  "@issueActionsVerifyNo": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyClosed": "This issue can no longer be checked.",
+  "@issueActionsVerifyClosed": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyPhotoTitle": "Take a photo at the spot",
+  "@issueActionsVerifyPhotoTitle": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyTakePhoto": "Take photo",
+  "@issueActionsVerifyTakePhoto": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyRetake": "Retake",
+  "@issueActionsVerifyRetake": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyLocating": "Finding your location…",
+  "@issueActionsVerifyLocating": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyDistance": "You're about {metres} m from the problem.",
+  "@issueActionsVerifyDistance": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "issueActionsVerifyTooFar": "You need to be within {radius} m of the problem to verify. You're about {metres} m away.",
+  "@issueActionsVerifyTooFar": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "radius": {
+        "type": "int"
+      },
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "issueActionsVerifyInaccurate": "Location is approximate. Move into the open and try again.",
+  "@issueActionsVerifyInaccurate": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyNoteLabel": "Anything to add? (optional)",
+  "@issueActionsVerifyNoteLabel": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifySend": "Send",
+  "@issueActionsVerifySend": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifySending": "Sending",
+  "@issueActionsVerifySending": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyRetryUpload": "Retry upload",
+  "@issueActionsVerifyRetryUpload": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyAlready": "You've already answered today. Thank you.",
+  "@issueActionsVerifyAlready": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyOffline": "You're offline. Your answer is kept and will send when you're back online.",
+  "@issueActionsVerifyOffline": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyToastVerified": "Thanks for checking. It's now Verified.",
+  "@issueActionsVerifyToastVerified": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyToastReopened": "Thanks for checking. It's been reopened.",
+  "@issueActionsVerifyToastReopened": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyToastRecorded": "Thanks for checking. Your answer is recorded.",
+  "@issueActionsVerifyToastRecorded": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsVerifyCta": "Check if it's fixed",
+  "@issueActionsVerifyCta": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMarkFixedTitle": "Mark as fixed",
+  "@issueActionsMarkFixedTitle": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMarkFixedAddPhoto": "Add an after photo (optional)",
+  "@issueActionsMarkFixedAddPhoto": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMarkFixedNote": "Note (optional)",
+  "@issueActionsMarkFixedNote": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMarkFixedHelper": "Neighbours will be asked to confirm with a photo.",
+  "@issueActionsMarkFixedHelper": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMarkFixedDone": "Marked as fixed.",
+  "@issueActionsMarkFixedDone": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsRemovePhoto": "Remove photo",
+  "@issueActionsRemovePhoto": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsStale": "This issue changed while you were here.",
+  "@issueActionsStale": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsReload": "Reload",
+  "@issueActionsReload": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsForbidden": "You can't change this issue.",
+  "@issueActionsForbidden": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsAcknowledge": "Acknowledge",
+  "@issueActionsAcknowledge": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsStartWork": "Start work",
+  "@issueActionsStartWork": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsReject": "Reject",
+  "@issueActionsReject": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsRejectReason": "Reason (shown to the reporter)",
+  "@issueActionsRejectReason": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsUpdated": "Updated.",
+  "@issueActionsUpdated": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsEscalateCta": "Escalate",
+  "@issueActionsEscalateCta": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsEscalateTitle": "Escalate this issue",
+  "@issueActionsEscalateTitle": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsLevelCorporators": "Corporators",
+  "@issueActionsLevelCorporators": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsLevelZoneOffice": "Zone office",
+  "@issueActionsLevelZoneOffice": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsLevelDmc": "Deputy Municipal Commissioner",
+  "@issueActionsLevelDmc": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsLevelCommissioner": "Municipal Commissioner",
+  "@issueActionsLevelCommissioner": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsSuggested": "Suggested",
+  "@issueActionsSuggested": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMessagePreview": "Message",
+  "@issueActionsMessagePreview": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsMessageCorporator": "Message {name}",
+  "@issueActionsMessageCorporator": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsEmailTarget": "Email {label}",
+  "@issueActionsEmailTarget": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsCallTarget": "Call {label}",
+  "@issueActionsCallTarget": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsCopyMessage": "Copy message",
+  "@issueActionsCopyMessage": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsCopied": "Message copied.",
+  "@issueActionsCopied": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsShare": "Share",
+  "@issueActionsShare": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsEscalateNote": "Saarthee prepares this message for you. It is not an official complaint.",
+  "@issueActionsEscalateNote": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsCcrsQuestion": "Did AMC close your complaint?",
+  "@issueActionsCcrsQuestion": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsCcrsYes": "Yes, AMC closed it",
+  "@issueActionsCcrsYes": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsCcrsBanner": "AMC says it's closed. If it isn't fixed, reopen it on AMC's site before {time} (24 hours).",
+  "@issueActionsCcrsBanner": {
+    "description": "TASK-06 issue lifecycle",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "issueActionsCcrsOpenSite": "Open AMC site",
+  "@issueActionsCcrsOpenSite": {
+    "description": "TASK-06 issue lifecycle"
+  },
+  "issueActionsCcrsVerify": "It's fixed — verify",
+  "@issueActionsCcrsVerify": {
+    "description": "TASK-06 issue lifecycle"
   }
 }

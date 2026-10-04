@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 /// In-app routes a notification tap may open (TASK-04 §5.4). Anything else
 /// — URLs, `//host`, admin paths, unknown screens — opens Home.
 final RegExp _allowed = RegExp(
-  r'^/(issues|alerts|initiatives|me/notifications)(/[A-Za-z0-9-]+)?$',
+  r'^/(issues|alerts|initiatives|me/notifications)(/[A-Za-z0-9-]+)?$'
+  // TASK-06: "Is it fixed? Help check" opens the verify flow.
+  r'|^/issues/[A-Za-z0-9-]+/verify$',
 );
 
 /// The route to open for a tapped notification's `data.route`.

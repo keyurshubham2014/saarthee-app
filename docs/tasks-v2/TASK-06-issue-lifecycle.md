@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-06 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-05 |
 | Blocks | TASK-07, TASK-11 |
 | Requirement IDs | REQ-F-020, REQ-F-021, REQ-F-022, REQ-F-023, REQ-F-024, REQ-F-025, REQ-F-026, REQ-F-027, REQ-F-063 |
 | Primary Spec Refs | Spec §3 (roles), §5 (lifecycle, verification, reopen window, SLA, escalation, CCRS reminder), §6 (`issues`, `issue_events`, `issue_verifications`, `issue_photos`), §7 (status, verifications, escalations, events; rate limits), §9 (issue-update notifications), §11 (privacy); DS §2 (status colours), §4 (shape, Rounded icons), §5 (status chip, status timeline, toast, buttons), §6 (Motion), §7 (accessibility), §8 (verify flow) |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -206,6 +206,20 @@ Staff actions through `transition()` are recorded in the TASK-10 audit log when 
 - ASSUMPTION: The DS §6 "button turns into a progress bar" applies to Send on verify step 2 (the button that does the network work); "Yes, it's fixed" on step 1 only navigates.
 - ASSUMPTION: The new timeline step expands with `medium` (not `springIn`) because it is a clipped size animation and an overshoot would make the rows below bounce.
 - ASSUMPTION: The status announcement fires only for changes seen while the chip is mounted (not on first build or when scrolling it into view), and the word comes from the DS §2 status table, so TalkBack users get the same information as the colour/icon change.
+- ASSUMPTION (build): Jobs use the shared runner `src/jobs` (TASK-08 built it to this task's contract: in-process registry, `pg_try_advisory_xact_lock` per job, `JOBS_ENABLED`, `npm run jobs:run -- <name>`; no `node-cron`). TASK-06 registers `sla-overdue` (cron `5 * * * *`) and `ccrs-reopen-reminder` (every 15 min) from `modules/lifecycle/jobs.ts` in `appJobs()`.
+- ASSUMPTION (build): `transition()` has a `transitionInTx(tx, …)` form for callers that already hold a transaction (verification, escalation, TASK-05 CCRS link); they run its `afterCommit()` (notification fan-out) after commit. TASK-10/11 call `transition()` / `transitionInTx()`.
+- ASSUMPTION (build): `POST /issues/{id}/status` also accepts `to: rejected` (moderator/admin, note required) so the staff reject transition exists now; TASK-10's `/staff/issues/{id}/reject` should call `transition()` the same way.
+- ASSUMPTION (build): The person who made the latest `marked_fixed` change cannot verify it with their own "Fixed" (the answer is recorded, status unchanged) — otherwise a reporter could mark fixed and verify alone.
+- ASSUMPTION (build): v2 verification photos are owned by the uploader (`uploaded_by_user_id`); the v1 CHECK `ck_photos_verification_complaint` is widened (migration `20261014060100`) instead of storing an issue id on photos. `POST /photos` checks the named issue exists but does not store it.
+- ASSUMPTION (build): After and verification photos get the same on-device face/plate blur as report photos (TASK-03 detector + renderer, automatic; no manual blur screen in these flows).
+- ASSUMPTION (build): The CCRS reopen reminder is not held for quiet hours (the AMC reopen window is time-critical); other issue updates are held to 07:00 IST through the push service's `sendAfter`.
+- ASSUMPTION (build): The "one push per issue per recipient per 15 min" collapse (§12) is not implemented; actor exclusion is. Revisit if busy issues get noisy.
+- ASSUMPTION (build): New read endpoint `GET /issues/{id}/lifecycle` (derived fields, names, location, before/after photo URLs, `viewer.can` actions) feeds the app widgets until TASK-07's detail endpoint exists; TASK-07 may embed the same `viewer` block.
+- ASSUMPTION (build): Until TASK-07 ships the detail screen, TASK-06 mounts an interim `/issues/:id` (`IssueLifecycleScreen`: chip, overdue tag, CCRS banner, verify/escalate/AMC-closed buttons, `IssueStatusActions`, animated timeline). TASK-07 should replace the route body and embed `IssueLifecyclePanel`.
+- ASSUMPTION (build): Choosing a level on the escalate screen calls `POST /escalations` (which logs the escalation); the suggested level is computed in the app from the timeline with the server's rule, so merely opening the screen logs nothing. "Message corporator" copies the prepared text and opens TASK-09's relay form with `issueId` (that form has no text prefill).
+- ASSUMPTION (build): Offline on verify step 2 keeps the answer, photo and idempotency key in the open screen and resends when connectivity returns; it is not persisted across app restarts.
+- ASSUMPTION (build): The app has no `merged` status word, so `merged` displays as the closed (rejected) chip.
+- ASSUMPTION (build): I-06-01 files the report through the API (TASK-05 endpoints) and runs the verify flow in the app UI with a fake camera/GPS 30 m away; staff steps use the seeded moderator (+919000000025) signed in through the Auth Emulator.
 
 ## 6. Implementation Steps
 
@@ -430,27 +444,32 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (emulator, push, TalkBack and recording checks pending — integrator)
 
-**Progress:** 0%
+**Progress:** 90% (all code and automated tests done; emulator-only checks remain)
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migrations `20261014060000_v2_lifecycle` (+ `…0100` photo CHECK), `transition()` state machine with row lock, idempotency, stale check, ward scope, SLA reset; notify fan-out; derived fields; CCRS link on `transitionInTx` | a2698d2 |
+| 2026-10-04 | Verification, events timeline, escalation, AMC closed it, `sla-overdue` / `ccrs-reopen-reminder` jobs in `appJobs()`, after/verification photo uploads, escalation contacts dev seed (15 rows) | cc1b376 |
+| 2026-10-04 | API tests T-06-01…16 + single-writer static check + `GET /issues/{id}/lifecycle` (363 API tests green, tsc/eslint clean, drift gate OK) | 57bc826, 78ff44a, 57c320f, d8b08e3 |
+| 2026-10-04 | App: data/providers, ARB `issueActions*` block (en+gu, gu pending review), `AnimatedStatusChip`, `AnimatedStatusTimeline`, `SendProgressButton`, verify 2 steps + toast, mark fixed, escalate, AMC-closed sheet/banner, `IssueStatusActions`, `/issues/:id` interim screen, routes + v1 `/verify/*` redirect, push allow-list `/issues/:id/verify` | dcb6f57…c79d9c1 |
+| 2026-10-04 | Widget tests W-06-01…09 (+ mark fixed), 341 Flutter tests green, `dart analyze` 0, format clean; emulator integration test `integration_test/report_verify_test.dart` written (not run here) | 9cdeedd…HEAD |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete (step 19 manual checks M-06-01…08 are the integrator's)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the tests and manual checks in §8
-- [ ] Automated tests added and passing
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Automated tests added and passing
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Lifecycle motion (REQ-F-063) verified: W-06-06…W-06-09 green, TalkBack announcement heard, normal and reduced-motion recordings in `docs/demo/v2-evidence/motion/`, no frame > 16 ms in the profile check
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-06` shows 0 unverified)
 - [ ] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-06: …`
+- [x] Committed as `V2-TASK-06: …`
 - [ ] Validator passes

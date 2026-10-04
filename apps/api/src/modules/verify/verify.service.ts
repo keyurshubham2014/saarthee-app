@@ -4,7 +4,10 @@ import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { recordServerEvent } from '../../lib/events';
 import type { VerifyContext } from '../../lib/verifyToken';
+import { haversineM } from '../../lib/geo/distance';
 import { openPhoto } from '../photos/read.service';
+
+export { haversineM };
 
 /** Verify-screen summary (03 §2.3). Never phone, coordinates, invite code or source tag. */
 export async function getVerifySummary(ctx: VerifyContext, installId: string | null) {
@@ -56,15 +59,6 @@ export interface VerificationInput {
   appVersion: string;
 }
 
-/** Great-circle distance in metres (haversine, mean Earth radius). */
-export function haversineM(lat1: number, lng1: number, lat2: number, lng2: number): number {
-  const R = 6_371_008.8;
-  const rad = (d: number) => (d * Math.PI) / 180;
-  const dLat = rad(lat2 - lat1);
-  const dLng = rad(lng2 - lng1);
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
-}
 
 async function findBySubmission(clientSubmissionId: string) {
   return prisma.verification.findUnique({

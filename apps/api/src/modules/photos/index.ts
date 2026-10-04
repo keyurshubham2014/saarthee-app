@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
+import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { assertDailyQuota } from '../../lib/quota';
 import { photoUpload } from '../../middleware/photoUpload';
@@ -16,10 +17,14 @@ const photosLimiter = rateLimit({ windowMs: 60 * 60_000, max: 60 });
 // V2 TASK-05 §5.3: public photo read 120 per IP per minute.
 const mediaLimiter = rateLimit({ windowMs: 60_000, max: 120 });
 
-const fields = z.object({
-  purpose: z.literal('report', { error: 'Must be report.' }),
-  blurApplied: z.enum(['true', 'false']).optional().transform((v) => v === 'true'),
-});
+const fields = z
+  .object({
+    // TASK-06: after (mark fixed) and verification photos name the issue they are for.
+    purpose: z.enum(['report', 'after', 'verification'], { error: 'Must be report, after or verification.' }),
+    issueId: z.uuid().optional(),
+    blurApplied: z.enum(['true', 'false']).optional().transform((v) => v === 'true'),
+  })
+  .refine((b) => b.purpose === 'report' || b.issueId !== undefined, { path: ['issueId'], message: 'issueId is required for this purpose.' });
 
 // V2 TASK-05: signed-in citizens only; the photo is owned (uploaded_by_user_id) and counted against
 // QUOTA_PHOTOS_PER_DAY. The v1 pipeline (re-encode, EXIF/GPS strip, resize) still applies.
@@ -28,7 +33,8 @@ photosRouter.post('/photos', photosLimiter, requireUser, photoUpload, validate({
   const user = req.user!;
   await assertDailyQuota(user.id, 'photos', { res });
   const body = req.body as z.infer<typeof fields>;
-  const result = await storeUploadedPhoto(req.file.buffer, 'report', null, { uploadedByUserId: user.id, blurApplied: body.blurApplied });
+  if (body.issueId && !(await prisma.issue.findUnique({ where: { id: body.issueId }, select: { id: true } }))) throw new AppError('NOT_FOUND');
+  const result = await storeUploadedPhoto(req.file.buffer, body.purpose, null, { uploadedByUserId: user.id, blurApplied: body.blurApplied });
   res.status(201).json(result);
 });
 

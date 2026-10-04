@@ -1,6 +1,7 @@
 import { flushQueued } from '../lib/push';
 import { alertJobs } from '../modules/alerts/jobs';
 import { jobs as initiativeJobs } from '../modules/initiatives/jobs';
+import { lifecycleJobs } from '../modules/lifecycle/jobs';
 import { jobs as representativeJobs } from '../modules/representatives/jobs';
 import { jobs as serviceJobs } from '../modules/services/jobs';
 import { listJobs, registerJobs } from './runner';
@@ -30,6 +31,8 @@ export function appJobs(): JobDefinition[] {
     ...representativeJobs.map((j): JobDefinition => ({ ...j, run: async () => void (await j.run()) })),
     // TASK-12: monthly service link check and initiative reminders.
     ...[...serviceJobs, ...initiativeJobs].map((j): JobDefinition => ({ ...j, run: async () => void (await j.run()) })),
+    // TASK-06: hourly SLA overdue flag + notification, CCRS 24 h reopen reminder.
+    ...lifecycleJobs,
   ];
 }
 

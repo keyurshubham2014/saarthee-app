@@ -100,6 +100,14 @@ const schema = z.object({
   SACHET_POLL_MINUTES: int(1).max(1440).default(10),
   IMD_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
   IMD_DISTRICT_WARNINGS_URL: optionalEmpty(z.string().regex(/^https:\/\//, 'must be https')),
+  // TASK-06 issue lifecycle (REOPEN_WINDOW_DAYS above is shared with v1).
+  VERIFY_RADIUS_M: z.coerce.number().positive().max(1000).default(100),
+  VERIFY_MAX_ACCURACY_M: z.coerce.number().positive().max(1000).default(50),
+  NOT_FIXED_THRESHOLD: int(1).max(20).default(2),
+  CCRS_REOPEN_HOURS: int(1).max(240).default(24),
+  CCRS_REMINDER_AFTER_HOURS: int(1).max(240).default(20),
+  QUOTA_STATUS_CHANGES_PER_DAY: int(1).default(30),
+  QUOTA_ESCALATIONS_PER_DAY: int(1).default(10),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;

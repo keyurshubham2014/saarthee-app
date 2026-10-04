@@ -11,6 +11,7 @@ import '../features/dev/gallery_screen.dart';
 import '../features/onboarding/presentation/intro_screen.dart';
 import '../features/onboarding/presentation/language_screen.dart';
 import '../features/onboarding/presentation/ward_screen.dart';
+import '../features/issue_actions/issue_actions_routes.dart';
 import '../features/report/report_routes.dart';
 import '../features/services/services_routes.dart';
 import '../features/staff/content/staff_content_routes.dart';
@@ -32,6 +33,8 @@ final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   // TASK-12 services and initiatives (+ staff content screens).
   ...servicesRoutes,
   ...staffContentRoutes,
+  // TASK-06 issue lifecycle: /issues/:id, verify, mark fixed, escalate.
+  ...issueActionsRoutes,
 ];
 
 /// Paths reachable before onboarding is done.
