@@ -1,0 +1,12 @@
+# Local verification of the production stack (docs/ops/deploy.md §Local): plain HTTP on :80 inside the
+# container, published on 127.0.0.1:4100. No TLS, no Cloudflare; the client IP is the TCP peer.
+{
+	admin off
+	auto_https off
+}
+
+import /etc/caddy/snippets/api.caddy
+
+:80 {
+	import saarthee_api
+}

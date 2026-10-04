@@ -1,0 +1,6 @@
+{
+  "APP_ENV": "production",
+  "API_BASE_URL": "https://api-staging.saarthee.example/api/v1",
+  "DEEP_LINK_SCHEME": "saarthee",
+  "APP_VERSION": "2.0.0"
+}

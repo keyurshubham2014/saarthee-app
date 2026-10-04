@@ -1599,5 +1599,9 @@
   "settingsDevGallery": "Component gallery (debug)",
   "@settingsDevGallery": {
     "description": "Debug-only settings row opening /dev/gallery"
+  },
+  "configErrorBody": "This build is misconfigured. Please install the latest version from Play.",
+  "@configErrorBody": {
+    "description": "TASK-13 fatal config screen"
   }
 }

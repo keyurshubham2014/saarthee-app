@@ -4,10 +4,12 @@ import { createApp } from './app';
 import { logger } from './lib/logger';
 import { prisma } from './lib/db';
 import { assertStorageReady } from './lib/storage';
+import { flushErrorReporting, initErrorReporting } from './lib/errors/report';
 
 let server: Server | undefined;
 
 async function start() {
+  if (initErrorReporting()) logger.info('error reporting enabled (scrubbed)');
   try {
     await assertStorageReady();
   } catch (err) {
@@ -21,7 +23,11 @@ async function start() {
 
 function shutdown(signal: string) {
   logger.info({ signal }, 'shutting down');
-  const done = () => void prisma.$disconnect().finally(() => process.exit(0));
+  const done = () =>
+    void flushErrorReporting()
+      .catch(() => undefined)
+      .then(() => prisma.$disconnect())
+      .finally(() => process.exit(0));
   if (server) server.close(done);
   else done();
   setTimeout(() => process.exit(1), 10_000).unref();

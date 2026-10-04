@@ -18,7 +18,9 @@ export function createApp() {
       contentSecurityPolicy: { useDefaults: false, directives: { defaultSrc: ["'none'"] } },
       frameguard: { action: 'deny' },
       referrerPolicy: { policy: 'no-referrer' },
-      strictTransportSecurity: false,
+      // HSTS only in production (V2 TASK-13 §5.3); local http stays usable.
+      strictTransportSecurity:
+        config.APP_ENV === 'production' ? { maxAge: 15_552_000, includeSubDomains: true, preload: false } : false,
     }),
   );
   if (config.CORS_ORIGINS.length > 0) {

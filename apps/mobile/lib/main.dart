@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
+import 'core/config/api_url_policy.dart';
 import 'core/config/app_config.dart';
+import 'core/config/config_error_app.dart';
 import 'core/errors/global_error.dart';
 import 'core/settings/app_settings.dart';
 import 'router/app_router.dart';
@@ -16,6 +18,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppConfig.assertValid();
   registerFontLicenses();
+  // HTTPS only outside debug (V2 TASK-13, REQ-S-013): a misconfigured build
+  // shows the fatal config screen and never makes a request.
+  if (!apiBaseUrlIsAllowed(AppConfig.apiBaseUrl, currentBuildMode)) {
+    runApp(const ConfigErrorApp());
+    return;
+  }
   final prefs = await SharedPreferences.getInstance();
   final container = ProviderContainer(
     overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],

@@ -1,7 +1,8 @@
 import { config } from '../../config';
 import { prisma } from '../../lib/db';
 import { logger } from '../../lib/logger';
-import { storage } from '../../lib/storage';
+import type { StorageDriver } from '@prisma/client';
+import { storageFor } from '../../lib/storage';
 
 export interface CleanupResult {
   orphansDeleted: number;
@@ -28,11 +29,11 @@ export async function cleanupPhotos(): Promise<CleanupResult> {
       verification: null,
       issuePhoto: null,
     },
-    select: { id: true, storageKey: true },
+    select: { id: true, storageKey: true, storageDriver: true },
   });
   for (const p of orphans) {
     try {
-      await storage.delete(p.storageKey);
+      await storageFor(p.storageDriver).delete(p.storageKey);
       await prisma.photo.delete({ where: { id: p.id } });
       result.orphansDeleted += 1;
     } catch (err) {
@@ -55,16 +56,18 @@ export async function findAnonymizedPhotosPendingDeletion(complaintId?: string) 
       deletedAt: null,
       OR: [{ complaint: anonymized }, { verification: { complaint: anonymized } }, { uploadedForComplaint: anonymized }],
     },
-    select: { id: true, storageKey: true },
+    select: { id: true, storageKey: true, storageDriver: true },
   });
 }
 
 /** Deletes files then marks rows deleted; failures are logged (error) and retried by the cleanup script. */
-export async function deletePhotoFiles(photos: { id: string; storageKey: string }[]): Promise<{ deleted: number }> {
+export async function deletePhotoFiles(
+  photos: { id: string; storageKey: string; storageDriver: StorageDriver }[],
+): Promise<{ deleted: number }> {
   let deleted = 0;
   for (const p of photos) {
     try {
-      await storage.delete(p.storageKey);
+      await storageFor(p.storageDriver).delete(p.storageKey);
       await prisma.photo.update({ where: { id: p.id }, data: { deletedAt: new Date() } });
       deleted += 1;
     } catch (err) {

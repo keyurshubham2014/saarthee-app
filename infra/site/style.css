@@ -1,0 +1,90 @@
+/* Saarthee static pages (privacy, account deletion). Neem tokens from docs/v2/design-system.md (DS §2). */
+:root {
+  --primary: #14674a;
+  --primary-dark: #0e4a35;
+  --primary-container: #e1f0e7;
+  --background: #f3f6f1;
+  --surface: #ffffff;
+  --border: #dce5de;
+  --text: #17251e;
+  --text-2: #4e5e55;
+  --warning: #9a5b00;
+  --warning-tint: #fff4e0;
+  --focus: #ffdd00;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --primary: #7cc9a2;
+    --primary-dark: #a8dcc0;
+    --primary-container: #173a2b;
+    --background: #0f1713;
+    --surface: #16211b;
+    --border: #2a3a31;
+    --text: #e6eee9;
+    --text-2: #a9b8af;
+    --warning: #f0b860;
+    --warning-tint: #2d2310;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --primary: #7cc9a2;
+  --primary-dark: #a8dcc0;
+  --primary-container: #173a2b;
+  --background: #0f1713;
+  --surface: #16211b;
+  --border: #2a3a31;
+  --text: #e6eee9;
+  --text-2: #a9b8af;
+  --warning: #f0b860;
+  --warning-tint: #2d2310;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Mukta Vaani", "Noto Sans Gujarati", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+h1, h2, h3 { font-family: "Baloo Bhai 2", "Mukta Vaani", system-ui, sans-serif; line-height: 1.25; }
+h1 { font-size: 1.75rem; margin: 0 0 .25rem; }
+h2 { font-size: 1.25rem; margin: 2rem 0 .5rem; }
+a { color: var(--primary); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+.top {
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 16px;
+}
+.top .in { max-width: 760px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.top img { width: 36px; height: 36px; }
+.top .name { font-family: "Baloo Bhai 2", system-ui, sans-serif; font-weight: 700; font-size: 1.25rem; color: #fff; text-decoration: none; }
+.top nav { margin-left: auto; display: flex; gap: 8px; }
+.top nav a {
+  color: #fff; text-decoration: none; padding: 6px 12px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .5); font-size: .95rem;
+}
+.top nav a[aria-current="true"] { background: #fff; color: #14674a; }
+
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px 20px 8px; margin: 16px 0; }
+.meta { color: var(--text-2); font-size: .95rem; margin: 0 0 1rem; }
+.draft {
+  background: var(--warning-tint); color: var(--warning); border-radius: 12px;
+  padding: 10px 14px; font-weight: 600; margin: 0 0 16px;
+}
+.independence { background: var(--primary-container); border-radius: 12px; padding: 12px 14px; }
+ul, ol { padding-left: 1.25rem; }
+li { margin: .25rem 0; }
+table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+th, td { text-align: left; vertical-align: top; padding: 8px; border-bottom: 1px solid var(--border); }
+.table-wrap { overflow-x: auto; }
+footer { max-width: 760px; margin: 0 auto; padding: 0 16px 32px; color: var(--text-2); font-size: .9rem; }
+[hidden] { display: none !important; }

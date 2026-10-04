@@ -1,0 +1,36 @@
+# Shared API site body (imported by Caddyfile and Caddyfile.local). V2 TASK-13 §5.3.
+(saarthee_api) {
+	# Access logs off: Cloudflare keeps edge logs under its own policy; the API logs requests without PII.
+	log {
+		output discard
+	}
+	encode zstd gzip
+
+	header {
+		-Server
+		X-Content-Type-Options nosniff
+	}
+
+	# The API only lives under /api/; anything else is a plain 404 (no directory listing, no default page).
+	@api path /api/*
+	handle @api {
+		request_body {
+			max_size 12MB
+		}
+		reverse_proxy api:3000 {
+			# {client_ip} is CF-Connecting-IP when the request came from a trusted (Cloudflare) proxy,
+			# otherwise the TCP peer — so a direct caller cannot spoof it. The API trusts one proxy hop
+			# (TRUST_PROXY=true) and rate-limits on this value.
+			header_up X-Forwarded-For {client_ip}
+			header_up X-Real-IP {client_ip}
+			header_up -CF-Connecting-IP
+			transport http {
+				dial_timeout 5s
+				response_header_timeout 30s
+			}
+		}
+	}
+	handle {
+		respond "Not found" 404
+	}
+}

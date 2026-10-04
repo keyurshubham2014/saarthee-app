@@ -1,5 +1,6 @@
 import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { AppError, errorBody } from '../lib/errors';
+import { reportError } from '../lib/errors/report';
 import { logger } from '../lib/logger';
 import { routeTemplate } from './requestLog';
 
@@ -19,6 +20,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
     // Stack goes to logs only, never to the client.
     logger.error({ requestId: req.id, route: routeTemplate(req), err }, 'unhandled error');
     appErr = new AppError('INTERNAL_ERROR');
+    reportError(err, { route: routeTemplate(req), method: req.method, status: 500, requestId: req.id });
   }
   if (appErr.status >= 500 && err instanceof AppError) {
     logger.error({ requestId: req.id, route: routeTemplate(req), code: appErr.code }, 'server error');

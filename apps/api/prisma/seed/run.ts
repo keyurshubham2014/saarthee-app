@@ -3,7 +3,8 @@ import path from 'node:path';
 import type { PrismaClient } from '@prisma/client';
 import type { SeedContext, SeedModule } from './types';
 
-const MODULE_FILE = /^\d{3}-[a-z0-9-]+\.ts$/;
+// .js: the compiled seed in the production image (V2 TASK-13).
+const MODULE_FILE = /^\d{3}-[a-z0-9-]+\.(ts|js)$/;
 
 /** Seed modules in run order: every `modules/NNN-name.ts`, sorted by file name. */
 export async function loadSeedModules(dir = path.join(__dirname, 'modules')): Promise<SeedModule[]> {

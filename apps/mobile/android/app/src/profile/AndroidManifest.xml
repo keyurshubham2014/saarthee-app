@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Profile builds are local demo/performance builds only (never shipped): same dev-machine
-         cleartext exception as debug (10.0.2.2). Release keeps no exception. -->
-    <application
-        android:networkSecurityConfig="@xml/network_security_config" />
+    <!-- Profile builds are the integrator's emulator verification build (never distributed; debug
+         cold starts ANR on the reference emulator). Cleartext only to the emulator alias 10.0.2.2
+         and localhost, same as debug. Release has no exception; scripts/check-cleartext.sh
+         enforces both rules in CI. -->
+    <application android:networkSecurityConfig="@xml/network_security_config" />
 </manifest>

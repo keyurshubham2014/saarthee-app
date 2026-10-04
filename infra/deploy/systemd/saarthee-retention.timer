@@ -1,0 +1,10 @@
+[Unit]
+Description=Saarthee retention job timer
+
+[Timer]
+OnCalendar=*-*-* 03:00:00 Asia/Kolkata
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

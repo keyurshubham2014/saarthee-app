@@ -3,6 +3,9 @@
 - Spec index: [docs/00-master-index.md](docs/00-master-index.md)
 - Task plan and progress: [docs/tasks/00-task-summary.md](docs/tasks/00-task-summary.md)
 - Demo script: [docs/demo/DEMO.md](docs/demo/DEMO.md)
+- Operations (v2): [environments](docs/ops/environments.md) · [deploy](docs/ops/deploy.md) ·
+  [backup & restore](docs/ops/backup-restore.md) · [restore drills](docs/ops/restore-drill.md) ·
+  [monitoring](docs/ops/monitoring.md) · [Android release](docs/ops/release-android.md)
 
 Layout: `apps/api` (Express + TypeScript + Prisma), `apps/mobile` (Flutter), `infra` (Docker Compose for PostgreSQL), `docs`.
 

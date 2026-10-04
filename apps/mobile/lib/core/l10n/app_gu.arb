@@ -1535,5 +1535,10 @@
   "settingsDevGallery": "કમ્પોનન્ટ ગૅલેરી (ડિબગ)",
   "@settingsDevGallery": {
     "x-review": "pending"
+  },
+  "configErrorBody": "આ બિલ્ડ ખોટી રીતે ગોઠવાયેલ છે. કૃપા કરીને Play પરથી નવીનતમ વર્ઝન ઇન્સ્ટોલ કરો.",
+  "@configErrorBody": {
+    "description": "TASK-13 fatal config screen",
+    "x-review": "pending"
   }
 }

@@ -1,0 +1,4 @@
+# Local secrets and env files for this stack (never committed).
+*.env
+!*.env.example
+certs/

@@ -1,0 +1,13 @@
+# Keep secrets, local data and build output out of the image (V2 TASK-13).
+node_modules
+dist
+coverage
+test-results
+.env
+.env.*
+!.env.example
+!.env.test.example
+test
+*.log
+logs
+.DS_Store
