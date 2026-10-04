@@ -46,6 +46,9 @@ void main() {
       ),
     );
     expect(reportIcon.color, SaartheeColors.of(t.element(nav)).sunrise);
+    // a11y audit: Home keeps a status-bar scrim so scrolled content never
+    // runs under the system icons.
+    expect(find.byKey(const Key('home.statusScrim')), findsOneWidget);
   });
 
   testWidgets('no placeholders remain: P-01..P-09 are all replaced', (t) async {

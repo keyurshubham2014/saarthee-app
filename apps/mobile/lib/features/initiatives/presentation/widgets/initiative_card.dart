@@ -104,6 +104,9 @@ class InitiativeCard extends StatelessWidget {
                         style: text.bodySmall?.copyWith(color: c.textSecondary),
                       ),
                     ),
+                    // Gap so a wrapped organiser name never touches the count
+                    // at large text sizes (a11y audit, 2.0× Gujarati).
+                    const SizedBox(width: AppSpacing.s12),
                     Text(
                       l10n.initiativesGoing(i.goingCount),
                       style: text.labelMedium,
