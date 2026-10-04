@@ -25,3 +25,19 @@ Restore: `docker compose ... exec -T db pg_restore -U saarthee -d saarthee --cle
 - **Legacy guard.** v1 tables `complaints`, `reminders`, `verifications`, `invite_codes`, `ccrs_categories` reject writes with `LEGACY_READ_ONLY` unless the transaction ran `withLegacyWrite()` (`src/lib/db`), which sets `saarthee.legacy_write=on` locally. Only the legacy import, v1 anonymize and seeds use it. `issue_events` is append-only through the same bypass.
 - **Legacy import.** `npm run legacy:migrate` copies every v1 complaint into `issues` (hidden, no reporter, no phone), idempotently (`complaints=N imported=N skipped=N`). Photos of anonymized complaints or deleted photos are never linked; anonymizing later unlinks them from the issue and its events.
 - **Seed (v2).** `prisma/seed/index.ts` runs ordered modules in `prisma/seed/modules/`; each declares `requires` (tables) and is skipped with a log line when one is missing. Expected counts: `SEED-EXPECTATIONS.md`.
+
+## v2: wards and zones (V2 TASK-02)
+
+Sources, licences and checksums: `prisma/data/geo/SOURCES.md`. All commands run in `apps/api`:
+
+```bash
+npm run geo:convert                 # raw/amc-wards.kml → amc-wards.<version>.geojson (48 features)
+npm run geo:import                  # 7 zones + 48 wards, transactional, idempotent (--version <v> for a new boundary set)
+npm run geo:crosscheck -- --write   # KML ↔ AMC list ↔ aliases, validity, overlaps, area, self-locate → CROSSCHECK.md; exit 1 on error
+npm run geo:backfill                # ward/zone for issues with ward_id NULL (inside, else nearest ≤ GEO_NEAREST_MAX_M)
+npm run geo:fixture                 # real /wards body → apps/mobile/test/fixtures/wards.json
+```
+
+The dev seed's `wards` module runs import + backfill. Ward/zone ids are name-based UUIDv5 (`ward:<number>`,
+`zone:<code>`), identical in every environment. A new boundary version (e.g. after the 2026 delimitation) is a new
+GeoJSON + `geo:import --version <v>`; existing issues keep their stored ward.
