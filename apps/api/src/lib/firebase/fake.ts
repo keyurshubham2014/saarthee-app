@@ -46,7 +46,7 @@ export class FakeFirebaseGateway implements FirebaseGateway {
       firebase: { sign_in_provider: opts.provider ?? 'phone' },
     };
     if (opts.phone !== null) claims.phone_number = opts.phone ?? '+919000000001';
-    return jwt.sign(claims, this.secret, { algorithm: 'HS256', noTimestamp: true });
+    return jwt.sign(claims, this.secret, { algorithm: 'HS256' });
   }
 
   async verifyIdToken(idToken: string): Promise<VerifiedPhoneIdentity> {
