@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../rep_claim/presentation/me_rows.dart';
 import '../../../core/connectivity/connectivity_provider.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/settings/locale_controller.dart';
@@ -169,6 +170,9 @@ class _Profile extends ConsumerWidget {
           showChevron: false,
         ),
         const Divider(),
+        // TASK-11: representative claims (hidden when none) and messages.
+        const MyRepClaimsRow(),
+        const MyMessagesRow(),
         ListRow(
           key: const Key('me.privacy'),
           leading: Icon(SaartheeIcons.lock, color: c.textSecondary),

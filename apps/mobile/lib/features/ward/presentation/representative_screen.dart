@@ -11,6 +11,8 @@ import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/widgets.dart';
 import '../application/ward_providers.dart';
 import '../data/ward_models.dart';
+import '../../rep_claim/data/rep_claim_api.dart';
+import '../../rep_claim/presentation/verified_rep_badge.dart';
 import 'election_banner.dart';
 import 'rep_row.dart';
 
@@ -109,39 +111,15 @@ class _Profile extends ConsumerWidget {
             ],
           ),
         ),
-        if (s.verified)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Container(
-                key: const Key('rep.verified'),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.s12,
-                  vertical: AppSpacing.s4,
-                ),
-                decoration: BoxDecoration(
-                  color: c.primaryContainer,
-                  borderRadius: BorderRadius.circular(AppSpacing.s20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      SaartheeIcons.statusVerified,
-                      size: AppSpacing.iconSmall,
-                      color: c.primaryDark,
-                    ),
-                    const SizedBox(width: AppSpacing.s4),
-                    Text(
-                      l10n.repVerified,
-                      style: text.labelLarge?.copyWith(color: c.primaryDark),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+        // TASK-11: verified badge / ended with term / "Claim this profile".
+        VerifiedRepBadge(
+          verification: rep.verificationJson == null
+              ? RepVerification(status: s.verified ? 'verified' : 'unverified')
+              : RepVerification.fromJson(rep.verificationJson),
+          repId: s.id,
+          name: s.name(lang),
+          canClaim: end == null || !end.isBefore(DateTime.now()),
+        ),
         if (s.partyText != null)
           ListRow(title: l10n.repParty(s.partyText!), showChevron: false),
         if (start != null)
