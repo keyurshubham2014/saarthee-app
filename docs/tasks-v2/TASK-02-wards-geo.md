@@ -347,6 +347,7 @@ Prediction only — exact paths may differ.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Integrator: F-02-03 `integration_test/ward_locate_test.dart` passed on emulator-5554 against the live API (4/4); onboarding ward step detected Ward 30 · Paldi via GPS (evidence `docs/demo/v2-evidence/04-ward-gu.png`, `05-home-gu.png`) | 81ac779 |
 | 2026-10-04 | Sources captured (OpenCity KML, AMC ward list text, aliases, SOURCES.md) | f768457 |
 | 2026-10-04 | geo:convert (dependency-free KML parser), source loader + KML↔AMC matcher | c3cdbb8 |
 | 2026-10-04 | Migrations zones/wards + ward FKs; Prisma models; drift gate green | 46b854f |
