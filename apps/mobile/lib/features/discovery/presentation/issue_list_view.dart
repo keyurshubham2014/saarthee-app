@@ -43,12 +43,16 @@ class _IssueListViewState extends ConsumerState<IssueListView> {
   @override
   void initState() {
     super.initState();
-    _scroll.addListener(() {
-      final p = _scroll.position;
-      if (p.pixels > p.maxScrollExtent - 400) {
-        ref.read(issueListProvider(widget.query).notifier).loadMore();
-      }
-    });
+    _scroll.addListener(_maybeLoadMore);
+  }
+
+  /// Near the end (or the first page doesn't fill the screen) → next page.
+  void _maybeLoadMore() {
+    if (!mounted || !_scroll.hasClients) return;
+    final p = _scroll.position;
+    if (p.pixels > p.maxScrollExtent - 400) {
+      ref.read(issueListProvider(widget.query).notifier).loadMore();
+    }
   }
 
   @override
@@ -74,6 +78,9 @@ class _IssueListViewState extends ConsumerState<IssueListView> {
       return const SkeletonList(key: Key('issueList.loading'), count: 4);
     }
     var newIndex = 0;
+    if (s.nextCursor != null && !s.loadingMore && s.error == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _maybeLoadMore());
+    }
     return ChevronRefreshIndicator(
       onRefresh: ctrl.refresh,
       child: ListView(

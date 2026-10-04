@@ -37,44 +37,47 @@ Future<Set<String>?> pickCategories(BuildContext context, Set<String> current) {
   var picked = {...current};
   return showModalBottomSheet<Set<String>>(
     context: context,
+    isScrollControlled: true,
     shape: const RoundedRectangleBorder(borderRadius: AppRadii.sheetTop),
     builder: (ctx) => StatefulBuilder(
       builder: (ctx, setState) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.gutter),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                l10n.discoveryFilterCategory,
-                style: Theme.of(ctx).textTheme.titleLarge,
-              ),
-              const SizedBox(height: AppSpacing.s12),
-              Wrap(
-                spacing: AppSpacing.s8,
-                runSpacing: AppSpacing.s8,
-                children: [
-                  for (final slug in _categories)
-                    AppFilterChip(
-                      key: Key('categorySheet.$slug'),
-                      label: categoryLabel(l10n, slug),
-                      selected: picked.contains(slug),
-                      onSelected: (on) => setState(() {
-                        picked = on
-                            ? {...picked, slug}
-                            : ({...picked}..remove(slug));
-                      }),
-                    ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.s16),
-              PrimaryButton(
-                key: const Key('categorySheet.done'),
-                label: l10n.discoveryDone,
-                onPressed: () => Navigator.of(ctx).pop(picked),
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSpacing.gutter),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.discoveryFilterCategory,
+                  style: Theme.of(ctx).textTheme.titleLarge,
+                ),
+                const SizedBox(height: AppSpacing.s12),
+                Wrap(
+                  spacing: AppSpacing.s8,
+                  runSpacing: AppSpacing.s8,
+                  children: [
+                    for (final slug in _categories)
+                      AppFilterChip(
+                        key: Key('categorySheet.$slug'),
+                        label: categoryLabel(l10n, slug),
+                        selected: picked.contains(slug),
+                        onSelected: (on) => setState(() {
+                          picked = on
+                              ? {...picked, slug}
+                              : ({...picked}..remove(slug));
+                        }),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.s16),
+                PrimaryButton(
+                  key: const Key('categorySheet.done'),
+                  label: l10n.discoveryDone,
+                  onPressed: () => Navigator.of(ctx).pop(picked),
+                ),
+              ],
+            ),
           ),
         ),
       ),
