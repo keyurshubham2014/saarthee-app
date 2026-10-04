@@ -32,3 +32,12 @@ apps/mobile/ios/Pods/
 
 # Vitest JUnit output (CI)
 /apps/api/test-results/
+
+# Firebase config and service accounts (TASK-04, docs/v2/firebase-setup.md) - never commit
+/apps/mobile/android/app/google-services.json
+/apps/mobile/ios/Runner/GoogleService-Info.plist
+/apps/mobile/lib/firebase_options.dart
+/apps/api/secrets/
+*service-account*.json
+/.firebase/
+firebase-debug.log

@@ -70,3 +70,9 @@ jobs:
       - run: flutter pub get
       - run: dart format --output=none --set-exit-if-changed lib test integration_test
       - run: dart analyze
+  # TASK-04 (AC-15): Firebase config, service-account keys and .env files must never be tracked.
+  secret-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/check-secret-files.sh

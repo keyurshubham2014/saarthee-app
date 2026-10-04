@@ -17,6 +17,7 @@
     "rates:snapshot": "tsx --env-file=.env scripts/rates-snapshot.ts",
     "push:flush": "tsx --env-file=.env scripts/push-flush.ts",
     "push:test": "tsx --env-file=.env scripts/push-test.ts",
+    "auth:emulator-check": "tsx --env-file=.env scripts/auth-emulator-check.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:db:create": "bash scripts/test-db-create.sh",
