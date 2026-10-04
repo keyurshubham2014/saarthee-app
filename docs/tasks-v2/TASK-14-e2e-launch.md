@@ -259,6 +259,11 @@ Re-verify the authorisation matrix end to end with one account per role (visitor
 - ASSUMPTION: The flash rule (≤ 3 flashes/s) is checked by inventorying every repeating animation (`repeat(` sweep: only the skeleton shimmer at 1.2 s per sweep and the refresh chevron while a refresh is in flight may loop; DS §6 treats both as waiting indicators) and by frame-stepping the recordings of MO-08 (first-launch ring) and MO-20 (critical pulse); no automated photosensitivity analyser is required.
 - ASSUMPTION: The staff console moment (MO-25) on Flutter web is timed with the Chrome DevTools Performance panel on a typical staff laptop, not on the phone; staff in-app screens are timed on the phone like the rest.
 - ASSUMPTION: S1 = data loss, personal data exposed, wrong ward/representative shown, wrong or unsourced alert published, crash in report/verify/alerts; S2 = a P0 flow blocked or unusable with TalkBack. S3 and below are logged in the summary's Open Questions with the build version.
+- ASSUMPTION (W-T14D, 2026-10-04): The demo script is 7 minutes (GOAL-V2-PROMPT) rather than step 24's 10, and the emulator GPS is Ward 30 Paldi (72.5714, 23.0225) rather than a Navrangpura point — the founder's demo brief names Paldi and the seeded representative (ward 18) is shown on the web dashboard instead.
+- ASSUMPTION (W-T14D): `demo:reset` drops and recreates only the database named in `apps/api/.env` (`DROP DATABASE … WITH (FORCE)` via `docker exec`), then `prisma migrate deploy`, `prisma db seed`, `legacy:migrate`; it no longer drops the Docker volume (that erased every worker's database). `prisma migrate reset` is avoided because the Prisma CLI refuses it non-interactively (TASK-01 §5.6). It refuses unless `APP_ENV=development`, the host is 127.0.0.1/localhost and the name has no prod/pilot/staging.
+- ASSUMPTION (W-T14D): `demo:reset` clears Auth Emulator accounts when the emulator is running (seeded staff are re-linked by phone at sign-in, `auth.service.ts`), so citizen A/B always see the age question once.
+- ASSUMPTION (W-T14D): Moderator "mark fixed with after photo" is shown in-app (Staff tools) because the after photo needs the phone camera; acknowledge is on the web console. Me too is done by citizen A on a seeded issue to avoid an extra account switch.
+- ASSUMPTION (W-T14D): Build deviations from TASK-01…13 §5.6 are recorded as v2 spec decisions D13–D43 (one row each, material ones only); §13 logs were not mined row by row.
 
 ## 6. Implementation Steps
 
@@ -534,6 +539,9 @@ Prediction only — exact fixes depend on what the audit finds.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | W-T14D step 23: v1 docs 00–07, v1 task summary and DEMO.md carry the superseded banner + per-section v2 notes (invite codes, H1/H2, WhatsApp verify tokens, no-tests, indigo/marigold); v2 spec linked from master index + README; spec decisions D13–D43 | f0b5fff, 4d6262b |
+| 2026-10-04 | W-T14D step 24: `scripts/demo-reset.sh` v2 (`--dry-run`, guards, Auth Emulator, emulator perms + GPS, accounts + issues-by-status), `docs/demo/DEMO-v2.md` 7-minute script | 710f57c, 5847109 |
+| 2026-10-04 | W-T14D step 25: `docs/v2/pilot-launch-checklist.md` L1–L12 (L1/L4/L6/L8 Partial with evidence; founder items Deferred with exact actions) | e465354 |
 
 ## 14. Completion Checklist
 
