@@ -548,6 +548,9 @@ model Issue {
   @@index([reporterId, createdAt(sort: Desc)], map: "idx_issues_reporter_created")
   @@index([mergedIntoId], map: "idx_issues_merged_into")
   @@index([status, slaDueAt], map: "idx_issues_status_sla")
+  /// TASK-07 discovery (idx_issues_me_too_public and idx_issues_location_geom are hand-written in its migration).
+  @@index([wardId, status, createdAt(sort: Desc), id], map: "idx_issues_ward_status_created")
+  @@index([createdAt(sort: Desc), id(sort: Desc)], map: "idx_issues_created_id")
   @@map("issues")
 }
 
