@@ -40,7 +40,18 @@ What is not used: seals, circle emblems, architecture, wheels or chakras, and AM
 | --- | --- |
 | `mark.svg` | master full-colour mark |
 | `explorations.html` | variant comparison (A–G), light and dark |
-| `screens/` | rendered PNG proofs |
+| `mark-mono.svg` | one-colour mark, glyph knocked out (recolour the single fill) |
+| `mark-reversed.svg` | white square, primary route: for primary or photo grounds |
+| `wordmark-en.svg`, `wordmark-gu.svg` | Baloo Bhai 2 Bold, text converted to paths |
+| `lockup-horizontal-{en,gu}.svg` | mark + wordmark side by side, for light surfaces |
+| `lockup-horizontal-{en,gu}-dark.svg` | on dark #131C18 (wordmark #7BD3A6) |
+| `lockup-horizontal-{en,gu}-reversed.svg` | on primary #14674A |
+| `screens/` | rendered PNG proofs (`logo-family.png`) |
+
+The lockups always place the mark and the wordmark side by side, with a 24-unit gap and the mark
+at 100 units. Never stack English over Gujarati; use one language per lockup. The text is shaped
+with HarfBuzz (`tool/brand/text.mjs`, harfbuzzjs), so the Gujarati matras are correct, and it is
+converted to outlines, so the SVGs need no font. Regenerate them with `node logos.mjs <repoRoot>`.
 
 The scripts live in `apps/mobile/tool/brand/`. They need `@resvg/resvg-js` and `playwright`
 installed in a scratch directory outside the repo; they are not app dependencies.
