@@ -59,6 +59,15 @@ export const ERROR_CODES = {
   INITIATIVE_NOT_STARTED: { status: 409, message: 'Attendance can be marked once the drive starts.' },
   INVALID_TRANSITION: { status: 409, message: 'That status change is not allowed.' },
   SLUG_TAKEN: { status: 409, message: 'That short name is already used.' },
+  // TASK-06 (issue lifecycle; INVALID_TRANSITION above is shared).
+  STALE_STATUS: { status: 409, message: 'This issue changed while you were here.' },
+  FORBIDDEN_ROLE: { status: 403, message: "You can't change this issue." },
+  OUT_OF_WARD: { status: 403, message: 'This issue is outside your ward.' },
+  VERIFY_NOT_OPEN: { status: 409, message: 'This issue can no longer be checked.' },
+  ALREADY_ANSWERED_TODAY: { status: 409, message: "You've already answered today. Thank you." },
+  TOO_FAR_FROM_ISSUE: { status: 422, message: 'You need to be within 100 m of the problem to verify.' },
+  LOCATION_TOO_INACCURATE: { status: 422, message: 'Location is approximate. Move into the open and try again.' },
+  CCRS_NOT_LINKED: { status: 409, message: 'Link your AMC complaint number first.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;
