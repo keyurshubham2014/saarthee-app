@@ -72,8 +72,8 @@ class PerfFakes {
           ],
           clusters: [
             MapCluster(
-              lat: kDefaultMapCenter.latitude + 0.02,
-              lng: kDefaultMapCenter.longitude,
+              lat: kDefaultMapCenter.latitude + 0.003,
+              lng: kDefaultMapCenter.longitude + 0.003,
               count: 9,
               topCategory: 'roads',
             ),
