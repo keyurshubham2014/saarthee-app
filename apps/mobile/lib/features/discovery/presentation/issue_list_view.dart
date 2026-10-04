@@ -40,6 +40,10 @@ class IssueListView extends ConsumerStatefulWidget {
 class _IssueListViewState extends ConsumerState<IssueListView> {
   final _scroll = ScrollController();
 
+  // Ids that already rose in. A lazily built row scrolled off and back gets a
+  // fresh RiseIn; without this it would rise again on every return.
+  final _risen = <String>{};
+
   @override
   void initState() {
     super.initState();
@@ -78,6 +82,11 @@ class _IssueListViewState extends ConsumerState<IssueListView> {
       return const SkeletonList(key: Key('issueList.loading'), count: 4);
     }
     var newIndex = 0;
+    bool rises(String id) => s.newIds.contains(id) && !_risen.contains(id);
+    // Marked after this build, so both uses above see the same answer.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _risen.addAll(s.newIds),
+    );
     if (s.nextCursor != null && !s.loadingMore && s.error == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _maybeLoadMore());
     }
@@ -101,8 +110,8 @@ class _IssueListViewState extends ConsumerState<IssueListView> {
                 AppSpacing.s4,
               ),
               child: RiseIn(
-                animate: s.newIds.contains(i.id),
-                delay: s.newIds.contains(i.id)
+                animate: rises(i.id),
+                delay: rises(i.id)
                     ? staggerDelay(scheme, newIndex++)
                     : Duration.zero,
                 child: Column(

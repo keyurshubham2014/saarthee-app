@@ -1,3 +1,5 @@
+import '../../../core/theme/scroll_behavior.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,6 +43,7 @@ class StaffWebApp extends ConsumerWidget {
     return MaterialApp.router(
       onGenerateTitle: (c) => AppLocalizations.of(c).staffConsoleTitle,
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const SaartheeScrollBehavior(),
       theme: AppTheme.light(),
       locale: ref.watch(localeProvider),
       routerConfig: router ?? ref.watch(staffWebRouterProvider),
