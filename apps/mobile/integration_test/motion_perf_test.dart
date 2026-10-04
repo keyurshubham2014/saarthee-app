@@ -31,18 +31,19 @@ void main() {
   // Real frames at device pace while tracing.
   binding.framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
 
-  setUp(() {
-    // Emit one timeline event per RenderObject layout so the driver can
-    // check "no layout pass after the moment's first frame" (§5.6).
-    debugProfileLayoutsEnabled = true;
-  });
-  tearDown(() => debugProfileLayoutsEnabled = false);
-
   for (final m in allMotionMoments) {
     final skip = m.skip ?? (_only.isNotEmpty && m.id != _only ? 'only' : null);
     testWidgets('${m.id} ${m.title}', (t) async {
       final act = await m.prepare(t);
-      await binding.traceAction(act, reportKey: m.id);
+      // One timeline event per RenderObject layout, so the driver can check
+      // "no layout pass after the moment's first frame" (§5.6). Reset inside
+      // the body: debug builds assert rendering debug vars are unset.
+      debugProfileLayoutsEnabled = true;
+      try {
+        await binding.traceAction(act, reportKey: m.id);
+      } finally {
+        debugProfileLayoutsEnabled = false;
+      }
       await t.pumpWidget(const SizedBox.shrink());
     }, skip: skip != null);
   }
