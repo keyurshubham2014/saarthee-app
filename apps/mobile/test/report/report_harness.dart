@@ -45,6 +45,7 @@ Future<ProviderContainer> pumpReportApp(
   String location = '/report',
   bool settle = true,
   Size size = const Size(400, 900),
+  List extraOverrides = const [],
 }) async {
   final c = await pumpApp(
     t,
@@ -61,6 +62,7 @@ Future<ProviderContainer> pumpReportApp(
         wards: wards,
       ),
       if (reduced != null) reducedMotionProvider.overrideWithValue(reduced),
+      ...extraOverrides,
     ],
   );
   c.read(appRouterProvider).go(location);

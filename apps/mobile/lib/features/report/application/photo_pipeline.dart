@@ -49,12 +49,15 @@ class ReportPhotoPipeline {
   /// Uprights the photo, then runs the automatic detector with a timeout.
   /// Null (manual tool only, with its note) when detection is unavailable,
   /// fails or times out (REQ-S-007).
-  Future<List<BlurBox>?> detectBoxes(String path) async {
+  Future<List<BlurBox>?> detectBoxes(
+    String path, {
+    Duration timeout = AppTimings.blurDetectTimeout,
+  }) async {
     final detector = _ref.read(faceAndPlateDetectorProvider);
     if (detector is UnavailableDetector) return null;
     try {
       await normaliseOrientation(path);
-      return await detector.detect(path).timeout(AppTimings.blurDetectTimeout);
+      return await detector.detect(path).timeout(timeout);
     } on Object {
       return null;
     }
