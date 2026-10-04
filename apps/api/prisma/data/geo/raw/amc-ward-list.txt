@@ -1,0 +1,178 @@
+01
+CENTRAL
+6 WARDS MAPPED
+Zonal Administrative Headquarters
+AMC, Central Zone Office, Sardar Patel Bhavan, Municipal Corporation, Danapith, Ahmedabad
+Asarva
+Ahmedabad Municipal Corporation, Asarawa ward Office, Haripura Municipal Dispensary Compound, Asarawa, Ahmedabad
+Dariapur
+Ahmedabad Municipal Corporation, Dariapur Ward Office, Nr. Kuti Masjid, Nr. Rupapari Ni pol, Dariapur Darawaja, Ahmedabad
+Jamalpur
+Ahmedabad Municipal Corporation, Jamalpur Sub Zonal Office, J.P. Store, Opp. AMTS Staff Quarters, Jamalpur, Ahmedabad
+Khadia
+Ahmedabad Municipal Corporation, Khadia Ward Office, Nr. Panch Kuva Darwaja, Khadia, Ahmedabad
+Shahibaug
+Ahmedabad Municipal Corporation, Girdharnagar Ward Office, B/H Kirti Appt., Nr. Pritampura Municipal School No. 3-4, Kanjinagar Cross Road, Shahibung, Ahmedabad.
+Shahpur
+Ahmedabad Municipal Corporation, Shahpur Ward Office, Bapu Smruti Kunj, Near Shahpur Darawaja, Ahmedabad
+02
+EAST
+8 WARDS MAPPED
+Zonal Administrative Headquarters
+AMC, East Zone office, Harubhai Mehta Bhavan, Viratnagar char rasta, Viratnagar, Ahmedabad
+Amraiwadi
+Ahmedabad Municipal Corporation, Amraiwadi Sub Zonal Office, Near Mathur Master Cross Road, 132 foot Ring Road, Amaraiwadi, Ahmedabad
+Bhaipura Hatkeshwar
+Ahmedabad Municipal Corporation, Bhaipura-Hatkeshwar Ward Office, Opp. Ishwarkrupa Duplex, Near Nutan School, Haripura, Maninagar East, Ahmedabad
+Gomtipur
+Ahmedabad Municipal Corporation Gomtipur Ward Office, Nr. Gomtipur Referal Hospital, Municipal Bal Bhavan, Opp. Gomtipur Darwaja, Ahmedabad
+Nikol
+Ahmedabad Municipal Corporation, Nikol Ward Office, Near Parshwanath Township Circle, Near shivam School, Parshwanath Township part-1, Nava Naroda, Ahmedabad
+Odhav
+Ahmedabad Municipal Corporation, Odhav Ward Office, Near Rabari Vasahat, Beside Odhav Fire Station, Odhav, Ahmedabad
+Ramol Hathijan
+Ahmedabad Municipal Corporation, Ramol-Hathijan Ward Office, Inside Ramol Gam, Ramol, Ahmedabad
+Vastral
+Ahmedabad Municipal Corporation, Vastral Ward Office, Beside Ajay Tenament, Part -5,  Third Gate, Old Nagar palika Office, Near Nani Canal, Vastral Road, Mahadev Nagar, Ahmedabad 382415
+Virat nagar
+Ahmedabad Municipal Corporation, Viratnagar Ward Office, Opp.Lilanagar Smashan Gruh, Lilanagar, Ahmedabad
+03
+NORTH
+8 WARDS MAPPED
+Zonal Administrative Headquarters
+AMC, North Zone office, Rajiv Gandhi Bhavan, Naroda road, Memco char rasta, Ahmedabad
+Bapu nagar
+Ahmedabad Municipal Corporation, Bapunagar Sub Zonal Office, Beside Urban Health Center, Margha Farm Road, Near Viratnagar Cross Road, Bapunagar, Ahmedabad
+India Colony
+Ahmedabad Municipal Corporation, India Colony Ward Office, Opp Chandraprasad Desai Hall, Bapunagar, Ahmedabad
+Kuber nagar
+Ahmedabad Municipal Corporation, Kubernagar Sub Zonal Office, Near C ward Water Tank, Opp. Sardargram Railway Station, Ahmedabad
+Naroda
+Ahmedabad Municipal Corporation Naroda Ward Office, Old Panchayat Office, Near Fountain, Naroda, Ahmedabad
+Saijpur Bogha
+Ahmedabad Municipal Corporation, Saijpur Ward Office, Opp. Saijpur Tower, Saijpur, Ahmedabad
+Saraspur
+Ahmedabad Municipal Corporation Saraspur Municipal Bal Bhavan, Near Maniben K. K. Eye Hospital, Saraspur, Ahmedabad 380 018
+Sardar nagar
+Ahmedabad Municipal Corporation Sardar Nagar Library Bhavan, Beside Sardar Nagar Police Station, Sardar Nagar, Ahmedabad
+Thakkarbapa nagar
+Ahmedabad Municipal Corporation, Thakkarbapanagar Ward Office, Kevadia Ni Chali, Opp Bajarang Ashram, National Highway No. 8, Thakkarbapanagar, Ahmedabad
+04
+NORTH WEST
+5 WARDS MAPPED
+Zonal Administrative Headquarters
+AMC, New West Zone office, Rajmata Vijaya Raje Sindhya Bhavan, Judge Bungalow road, Bodakdev, Ahmedabad
+Bodakdev
+Ahmedabad Municipal Corporation, Bodakdev Ward Office, Old Memnagar NagarPalika Office, Memnagar Gam, Ahmedabad.
+Chandlodiya
+Ahmedabad Municipal Corporation,Near Chandlodiaya Over Bridge,Near Chandlodiya Primary School, Chandlodiya, Ahmedabad
+Ghatlodiya
+Ahmedabad Municipal Corporation, Ghatlodiya Ward Office, Under Chanakya Bridge, Near Prabhat chauk, Ghatlodiya Ahmedabad
+Gota
+Ahmedabad Municipal Coporation, Gota Ward office, 1st floor, Urban Health Centre Building, Oganaj Gam, Gota, Ahmedabad
+Thaltej
+Ahmedabad Municipal Corporation, Thaltej Ward Office, Opposite Thakorvas Bus Stand, Near Thaltej Cross Road, S.G. Highway Ahmedabad
+05
+SOUTH
+8 WARDS MAPPED
+Zonal Administrative Headquarters
+AMC, South Zone office, Dr. Shyam Prashad Mukherjee Bhavan, Rambaug, Maninagar, Ahmedabad
+Behrampura
+Ahmedabad Municipal Corporation, Behrampura Ward Office, Near Ramdevnagar Cross Road, Beside Torrent Power Sub Station, Behrampura, Ahmedbad
+Danilimda
+Ahmedabad Municipal Corporation, Danilimda Ward Office, Opp.  Vaikunthdham Mandir, Near Mangal Vikas Cross Road, Danilimda Ahmedabad
+Indrapuri
+Ahmedabad Municipal Corporation, Indrapuri Ward Office, Near Express High Way, Near Swaminarayan Nagar, Ahmedabad
+Isanpur
+Ahmedabad Municipal Corporation Isanpur Ward Office, Isanpur Water Distribution Center, Ramwadi, Isanpur, Ahmedabad
+Khokhra
+Ahmedabad Municipal Corporation, Khokhra Ward Office, Near Municipal Swimming Pool, Opp. Trimurti Flat, Khokhara, Ahmedabad
+Lambha
+Ahmedabad Municipal Corporation, Lambha Sub Zonal Office, Narol Aslali high Way, near freeway trade centre, final plot No 56, Narol Gam, Ahmedabad
+Maninagar
+Ahmedabad Municipal Corporation, Maninagar Ward Office, Behind Sindhi Market, Opp. Maninagar Railway Station, Ahmedabad
+Vatva
+Ahmedabad Municipal Corporation, Vatva Ward Office, Deria, Nr. Kashiba Hospital, Vatva Gam, Vatva, Ahmedabad
+06
+SOUTH WEST
+4 WARDS MAPPED
+Zonal Administrative Headquarters
+Shri Tushar Deshmukh Bhawan, South West Zone Office, Near Shalby Hospital,karnavati club road, Prahlad Nagar, Ahmedabad-380015
+Jodhpur
+Jodhpur ward office, new star bazar same , Vandan party plot bajuma , Jodhpur , Ahmedabad
+Maktampura
+Maktampura Ward Office, Nr.APMC Market, Maktampura, Ahmedabad
+Sarkhej
+Sarkhej Ward Office, Old Nagar Palika Office, Near Water Tank, Sarkhej Gam, Ahmedabad
+Vejalpur
+Vejalpur city civic center, beside venus, Butbhawani mandir Road, Vejalpur, Ahmedabad
+07
+WEST
+9 WARDS MAPPED
+Zonal Administrative Headquarters
+AMC, West Zone office, Dr. Ramanbhai Patel Bhavan, Usmanpura char rasta, Ashram road, Ahmedabad
+Chandkheda Motera
+Ahmedabad Municipal Coporation, Chandkheda Nagar Palika, Old Nagar Palika Office, Chandkheda Gam, Ahmedabad
+Naranpura
+Ahmedabad Municipal Corporation Naranpura Ward Office, Nr. Kameshwar Mahadev Mandir, Naranpura, Ahmedabad
+Nava Vadaj
+Ahmedabad Municipal Corporation, Nava Wadaj Sub Zonal Office, Purshottam Nagar, Opp. Parth Tower, Nava Wadaj, Ahmedabad
+Navrangpura
+Ahmedabad Municipal Corporation, Navarangpura Sub Zonal Office, Nr. Navrangpura AMTS Bus Stop, Navrangpura, Ahmedabad
+Paldi
+Ahmedabad Municipal Corporation, Paldi Sub Zonal Office, Beside Paldi Bus Stand, Paldi Cross Road, Ahmedabad
+Ranip
+Ahmedabad Municipal Corporation,Near Chandlodiaya Over Bridge,Near Chandlodiya Primary School, Chandlodiya, Ahmedabad
+Sabarmati
+Ahmedabad Municipal Corporation, Sabarmati Sub Zonal Office, Opp. Power House, Sabarmati, Ahmedabad
+SP Stadium
+Ahmedabad Municipal Corporation, Sardar Patel Stadium  ward office, Near Naranpura Crossing, Near Panchsheel Society, Naranpura, Ahmedabad
+Vasna
+Ahmedabad Municipal Corporation, Vasna Sub Zonal Office, Near Swaminarayan Mandir, Opp. Divain school, Vasna, Ahmedabad
+We couldn't find matches
+No wards or zones were found matching your current search term.
+Recover Full List
+Amdavad Municipal Corporation
+Danapith Rd, Old City, Danapidth,
+Khadia, Amdavad, Gujarat 380001
+Phone: 155303
+ccrs[at]ahmedabadcity[dot]gov[dot]in
++91 7567855303
+Quick Links
+Home
+Register Complaint
+Re-Open Complaint
+Track Status
+Citizen Feedback
+Privacy Policy
+Resources
+News
+FAQ
+Poll Feedback
+Zone wise Ward List
+Department wise Problem List
+Know Your Ward
+Contact
+Download Citizen App
+Access municipal services on the go. Register, track, and manage complaints right from your smartphone.
+Connect With Us
+© 2026 All Rights Reserved by
+AMC
+Total Visitors
+0
+Live
+Powered by
+Adit Microsys
+Screen Reader
+Bigger Text
+Small Text
+Line Height
+Highlight Links
+Text Spacing
+Dyslexia Friendly
+Hide Images
+Cursor
+Light-Dark
+Invert Colors
+Reset All Settings
+Accessibility Options
