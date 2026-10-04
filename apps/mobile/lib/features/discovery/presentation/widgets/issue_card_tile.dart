@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/config/app_config.dart';
 import '../../../../core/l10n/app_localizations.dart';
+import '../../../../core/theme/icons.dart';
+import '../../../../core/theme/tokens.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../data/discovery_models.dart';
 
@@ -60,6 +62,23 @@ class IssueCardTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [card, trailingTag!],
+    );
+  }
+}
+
+/// "Moderator check pending" on the reporter's own hidden issue.
+class PendingReviewTag extends StatelessWidget {
+  const PendingReviewTag({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = SaartheeColors.of(context);
+    return TagLabel(
+      key: const Key('tag.pendingReview'),
+      label: AppLocalizations.of(context).discoveryPendingReview,
+      icon: SaartheeIcons.hourglass,
+      foreground: c.warning,
+      background: c.warningTint,
     );
   }
 }
