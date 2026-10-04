@@ -12,6 +12,8 @@ void main() {
       '/alerts/a1',
       '/initiatives/xyz',
       '/me/notifications',
+      // TASK-06: "Is it fixed? Help check" opens the verify flow.
+      '/issues/3f2a-91bc/verify',
     ]) {
       expect(safePushRoute(r), r, reason: r);
     }
@@ -27,6 +29,8 @@ void main() {
       '//evil.example/issues/1',
       '/issues/../admin',
       '/issues/a/b',
+      '/alerts/a1/verify',
+      '/issues/a/verify/photo',
       '/me/privacy',
       '',
       null,
