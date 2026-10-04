@@ -145,7 +145,13 @@ model Photo {
   issueEvents        IssueEvent[]
   issueVerifications IssueVerification[]
 
+  // v2 (TASK-05): citizen uploads are owned; blurApplied is reported by the app (on-device blur).
+  uploadedByUserId String? @map("uploaded_by_user_id") @db.Uuid
+  blurApplied      Boolean @default(false) @map("blur_applied")
+  uploadedByUser   User?   @relation("PhotoUploadedBy", fields: [uploadedByUserId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_photos_uploaded_by_user")
+
   @@unique([storageKey], map: "uq_photos_storage_key")
+  @@index([uploadedByUserId, uploadedAt], map: "idx_photos_uploader_uploaded")
   @@index([sha256], map: "idx_photos_sha256")
   @@index([uploadedForComplaintId], map: "idx_photos_uploaded_for_complaint")
   @@map("photos")
@@ -387,6 +393,7 @@ model User {
   issueVerifications IssueVerification[]
   meToos             MeToo[]
   follows            Follow[]
+  uploadedPhotos     Photo[]             @relation("PhotoUploadedBy")
   homeWard           Ward?               @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_users_home_ward")
 
   @@unique([phoneE164], map: "uq_users_phone")
@@ -446,7 +453,8 @@ model Category {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  issues Issue[]
+  issues          Issue[]
+  amcProblemTypes AmcProblemType[]
 
   @@unique([slug], map: "uq_categories_slug")
   @@index([isActive, sortOrder], map: "idx_categories_active_order")
@@ -506,6 +514,7 @@ model Issue {
   @@index([zoneId], map: "idx_issues_zone")
   @@index([categoryId, createdAt(sort: Desc)], map: "idx_issues_category_created")
   @@index([reporterId], map: "idx_issues_reporter")
+  @@index([reporterId, createdAt(sort: Desc)], map: "idx_issues_reporter_created")
   @@index([mergedIntoId], map: "idx_issues_merged_into")
   @@map("issues")
 }
@@ -673,4 +682,31 @@ model Notification {
   @@index([userId, createdAt(sort: Desc)], map: "idx_notifications_user_created")
   @@index([kind, refId], map: "idx_notifications_kind_ref")
   @@map("notifications")
+}
+
+// V2 TASK-05: AMC CCRS problem types (snapshot of the public CCRS list, refreshed only by
+// `npm run amc:problems:fetch`). Partial unique index uq_amc_problem_types_primary (one primary per
+// category) is hand-written in migration 20261006050500_v2_reporting.
+model AmcProblemType {
+  id                String   @id(map: "pk_amc_problem_types") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  categoryId        String   @map("category_id") @db.Uuid
+  /// sha1(department|problemCategory|problem) — the CCRS JSON has no stable id.
+  sourceKey         String   @map("source_key") @db.Char(40)
+  ccrsRow           Int?     @map("ccrs_row")
+  deptEn            String   @map("dept_en") @db.VarChar(80)
+  deptGu            String   @map("dept_gu") @db.VarChar(120)
+  problemCategoryEn String   @map("problem_category_en") @db.VarChar(160)
+  problemEn         String   @map("problem_en") @db.VarChar(300)
+  problemGu         String   @map("problem_gu") @db.VarChar(300)
+  isPrimary         Boolean  @default(false) @map("is_primary")
+  isActive          Boolean  @default(true) @map("is_active")
+  fetchedAt         DateTime @map("fetched_at") @db.Timestamptz(6)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_amc_problem_types_category")
+
+  @@unique([sourceKey], map: "uq_amc_problem_types_source_key")
+  @@index([categoryId, isActive], map: "idx_amc_problem_types_category")
+  @@map("amc_problem_types")
 }

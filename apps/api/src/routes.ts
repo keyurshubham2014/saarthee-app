@@ -10,6 +10,8 @@ import { geoRouter } from './modules/geo';
 import { authRouter } from './modules/auth';
 import { meRouter } from './modules/me';
 import { devicesRouter } from './modules/devices';
+import { categoriesRouter } from './modules/categories';
+import { issuesRouter } from './modules/issues';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -24,3 +26,6 @@ apiRouter.use(geoRouter);
 apiRouter.use(authRouter);
 apiRouter.use(meRouter);
 apiRouter.use(devicesRouter);
+// TASK-05: v2 categories (with AMC problem types) and standalone issue reporting.
+apiRouter.use(categoriesRouter);
+apiRouter.use(issuesRouter);

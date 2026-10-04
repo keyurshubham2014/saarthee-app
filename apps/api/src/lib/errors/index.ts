@@ -32,6 +32,12 @@ export const ERROR_CODES = {
   FORBIDDEN: { status: 403, message: "You don't have permission to do this." },
   WARD_NOT_FOUND: { status: 422, message: 'Please choose your ward again.' },
   FIREBASE_UNAVAILABLE: { status: 503, message: 'Sign-in is unavailable right now. Please try again later.' },
+  // TASK-05 (issue reporting).
+  WARD_CONFIRMATION_REQUIRED: { status: 422, message: 'This spot is just outside ward boundaries. Please confirm the ward.' },
+  IDEMPOTENCY_KEY_REUSED: { status: 409, message: 'This submission id was already used.' },
+  OWN_ISSUE: { status: 409, message: 'You reported this issue.' },
+  ISSUE_NOT_OPEN: { status: 409, message: 'This issue is no longer open.' },
+  CCRS_ALREADY_LINKED: { status: 409, message: 'A different number is already linked to this report.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

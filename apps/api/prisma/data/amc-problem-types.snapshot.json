@@ -1,0 +1,799 @@
+{
+  "source": "https://www.amccrs.com/AMCPortal/Home/GetDeptWiseProblems",
+  "fetchedAt": "2026-10-04T12:30:00+05:30",
+  "note": "Public AMC CCRS problem list, fetched once by curl for TASK-05; refresh only with npm run amc:problems:fetch (at most daily).",
+  "rowCount": 113,
+  "rows": [
+    {
+      "row#": 1,
+      "department": "C.N.C.D",
+      "problemCategory": "To Capture Other Animals",
+      "problem": "CNCD Animal-To Capture stray cattle like cow ",
+      "problem in Gujarati": "ગાય જેવા રખડતા ઢોરને પકડવા"
+    },
+    {
+      "row#": 2,
+      "department": "C.N.C.D",
+      "problemCategory": "To Capture Other Animals",
+      "problem": "CNCD Animal-Treatment of  ill / sick  Animals like cow",
+      "problem in Gujarati": "બીમાર પ્રાણીઓની સારવાર માટે"
+    },
+    {
+      "row#": 3,
+      "department": "C.N.C.D",
+      "problemCategory": "To Capture ill / Sick Dog",
+      "problem": "CNCD-To Capture ill / Sick Dog",
+      "problem in Gujarati": "સીએનસીડી - બીમાર કૂતરાને પકડવા માટે"
+    },
+    {
+      "row#": 4,
+      "department": "C.N.C.D",
+      "problemCategory": "Dog Crematorium",
+      "problem": "CNCD CNG- PET/STRAY DOG-Cremation",
+      "problem in Gujarati": "સી એન સી ડી સીએનજી-કૂતરાના અગ્નિસંસ્કાર"
+    },
+    {
+      "row#": 5,
+      "department": "C.N.C.D",
+      "problemCategory": "Capture Dog Nuisance",
+      "problem": "CNCD- To Capture Dog Nuisance/ Aggressive/ Not Rigistered Dog/ Dog bite",
+      "problem in Gujarati": "સી એન સી ડી- કૂતરાના ઉપદ્રવ / આક્રમક / નોન-રજિસ્ટર્ડ કૂતરાને પકડવા માટે / હાડકાયુ કુતરા પકડવા બાબત"
+    },
+    {
+      "row#": 6,
+      "department": "Engineering",
+      "problemCategory": "Water>>Engineering",
+      "problem": "Water-Requirement of Water Tanker",
+      "problem in Gujarati": "પાણી - પાણીના ટેન્કરની જરૂરિયાત"
+    },
+    {
+      "row#": 7,
+      "department": "Engineering",
+      "problemCategory": "Drainage>>Engineering",
+      "problem": "Drainage-Public Toilets and Urinals - Drainage Line Blockage or Choking",
+      "problem in Gujarati": "જાહેર શૌચાલયો અને મુતરડીઓ - ગટર લાઇન ભરાઇ જવી"
+    },
+    {
+      "row#": 8,
+      "department": "Engineering",
+      "problemCategory": "Water>>Engineering",
+      "problem": "Water-Other",
+      "problem in Gujarati": "પાણી- અન્ય"
+    },
+    {
+      "row#": 9,
+      "department": "Engineering",
+      "problemCategory": "Drainage>>Engineering",
+      "problem": "Drainage-Other",
+      "problem in Gujarati": "ડ્રેનેજ- અન્ય"
+    },
+    {
+      "row#": 10,
+      "department": "Engineering",
+      "problemCategory": "Road",
+      "problem": "Road-Other",
+      "problem in Gujarati": "રોડ-અન્ય"
+    },
+    {
+      "row#": 11,
+      "department": "Engineering",
+      "problemCategory": "Water>>Engineering",
+      "problem": "Water-low  pressure",
+      "problem in Gujarati": "ઓછો પાણીનો પ્રવાહ"
+    },
+    {
+      "row#": 12,
+      "department": "Engineering",
+      "problemCategory": "Water>>Engineering",
+      "problem": "Water-Leakage In Main Line",
+      "problem in Gujarati": "મુખ્ય લાઇનમાં પાણી-લીકેજ"
+    },
+    {
+      "row#": 13,
+      "department": "Engineering",
+      "problemCategory": "Water>>Engineering",
+      "problem": "Water-Pollution In Supply",
+      "problem in Gujarati": "પ્રદુષિત પાણી"
+    },
+    {
+      "row#": 14,
+      "department": "Engineering",
+      "problemCategory": "Water>>Engineering",
+      "problem": "Water-No Supply",
+      "problem in Gujarati": "પાણી ના આવવા અંગે"
+    },
+    {
+      "row#": 15,
+      "department": "Engineering",
+      "problemCategory": "Drainage>>Engineering",
+      "problem": "Drainage- Choking Of Line ",
+      "problem in Gujarati": "ડ્રેનેજ- લાઇન ચોકીંગ"
+    },
+    {
+      "row#": 16,
+      "department": "Engineering",
+      "problemCategory": "Drainage>>Engineering",
+      "problem": "Drainage- Manhole Cover Missing",
+      "problem in Gujarati": "ડ્રેનેજ-ગટરનુ કવર નથી"
+    },
+    {
+      "row#": 17,
+      "department": "Engineering",
+      "problemCategory": "Road",
+      "problem": "Road-Repair Require",
+      "problem in Gujarati": "રોડ-રિપેર જરૂરી છે"
+    },
+    {
+      "row#": 18,
+      "department": "Engineering",
+      "problemCategory": "Road",
+      "problem": "Road-Bhuva On Road",
+      "problem in Gujarati": "રોડ-ભુવા ઓન રોડ"
+    },
+    {
+      "row#": 19,
+      "department": "Engineering",
+      "problemCategory": "Footpath",
+      "problem": "Road-Footpath Repairing",
+      "problem in Gujarati": "ફુટપાત રિપેરીંગ"
+    },
+    {
+      "row#": 20,
+      "department": "Engineering",
+      "problemCategory": "Storm Water",
+      "problem": "Road-Waterlogged Due To Rain",
+      "problem in Gujarati": "વરસાદી પાણી ભરાવા બાબતે"
+    },
+    {
+      "row#": 21,
+      "department": "Engineering",
+      "problemCategory": "Storm Water",
+      "problem": "Road-Catch Pit Repairing",
+      "problem in Gujarati": "કેચપીટ રિપેરીંગ બાબતે"
+    },
+    {
+      "row#": 22,
+      "department": "Engineering",
+      "problemCategory": "Public Building",
+      "problem": "Public Building-Public Toilets and Urinals - Repairing of Doors, Windows, Tiles or Sheets",
+      "problem in Gujarati": "ટાય્લ્ટ બ્લૉક ના દરવાજા - બારી રિપેર કરવા "
+    },
+    {
+      "row#": 23,
+      "department": "Engineering",
+      "problemCategory": "Building>>Engineering",
+      "problem": "Building-Municipal Schools Repairing",
+      "problem in Gujarati": "મ્યુનિસિપલ શાળાઓના સમારકામ"
+    },
+    {
+      "row#": 24,
+      "department": "Estate",
+      "problemCategory": "Advertisement",
+      "problem": "Remove Unauthorised Advertisement From Municipal Buildings and Personal Properties",
+      "problem in Gujarati": "મ્યુનિસિપલ ઇમારતો અને વ્યક્તિગત મિલકતોમાંથી અનધિકૃત જાહેરાતો દૂર કરવા"
+    },
+    {
+      "row#": 25,
+      "department": "Estate",
+      "problemCategory": "Dangerous Building",
+      "problem": "Demolition of Unsafe Buildings and Their Parts",
+      "problem in Gujarati": "અસુરક્ષિત ઇમારતો અને તેના ભાગોને હટાવવા અંગે"
+    },
+    {
+      "row#": 26,
+      "department": "Estate",
+      "problemCategory": "Encroachment",
+      "problem": "Remove Encroachment From Road",
+      "problem in Gujarati": " રોડ પરથી અતિક્રમણ હટાવવા અંગે"
+    },
+    {
+      "row#": 27,
+      "department": "Estate",
+      "problemCategory": "TP Scheme Implementation",
+      "problem": "Taking Actions Against Illegal Possessions",
+      "problem in Gujarati": "ગેરકાયદેસર માલિકી સામે પગલાં લેવા અંગે"
+    },
+    {
+      "row#": 28,
+      "department": "Estate",
+      "problemCategory": "Parking",
+      "problem": "Parking Problem in Commercial Building ",
+      "problem in Gujarati": "પાર્કિંગ નો પ્રોબ્લેમ કોમર્સિયલ બિલ્ડિંગ માટે"
+    },
+    {
+      "row#": 29,
+      "department": "Fire",
+      "problemCategory": "Removal of Object likely to cause the risk of fire",
+      "problem": "Fire-Combustible /Imflammable/Explosive material storage in residential place",
+      "problem in Gujarati": "રહેઠાણમાં જ્વલનશીલ/વિસ્ફોટક સામગ્રીનો સંગ્રહ"
+    },
+    {
+      "row#": 30,
+      "department": "Food-Health",
+      "problemCategory": "Food Safety Act - License Related",
+      "problem": "Health-Other(Food License Related)",
+      "problem in Gujarati": "આરોગ્ય-અન્ય (ફૂડ લાયસન્સ સંબંધિત)"
+    },
+    {
+      "row#": 31,
+      "department": "Food-Health",
+      "problemCategory": "Epidemic - Food Poisoning",
+      "problem": "Health-Food-Poisoning cases",
+      "problem in Gujarati": "ફૂડ પોઇજનિંગના કેસો અંગે."
+    },
+    {
+      "row#": 32,
+      "department": "Food-Health",
+      "problemCategory": "Food Safety Act - Unhygienic Related",
+      "problem": "Health-Inferior Quality of Food",
+      "problem in Gujarati": "ખાધ્ૈપદાર્થમાં ભેળસેળ અંગે."
+    },
+    {
+      "row#": 33,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": " Garden- No Cleaning At All ",
+      "problem in Gujarati": "ગાર્ડન-સાફ - સફાઈ થતી નથી"
+    },
+    {
+      "row#": 34,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden-Watering is Not Proper/Regular",
+      "problem in Gujarati": "પ્રોપર/ રેગ્યુલર વોટરિંગ થતુ નથી."
+    },
+    {
+      "row#": 35,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden-Repairing Required (Fountains/Amusement Park Equipments)",
+      "problem in Gujarati": "ગાર્ડન-સમારકામ જરૂરી (ફુવારાઓ/અમ્યુઝમેન્ટ પાર્કના સાધનો)"
+    },
+    {
+      "row#": 36,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden-No Proper Security/Not available/Guard is inefficient",
+      "problem in Gujarati": "સિક્યુરીટી વ્યવસ્થા અપુરતી / અનિયમિત છે. ગાર્ડ બરાબર નથી"
+    },
+    {
+      "row#": 37,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden-Workers/Gardeners Are Not Available/Insufficient Staffing",
+      "problem in Gujarati": "કામદાર / માળીઓ કર્મચારીગણ અપર્યાપ્ત / ઉપલબ્ધ નથી"
+    },
+    {
+      "row#": 38,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden- Trimming  ",
+      "problem in Gujarati": "વૃક્ષોનું ટ્ર્મિંગ કરવું."
+    },
+    {
+      "row#": 39,
+      "department": "Garden",
+      "problemCategory": "Traffic Circle / Central Verge, Plantation Site",
+      "problem": "Garden-No Cleaning At All - Traffic Circle-Central verge",
+      "problem in Gujarati": "સાફ - સફાઈ થતી નથી - ટ્રાફિક સર્કલ-સેન્ટ્રલ વેજ"
+    },
+    {
+      "row#": 40,
+      "department": "Garden",
+      "problemCategory": "Traffic Circle / Central Verge, Plantation Site",
+      "problem": "Garden- Watering is Not Proper/Regular-Traffic-Central verge",
+      "problem in Gujarati": "પ્રોપર/ રેગ્યુલર વોટરિંગ થતુ નથી - ટ્રાફિક સર્કલ-સેન્ટ્રલ વેજ"
+    },
+    {
+      "row#": 41,
+      "department": "Garden",
+      "problemCategory": "Traffic Circle / Central Verge, Plantation Site",
+      "problem": "Garden- Tree-Guards Have Inclined/Broken/Bent Towards The Road",
+      "problem in Gujarati": "ટ્રી-ગાર્ડ્સ રોડ તરફ વળેલા/તૂટેલા/વાંકા છે"
+    },
+    {
+      "row#": 42,
+      "department": "Garden",
+      "problemCategory": "Tree Cutting / Trimming / Clearing",
+      "problem": "Garden-Complain Against The Tree-Cutting",
+      "problem in Gujarati": "વૃક્ષ કાપવા સામે ફરિયાદ કરવા"
+    },
+    {
+      "row#": 43,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden- Other",
+      "problem in Gujarati": "બગીચો- અન્ય"
+    },
+    {
+      "row#": 44,
+      "department": "Garden",
+      "problemCategory": "Garden>>Garden",
+      "problem": "Garden toilet cleaning",
+      "problem in Gujarati": "બગીચાના શૌચાલયની સફાઈ"
+    },
+    {
+      "row#": 45,
+      "department": "Garden",
+      "problemCategory": "Tree Cutting / Trimming / Clearing",
+      "problem": "Garden- Tree Falling",
+      "problem in Gujarati": "વૃક્ષ પડવું"
+    },
+    {
+      "row#": 46,
+      "department": "Gymnasium",
+      "problemCategory": "Light And Building",
+      "problem": "GYM - Lights Remain Off at Gym, Skating Rink/Sports Centre",
+      "problem in Gujarati": "લાઇટ રિંક / રમતો સેન્ટર સ્કેટિંગ, જિમ માં લાઈટ બંધ રહે છે."
+    },
+    {
+      "row#": 47,
+      "department": "Gymnasium",
+      "problemCategory": "Non-Availability Of Staff>>Gym",
+      "problem": "GYM-Coach Is Irregular/Remains Absent - ",
+      "problem in Gujarati": "જિમ -કોચ અનિયમિત હોય છે / ગેર હાજર રહે છે."
+    },
+    {
+      "row#": 48,
+      "department": "Gymnasium",
+      "problemCategory": "Quality Of Service>>Gym",
+      "problem": "GYM-Improper Coaching ",
+      "problem in Gujarati": "અયોગ્ય કોચિંગ"
+    },
+    {
+      "row#": 49,
+      "department": "Gymnasium",
+      "problemCategory": "Tool Repairing",
+      "problem": " GYM-Tool Maintenance/Parts Change ",
+      "problem in Gujarati": "ટૂલ જાળવણી / પાર્ટ્સ બદલો"
+    },
+    {
+      "row#": 50,
+      "department": "Health",
+      "problemCategory": "Crematorium>>Health",
+      "problem": "Health-Maintain Cleanliness in Crematorium",
+      "problem in Gujarati": "સ્મશાનગૃહમાં સ્વચ્છતા જાળવવા"
+    },
+    {
+      "row#": 51,
+      "department": "Health",
+      "problemCategory": "Crematorium>>Health",
+      "problem": "Health-Woods Are Not Dry in Crematorium",
+      "problem in Gujarati": "સ્મશાનમાં લાકડા સુકા નથી."
+    },
+    {
+      "row#": 52,
+      "department": "Health",
+      "problemCategory": "Crematorium>>Health",
+      "problem": "Crematorium-In Charge Not Available",
+      "problem in Gujarati": "સ્મશાનગૃહમાં - નોંધણિદર ઉપ્લબ્ધ નથી."
+    },
+    {
+      "row#": 53,
+      "department": "Health",
+      "problemCategory": "Malaria » Spraying Off Insecticides",
+      "problem": "Health-Preventing Malaria/Dengue/Spraying Insecticides/Fogging-For Mosquito Breeding",
+      "problem in Gujarati": "મેલેરીયા / ડેન્ગુ ના કેસો અટકાવવા દવાનો છંટકાવ."
+    },
+    {
+      "row#": 54,
+      "department": "Health",
+      "problemCategory": "Medical Service »Hospitals/Maternity Hospitals",
+      "problem": "Health-Doctors/Staffs Not Available/Treatment Is Not Given On Time- MT Hospital",
+      "problem in Gujarati": "ડૉક્ટર / સ્ટાફ હજર નથી, અનિયમિત/ સમયસર સારવાર ન આપવા બાબત."
+    },
+    {
+      "row#": 55,
+      "department": "Health",
+      "problemCategory": "Epidemic » Polluted Water",
+      "problem": "Health-Collecting Water Samples",
+      "problem in Gujarati": "પાણીના સેંપલ લેવા અંગે."
+    },
+    {
+      "row#": 56,
+      "department": "I.C.D.S",
+      "problemCategory": "Creche / Day Care Centre",
+      "problem": "Child Development Services - Not Getting Protein Food As Per The Law/Not Regular",
+      "problem in Gujarati": "બાળ વિકાસ સેવાઓ-લાભારથીઓને નિયમ મુજબ પૂરક પોષણ નાસ્તો મળતો નથી અથવા નિયમિત મળતો નથી."
+    },
+    {
+      "row#": 57,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Food",
+      "problem": "Kankaria Lakefront - Selling of Unhygienic Food & Beverages At Food Courts & Entry Gates - KLF",
+      "problem in Gujarati": "ફૂડકોર્ટ અંને ઍંટ્રી ગેટ આગળ બિનઆરોગ્ય ખાધ્ય્પદાર્થ અને પીણાંનુ વેચાણ."
+    },
+    {
+      "row#": 58,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "General",
+      "problem": "Kankaria Lakefront - Lost/Theft of Belongings",
+      "problem in Gujarati": "ખોવાયેલો સામાન / સામાનની ચોરી"
+    },
+    {
+      "row#": 59,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "General",
+      "problem": "Kankaria Lakefront - Behaviour of Staffs Is Not Courteous/Improper - KLF",
+      "problem in Gujarati": "કર્મચારીનું અયોગ્ય વર્તન / નમ્ર નથી."
+    },
+    {
+      "row#": 60,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Maintanance",
+      "problem": "Kankaria Lakefront - Damaged/Harmful Civil Structure – Component – Equipment - KLF",
+      "problem in Gujarati": "નુકસાન / નુકસાનદાયક સિવિલ માળખું ઘટક - સાધનો"
+    },
+    {
+      "row#": 61,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Maintanance",
+      "problem": "Kankaria Lakefront - Level of Housekeeping – Cleanliness Is Not Up To The Mark - KLF",
+      "problem in Gujarati": "ગૃહસંચાલાણ સ્તર - સ્વછતા બરાબર નથી."
+    },
+    {
+      "row#": 62,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Maintanance",
+      "problem": "Kankaria Lakefront - Lights and Electric Fixtures Are Not Working or Not Switched On - KLF",
+      "problem in Gujarati": "લાઈટ્સ અને ઈલેક્ટ્રીક સાધનો કૅમ નથી કરતા / ચાલુ કરતા નથી."
+    },
+    {
+      "row#": 63,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Maintanance",
+      "problem": "Kankaria Lakefront - Possibility of Short Circuit/Electrical Shock Due To Open Cables - KLF",
+      "problem in Gujarati": "ખુલા વાયરો ની લીધે ઈલેક્ટ્રીક શોક લાગવાનો / સૉર્ટ સર્કિટ થવાની સંભાવના બાબતે."
+    },
+    {
+      "row#": 64,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Maintanance",
+      "problem": "Kankaria Lakefront - Fountains Are Not Working or Not Switched On At Proper Time - KLF",
+      "problem in Gujarati": "ફુવારાઓ કામ નથી કરતા / યોગ્ય સમયે ચાલુ નથી કરતા."
+    },
+    {
+      "row#": 65,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Water>>KLF",
+      "problem": "Kankaria Lakefront - Drinking Water Is Not Available - KLF",
+      "problem in Gujarati": "પીવાનું પાણી ઉપલબ્ધ નથી."
+    },
+    {
+      "row#": 66,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Water>>KLF",
+      "problem": "Kankaria Lakefront - Drinking Water Is Not Purified - KLF",
+      "problem in Gujarati": "પીવાનું પાણી શુદ્ધ નથી."
+    },
+    {
+      "row#": 67,
+      "department": "Kankaria Lakefront",
+      "problemCategory": "Water>>KLF",
+      "problem": "Kankaria Lakefront - Short Supply/Non-Availability of Water In Wash Rooms – Toilets - KLF",
+      "problem in Gujarati": "ટોઈલેટ - વાશ રૂમ માં ઓછા પાણી પુરવઠા / ઉપલબ્ધ નથી."
+    },
+    {
+      "row#": 68,
+      "department": "Library",
+      "problemCategory": "Librarys Facility",
+      "problem": "Library-Daily Cleaning",
+      "problem in Gujarati": "દૈનિક સફાઈ."
+    },
+    {
+      "row#": 69,
+      "department": "Library",
+      "problemCategory": "Readers Facility",
+      "problem": "Library-Basic Needs Like Water, Light and Fan Repairing ",
+      "problem in Gujarati": "મૂળભૂત જરૂરિયાતો જેમ કે લાઇટ, પાણી , પંખાની મરમ્મત "
+    },
+    {
+      "row#": 70,
+      "department": "Library",
+      "problemCategory": "Reading Materials",
+      "problem": "Library-Does not Get Reading Materials on time ",
+      "problem in Gujarati": "સમય પર વાંચન સામગ્રી મળતી નથી."
+    },
+    {
+      "row#": 71,
+      "department": "Light",
+      "problemCategory": "Light>>Crematorium",
+      "problem": "Crematorium-Furnace Not Working in CNG/ Electric Crematorium",
+      "problem in Gujarati": "સ્મશાનગૃહ-સીએનજી / ઈલેક્ટ્રીક સ્મશાન ગૃહમાં ભઠ્ઠી બંધ હોવી."
+    },
+    {
+      "row#": 72,
+      "department": "Light",
+      "problemCategory": "Streetlight",
+      "problem": "Light - Lights and Fans Are Not Working in Hospitals",
+      "problem in Gujarati": "હોસ્પિટલમાં લાઇટ / પંખા બંધ હોવા."
+    },
+    {
+      "row#": 73,
+      "department": "Light",
+      "problemCategory": "Streetlight",
+      "problem": "Streetlight-  Streetlight Is Off",
+      "problem in Gujarati": "સ્ટ્રીટલાઇટ બંધ હોવી"
+    },
+    {
+      "row#": 74,
+      "department": "Light",
+      "problemCategory": "Streetlight",
+      "problem": "Streetlight-Poles Have Fell Down",
+      "problem in Gujarati": "સ્ટ્રીટલાઇટ-થાંભલા પાડી જવો."
+    },
+    {
+      "row#": 75,
+      "department": "Light",
+      "problemCategory": "Streetlight",
+      "problem": "Streetlight-Shock Observed Electric  On Streetlight",
+      "problem in Gujarati": "ઇલેક્ટ્રિક શોક સ્ટ્રીટલાઇટ"
+    },
+    {
+      "row#": 76,
+      "department": "Light",
+      "problemCategory": "Streetlight",
+      "problem": "Light & Streetlight-Other",
+      "problem in Gujarati": "લાઈટ અને સ્ટ્રીટલાઈટ-અન્ય"
+    },
+    {
+      "row#": 77,
+      "department": "Light",
+      "problemCategory": "Streetlight",
+      "problem": "Streetlight-Switched On In Day Time",
+      "problem in Gujarati": "સ્ટ્રીટલાઇટ દિવસે ચાલુ રહેવી."
+    },
+    {
+      "row#": 78,
+      "department": "Light Building",
+      "problemCategory": "Light Building Genral ",
+      "problem": "Light-Fan-Lift (Office bldg-civic cen-school-Gym-Crematoriam)",
+      "problem in Gujarati": "લાઇટ-પંખો-લિફ્ટ (ઓફિસ બિલ્ડીંગ-સિવિક સેન્ટર-સ્કૂલ-જિમ-સ્મશાન)"
+    },
+    {
+      "row#": 79,
+      "department": "Light Building",
+      "problemCategory": "Light Building Auditorium",
+      "problem": "Light-Fan-Lift Genral Ele.Repairing in Auditorium-Hall",
+      "problem in Gujarati": "ઓડિટોરિયમ-હોલમાં લાઇટ-પંખા-લિફ્ટ જનરલ ઇલે. સમારકામ"
+    },
+    {
+      "row#": 80,
+      "department": "Light Building",
+      "problemCategory": "Light Building  AC",
+      "problem": "Ac-Fridge-water cooler etc. not working ( Muni Hospital-Office Bldg)",
+      "problem in Gujarati": "એસી-ફ્રિજ-વોટર કૂલર વગેરે કામ કરતું નથી (મ્યુનિ. હોસ્પિટલ-ઓફિસ બિલ્ડીંગ)"
+    },
+    {
+      "row#": 81,
+      "department": "Light Building",
+      "problemCategory": "Light Building Hospital Genral ",
+      "problem": "Light-Fan-Wiring Genral Ele. Fault(Sardaben-LG-Dental Hospital)",
+      "problem in Gujarati": "લાઇટ-ફેન-વાયરિંગ જનરલ ઇલેક્ટ્રિક. ફોલ્ટ (શારદાબેન-એલજી-ડેન્ટલ હોસ્પિટલ)"
+    },
+    {
+      "row#": 82,
+      "department": "Light Building",
+      "problemCategory": "Light Building Swim-Pool-Pump",
+      "problem": "Any Ele. Problem in Swimminig Pool OR releated Pump,Motor Etc.",
+      "problem in Gujarati": "સ્વિમિંગ પૂલ અથવા પંપ, મોટર વગેરેમાં કોઈપણ ઇલેક્ટ્રિકલ સમસ્યા."
+    },
+    {
+      "row#": 83,
+      "department": "Property Tax",
+      "problemCategory": "Property Tax Related",
+      "problem": "Property Tax-Application done but not resolved",
+      "problem in Gujarati": "સંપત્તિ કર-અરજી કરી પરંતુ ઉકેલ આવ્યો નથી."
+    },
+    {
+      "row#": 84,
+      "department": "S.W.M",
+      "problemCategory": "Cleaning>>SWM",
+      "problem": "SWM- Cleaning Not Done",
+      "problem in Gujarati": "સાફ -સફાઈ થતી નથી"
+    },
+    {
+      "row#": 85,
+      "department": "S.W.M",
+      "problemCategory": "Public Toilets and Urinals",
+      "problem": "SWM-Public Toilets and Urinals - Daily Cleaning Not Being Done",
+      "problem in Gujarati": "જાહેર શૌચાલયો અને મુતરડીઓ-ટોઈલેટ સાફ હોતા નથી."
+    },
+    {
+      "row#": 86,
+      "department": "S.W.M",
+      "problemCategory": "Dead Animals",
+      "problem": "SWM-Clearing off the Dead Animals",
+      "problem in Gujarati": "મૃત પ્રાણીઓના નિકાલ અંગે"
+    },
+    {
+      "row#": 87,
+      "department": "S.W.M",
+      "problemCategory": "Solid Waste",
+      "problem": "SWM- Door-To-Door Vehicle Not Comming",
+      "problem in Gujarati": "ડોર-ટુ-ડોર વાહન આવતું નથી"
+    },
+    {
+      "row#": 88,
+      "department": "S.W.M",
+      "problemCategory": "Solid Waste",
+      "problem": "SWM-Cleaning Burning Of Solid Wastes",
+      "problem in Gujarati": "કચરો સળગાવવાની ફરિયાદ."
+    },
+    {
+      "row#": 89,
+      "department": "S.W.M",
+      "problemCategory": "Plastic collection",
+      "problem": "Using Inferior Quality of Plastic for Tea/Pan/Water pouch/Other Food Throwing Plastic garbage/Waste",
+      "problem in Gujarati": "ચા / પાન / પાણીના પાઉચ અન્ય ખાદ્ય પદાર્થો માટે નીચલા દરજ્જાનું પ્લાસ્ટિક નો ઉપયોગ કરવો.પ્લાસ્ટિકને કચરામાં ફેંકવું"
+    },
+    {
+      "row#": 90,
+      "department": "S.W.M",
+      "problemCategory": "Dead Animals",
+      "problem": "SWM-Clearing off the Big Dead Animals",
+      "problem in Gujarati": "મોટા મૃત પ્રાણીઓના નિકાલ અંગે"
+    },
+    {
+      "row#": 91,
+      "department": "S.W.M",
+      "problemCategory": "Cleaning>>SWM",
+      "problem": "SWM-Clearing Building Material Debris",
+      "problem in Gujarati": "મકાન ના કાટમાળ - સામગ્રી ઉપાડવાની"
+    },
+    {
+      "row#": 92,
+      "department": "S.W.M",
+      "problemCategory": "Public Toilets and Urinals",
+      "problem": "SWM - Public Toilets and Urinals - Cleaning Out The Surroundings",
+      "problem in Gujarati": "જાહેર શૌચાલયો અને મુતરડીઓ - આસપાસ ની જગ્યા સાફ કરવી"
+    },
+    {
+      "row#": 93,
+      "department": "S.W.M",
+      "problemCategory": "Solid Waste",
+      "problem": "SWM-Spitting Or Urinating at public place",
+      "problem in Gujarati": "જાહેર સ્થળે થૂંકવું કે પેશાબ કરવો"
+    },
+    {
+      "row#": 94,
+      "department": "S.W.M",
+      "problemCategory": "Soak Pit Cleaning",
+      "problem": "SWM-Soak Pit Cleaning",
+      "problem in Gujarati": "ખાળકુવા સફાઈ"
+    },
+    {
+      "row#": 95,
+      "department": "Smart Toilet SWM",
+      "problemCategory": "Smart Toilet",
+      "problem": "Smart Toilet-Non Availability of water ",
+      "problem in Gujarati": "સ્માર્ટ ટોયલેટ -પાણીની ઉપલબ્ધતા નહીં"
+    },
+    {
+      "row#": 96,
+      "department": "Smart Toilet SWM",
+      "problemCategory": "Smart Toilet",
+      "problem": "Smart Toilet-Daily Cleaning not being done",
+      "problem in Gujarati": "સ્માર્ટ ટોયલેટ -ડેઇલી સફાઇ થઈ રહી નથી"
+    },
+    {
+      "row#": 97,
+      "department": "Smart Toilet SWM",
+      "problemCategory": "Smart Toilet",
+      "problem": "Smart Toilet-Automatic Door is not working",
+      "problem in Gujarati": "સ્માર્ટ ટોયલેટ -સ્વચાલિત ડોર કાર્યરત નથી"
+    },
+    {
+      "row#": 98,
+      "department": "Smart Toilet SWM",
+      "problemCategory": "Smart Toilet",
+      "problem": "Smart Toilet-Auto Flushing not working",
+      "problem in Gujarati": "સ્માર્ટ ટોયલેટ -ઓટો ફ્લશિંગ કાર્યરત નથી"
+    },
+    {
+      "row#": 99,
+      "department": "SRFDCL",
+      "problemCategory": "SRF-light",
+      "problem": "River Front- Light not working",
+      "problem in Gujarati": "રિવર ફ્રન્ટ - લાઇટ કામ કરતી નથી"
+    },
+    {
+      "row#": 100,
+      "department": "SRFDCL",
+      "problemCategory": "SRF-light",
+      "problem": "River Front- Light Poles Have Fell Down",
+      "problem in Gujarati": "રિવર ફ્રન્ટ - લાઇટ પોલ નીચે પડી ગયા છે"
+    },
+    {
+      "row#": 101,
+      "department": "SRFDCL",
+      "problemCategory": "SRF-light",
+      "problem": "River Front- Electric Shock Observed  On light-pole",
+      "problem in Gujarati": "રિવર ફ્રન્ટ - લાઇટ-પોલ પર ઇલેક્ટ્રિક શોક જોવા મળ્યો"
+    },
+    {
+      "row#": 102,
+      "department": "Swimming Pool",
+      "problemCategory": "Non-Availability Of Staff>>Swimming Pool",
+      "problem": "Swimming-Coach is Irregular/Remains Absent",
+      "problem in Gujarati": "સ્નાનાગાર-કોચ અનિયમિત હોય છે / ગેર હાજર રહે છે."
+    },
+    {
+      "row#": 103,
+      "department": "Swimming Pool",
+      "problemCategory": "Water>>Swimming Pool",
+      "problem": "Swimming-Inferior Quality of Water",
+      "problem in Gujarati": "પાણીની ખરાબ ગુણવતા અંગે."
+    },
+    {
+      "row#": 104,
+      "department": "Swimming Pool",
+      "problemCategory": "Building>>Swimming Pool",
+      "problem": "Swimming-Pipes, Showers, Urine Tub, Tiles etc are broken",
+      "problem in Gujarati": "પાઈપ,ફુવારા, યુરિન ટબ, ટાઇલ્સ વગેરે ભાંગેલ છે."
+    },
+    {
+      "row#": 105,
+      "department": "Swimming Pool",
+      "problemCategory": "Cleaning>>Swimming Pool",
+      "problem": "Swimming-Improper Cleaning",
+      "problem in Gujarati": "સફાઈ બરાબર નથી."
+    },
+    {
+      "row#": 106,
+      "department": "Swimming Pool",
+      "problemCategory": "Light",
+      "problem": "Swimming-No Light/Wiring is open ",
+      "problem in Gujarati": "લાઇટ ના હોવા / વાયરિંગ ના હોવા અંગે."
+    },
+    {
+      "row#": 107,
+      "department": "Swimming Pool",
+      "problemCategory": "Quality Of Service>>Swimming Pool",
+      "problem": "Swimming-No Proper Training ",
+      "problem in Gujarati": "અયોગ્ય તાલીમ બાબત."
+    },
+    {
+      "row#": 108,
+      "department": "Town Planning",
+      "problemCategory": "Unauthorised Construction",
+      "problem": "Town Planning - Other",
+      "problem in Gujarati": "ટાઉન પ્લાનિંગ - અન્ય"
+    },
+    {
+      "row#": 109,
+      "department": "Town Planning",
+      "problemCategory": "Unauthorised Construction",
+      "problem": "Digging of cellar w/o protective support",
+      "problem in Gujarati": "કોઈ પણ આધાર વગર ખાડો ખોદવા બાબત"
+    },
+    {
+      "row#": 110,
+      "department": "Traffic Engineering",
+      "problemCategory": "Engineering Traffic Project",
+      "problem": "Traffic Signal Stop Line",
+      "problem in Gujarati": "ટ્રાફિક સિગ્નલ સ્ટોપ લાઇન"
+    },
+    {
+      "row#": 111,
+      "department": "U.C.D",
+      "problemCategory": "SHELTER HOUSE",
+      "problem": "SHELTER HOUSE",
+      "problem in Gujarati": "આશ્રય ગૃહ"
+    },
+    {
+      "row#": 112,
+      "department": "U.C.D",
+      "problemCategory": "SHELTER HOUSE",
+      "problem": "UCD-HOMELESS PEOPLE LIVING IN OPEN",
+      "problem in Gujarati": "યુસીડી-ખુલ્લામાં રહેતા બેઘર લોકો"
+    },
+    {
+      "row#": 113,
+      "department": "Urban Health Centre",
+      "problemCategory": "Doctors / Staff Not Available",
+      "problem": "UHC-Doctors/Staffs Not Available/Treatment Is Not Given On Time- Doctors/Staffs",
+      "problem in Gujarati": "ડૉક્ટર / સ્ટાફ હજર નથી, અનિયમિત/ સમયસર સારવાર ન આપવા બાબત."
+    }
+  ]
+}
