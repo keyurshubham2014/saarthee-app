@@ -64,6 +64,9 @@ class IssueListController extends Notifier<IssueListState> {
 
   @override
   IssueListState build() {
+    // Titles come composed in the request language, so switching ગુ/A
+    // refetches instead of leaving the list in the old language.
+    ref.watch(localeProvider.select((l) => l.languageCode));
     Future.microtask(refresh);
     return const IssueListState();
   }

@@ -34,7 +34,7 @@ void main() {
     role('titleMedium', t.titleMedium, m, 16, FontWeight.w600, 22);
     role('bodyLarge', t.bodyLarge, m, 16, FontWeight.w400, 24);
     role('bodyMedium', t.bodyMedium, m, 14, FontWeight.w400, 21);
-    role('labelLarge', t.labelLarge, m, 15.5, FontWeight.w600, 20);
+    role('labelLarge', t.labelLarge, m, 15.5, FontWeight.w600, 21);
     role('labelMedium', t.labelMedium, m, 12, FontWeight.w600, 16);
     role('bodySmall', t.bodySmall, m, 12, FontWeight.w400, 17);
     role(

@@ -82,7 +82,12 @@ class EvidencePhoto extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final c = SaartheeColors.of(context);
     final text = Theme.of(context).textTheme;
-    final time = capturedAt == null ? null : Formatters.dateTime(capturedAt!);
+    final time = capturedAt == null
+        ? null
+        : Formatters.dateTime(
+            capturedAt!,
+            Localizations.localeOf(context).toLanguageTag(),
+          );
     Widget meta(IconData icon, String value) => Row(
       children: [
         Icon(icon, size: AppSpacing.iconSmall, color: c.textSecondary),

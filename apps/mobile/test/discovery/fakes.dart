@@ -115,6 +115,7 @@ class FakeDiscoveryApi implements DiscoveryApi {
   MapResult mapResult = MapResult.empty;
   final List<String> calls = [];
   final List<IssueQuery> queries = [];
+  final List<String> listLangs = [];
   Completer<void>? listGate;
 
   @override
@@ -147,6 +148,7 @@ class FakeDiscoveryApi implements DiscoveryApi {
     required String lang,
   }) async {
     queries.add(q);
+    listLangs.add(lang);
     calls.add('list ${cursor ?? 'first'}');
     if (listGate != null) await listGate!.future;
     if (pages.isEmpty) return const IssuePage([], null);

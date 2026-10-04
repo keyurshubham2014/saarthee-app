@@ -1,15 +1,15 @@
-import '../../../core/theme/scroll_behavior.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/l10n/intl_locale.dart';
 import '../../../core/motion/staff_motion_scope.dart';
 import '../../../core/settings/locale_controller.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/motion.dart';
+import '../../../core/theme/scroll_behavior.dart';
 import '../../../router/staff_routes.dart';
 import '../../auth/auth_routes.dart';
 
@@ -54,9 +54,12 @@ class StaffWebApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('gu'), Locale('en')],
-      builder: (context, child) => MotionScope(
-        child: StaffMotionScope(child: child ?? const SizedBox.shrink()),
-      ),
+      builder: (context, child) {
+        syncIntlLocale(context);
+        return MotionScope(
+          child: StaffMotionScope(child: child ?? const SizedBox.shrink()),
+        );
+      },
     );
   }
 }

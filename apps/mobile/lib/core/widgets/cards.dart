@@ -6,6 +6,7 @@ import '../motion/pressable.dart';
 import '../theme/icons.dart';
 import '../theme/tokens.dart';
 import '../theme/typography.dart';
+import '../utils/initials.dart';
 import 'chips.dart';
 import 'photos.dart';
 
@@ -483,11 +484,7 @@ class RepresentativeRow extends StatelessWidget {
   final String? party;
   final VoidCallback? onMessage;
 
-  String get _initials {
-    final parts = name.trim().split(RegExp(r'\s+'));
-    final chars = parts.where((p) => p.isNotEmpty).take(2).map((p) => p[0]);
-    return chars.join().toUpperCase();
-  }
+  String get _initials => initialsOf(name);
 
   @override
   Widget build(BuildContext context) {

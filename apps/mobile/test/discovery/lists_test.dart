@@ -3,7 +3,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:saarthee/core/settings/locale_controller.dart';
 import 'package:saarthee/features/discovery/application/issue_list_controller.dart';
 import 'package:saarthee/features/discovery/data/discovery_api.dart';
 import 'package:saarthee/features/discovery/presentation/issue_list_screens.dart';
@@ -144,4 +146,25 @@ void main() {
     await settle(t);
     expect(find.byKey(const Key('issues.empty')), findsOneWidget);
   });
+
+  testWidgets(
+    'switching the app language refetches the list in that language',
+    (t) async {
+      final api = FakeDiscoveryApi(pages: [page(0, 3)]);
+      await pumpDiscovery(
+        t,
+        home: const IssuesScreen(wardId: 'w1'),
+        api: api,
+      );
+      await settle(t);
+      expect(api.listLangs, ['en']);
+      final container = ProviderScope.containerOf(
+        t.element(find.byType(IssuesScreen)),
+      );
+      await container.read(localeProvider.notifier).setLanguage('gu');
+      await settle(t);
+      expect(api.listLangs.last, 'gu');
+      expect(find.byKey(const Key('issueCard.i0')), findsOneWidget);
+    },
+  );
 }

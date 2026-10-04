@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/l10n/app_localizations.dart';
 import '../../../core/theme/icons.dart';
 import '../../../core/theme/tokens.dart';
+import '../../../core/utils/initials.dart';
 import '../data/ward_models.dart';
 
 /// Role word in the UI language.
@@ -13,11 +14,12 @@ String repRoleLabel(AppLocalizations l10n, String role) => switch (role) {
 };
 
 /// Initials avatar (DS §5): 40 dp `primaryContainer` circle, `primaryDark`
-/// initials. No photos (ASSUMPTION TASK-09 §5.6).
+/// initials of [name] (pass the name in the UI language, so Gujarati shows
+/// Gujarati initials). No photos (ASSUMPTION TASK-09 §5.6).
 class RepAvatar extends StatelessWidget {
-  const RepAvatar({super.key, required this.initials, this.size = 40});
+  const RepAvatar({super.key, required this.name, this.size = 40});
 
-  final String initials;
+  final String name;
   final double size;
 
   @override
@@ -28,7 +30,7 @@ class RepAvatar extends StatelessWidget {
         radius: size / 2,
         backgroundColor: c.primaryContainer,
         child: Text(
-          initials,
+          initialsOf(name),
           style: Theme.of(context).textTheme.titleMedium
               ?.copyWith(color: c.primaryDark),
         ),
@@ -81,7 +83,7 @@ class WardRepRow extends StatelessWidget {
             ),
             child: Row(
               children: [
-                RepAvatar(initials: rep.initials),
+                RepAvatar(name: rep.name(lang)),
                 const SizedBox(width: AppSpacing.s12),
                 Expanded(
                   child: Column(

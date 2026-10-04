@@ -93,7 +93,7 @@ Both are bundled as subset TTFs (Gujarati + Basic Latin + Latin-1 + ₹ and punc
 | titleMedium (card title) | Mukta Vaani | 16 | 600 | 22 |
 | bodyLarge (default) | Mukta Vaani | 16 | 400 | 24 |
 | bodyMedium | Mukta Vaani | 14 | 400 | 21 |
-| labelLarge (buttons) | Mukta Vaani | 15.5 | 600 | 20 |
+| labelLarge (buttons) | Mukta Vaani | 15.5 | 600 | 21 (was 20; Gujarati vowel signs touched in two-line buttons, 2026-10-04) |
 | labelMedium (chips, nav) | Mukta Vaani | 12 | 600 | 16 |
 | numeric (stat tiles, counts) | Baloo Bhai 2 | 20 | 700 | 24, tabular figures |
 | bodySmall (metadata, minimum) | Mukta Vaani | 12 | 400 | 17 |

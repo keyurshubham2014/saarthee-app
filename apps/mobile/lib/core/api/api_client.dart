@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../config/app_config.dart';
 import '../config/timings.dart';
 import '../settings/app_settings.dart';
+import '../settings/locale_controller.dart';
 import 'app_error.dart';
 
 /// Timeouts (02 §5.3): 15 s for JSON calls, 60 s for photo uploads.
@@ -176,6 +177,12 @@ final dioProvider = Provider<Dio>((ref) {
         options.headers['X-App-Version'] = AppConfig.appVersion;
         options.headers['X-Platform'] = platform;
         options.headers['X-Request-Id'] = uuid.v4();
+        // Server-composed text (titles, messages) follows the app language,
+        // not the phone's. A call that sets its own value keeps it.
+        options.headers.putIfAbsent(
+          'Accept-Language',
+          () => ref.read(localeProvider).languageCode,
+        );
         handler.next(options);
       },
     ),

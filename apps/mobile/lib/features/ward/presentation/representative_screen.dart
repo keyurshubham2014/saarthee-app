@@ -86,7 +86,7 @@ class _Profile extends ConsumerWidget {
           padding: const EdgeInsets.all(AppSpacing.gutter),
           child: Row(
             children: [
-              RepAvatar(initials: s.initials, size: 56),
+              RepAvatar(name: s.name(lang), size: 56),
               const SizedBox(width: AppSpacing.s16),
               Expanded(
                 child: Column(

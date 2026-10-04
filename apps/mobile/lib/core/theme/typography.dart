@@ -48,7 +48,9 @@ class AppTypography {
     final bodyL = _style(body, 16, FontWeight.w400, 24, p);
     final bodyM = _style(body, 14, FontWeight.w400, 21, p);
     final bodyS = _style(body, 12, FontWeight.w400, 17, s);
-    final labelL = _style(body, 15.5, FontWeight.w600, 20, p);
+    // 21 (1.35×): at 20 Gujarati vowel signs above and below touched the
+    // neighbouring line in two-line buttons.
+    final labelL = _style(body, 15.5, FontWeight.w600, 21, p);
     final labelM = _style(body, 12, FontWeight.w600, 16, p);
     return TextTheme(
       displayLarge: display,

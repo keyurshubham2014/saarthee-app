@@ -94,7 +94,8 @@ class InboxRowState extends State<InboxRow>
                     curve: motion.short.curve,
                     style: (text.titleSmall ?? const TextStyle()).copyWith(
                       color: c.textPrimary,
-                      fontWeight: unread ? FontWeight.w700 : FontWeight.w400,
+                      // Mukta Vaani ships 400/500/600; 700 was a synthesised bold.
+                      fontWeight: unread ? FontWeight.w600 : FontWeight.w400,
                     ),
                     child: Text(widget.item.title),
                   ),
