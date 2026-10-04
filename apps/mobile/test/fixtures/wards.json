@@ -1,0 +1,632 @@
+{
+  "items": [
+    {
+      "id": "de83e8f1-b3cd-56aa-b472-706980960f92",
+      "number": 15,
+      "nameEn": "Asarva",
+      "nameGu": "અસારવા",
+      "zone": {
+        "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+        "code": "central",
+        "nameEn": "Central",
+        "nameGu": "મધ્ય ઝોન"
+      }
+    },
+    {
+      "id": "967720a7-216d-58a8-bc93-8852a6d3b91b",
+      "number": 16,
+      "nameEn": "Shahibaug",
+      "nameGu": "શાહીબાગ",
+      "zone": {
+        "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+        "code": "central",
+        "nameEn": "Central",
+        "nameGu": "મધ્ય ઝોન"
+      }
+    },
+    {
+      "id": "04e490e8-e72f-5f8d-b1c8-cdaa54053c39",
+      "number": 17,
+      "nameEn": "Shahpur",
+      "nameGu": "શાહપુર",
+      "zone": {
+        "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+        "code": "central",
+        "nameEn": "Central",
+        "nameGu": "મધ્ય ઝોન"
+      }
+    },
+    {
+      "id": "d8e9134e-d41b-5803-9a5d-b81665324b23",
+      "number": 21,
+      "nameEn": "Dariyapur",
+      "nameGu": "દરિયાપુર",
+      "zone": {
+        "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+        "code": "central",
+        "nameEn": "Central",
+        "nameGu": "મધ્ય ઝોન"
+      }
+    },
+    {
+      "id": "f1c18328-17d4-58c6-9a4f-f52794686902",
+      "number": 28,
+      "nameEn": "Khadia",
+      "nameGu": "ખાડિયા",
+      "zone": {
+        "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+        "code": "central",
+        "nameEn": "Central",
+        "nameGu": "મધ્ય ઝોન"
+      }
+    },
+    {
+      "id": "a43b0779-9d6c-5b0d-8fa3-9512114abab0",
+      "number": 29,
+      "nameEn": "Jamalpur",
+      "nameGu": "જમાલપુર",
+      "zone": {
+        "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+        "code": "central",
+        "nameEn": "Central",
+        "nameGu": "મધ્ય ઝોન"
+      }
+    },
+    {
+      "id": "d15fc458-6455-5389-83a8-fba2849e3c3c",
+      "number": 11,
+      "nameEn": "Sardarnagar",
+      "nameGu": "સરદારનગર",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "158edb23-04b4-5955-a7bd-9c2fec8b73d4",
+      "number": 12,
+      "nameEn": "Naroda",
+      "nameGu": "નરોડા",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "462e32e0-e2db-5b42-b2dd-137e0adc1076",
+      "number": 13,
+      "nameEn": "Saijpur Bogha",
+      "nameGu": "સૈજપુર બોઘા",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "76f0c660-2556-56cf-ab84-345d0a4437d9",
+      "number": 14,
+      "nameEn": "Kubernagar",
+      "nameGu": "કુબેરનગર",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "f177d619-b1cd-59a9-992a-15fbb0157e88",
+      "number": 22,
+      "nameEn": "India Colony",
+      "nameGu": "ઇન્ડિયા કોલોની",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "4fbb7c84-e5db-57e2-a48a-874b9f649e40",
+      "number": 23,
+      "nameEn": "Thakkarbapa Nagar",
+      "nameGu": "ઠક્કરબાપાનગર",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "4b3d6bd0-2067-514a-a3c0-afba8d2c9586",
+      "number": 26,
+      "nameEn": "Bapunagar",
+      "nameGu": "બાપુનગર",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "ba373b74-b612-529b-8d8e-e3663ea029bb",
+      "number": 27,
+      "nameEn": "Saraspur-Rakhial",
+      "nameGu": "સરસપુર-રખિયાલ",
+      "zone": {
+        "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+        "code": "north",
+        "nameEn": "North",
+        "nameGu": "ઉત્તર ઝોન"
+      }
+    },
+    {
+      "id": "35a45b2c-7090-59c5-851a-e014d606784c",
+      "number": 35,
+      "nameEn": "Behrampura",
+      "nameGu": "બહેરામપુરા",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "a0fbf971-9324-541b-9ac8-0d3a4dcaca1f",
+      "number": 36,
+      "nameEn": "Danilimda",
+      "nameGu": "દાણીલીમડા",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "9bb8f673-6000-520b-a7dd-a7d87c3a767c",
+      "number": 37,
+      "nameEn": "Maninagar",
+      "nameGu": "મણિનગર",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "2108fd9d-595d-5ca4-819e-c597288957b7",
+      "number": 42,
+      "nameEn": "Indrapuri",
+      "nameGu": "ઇન્દ્રપુરી",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "1e1fe4cc-3afe-538c-a68b-d023f52d2e66",
+      "number": 44,
+      "nameEn": "Khokhra",
+      "nameGu": "ખોખરા",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "4d94a92f-9567-574d-9c80-1dbdea1bff66",
+      "number": 45,
+      "nameEn": "Isanpur",
+      "nameGu": "ઇસનપુર",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "96f1b4b1-bdce-5107-9450-9b6497735f03",
+      "number": 46,
+      "nameEn": "Lambha",
+      "nameGu": "લાંભા",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "99bc7c89-7d1f-5e48-9887-dc36e3c5a4c2",
+      "number": 47,
+      "nameEn": "Vatva",
+      "nameGu": "વટવા",
+      "zone": {
+        "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+        "code": "south",
+        "nameEn": "South",
+        "nameGu": "દક્ષિણ ઝોન"
+      }
+    },
+    {
+      "id": "48cd551d-515f-5efc-9884-5b40381276e5",
+      "number": 24,
+      "nameEn": "Nikol",
+      "nameGu": "નિકોલ",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "cbb63d17-5f9e-5f09-8c89-5cab29d90097",
+      "number": 25,
+      "nameEn": "Viratnagar",
+      "nameGu": "વિરાટનગર",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "7eef5075-6769-504b-88f4-d734cf6daa47",
+      "number": 38,
+      "nameEn": "Gomtipur",
+      "nameGu": "ગોમતીપુર",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "00df1e5b-7b62-5cb8-856d-254f1eddc7c0",
+      "number": 39,
+      "nameEn": "Amraiwadi",
+      "nameGu": "અમરાઈવાડી",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "390e871c-d79c-526f-9be7-81bbba5f7f87",
+      "number": 40,
+      "nameEn": "Odhav",
+      "nameGu": "ઓઢવ",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "d2b9aee8-aef2-5d35-8eeb-871128e4adb0",
+      "number": 41,
+      "nameEn": "Vastral",
+      "nameGu": "વસ્ત્રાલ",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "2b581658-3134-588e-a0bb-5aa567d16948",
+      "number": 43,
+      "nameEn": "Bhaipura-Hatkeshwar",
+      "nameGu": "ભાઈપુરા-હાટકેશ્વર",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "bcefd3d1-a0c4-5d35-a79f-b5187ed9f923",
+      "number": 48,
+      "nameEn": "Ramol-Hathijan",
+      "nameGu": "રામોલ-હાથીજણ",
+      "zone": {
+        "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+        "code": "east",
+        "nameEn": "East",
+        "nameGu": "પૂર્વ ઝોન"
+      }
+    },
+    {
+      "id": "42808105-1e71-5506-9d02-46da16c8b691",
+      "number": 3,
+      "nameEn": "Chandkheda",
+      "nameGu": "ચાંદખેડા",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "ec0612c6-e552-5bce-8965-e50ad95a4690",
+      "number": 4,
+      "nameEn": "Sabarmati",
+      "nameGu": "સાબરમતી",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "f9d6f3b1-bd91-56f5-bcc3-8a155a0e3f94",
+      "number": 5,
+      "nameEn": "Ranip",
+      "nameGu": "રાણીપ",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "7b2ebc8f-00dc-5e2d-a7fa-04ba20784b65",
+      "number": 6,
+      "nameEn": "Nava Vadaj",
+      "nameGu": "નવા વાડજ",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "00db69ff-54cc-5291-9919-1c69c211a769",
+      "number": 9,
+      "nameEn": "Naranpura",
+      "nameGu": "નારણપુરા",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "0812753e-90a5-5bde-8b8b-b869a96ba077",
+      "number": 10,
+      "nameEn": "Sardar Patel Stadium",
+      "nameGu": "સરદાર પટેલ સ્ટેડિયમ",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "ed0c9ee8-487d-5e53-a741-afb97cca2637",
+      "number": 18,
+      "nameEn": "Navrangpura",
+      "nameGu": "નવરંગપુરા",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "98f85d91-cd6d-5ed5-aff3-5828c8593bf1",
+      "number": 30,
+      "nameEn": "Paldi",
+      "nameGu": "પાલડી",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "f4976a13-b7e9-5c59-9412-46c298d94b88",
+      "number": 31,
+      "nameEn": "Vasna",
+      "nameGu": "વાસણા",
+      "zone": {
+        "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+        "code": "west",
+        "nameEn": "West",
+        "nameGu": "પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "62384eb2-9c22-559c-819b-f42d50ba4c2c",
+      "number": 1,
+      "nameEn": "Gota",
+      "nameGu": "ગોતા",
+      "zone": {
+        "id": "eb642023-403f-5765-8731-33316f794b38",
+        "code": "north_west",
+        "nameEn": "North West",
+        "nameGu": "ઉત્તર પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "ac40aea1-3e61-5612-b5b1-9c01d1046d85",
+      "number": 2,
+      "nameEn": "Chandlodiya",
+      "nameGu": "ચાંદલોડિયા",
+      "zone": {
+        "id": "eb642023-403f-5765-8731-33316f794b38",
+        "code": "north_west",
+        "nameEn": "North West",
+        "nameGu": "ઉત્તર પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "34b9885b-107a-59e7-93e6-e96228510468",
+      "number": 7,
+      "nameEn": "Ghatlodiya",
+      "nameGu": "ઘાટલોડિયા",
+      "zone": {
+        "id": "eb642023-403f-5765-8731-33316f794b38",
+        "code": "north_west",
+        "nameEn": "North West",
+        "nameGu": "ઉત્તર પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "29464ac8-af6d-5d8c-8c3e-c1fe9234e41d",
+      "number": 8,
+      "nameEn": "Thaltej",
+      "nameGu": "થલતેજ",
+      "zone": {
+        "id": "eb642023-403f-5765-8731-33316f794b38",
+        "code": "north_west",
+        "nameEn": "North West",
+        "nameGu": "ઉત્તર પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "3b691a0b-c598-5f38-bb49-657a19ec6202",
+      "number": 19,
+      "nameEn": "Bodakdev",
+      "nameGu": "બોડકદેવ",
+      "zone": {
+        "id": "eb642023-403f-5765-8731-33316f794b38",
+        "code": "north_west",
+        "nameEn": "North West",
+        "nameGu": "ઉત્તર પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "31cab657-46cc-5a5e-9314-e1ac65eeb6c8",
+      "number": 20,
+      "nameEn": "Jodhpur",
+      "nameGu": "જોધપુર",
+      "zone": {
+        "id": "a2990d42-8dac-5937-957d-c2e29528f745",
+        "code": "south_west",
+        "nameEn": "South West",
+        "nameGu": "દક્ષિણ પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "7e4f01a4-a3f7-5b75-8b85-5846597dca27",
+      "number": 32,
+      "nameEn": "Vejalpur",
+      "nameGu": "વેજલપુર",
+      "zone": {
+        "id": "a2990d42-8dac-5937-957d-c2e29528f745",
+        "code": "south_west",
+        "nameEn": "South West",
+        "nameGu": "દક્ષિણ પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "41f429a8-9a7b-5f69-9322-276fcbef8c45",
+      "number": 33,
+      "nameEn": "Sarkhej",
+      "nameGu": "સરખેજ",
+      "zone": {
+        "id": "a2990d42-8dac-5937-957d-c2e29528f745",
+        "code": "south_west",
+        "nameEn": "South West",
+        "nameGu": "દક્ષિણ પશ્ચિમ ઝોન"
+      }
+    },
+    {
+      "id": "2539bddb-2ebc-5375-ad5e-715f96184627",
+      "number": 34,
+      "nameEn": "Maktampura",
+      "nameGu": "મક્તમપુરા",
+      "zone": {
+        "id": "a2990d42-8dac-5937-957d-c2e29528f745",
+        "code": "south_west",
+        "nameEn": "South West",
+        "nameGu": "દક્ષિણ પશ્ચિમ ઝોન"
+      }
+    }
+  ],
+  "boundaryVersion": "opencity-amc-wards-2025-11",
+  "zones": [
+    {
+      "id": "0053571f-ab37-5bb2-bb9b-29812025e8c5",
+      "code": "central",
+      "nameEn": "Central",
+      "nameGu": "મધ્ય ઝોન",
+      "wardCount": 6
+    },
+    {
+      "id": "1b8efd20-0a86-559d-885d-6a87196172e6",
+      "code": "north",
+      "nameEn": "North",
+      "nameGu": "ઉત્તર ઝોન",
+      "wardCount": 8
+    },
+    {
+      "id": "e950bf68-4a89-5a25-b1c2-1f0c777c3ae6",
+      "code": "south",
+      "nameEn": "South",
+      "nameGu": "દક્ષિણ ઝોન",
+      "wardCount": 8
+    },
+    {
+      "id": "d40c3583-4815-53e4-9481-9a7825d21c11",
+      "code": "east",
+      "nameEn": "East",
+      "nameGu": "પૂર્વ ઝોન",
+      "wardCount": 8
+    },
+    {
+      "id": "7b8192ca-d2de-52c7-9a09-0137695eeaa5",
+      "code": "west",
+      "nameEn": "West",
+      "nameGu": "પશ્ચિમ ઝોન",
+      "wardCount": 9
+    },
+    {
+      "id": "eb642023-403f-5765-8731-33316f794b38",
+      "code": "north_west",
+      "nameEn": "North West",
+      "nameGu": "ઉત્તર પશ્ચિમ ઝોન",
+      "wardCount": 5
+    },
+    {
+      "id": "a2990d42-8dac-5937-957d-c2e29528f745",
+      "code": "south_west",
+      "nameEn": "South West",
+      "nameGu": "દક્ષિણ પશ્ચિમ ઝોન",
+      "wardCount": 4
+    }
+  ]
+}

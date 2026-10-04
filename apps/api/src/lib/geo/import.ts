@@ -1,10 +1,13 @@
 /**
- * Ward/zone import (V2 TASK-02 §5.2 "Import"): one transaction; upsert zones by code and wards by number;
+ * Ward/zone import (V2 TASK-02 §5.2 "Import"): one transaction; upsert zones by code and wards by number
+ * (new rows get a stable name-based UUIDv5 from "ward:<number>" / "zone:<code>", so ids are
+ * the same in every environment and in the app fixture);
  * zone geometry = union of its wards. Rows change only when a value differs, so re-running the same version
  * leaves `updated_at` untouched. Refuses unless the expected ward/zone counts resolve.
  */
 import type { PrismaClient } from '@prisma/client';
 import { EXPECTED_WARDS, EXPECTED_ZONES, matchFeatures, type GeoSources } from './ward-data';
+import { stableUuid } from './stable-id';
 
 export class GeoImportError extends Error {}
 
@@ -38,7 +41,8 @@ export async function importWards(prisma: PrismaClient, src: GeoSources, opts: I
       let zonesChanged = 0;
       for (const [i, z] of src.list.zones.entries()) {
         zonesChanged += await tx.$executeRaw`
-          INSERT INTO zones (code, name_en, name_gu, sort_order) VALUES (${z.code}, ${z.nameEn}, ${z.nameGu}, ${i})
+          INSERT INTO zones (id, code, name_en, name_gu, sort_order)
+          VALUES (${stableUuid(`zone:${z.code}`)}::uuid, ${z.code}, ${z.nameEn}, ${z.nameGu}, ${i})
           ON CONFLICT (code) DO UPDATE SET name_en = EXCLUDED.name_en, name_gu = EXCLUDED.name_gu,
             sort_order = EXCLUDED.sort_order, updated_at = now()
           WHERE (zones.name_en, zones.name_gu, zones.sort_order)
@@ -56,9 +60,9 @@ export async function importWards(prisma: PrismaClient, src: GeoSources, opts: I
           WITH g AS (
             SELECT ST_Multi(ST_CollectionExtract(ST_MakeValid(ST_SetSRID(ST_GeomFromGeoJSON(${geojson}), 4326)), 3)) AS geom
           )
-          INSERT INTO wards (number, name_en, name_gu, zone_id, geom, centroid, boundary_version, office_address_en,
+          INSERT INTO wards (id, number, name_en, name_gu, zone_id, geom, centroid, boundary_version, office_address_en,
                              office_address_gu, office_phone, source_url, last_verified_at)
-          SELECT ${w.number}, ${w.nameEn}, ${w.nameGu}, (SELECT id FROM zones WHERE code = ${w.zoneCode}),
+          SELECT ${stableUuid(`ward:${w.number}`)}::uuid, ${w.number}, ${w.nameEn}, ${w.nameGu}, (SELECT id FROM zones WHERE code = ${w.zoneCode}),
                  g.geom, ST_PointOnSurface(g.geom), ${src.version}, ${w.officeAddressEn}, ${w.officeAddressGu},
                  ${w.officePhone}, ${w.sourceUrl}, ${verifiedAt}
           FROM g

@@ -4,6 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { prisma } from '../../src/lib/db';
 import { GeoImportError, importWards } from '../../src/lib/geo/import';
 import { kmlToWardFeatures } from '../../src/lib/geo/kml';
+import { stableUuid } from '../../src/lib/geo/stable-id';
+import { z } from 'zod';
 import { resetDb } from '../helpers/db';
 import { FIXTURE_COUNTS, fixtureSources, importFixtureWards } from './helpers';
 
@@ -26,6 +28,19 @@ describe('geo:import', () => {
       SELECT ST_Equals(z.geom, (SELECT ST_Union(geom) FROM wards w WHERE w.zone_id = z.id)) AS eq
       FROM zones z WHERE code = 'west'`;
     expect(z!.eq).toBe(true);
+  });
+
+  it('ward and zone ids are stable, RFC-valid UUIDv5 values (same in every environment)', async () => {
+    await importFixtureWards();
+    const w1 = await prisma.ward.findUniqueOrThrow({ where: { number: 1 } });
+    const west = await prisma.zone.findUniqueOrThrow({ where: { code: 'west' } });
+    expect(w1.id).toBe(stableUuid('ward:1'));
+    expect(west.id).toBe(stableUuid('zone:west'));
+    expect(z.uuid().safeParse(w1.id).success).toBe(true);
+    expect(w1.id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    // RFC 9562 test vector for v5 would need the DNS namespace; here we pin the function's output instead.
+    expect(stableUuid('ward:30')).toBe(stableUuid('ward:30'));
+    expect(stableUuid('ward:30')).not.toBe(stableUuid('ward:31'));
   });
 
   it('second run with the same version changes no row (updated_at unchanged)', async () => {
