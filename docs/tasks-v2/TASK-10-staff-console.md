@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-10 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-04, TASK-05 |
 | Blocks | TASK-11 |
 | Requirement IDs | REQ-F-048, REQ-F-049, REQ-F-050, REQ-F-051, REQ-F-052, REQ-D-011, REQ-S-002, REQ-S-010 |
 | Primary Spec Refs | Spec §2 (D3, D7, D11), §3, §5 (rejected, merged), §6 (`moderation_flags`, `app_settings`), §7 (Staff, `POST /issues/{id}/flags`, `GET /staff/export`), §8 (`/staff/*`), §11 (abuse, audit, neutrality); DS §2–§4 (Neem tokens, Baloo Bhai 2 / Mukta Vaani, radii, Rounded icons, console width), §5, §6 (Motion: Staff console — `short` fades only), §7 (accessibility), §9 (Staff) |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -199,6 +199,19 @@ The matrix in §5.3 is authoritative. Additional rules: staff cannot change thei
 - ASSUMPTION: Exports pseudonymise reporters with an HMAC (`EXPORT_HMAC_SECRET`) so rows can be grouped without identity.
 - ASSUMPTION: "`short` fades only" also covers screens other tasks mount in the staff shell (alerts, representatives, claims, services, initiatives); the press-scale wrapper is disabled under `StaffMotionScope` because it reads as a spring. The only exception is TASK-11's ward dashboard count-up and bars, named in DS §6.
 - ASSUMPTION: v1 `/admin/complaints*` read routes remain until TASK-14 confirms the legacy migration (REQ-D-005).
+- ASSUMPTION (W-STAFF, 2026-10-04): TASK-06 had not landed. Staff status changes (acknowledge, in progress, mark fixed with ≤ 3 after photos) go through ONE stand-in, `staffTransition()` / `writeStatus()` in `apps/api/src/modules/staff/status.service.ts`, exposed as `POST /staff/issues/{id}/status` (`{to, note?, photoIds?, expectedStatus?}`; 409 `ISSUE_STATE_INVALID` on a stale `expectedStatus`, 409 `INVALID_TRANSITION` outside TASK-06's staff rows). Reject and merge also write status only through `writeStatus()`. INTEGRATOR: when TASK-06 lands, replace the bodies of `staffTransition`/`writeStatus` with its `transition()`; nothing else in `modules/staff` writes `issues.status`. Followers are not notified on these stand-in changes (TASK-06's fan-out does that).
+- ASSUMPTION: After photos reuse `POST /photos` (purpose `report`, uploaded by the acting moderator, unattached) and are attached as `issue_photos.kind = 'after'`; `photo_purpose` gains no `after` value here (TASK-06 may add it). The upload needs the phone session (the endpoint is citizen-auth), so the v1 email admin sign-in cannot add after photos.
+- ASSUMPTION: One API module `src/modules/staff/` (me, moderation, issue tools, users, categories, settings, export) plus `src/modules/flags/` instead of seven modules; same routes and contracts.
+- ASSUMPTION: Comment hide is stored in a new `issue_event_hides` table (issue_events is append-only by trigger); public timelines (TASK-07) must exclude event ids listed there.
+- ASSUMPTION: "Looks fine" on a sensitive issue that is still hidden from creation (TASK-05 §5.2) makes it public; a moderator hide afterwards hides it again.
+- ASSUMPTION: Moderation queue cursors are opaque offsets (flagged is ordered by open-flag count, which keyset paging cannot follow cheaply).
+- ASSUMPTION: The seed adds two open flags on sample issue 1 and the feature-flag defaults, but no out-of-area issue: `POST /issues` refuses points outside the wards and TASK-01's seed test fixes the issue counts; the Outside-city-wards tab is covered by T-10-04.
+- ASSUMPTION: `requireStaff` fills `wardIds` for representatives from `representatives.user_id → representative_areas` (verified, active links only) until TASK-11's view replaces it.
+- ASSUMPTION: TASK-09/12 staff routes keep their `requireUser + requireRole` guards (v2 session only); they are listed in `staffMatrix.ts` and pass the matrix test. With the v1 email admin sign-in the shell shows only the sections whose API accepts that token (TASK-10 + TASK-08: `StaffNavItem.emailSession`).
+- ASSUMPTION: Staff web build: English by default from the browser locale (gu toggle via locale), sessions in memory + `sessionStorage` (12 h cap for the email session), never `localStorage`; the import boundary allows the shared TASK-08/12 data-model files and `geolocator` (used by core ward code, web-capable) but no `core/capture`, report flow, camera or map packages. After photos on the web use `image_picker` gallery (file input).
+- ASSUMPTION: CSV downloads go through `share_plus` (`XFile.fromData`): share sheet in the app, browser download on the web.
+- ASSUMPTION: The v1 admin app screens were deleted entirely (D11; `/admin*` redirects to `/staff`), including the complaints history screens; the v1 read APIs remain until TASK-14. `admin*` ARB keys were removed.
+- ASSUMPTION: Staff dialogs use `showStaffDialog` (fade, `short`) and toasts `showStaffToast` (fade); the Material date picker keeps its own fade-only dialog route. The staff Scaffolds use `FloatingActionButtonAnimator.noAnimation`.
 
 ## 6. Implementation Steps
 
@@ -428,28 +441,35 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (W-STAFF, branch `v2/task-10-staff-console`)
 
-**Progress:** 0%
+**Progress:** 90% — everything built and tested; emulator / Chrome manual checks (M-10-03…M-10-09) and motion recordings are for the integrator.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migration `20261010100000_v2_moderation`, staff config (STAFF_WEB_ORIGINS, AUDIT_LOG_FILE, AUDIT_RETENTION_DAYS, EXPORT_MAX_ROWS, EXPORT_HMAC_SECRET), CORS preflight, audit v2 (`auditStaff`, dedicated pino-roll destination), `assertWardScope`, error codes | f5b31c0 |
+| 2026-10-04 | Staff API (me, summary, moderation queue, issue tools incl. TASK-06 stand-in status changes, users & roles, categories, settings, export), citizen flags, `staffMatrix.ts`, D11 retirement (rates, invite codes, reminders → 404) | 3832f96 |
+| 2026-10-04 | API tests T-10-01…T-10-14 + CORS/me; seed module 110-moderation; `npm run staff:grant-admin`; API 349 pass / 4 skipped | 5733092 |
+| 2026-10-04 | App: staff session (phone + v1 email), StaffApi, shell (side nav ≥ 840 dp, drawer, header, role chip, forbidden), nav registry, `staffPage`/`showStaffDialog`/`showStaffToast` fades, dashboard, issue tools, ARB (189 keys en+gu) | acdda9f |
+| 2026-10-04 | Moderation, users, categories, settings (election mode via TASK-09 endpoint), exports, login; TASK-08/12 screens mounted in the shell; v1 admin UI deleted, `/admin*` → `/staff` | b3037e9 |
+| 2026-10-04 | `main_staff.dart`, `web/index.html`, sessionStorage store, FlagContentSheet, "Staff tools" row on `/me`; `flutter build web -t lib/main_staff.dart --release` ✓ | fb75e50 |
+| 2026-10-04 | Widget tests W-10-01…W-10-07 + import boundary; Flutter 335 pass; dart analyze 0 issues; format clean | a0fb2a2, f2892cf |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
-- [ ] All behavioral acceptance criteria verified in the running application
-- [ ] Non-functional checklist fully ticked
-- [ ] Static checks pass and every AC verified by the tests and manual checks in §8
-- [ ] Automated tests added and passing
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
-- [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] All implementation steps complete (step 16 issue-detail wiring waits for TASK-07; motion recordings M-10-09 are integrator steps)
+- [ ] All behavioral acceptance criteria verified in the running application (emulator/Chrome M-10-03…M-10-09 pending)
+- [ ] Non-functional checklist fully ticked (keyboard/ChromeVox M-10-08 and 5,000-issue p95 not measured)
+- [x] Static checks pass (tsc, eslint, dart analyze, dart format, `flutter build web -t lib/main_staff.dart --release`)
+- [x] Automated tests added and passing (T-10-01…14, W-10-01…07, import boundary)
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
+- [ ] Error, loading, empty, and unauthorized states verified (widget-tested; on-device pending)
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-10` shows 0 unverified)
 - [ ] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-10: …`
+- [x] Committed as `V2-TASK-10: …`
 - [ ] Validator passes
 - [ ] Staff console matches Neem v2.2 visuals (tokens, type, radii, Rounded icons, no `sunrise`)
-- [ ] Staff motion policy (`short` fades only) implemented; W-10-07 passes; recordings saved to `docs/demo/v2-evidence/motion/` (M-10-09)
+- [ ] Staff motion policy (`short` fades only) implemented; W-10-07 passes; recordings saved to `docs/demo/v2-evidence/motion/` (M-10-09) — implemented + W-10-07 green; recordings pending (integrator)
