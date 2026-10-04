@@ -49,7 +49,12 @@ class ReportSuccessHeroState extends ConsumerState<ReportSuccessHero>
       _circle.duration = scheme.springIn.duration;
       _circle.forward();
     }
-    _haptic = Timer(scheme.drawCheckDelay, () => haptics.success());
+    // The check starts drawing after drawCheckDelay (at once when reduced).
+    if (scheme.drawCheckDelay == Duration.zero) {
+      haptics.success();
+    } else {
+      _haptic = Timer(scheme.drawCheckDelay, () => haptics.success());
+    }
   }
 
   @override

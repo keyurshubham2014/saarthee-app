@@ -104,11 +104,17 @@ class MeTooButtonState extends ConsumerState<MeTooButton> {
     }
     setState(() => phase = MeTooPhase.added);
     final scheme = SaartheeMotion.of(context);
-    final wait = scheme.isReduced
-        ? Duration.zero
-        : scheme.short.duration +
-              scheme.drawCheckDelay +
-              scheme.drawCheck.duration;
+    if (scheme.isReduced) {
+      // Confirmation on the next frame.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) widget.onAdded();
+      });
+      return;
+    }
+    final wait =
+        scheme.short.duration +
+        scheme.drawCheckDelay +
+        scheme.drawCheck.duration;
     _done = Timer(wait, widget.onAdded);
   }
 
