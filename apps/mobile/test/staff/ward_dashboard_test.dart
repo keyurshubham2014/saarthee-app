@@ -66,7 +66,9 @@ void main() {
       expect(find.text('Pothole near the school'), findsOneWidget);
       expect(find.text('15 days old', findRichText: true), findsNothing);
       expect(find.textContaining('15 days old'), findsOneWidget);
-      expect(find.textContaining('5 open issues near'), findsOneWidget);
+      // V2-TASK-14 polish: a human label, never raw coordinates.
+      expect(find.text('5 open issues in one spot'), findsOneWidget);
+      expect(find.textContaining('23.03'), findsNothing);
       expect(find.byKey(const Key('wardDash.election')), findsNothing);
       await t.tap(find.byKey(const Key('wardDash.trendToggle')));
       await t.pump();

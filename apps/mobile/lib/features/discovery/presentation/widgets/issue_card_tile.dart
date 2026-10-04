@@ -14,6 +14,17 @@ String ageLabel(AppLocalizations l10n, DateTime createdAt, {DateTime? now}) {
   return days <= 0 ? l10n.discoveryAgeToday : l10n.discoveryAgeDays(days);
 }
 
+/// The subline under an issue title: only what the title does not already
+/// say. API titles are "Category · Ward" (localised), so [parts] that the
+/// title contains (category, ward) are dropped; [age] is always kept.
+String issueSubline(String title, List<String?> parts, String age) {
+  final extra = [
+    for (final p in parts)
+      if (p != null && p.isNotEmpty && !title.contains(p)) p,
+  ];
+  return [...extra, age].join(' · ');
+}
+
 /// Resolves a server-relative photo URL (`/api/v1/media/…`).
 ImageProvider? apiImage(String? url) => url == null
     ? null
@@ -50,7 +61,7 @@ class IssueCardTile extends StatelessWidget {
       heroId: hero ? issue.id : null,
       title: issue.title,
       categorySlug: issue.categorySlug,
-      wardAndAge: ward == null ? age : '$ward · $age',
+      wardAndAge: issueSubline(issue.title, [ward], age),
       status: issue.status,
       meTooCount: issue.meTooCount,
       overdue: issue.isOverdue,

@@ -84,6 +84,30 @@ void main() {
     expect(find.byKey(const ValueKey('home.alert.a1')), findsOneWidget);
   });
 
+  testWidgets('"All alerts" label sits on the gutter, like the heading', (
+    t,
+  ) async {
+    final alerts = FakeAlertsApi()..active = [alertJson(id: 'a1')];
+    await pumpHome(t, twoIssues(), alerts: alerts);
+    await settle(t);
+    final heading = find
+        .descendant(
+          of: find.byKey(const Key('home.alerts')),
+          matching: find.byType(Text),
+        )
+        .first;
+    final label = find.descendant(
+      of: find.byKey(const Key('home.allAlerts')),
+      matching: find.text('All alerts'),
+    );
+    // Sub-pixel text centring inside the button; before the fix it was 12 dp off.
+    expect(t.getTopLeft(label).dx, closeTo(t.getTopLeft(heading).dx, 1));
+    expect(
+      t.getSize(find.byKey(const Key('home.allAlerts'))).height,
+      greaterThanOrEqualTo(48),
+    );
+  });
+
   testWidgets('W-07-01 empty ward → "No issues reported in Paldi yet."', (
     t,
   ) async {

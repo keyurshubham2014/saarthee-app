@@ -206,7 +206,13 @@ class _AlertsStrip extends StatelessWidget {
         Align(
           alignment: AlignmentDirectional.centerStart,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
+            // The M3 text button insets its label by s12; pull it back so the
+            // label sits on the gutter, aligned with the section heading
+            // (touch target and ink stay intact).
+            padding: const EdgeInsetsDirectional.only(
+              start: AppSpacing.gutter - AppSpacing.s12,
+              end: AppSpacing.gutter,
+            ),
             child: TertiaryButton(
               key: const Key('home.allAlerts'),
               label: l10n.discoveryAllAlerts,

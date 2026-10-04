@@ -93,20 +93,29 @@ class _Dashboard extends ConsumerWidget {
       runSpacing: AppSpacing.s8,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        DropdownButton<String>(
-          key: const Key('wardDash.switcher'),
-          value: ward.id,
-          hint: Text(l10n.wardDashSwitchWard),
-          onChanged: wards.length < 2
-              ? null
-              : (id) => ref.read(selectedWardProvider.notifier).select(id!),
-          items: [
-            for (final w in wards)
-              DropdownMenuItem(
-                value: w.id,
-                child: Text(l10n.wardDashWard(w.number, w.name(lang))),
-              ),
-          ],
+        // Content width, but never wider than the row: a long ward name or
+        // large text ellipsizes instead of overflowing at 360 dp.
+        IntrinsicWidth(
+          child: DropdownButton<String>(
+            key: const Key('wardDash.switcher'),
+            isExpanded: true,
+            value: ward.id,
+            hint: Text(l10n.wardDashSwitchWard),
+            onChanged: wards.length < 2
+                ? null
+                : (id) => ref.read(selectedWardProvider.notifier).select(id!),
+            items: [
+              for (final w in wards)
+                DropdownMenuItem(
+                  value: w.id,
+                  child: Text(
+                    l10n.wardDashWard(w.number, w.name(lang)),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+            ],
+          ),
         ),
         SecondaryButton(
           key: const Key('wardDash.csv'),

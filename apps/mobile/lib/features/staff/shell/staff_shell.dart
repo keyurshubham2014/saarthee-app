@@ -149,6 +149,13 @@ class StaffHeader extends ConsumerWidget implements PreferredSizeWidget {
     final l10n = AppLocalizations.of(context);
     final c = SaartheeColors.of(context);
     final text = Theme.of(context).textTheme;
+    // Below 600 dp the full "Saarthee staff" truncated next to the role chip.
+    final narrow = MediaQuery.sizeOf(context).width < AppSpacing.maxContent;
+    Future<void> signOut() async {
+      await staffSignOut(ref);
+      if (context.mounted) context.go('/staff/login');
+    }
+
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: c.surface,
@@ -175,39 +182,53 @@ class StaffHeader extends ConsumerWidget implements PreferredSizeWidget {
           ],
           Flexible(
             child: Text(
-              l10n.staffConsoleTitle,
+              narrow ? l10n.polishStaffTitleShort : l10n.staffConsoleTitle,
+              key: const Key('staff.title'),
               style: text.titleLarge,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           const SizedBox(width: AppSpacing.s12),
-          Container(
-            key: const Key('staff.roleChip'),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.s12,
-              vertical: AppSpacing.s4,
-            ),
-            decoration: BoxDecoration(
-              color: c.primaryContainer,
-              borderRadius: BorderRadius.circular(AppSpacing.s40),
-            ),
-            child: Text(
-              staffRoleLabel(l10n, staff.role),
-              style: text.labelLarge?.copyWith(color: c.onPrimaryContainer),
+          // Flexible so a long role label (or very large text) ellipsizes
+          // instead of overflowing the bar.
+          Flexible(
+            child: Container(
+              key: const Key('staff.roleChip'),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.s12,
+                vertical: AppSpacing.s4,
+              ),
+              decoration: BoxDecoration(
+                color: c.primaryContainer,
+                borderRadius: BorderRadius.circular(AppSpacing.s40),
+              ),
+              child: Text(
+                staffRoleLabel(l10n, staff.role),
+                style: text.labelLarge?.copyWith(color: c.onPrimaryContainer),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
           ),
         ],
       ),
       actions: [
-        TextButton.icon(
-          key: const Key('staff.signOut'),
-          onPressed: () async {
-            await staffSignOut(ref);
-            if (context.mounted) context.go('/staff/login');
-          },
-          icon: const Icon(SaartheeIcons.logout),
-          label: Text(l10n.staffSignOut),
-        ),
+        // Below 600 dp Sign out is icon-only (tooltip + semantics keep the
+        // label) so the title and role chip both fit.
+        if (narrow)
+          IconButton(
+            key: const Key('staff.signOut'),
+            tooltip: l10n.staffSignOut,
+            onPressed: signOut,
+            icon: const Icon(SaartheeIcons.logout),
+          )
+        else
+          TextButton.icon(
+            key: const Key('staff.signOut'),
+            onPressed: signOut,
+            icon: const Icon(SaartheeIcons.logout),
+            label: Text(l10n.staffSignOut),
+          ),
         const SizedBox(width: AppSpacing.s8),
       ],
       shape: Border(bottom: BorderSide(color: c.border)),
