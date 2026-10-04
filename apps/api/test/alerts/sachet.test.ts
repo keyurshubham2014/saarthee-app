@@ -71,8 +71,8 @@ describe('ingest (drafts only)', () => {
     expect(d).toMatchObject({ status: 'draft', severity: 'warning', type: 'heat', targetScope: 'wards', approvedBy: [], publishedAt: null, createdBy: null });
     expect(d.sourceUrl).toContain('identifier=9990000000000001');
     expect(d.wards.map((w) => w.ward.number).sort()).toEqual([1, 2]);
-    const [{ has_area }] = await prisma.$queryRaw<{ has_area: boolean }[]>`SELECT area IS NOT NULL AS has_area FROM alerts WHERE id = ${d.id}::uuid`;
-    expect(has_area).toBe(true);
+    const [areaRow] = await prisma.$queryRaw<{ has_area: boolean }[]>`SELECT area IS NOT NULL AS has_area FROM alerts WHERE id = ${d.id}::uuid`;
+    expect(areaRow?.has_area).toBe(true);
     const second = await ingestSource(src, { dryRun: false, logger, at: AT });
     expect(second.created).toBe(0);
     expect(await prisma.alert.count({ where: { origin: 'sachet' } })).toBe(2);

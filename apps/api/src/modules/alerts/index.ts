@@ -5,6 +5,7 @@ import { AppError } from '../../lib/errors';
 import { rateLimit } from '../../middleware/rateLimit';
 import { optionalUser, requireUser } from '../../middleware/requireUser';
 import { validate } from '../../middleware/validate';
+import './privacy';
 import { getPublicAlert, listAlerts } from './alerts.service';
 import { listInbox, markRead, markReadBody } from './inbox.service';
 import {
