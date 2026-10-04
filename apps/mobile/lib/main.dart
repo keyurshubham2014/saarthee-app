@@ -10,6 +10,8 @@ import 'app.dart';
 import 'core/config/app_config.dart';
 import 'core/errors/global_error.dart';
 import 'core/settings/app_settings.dart';
+import 'core/settings/preference_sync.dart';
+import 'features/me/application/account_preference_sync.dart';
 import 'router/app_router.dart';
 
 Future<void> main() async {
@@ -18,7 +20,11 @@ Future<void> main() async {
   registerFontLicenses();
   final prefs = await SharedPreferences.getInstance();
   final container = ProviderContainer(
-    overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(prefs),
+      // TASK-04: language / home ward reach the account and push topics.
+      preferenceSyncProvider.overrideWith(AccountPreferenceSync.new),
+    ],
     // Screens retry explicitly; no automatic provider retries.
     retry: (_, _) => null,
   );
@@ -45,6 +51,11 @@ Future<void> main() async {
     ErrorWidget.builder = (_) => GlobalErrorView(
       onGoHome: () => container.read(appRouterProvider).go('/'),
     );
+  }
+
+  // TASK-04: register the device and its topics once onboarding is done.
+  if (container.read(appSettingsProvider).onboardingDone) {
+    unawaited(container.read(pushStartupProvider.future));
   }
 
   runApp(
