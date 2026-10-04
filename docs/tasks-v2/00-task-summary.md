@@ -1,8 +1,8 @@
 # Task Summary — Saarthee v2 (Amdavad civic platform)
 
-**Last Updated:** 2026-10-03
+**Last Updated:** 2026-10-04
 **Overall Progress:** 0 / 14 tasks complete (0%)
-**Current Task:** TASK-01 and TASK-03 (independent; can run in parallel)
+**Current Task:** Wave 2 — TASK-02 (W-API), TASK-04 (W-ACC), TASK-13 (W-OPS)
 **Requirement Coverage (planned):** 119 / 119 active requirements mapped to a task (6 deferred)
 **Requirement Coverage (verified):** 0 / 119 — see [coverage-verification.md](./coverage-verification.md)
 **Source Documents:** `docs/v2/saarthee-v2-spec.md`, `docs/v2/design-system.md`, `docs/research/saarthee-v2-proposal.html`; v1 plan in `docs/tasks/` (foundation reused)
@@ -21,9 +21,9 @@ Prompt template:
 
 | Task | Title | Status | Priority | Size | Depends On | Progress |
 |---|---|---|---|---|---|---|
-| TASK-01 | Platform upgrade: PostGIS, v2 data model, legacy migration, test harness | Not Started | P0 | L | None | 0% |
+| TASK-01 | Platform upgrade: PostGIS, v2 data model, legacy migration, test harness | In Review | P0 | L | None | 95% |
 | TASK-02 | Wards, zones and geo services | Not Started | P0 | M | TASK-01 | 0% |
-| TASK-03 | Neem design system, motion system, app shell and onboarding | Not Started | P0 | L | None | 0% |
+| TASK-03 | Neem design system, motion system, app shell and onboarding | In Review | P0 | L | None | 90% |
 | TASK-04 | Citizen accounts, privacy and push foundation | Not Started | P0 | L | TASK-01, TASK-03 | 0% |
 | TASK-05 | Standalone issue reporting | Not Started | P0 | L | TASK-02, TASK-04 | 0% |
 | TASK-06 | Issue lifecycle, verification and escalation | Not Started | P0 | L | TASK-05 | 0% |
@@ -50,7 +50,7 @@ Status vocabulary: `Not Started`, `In Progress`, `Blocked`, `In Review`, `Comple
 | Ops | TASK-13 (any time after TASK-01; must finish before TASK-14) |
 | Launch | TASK-14 last |
 
-**Ready now:** TASK-01, TASK-03
+**Ready now:** TASK-02, TASK-04, TASK-13
 **Blocked:** none
 
 ### Milestones
@@ -146,5 +146,6 @@ A task is `Complete` only when its acceptance criteria are verified in the runni
 
 | Date | Change |
 |---|---|
+| 2026-10-04 | Wave 1 merged to main: TASK-01 (75 API tests green; native arm64 PostGIS image `infra/postgis/Dockerfile`), TASK-03 (114 Flutter tests green) and V2-BRAND identity (mark variant E "road turn", adaptive/themed launcher icons, splash light/dark, notification icon, web/Play assets, brand guide in `docs/brand/`). Both tasks In Review pending emulator checks |
 | 2026-10-03 | Founder chose design direction B "Neem" (from `docs/v2/design-options.html`) and fonts A Baloo Bhai 2 + Mukta Vaani (from `docs/v2/font-options.html`); design system v2.2 adds DS §6 Motion. New requirements REQ-F-062..066 (feature motion, TASK-05/06/07/08/11) and REQ-N-012..013 (motion system TASK-03, motion performance TASK-14). 119 active |
 | 2026-10-03 | v2 plan created from the research proposal, the v1 code audit and the founder's direction (standalone platform, corporators, alerts, services, professional design). 14 tasks, 112 active requirements, 5 deferred |
