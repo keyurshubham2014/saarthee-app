@@ -41,3 +41,6 @@ apps/mobile/ios/Pods/
 *service-account*.json
 /.firebase/
 firebase-debug.log
+
+# TASK-14 privacy sweep scratch (logs of the local API run)
+/.privacy-run/

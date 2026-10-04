@@ -17,6 +17,7 @@ import { requireStaff } from '../../middleware/requireStaff';
 import { requireUser } from '../../middleware/requireUser';
 import { validate } from '../../middleware/validate';
 import { openPhoto } from '../photos/read.service';
+import './privacy';
 import { myClaims, submitClaim, withdrawClaim, type ClaimInput } from './claims.service';
 import { claimDetail, decideClaim, listClaims, revokeVerification, VERIFIED_METHODS, type Decision } from './review.service';
 
