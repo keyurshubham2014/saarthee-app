@@ -23,12 +23,27 @@ class WardException implements Exception {
   String toString() => 'WardException($failure)';
 }
 
+/// `422 OUTSIDE_SERVICE_AREA` from `/geo/locate`: a valid point that no
+/// ward can be assigned to (TASK-02 §5.3).
+class OutsideServiceArea extends WardException {
+  const OutsideServiceArea() : super(WardFailure.outsideCity);
+
+  static const code = 'OUTSIDE_SERVICE_AREA';
+}
+
 /// Ward list with where it came from.
 class WardsResult {
-  const WardsResult(this.wards, {required this.fromCache});
+  const WardsResult(
+    this.wards, {
+    required this.fromCache,
+    this.boundaryVersion,
+  });
 
   final List<Ward> wards;
   final bool fromCache;
+
+  /// `boundaryVersion` of the list (null for caches written before v2.2).
+  final String? boundaryVersion;
 }
 
 /// Wards data access (TASK-03 §5.3): `GET /wards` and `GET /geo/locate`.
@@ -82,67 +97,97 @@ class ApiWardsRepository implements WardsRepository {
 
   @override
   Future<WardsResult> listWards() async {
+    final WardsResult fresh;
     try {
       final res = await _get('/wards');
-      final wards = parseWards(res.data);
-      await prefs.setString(
-        PrefKeys.wardsCache,
-        jsonEncode({
-          'fetchedAt': DateTime.now().toUtc().toIso8601String(),
-          'items': [for (final w in wards) w.toJson()],
-        }),
-      );
-      return WardsResult(wards, fromCache: false);
+      fresh = parseResult(res.data, fromCache: false);
+      if (fresh.wards.isEmpty) throw const FormatException('wards: empty');
     } catch (_) {
       final cached = readCache(prefs);
-      if (cached != null && cached.isNotEmpty) {
-        return WardsResult(cached, fromCache: true);
-      }
+      if (cached != null && cached.wards.isNotEmpty) return cached;
       throw const WardException(WardFailure.unavailable);
     }
+    await _writeCacheIfChanged(fresh);
+    return fresh;
+  }
+
+  /// `v2.wardsCache` = `{fetchedAt, boundaryVersion, items}`. Replaced when
+  /// the API's `boundaryVersion` or any ward differs from what is stored.
+  Future<void> _writeCacheIfChanged(WardsResult fresh) async {
+    final items = [for (final w in fresh.wards) w.toJson()];
+    final raw = prefs.getString(PrefKeys.wardsCache);
+    if (raw != null) {
+      try {
+        final old = jsonDecode(raw) as Map<String, dynamic>;
+        if (old['boundaryVersion'] == fresh.boundaryVersion &&
+            jsonEncode(old['items']) == jsonEncode(items)) {
+          return;
+        }
+      } catch (_) {
+        // Unreadable cache: overwrite it below.
+      }
+    }
+    await prefs.setString(
+      PrefKeys.wardsCache,
+      jsonEncode({
+        'fetchedAt': DateTime.now().toUtc().toIso8601String(),
+        'boundaryVersion': fresh.boundaryVersion,
+        'items': items,
+      }),
+    );
   }
 
   @override
   Future<WardLocateResult> locate(double lat, double lng) async {
+    final Response<dynamic> res;
     try {
-      final res = await _get('/geo/locate', {
+      res = await _get('/geo/locate', {
         'lat': lat.toStringAsFixed(6),
         'lng': lng.toStringAsFixed(6),
       });
-      final data = res.data;
-      if (data is! Map<String, dynamic> || data['ward'] is! Map) {
-        throw const WardException(WardFailure.notFound);
-      }
-      final wardJson = Map<String, dynamic>.from(data['ward'] as Map);
-      if (wardJson['zone'] == null && data['zone'] is Map) {
-        wardJson['zone'] = data['zone'];
-      }
-      return WardLocateResult(
-        ward: Ward.fromJson(wardJson),
-        confirm: data['confirm'] == true,
-      );
     } on DioException catch (e) {
       final status = e.response?.statusCode;
-      if (status == 422) throw const WardException(WardFailure.outsideCity);
+      if (status == 422 || AppError.from(e).code == OutsideServiceArea.code) {
+        throw const OutsideServiceArea();
+      }
       if (status == 404) throw const WardException(WardFailure.notFound);
       throw const WardException(WardFailure.unavailable);
     }
+    final data = res.data;
+    if (data is! Map<String, dynamic> || data['ward'] is! Map) {
+      throw const WardException(WardFailure.notFound);
+    }
+    try {
+      return WardLocateResult.fromJson(data);
+    } catch (_) {
+      throw const WardException(WardFailure.notFound);
+    }
   }
 
-  static List<Ward> parseWards(Object? data) {
+  /// `{items:[WardSummary], boundaryVersion}` (or a bare list) → wards
+  /// sorted by number.
+  static WardsResult parseResult(Object? data, {required bool fromCache}) {
     final items = data is Map<String, dynamic> ? data['items'] : data;
     if (items is! List) throw const FormatException('wards: no items');
-    return [
+    final wards = [
       for (final i in items)
-        if (i is Map<String, dynamic>) Ward.fromJson(i),
+        if (i is Map) Ward.fromJson(Map<String, dynamic>.from(i)),
     ]..sort((a, b) => a.number.compareTo(b.number));
+    final version = data is Map<String, dynamic>
+        ? data['boundaryVersion'] as String?
+        : null;
+    return WardsResult(wards, fromCache: fromCache, boundaryVersion: version);
   }
 
-  static List<Ward>? readCache(SharedPreferences prefs) {
+  static List<Ward> parseWards(Object? data) =>
+      parseResult(data, fromCache: false).wards;
+
+  /// The cached list (`fromCache: true`), or null when absent/unreadable.
+  static WardsResult? readCache(SharedPreferences prefs) {
     final raw = prefs.getString(PrefKeys.wardsCache);
     if (raw == null) return null;
     try {
-      return parseWards(jsonDecode(raw));
+      return parseResult(jsonDecode(raw), fromCache: true);
     } catch (_) {
       return null;
     }
