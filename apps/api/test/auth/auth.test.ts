@@ -37,6 +37,16 @@ describe('POST /auth/firebase', () => {
     expect((await prisma.user.findUniqueOrThrow({ where: { id: row.id } })).firebaseUid).toBe('uid-b');
   });
 
+  it('existing user takes the app language at sign-in; an existing home ward is kept', async () => {
+    const phone = testPhone();
+    const first = await post(signInBody(gw.issueToken({ uid: 'uid-l', phone }), { language: 'gu' }));
+    expect(first.body.user.language).toBe('gu');
+    const again = await post(signInBody(gw.issueToken({ uid: 'uid-l', phone }), { language: 'en' }));
+    expect(again.status).toBe(200);
+    expect(again.body.user.language).toBe('en');
+    expect((await prisma.user.findUniqueOrThrow({ where: { id: first.body.user.id } })).language).toBe('en');
+  });
+
   it('records optional consents and links the install', async () => {
     const installId = '7a0d7c2e-4c69-4a8e-9a43-0f8a1d7b5c11';
     await prisma.device.create({ data: { installId, platform: 'android', appVersion: '2.0.0' } });

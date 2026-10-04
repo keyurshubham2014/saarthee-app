@@ -64,6 +64,8 @@ export async function signInWithFirebase(input: SignInInput, requestId: string):
             firebaseUid: identity.uid,
             phoneE164: identity.phoneE164,
             ...(existing.ageConfirmedAt ? {} : { ageConfirmedAt: now }),
+            // The app's current language wins so the UI and server-sent text (inbox, push) agree.
+            language: input.language,
             ...(!existing.homeWardId && input.homeWardId ? { homeWardId: input.homeWardId } : {}),
             lastSeenAt: now,
           },
