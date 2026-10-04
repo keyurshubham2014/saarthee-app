@@ -153,7 +153,10 @@ class SaartheeAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Text(
               title,
               style: theme.textTheme.headlineSmall,
-              maxLines: 2,
+              // One line: the toolbar is kToolbarHeight tall, so a second line
+              // overflowed into the status bar on long titles (detail screens
+              // repeat the full title in their body; TalkBack reads it whole).
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
           ),
