@@ -4552,7 +4552,7 @@
   "@repClaimNo": {
     "x-review": "pending"
   },
-  "repClaimEvidenceCount": "{count} ફોટા",
+  "repClaimEvidenceCount": "{count, plural, =1{1 ફોટો} other{{count} ફોટા}}",
   "@repClaimEvidenceCount": {
     "x-review": "pending"
   },

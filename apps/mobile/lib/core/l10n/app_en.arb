@@ -5092,7 +5092,7 @@
   "@repClaimNo": {
     "description": "TASK-11 representative claim / ward dashboard / messages"
   },
-  "repClaimEvidenceCount": "{count} photos",
+  "repClaimEvidenceCount": "{count, plural, =1{1 photo} other{{count} photos}}",
   "@repClaimEvidenceCount": {
     "description": "TASK-11 representative claim / ward dashboard / messages",
     "placeholders": {
