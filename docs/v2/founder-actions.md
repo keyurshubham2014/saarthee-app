@@ -93,6 +93,14 @@ as described in TASK-13.
 
 **Unblocks:** REQ-O-011 and the final move of tasks from In Review to Complete.
 
+**Also decide during the Gujarati review (from the 2026-10-04 Gujarati pass):**
+- Glossary choices to confirm: tab "નોંધાવો", report noun "રિપોર્ટ", ફરિયાદ only for AMC complaints, alert "ચેતવણી" (vs "એલર્ટ"), Warning "સાવધાન", statuses ઉકેલાઈ / ચકાસાઈ / ફરી ખૂલી, spellings ઑફિસ / ઑફલાઇન.
+- Ward office addresses: `officeAddressGu` is empty for all 48 wards, so Gujarati users see English addresses. Take them from AMC's Gujarati pages.
+- Fields that hold one language only (alert source name, retraction reason, party name, initiative organiser): add Gujarati columns, or keep the "AMC (નમૂનો / sample)" style.
+- Gujarati CCRS reminder: set `REMINDER_TEMPLATE_VERSION=v2` when approved.
+- Server-written Gujarati to review: escalation letter, relay email, share page `/i/{id}?lang=gu`.
+- The English copy mixes "Ahmedabad" and "Amdavad"; pick one.
+
 ## 6. Decision on voice input (REQ-F-019)
 
 **Current state:** Not built in v2. The description is typed only. The `speech_to_text` native plugin could not be
