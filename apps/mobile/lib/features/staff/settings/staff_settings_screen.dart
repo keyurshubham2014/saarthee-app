@@ -13,17 +13,28 @@ import '../shell/staff_session.dart';
 import 'election_mode_section.dart';
 
 /// Feature flags shown under "Features" (TASK-10 §5.2 allow-list).
-const staffFeatureKeys = ['relay_enabled', 'alerts_feed_drafts_enabled', 'scorecard_public', 'moderation_sensitive_review'];
+const staffFeatureKeys = [
+  'relay_enabled',
+  'alerts_feed_drafts_enabled',
+  'scorecard_public',
+  'moderation_sensitive_review',
+];
 
-final staffSettingsProvider = FutureProvider.autoDispose<Map<String, Object?>>((ref) async {
+final staffSettingsProvider = FutureProvider.autoDispose<Map<String, Object?>>((
+  ref,
+) async {
   final j = await ref.watch(staffApiProvider).settings();
-  return {for (final i in (j['items'] as List)) '${(i as Map)['key']}': i['value']};
+  return {
+    for (final i in (j['items'] as List)) '${(i as Map)['key']}': i['value'],
+  };
 });
 
 /// `GET /staff/settings/election-mode` (TASK-09's endpoint).
 final staffElectionModeProvider = FutureProvider.autoDispose<Json>((ref) async {
   final headers = ref.watch(staffAuthHeadersProvider);
-  return ref.watch(apiClientProvider).getJson('/staff/settings/election-mode', headers: headers);
+  return ref
+      .watch(apiClientProvider)
+      .getJson('/staff/settings/election-mode', headers: headers);
 });
 
 /// Settings (TASK-10 §5.4): Election mode (through TASK-09's endpoint) and
@@ -41,7 +52,12 @@ class StaffSettingsScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(AppSpacing.gutter),
         children: [
           if (!admin)
-            NoticeBanner(key: const Key('staff.settings.readOnly'), kind: NoticeKind.info, message: l10n.staffSettingsReadOnly, rounded: true),
+            NoticeBanner(
+              key: const Key('staff.settings.readOnly'),
+              kind: NoticeKind.info,
+              message: l10n.staffSettingsReadOnly,
+              rounded: true,
+            ),
           StaffSectionTitle(l10n.staffSettingsElection),
           StaffCard(
             child: StaffAsync<Json>(
@@ -68,10 +84,20 @@ class StaffSettingsScreen extends ConsumerWidget {
                           ? null
                           : (v) async {
                               try {
-                                await ref.read(staffApiProvider).putSetting(key, v);
-                                if (context.mounted) showStaffToast(context, l10n.staffDone);
+                                await ref
+                                    .read(staffApiProvider)
+                                    .putSetting(key, v);
+                                if (context.mounted) {
+                                  showStaffToast(context, l10n.staffDone);
+                                }
                               } catch (e) {
-                                if (context.mounted) showStaffToast(context, staffErrorText(l10n, e), error: true);
+                                if (context.mounted) {
+                                  showStaffToast(
+                                    context,
+                                    staffErrorText(l10n, e),
+                                    error: true,
+                                  );
+                                }
                               }
                               ref.invalidate(staffSettingsProvider);
                             },

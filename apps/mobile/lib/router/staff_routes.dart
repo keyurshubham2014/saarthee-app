@@ -39,7 +39,8 @@ final List<RouteBase> staffRoutes = <RouteBase>[
       staffRoute(
         path: '/staff/moderation',
         redirect: (c, s) => staffSignedInRedirect(c, s),
-        builder: (_, s) => StaffModerationScreen(initialTab: s.uri.queryParameters['tab']),
+        builder: (_, s) =>
+            StaffModerationScreen(initialTab: s.uri.queryParameters['tab']),
       ),
       staffRoute(
         path: '/staff/issues/:id',

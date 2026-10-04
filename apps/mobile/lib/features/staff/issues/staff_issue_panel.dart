@@ -58,19 +58,32 @@ class _Body extends ConsumerWidget {
         if (issue.hidden)
           Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.s12),
-            child: NoticeBanner(key: const Key('staff.issue.hiddenBanner'), kind: NoticeKind.info, message: l10n.staffIssueHiddenBanner, rounded: true),
+            child: NoticeBanner(
+              key: const Key('staff.issue.hiddenBanner'),
+              kind: NoticeKind.info,
+              message: l10n.staffIssueHiddenBanner,
+              rounded: true,
+            ),
           ),
         Row(
           children: [
             CategoryBadge(slug: issue.categorySlug),
             const SizedBox(width: AppSpacing.s12),
             Expanded(child: Text(issue.title, style: text.titleLarge)),
-            if (status != null) StatusChip(status: status) else ToneChip(tone: IssueStatusStyle.styles[IssueStatus.reported]!, label: l10n.staffStatusMerged),
+            if (status != null)
+              StatusChip(status: status)
+            else
+              ToneChip(
+                tone: IssueStatusStyle.styles[IssueStatus.reported]!,
+                label: l10n.staffStatusMerged,
+              ),
           ],
         ),
         const SizedBox(height: AppSpacing.s8),
         Text(
-          ward == null ? l10n.staffIssueResidentUnknown : l10n.staffIssueResident(ward.name(lang)),
+          ward == null
+              ? l10n.staffIssueResidentUnknown
+              : l10n.staffIssueResident(ward.name(lang)),
           key: const Key('staff.issue.resident'),
           style: text.bodyMedium?.copyWith(color: c.textSecondary),
         ),
@@ -94,8 +107,13 @@ class _Body extends ConsumerWidget {
                   height: 120,
                   child: PhotoThumb(
                     key: Key('staff.issue.photo.${p.kind}'),
-                    semanticLabel: p.kind == 'after' ? l10n.staffIssueAfter : l10n.staffIssuePhotos,
-                    image: NetworkImage(Uri.parse(AppConfig.apiBaseUrl).resolve(p.url).toString(), headers: headers),
+                    semanticLabel: p.kind == 'after'
+                        ? l10n.staffIssueAfter
+                        : l10n.staffIssuePhotos,
+                    image: NetworkImage(
+                      Uri.parse(AppConfig.apiBaseUrl).resolve(p.url).toString(),
+                      headers: headers,
+                    ),
                   ),
                 ),
             ],
@@ -112,9 +130,17 @@ class _Body extends ConsumerWidget {
           ListRow(
             key: Key('staff.issue.event.${e.id}'),
             showChevron: false,
-            leading: Icon(e.hidden ? SaartheeIcons.visibilityOff : SaartheeIcons.schedule, color: c.textSecondary),
-            title: e.hidden ? l10n.staffCommentHidden : staffEventLabel(l10n, e.type, e.toStatus),
-            subtitle: [Formatters.dateTime(e.createdAt), if (e.note != null && !e.hidden) e.note!].join(' · '),
+            leading: Icon(
+              e.hidden ? SaartheeIcons.visibilityOff : SaartheeIcons.schedule,
+              color: c.textSecondary,
+            ),
+            title: e.hidden
+                ? l10n.staffCommentHidden
+                : staffEventLabel(l10n, e.type, e.toStatus),
+            subtitle: [
+              Formatters.dateTime(e.createdAt),
+              if (e.note != null && !e.hidden) e.note!,
+            ].join(' · '),
           ),
       ],
     );

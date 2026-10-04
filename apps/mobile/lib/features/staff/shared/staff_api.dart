@@ -17,8 +17,11 @@ class StaffApi {
 
   Future<Json> _get(String path, [Map<String, dynamic>? query]) =>
       _client.getJson(path, query: query, headers: _headers);
-  Future<Json> _post(String path, [Object? body]) =>
-      _client.postJson(path, body: body ?? const <String, dynamic>{}, headers: _headers);
+  Future<Json> _post(String path, [Object? body]) => _client.postJson(
+    path,
+    body: body ?? const <String, dynamic>{},
+    headers: _headers,
+  );
 
   Future<Json> summary() => _get('/staff/summary');
 
@@ -102,7 +105,11 @@ class StaffApi {
             contentType: DioMediaType('image', 'jpeg'),
           ),
         }),
-        options: Options(headers: _headers, sendTimeout: kUploadTimeout, receiveTimeout: kUploadTimeout),
+        options: Options(
+          headers: _headers,
+          sendTimeout: kUploadTimeout,
+          receiveTimeout: kUploadTimeout,
+        ),
       );
       return '${(res.data as Map)['photoId']}';
     } catch (e) {

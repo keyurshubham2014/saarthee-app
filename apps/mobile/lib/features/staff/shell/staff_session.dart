@@ -46,6 +46,7 @@ class StaffMe {
 class StaffEmailSession extends Notifier<String?> {
   static const tokenKey = 'saarthee.staff.adminToken';
   static const expiryKey = 'saarthee.staff.adminTokenExpiry';
+
   /// 12 h in milliseconds (no `Duration` literals in features).
   static const maxAgeMs = 12 * 60 * 60 * 1000;
 
@@ -139,8 +140,9 @@ final staffMeProvider = FutureProvider<StaffMe>((ref) async {
     throw StaffAccessException(switch (e.code) {
       'ACCOUNT_SUSPENDED' => StaffAccess.suspended,
       'FORBIDDEN' => StaffAccess.notStaff,
-      'AUTH_REQUIRED' || 'TOKEN_REVOKED' || 'TOKEN_EXPIRED' =>
-        StaffAccess.signedOut,
+      'AUTH_REQUIRED' ||
+      'TOKEN_REVOKED' ||
+      'TOKEN_EXPIRED' => StaffAccess.signedOut,
       _ => StaffAccess.error,
     });
   }
@@ -157,13 +159,18 @@ Future<void> staffSignOut(WidgetRef ref) async {
 
 /// Router guard for `/staff/*` (UX only — the API is authoritative): no
 /// phone session and no email session → `/staff/login`.
-Future<String?> staffSignedInRedirect(BuildContext context, GoRouterStateLike state) async {
+Future<String?> staffSignedInRedirect(
+  BuildContext context,
+  GoRouterStateLike state,
+) async {
   final container = ProviderScope.containerOf(context, listen: false);
   await container.read(sessionProvider.notifier).ready;
   if (container.read(sessionProvider).signedIn) return null;
   container.read(staffEmailSessionProvider);
   await container.read(staffEmailSessionProvider.notifier).ready;
-  final signedIn = container.read(sessionProvider).signedIn || container.read(staffEmailSessionProvider) != null;
+  final signedIn =
+      container.read(sessionProvider).signedIn ||
+      container.read(staffEmailSessionProvider) != null;
   return signedIn ? null : '/staff/login';
 }
 

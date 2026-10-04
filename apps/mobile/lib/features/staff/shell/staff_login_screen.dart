@@ -41,15 +41,19 @@ class _StaffLoginScreenState extends ConsumerState<StaffLoginScreen> {
       _error = null;
     });
     try {
-      await ref.read(staffEmailSessionProvider.notifier).signIn(_email.text, _password.text);
+      await ref
+          .read(staffEmailSessionProvider.notifier)
+          .signIn(_email.text, _password.text);
       ref.invalidate(staffMeProvider);
       if (mounted) context.go('/staff');
     } on AppError catch (e) {
-      setState(() => _error = switch (e.code) {
-        'INVALID_CREDENTIALS' || 'VALIDATION_FAILED' => l10n.staffLoginFailed,
-        'ADMIN_DISABLED' => l10n.staffLoginSuspended,
-        _ => l10n.staffLoadError,
-      });
+      setState(
+        () => _error = switch (e.code) {
+          'INVALID_CREDENTIALS' || 'VALIDATION_FAILED' => l10n.staffLoginFailed,
+          'ADMIN_DISABLED' => l10n.staffLoginSuspended,
+          _ => l10n.staffLoadError,
+        },
+      );
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -71,14 +75,22 @@ class _StaffLoginScreenState extends ConsumerState<StaffLoginScreen> {
                 children: [
                   Text(l10n.staffConsoleTitle, style: text.titleMedium),
                   const SizedBox(height: AppSpacing.s8),
-                  Semantics(header: true, child: Text(l10n.staffLoginTitle, style: text.headlineSmall)),
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      l10n.staffLoginTitle,
+                      style: text.headlineSmall,
+                    ),
+                  ),
                   const SizedBox(height: AppSpacing.s24),
                   PrimaryButton(
                     key: const Key('staff.login.phone'),
                     label: l10n.staffLoginPhone,
                     icon: SaartheeIcons.phone,
                     onPressed: () async {
-                      final ok = await context.push<bool>(signInLocation(from: '/staff'));
+                      final ok = await context.push<bool>(
+                        signInLocation(from: '/staff'),
+                      );
                       ref.invalidate(staffMeProvider);
                       if (ok == true && context.mounted) context.go('/staff');
                     },
@@ -96,7 +108,9 @@ class _StaffLoginScreenState extends ConsumerState<StaffLoginScreen> {
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
                       autofillHints: const [AutofillHints.email],
-                      decoration: InputDecoration(labelText: l10n.staffLoginEmail),
+                      decoration: InputDecoration(
+                        labelText: l10n.staffLoginEmail,
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.s12),
                     TextField(
@@ -104,15 +118,25 @@ class _StaffLoginScreenState extends ConsumerState<StaffLoginScreen> {
                       controller: _password,
                       obscureText: true,
                       autofillHints: const [AutofillHints.password],
-                      decoration: InputDecoration(labelText: l10n.staffLoginPassword),
+                      decoration: InputDecoration(
+                        labelText: l10n.staffLoginPassword,
+                      ),
                       onSubmitted: (_) => _signIn(),
                     ),
                     const SizedBox(height: AppSpacing.s16),
-                    SecondaryButton(key: const Key('staff.login.submit'), label: l10n.staffLoginSubmit, isLoading: _busy, onPressed: _signIn),
+                    SecondaryButton(
+                      key: const Key('staff.login.submit'),
+                      label: l10n.staffLoginSubmit,
+                      isLoading: _busy,
+                      onPressed: _signIn,
+                    ),
                   ],
                   if (_error != null) ...[
                     const SizedBox(height: AppSpacing.s12),
-                    InlineFieldError(key: const Key('staff.login.error'), message: _error!),
+                    InlineFieldError(
+                      key: const Key('staff.login.error'),
+                      message: _error!,
+                    ),
                   ],
                 ],
               ),

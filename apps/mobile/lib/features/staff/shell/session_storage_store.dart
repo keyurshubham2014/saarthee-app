@@ -6,7 +6,8 @@ import 'session_storage_backend_stub.dart'
 /// tab's `sessionStorage` so a reload keeps the session; never
 /// `localStorage`. Off the web it is memory only.
 class SessionStorageStore implements SecureStore {
-  SessionStorageStore([SessionBackend? backend]) : _backend = backend ?? SessionBackend();
+  SessionStorageStore([SessionBackend? backend])
+    : _backend = backend ?? SessionBackend();
 
   final SessionBackend _backend;
   final Map<String, String> _memory = {};

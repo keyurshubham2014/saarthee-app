@@ -42,10 +42,7 @@ GoRoute staffRoute({
 );
 
 /// Confirm / form dialog with a `short` fade (no scale).
-Future<T?> showStaffDialog<T>(
-  BuildContext context,
-  WidgetBuilder builder,
-) {
+Future<T?> showStaffDialog<T>(BuildContext context, WidgetBuilder builder) {
   final duration = staffFade(context);
   return showGeneralDialog<T>(
     context: context,
@@ -63,7 +60,11 @@ OverlayEntry? _toast;
 
 /// Staff toast: fades in and out over `short`, holds `toastHold`, announced
 /// to screen readers. No slide, spring or haptics (web).
-void showStaffToast(BuildContext context, String message, {bool error = false}) {
+void showStaffToast(
+  BuildContext context,
+  String message, {
+  bool error = false,
+}) {
   final overlay = Overlay.maybeOf(context, rootOverlay: true);
   if (overlay == null) return;
   final duration = staffFade(context);
@@ -145,9 +146,8 @@ class _StaffToastState extends State<_StaffToast> {
                 ),
                 child: Text(
                   widget.message,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: c.onToast),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: c.onToast),
                 ),
               ),
             ),

@@ -30,7 +30,15 @@ class FakeSession extends SessionController {
   SessionState build() => SessionState(
     token: 'session-jwt',
     restored: true,
-    me: Me(id: 'me-1', displayName: 'Esha', phoneMasked: null, language: 'en', role: role, homeWard: null, consents: const []),
+    me: Me(
+      id: 'me-1',
+      displayName: 'Esha',
+      phoneMasked: null,
+      language: 'en',
+      role: role,
+      homeWard: null,
+      consents: const [],
+    ),
   );
 
   @override
@@ -40,7 +48,11 @@ class FakeSession extends SessionController {
 /// Records calls; answers with canned JSON. Unlisted calls throw.
 class FakeStaffApi implements StaffApi {
   final calls = <String>[];
-  Json summaryJson = {'queues': {'sensitive': 1, 'flagged': 2, 'outOfArea': 0}, 'alertsAwaitingApproval': 3, 'openFlags': 2};
+  Json summaryJson = {
+    'queues': {'sensitive': 1, 'flagged': 2, 'outOfArea': 0},
+    'alertsAwaitingApproval': 3,
+    'openFlags': 2,
+  };
   Map<String, List<Json>> queues = {};
   Map<String, Json> issues = {};
   List<Json> candidates = [];
@@ -61,22 +73,34 @@ class FakeStaffApi implements StaffApi {
   @override
   Future<Json> summary() async => summaryJson;
   @override
-  Future<Json> queue(String queue, {String? cursor}) async => {'items': queues[queue] ?? const <Json>[], 'nextCursor': null};
+  Future<Json> queue(String queue, {String? cursor}) async => {
+    'items': queues[queue] ?? const <Json>[],
+    'nextCursor': null,
+  };
   @override
   Future<Json> issue(String id) async => issues[id]!;
   @override
   Future<Json> mergeCandidates(String id) async => {'items': candidates};
   @override
-  Future<Json> reviewed(String id) => _maybeFail('reviewed:$id', () => issues[id]!);
+  Future<Json> reviewed(String id) =>
+      _maybeFail('reviewed:$id', () => issues[id]!);
   @override
-  Future<Json> reject(String id, String reason, String? note) => _maybeFail('reject:$id:$reason', () => issues[id]!);
+  Future<Json> reject(String id, String reason, String? note) =>
+      _maybeFail('reject:$id:$reason', () => issues[id]!);
   @override
-  Future<Json> merge(String id, String targetId) => _maybeFail('merge:$id:$targetId', () => issues[id]!);
+  Future<Json> merge(String id, String targetId) =>
+      _maybeFail('merge:$id:$targetId', () => issues[id]!);
   @override
-  Future<Json> hide(String id, String reason, {bool hidden = true}) => _maybeFail('hide:$id:$hidden', () => issues[id]!);
+  Future<Json> hide(String id, String reason, {bool hidden = true}) =>
+      _maybeFail('hide:$id:$hidden', () => issues[id]!);
   @override
-  Future<Json> status(String id, String to, {String? note, List<String> photoIds = const [], String? expectedStatus}) =>
-      _maybeFail('status:$id:$to:${photoIds.join(',')}', () => issues[id]!);
+  Future<Json> status(
+    String id,
+    String to, {
+    String? note,
+    List<String> photoIds = const [],
+    String? expectedStatus,
+  }) => _maybeFail('status:$id:$to:${photoIds.join(',')}', () => issues[id]!);
   @override
   Future<String> uploadPhoto(List<int> bytes) async {
     calls.add('upload:${bytes.length}');
@@ -93,8 +117,14 @@ class FakeStaffApi implements StaffApi {
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-StaffMe staffMe(String role, {String kind = 'user'}) =>
-    StaffMe(actorId: 'me-1', actorKind: kind, role: role, displayName: 'Esha', wardIds: const [], nav: const []);
+StaffMe staffMe(String role, {String kind = 'user'}) => StaffMe(
+  actorId: 'me-1',
+  actorKind: kind,
+  role: role,
+  displayName: 'Esha',
+  wardIds: const [],
+  nav: const [],
+);
 
 /// Pumps the staff console at [location] as [role] on a [size] window.
 Future<({FakeStaffApi api, GoRouter router})> pumpStaff(

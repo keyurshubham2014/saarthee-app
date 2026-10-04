@@ -4,7 +4,14 @@ import '../moderation/moderation_models.dart';
 import '../shared/staff_api.dart';
 
 class StaffFlag {
-  const StaffFlag({required this.id, required this.targetType, required this.targetId, required this.reason, required this.note, required this.status});
+  const StaffFlag({
+    required this.id,
+    required this.targetType,
+    required this.targetId,
+    required this.reason,
+    required this.note,
+    required this.status,
+  });
 
   final String id, targetType, targetId, reason, status;
   final String? note;
@@ -105,7 +112,13 @@ class StaffIssue {
     );
   }
 
-  final String id, title, status, categoryId, categorySlug, categoryNameEn, categoryNameGu;
+  final String id,
+      title,
+      status,
+      categoryId,
+      categorySlug,
+      categoryNameEn,
+      categoryNameGu;
   final String? description, reporterId;
   final bool hidden, isSensitive, moderated;
   final double lat, lng;
@@ -115,34 +128,52 @@ class StaffIssue {
   final List<StaffFlag> flags;
   final List<StaffEvent> timeline;
 
-  bool get closed => status == 'rejected' || status == 'merged' || status == 'verified';
-  bool get canAcknowledge => const ['reported', 'sent', 'reopened'].contains(status);
-  bool get canStart => const ['reported', 'sent', 'acknowledged', 'reopened'].contains(status);
-  bool get canMarkFixed => const ['reported', 'sent', 'acknowledged', 'in_progress', 'reopened'].contains(status);
+  bool get closed =>
+      status == 'rejected' || status == 'merged' || status == 'verified';
+  bool get canAcknowledge =>
+      const ['reported', 'sent', 'reopened'].contains(status);
+  bool get canStart =>
+      const ['reported', 'sent', 'acknowledged', 'reopened'].contains(status);
+  bool get canMarkFixed => const [
+    'reported',
+    'sent',
+    'acknowledged',
+    'in_progress',
+    'reopened',
+  ].contains(status);
 }
 
-final staffIssueProvider = FutureProvider.autoDispose.family<StaffIssue, String>(
-  (ref, id) async => StaffIssue.fromJson(await ref.watch(staffApiProvider).issue(id)),
-);
+final staffIssueProvider = FutureProvider.autoDispose
+    .family<StaffIssue, String>(
+      (ref, id) async =>
+          StaffIssue.fromJson(await ref.watch(staffApiProvider).issue(id)),
+    );
 
 class MergeCandidate {
-  const MergeCandidate({required this.id, required this.title, required this.distanceM, required this.far, required this.categorySlug});
+  const MergeCandidate({
+    required this.id,
+    required this.title,
+    required this.distanceM,
+    required this.far,
+    required this.categorySlug,
+  });
 
   final String id, title, categorySlug;
   final int distanceM;
   final bool far;
 }
 
-final mergeCandidatesProvider = FutureProvider.autoDispose.family<List<MergeCandidate>, String>((ref, id) async {
-  final j = await ref.watch(staffApiProvider).mergeCandidates(id);
-  return [
-    for (final c in (j['items'] as List))
-      MergeCandidate(
-        id: '${(c as Map)['id']}',
-        title: c['title'].toString(),
-        distanceM: (c['distanceM'] as num).toInt(),
-        far: c['farWarning'] == true,
-        categorySlug: '${(c['category'] as Map)['slug']}',
-      ),
-  ];
-});
+final mergeCandidatesProvider = FutureProvider.autoDispose
+    .family<List<MergeCandidate>, String>((ref, id) async {
+      final j = await ref.watch(staffApiProvider).mergeCandidates(id);
+      return [
+        for (final c in (j['items'] as List))
+          MergeCandidate(
+            id: '${(c as Map)['id']}',
+            title: c['title'].toString(),
+            distanceM: (c['distanceM'] as num).toInt(),
+            far: c['farWarning'] == true,
+            categorySlug: '${(c['category'] as Map)['slug']}',
+          ),
+      ];
+    });

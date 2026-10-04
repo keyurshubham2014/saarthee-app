@@ -19,23 +19,34 @@ const _maxWindowDays = 120;
 /// /staff/settings/election-mode`): switch, City/Wards scope with ward
 /// multi-select, From/To, notes gu/en and a banner preview.
 class ElectionModeSection extends ConsumerStatefulWidget {
-  const ElectionModeSection({super.key, required this.initial, required this.readOnly});
+  const ElectionModeSection({
+    super.key,
+    required this.initial,
+    required this.readOnly,
+  });
 
   final Json initial;
   final bool readOnly;
 
   @override
-  ConsumerState<ElectionModeSection> createState() => _ElectionModeSectionState();
+  ConsumerState<ElectionModeSection> createState() =>
+      _ElectionModeSectionState();
 }
 
 class _ElectionModeSectionState extends ConsumerState<ElectionModeSection> {
   late bool _enabled = widget.initial['enabled'] == true;
   late String _scope = '${widget.initial['scope'] ?? 'city'}';
-  late final Set<String> _wards = {for (final w in (widget.initial['wardIds'] as List? ?? const [])) '$w'};
+  late final Set<String> _wards = {
+    for (final w in (widget.initial['wardIds'] as List? ?? const [])) '$w',
+  };
   late DateTime _from = _date(widget.initial['from']) ?? DateTime.now();
   late DateTime _to = _date(widget.initial['to']) ?? DateTime.now();
-  late final _noteEn = TextEditingController(text: '${widget.initial['note_en'] ?? ''}');
-  late final _noteGu = TextEditingController(text: '${widget.initial['note_gu'] ?? ''}');
+  late final _noteEn = TextEditingController(
+    text: '${widget.initial['note_en'] ?? ''}',
+  );
+  late final _noteGu = TextEditingController(
+    text: '${widget.initial['note_gu'] ?? ''}',
+  );
   bool _saving = false;
   String? _error;
 
@@ -65,26 +76,32 @@ class _ElectionModeSectionState extends ConsumerState<ElectionModeSection> {
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context);
     final days = _to.difference(_from).inDays;
-    if (!_to.isAfter(_from) || days > _maxWindowDays) return setState(() => _error = l10n.staffSettingsDateError);
-    if (_scope == 'wards' && _wards.isEmpty) return setState(() => _error = l10n.staffSettingsWardsError);
+    if (!_to.isAfter(_from) || days > _maxWindowDays) {
+      return setState(() => _error = l10n.staffSettingsDateError);
+    }
+    if (_scope == 'wards' && _wards.isEmpty) {
+      return setState(() => _error = l10n.staffSettingsWardsError);
+    }
     setState(() {
       _error = null;
       _saving = true;
     });
     try {
-      await ref.read(apiClientProvider).putJson(
-        '/staff/settings/election-mode',
-        headers: ref.read(staffAuthHeadersProvider),
-        body: {
-          'enabled': _enabled,
-          'scope': _scope,
-          'wardIds': _scope == 'wards' ? _wards.toList() : <String>[],
-          'from': _from.toUtc().toIso8601String(),
-          'to': _to.toUtc().toIso8601String(),
-          'note_en': _noteEn.text.trim(),
-          'note_gu': _noteGu.text.trim(),
-        },
-      );
+      await ref
+          .read(apiClientProvider)
+          .putJson(
+            '/staff/settings/election-mode',
+            headers: ref.read(staffAuthHeadersProvider),
+            body: {
+              'enabled': _enabled,
+              'scope': _scope,
+              'wardIds': _scope == 'wards' ? _wards.toList() : <String>[],
+              'from': _from.toUtc().toIso8601String(),
+              'to': _to.toUtc().toIso8601String(),
+              'note_en': _noteEn.text.trim(),
+              'note_gu': _noteGu.text.trim(),
+            },
+          );
       if (mounted) showStaffToast(context, l10n.staffDone);
     } catch (e) {
       if (mounted) setState(() => _error = staffErrorText(l10n, e));
@@ -109,15 +126,26 @@ class _ElectionModeSectionState extends ConsumerState<ElectionModeSection> {
           title: Text(l10n.staffSettingsElectionOn),
           onChanged: ro ? null : (v) => setState(() => _enabled = v),
         ),
-        Text(l10n.staffSettingsScope, style: Theme.of(context).textTheme.labelLarge),
+        Text(
+          l10n.staffSettingsScope,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         const SizedBox(height: AppSpacing.s8),
         SegmentedButton<String>(
           segments: [
-            ButtonSegment(value: 'city', label: Text(l10n.staffSettingsScopeCity)),
-            ButtonSegment(value: 'wards', label: Text(l10n.staffSettingsScopeWards)),
+            ButtonSegment(
+              value: 'city',
+              label: Text(l10n.staffSettingsScopeCity),
+            ),
+            ButtonSegment(
+              value: 'wards',
+              label: Text(l10n.staffSettingsScopeWards),
+            ),
           ],
           selected: {_scope},
-          onSelectionChanged: ro ? null : (s) => setState(() => _scope = s.first),
+          onSelectionChanged: ro
+              ? null
+              : (s) => setState(() => _scope = s.first),
         ),
         if (_scope == 'wards') ...[
           const SizedBox(height: AppSpacing.s8),
@@ -130,7 +158,11 @@ class _ElectionModeSectionState extends ConsumerState<ElectionModeSection> {
                 FilterChip(
                   label: Text(staffWardText(w, lang)),
                   selected: _wards.contains(w.id),
-                  onSelected: ro ? null : (v) => setState(() => v ? _wards.add(w.id) : _wards.remove(w.id)),
+                  onSelected: ro
+                      ? null
+                      : (v) => setState(
+                          () => v ? _wards.add(w.id) : _wards.remove(w.id),
+                        ),
                 ),
             ],
           ),
@@ -139,24 +171,54 @@ class _ElectionModeSectionState extends ConsumerState<ElectionModeSection> {
         Wrap(
           spacing: AppSpacing.s8,
           children: [
-            OutlinedButton(onPressed: ro ? null : () => _pick(true), child: Text('${l10n.staffSettingsFrom}: ${Formatters.date(_from)}')),
-            OutlinedButton(onPressed: ro ? null : () => _pick(false), child: Text('${l10n.staffSettingsTo}: ${Formatters.date(_to)}')),
+            OutlinedButton(
+              onPressed: ro ? null : () => _pick(true),
+              child: Text(
+                '${l10n.staffSettingsFrom}: ${Formatters.date(_from)}',
+              ),
+            ),
+            OutlinedButton(
+              onPressed: ro ? null : () => _pick(false),
+              child: Text('${l10n.staffSettingsTo}: ${Formatters.date(_to)}'),
+            ),
           ],
         ),
-        TextField(controller: _noteEn, enabled: !ro, maxLength: 200, decoration: InputDecoration(labelText: l10n.staffSettingsNoteEn), onChanged: (_) => setState(() {})),
-        TextField(controller: _noteGu, enabled: !ro, maxLength: 200, decoration: InputDecoration(labelText: l10n.staffSettingsNoteGu), onChanged: (_) => setState(() {})),
-        Text(l10n.staffSettingsPreview, style: Theme.of(context).textTheme.labelLarge),
+        TextField(
+          controller: _noteEn,
+          enabled: !ro,
+          maxLength: 200,
+          decoration: InputDecoration(labelText: l10n.staffSettingsNoteEn),
+          onChanged: (_) => setState(() {}),
+        ),
+        TextField(
+          controller: _noteGu,
+          enabled: !ro,
+          maxLength: 200,
+          decoration: InputDecoration(labelText: l10n.staffSettingsNoteGu),
+          onChanged: (_) => setState(() {}),
+        ),
+        Text(
+          l10n.staffSettingsPreview,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
         const SizedBox(height: AppSpacing.s8),
         NoticeBanner(
           key: const Key('staff.election.preview'),
           kind: NoticeKind.electionMode,
-          message: (lang == 'gu' ? _noteGu.text : _noteEn.text).trim().isEmpty ? null : (lang == 'gu' ? _noteGu.text : _noteEn.text).trim(),
+          message: (lang == 'gu' ? _noteGu.text : _noteEn.text).trim().isEmpty
+              ? null
+              : (lang == 'gu' ? _noteGu.text : _noteEn.text).trim(),
           rounded: true,
         ),
         if (_error != null) InlineFieldError(message: _error!),
         if (!ro) ...[
           const SizedBox(height: AppSpacing.s12),
-          PrimaryButton(key: const Key('staff.election.save'), label: l10n.staffSettingsSaveElection, isLoading: _saving, onPressed: _save),
+          PrimaryButton(
+            key: const Key('staff.election.save'),
+            label: l10n.staffSettingsSaveElection,
+            isLoading: _saving,
+            onPressed: _save,
+          ),
         ],
       ],
     );

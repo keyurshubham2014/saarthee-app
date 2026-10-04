@@ -29,13 +29,15 @@ class StaffAsync<T> extends StatelessWidget {
     final Widget child = value.when(
       skipLoadingOnRefresh: true,
       skipLoadingOnReload: true,
-      loading: () => SkeletonList(key: const Key('staff.loading'), count: skeletonCount),
+      loading: () =>
+          SkeletonList(key: const Key('staff.loading'), count: skeletonCount),
       error: (_, _) => ErrorState(
         key: const Key('staff.error'),
         message: l10n.staffLoadError,
         onRetry: onRetry,
       ),
-      data: (d) => KeyedSubtree(key: const Key('staff.data'), child: builder(d)),
+      data: (d) =>
+          KeyedSubtree(key: const Key('staff.data'), child: builder(d)),
     );
     return AnimatedSwitcher(
       duration: staffFade(context),
@@ -47,7 +49,11 @@ class StaffAsync<T> extends StatelessWidget {
 
 /// Card container: surface, radius 18, 1 px border (DS §4/§5).
 class StaffCard extends StatelessWidget {
-  const StaffCard({super.key, required this.child, this.padding = const EdgeInsets.all(AppSpacing.s16)});
+  const StaffCard({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(AppSpacing.s16),
+  });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -55,14 +61,15 @@ class StaffCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = SaartheeColors.of(context);
-    return Container(
-      padding: padding,
-      decoration: BoxDecoration(
-        color: c.surface,
+    // A Material (not a decorated box) so list tiles inside keep their ink.
+    return Material(
+      color: c.surface,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: c.border),
+        side: BorderSide(color: c.border),
       ),
-      child: child,
+      child: Padding(padding: padding, child: child),
     );
   }
 }
@@ -76,12 +83,19 @@ class StaffSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.only(top: AppSpacing.s20, bottom: AppSpacing.s8),
-    child: Semantics(header: true, child: Text(text, style: Theme.of(context).textTheme.titleMedium)),
+    child: Semantics(
+      header: true,
+      child: Text(text, style: Theme.of(context).textTheme.titleMedium),
+    ),
   );
 }
 
 /// Confirm dialog stating the effect; returns true when confirmed.
-Future<bool> confirmStaffAction(BuildContext context, {required String title, required String effect}) async {
+Future<bool> confirmStaffAction(
+  BuildContext context, {
+  required String title,
+  required String effect,
+}) async {
   final l10n = AppLocalizations.of(context);
   final ok = await showStaffDialog<bool>(
     context,
@@ -90,7 +104,10 @@ Future<bool> confirmStaffAction(BuildContext context, {required String title, re
       title: Text(title),
       content: Text(effect),
       actions: [
-        TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: Text(l10n.staffCancel)),
+        TextButton(
+          onPressed: () => Navigator.of(ctx).pop(false),
+          child: Text(l10n.staffCancel),
+        ),
         FilledButton(
           key: const Key('staff.confirm.ok'),
           onPressed: () => Navigator.of(ctx).pop(true),
@@ -103,7 +120,11 @@ Future<bool> confirmStaffAction(BuildContext context, {required String title, re
 }
 
 /// Asks for a required reason (≤ 200); returns null when cancelled.
-Future<String?> askStaffReason(BuildContext context, {required String title, String? effect}) async {
+Future<String?> askStaffReason(
+  BuildContext context, {
+  required String title,
+  String? effect,
+}) async {
   final l10n = AppLocalizations.of(context);
   final controller = TextEditingController();
   final result = await showStaffDialog<String>(
@@ -128,10 +149,15 @@ Future<String?> askStaffReason(BuildContext context, {required String title, Str
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: Text(l10n.staffCancel)),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(l10n.staffCancel),
+          ),
           FilledButton(
             key: const Key('staff.reason.ok'),
-            onPressed: controller.text.trim().isEmpty ? null : () => Navigator.of(ctx).pop(controller.text.trim()),
+            onPressed: controller.text.trim().isEmpty
+                ? null
+                : () => Navigator.of(ctx).pop(controller.text.trim()),
             child: Text(l10n.staffConfirm),
           ),
         ],
@@ -148,4 +174,7 @@ String staffErrorText(AppLocalizations l10n, Object e) =>
     l10n.staffActionError(e is AppError ? e.message : l10n.staffLoadError);
 
 bool isStaleError(Object e) =>
-    e is AppError && (e.code == 'ISSUE_STATE_INVALID' || e.code == 'INVALID_TRANSITION' || e.code == 'NOT_FOUND');
+    e is AppError &&
+    (e.code == 'ISSUE_STATE_INVALID' ||
+        e.code == 'INVALID_TRANSITION' ||
+        e.code == 'NOT_FOUND');

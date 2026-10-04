@@ -7,7 +7,12 @@ import '../shared/staff_api.dart';
 const staffQueues = ['sensitive', 'flagged', 'out_of_area'];
 
 class StaffWardRef {
-  const StaffWardRef({required this.id, required this.number, required this.nameEn, required this.nameGu});
+  const StaffWardRef({
+    required this.id,
+    required this.number,
+    required this.nameEn,
+    required this.nameGu,
+  });
 
   static StaffWardRef? fromJson(Object? j) {
     if (j is! Map) return null;
@@ -73,13 +78,15 @@ class QueuePage {
   final String? nextCursor;
 }
 
-final staffQueueProvider = FutureProvider.autoDispose.family<QueuePage, String>((ref, queue) async {
-  final j = await ref.watch(staffApiProvider).queue(queue);
-  return QueuePage(
-    [for (final i in (j['items'] as List)) QueueItem.fromJson((i as Map).cast<String, dynamic>())],
-    j['nextCursor'] as String?,
-  );
-});
+final staffQueueProvider = FutureProvider.autoDispose.family<QueuePage, String>(
+  (ref, queue) async {
+    final j = await ref.watch(staffApiProvider).queue(queue);
+    return QueuePage([
+      for (final i in (j['items'] as List))
+        QueueItem.fromJson((i as Map).cast<String, dynamic>()),
+    ], j['nextCursor'] as String?);
+  },
+);
 
 /// Dart status for an API status string (`merged` has no citizen style).
 IssueStatus? issueStatusOf(String s) => switch (s) {

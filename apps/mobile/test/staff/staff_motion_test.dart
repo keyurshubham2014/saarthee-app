@@ -14,18 +14,23 @@ import 'package:saarthee/features/staff/shell/staff_motion.dart';
 
 import 'staff_harness.dart';
 
-final _half = Duration(microseconds: SaartheeMotion.short.duration.inMicroseconds ~/ 2);
+final _half = Duration(
+  microseconds: SaartheeMotion.short.duration.inMicroseconds ~/ 2,
+);
 
 /// ScaleTransitions other than Scaffold's idle FAB slot (the staff scaffold
 /// sets `FloatingActionButtonAnimator.noAnimation`).
-Iterable<Element> _scales() => find.byWidgetPredicate((w) => w is ScaleTransition).evaluate().where((e) {
-  var fab = false;
-  e.visitAncestorElements((a) {
-    fab = a.widget.runtimeType.toString() == '_FloatingActionButtonTransition';
-    return !fab;
-  });
-  return !fab;
-});
+Iterable<Element> _scales() =>
+    find.byWidgetPredicate((w) => w is ScaleTransition).evaluate().where((e) {
+      var fab = false;
+      e.visitAncestorElements((a) {
+        fab =
+            a.widget.runtimeType.toString() ==
+            '_FloatingActionButtonTransition';
+        return !fab;
+      });
+      return !fab;
+    });
 
 void _expectFadeOnly(WidgetTester t) {
   expect(find.byType(SlideTransition), findsNothing);
@@ -35,12 +40,18 @@ void _expectFadeOnly(WidgetTester t) {
 }
 
 void main() {
-  testWidgets('route change is a short cross-fade, complete after `short`', (t) async {
+  testWidgets('route change is a short cross-fade, complete after `short`', (
+    t,
+  ) async {
     final r = await pumpStaff(t, location: '/staff');
     r.router.go('/staff/moderation');
     // The sign-in guard is async: let it resolve (no time passes), then the
     // fade starts.
-    for (var i = 0; i < 20 && find.byType(StaffModerationScreen).evaluate().isEmpty; i++) {
+    for (
+      var i = 0;
+      i < 20 && find.byType(StaffModerationScreen).evaluate().isEmpty;
+      i++
+    ) {
       await t.pump();
     }
     final route = ModalRoute.of(t.element(find.byType(StaffModerationScreen)))!;
@@ -76,9 +87,17 @@ void main() {
   });
 
   testWidgets('reduced motion: route change completes in one pump', (t) async {
-    final r = await pumpStaff(t, location: '/staff', overrides: [reducedMotionProvider.overrideWithValue(true)]);
+    final r = await pumpStaff(
+      t,
+      location: '/staff',
+      overrides: [reducedMotionProvider.overrideWithValue(true)],
+    );
     r.router.go('/staff/moderation');
-    for (var i = 0; i < 20 && find.byType(StaffModerationScreen).evaluate().isEmpty; i++) {
+    for (
+      var i = 0;
+      i < 20 && find.byType(StaffModerationScreen).evaluate().isEmpty;
+      i++
+    ) {
       await t.pump();
     }
     await t.pump();
@@ -89,14 +108,24 @@ void main() {
 
   testWidgets('staffFade is short, or zero when reduced', (t) async {
     await pumpStaff(t, location: '/staff');
-    expect(staffFade(t.element(find.text('Dashboard').first)), SaartheeMotion.short.duration);
+    expect(
+      staffFade(t.element(find.text('Dashboard').first)),
+      SaartheeMotion.short.duration,
+    );
   });
 
   test('features/staff/** uses no stagger, spring, shared axis, Hero, CountUp or pulse', () {
-    final banned = RegExp(r'StaggeredColumn|springIn|SharedAxisTransition|\bHero\(|CountUp\(|RollingCount\(|pulse', caseSensitive: false);
+    final banned = RegExp(
+      r'StaggeredColumn|springIn|SharedAxisTransition|\bHero\(|CountUp\(|RollingCount\(|pulse',
+      caseSensitive: false,
+    );
     final hits = <String>[];
-    for (final f in Directory('lib/features/staff').listSync(recursive: true).whereType<File>()) {
-      if (!f.path.endsWith('.dart') || f.path.contains('/ward_dashboard/')) continue;
+    for (final f in Directory(
+      'lib/features/staff',
+    ).listSync(recursive: true).whereType<File>()) {
+      if (!f.path.endsWith('.dart') || f.path.contains('/ward_dashboard/')) {
+        continue;
+      }
       final lines = f.readAsLinesSync();
       for (var i = 0; i < lines.length; i++) {
         if (banned.hasMatch(lines[i])) hits.add('${f.path}:${i + 1}');

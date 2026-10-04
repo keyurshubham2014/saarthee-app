@@ -13,30 +13,52 @@ import '../shared/staff_labels.dart';
 enum FlagOutcome { sent, already, limit, failed }
 
 /// `POST /issues/{id}/flags` (TASK-10 §5.3).
-Future<FlagOutcome> sendFlag(WidgetRef ref, String issueId, {required String reason, String? note, String? eventId}) async {
+Future<FlagOutcome> sendFlag(
+  WidgetRef ref,
+  String issueId, {
+  required String reason,
+  String? note,
+  String? eventId,
+}) async {
   try {
-    final j = await ref.read(apiClientProvider).postJson('/issues/$issueId/flags', body: {
-      'reason': reason,
-      if (note != null && note.isNotEmpty) 'note': note,
-      'eventId': ?eventId,
-    });
-    return j['alreadyReported'] == true ? FlagOutcome.already : FlagOutcome.sent;
+    final j = await ref
+        .read(apiClientProvider)
+        .postJson(
+          '/issues/$issueId/flags',
+          body: {
+            'reason': reason,
+            if (note != null && note.isNotEmpty) 'note': note,
+            'eventId': ?eventId,
+          },
+        );
+    return j['alreadyReported'] == true
+        ? FlagOutcome.already
+        : FlagOutcome.sent;
   } on AppError catch (e) {
-    return e.code == 'FLAG_QUOTA' || e.code == 'RATE_LIMITED' ? FlagOutcome.limit : FlagOutcome.failed;
+    return e.code == 'FLAG_QUOTA' || e.code == 'RATE_LIMITED'
+        ? FlagOutcome.limit
+        : FlagOutcome.failed;
   }
 }
 
 /// "Report a problem with this post" (REQ-F-051) for an issue or, with
 /// [eventId], one of its comments. Signed-out people sign in first and
 /// return here. TASK-07 places the entry point on issue detail.
-Future<void> showFlagContentSheet(BuildContext context, WidgetRef ref, {required String issueId, String? eventId}) async {
+Future<void> showFlagContentSheet(
+  BuildContext context,
+  WidgetRef ref, {
+  required String issueId,
+  String? eventId,
+}) async {
   if (!await ensureSignedIn(context, ref, reason: SignInReason.generic)) return;
   if (!context.mounted) return;
   final l10n = AppLocalizations.of(context);
   final outcome = await showModalBottomSheet<FlagOutcome>(
     context: context,
     isScrollControlled: true,
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.sheet))),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.sheet)),
+    ),
     builder: (_) => FlagContentSheet(issueId: issueId, eventId: eventId),
   );
   if (outcome == null || !context.mounted) return;
@@ -48,7 +70,9 @@ Future<void> showFlagContentSheet(BuildContext context, WidgetRef ref, {required
       FlagOutcome.limit => l10n.flagLimit,
       FlagOutcome.failed => l10n.flagError,
     },
-    kind: outcome == FlagOutcome.failed || outcome == FlagOutcome.limit ? ToastKind.error : ToastKind.success,
+    kind: outcome == FlagOutcome.failed || outcome == FlagOutcome.limit
+        ? ToastKind.error
+        : ToastKind.success,
   );
 }
 
@@ -75,7 +99,13 @@ class _FlagContentSheetState extends ConsumerState<FlagContentSheet> {
 
   Future<void> _send() async {
     setState(() => _sending = true);
-    final outcome = await sendFlag(ref, widget.issueId, reason: _reason!, note: _note.text.trim(), eventId: widget.eventId);
+    final outcome = await sendFlag(
+      ref,
+      widget.issueId,
+      reason: _reason!,
+      note: _note.text.trim(),
+      eventId: widget.eventId,
+    );
     if (mounted) Navigator.of(context).pop(outcome);
   }
 
@@ -93,15 +123,24 @@ class _FlagContentSheetState extends ConsumerState<FlagContentSheet> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Semantics(header: true, child: Text(l10n.flagSheetTitle, style: text.titleLarge)),
+              Semantics(
+                header: true,
+                child: Text(l10n.flagSheetTitle, style: text.titleLarge),
+              ),
               const SizedBox(height: AppSpacing.s12),
               RadioGroup<String>(
                 groupValue: _reason,
                 onChanged: (v) => setState(() => _reason = v),
-                child: Column(children: [
-                  for (final r in flagReasons)
-                    RadioListTile<String>(key: Key('flag.reason.$r'), value: r, title: Text(flagReasonLabel(l10n, r))),
-                ]),
+                child: Column(
+                  children: [
+                    for (final r in flagReasons)
+                      RadioListTile<String>(
+                        key: Key('flag.reason.$r'),
+                        value: r,
+                        title: Text(flagReasonLabel(l10n, r)),
+                      ),
+                  ],
+                ),
               ),
               TextField(
                 key: const Key('flag.note'),
@@ -109,7 +148,10 @@ class _FlagContentSheetState extends ConsumerState<FlagContentSheet> {
                 maxLength: 200,
                 maxLines: 3,
                 minLines: 1,
-                decoration: InputDecoration(labelText: l10n.flagNote, counterText: l10n.flagCounter(_note.text.length)),
+                decoration: InputDecoration(
+                  labelText: l10n.flagNote,
+                  counterText: l10n.flagCounter(_note.text.length),
+                ),
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: AppSpacing.s12),

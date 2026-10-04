@@ -44,11 +44,12 @@ class StaffShell extends ConsumerWidget {
     final me = ref.watch(staffMeProvider);
     return StaffMotionScope(
       child: me.when(
-        loading: () => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
+        loading: () =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())),
         error: (e, _) {
-          final access = e is StaffAccessException ? e.access : StaffAccess.error;
+          final access = e is StaffAccessException
+              ? e.access
+              : StaffAccess.error;
           return Scaffold(
             body: Center(
               child: access == StaffAccess.error
@@ -71,14 +72,19 @@ class StaffShell extends ConsumerWidget {
             ),
           );
         },
-        data: (staff) => _Layout(location: location, staff: staff, child: child),
+        data: (staff) =>
+            _Layout(location: location, staff: staff, child: child),
       ),
     );
   }
 }
 
 class _Layout extends ConsumerWidget {
-  const _Layout({required this.location, required this.staff, required this.child});
+  const _Layout({
+    required this.location,
+    required this.staff,
+    required this.child,
+  });
 
   final String location;
   final StaffMe staff;
@@ -87,29 +93,39 @@ class _Layout extends ConsumerWidget {
   Widget _body(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final owner = staffItemFor(location);
-    if (location == '/staff/forbidden' || (owner != null && !owner.roles.contains(staff.role))) {
+    if (location == '/staff/forbidden' ||
+        (owner != null && !owner.roles.contains(staff.role))) {
       return StaffForbiddenView(showDashboard: staff.role != 'representative');
     }
     if (staff.role == 'representative' && location == '/staff') {
-      return EmptyState(icon: SaartheeIcons.badge, message: l10n.staffNoSections);
+      return EmptyState(
+        icon: SaartheeIcons.badge,
+        message: l10n.staffNoSections,
+      );
     }
     return child;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = staffNavFor(staff.role, emailSession: staff.actorKind == 'admin_user');
+    final items = staffNavFor(
+      staff.role,
+      emailSession: staff.actorKind == 'admin_user',
+    );
     final wide = MediaQuery.sizeOf(context).width >= staffWideBreakpoint;
     final nav = StaffSideNav(items: items, location: location);
     return Scaffold(
       appBar: StaffHeader(staff: staff, showMenu: !wide && items.isNotEmpty),
-      drawer: wide || items.isEmpty ? null : Drawer(child: SafeArea(child: nav)),
+      drawer: wide || items.isEmpty
+          ? null
+          : Drawer(child: SafeArea(child: nav)),
       body: wide
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (items.isNotEmpty) SizedBox(width: _navWidth, child: nav),
-                if (items.isNotEmpty) const VerticalDivider(width: AppSpacing.borderWidth),
+                if (items.isNotEmpty)
+                  const VerticalDivider(width: AppSpacing.borderWidth),
                 Expanded(child: _body(context)),
               ],
             )
@@ -159,7 +175,10 @@ class StaffHeader extends ConsumerWidget implements PreferredSizeWidget {
           const SizedBox(width: AppSpacing.s12),
           Container(
             key: const Key('staff.roleChip'),
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s12, vertical: AppSpacing.s4),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s12,
+              vertical: AppSpacing.s4,
+            ),
             decoration: BoxDecoration(
               color: c.primaryContainer,
               borderRadius: BorderRadius.circular(AppSpacing.s40),
@@ -209,15 +228,26 @@ class StaffSideNav extends StatelessWidget {
         section = item.section;
         children.add(
           Padding(
-            padding: const EdgeInsets.fromLTRB(AppSpacing.s24, AppSpacing.s20, AppSpacing.s16, AppSpacing.s8),
-            child: Text(staffSectionLabel(l10n, item.section), style: text.labelMedium?.copyWith(color: c.textSecondary)),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.s24,
+              AppSpacing.s20,
+              AppSpacing.s16,
+              AppSpacing.s8,
+            ),
+            child: Text(
+              staffSectionLabel(l10n, item.section),
+              style: text.labelMedium?.copyWith(color: c.textSecondary),
+            ),
           ),
         );
       }
       final isSelected = identical(item, selected);
       children.add(
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s12, vertical: 2),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.s12,
+            vertical: 2,
+          ),
           child: Material(
             color: isSelected ? c.primaryContainer : c.surface,
             shape: const StadiumBorder(),
@@ -236,12 +266,22 @@ class StaffSideNav extends StatelessWidget {
                   child: Row(
                     children: [
                       const SizedBox(width: AppSpacing.s16),
-                      Icon(item.icon, fill: isSelected ? 1 : 0, color: isSelected ? c.onPrimaryContainer : c.textSecondary),
+                      Icon(
+                        item.icon,
+                        fill: isSelected ? 1 : 0,
+                        color: isSelected
+                            ? c.onPrimaryContainer
+                            : c.textSecondary,
+                      ),
                       const SizedBox(width: AppSpacing.s12),
                       Expanded(
                         child: Text(
                           staffNavLabel(l10n, item.labelKey),
-                          style: text.bodyLarge?.copyWith(color: isSelected ? c.onPrimaryContainer : c.textPrimary),
+                          style: text.bodyLarge?.copyWith(
+                            color: isSelected
+                                ? c.onPrimaryContainer
+                                : c.textPrimary,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -254,7 +294,10 @@ class StaffSideNav extends StatelessWidget {
         ),
       );
     }
-    return ColoredBox(color: c.surface, child: ListView(children: children));
+    return ColoredBox(
+      color: c.surface,
+      child: ListView(children: children),
+    );
   }
 }
 

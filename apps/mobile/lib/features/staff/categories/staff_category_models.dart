@@ -43,10 +43,15 @@ class StaffCategories {
   final List<String> icons, colourTokens;
 }
 
-final staffCategoriesProvider = FutureProvider.autoDispose<StaffCategories>((ref) async {
+final staffCategoriesProvider = FutureProvider.autoDispose<StaffCategories>((
+  ref,
+) async {
   final j = await ref.watch(staffApiProvider).categories();
   return StaffCategories(
-    [for (final c in (j['items'] as List)) StaffCategory.fromJson((c as Map).cast<String, dynamic>())],
+    [
+      for (final c in (j['items'] as List))
+        StaffCategory.fromJson((c as Map).cast<String, dynamic>()),
+    ],
     [for (final i in (j['icons'] as List? ?? const [])) '$i'],
     [for (final t in (j['colourTokens'] as List? ?? const [])) '$t'],
   );

@@ -51,7 +51,9 @@ class StaffWebApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [Locale('gu'), Locale('en')],
-      builder: (context, child) => MotionScope(child: StaffMotionScope(child: child ?? const SizedBox.shrink())),
+      builder: (context, child) => MotionScope(
+        child: StaffMotionScope(child: child ?? const SizedBox.shrink()),
+      ),
     );
   }
 }

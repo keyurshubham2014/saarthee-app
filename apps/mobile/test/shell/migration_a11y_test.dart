@@ -33,7 +33,9 @@ void main() {
 
     // TASK-10 (D11): v1 admin screens are retired; old links open the staff
     // console, which asks a signed-out operator to sign in.
-    testWidgets('/admin/login redirects to the staff console sign-in', (t) async {
+    testWidgets('/admin/login redirects to the staff console sign-in', (
+      t,
+    ) async {
       FlutterSecureStorage.setMockInitialValues({});
       await pumpApp(t, prefs: onboardedPrefs());
       GoRouter.of(t.element(find.byType(NavigationBar))).go('/admin/login');
