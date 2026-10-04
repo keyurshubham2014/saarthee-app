@@ -1220,7 +1220,7 @@
   "@wardLocationRationale": {
     "x-review": "pending"
   },
-  "wardLocateResult": "તમે {ward} ({zone} ઝોન) માં છો. શું આ તમારો ઘરનો વોર્ડ છે?",
+  "wardLocateResult": "તમે {ward} ({zone}) માં છો. શું આ તમારો ઘરનો વોર્ડ છે?",
   "@wardLocateResult": {
     "x-review": "pending"
   },
@@ -1268,7 +1268,7 @@
   "@wardDisplayName": {
     "x-review": "pending"
   },
-  "wardZone": "{zone} ઝોન",
+  "wardZone": "{zone}",
   "@wardZone": {
     "x-review": "pending"
   },
