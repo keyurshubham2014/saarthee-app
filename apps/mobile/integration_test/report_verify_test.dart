@@ -25,6 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../test/report/report_fakes.dart';
 import 'support/lifecycle_api.dart';
+import 'support/verify_flow.dart';
 
 /// The app's lifecycle routes, signed in as [token], with the camera/GPS faked.
 Future<void> pumpAs(WidgetTester t, String token, String issueId) async {
@@ -69,25 +70,6 @@ Future<void> pumpAs(WidgetTester t, String token, String issueId) async {
     ),
   );
   await waitFor(t, find.byKey(const ValueKey('statusChip.markedFixed')));
-}
-
-/// Pumps frames until [finder] matches (the in-button progress never settles).
-Future<void> waitFor(WidgetTester t, Finder finder, {int seconds = 20}) async {
-  for (var i = 0; i < seconds * 10; i++) {
-    await t.pump(SaartheeMotion.short.duration);
-    if (finder.evaluate().isNotEmpty) return;
-  }
-  throw TestFailure('Timed out waiting for $finder');
-}
-
-Future<void> answer(WidgetTester t, {required bool fixed}) async {
-  await t.tap(find.byKey(const Key('lifecycle.verify')));
-  await waitFor(t, find.byKey(const Key('verify.yes')));
-  await t.tap(find.byKey(Key(fixed ? 'verify.yes' : 'verify.no')));
-  await waitFor(t, find.byKey(const Key('verify.take')));
-  await t.tap(find.byKey(const Key('verify.take')));
-  await waitFor(t, find.text("You're about 30 m from the problem."));
-  await t.tap(find.byKey(const Key('issueActions.send')));
 }
 
 void main() {
