@@ -37,6 +37,8 @@ const schema = z.object({
   LOG_FILE_DIR: optionalEmpty(z.string().refine((v) => v.startsWith('/'), 'must be an absolute path')),
   SEED_ADMIN_EMAIL: optionalEmpty(z.string().email()),
   SEED_ADMIN_PASSWORD: optionalEmpty(z.string()),
+  // V2 TASK-02: /geo/locate nearest-ward fallback limit (metres) outside every ward polygon.
+  GEO_NEAREST_MAX_M: z.preprocess((v) => (v === '' || v === undefined ? 3000 : v), z.coerce.number().positive().max(50_000)),
 });
 
 export type Config = Readonly<z.infer<typeof schema>>;

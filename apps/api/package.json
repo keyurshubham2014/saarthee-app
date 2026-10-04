@@ -20,7 +20,12 @@
     "test:db:create": "bash scripts/test-db-create.sh",
     "db:drift": "bash scripts/check-prisma-drift.sh",
     "db:check-v1": "bash scripts/check-v1-migrations.sh",
-    "legacy:migrate": "tsx --env-file=.env scripts/legacy-migrate.ts"
+    "legacy:migrate": "tsx --env-file=.env scripts/legacy-migrate.ts",
+    "geo:convert": "tsx scripts/geo/kml-to-geojson.ts",
+    "geo:import": "tsx --env-file=.env scripts/geo/import.ts",
+    "geo:crosscheck": "tsx --env-file=.env scripts/geo/crosscheck.ts",
+    "geo:backfill": "tsx --env-file=.env scripts/geo/backfill.ts",
+    "geo:fixture": "tsx --env-file=.env scripts/geo/fixture.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed/index.ts"

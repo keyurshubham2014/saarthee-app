@@ -44,12 +44,15 @@ Files run one after another by default (`TEST_PARALLEL=1` tries parallel files).
 
 - `test/platform/` — TASK-01 suites (migrations, constraints, legacy import, guard, permissions, admin auth,
   rate limits, health, seed, geo helpers, test-db guard).
-- `test/<module>/` — one directory per later task's module (e.g. `test/wards/` for TASK-02).
+- `test/geo/` — TASK-02 suites (import, crosscheck, locate, wards/zones, search, backfill, wards seed); `test/fixtures/geo/`
+  holds the 3-ward fixture and the ward-search case table shared with the app (`ward-search-cases.json`).
+- `test/<module>/` — one directory per later task's module.
 
 ## Opt-in checks
 
 ```bash
 LEGACY_PERF=1 npx vitest run test/platform/legacy-perf.test.ts   # 10,000 complaints through legacy:migrate < 60 s
+GEO_PERF=1 npx vitest run test/geo/geo-perf.test.ts               # /geo/locate p95 < 50 ms, GIST index used
 ```
 
 ## CI

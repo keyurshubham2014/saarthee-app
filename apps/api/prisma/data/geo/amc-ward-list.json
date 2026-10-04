@@ -1,0 +1,572 @@
+{
+  "fetchedAt": "2026-10-04T10:35:00+05:30",
+  "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList",
+  "notes": "Compiled from AMC CCRS Zone wise Ward List (English). Ward numbers from the OpenCity/LGD ward codes. nameGu compiled by the developer, pending native review. AMC publishes no per-ward phone (helpline 155303).",
+  "zones": [
+    {
+      "code": "central",
+      "nameEn": "Central",
+      "nameGu": "મધ્ય ઝોન"
+    },
+    {
+      "code": "north",
+      "nameEn": "North",
+      "nameGu": "ઉત્તર ઝોન"
+    },
+    {
+      "code": "south",
+      "nameEn": "South",
+      "nameGu": "દક્ષિણ ઝોન"
+    },
+    {
+      "code": "east",
+      "nameEn": "East",
+      "nameGu": "પૂર્વ ઝોન"
+    },
+    {
+      "code": "west",
+      "nameEn": "West",
+      "nameGu": "પશ્ચિમ ઝોન"
+    },
+    {
+      "code": "north_west",
+      "nameEn": "North West",
+      "nameGu": "ઉત્તર પશ્ચિમ ઝોન"
+    },
+    {
+      "code": "south_west",
+      "nameEn": "South West",
+      "nameGu": "દક્ષિણ પશ્ચિમ ઝોન"
+    }
+  ],
+  "wards": [
+    {
+      "number": 1,
+      "nameEn": "Gota",
+      "nameGu": "ગોતા",
+      "amcListName": "Gota",
+      "zoneCode": "north_west",
+      "officeAddressEn": "Ahmedabad Municipal Coporation, Gota Ward office, 1st floor, Urban Health Centre Building, Oganaj Gam, Gota, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 2,
+      "nameEn": "Chandlodiya",
+      "nameGu": "ચાંદલોડિયા",
+      "amcListName": "Chandlodiya",
+      "zoneCode": "north_west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation,Near Chandlodiaya Over Bridge,Near Chandlodiya Primary School, Chandlodiya, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 3,
+      "nameEn": "Chandkheda",
+      "nameGu": "ચાંદખેડા",
+      "amcListName": "Chandkheda Motera",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Coporation, Chandkheda Nagar Palika, Old Nagar Palika Office, Chandkheda Gam, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 4,
+      "nameEn": "Sabarmati",
+      "nameGu": "સાબરમતી",
+      "amcListName": "Sabarmati",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Sabarmati Sub Zonal Office, Opp. Power House, Sabarmati, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 5,
+      "nameEn": "Ranip",
+      "nameGu": "રાણીપ",
+      "amcListName": "Ranip",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation,Near Chandlodiaya Over Bridge,Near Chandlodiya Primary School, Chandlodiya, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 6,
+      "nameEn": "Nava Vadaj",
+      "nameGu": "નવા વાડજ",
+      "amcListName": "Nava Vadaj",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Nava Wadaj Sub Zonal Office, Purshottam Nagar, Opp. Parth Tower, Nava Wadaj, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 7,
+      "nameEn": "Ghatlodiya",
+      "nameGu": "ઘાટલોડિયા",
+      "amcListName": "Ghatlodiya",
+      "zoneCode": "north_west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Ghatlodiya Ward Office, Under Chanakya Bridge, Near Prabhat chauk, Ghatlodiya Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 8,
+      "nameEn": "Thaltej",
+      "nameGu": "થલતેજ",
+      "amcListName": "Thaltej",
+      "zoneCode": "north_west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Thaltej Ward Office, Opposite Thakorvas Bus Stand, Near Thaltej Cross Road, S.G. Highway Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 9,
+      "nameEn": "Naranpura",
+      "nameGu": "નારણપુરા",
+      "amcListName": "Naranpura",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation Naranpura Ward Office, Nr. Kameshwar Mahadev Mandir, Naranpura, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 10,
+      "nameEn": "Sardar Patel Stadium",
+      "nameGu": "સરદાર પટેલ સ્ટેડિયમ",
+      "amcListName": "SP Stadium",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Sardar Patel Stadium ward office, Near Naranpura Crossing, Near Panchsheel Society, Naranpura, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 11,
+      "nameEn": "Sardarnagar",
+      "nameGu": "સરદારનગર",
+      "amcListName": "Sardar nagar",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation Sardar Nagar Library Bhavan, Beside Sardar Nagar Police Station, Sardar Nagar, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 12,
+      "nameEn": "Naroda",
+      "nameGu": "નરોડા",
+      "amcListName": "Naroda",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation Naroda Ward Office, Old Panchayat Office, Near Fountain, Naroda, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 13,
+      "nameEn": "Saijpur Bogha",
+      "nameGu": "સૈજપુર બોઘા",
+      "amcListName": "Saijpur Bogha",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Saijpur Ward Office, Opp. Saijpur Tower, Saijpur, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 14,
+      "nameEn": "Kubernagar",
+      "nameGu": "કુબેરનગર",
+      "amcListName": "Kuber nagar",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Kubernagar Sub Zonal Office, Near C ward Water Tank, Opp. Sardargram Railway Station, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 15,
+      "nameEn": "Asarva",
+      "nameGu": "અસારવા",
+      "amcListName": "Asarva",
+      "zoneCode": "central",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Asarawa ward Office, Haripura Municipal Dispensary Compound, Asarawa, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 16,
+      "nameEn": "Shahibaug",
+      "nameGu": "શાહીબાગ",
+      "amcListName": "Shahibaug",
+      "zoneCode": "central",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Girdharnagar Ward Office, B/H Kirti Appt., Nr. Pritampura Municipal School No. 3-4, Kanjinagar Cross Road, Shahibung, Ahmedabad.",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 17,
+      "nameEn": "Shahpur",
+      "nameGu": "શાહપુર",
+      "amcListName": "Shahpur",
+      "zoneCode": "central",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Shahpur Ward Office, Bapu Smruti Kunj, Near Shahpur Darawaja, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 18,
+      "nameEn": "Navrangpura",
+      "nameGu": "નવરંગપુરા",
+      "amcListName": "Navrangpura",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Navarangpura Sub Zonal Office, Nr. Navrangpura AMTS Bus Stop, Navrangpura, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 19,
+      "nameEn": "Bodakdev",
+      "nameGu": "બોડકદેવ",
+      "amcListName": "Bodakdev",
+      "zoneCode": "north_west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Bodakdev Ward Office, Old Memnagar NagarPalika Office, Memnagar Gam, Ahmedabad.",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 20,
+      "nameEn": "Jodhpur",
+      "nameGu": "જોધપુર",
+      "amcListName": "Jodhpur",
+      "zoneCode": "south_west",
+      "officeAddressEn": "Jodhpur ward office, new star bazar same , Vandan party plot bajuma , Jodhpur , Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 21,
+      "nameEn": "Dariyapur",
+      "nameGu": "દરિયાપુર",
+      "amcListName": "Dariapur",
+      "zoneCode": "central",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Dariapur Ward Office, Nr. Kuti Masjid, Nr. Rupapari Ni pol, Dariapur Darawaja, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 22,
+      "nameEn": "India Colony",
+      "nameGu": "ઇન્ડિયા કોલોની",
+      "amcListName": "India Colony",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, India Colony Ward Office, Opp Chandraprasad Desai Hall, Bapunagar, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 23,
+      "nameEn": "Thakkarbapa Nagar",
+      "nameGu": "ઠક્કરબાપાનગર",
+      "amcListName": "Thakkarbapa nagar",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Thakkarbapanagar Ward Office, Kevadia Ni Chali, Opp Bajarang Ashram, National Highway No. 8, Thakkarbapanagar, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 24,
+      "nameEn": "Nikol",
+      "nameGu": "નિકોલ",
+      "amcListName": "Nikol",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Nikol Ward Office, Near Parshwanath Township Circle, Near shivam School, Parshwanath Township part-1, Nava Naroda, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 25,
+      "nameEn": "Viratnagar",
+      "nameGu": "વિરાટનગર",
+      "amcListName": "Virat nagar",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Viratnagar Ward Office, Opp.Lilanagar Smashan Gruh, Lilanagar, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 26,
+      "nameEn": "Bapunagar",
+      "nameGu": "બાપુનગર",
+      "amcListName": "Bapu nagar",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Bapunagar Sub Zonal Office, Beside Urban Health Center, Margha Farm Road, Near Viratnagar Cross Road, Bapunagar, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 27,
+      "nameEn": "Saraspur-Rakhial",
+      "nameGu": "સરસપુર-રખિયાલ",
+      "amcListName": "Saraspur",
+      "zoneCode": "north",
+      "officeAddressEn": "Ahmedabad Municipal Corporation Saraspur Municipal Bal Bhavan, Near Maniben K. K. Eye Hospital, Saraspur, Ahmedabad 380 018",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 28,
+      "nameEn": "Khadia",
+      "nameGu": "ખાડિયા",
+      "amcListName": "Khadia",
+      "zoneCode": "central",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Khadia Ward Office, Nr. Panch Kuva Darwaja, Khadia, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 29,
+      "nameEn": "Jamalpur",
+      "nameGu": "જમાલપુર",
+      "amcListName": "Jamalpur",
+      "zoneCode": "central",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Jamalpur Sub Zonal Office, J.P. Store, Opp. AMTS Staff Quarters, Jamalpur, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 30,
+      "nameEn": "Paldi",
+      "nameGu": "પાલડી",
+      "amcListName": "Paldi",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Paldi Sub Zonal Office, Beside Paldi Bus Stand, Paldi Cross Road, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 31,
+      "nameEn": "Vasna",
+      "nameGu": "વાસણા",
+      "amcListName": "Vasna",
+      "zoneCode": "west",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Vasna Sub Zonal Office, Near Swaminarayan Mandir, Opp. Divain school, Vasna, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 32,
+      "nameEn": "Vejalpur",
+      "nameGu": "વેજલપુર",
+      "amcListName": "Vejalpur",
+      "zoneCode": "south_west",
+      "officeAddressEn": "Vejalpur city civic center, beside venus, Butbhawani mandir Road, Vejalpur, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 33,
+      "nameEn": "Sarkhej",
+      "nameGu": "સરખેજ",
+      "amcListName": "Sarkhej",
+      "zoneCode": "south_west",
+      "officeAddressEn": "Sarkhej Ward Office, Old Nagar Palika Office, Near Water Tank, Sarkhej Gam, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 34,
+      "nameEn": "Maktampura",
+      "nameGu": "મક્તમપુરા",
+      "amcListName": "Maktampura",
+      "zoneCode": "south_west",
+      "officeAddressEn": "Maktampura Ward Office, Nr.APMC Market, Maktampura, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 35,
+      "nameEn": "Behrampura",
+      "nameGu": "બહેરામપુરા",
+      "amcListName": "Behrampura",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Behrampura Ward Office, Near Ramdevnagar Cross Road, Beside Torrent Power Sub Station, Behrampura, Ahmedbad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 36,
+      "nameEn": "Danilimda",
+      "nameGu": "દાણીલીમડા",
+      "amcListName": "Danilimda",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Danilimda Ward Office, Opp. Vaikunthdham Mandir, Near Mangal Vikas Cross Road, Danilimda Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 37,
+      "nameEn": "Maninagar",
+      "nameGu": "મણિનગર",
+      "amcListName": "Maninagar",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Maninagar Ward Office, Behind Sindhi Market, Opp. Maninagar Railway Station, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 38,
+      "nameEn": "Gomtipur",
+      "nameGu": "ગોમતીપુર",
+      "amcListName": "Gomtipur",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation Gomtipur Ward Office, Nr. Gomtipur Referal Hospital, Municipal Bal Bhavan, Opp. Gomtipur Darwaja, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 39,
+      "nameEn": "Amraiwadi",
+      "nameGu": "અમરાઈવાડી",
+      "amcListName": "Amraiwadi",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Amraiwadi Sub Zonal Office, Near Mathur Master Cross Road, 132 foot Ring Road, Amaraiwadi, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 40,
+      "nameEn": "Odhav",
+      "nameGu": "ઓઢવ",
+      "amcListName": "Odhav",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Odhav Ward Office, Near Rabari Vasahat, Beside Odhav Fire Station, Odhav, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 41,
+      "nameEn": "Vastral",
+      "nameGu": "વસ્ત્રાલ",
+      "amcListName": "Vastral",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Vastral Ward Office, Beside Ajay Tenament, Part -5, Third Gate, Old Nagar palika Office, Near Nani Canal, Vastral Road, Mahadev Nagar, Ahmedabad 382415",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 42,
+      "nameEn": "Indrapuri",
+      "nameGu": "ઇન્દ્રપુરી",
+      "amcListName": "Indrapuri",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Indrapuri Ward Office, Near Express High Way, Near Swaminarayan Nagar, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 43,
+      "nameEn": "Bhaipura-Hatkeshwar",
+      "nameGu": "ભાઈપુરા-હાટકેશ્વર",
+      "amcListName": "Bhaipura Hatkeshwar",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Bhaipura-Hatkeshwar Ward Office, Opp. Ishwarkrupa Duplex, Near Nutan School, Haripura, Maninagar East, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 44,
+      "nameEn": "Khokhra",
+      "nameGu": "ખોખરા",
+      "amcListName": "Khokhra",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Khokhra Ward Office, Near Municipal Swimming Pool, Opp. Trimurti Flat, Khokhara, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 45,
+      "nameEn": "Isanpur",
+      "nameGu": "ઇસનપુર",
+      "amcListName": "Isanpur",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation Isanpur Ward Office, Isanpur Water Distribution Center, Ramwadi, Isanpur, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 46,
+      "nameEn": "Lambha",
+      "nameGu": "લાંભા",
+      "amcListName": "Lambha",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Lambha Sub Zonal Office, Narol Aslali high Way, near freeway trade centre, final plot No 56, Narol Gam, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 47,
+      "nameEn": "Vatva",
+      "nameGu": "વટવા",
+      "amcListName": "Vatva",
+      "zoneCode": "south",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Vatva Ward Office, Deria, Nr. Kashiba Hospital, Vatva Gam, Vatva, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    },
+    {
+      "number": 48,
+      "nameEn": "Ramol-Hathijan",
+      "nameGu": "રામોલ-હાથીજણ",
+      "amcListName": "Ramol Hathijan",
+      "zoneCode": "east",
+      "officeAddressEn": "Ahmedabad Municipal Corporation, Ramol-Hathijan Ward Office, Inside Ramol Gam, Ramol, Ahmedabad",
+      "officeAddressGu": null,
+      "officePhone": null,
+      "sourceUrl": "https://amccrs.com/AMCPortal/Home/WardList"
+    }
+  ]
+}

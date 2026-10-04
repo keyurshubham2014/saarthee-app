@@ -367,7 +367,6 @@ model User {
   phoneE164    String?     @map("phone_e164") @db.VarChar(16)
   firebaseUid  String?     @map("firebase_uid") @db.VarChar(128)
   displayName  String?     @map("display_name") @db.VarChar(60)
-  /// FK to wards added by TASK-02.
   homeWardId   String?     @map("home_ward_id") @db.Uuid
   language     AppLanguage @default(gu)
   role         UserRole    @default(citizen)
@@ -384,9 +383,11 @@ model User {
   issueVerifications IssueVerification[]
   meToos             MeToo[]
   follows            Follow[]
+  homeWard           Ward?               @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_users_home_ward")
 
   @@unique([phoneE164], map: "uq_users_phone")
   @@unique([firebaseUid], map: "uq_users_firebase_uid")
+  @@index([homeWardId], map: "idx_users_home_ward")
   @@map("users")
 }
 
@@ -479,6 +480,8 @@ model Issue {
   mergedInto      Issue?     @relation("IssueMerges", fields: [mergedIntoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issues_merged_into")
   mergedIssues    Issue[]    @relation("IssueMerges")
   legacyComplaint Complaint? @relation(fields: [legacyComplaintId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issues_legacy_complaint")
+  ward            Ward?      @relation(fields: [wardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issues_ward")
+  zone            Zone?      @relation(fields: [zoneId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issues_zone")
 
   photos        IssuePhoto[]
   events        IssueEvent[]
@@ -491,6 +494,7 @@ model Issue {
   @@index([location], map: "idx_issues_location", type: Gist)
   @@index([status, statusChangedAt(sort: Desc)], map: "idx_issues_status")
   @@index([wardId, status], map: "idx_issues_ward_status")
+  @@index([zoneId], map: "idx_issues_zone")
   @@index([categoryId, createdAt(sort: Desc)], map: "idx_issues_category_created")
   @@index([reporterId], map: "idx_issues_reporter")
   @@index([mergedIntoId], map: "idx_issues_merged_into")
@@ -580,4 +584,53 @@ model Follow {
   @@id([issueId, userId], map: "pk_follows")
   @@index([userId, createdAt(sort: Desc)], map: "idx_follows_user_created")
   @@map("follows")
+}
+
+// V2 TASK-02: AMC zones and wards. Geometry columns are read/written only through $queryRaw (src/modules/geo,
+// src/lib/geo/import). CHECKs (ck_zones_code, ck_wards_number, ck_wards_geom_valid, ck_wards_phone,
+// ck_wards_population) are hand-written in migration 20261005000000_create_zones_wards.
+model Zone {
+  id        String                                       @id(map: "pk_zones") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code      String                                       @db.VarChar(20)
+  nameEn    String                                       @map("name_en") @db.VarChar(60)
+  nameGu    String                                       @map("name_gu") @db.VarChar(60)
+  sortOrder Int                                          @default(0) @map("sort_order") @db.SmallInt
+  geom      Unsupported("geometry(MultiPolygon, 4326)")?
+  createdAt DateTime                                     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime                                     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  wards  Ward[]
+  issues Issue[]
+
+  @@unique([code], map: "uq_zones_code")
+  @@index([geom], map: "idx_zones_geom", type: Gist)
+  @@map("zones")
+}
+
+model Ward {
+  id              String                                      @id(map: "pk_wards") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  number          Int                                         @db.SmallInt
+  nameEn          String                                      @map("name_en") @db.VarChar(60)
+  nameGu          String                                      @map("name_gu") @db.VarChar(60)
+  zoneId          String                                      @map("zone_id") @db.Uuid
+  geom            Unsupported("geometry(MultiPolygon, 4326)")
+  centroid        Unsupported("geometry(Point, 4326)")
+  boundaryVersion String                                      @map("boundary_version") @db.VarChar(60)
+  officeAddressEn String?                                     @map("office_address_en") @db.VarChar(300)
+  officeAddressGu String?                                     @map("office_address_gu") @db.VarChar(300)
+  officePhone     String?                                     @map("office_phone") @db.VarChar(20)
+  population      Int?
+  sourceUrl       String                                      @map("source_url") @db.VarChar(500)
+  lastVerifiedAt  DateTime                                    @map("last_verified_at") @db.Timestamptz(6)
+  createdAt       DateTime                                    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime                                    @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  zone      Zone    @relation(fields: [zoneId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_wards_zone")
+  issues    Issue[]
+  homeUsers User[]
+
+  @@unique([number], map: "uq_wards_number")
+  @@index([zoneId], map: "idx_wards_zone")
+  @@index([geom], map: "idx_wards_geom", type: Gist)
+  @@map("wards")
 }
