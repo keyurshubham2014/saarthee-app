@@ -1,10 +1,10 @@
 # Task Summary — Saarthee v2 (Amdavad civic platform)
 
 **Last Updated:** 2026-10-04
-**Overall Progress:** 0 / 14 tasks complete (0%)
-**Current Task:** Wave 4 — TASK-06 (W-LIFE), TASK-10 (W-STAFF)
+**Overall Progress:** 0 / 14 tasks complete · 14 / 14 In Review (founder-blocked items Deferred)
+**Current Task:** None in progress — all 14 In Review; waiting on founder actions (TASK-14 §13)
 **Requirement Coverage (planned):** 119 / 119 active requirements mapped to a task (6 deferred)
-**Requirement Coverage (verified):** 0 / 119 — see [coverage-verification.md](./coverage-verification.md)
+**Requirement Coverage (verified):** 102 / 119 Pass or Fixed · 17 Deferred · 0 Not Verified — see [coverage-verification.md](./coverage-verification.md)
 **Source Documents:** `docs/v2/saarthee-v2-spec.md`, `docs/v2/design-system.md`, `docs/research/saarthee-v2-proposal.html`; v1 plan in `docs/tasks/` (foundation reused)
 
 ## How to use this plan
@@ -34,7 +34,7 @@ Prompt template:
 | TASK-11 | Representative claim and ward dashboard | In Review | P1 | M | TASK-06, TASK-09, TASK-10 | 85% |
 | TASK-12 | AMC services directory and civic initiatives | In Review | P1 | M | TASK-02, TASK-03, TASK-04 | 90% |
 | TASK-13 | Deployment, storage, backups and release | In Review | P0 | M | TASK-01 | 80% |
-| TASK-14 | End-to-end verification, accessibility and pilot launch | Not Started | P0 | L | TASK-07, TASK-08, TASK-11, TASK-12, TASK-13 | 0% |
+| TASK-14 | End-to-end verification, accessibility and pilot launch | In Review | P0 | L | TASK-07, TASK-08, TASK-11, TASK-12, TASK-13 | 85% |
 
 Status vocabulary: `Not Started`, `In Progress`, `Blocked`, `In Review`, `Complete`.
 
@@ -50,7 +50,7 @@ Status vocabulary: `Not Started`, `In Progress`, `Blocked`, `In Review`, `Comple
 | Ops | TASK-13 (any time after TASK-01; must finish before TASK-14) |
 | Launch | TASK-14 last |
 
-**Ready now:** TASK-14 (end-to-end verification, accessibility, pilot launch)
+**Ready now:** Founder actions in TASK-14 §13 (physical phone, Firebase project, hosting, Play Console, roster, Gujarati/legal review), then sign-off moves tasks to Complete
 **Blocked:** none
 
 ### Milestones
@@ -99,12 +99,12 @@ graph TD
 
 | Category | Active | Mapped to a task | Verified | Deferred |
 |---|---|---|---|---|
-| Functional (REQ-F) | 66 | 66 | 0 | 4 |
-| Data (REQ-D) | 13 | 13 | 0 | — |
-| Non-functional (REQ-N) | 13 | 13 | 0 | — |
-| Security (REQ-S) | 15 | 15 | 0 | — |
-| Operational (REQ-O) | 12 | 12 | 0 | 1 |
-| **Total** | **119** | **119** | **0** | **6** |
+| Functional (REQ-F) | 66 | 66 | 61 | 4 |
+| Data (REQ-D) | 13 | 13 | 13 | — |
+| Non-functional (REQ-N) | 13 | 13 | 10 | — |
+| Security (REQ-S) | 15 | 15 | 13 | — |
+| Operational (REQ-O) | 12 | 12 | 5 | 1 |
+| **Total** | **119** | **119** | **102** | **6** |
 
 Full mapping: [requirements-registry.md](./requirements-registry.md) · Verification: [coverage-verification.md](./coverage-verification.md)
 
@@ -146,6 +146,7 @@ A task is `Complete` only when its acceptance criteria are verified in the runni
 
 | Date | Change |
 |---|---|
+| 2026-10-04 | TASK-14 integrator pass → In Review 85%. Device checks on emulator-5554 for staff/admin (composer, election mode, roles, categories, exports), representative (ward-scoped comment, inbox + email reply via `mail:inbound-sim`), claim → admin approve, citizen flags, draft restore after process death, AMC-closed banner, F-063/F-065 motion clips, 2,000-issue map (evidence 80–106). Fixes: flag entry points (issue + comment), public representative comments, hidden comments filtered from public events, plural "1 photo". `db:reset` and `demo:reset` run for real. Gates: API 441 passed / 4 skipped, tsc + ESLint clean; Flutter 629, analyze 0, format clean; integration 10/10 (report_to_verify 2/2 incl. reopened, report_verify 2/2, discovery, report_flow, ward_locate 4/4); privacy:check 11 PASS / 1 SKIP; api:sweep 305 PASS. `python3 docs/tasks/validate_tasks.py docs/tasks-v2/` → "Tasks: 14 · Complete: 0 (0%) · Requirements: 119/119 covered · 6 deferred · All checks passed." `python3 docs/tasks-v2/check_coverage.py` → "Coverage verification: 119/119 verified (100%) — Pass 101, Fixed 1, Deferred 17" (exit 0). Deferred rows each name the founder action (TASK-14 §13). Tags `v2-m6`, `v2-demo`. |
 | 2026-10-04 | Waves 4–5 merged: TASK-06, TASK-10 (+ INT-10: staff writes via `transitionInTx`), TASK-07, TASK-11. Emulator (cold-booted after a wedged system_server): staff moderation → acknowledge → mark fixed with after photo (EXIF-free), follower inbox rows; TASK-07 `discovery_test` 1/1, Home feed/map/detail/Me too (sign-in returns to the action, auto-follow)/Following/route-chevron pull-to-refresh; TASK-11 representative ward dashboard. Staff web console verified in Chrome. Integrator fixes: sign-in takes the app language (inbox was Gujarati under an English UI); CORS allowed client `X-*` headers (every staff-web call was blocked); representative at `/staff` got 'no access'; brand mark on staff login/app bar. Gates: API 433 passed / 4 skipped, Flutter 485, analyze 0, format clean. Tags `v2-m3`, `v2-m5`. |
 | 2026-10-04 | Waves 2–3 merged: TASK-02 mobile, TASK-04, TASK-05 (+ ML Kit auto-blur), TASK-08 (+ shared job runner), TASK-09, TASK-12, TASK-13. Emulator: OTP sign-in via Auth Emulator, report 1→3 submitted with blur caption, My Ward relay (no phone digits in email), two-admin Warning alert → banner + inbox + swipe-read, initiative RSVP. Integrator fixes: report thumbnail/blur flag/pinned buttons/icons, inbox refetch, app-bar title overflow, profile emulator cleartext. Tags v2-m2, v2-m4. API 331+, Flutter 378 |
 | 2026-10-04 | Wave 1 merged to main: TASK-01 (75 API tests green; native arm64 PostGIS image `infra/postgis/Dockerfile`), TASK-03 (114 Flutter tests green) and V2-BRAND identity (mark variant E "road turn", adaptive/themed launcher icons, splash light/dark, notification icon, web/Play assets, brand guide in `docs/brand/`). Both tasks In Review pending emulator checks |

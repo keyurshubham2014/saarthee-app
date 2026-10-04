@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-14 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-07, TASK-08, TASK-11, TASK-12, TASK-13 |
 | Blocks | None |
 | Requirement IDs | REQ-N-010, REQ-N-013, REQ-O-009, REQ-O-010, REQ-O-011, REQ-O-012 |
 | Primary Spec Refs | Spec §2 (D5, D11), §7, §8, §11, §12; DS §5, DS §6, DS §7, DS §8, DS §9; v1 approach `docs/tasks/TASK-10-e2e-verification-gap-closure.md` |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -264,6 +264,16 @@ Re-verify the authorisation matrix end to end with one account per role (visitor
 - ASSUMPTION (W-T14D): `demo:reset` clears Auth Emulator accounts when the emulator is running (seeded staff are re-linked by phone at sign-in, `auth.service.ts`), so citizen A/B always see the age question once.
 - ASSUMPTION (W-T14D): Moderator "mark fixed with after photo" is shown in-app (Staff tools) because the after photo needs the phone camera; acknowledge is on the web console. Me too is done by citizen A on a seeded issue to avoid an extra account switch.
 - ASSUMPTION (W-T14D): Build deviations from TASK-01…13 §5.6 are recorded as v2 spec decisions D13–D43 (one row each, material ones only); §13 logs were not mined row by row.
+
+- ASSUMPTION (integrator, 2026-10-04): Integration tests seed the session token into a `MemorySecureStore` override (report_verify) rather than replaying OTP each run, because the API's sign-in exchange is limited to 10/IP/min and repeated runs hit 429; OTP sign-in itself is covered by the manual emulator runs.
+- ASSUMPTION (integrator): Lifecycle and detail providers watch the session token (`sessionProvider.select((s) => s.token)`) and refetch when it changes, instead of the HTTP interceptor awaiting session restore — awaiting in the interceptor broke fake-async widget tests.
+- ASSUMPTION (integrator): Representative and moderator comments are public timeline rows ("Comment" + text + per-comment "Report a problem"); resident notes stay staff-only (the API already sends them as null) and comments hidden by a moderator are filtered out of the public `/issues/{id}/events` (staff still see them). The flag sheet title stays "Report a problem with this post" for both targets.
+- ASSUMPTION (integrator): A staff member acting on an issue they reported acts as the reporter (`actorFor`), so the timeline shows "A resident of <ward>" — anonymity wins over showing their staff role.
+- ASSUMPTION (integrator): Cold start on the emulator is judged by structure, not the 3 s number: the first frame is the launch mark only (the app tree builds after it), measured ~6.5 s on the emulator with Impeller-GLES vs 2.2 s first frame with Skia. The ≤ 3 s gate (REQ-N-007) runs on the physical low-end phone, where Impeller uses Vulkan; Impeller on/off is measured there.
+- ASSUMPTION (integrator): REQ-N-013 on the emulator is a pre-check only: 26 traced moments are layout-free with UI-thread times in budget; raster times are an emulator GPU artifact and are not used to pass or fail (motion-perf-report.md).
+- ASSUMPTION (integrator): The debug/profile APK carries 20.4 MB of x86_64 ML Kit libraries; the Play upload is an AAB with ABI splits, so this is not trimmed in the APK.
+- ASSUMPTION (integrator): Voice input (REQ-F-019, P2) is not built in v2; the native plugin needs a physical-device build check and a founder decision. Recorded as Deferred.
+- ASSUMPTION (integrator): Gujarati alert text can't be typed with `adb input text`, so the F-065 device check created and published an Info alert through the staff API (Auth Emulator sign-in for the fictional test admin, local only); the composer UI was verified separately (evidence 86–87).
 
 ## 6. Implementation Steps
 
@@ -533,35 +543,47 @@ Prediction only — exact fixes depend on what the audit finds.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review — emulator half complete; physical-phone, Firebase, Play and founder items Deferred (see below)
 
-**Progress:** 0%
+**Progress:** 85%
+
+**Results (2026-10-04, after `db:reset` + `demo:reset`):**
+- API: `npm test` 441 passed / 4 skipped (88 files); `tsc --noEmit` clean; ESLint clean.
+- Mobile: `flutter test` 629 passed; `dart analyze` 0 issues; `dart format --set-exit-if-changed` clean.
+- Integration on emulator-5554: report_to_verify 2/2 (A reports → staff fix → B verifies → Verified; reporter "Still not fixed" → Reopened), report_verify 2/2, discovery 1/1, report_flow 1/1, ward_locate 4/4.
+- `npm run privacy:check`: 11 PASS, 1 SKIP (P2-12 HTTPS — staging only). `npm run api:sweep`: 305 PASS.
+- Motion: 26 moments traced on the emulator (layout-free pass); recordings in `docs/demo/v2-evidence/motion/` incl. Remove-animations and in-app animations-off runs.
+- Coverage: 119/119 decided — 101 Pass, 1 Fixed (REQ-F-051), 17 Deferred with a named action, 0 Not Verified.
+- Gaps found and fixed in this pass: citizen flag had no entry point (issue + comment flags added); representative comments were invisible to citizens; moderator-hidden comments stayed in the public events API; Follow/Me too resumed after sign-in could toggle off; detail/lifecycle fetched anonymously before the session restored; representative got "no access" at /staff; staff-web CORS blocked `X-*` headers; inbox language followed the stale account language; a11y at 2.0× (initiative card, status-bar scrim); "1 photos".
+
+**Deferred — needs founder action:** physical low-end phone with USB debugging authorised (REQ-N-004/N-007/N-013 TalkBack, cold start, frame gate; REQ-O-009/O-010 device half; REQ-S-007 real faces/plates; F-032 PNG card); Firebase project + service account (REQ-F-010/F-011/F-037, O-003 fresh clone); hosting/domain (P2-12, TASK-13 rows); Play Console; real 2026–31 corporator roster; IMD/SACHET access; Gujarati and legal review; pilot checklist sign-off (REQ-O-011).
 
 | Date | Progress | Commit |
 |---|---|---|
 | 2026-10-04 | W-T14D step 23: v1 docs 00–07, v1 task summary and DEMO.md carry the superseded banner + per-section v2 notes (invite codes, H1/H2, WhatsApp verify tokens, no-tests, indigo/marigold); v2 spec linked from master index + README; spec decisions D13–D43 | f0b5fff, 4d6262b |
 | 2026-10-04 | W-T14D step 24: `scripts/demo-reset.sh` v2 (`--dry-run`, guards, Auth Emulator, emulator perms + GPS, accounts + issues-by-status), `docs/demo/DEMO-v2.md` 7-minute script | 710f57c, 5847109 |
 | 2026-10-04 | W-T14D step 25: `docs/v2/pilot-launch-checklist.md` L1–L12 (L1/L4/L6/L8 Partial with evidence; founder items Deferred with exact actions) | e465354 |
+| 2026-10-04 | Integrator: admin/staff/rep/claim/flag device checks (evidence 80–106), flag entry points + public rep comments + hidden-comment filter, F-063/F-065/N-008 recordings, coverage closed (119/119 decided), `db:reset` + `demo:reset` run for real, full gates green | b422fe4, e837696, 093acde, ce4b0a8 |
 
 ## 14. Completion Checklist
 
 - [ ] All implementation steps complete
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
-- [ ] Static checks pass and every AC verified by the checks in §8
-- [ ] Automated tests added and passing
-- [ ] Frontend and backend integrated end to end (no mocked data left in place)
+- [x] Static checks pass and every AC verified by the checks in §8
+- [x] Automated tests added and passing
+- [x] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified on every route
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
-- [ ] No open S1/S2 bugs
+- [x] Assumptions documented and, where possible, confirmed
+- [x] No open S1/S2 bugs
 - [ ] Motion performance matrix MO-01…MO-25 all Pass on the reference phone; `docs/demo/v2-evidence/motion/motion-perf-report.md` complete with timeline summaries and recordings
 - [ ] Motion safety sweeps clean (transform/opacity/colour only, loops limited, no flashing > 3/s) and reduced-motion core loop (system setting and in-app switch) passed
 - [ ] Neem design sweep clean (no `Icons.*`/Outlined icons, Noto only as fallback, no Civic Blue/v1 tokens, `sunrise` on report actions only)
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-14` shows 0 unverified)
 - [ ] `check_coverage.py` (all tasks) exits 0 — verification layer at 100%
 - [ ] Pilot launch checklist signed by the founder
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated (14/14, V2-M6 reached)
 - [ ] Committed as `V2-TASK-14: …`
-- [ ] Validator passes
+- [x] Validator passes
