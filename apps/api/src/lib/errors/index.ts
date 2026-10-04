@@ -68,6 +68,8 @@ export const ERROR_CODES = {
   TOO_FAR_FROM_ISSUE: { status: 422, message: 'You need to be within 100 m of the problem to verify.' },
   LOCATION_TOO_INACCURATE: { status: 422, message: 'Location is approximate. Move into the open and try again.' },
   CCRS_NOT_LINKED: { status: 409, message: 'Link your AMC complaint number first.' },
+  // TASK-07 (discovery).
+  WARD_REQUIRED: { status: 400, message: 'Choose a ward to see its feed.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

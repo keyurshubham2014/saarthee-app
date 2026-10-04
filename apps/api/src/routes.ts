@@ -22,6 +22,8 @@ import { initiativesRouter } from './modules/initiatives';
 import { staffContentRouter } from './modules/staff-content';
 import { lifecycleRouter } from './modules/lifecycle';
 import { escalationRouter } from './modules/escalation';
+import { feedRouter } from './modules/feed';
+import { mapRouter } from './modules/map';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -53,3 +55,6 @@ apiRouter.use(staffContentRouter);
 // TASK-06: issue lifecycle (status, verifications, events, AMC closed it) and escalation messages.
 apiRouter.use(lifecycleRouter);
 apiRouter.use(escalationRouter);
+// TASK-07: discovery — Home feed (provider registry) and map clusters/points. /issues list/detail live in issuesRouter.
+apiRouter.use(feedRouter);
+apiRouter.use(mapRouter);
