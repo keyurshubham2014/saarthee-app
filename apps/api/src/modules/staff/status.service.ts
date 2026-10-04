@@ -1,27 +1,22 @@
 /**
- * TASK-10 stand-in for TASK-06's lifecycle `transition()` — the ONE place the staff console writes
- * `issues.status`. INTEGRATOR: when TASK-06 (`src/modules/lifecycle`) lands, replace the body of
- * `staffTransition` (and `writeStatus`) with calls to its `transition()`; the routes and services in this
- * module call only these two functions for status changes.
+ * Staff console status changes (TASK-10), integrated with TASK-06 (W-INT10): every status write goes through
+ * the lifecycle's `transitionInTx()` — the single writer of `issues.status` — inside the caller's transaction,
+ * so moderation side effects (flags actioned, stamps, merges) commit atomically with the status change. The
+ * caller runs the returned `afterCommit()` once the transaction commits (follower notifications).
  *
- * Staff rows of TASK-06's transition table (moderator/admin actors):
+ * Rules come from TASK-06's table (`modules/lifecycle/transitions.ts`); staff rows (moderator/admin):
  *   reported, sent, reopened                        → acknowledged
  *   reported, sent, acknowledged, reopened          → in_progress
  *   reported, sent, acknowledged, in_progress, reopened → marked_fixed (optional after photos, ≤ 3)
- *   any open, marked_fixed                          → rejected / merged (moderation.service)
+ *   any open, marked_fixed                          → rejected (note required) / merged (moderation.service)
  */
 import type { IssueStatus, Prisma } from '@prisma/client';
-import { now } from '../../lib/clock';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
+import { transitionInTx, type TransitionActor, type TransitionResult } from '../lifecycle/lifecycle.service';
+import { checkTransition } from '../lifecycle/transitions';
 
 export type StaffStatusTarget = 'acknowledged' | 'in_progress' | 'marked_fixed';
-
-const FROM: Record<StaffStatusTarget, IssueStatus[]> = {
-  acknowledged: ['reported', 'sent', 'reopened'],
-  in_progress: ['reported', 'sent', 'acknowledged', 'reopened'],
-  marked_fixed: ['reported', 'sent', 'acknowledged', 'in_progress', 'reopened'],
-};
 
 /** Issue statuses a moderator may still reject or merge. */
 export const TERMINAL_OPEN: IssueStatus[] = ['reported', 'sent', 'acknowledged', 'in_progress', 'reopened', 'marked_fixed'];
@@ -55,31 +50,32 @@ export async function lockIssue(tx: Prisma.TransactionClient, id: string): Promi
   return rows[0];
 }
 
-/** Writes the status + its issue_events row inside the caller's transaction (single status write path). */
-export async function writeStatus(
+/** TASK-10 staff identity → TASK-06 actor. A v1 email admin has no users row: userId null, kind admin. */
+export function transitionActor(actor: StatusActor): TransitionActor {
+  return { userId: actor.actorId, kind: actor.actorRole };
+}
+
+/**
+ * Thin wrapper over `transitionInTx()` for staff actors: records a v1 email admin as `meta.adminUserId` on the
+ * issue_events row (actor_id stays null). Does not write `issues.status` itself.
+ */
+export function transitionAsStaff(
   tx: Prisma.TransactionClient,
-  issue: LockedIssue,
+  issueId: string,
   to: IssueStatus,
   actor: StatusActor,
-  opts: { note?: string | null; photoId?: string | null; mergedIntoId?: string; eventType?: 'status_change' | 'rejected' | 'merged' } = {},
-) {
-  const at = now();
-  await tx.issue.update({
-    where: { id: issue.id },
-    data: { status: to, statusChangedAt: at, ...(opts.mergedIntoId ? { mergedIntoId: opts.mergedIntoId } : {}) },
-  });
-  return tx.issueEvent.create({
-    data: {
-      issueId: issue.id, actorId: actor.actorId, actorRole: actor.actorRole, type: opts.eventType ?? 'status_change',
-      fromStatus: issue.status, toStatus: to, note: opts.note ?? null, photoId: opts.photoId ?? null, createdAt: at,
-    },
+  opts: { note?: string | null; photoIds?: string[]; notifyExcept?: string[]; mergedIntoId?: string } = {},
+): Promise<TransitionResult> {
+  return transitionInTx(tx, issueId, to, transitionActor(actor), {
+    ...opts,
+    ...(actor.actorId ? {} : { meta: { adminUserId: actor.handlerId } }),
   });
 }
 
 /**
  * Acknowledge / in progress / mark fixed from the staff console. `expectedStatus` guards against another
  * moderator having changed it (409 ISSUE_STATE_INVALID). After photos must be the actor's own unattached
- * uploads; they are attached as `issue_photos.kind = 'after'`.
+ * `purpose='after'` uploads from the last 24 h (TASK-06 rule); they are attached as `issue_photos.kind = 'after'`.
  */
 export async function staffTransition(
   issueId: string,
@@ -88,22 +84,15 @@ export async function staffTransition(
   opts: { note?: string; photoIds?: string[]; expectedStatus?: IssueStatus },
 ) {
   const photoIds = opts.photoIds ?? [];
-  return prisma.$transaction(async (tx) => {
+  const result = await prisma.$transaction(async (tx) => {
     const issue = await lockIssue(tx, issueId);
+    // TASK-10 error contract, checked before transition() so its codes win over STALE_STATUS / VALIDATION_FAILED.
     if (opts.expectedStatus && opts.expectedStatus !== issue.status) throw new AppError('ISSUE_STATE_INVALID');
-    if (!FROM[to].includes(issue.status)) throw new AppError('INVALID_TRANSITION');
-    if (photoIds.length > 0) {
-      if (to !== 'marked_fixed' || !actor.actorId) throw new AppError('PHOTO_UNUSABLE');
-      const attached = await tx.photo.updateMany({
-        where: { id: { in: photoIds }, uploadedByUserId: actor.actorId, attachedAt: null, deletedAt: null },
-        data: { attachedAt: now() },
-      });
-      if (attached.count !== photoIds.length) throw new AppError('PHOTO_UNUSABLE');
-      const last = await tx.issuePhoto.aggregate({ where: { issueId, kind: 'after' }, _max: { position: true } });
-      const start = (last._max.position ?? -1) + 1;
-      await tx.issuePhoto.createMany({ data: photoIds.map((photoId, i) => ({ issueId, photoId, kind: 'after' as const, position: start + i })) });
-    }
-    const event = await writeStatus(tx, issue, to, actor, { note: opts.note ?? null, photoId: photoIds[0] ?? null });
-    return { issue, event };
+    const check = checkTransition(issue.status, to, transitionActor(actor).kind);
+    if (!check.ok) throw new AppError(check.code);
+    if (photoIds.length > 0 && (to !== 'marked_fixed' || !actor.actorId)) throw new AppError('PHOTO_UNUSABLE');
+    return transitionAsStaff(tx, issueId, to, actor, { note: opts.note ?? null, photoIds });
   });
+  await result.afterCommit();
+  return result;
 }

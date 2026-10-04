@@ -166,13 +166,13 @@ describe('recategorise and change ward (T-10-08)', () => {
   });
 });
 
-describe('status changes from the console (TASK-06 stand-in)', () => {
+describe('status changes from the console (via TASK-06 transition)', () => {
   it('acknowledges, then marks fixed with an after photo; stale and invalid changes 409', async () => {
     const issue = await makeIssue();
     await post(mod.auth, `/staff/issues/${issue.id}/status`, { to: 'acknowledged', expectedStatus: 'reported' }).expect(200);
     const stale = await post(mod.auth, `/staff/issues/${issue.id}/status`, { to: 'in_progress', expectedStatus: 'reported' });
     expect(stale.body.error.code).toBe('ISSUE_STATE_INVALID');
-    const photo = await makePhoto({ uploadedByUserId: mod.user.id, attachedAt: null });
+    const photo = await makePhoto({ uploadedByUserId: mod.user.id, attachedAt: null, purpose: 'after' });
     const res = await post(mod.auth, `/staff/issues/${issue.id}/status`, { to: 'marked_fixed', note: 'Patched', photoIds: [photo.id] }).expect(200);
     expect(res.body.status).toBe('marked_fixed');
     expect(res.body.photos).toEqual([expect.objectContaining({ id: photo.id, kind: 'after' })]);
