@@ -5,8 +5,9 @@ import '../theme/tokens.dart';
 import '../theme/typography.dart';
 
 /// The Saarthee mark (DS §1): rounded square (radius 28% of size) in
-/// `primary` with a white upward-right route chevron ending in a `sunrise`
-/// dot. No seal, circle emblem, architecture or AMC colours.
+/// `primary` with a white road that rises and turns right towards a `sunrise`
+/// destination dot ("the way forward"). Master: docs/brand/mark.svg.
+/// No seal, circle emblem, architecture or AMC colours.
 class BrandMark extends StatelessWidget {
   const BrandMark({super.key, this.size = 72, this.semanticLabel});
 
@@ -45,34 +46,57 @@ class BrandMarkPainter extends CustomPainter {
   final Color route;
   final Color dot;
 
+  // Geometry in 100-unit mark space, copied from docs/brand/mark.svg
+  // (variant E "road turn"); test/brand/brand_mark_test.dart checks them.
+  /// `<rect id="square" rx="28">`
+  static const double cornerRadius = 28;
+
+  /// `<path id="route" d="M24 73 L24 51 Q24 33 42 33 L50 33">`
+  static const Offset routeStart = Offset(24, 73);
+  static const Offset routeTurnStart = Offset(24, 51);
+  static const Offset routeTurnControl = Offset(24, 33);
+  static const Offset routeTurnEnd = Offset(42, 33);
+  static const Offset routeEnd = Offset(50, 33);
+
+  /// `stroke-width="12"` (round caps and joins)
+  static const double routeStroke = 12;
+
+  /// `<circle id="dot" cx="72.5" cy="33" r="10.5">`
+  static const Offset dotCenter = Offset(72.5, 33);
+  static const double dotRadius = 10.5;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final s = size.width;
-    final r = s * AppRadii.markFraction;
+    final k = size.width / 100;
     canvas.drawRRect(
-      RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(r)),
+      RRect.fromRectAndRadius(
+        Offset.zero & size,
+        Radius.circular(cornerRadius * k),
+      ),
       Paint()..color = square,
     );
-    // Route: rises from the lower left, turns, and heads up-right.
+    // Road rises from the lower left, turns right, runs on to the destination.
     final path = Path()
-      ..moveTo(s * 0.24, s * 0.74)
-      ..lineTo(s * 0.44, s * 0.54)
-      ..lineTo(s * 0.54, s * 0.62)
-      ..lineTo(s * 0.70, s * 0.40);
+      ..moveTo(routeStart.dx * k, routeStart.dy * k)
+      ..lineTo(routeTurnStart.dx * k, routeTurnStart.dy * k)
+      ..quadraticBezierTo(
+        routeTurnControl.dx * k,
+        routeTurnControl.dy * k,
+        routeTurnEnd.dx * k,
+        routeTurnEnd.dy * k,
+      )
+      ..lineTo(routeEnd.dx * k, routeEnd.dy * k);
     canvas.drawPath(
       path,
       Paint()
         ..color = route
         ..style = PaintingStyle.stroke
-        ..strokeWidth = s * 0.09
+        ..strokeWidth = routeStroke * k
         ..strokeCap = StrokeCap.round
-        ..strokeJoin = StrokeJoin.round,
+        ..strokeJoin = StrokeJoin.round
+        ..isAntiAlias = true,
     );
-    canvas.drawCircle(
-      Offset(s * 0.74, s * 0.30),
-      s * 0.085,
-      Paint()..color = dot,
-    );
+    canvas.drawCircle(dotCenter * k, dotRadius * k, Paint()..color = dot);
   }
 
   @override
@@ -85,6 +109,10 @@ class BrandMarkPainter extends CustomPainter {
 class Wordmark extends StatelessWidget {
   const Wordmark({super.key, this.size = 28, this.color});
 
+  /// Brand names are proper nouns, identical in every locale (DS §1).
+  static const String brandNameEn = 'Saarthee';
+  static const String brandNameGu = 'સારથી';
+
   final double size;
   final Color? color;
 
@@ -93,8 +121,8 @@ class Wordmark extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final c = SaartheeColors.of(context);
     final gu = Localizations.localeOf(context).languageCode == 'gu';
-    final first = gu ? l10n.brandNameGu : l10n.brandNameEn;
-    final second = gu ? l10n.brandNameEn : l10n.brandNameGu;
+    final first = gu ? brandNameGu : brandNameEn;
+    final second = gu ? brandNameEn : brandNameGu;
     return Semantics(
       header: true,
       label: l10n.appTitle,
