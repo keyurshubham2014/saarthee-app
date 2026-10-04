@@ -14,6 +14,7 @@ import '../features/onboarding/presentation/ward_screen.dart';
 import 'admin_routes.dart';
 import 'route_helpers.dart';
 import 'shell_routes.dart';
+import 'staff_routes.dart';
 
 /// Root navigator key, used by the global error handler.
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -80,6 +81,8 @@ GoRouter buildAppRouter(Ref ref, {bool enableGallery = kDebugMode}) {
         GoRoute(path: '/dev/gallery', builder: (_, _) => const GalleryScreen()),
       ...rootFeatureRoutes,
       ...adminRoutes,
+      // TASK-08: staff alert composer and approval (TASK-10 mounts the shell).
+      ...staffRoutes,
     ],
   );
   _applyOrientation(initial);

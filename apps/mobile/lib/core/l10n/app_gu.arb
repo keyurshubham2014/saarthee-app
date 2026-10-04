@@ -2198,5 +2198,221 @@
   "inboxBellLabel": "સૂચનાઓ, {count} ન વાંચેલી",
   "@inboxBellLabel": {
     "x-review": "pending"
+  },
+  "staffAlertsTitle": "ચેતવણીઓ",
+  "@staffAlertsTitle": {
+    "x-review": "pending"
+  },
+  "staffAlertsNew": "નવી ચેતવણી",
+  "@staffAlertsNew": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabDrafts": "ડ્રાફ્ટ",
+  "@staffAlertsTabDrafts": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabPending": "મંજૂરી બાકી",
+  "@staffAlertsTabPending": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabPublished": "પ્રકાશિત",
+  "@staffAlertsTabPublished": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabEnded": "પૂર્ણ",
+  "@staffAlertsTabEnded": {
+    "x-review": "pending"
+  },
+  "staffAlertsFromSachet": "NDMA SACHET માંથી",
+  "@staffAlertsFromSachet": {
+    "x-review": "pending"
+  },
+  "staffAlertsApprovals": "{needed} માંથી {count} મંજૂરી",
+  "@staffAlertsApprovals": {
+    "x-review": "pending"
+  },
+  "staffAlertsEmpty": "અહીં કંઈ નથી.",
+  "@staffAlertsEmpty": {
+    "x-review": "pending"
+  },
+  "staffAlertsNoAccess": "તમને આ પેજની ઍક્સેસ નથી.",
+  "@staffAlertsNoAccess": {
+    "x-review": "pending"
+  },
+  "staffAlertsLoadError": "અમે ચેતવણીઓ લોડ કરી શક્યા નહીં.",
+  "@staffAlertsLoadError": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldType": "પ્રકાર",
+  "@staffAlertsFieldType": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldSeverity": "ગંભીરતા",
+  "@staffAlertsFieldSeverity": {
+    "x-review": "pending"
+  },
+  "staffAlertsSeverityHelp": "ચેતવણી અને ગંભીર માટે બે મંજૂરી જોઈએ",
+  "@staffAlertsSeverityHelp": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldTitleEn": "શીર્ષક (English)",
+  "@staffAlertsFieldTitleEn": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldTitleGu": "શીર્ષક (ગુજરાતી)",
+  "@staffAlertsFieldTitleGu": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldBodyEn": "સંદેશ (English)",
+  "@staffAlertsFieldBodyEn": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldBodyGu": "સંદેશ (ગુજરાતી)",
+  "@staffAlertsFieldBodyGu": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldSourceName": "સ્રોતનું નામ",
+  "@staffAlertsFieldSourceName": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldSourceUrl": "સ્રોત લિંક",
+  "@staffAlertsFieldSourceUrl": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldValidFrom": "ક્યારથી",
+  "@staffAlertsFieldValidFrom": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldValidTo": "ક્યાં સુધી",
+  "@staffAlertsFieldValidTo": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldArea": "વિસ્તાર",
+  "@staffAlertsFieldArea": {
+    "x-review": "pending"
+  },
+  "staffAlertsAreaWards": "વોર્ડ",
+  "@staffAlertsAreaWards": {
+    "x-review": "pending"
+  },
+  "staffAlertsAreaZone": "ઝોન",
+  "@staffAlertsAreaZone": {
+    "x-review": "pending"
+  },
+  "staffAlertsAreaCity": "આખું શહેર",
+  "@staffAlertsAreaCity": {
+    "x-review": "pending"
+  },
+  "staffAlertsPickWards": "વોર્ડ પસંદ કરો",
+  "@staffAlertsPickWards": {
+    "x-review": "pending"
+  },
+  "staffAlertsCounter": "{count}/{max}",
+  "@staffAlertsCounter": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrorSummary": "કૃપા કરીને આ ફીલ્ડ સુધારો:",
+  "@staffAlertsErrorSummary": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrRequired": "આ ભરો.",
+  "@staffAlertsErrRequired": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrTooLong": "ખૂબ લાંબું.",
+  "@staffAlertsErrTooLong": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrTooShort": "ખૂબ ટૂંકું.",
+  "@staffAlertsErrTooShort": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrHttps": "https:// થી શરૂ થતી સુરક્ષિત લિંક વાપરો",
+  "@staffAlertsErrHttps": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrWindow": "અંત શરૂઆત પછી, ભવિષ્યમાં અને વધુમાં વધુ 14 દિવસમાં હોવો જોઈએ.",
+  "@staffAlertsErrWindow": {
+    "x-review": "pending"
+  },
+  "staffAlertsPreview": "પૂર્વાવલોકન",
+  "@staffAlertsPreview": {
+    "x-review": "pending"
+  },
+  "staffAlertsApprovedBy": "{name} ({role}) દ્વારા મંજૂર",
+  "@staffAlertsApprovedBy": {
+    "x-review": "pending"
+  },
+  "staffAlertsNeedsMore": "હજી {count} મંજૂરી જોઈએ",
+  "@staffAlertsNeedsMore": {
+    "x-review": "pending"
+  },
+  "staffAlertsNeedsAdmin": "એડમિનની વધુ 1 મંજૂરી જોઈએ",
+  "@staffAlertsNeedsAdmin": {
+    "x-review": "pending"
+  },
+  "staffAlertsSaveDraft": "ડ્રાફ્ટ સાચવો",
+  "@staffAlertsSaveDraft": {
+    "x-review": "pending"
+  },
+  "staffAlertsSubmit": "મંજૂરી માટે મોકલો",
+  "@staffAlertsSubmit": {
+    "x-review": "pending"
+  },
+  "staffAlertsApprove": "મંજૂર કરો",
+  "@staffAlertsApprove": {
+    "x-review": "pending"
+  },
+  "staffAlertsPublish": "હમણાં પ્રકાશિત કરો",
+  "@staffAlertsPublish": {
+    "x-review": "pending"
+  },
+  "staffAlertsRetract": "પાછી ખેંચો",
+  "@staffAlertsRetract": {
+    "x-review": "pending"
+  },
+  "staffAlertsUpdate": "અપડેટ બનાવો",
+  "@staffAlertsUpdate": {
+    "x-review": "pending"
+  },
+  "staffAlertsConfirmPublish": "આ {area} માં દરેકને હમણાં જાણ કરશે.",
+  "@staffAlertsConfirmPublish": {
+    "x-review": "pending"
+  },
+  "staffAlertsConfirmPublishQuiet": "આ {area} માં દરેકને સવારે 7:00 વાગ્યે જાણ કરશે (શાંત સમય).",
+  "@staffAlertsConfirmPublishQuiet": {
+    "x-review": "pending"
+  },
+  "staffAlertsRetractReason": "પાછી ખેંચવાનું કારણ",
+  "@staffAlertsRetractReason": {
+    "x-review": "pending"
+  },
+  "staffAlertsCancel": "રદ કરો",
+  "@staffAlertsCancel": {
+    "x-review": "pending"
+  },
+  "staffAlertsConfirm": "પુષ્ટિ કરો",
+  "@staffAlertsConfirm": {
+    "x-review": "pending"
+  },
+  "staffAlertsDone": "સાચવ્યું.",
+  "@staffAlertsDone": {
+    "x-review": "pending"
+  },
+  "staffAlertsActionError": "થઈ શક્યું નહીં: {message}",
+  "@staffAlertsActionError": {
+    "x-review": "pending"
+  },
+  "staffAlertsReadOnly": "પ્રકાશિત અને પૂર્ણ ચેતવણીઓ બદલી શકાતી નથી.",
+  "@staffAlertsReadOnly": {
+    "x-review": "pending"
+  },
+  "staffAlertsRoleModerator": "મોડરેટર",
+  "@staffAlertsRoleModerator": {
+    "x-review": "pending"
+  },
+  "staffAlertsRoleAdmin": "એડમિન",
+  "@staffAlertsRoleAdmin": {
+    "x-review": "pending"
   }
 }

@@ -51,6 +51,14 @@ class AlertSettingsController extends AsyncNotifier<AlertSubscriptions> {
       final remote = _signedIn
           ? await _api.mySubscriptions()
           : await _api.deviceSubscriptions(_installId);
+      // A save made offline is sent now that the server answers again.
+      final pending =
+          ref.read(sharedPreferencesProvider).getBool(pendingKey) == true;
+      if (pending && local != null) {
+        final saved = await _put(local);
+        await _store(saved, pending: false);
+        return saved;
+      }
       await _store(remote, pending: false);
       return remote;
     } catch (e) {

@@ -42,4 +42,14 @@ class AppTimings {
   /// In-app alert banner hides itself after this for Info/Advisory/Warning;
   /// Critical stays until dismissed or opened (TASK-08 §5.6).
   static const Duration alertBannerAutoHide = Duration(seconds: 8);
+
+  /// Longest alert validity window (API `ALERT_MAX_VALIDITY_DAYS`).
+  static const Duration alertMaxValidity = Duration(days: 14);
+
+  /// Staff composer date picker range (from yesterday to 30 days ahead).
+  static const Duration composerPickerBack = Duration(days: 1);
+  static const Duration composerPickerAhead = Duration(days: 30);
+
+  /// Default validity of a new alert in the composer.
+  static const Duration composerDefaultSpan = Duration(hours: 6);
 }

@@ -2341,5 +2341,265 @@
         "type": "int"
       }
     }
+  },
+  "staffAlertsTitle": "Alerts",
+  "@staffAlertsTitle": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsNew": "New alert",
+  "@staffAlertsNew": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsTabDrafts": "Drafts",
+  "@staffAlertsTabDrafts": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsTabPending": "Awaiting approval",
+  "@staffAlertsTabPending": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsTabPublished": "Published",
+  "@staffAlertsTabPublished": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsTabEnded": "Ended",
+  "@staffAlertsTabEnded": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFromSachet": "From NDMA SACHET",
+  "@staffAlertsFromSachet": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsApprovals": "{count} of {needed} approvals",
+  "@staffAlertsApprovals": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "needed": {
+        "type": "int"
+      }
+    }
+  },
+  "staffAlertsEmpty": "Nothing here.",
+  "@staffAlertsEmpty": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsNoAccess": "You don't have access to this page.",
+  "@staffAlertsNoAccess": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsLoadError": "We couldn't load alerts.",
+  "@staffAlertsLoadError": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldType": "Type",
+  "@staffAlertsFieldType": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldSeverity": "Severity",
+  "@staffAlertsFieldSeverity": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsSeverityHelp": "Warning and Critical need two approvers",
+  "@staffAlertsSeverityHelp": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldTitleEn": "Title (English)",
+  "@staffAlertsFieldTitleEn": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldTitleGu": "Title (ગુજરાતી)",
+  "@staffAlertsFieldTitleGu": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldBodyEn": "Message (English)",
+  "@staffAlertsFieldBodyEn": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldBodyGu": "Message (ગુજરાતી)",
+  "@staffAlertsFieldBodyGu": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldSourceName": "Source name",
+  "@staffAlertsFieldSourceName": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldSourceUrl": "Source link",
+  "@staffAlertsFieldSourceUrl": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldValidFrom": "Valid from",
+  "@staffAlertsFieldValidFrom": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldValidTo": "Valid until",
+  "@staffAlertsFieldValidTo": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsFieldArea": "Area",
+  "@staffAlertsFieldArea": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsAreaWards": "Wards",
+  "@staffAlertsAreaWards": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsAreaZone": "Zone",
+  "@staffAlertsAreaZone": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsAreaCity": "Whole city",
+  "@staffAlertsAreaCity": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsPickWards": "Choose wards",
+  "@staffAlertsPickWards": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsCounter": "{count}/{max}",
+  "@staffAlertsCounter": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "staffAlertsErrorSummary": "Please fix these fields:",
+  "@staffAlertsErrorSummary": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsErrRequired": "Fill this in.",
+  "@staffAlertsErrRequired": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsErrTooLong": "Too long.",
+  "@staffAlertsErrTooLong": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsErrTooShort": "Too short.",
+  "@staffAlertsErrTooShort": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsErrHttps": "Use a secure link starting with https://",
+  "@staffAlertsErrHttps": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsErrWindow": "The end must be after the start, in the future, and at most 14 days later.",
+  "@staffAlertsErrWindow": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsPreview": "Preview",
+  "@staffAlertsPreview": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsApprovedBy": "Approved by {name} ({role})",
+  "@staffAlertsApprovedBy": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "staffAlertsNeedsMore": "Needs {count} more approval",
+  "@staffAlertsNeedsMore": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffAlertsNeedsAdmin": "Needs 1 more approval from an admin",
+  "@staffAlertsNeedsAdmin": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsSaveDraft": "Save draft",
+  "@staffAlertsSaveDraft": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsSubmit": "Send for approval",
+  "@staffAlertsSubmit": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsApprove": "Approve",
+  "@staffAlertsApprove": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsPublish": "Publish now",
+  "@staffAlertsPublish": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsRetract": "Retract",
+  "@staffAlertsRetract": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsUpdate": "Create update",
+  "@staffAlertsUpdate": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsConfirmPublish": "This will notify everyone in {area} now.",
+  "@staffAlertsConfirmPublish": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "staffAlertsConfirmPublishQuiet": "This will notify everyone in {area} at 7:00 am (quiet hours).",
+  "@staffAlertsConfirmPublishQuiet": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "staffAlertsRetractReason": "Reason for retracting",
+  "@staffAlertsRetractReason": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsCancel": "Cancel",
+  "@staffAlertsCancel": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsConfirm": "Confirm",
+  "@staffAlertsConfirm": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsDone": "Saved.",
+  "@staffAlertsDone": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsActionError": "That didn't work: {message}",
+  "@staffAlertsActionError": {
+    "description": "TASK-08 staff alerts",
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "staffAlertsReadOnly": "Published and ended alerts can’t be edited.",
+  "@staffAlertsReadOnly": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsRoleModerator": "moderator",
+  "@staffAlertsRoleModerator": {
+    "description": "TASK-08 staff alerts"
+  },
+  "staffAlertsRoleAdmin": "admin",
+  "@staffAlertsRoleAdmin": {
+    "description": "TASK-08 staff alerts"
   }
 }
