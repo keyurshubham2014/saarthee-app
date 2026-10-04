@@ -99,5 +99,7 @@ export function staffContentAudit(
   extra?: Record<string, string | number | boolean | null>,
 ): void {
   // TASK-10: routed through the audit destination too (actorId/actorKind added for the v2 line shape).
-  writeAudit({ requestId: req.id, actor: req.user?.id, actorId: req.user?.id, actorKind: 'user', role: req.user?.role, action, targetType, targetId, ...(extra ?? {}) });
+  // TASK-14 sweep: the actor comes from the staff guard (v2 user or v1 admin login).
+  const actorId = req.staff?.actorId ?? req.user?.id;
+  writeAudit({ requestId: req.id, actor: actorId, actorId, actorKind: req.staff?.actorKind ?? 'user', role: req.staff?.role ?? req.user?.role, action, targetType, targetId, ...(extra ?? {}) });
 }

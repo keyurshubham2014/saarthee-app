@@ -5,7 +5,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { rateLimit } from '../../middleware/rateLimit';
-import { requireRole, requireUser } from '../../middleware/requireUser';
+import { requireStaff } from '../../middleware/requireStaff';
 import { validate } from '../../middleware/validate';
 import { staffAudit, staffKey } from '../settings';
 import {
@@ -15,8 +15,9 @@ import {
 export const staffRepresentativesRouter = Router();
 
 const limiter = rateLimit({ windowMs: 60_000, max: 300, keyGenerator: staffKey });
-const readers = [requireUser, requireRole('admin', 'moderator'), limiter];
-const writers = [requireUser, requireRole('admin'), limiter];
+// TASK-14 sweep: requireStaff so the v1 admin email login works here like on every other /staff route.
+const readers = [requireStaff('admin', 'moderator'), limiter];
+const writers = [requireStaff('admin'), limiter];
 
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const repBody = z.strictObject({

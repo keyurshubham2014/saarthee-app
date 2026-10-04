@@ -7,7 +7,6 @@ import { z } from 'zod';
 import { config } from '../../config';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
-import { logger } from '../../lib/logger';
 import { writeAudit } from '../../lib/audit/staff';
 import { rateLimit } from '../../middleware/rateLimit';
 import { optionalUser, requireUser } from '../../middleware/requireUser';
@@ -71,7 +70,10 @@ lifecycleRouter.post('/issues/:id/status', requireUser, validate({ params: idPar
   if (actor.kind === 'citizen') throw new AppError('FORBIDDEN_ROLE');
   if (actor.kind === 'reporter') await assertStatusQuota(user.id);
   const r = await transition(id, b.to, actor, { note: b.note, photoIds: b.photoIds, clientActionId: b.clientActionId, expectedStatus: b.expectedStatus });
-  if (actor.kind !== 'reporter') logger.info({ requestId: req.id, actorId: user.id, role: user.role, action: 'issue_status_changed', targetId: id, to: b.to }, 'staff_action');
+  // TASK-14 sweep: moderator/admin changes go to the audit destination too (one line, ids and enums only).
+  if ((actor.kind === 'moderator' || actor.kind === 'admin') && !r.repeated) {
+    writeAudit({ requestId: req.id, actorId: user.id, actorKind: 'user', role: user.role, action: 'issue_status_changed', targetType: 'issue', targetId: id, extra: { to: b.to } });
+  }
   // TASK-11: representative actions are audited (ids and enums only, never the note).
   if (actor.kind === 'representative' && !r.repeated) {
     writeAudit({ requestId: req.id, actorId: user.id, actorKind: 'user', role: 'representative', action: 'rep_issue_status', targetType: 'issue', targetId: id, extra: { to: b.to, hasNote: Boolean(b.note?.trim()) } });

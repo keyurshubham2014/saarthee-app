@@ -5,7 +5,7 @@ import { staffContentAudit } from '../../lib/audit';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { rateLimit } from '../../middleware/rateLimit';
-import { requireRole, requireUser } from '../../middleware/requireUser';
+import { requireStaff } from '../../middleware/requireStaff';
 import { validate } from '../../middleware/validate';
 import { checkServiceLink } from '../services/link-check';
 import { idParams, serviceCreate, servicePatch, staffServicesQuery } from './schemas';
@@ -13,7 +13,7 @@ import { idParams, serviceCreate, servicePatch, staffServicesQuery } from './sch
 /** Staff services API (TASK-12 §5.3): admin edits; moderators read and re-check links. */
 export const staffServicesRouter = Router();
 
-const linkCheckLimiter = rateLimit({ windowMs: 3_600_000, max: 10, keyGenerator: (req) => `linkcheck:${req.user?.id ?? 'anon'}` });
+const linkCheckLimiter = rateLimit({ windowMs: 3_600_000, max: 10, keyGenerator: (req) => `linkcheck:${req.staff?.actorId ?? 'anon'}` });
 
 export function isUniqueViolation(err: unknown): boolean {
   return err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002';
@@ -25,7 +25,7 @@ async function findService(id: string) {
   return s;
 }
 
-staffServicesRouter.get('/staff/services', requireUser, requireRole('admin', 'moderator'), validate({ query: staffServicesQuery }), async (_req, res) => {
+staffServicesRouter.get('/staff/services', requireStaff('admin', 'moderator'), validate({ query: staffServicesQuery }), async (_req, res) => {
   const q = res.locals.query as z.infer<typeof staffServicesQuery>;
   const where: Prisma.ServiceWhereInput = {};
   if (q.linkOk) where.linkOk = q.linkOk === 'true';
@@ -34,7 +34,7 @@ staffServicesRouter.get('/staff/services', requireUser, requireRole('admin', 'mo
   res.json({ items });
 });
 
-staffServicesRouter.post('/staff/services', requireUser, requireRole('admin'), validate({ body: serviceCreate }), async (req, res) => {
+staffServicesRouter.post('/staff/services', requireStaff('admin'), validate({ body: serviceCreate }), async (req, res) => {
   const body = req.body as z.output<typeof serviceCreate>;
   try {
     const row = await prisma.service.create({ data: body });
@@ -48,8 +48,7 @@ staffServicesRouter.post('/staff/services', requireUser, requireRole('admin'), v
 
 staffServicesRouter.patch(
   '/staff/services/:id',
-  requireUser,
-  requireRole('admin'),
+  requireStaff('admin'),
   validate({ params: idParams, body: servicePatch }),
   async (req, res) => {
     const { id } = res.locals.params as z.infer<typeof idParams>;
@@ -66,7 +65,7 @@ staffServicesRouter.patch(
   },
 );
 
-staffServicesRouter.delete('/staff/services/:id', requireUser, requireRole('admin'), validate({ params: idParams }), async (req, res) => {
+staffServicesRouter.delete('/staff/services/:id', requireStaff('admin'), validate({ params: idParams }), async (req, res) => {
   const { id } = res.locals.params as z.infer<typeof idParams>;
   await findService(id);
   await prisma.service.update({ where: { id }, data: { isActive: false } });
@@ -76,8 +75,7 @@ staffServicesRouter.delete('/staff/services/:id', requireUser, requireRole('admi
 
 staffServicesRouter.post(
   '/staff/services/:id/link-check',
-  requireUser,
-  requireRole('admin', 'moderator'),
+  requireStaff('admin', 'moderator'),
   linkCheckLimiter,
   validate({ params: idParams }),
   async (req, res) => {
