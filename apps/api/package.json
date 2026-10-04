@@ -31,16 +31,22 @@
     "geo:import": "tsx --env-file=.env scripts/geo/import.ts",
     "geo:crosscheck": "tsx --env-file=.env scripts/geo/crosscheck.ts",
     "geo:backfill": "tsx --env-file=.env scripts/geo/backfill.ts",
-    "geo:fixture": "tsx --env-file=.env scripts/geo/fixture.ts"
+    "geo:fixture": "tsx --env-file=.env scripts/geo/fixture.ts",
+    "reps:import": "tsx --env-file=.env scripts/import-representatives.ts",
+    "constituencies:import": "tsx --env-file=.env scripts/import-representatives.ts --constituencies",
+    "relay:flush": "tsx --env-file=.env scripts/relay-jobs.ts relay-send",
+    "scorecard:refresh": "tsx --env-file=.env scripts/relay-jobs.ts scorecard-refresh"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed/index.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.1146.0",
+    "@aws-sdk/client-sesv2": "3.1146.0",
     "@prisma/client": "6.19.3",
     "@sentry/node": "11.4.0",
     "argon2": "0.45.1",
+    "csv-parse": "7.0.3",
     "express": "5.2.1",
     "express-rate-limit": "8.7.0",
     "firebase-admin": "13.10.0",

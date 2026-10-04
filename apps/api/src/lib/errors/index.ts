@@ -32,6 +32,12 @@ export const ERROR_CODES = {
   FORBIDDEN: { status: 403, message: "You don't have permission to do this." },
   WARD_NOT_FOUND: { status: 422, message: 'Please choose your ward again.' },
   FIREBASE_UNAVAILABLE: { status: 503, message: 'Sign-in is unavailable right now. Please try again later.' },
+  // TASK-09 (representatives, relay, election mode). The relay returns CONSENT_REQUIRED with status 403.
+  REP_NO_CONTACT: { status: 422, message: "We don't have an official email for this representative yet." },
+  MESSAGE_LANGUAGE: { status: 422, message: "Your message contains words we can't send. Please edit it and try again." },
+  REP_DUPLICATE: { status: 409, message: 'This representative is already in the roster.' },
+  REP_PERSONAL_NUMBER: { status: 400, message: "Mobile numbers can't be saved here. Use an official office landline." },
+  ELECTION_MODE_FROZEN: { status: 409, message: 'Election mode is on. Comments and updates are paused until it ends.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

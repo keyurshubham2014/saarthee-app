@@ -66,6 +66,16 @@ const schema = z.object({
     .default('v2-1')
     .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
   GRIEVANCE_EMAIL: z.email().default('privacy@saarthee.in'),
+  // v2 TASK-09 (representatives, message relay, ward scorecard). file = .eml files for local dev; memory = tests.
+  EMAIL_DRIVER: z.enum(['file', 'ses', 'memory']).default('file'),
+  EMAIL_FILE_DIR: optionalEmpty(z.string().refine((v) => v.startsWith('/'), 'must be an absolute path')),
+  SES_REGION: z.string().regex(/^[a-z]{2}-[a-z]+-\d$/).default('ap-south-1'),
+  SES_FROM: z.email().default('relay@saarthee.in'),
+  EMAIL_OPS_ADDRESS: z.email().default('ops@saarthee.in'),
+  PUBLIC_WEB_BASE_URL: z.url().default('https://saarthee.in'),
+  RELAY_PER_REP_DAILY: int(1).default(5),
+  RELAY_PER_USER_DAILY: int(1).default(20),
+  SCORECARD_MIN_SAMPLE: int(1).default(5),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;
@@ -91,6 +101,13 @@ const checked = schema.superRefine((c, ctx) => {
   }
   if ((c.PUSH_DRIVER === 'fcm' || c.FIREBASE_AUTH_MODE === 'google') && !c.GOOGLE_APPLICATION_CREDENTIALS) {
     ctx.addIssue({ code: 'custom', path: ['GOOGLE_APPLICATION_CREDENTIALS'], message: 'is required for PUSH_DRIVER=fcm / FIREBASE_AUTH_MODE=google' });
+  }
+  // TASK-09 mail driver rules.
+  if (c.EMAIL_DRIVER === 'file' && !c.EMAIL_FILE_DIR && c.APP_ENV === 'production') {
+    ctx.addIssue({ code: 'custom', path: ['EMAIL_FILE_DIR'], message: 'is required when EMAIL_DRIVER=file in production' });
+  }
+  if (c.APP_ENV === 'production' && c.EMAIL_DRIVER === 'memory') {
+    ctx.addIssue({ code: 'custom', path: ['EMAIL_DRIVER'], message: 'memory is for tests only' });
   }
 });
 
