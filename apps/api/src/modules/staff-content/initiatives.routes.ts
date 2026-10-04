@@ -6,14 +6,16 @@ import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { logger } from '../../lib/logger';
 import { notifyUser } from '../../lib/push';
-import { requireRole, requireUser } from '../../middleware/requireUser';
+import { requireStaff } from '../../middleware/requireStaff';
+import { staffUserId } from './actor';
 import { validate } from '../../middleware/validate';
 import { attendanceBody, idParams, initiativeCreate, initiativePatch } from './schemas';
 
 /** Staff initiatives API (TASK-12 §5.3): admin only. */
 export const staffInitiativesRouter = Router();
 
-const admin = [requireUser, requireRole('admin')];
+// TASK-14 sweep: requireStaff accepts the v1 admin email login like every other /staff route.
+const admin = [requireStaff('admin')];
 
 const ALLOWED: Record<string, string[]> = {
   draft: ['published', 'cancelled'],
@@ -67,7 +69,7 @@ staffInitiativesRouter.get('/staff/initiatives/:id', ...admin, validate({ params
 
 staffInitiativesRouter.post('/staff/initiatives', ...admin, validate({ body: initiativeCreate }), async (req, res) => {
   const body = req.body as z.output<typeof initiativeCreate>;
-  const row = await prisma.initiative.create({ data: { ...body, createdById: req.user!.id, updatedById: req.user!.id } });
+  const row = await prisma.initiative.create({ data: { ...body, createdById: staffUserId(req), updatedById: staffUserId(req) } });
   staffContentAudit(req, 'initiative.created', 'initiative', row.id, { status: row.status });
   res.status(201).json(serialize(row));
 });
@@ -81,7 +83,7 @@ staffInitiativesRouter.patch('/staff/initiatives/:id', ...admin, validate({ para
   if (next.endsAt <= next.startsAt) throw invalid('endsAt', 'End must be after the start.');
   if (next.organiser === 'AMC' && !next.sourceUrl) throw invalid('sourceUrl', 'Add the AMC source link.');
   if ((next.lat == null) !== (next.lng == null)) throw invalid('lng', 'Give both latitude and longitude.');
-  const row = await prisma.initiative.update({ where: { id }, data: { ...fields, ...(status ? { status } : {}), updatedById: req.user!.id } });
+  const row = await prisma.initiative.update({ where: { id }, data: { ...fields, ...(status ? { status } : {}), updatedById: staffUserId(req) } });
   if (status && status !== current.status) {
     staffContentAudit(req, 'initiative.status_changed', 'initiative', id, { from: current.status, to: status });
     if (status === 'cancelled' && current.status === 'published') await notifyCancelled(row);
@@ -121,7 +123,7 @@ staffInitiativesRouter.post(
     if (i.startsAt > new Date()) throw new AppError('INITIATIVE_NOT_STARTED');
     const { count } = await prisma.rsvp.updateMany({
       where: { initiativeId: id, userId: { in: userIds }, status: attended ? 'going' : 'attended' },
-      data: attended ? { status: 'attended', attendanceMarkedBy: req.user!.id } : { status: 'going', attendanceMarkedBy: null },
+      data: attended ? { status: 'attended', attendanceMarkedBy: staffUserId(req) } : { status: 'going', attendanceMarkedBy: null },
     });
     staffContentAudit(req, 'initiative.attendance_marked', 'initiative', id, { updated: count, attended });
     res.json({ updated: count });

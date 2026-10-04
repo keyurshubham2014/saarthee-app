@@ -13,6 +13,7 @@
     "db:upgrade-postgis": "bash scripts/db-upgrade-postgis.sh",
     "legacy:migrate": "npm --prefix apps/api run legacy:migrate",
     "api:test": "npm --prefix apps/api test",
-    "privacy:check": "node scripts/privacy-checks.mjs"
+    "privacy:check": "node scripts/privacy-checks.mjs",
+    "api:sweep": "node scripts/api-sweep.mjs"
   }
 }

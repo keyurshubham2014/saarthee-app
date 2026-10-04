@@ -4,14 +4,16 @@ import type { z } from 'zod';
 import { staffContentAudit } from '../../lib/audit';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
-import { requireRole, requireUser } from '../../middleware/requireUser';
+import { requireStaff } from '../../middleware/requireStaff';
+import { staffUserId } from './actor';
 import { validate } from '../../middleware/validate';
 import { idParams, tipCreate, tipPatch } from './schemas';
 
 /** Staff seasonal tips API (TASK-12 §5.3, REQ-F-061): admin only. */
 export const staffTipsRouter = Router();
 
-const admin = [requireUser, requireRole('admin')];
+// TASK-14 sweep: requireStaff accepts the v1 admin email login like every other /staff route.
+const admin = [requireStaff('admin')];
 
 const include = { service: { select: { slug: true } } } as const;
 type TipRow = Prisma.ServiceTipGetPayload<{ include: typeof include }>;
@@ -38,7 +40,7 @@ staffTipsRouter.get('/staff/tips', ...admin, async (_req, res) => {
 staffTipsRouter.post('/staff/tips', ...admin, validate({ body: tipCreate }), async (req, res) => {
   const { serviceSlug, ...body } = req.body as z.output<typeof tipCreate>;
   const row = await prisma.serviceTip.create({
-    data: { ...body, serviceId: (await serviceId(serviceSlug)) ?? null, createdById: req.user!.id },
+    data: { ...body, serviceId: (await serviceId(serviceSlug)) ?? null, createdById: staffUserId(req) },
     include,
   });
   staffContentAudit(req, 'tip.created', 'tip', row.id);

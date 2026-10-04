@@ -1,3 +1,4 @@
+import { now as clockNow } from '../../lib/clock';
 import { registerErasureStep, registerExportSection } from '../me/privacy.registry';
 
 /**
@@ -25,6 +26,6 @@ registerErasureStep('rep_claims', async (userId, tx, ctx) => {
   // Evidence uploaded but never attached to a claim is the claimant's too.
   const loose = await tx.photo.findMany({ where: { uploadedByUserId: userId, purpose: 'rep_evidence', deletedAt: null }, select: { id: true } });
   for (const p of loose) ctx.photoIds.add(p.id);
-  await tx.repClaim.updateMany({ where: { userId, status: 'pending' }, data: { status: 'withdrawn', decidedAt: new Date() } });
+  await tx.repClaim.updateMany({ where: { userId, status: 'pending' }, data: { status: 'withdrawn', decidedAt: clockNow() } });
   await tx.repClaim.updateMany({ where: { userId }, data: { evidencePhotoIds: [], claimantNote: null } });
 });
