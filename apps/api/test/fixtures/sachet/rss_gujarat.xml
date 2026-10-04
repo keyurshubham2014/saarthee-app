@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Structure captured from https://sachet.ndma.gov.in/cap_public_website/rss/rss_gujarat.xml on 2026-10-04.
+     Item 2 is the real feed item; items 1 and 3 are fictional Ahmedabad test items in the same format. -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gujarat: CAP Disaster Alert Feeds</title>
+    <description>CAP Integrated Alert System Warning Updates</description>
+    <language>en</language>
+    <link>https://sachet.ndma.gov.in/cap_public_website/rss/rss_gujarat.xml</link>
+    <atom:link href="https://sachet.ndma.gov.in/cap_public_website/rss/rss_gujarat.xml" rel="self" type="application/rss+xml"/>
+    <copyright>public domain</copyright>
+    <pubDate>Thu, 01 Oct 2026 14:00:00 GMT</pubDate>
+    <item>
+      <title>Heat wave conditions very likely over Ahmedabad district during the next 48 hours.</title>
+      <description/>
+      <category>Met</category>
+      <link>https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=9990000000000001</link>
+      <author>controlroom@ndma.gov.in (IMD Ahmedabad)</author>
+      <guid isPermaLink="false">9990000000000001</guid>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Light Rain with light thunderstorms and low probability of cloud to ground lightning is very likely to occur at isolated places over Diu, Amreli, Gir Somnath, Junagadh in next 3 hours.</title>
+      <description/>
+      <category>Met</category>
+      <link>https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=1790861421726020</link>
+      <author>controlroom@ndma.gov.in (IMD Ahmedabad)</author>
+      <guid isPermaLink="false">1790861421726020</guid>
+      <pubDate>Thu, 01 Oct 2026 13:37:48 GMT</pubDate>
+    </item>
+    <item>
+      <title>Thunderstorm with lightning likely over Ahmedabad city in the next 3 hours.</title>
+      <description/>
+      <category>Met</category>
+      <link>https://sachet.ndma.gov.in/cap_public_website/FetchXMLFile?identifier=9990000000000002</link>
+      <author>controlroom@ndma.gov.in (IMD Ahmedabad)</author>
+      <guid isPermaLink="false">9990000000000002</guid>
+      <pubDate>Thu, 01 Oct 2026 11:30:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

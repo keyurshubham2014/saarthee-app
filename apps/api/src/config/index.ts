@@ -74,7 +74,7 @@ const schema = z.object({
   /** Only India Standard Time is supported (fixed +05:30, no DST). */
   APP_TIMEZONE: z.enum(['Asia/Kolkata']).default('Asia/Kolkata'),
   SACHET_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
-  SACHET_FEED_URL: z.string().regex(/^https:\/\//, 'must be https').default('https://sachet.ndma.gov.in/CapFeed'),
+  SACHET_FEED_URL: z.string().regex(/^https:\/\//, 'must be https').default('https://sachet.ndma.gov.in/cap_public_website/rss/rss_gujarat.xml'),
   SACHET_POLL_MINUTES: int(1).max(1440).default(10),
   IMD_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
   IMD_DISTRICT_WARNINGS_URL: optionalEmpty(z.string().regex(/^https:\/\//, 'must be https')),

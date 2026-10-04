@@ -1,0 +1,47 @@
+<!-- Fictional test CAP in the structure of a real SACHET CAP 1.2 file: Ahmedabad heat wave with an English
+     and a Gujarati info block and an inline polygon over fixture wards 1 and 2 (lat,lon pairs). -->
+<cap:alert xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">
+<cap:identifier>IN-9990000000000001_20</cap:identifier>
+<cap:sender>Gujarat-SDMA</cap:sender>
+<cap:sent>2026-10-01T17:30:00+05:30</cap:sent>
+<cap:status>Actual</cap:status>
+<cap:msgType>Alert</cap:msgType>
+<cap:scope>Public</cap:scope>
+<cap:info>
+<cap:language>en-IN</cap:language>
+<cap:category>Met</cap:category>
+<cap:event>Heat Wave</cap:event>
+<cap:urgency>Expected</cap:urgency>
+<cap:severity>Severe</cap:severity>
+<cap:certainty>Likely</cap:certainty>
+<cap:senderName>IMD Ahmedabad</cap:senderName>
+<cap:effective>2026-10-01T18:00:00+05:30</cap:effective>
+<cap:onset>2026-10-02T11:00:00+05:30</cap:onset>
+<cap:expires>2026-10-03T18:00:00+05:30</cap:expires>
+<cap:headline>Heat wave conditions very likely over Ahmedabad district during the next 48 hours.</cap:headline>
+<cap:description>Maximum temperatures are likely to be 44 to 45 degrees Celsius. Avoid going out between noon and 4 pm, drink enough water and check on elderly neighbours.</cap:description>
+<cap:instruction>Please follow SDMA guidelines.</cap:instruction>
+<cap:area>
+<cap:areaDesc>Ahmedabad district of Gujarat</cap:areaDesc>
+<cap:polygon>23.001,72.501 23.001,72.519 23.009,72.519 23.009,72.501 23.001,72.501</cap:polygon>
+<cap:geocode>
+<cap:valueName>LGD District Code</cap:valueName>
+<cap:value>438</cap:value>
+</cap:geocode>
+</cap:area>
+</cap:info>
+<cap:info>
+<cap:language>gu-IN</cap:language>
+<cap:category>Met</cap:category>
+<cap:event>ગરમીનું મોજું</cap:event>
+<cap:urgency>Expected</cap:urgency>
+<cap:severity>Severe</cap:severity>
+<cap:certainty>Likely</cap:certainty>
+<cap:expires>2026-10-03T18:00:00+05:30</cap:expires>
+<cap:headline>આગામી 48 કલાકમાં અમદાવાદ જિલ્લામાં ગરમીના મોજાની સ્થિતિની શક્યતા.</cap:headline>
+<cap:description>મહત્તમ તાપમાન 44 થી 45 ડિગ્રી સેલ્સિયસ રહેવાની શક્યતા. બપોરે 12 થી 4 બહાર જવાનું ટાળો અને પૂરતું પાણી પીઓ.</cap:description>
+<cap:area>
+<cap:areaDesc>અમદાવાદ જિલ્લો</cap:areaDesc>
+</cap:area>
+</cap:info>
+</cap:alert>

@@ -1,4 +1,5 @@
 import { flushQueued } from '../lib/push';
+import { alertJobs } from '../modules/alerts/jobs';
 import { listJobs, registerJobs } from './runner';
 import type { JobDefinition } from './types';
 
@@ -19,7 +20,7 @@ const coreJobs: JobDefinition[] = [
  * import here (append-only list, TASK-06 contract).
  */
 export function appJobs(): JobDefinition[] {
-  return [...coreJobs];
+  return [...coreJobs, ...alertJobs()];
 }
 
 /** Registers every app job once (safe to call from server.ts and the jobs:run script). */
