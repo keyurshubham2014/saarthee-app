@@ -10,8 +10,10 @@ import '../features/home/presentation/home_screen.dart';
 import '../features/settings/presentation/settings_screen.dart';
 import '../features/shell/my_ward_screen.dart';
 import '../features/shell/shell_scaffold.dart';
+import '../features/report/report_routes.dart';
 import '../features/shell/tab_placeholders.dart';
 import '../features/ward/ward_routes.dart';
+import 'app_router.dart' show rootNavigatorKey;
 import 'route_helpers.dart';
 
 // ---------------------------------------------------------------------------
@@ -47,6 +49,7 @@ final List<RouteBase> mapChildRoutes = <RouteBase>[
 /// Child routes under `/report`.
 final List<RouteBase> reportChildRoutes = <RouteBase>[
   // TASK-05 report steps.
+  ...reportRoutes(rootNavigatorKey),
 ];
 
 /// Child routes under `/alerts`.
@@ -112,7 +115,7 @@ StatefulShellRoute buildCitizenShell() => StatefulShellRoute(
       routes: [
         saartheeRoute(
           path: '/report',
-          builder: (_, _) => const ReportTabScreen(),
+          builder: buildReportTab,
           routes: reportChildRoutes,
         ),
       ],

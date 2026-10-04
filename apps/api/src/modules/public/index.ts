@@ -3,7 +3,6 @@ import { AppError } from '../../lib/errors';
 import { endpointRetired } from '../../middleware/endpointRetired';
 import { rateLimit } from '../../middleware/rateLimit';
 import { checkHealth } from './health.service';
-import { listActiveCategories } from './categories.service';
 
 export const publicRouter = Router();
 
@@ -18,9 +17,7 @@ publicRouter.get('/health', healthCategoriesLimiter, async (_req, res) => {
   res.json({ status: 'ok', db: 'up', postgis: health.postgis });
 });
 
-publicRouter.get('/categories', healthCategoriesLimiter, async (_req, res) => {
-  res.json({ items: await listActiveCategories() });
-});
+// GET /categories moved to modules/categories (v2 shape, V2 TASK-05).
 
 // v1 invite codes are retired from the citizen app (Spec D11, V2 TASK-01 §5.6): 410.
 publicRouter.post('/invite-codes/validate', inviteLimiter, endpointRetired);

@@ -38,6 +38,12 @@ export const ERROR_CODES = {
   REP_DUPLICATE: { status: 409, message: 'This representative is already in the roster.' },
   REP_PERSONAL_NUMBER: { status: 400, message: "Mobile numbers can't be saved here. Use an official office landline." },
   ELECTION_MODE_FROZEN: { status: 409, message: 'Election mode is on. Comments and updates are paused until it ends.' },
+  // TASK-05 (issue reporting).
+  WARD_CONFIRMATION_REQUIRED: { status: 422, message: 'This spot is just outside ward boundaries. Please confirm the ward.' },
+  IDEMPOTENCY_KEY_REUSED: { status: 409, message: 'This submission id was already used.' },
+  OWN_ISSUE: { status: 409, message: 'You reported this issue.' },
+  ISSUE_NOT_OPEN: { status: 409, message: 'This issue is no longer open.' },
+  CCRS_ALREADY_LINKED: { status: 409, message: 'A different number is already linked to this report.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

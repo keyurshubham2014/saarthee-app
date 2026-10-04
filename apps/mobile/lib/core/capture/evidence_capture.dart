@@ -70,6 +70,21 @@ class EvidenceCapture {
     return CapturedPhoto(path: file.path, capturedAt: DateTime.now());
   }
 
+  /// Android only: a photo the camera returned after the system killed the
+  /// app (image_picker `retrieveLostData`, TASK-05 REQ-F-017). Null when there
+  /// is nothing to recover; throws [LostPhotoException] when Android reported
+  /// an error for the lost capture.
+  Future<CapturedPhoto?> recoverLostPhoto() async {
+    final lost = await _picker.retrieveLostData();
+    if (lost.isEmpty) return null;
+    if (lost.exception != null) throw const LostPhotoException();
+    final file =
+        lost.file ??
+        (lost.files?.isNotEmpty == true ? lost.files!.first : null);
+    if (file == null) return null;
+    return CapturedPhoto(path: file.path, capturedAt: DateTime.now());
+  }
+
   /// Current position with accuracy, or null when unavailable.
   Future<Fix?> currentFix() async {
     try {
@@ -94,6 +109,11 @@ class EvidenceCapture {
       );
     }
   }
+}
+
+/// Android reported an error for a capture lost while the app was killed.
+class LostPhotoException implements Exception {
+  const LostPhotoException();
 }
 
 final evidenceCaptureProvider = Provider<EvidenceCapture>(

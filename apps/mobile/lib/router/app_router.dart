@@ -11,6 +11,7 @@ import '../features/dev/gallery_screen.dart';
 import '../features/onboarding/presentation/intro_screen.dart';
 import '../features/onboarding/presentation/language_screen.dart';
 import '../features/onboarding/presentation/ward_screen.dart';
+import '../features/report/report_routes.dart';
 import 'admin_routes.dart';
 import 'route_helpers.dart';
 import 'shell_routes.dart';
@@ -23,6 +24,8 @@ final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   // TASK-04 accounts: sign-in flow.
   ...authRoutes,
+  // TASK-05 report: link an AMC complaint number.
+  ...reportRootRoutes,
 ];
 
 /// Paths reachable before onboarding is done.

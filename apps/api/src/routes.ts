@@ -13,6 +13,8 @@ import { devicesRouter } from './modules/devices';
 import { representativesRouter } from './modules/representatives';
 import { settingsRouter } from './modules/settings';
 import { staffRepresentativesRouter } from './modules/staff-representatives';
+import { categoriesRouter } from './modules/categories';
+import { issuesRouter } from './modules/issues';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -31,3 +33,6 @@ apiRouter.use(devicesRouter);
 apiRouter.use(representativesRouter);
 apiRouter.use(settingsRouter);
 apiRouter.use(staffRepresentativesRouter);
+// TASK-05: v2 categories (with AMC problem types) and standalone issue reporting.
+apiRouter.use(categoriesRouter);
+apiRouter.use(issuesRouter);

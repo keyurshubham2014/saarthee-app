@@ -35,7 +35,8 @@
     "reps:import": "tsx --env-file=.env scripts/import-representatives.ts",
     "constituencies:import": "tsx --env-file=.env scripts/import-representatives.ts --constituencies",
     "relay:flush": "tsx --env-file=.env scripts/relay-jobs.ts relay-send",
-    "scorecard:refresh": "tsx --env-file=.env scripts/relay-jobs.ts scorecard-refresh"
+    "scorecard:refresh": "tsx --env-file=.env scripts/relay-jobs.ts scorecard-refresh",
+    "amc:problems:fetch": "tsx --env-file=.env scripts/fetch-amc-problems.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed/index.ts"

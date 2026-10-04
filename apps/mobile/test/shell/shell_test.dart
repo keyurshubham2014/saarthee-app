@@ -49,15 +49,15 @@ void main() {
   });
 
   testWidgets(
-    'placeholders P-01..P-08 are in place; P-07 → My Ward reps, P-09 → account row',
+    'placeholders still owned by later tasks are in place; replaced ones are gone',
     (t) async {
       await pumpApp(t, prefs: onboardedPrefs());
       const byTab = {
         0: ['P-02', 'P-01', 'P-03'],
         1: ['P-04'],
-        2: ['P-05'],
+        2: <String>[], // TASK-05 replaced P-05 with the report flow.
         3: ['P-06'],
-        4: ['P-08'],
+        4: ['P-08'], // TASK-09 replaced P-07; TASK-04 replaced P-09.
       };
       for (final e in byTab.entries) {
         await tab(t, e.key);
@@ -67,12 +67,14 @@ void main() {
           expect(f, findsOneWidget, reason: id);
         }
       }
-      // TASK-09 replaced P-07 (no home ward → "Choose your ward").
+      await tab(t, 2);
+      expect(find.byKey(const Key('report.what')), findsOneWidget);
+      expect(find.byKey(const ValueKey('placeholder.P-05')), findsNothing);
+      await tab(t, 4);
       expect(find.byKey(const ValueKey('placeholder.P-07')), findsNothing);
       final choose = find.byKey(const Key('myWard.chooseWard'));
       await reveal(t, choose);
       expect(choose, findsOneWidget);
-      // TASK-04 replaced P-09 with the account row.
       final me = find.byKey(const Key('myWard.me'));
       await reveal(t, me);
       expect(me, findsOneWidget);

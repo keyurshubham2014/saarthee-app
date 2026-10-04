@@ -2424,5 +2424,507 @@
         "type": "String"
       }
     }
+  },
+  "reportFlowStepWhatTitle": "What is the problem?",
+  "@reportFlowStepWhatTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowStepPhotoTitle": "Add a photo and check the place",
+  "@reportFlowStepPhotoTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowStepDetailsTitle": "Add details and check",
+  "@reportFlowStepDetailsTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowHintPhoto": "Photo and place",
+  "@reportFlowHintPhoto": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowHintDetails": "Details",
+  "@reportFlowHintDetails": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowCategoriesError": "We couldn't load the list. Try again",
+  "@reportFlowCategoriesError": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowCategoriesOffline": "You're offline. Showing the saved list.",
+  "@reportFlowCategoriesOffline": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowAddAnotherPhoto": "Add another photo",
+  "@reportFlowAddAnotherPhoto": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowRemovePhoto": "Remove photo {index}",
+  "@reportFlowRemovePhoto": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      }
+    }
+  },
+  "reportFlowPhotoLabel": "Photo {index} of the problem, taken {time}",
+  "@reportFlowPhotoLabel": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reportFlowUploading": "Uploading…",
+  "@reportFlowUploading": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowRetryUpload": "Retry upload",
+  "@reportFlowRetryUpload": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowBlurring": "Blurring faces and number plates…",
+  "@reportFlowBlurring": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowBlurred": "Faces and number plates blurred",
+  "@reportFlowBlurred": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowBlurMore": "Blur more",
+  "@reportFlowBlurMore": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowLocationNeeded": "We need your location to place the report on the map.",
+  "@reportFlowLocationNeeded": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowLocating": "Finding your location…",
+  "@reportFlowLocating": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowWeakGps": "Location is approximate. Drag the pin to the exact spot.",
+  "@reportFlowWeakGps": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowInWard": "In ward: {ward} ({zone} zone)",
+  "@reportFlowInWard": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "reportFlowWardConfirm": "This spot is just outside ward boundaries. Is it in {ward}?",
+  "@reportFlowWardConfirm": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "reportFlowWardYes": "Yes",
+  "@reportFlowWardYes": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowWardChooseAnother": "Choose another ward",
+  "@reportFlowWardChooseAnother": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowWardMoveHint": "Move the pin into the right ward.",
+  "@reportFlowWardMoveHint": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowOutsideArea": "This place is outside Ahmedabad's wards. Saarthee can only take reports inside the city.",
+  "@reportFlowOutsideArea": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowAdjustPin": "Adjust pin",
+  "@reportFlowAdjustPin": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowPinDone": "Done",
+  "@reportFlowPinDone": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowMovePinNorth": "Move pin north",
+  "@reportFlowMovePinNorth": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowMovePinSouth": "Move pin south",
+  "@reportFlowMovePinSouth": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowMovePinEast": "Move pin east",
+  "@reportFlowMovePinEast": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowMovePinWest": "Move pin west",
+  "@reportFlowMovePinWest": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowMapLabel": "Map of the report location",
+  "@reportFlowMapLabel": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowMapAttribution": "Map data © OpenStreetMap contributors",
+  "@reportFlowMapAttribution": {
+    "description": "TASK-05 report"
+  },
+  "reportDupTitle": "Already reported nearby",
+  "@reportDupTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportDupMeta": "{metres} m away · {count} me too",
+  "@reportDupMeta": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "metres": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportDupAddMeToo": "Add me too",
+  "@reportDupAddMeToo": {
+    "description": "TASK-05 report"
+  },
+  "reportDupAdded": "Added",
+  "@reportDupAdded": {
+    "description": "TASK-05 report"
+  },
+  "reportDupDifferent": "No, mine is different",
+  "@reportDupDifferent": {
+    "description": "TASK-05 report"
+  },
+  "reportDupConfirmTitle": "Thanks, your voice is added",
+  "@reportDupConfirmTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportDupConfirmBody": "We'll tell you when its status changes. Your draft was discarded.",
+  "@reportDupConfirmBody": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowDescriptionLabel": "Description",
+  "@reportFlowDescriptionLabel": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowDescriptionHint": "What should be fixed?",
+  "@reportFlowDescriptionHint": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowCharCount": "{count}/1,000",
+  "@reportFlowCharCount": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportFlowReasonTitle": "What is the problem here?",
+  "@reportFlowReasonTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonEncFootpath": "Blocking the footpath",
+  "@reportReasonEncFootpath": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonEncRoad": "Blocking the road",
+  "@reportReasonEncRoad": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonEncHawkers": "Hawkers or stalls",
+  "@reportReasonEncHawkers": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonEncOther": "Other obstruction",
+  "@reportReasonEncOther": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonBldNoPermission": "Construction without permission",
+  "@reportReasonBldNoPermission": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonBldUnsafe": "Unsafe building",
+  "@reportReasonBldUnsafe": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonBldDebris": "Debris on the road",
+  "@reportReasonBldDebris": {
+    "description": "TASK-05 report"
+  },
+  "reportReasonBldOther": "Other",
+  "@reportReasonBldOther": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowSummaryCategory": "Category",
+  "@reportFlowSummaryCategory": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowSummaryPhotos": "Photos",
+  "@reportFlowSummaryPhotos": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowSummaryPlace": "Place",
+  "@reportFlowSummaryPlace": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowSummaryDescription": "Description",
+  "@reportFlowSummaryDescription": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowPhotoCount": "{count, plural, =1{1 photo} other{{count} photos}}",
+  "@reportFlowPhotoCount": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportFlowNone": "None",
+  "@reportFlowNone": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowConsent": "Your report, photos and place will be public. Your name and phone number are never shown.",
+  "@reportFlowConsent": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowSubmit": "Submit report",
+  "@reportFlowSubmit": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowQuota": "You've sent {count} reports today. You can send more tomorrow.",
+  "@reportFlowQuota": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reportFlowPhotoExpired": "Your photo upload expired. Please retake the photo.",
+  "@reportFlowPhotoExpired": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowWardConfirmNeeded": "Please confirm the ward of this place.",
+  "@reportFlowWardConfirmNeeded": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowPhotosPending": "Wait for your photos to finish uploading.",
+  "@reportFlowPhotosPending": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowRecoverFailed": "We couldn't recover the last photo. Please take it again.",
+  "@reportFlowRecoverFailed": {
+    "description": "TASK-05 report"
+  },
+  "reportFlowReasonRequired": "Choose one option.",
+  "@reportFlowReasonRequired": {
+    "description": "TASK-05 report"
+  },
+  "reportErrorWardConfirmation": "This spot is just outside ward boundaries. Please confirm the ward.",
+  "@reportErrorWardConfirmation": {
+    "description": "TASK-05 report"
+  },
+  "reportErrorOwnIssue": "You reported this issue.",
+  "@reportErrorOwnIssue": {
+    "description": "TASK-05 report"
+  },
+  "reportErrorNotOpen": "This issue is no longer open.",
+  "@reportErrorNotOpen": {
+    "description": "TASK-05 report"
+  },
+  "reportErrorSuspended": "This account is suspended.",
+  "@reportErrorSuspended": {
+    "description": "TASK-05 report"
+  },
+  "reportDoneTitle": "Report sent. Thank you.",
+  "@reportDoneTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportDoneIssueNumber": "Issue {ref}",
+  "@reportDoneIssueNumber": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "reportDoneAnnounce": "Report sent. Issue {ref}",
+  "@reportDoneAnnounce": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "reportDoneBody": "Neighbours can now see it and add Me too. We'll tell you when its status changes.",
+  "@reportDoneBody": {
+    "description": "TASK-05 report"
+  },
+  "reportDoneSensitive": "A moderator will check it before it is public.",
+  "@reportDoneSensitive": {
+    "description": "TASK-05 report"
+  },
+  "reportDoneDone": "Done",
+  "@reportDoneDone": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffTitle": "File with AMC too (optional)",
+  "@reportHandoffTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffCategory": "AMC's category for this: {dept} › {problem}",
+  "@reportHandoffCategory": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "dept": {
+        "type": "String"
+      },
+      "problem": {
+        "type": "String"
+      }
+    }
+  },
+  "reportHandoffOther": "Choose the closest type on AMC's site.",
+  "@reportHandoffOther": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffWeb": "Open AMC complaint website",
+  "@reportHandoffWeb": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffWhatsapp": "Use AMC's WhatsApp",
+  "@reportHandoffWhatsapp": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffCall": "Call {number}",
+  "@reportHandoffCall": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "reportHandoffCopy": "Copy details for AMC",
+  "@reportHandoffCopy": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffCopied": "Details copied",
+  "@reportHandoffCopied": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffFailed": "Couldn't open {target}. Try another way.",
+  "@reportHandoffFailed": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "reportHandoffLinkLater": "Already filed? Add your AMC complaint number",
+  "@reportHandoffLinkLater": {
+    "description": "TASK-05 report"
+  },
+  "reportHandoffCopyText": "{category} problem at {lat},{lng} (https://maps.google.com/?q={lat},{lng}), ward {ward}. Reported on Saarthee {date}.",
+  "@reportHandoffCopyText": {
+    "description": "TASK-05 report",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      },
+      "ward": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reportBlurTitle": "Blur faces and number plates",
+  "@reportBlurTitle": {
+    "description": "TASK-05 report"
+  },
+  "reportBlurHint": "Tap or drag to blur more",
+  "@reportBlurHint": {
+    "description": "TASK-05 report"
+  },
+  "reportBlurUndo": "Undo",
+  "@reportBlurUndo": {
+    "description": "TASK-05 report"
+  },
+  "reportBlurDone": "Done",
+  "@reportBlurDone": {
+    "description": "TASK-05 report"
+  },
+  "reportBlurUnavailable": "Automatic blurring isn't available on this phone. Blur faces and number plates by hand.",
+  "@reportBlurUnavailable": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsTitle": "Add your AMC complaint number",
+  "@linkCcrsTitle": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsField": "AMC complaint number",
+  "@linkCcrsField": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsHelp": "It's in the SMS or WhatsApp message AMC sent you.",
+  "@linkCcrsHelp": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsHow": "How did you file?",
+  "@linkCcrsHow": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsWeb": "Website",
+  "@linkCcrsWeb": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsWhatsapp": "WhatsApp",
+  "@linkCcrsWhatsapp": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsPhone": "Phone",
+  "@linkCcrsPhone": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsSave": "Save",
+  "@linkCcrsSave": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsRequired": "Enter the complaint number you got from AMC.",
+  "@linkCcrsRequired": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsConflict": "A different number is already linked to this report.",
+  "@linkCcrsConflict": {
+    "description": "TASK-05 report"
+  },
+  "linkCcrsSaved": "Complaint number saved.",
+  "@linkCcrsSaved": {
+    "description": "TASK-05 report"
   }
 }

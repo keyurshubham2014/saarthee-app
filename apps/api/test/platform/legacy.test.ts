@@ -31,7 +31,7 @@ describe('legacy:migrate', () => {
 
     const issues = await prisma.issue.findMany({
       where: { legacyComplaintId: { not: null } },
-      include: { photos: true, events: { orderBy: [{ createdAt: 'asc' }] }, legacyComplaint: { include: { verifications: true } } },
+      include: { category: true, photos: true, events: { orderBy: [{ createdAt: 'asc' }] }, legacyComplaint: { include: { verifications: true } } },
     });
     expect(issues).toHaveLength(11);
     const counts = issues.reduce<Record<string, number>>((acc, i) => ({ ...acc, [i.status]: (acc[i.status] ?? 0) + 1 }), {});
@@ -45,7 +45,7 @@ describe('legacy:migrate', () => {
       expect(i.ccrsFiledAt?.getTime()).toBe(c.createdAt.getTime());
       expect(i.lat.toNumber()).toBe(c.latitude.toNumber());
       expect(i.clientSubmissionId).toBe(c.clientSubmissionId);
-      expect(i.slaDueAt.getTime()).toBe(c.createdAt.getTime() + 7 * 86_400_000);
+      expect(i.slaDueAt.getTime()).toBe(c.createdAt.getTime() + i.category.slaDays * 86_400_000);
       const report = i.photos.filter((p) => p.kind === 'report');
       expect(report).toEqual([expect.objectContaining({ photoId: c.photoId, position: 0 })]);
       expect(i.photos.filter((p) => p.kind === 'verification').map((p) => p.photoId).sort()).toEqual(

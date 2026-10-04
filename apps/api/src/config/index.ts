@@ -76,6 +76,18 @@ const schema = z.object({
   RELAY_PER_REP_DAILY: int(1).default(5),
   RELAY_PER_USER_DAILY: int(1).default(20),
   SCORECARD_MIN_SAMPLE: int(1).default(5),
+  // v2 TASK-05 (issue reporting). Ward snapping uses GEO_NEAREST_MAX_M through resolveWard().
+  DUPLICATE_RADIUS_M: z.coerce.number().positive().max(1000).default(50),
+  DUPLICATE_WINDOW_DAYS: z.coerce.number().int().positive().max(365).default(30),
+  ISSUE_MAX_PHOTOS: z.coerce.number().int().min(1).max(10).default(3),
+  QUOTA_ISSUES_PER_DAY: z.coerce.number().int().positive().default(10),
+  QUOTA_ME_TOO_PER_DAY: z.coerce.number().int().positive().default(100),
+  QUOTA_VERIFICATIONS_PER_DAY: z.coerce.number().int().positive().default(20),
+  QUOTA_MESSAGES_PER_REP_PER_DAY: z.coerce.number().int().positive().default(5),
+  QUOTA_PHOTOS_PER_DAY: z.coerce.number().int().positive().default(40),
+  AMC_PROBLEMS_URL: z.url().default('https://www.amccrs.com/AMCPortal/Home/GetDeptWiseProblems'),
+  AMC_PROBLEMS_MIN_INTERVAL_HOURS: z.coerce.number().positive().default(24),
+  AMC_FETCH_CONTACT_EMAIL: z.email().default('privacy@saarthee.in'),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;

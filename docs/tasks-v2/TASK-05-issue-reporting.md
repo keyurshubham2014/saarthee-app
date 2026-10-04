@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-05 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-02, TASK-04 |
 | Blocks | TASK-06, TASK-10 |
 | Requirement IDs | REQ-F-012, REQ-F-013, REQ-F-014, REQ-F-015, REQ-F-016, REQ-F-017, REQ-F-018, REQ-F-019, REQ-F-062, REQ-D-007, REQ-N-007, REQ-S-007, REQ-S-008 |
 | Primary Spec Refs | Spec §1, §4, §5 (duplicates), §6 (`categories`, `amc_problem_types`, `issues`, `issue_photos`, `issue_events`), §7 (Categories, Issues, rate limits), §8 (`/report/*`), §11 (photos); DS §1, §2, §3, §4, §5, §6 (Motion), §7, §8 (report flow) |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -233,6 +233,19 @@ The motion layer lives in presentation only (`features/report/presentation/motio
 - ASSUMPTION: Navigation from step 1 to step 2 waits `short` (180 ms) after a tile tap so the selection spring and outline are seen; this does not add a tap and is skipped with reduced motion.
 - ASSUMPTION: The success circle uses the `success` token (#1A7340, "green circle" in DS §6) with a white check (5.88:1).
 - ASSUMPTION: The duplicate button copy changes from "Me too — this is it" to DS §6's "Add me too" → "Added ✓"; behaviour (record me-too, discard draft, open confirmation) is unchanged.
+
+- ASSUMPTION (W-REP, 2026-10-04): The AMC snapshot was fetched once with curl on 2026-10-04 (113 rows, 22 departments) and committed as `{source, fetchedAt, note, rowCount, rows}`; the "primary" problems for property and building are the CCRS texts that exist ("Property Tax-Application done but not resolved", "Town Planning - Other"). Every department listed for `other` in §5.2 has an explicit rule, so `unmapped` lists only genuinely new departments.
+- ASSUMPTION (W-REP): `amc_problem_types` columns follow Spec §6 names (`dept_en`, `dept_gu`, `problem_en`, `problem_gu`, `fetched_at`) plus §5.2's `source_key`, `problem_category_en`, `is_primary`, `is_active`, `ccrs_row`. The migration is `20261006050500_v2_reporting_amc_problem_types` (TASK-01's migration test expects `amc_problem_types` in the name).
+- ASSUMPTION (W-REP): Ward snapping uses TASK-02's `resolveWard()` and its `GEO_NEAREST_MAX_M` (default 3,000 m) as the single knob instead of a second `WARD_SNAP_MAX_M`; `confirmedWardId` must equal the suggested ward; the 422 detail carries `suggestedWardId`.
+- ASSUMPTION (W-REP): For sensitive categories the chosen structured reason is stored as its English label in `issues.description` (Spec §6 has no reason column).
+- ASSUMPTION (W-REP): `issue_submitted` analytics is a structured log line — the v1 `events` table's `ck_events_name` CHECK only accepts v1 names and is owned by TASK-01.
+- ASSUMPTION (W-REP): The 429 quota `Retry-After` is set by `assertDailyQuota(…, { res })` (no change to the shared error handler); `messages` counts 0 until TASK-09 creates `rep_messages`.
+- ASSUMPTION (W-REP): The v1 GET /categories handler and the dead `reports.service.ts` were removed; `POST /reports` was already 410 (TASK-01).
+- ASSUMPTION (W-REP): Seed samples (TASK-01 module 050) keep "exactly one overdue open issue" under the real SLAs by creating four samples 1–2 days ago instead of 3–6; TASK-01's legacy SLA test now reads the category's `sla_days`.
+- ASSUMPTION (W-REP): Camera only, as above — no gallery fallback; the Android emulator's virtual-scene camera works with image_picker.
+- ASSUMPTION (W-REP): Automatic face/plate detection is behind `FaceAndPlateDetector`; the default `UnavailableDetector` returns "unavailable", so the flow offers the manual blur tool with the "isn't available" note. ML Kit (`google_mlkit_*`) and `speech_to_text` are native plugins that could not be Gradle-verified against AGP 9.1 in a worker (no builds allowed), so they were not added; the pure-Dart `image` renderer pixelates 12 px blocks over the padded boxes in a background isolate.
+- ASSUMPTION (W-REP): The `/report` tab keeps one `ReportFlowScreen` with a persistent `StepHeader` and a `PageTransitionSwitcher` body; `/report/what|photo|details` and the retired v1 paths redirect to `/report?step=…`; `/report/done` and `/report/photo/blur` open on the root navigator. "Adjust pin" pans the map under a fixed centre pin (plus 5 m arrow buttons) instead of dragging a marker.
+- ASSUMPTION (W-REP): Under reduced motion the step-header bar uses TASK-03's reduced `medium` (100 ms), the allowed cross-fade length, rather than a 0 ms jump.
 
 ## 6. Implementation Steps
 
@@ -492,28 +505,39 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (W-REP, branch `v2/task-05-issue-reporting`)
 
-**Progress:** 0%
+**Progress:** 90% — everything buildable in a worker is done and tested; emulator, profile and recording checks are for the integrator.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Migration, AMC snapshot (curl once, 113 rows) + mapping, categories v2, quota helper, POST /issues | 1d48da9 |
+| 2026-10-04 | Nearby, me-too, CCRS link, owned photo upload + media read; T-05-01..16 green (API 228 passed / 4 skipped) | a091173 |
+| 2026-10-04 | App data layer: draft v2, photo pipeline + on-device pixelation, CivicMap, ARB block (102 keys en+gu) | e1693c0 |
+| 2026-10-04 | Three-step flow, motion layer, done + AMC hand-off, link CCRS, blur tool, routes | 3564b54 |
+| 2026-10-04 | W-05-01..12, S-05-02, tap-budget test, I-05-01 file (flutter test 242 passed) | c0ea77d…6cd3c49 |
+
+Blocked / skipped (> 10 min rule): ML Kit face/plate detection and `speech_to_text` voice input not added (native plugins, AGP 9.1, no Gradle in workers) — manual blur tool covers AC-11; AC-12 open.
+
+Performance (M-05-06, M-05-10): not measured — needs a profile build on the emulator (integrator). Tap budget measured in tests: 2 taps after the photo (Continue, Submit report); 3 with a duplicate dismissed.
+
+Motion recordings (M-05-08/09): not recorded — integrator owns the emulator; target files `docs/demo/v2-evidence/motion/task-05-*.mp4`.
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [ ] All implementation steps complete (steps 1–19, 21 done; 14 ML Kit part and 20 voice not built; 22–23 integrator)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the tests and manual checks in §8
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing (API T-05-01..16; app W-05-01..12, S-05-02, flow tap budget; I-05-01 written, run by integrator)
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
-- [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Code reviewed against the patterns established in earlier tasks
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Report-flow motion (REQ-F-062) verified: W-05-08…W-05-12 green, normal and reduced-motion recordings in `docs/demo/v2-evidence/motion/`, no frame > 16 ms in the profile check
 - [ ] Neem restyle verified: `sunrise` only on "Submit report", DS §4 radii, Rounded icons
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-05` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-05: …`
+- [x] Committed as `V2-TASK-05: …`
 - [ ] Validator passes

@@ -37,4 +37,8 @@ class AppTimings {
 
   /// Countdown tick (OTP resend timer).
   static const Duration countdownTick = Duration(seconds: 1);
+
+  // TASK-05 (append-only).
+  /// Duplicate check after the report pin settles.
+  static const Duration nearbyDebounce = Duration(milliseconds: 500);
 }
