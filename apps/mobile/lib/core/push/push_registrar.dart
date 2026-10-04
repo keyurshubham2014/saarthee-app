@@ -21,6 +21,15 @@ class PushRegistrar {
   static const topicsKey = 'saarthee.push.topics';
   static const promptDismissedKey = 'saarthee.push.promptDismissed';
 
+  /// TASK-08: base alert topics from `GET/PUT …/subscriptions` (`topics`).
+  static const alertBaseTopicsKey = 'saarthee.push.alertBaseTopics';
+
+  /// Stores the alert base topics and re-syncs subscriptions.
+  Future<void> setAlertBaseTopics(List<String> base) async {
+    await _prefs.setStringList(alertBaseTopicsKey, base);
+    await sync();
+  }
+
   PushMessaging get _messaging => _ref.read(pushMessagingProvider);
   SharedPreferences get _prefs => _ref.read(sharedPreferencesProvider);
 
@@ -68,9 +77,15 @@ class PushRegistrar {
   Future<void> sync({bool allowed = true}) async {
     final language = _ref.read(localeProvider).languageCode;
     final ward = _ref.read(homeWardProvider);
-    final want = enabled && allowed
-        ? pushTopicsFor(language: language, wardNumber: ward?.number)
-        : const <String>[];
+    // TASK-08: alert settings store the server's base topics (extra wards,
+    // zones; empty = custom preferences → filtered device sends instead).
+    final alertBase = _prefs.getStringList(alertBaseTopicsKey);
+    final lang = language == 'en' ? 'en' : 'gu';
+    final want = !(enabled && allowed)
+        ? const <String>[]
+        : alertBase != null
+        ? [for (final t in alertBase) '${t}__$lang']
+        : pushTopicsFor(language: language, wardNumber: ward?.number);
     final have = topics;
     for (final t in have.where((t) => !want.contains(t))) {
       await _messaging.unsubscribe(t);

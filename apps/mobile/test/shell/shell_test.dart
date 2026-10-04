@@ -55,8 +55,6 @@ void main() {
       const byTab = {
         0: ['P-02', 'P-01', 'P-03'],
         1: ['P-04'],
-        2: <String>[], // TASK-05 replaced P-05 with the report flow.
-        3: ['P-06'],
         4: ['P-08'], // TASK-09 replaced P-07; TASK-04 replaced P-09.
       };
       for (final e in byTab.entries) {
@@ -70,6 +68,9 @@ void main() {
       await tab(t, 2);
       expect(find.byKey(const Key('report.what')), findsOneWidget);
       expect(find.byKey(const ValueKey('placeholder.P-05')), findsNothing);
+      await tab(t, 3);
+      expect(find.byKey(const ValueKey('alertsSegment')), findsOneWidget);
+      expect(find.byKey(const ValueKey('placeholder.P-06')), findsNothing);
       await tab(t, 4);
       expect(find.byKey(const ValueKey('placeholder.P-07')), findsNothing);
       final choose = find.byKey(const Key('myWard.chooseWard'));

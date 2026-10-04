@@ -14,6 +14,11 @@ import '../features/report/report_routes.dart';
 import '../features/shell/tab_placeholders.dart';
 import '../features/ward/ward_routes.dart';
 import 'app_router.dart' show rootNavigatorKey;
+import '../features/alerts/data/alert_models.dart';
+import '../features/alerts/presentation/alert_detail_screen.dart';
+import '../features/alerts/presentation/alert_settings_screen.dart';
+import '../features/alerts/presentation/alerts_tab_screen.dart' as alerts;
+import '../features/inbox/presentation/inbox_screen.dart';
 import 'route_helpers.dart';
 
 // ---------------------------------------------------------------------------
@@ -55,6 +60,18 @@ final List<RouteBase> reportChildRoutes = <RouteBase>[
 /// Child routes under `/alerts`.
 final List<RouteBase> alertsChildRoutes = <RouteBase>[
   // TASK-08 alerts.
+  saartheeRoute(
+    path: 'settings',
+    builder: (_, state) => AlertSettingsScreen(
+      highlightType: state.uri.queryParameters['type'] == null
+          ? null
+          : AlertType.parse(state.uri.queryParameters['type']),
+    ),
+  ),
+  saartheeRoute(
+    path: ':id',
+    builder: (_, state) => AlertDetailScreen(id: state.pathParameters['id']!),
+  ),
 ];
 
 /// Child routes under `/ward`.
@@ -80,6 +97,11 @@ final List<RouteBase> meRoutes = <RouteBase>[
   ),
   // TASK-09 representatives: profile and message form.
   ...representativeRoutes,
+  // TASK-08 inbox.
+  saartheeRoute(
+    path: '/me/notifications',
+    builder: (_, _) => const InboxScreen(),
+  ),
 ];
 
 StatefulShellRoute buildCitizenShell() => StatefulShellRoute(
@@ -125,7 +147,7 @@ StatefulShellRoute buildCitizenShell() => StatefulShellRoute(
       routes: [
         saartheeRoute(
           path: '/alerts',
-          builder: (_, _) => const AlertsTabScreen(),
+          builder: (_, _) => const alerts.AlertsTabScreen(),
           routes: alertsChildRoutes,
         ),
       ],

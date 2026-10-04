@@ -15,6 +15,8 @@ import { settingsRouter } from './modules/settings';
 import { staffRepresentativesRouter } from './modules/staff-representatives';
 import { categoriesRouter } from './modules/categories';
 import { issuesRouter } from './modules/issues';
+import { alertsRouter } from './modules/alerts';
+import { staffAlertsRouter } from './modules/staff-alerts';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -36,3 +38,6 @@ apiRouter.use(staffRepresentativesRouter);
 // TASK-05: v2 categories (with AMC problem types) and standalone issue reporting.
 apiRouter.use(categoriesRouter);
 apiRouter.use(issuesRouter);
+// TASK-08: civic alerts, subscriptions, notification inbox; staff alert composer and approval.
+apiRouter.use(alertsRouter);
+apiRouter.use(staffAlertsRouter);

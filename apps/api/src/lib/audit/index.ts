@@ -25,6 +25,14 @@ export const AUDIT_ACTIONS = [
   'rep_roster_imported',
   'ward_constituencies_updated',
   'election_mode_set',
+  // TASK-08 staff alert actions (actor, role, alert id only — never titles or bodies).
+  'alert_created',
+  'alert_updated',
+  'alert_submitted',
+  'alert_approved',
+  'alert_published',
+  'alert_retracted',
+  'alert_superseded',
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
@@ -48,4 +56,18 @@ export function auditLog(
 /** Citizen self-action audit line (TASK-04): action + user id only — never phone, name or tokens. */
 export function userAudit(requestId: string | undefined, action: 'user.signed_in' | 'user.deleted', userId: string): void {
   logger.info({ requestId, actorId: userId, action, targetId: userId }, 'user_action');
+}
+
+/** Staff action audit line (TASK-08/10 staff identity contract): actor id, kind, role, action, target id only. */
+export function staffAudit(
+  req: Request,
+  action: AuditAction,
+  targetId: string,
+  extra?: Record<string, string | number | boolean | null>,
+): void {
+  const staff = req.staff;
+  logger.info(
+    { requestId: req.id, actorId: staff?.actorId, actorKind: staff?.actorKind, role: staff?.role, action, targetId, ...(extra ?? {}) },
+    'staff_action',
+  );
 }

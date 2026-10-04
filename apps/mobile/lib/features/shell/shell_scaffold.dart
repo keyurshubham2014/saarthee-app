@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/widgets/widgets.dart';
+import '../alerts/presentation/in_app_alert_host.dart';
 
 /// The five-tab citizen shell (DS §5): body from the branch navigators,
 /// bottom [SaartheeNavigationBar]. Re-tapping the current tab returns that
@@ -14,7 +15,8 @@ class ShellScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationShell,
+      // TASK-08: in-app alert banner under the current app bar.
+      body: InAppAlertHost(child: navigationShell),
       bottomNavigationBar: SaartheeNavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onSelected: (i) => navigationShell.goBranch(

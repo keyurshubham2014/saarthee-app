@@ -44,6 +44,14 @@ export const ERROR_CODES = {
   OWN_ISSUE: { status: 409, message: 'You reported this issue.' },
   ISSUE_NOT_OPEN: { status: 409, message: 'This issue is no longer open.' },
   CCRS_ALREADY_LINKED: { status: 409, message: 'A different number is already linked to this report.' },
+  // TASK-08 (civic alerts).
+  ALERT_STATE_INVALID: { status: 409, message: "This alert can't be changed in its current state." },
+  ALERT_INCOMPLETE: { status: 422, message: 'Fill in both languages and a valid time window first.' },
+  ALERT_APPROVALS_MISSING: { status: 409, message: 'This alert still needs approval.' },
+  ALERT_ALREADY_APPROVED: { status: 409, message: "You've already approved this alert. Another person must give the second approval." },
+  ALERT_SECOND_APPROVER_ADMIN: { status: 403, message: 'The second approval for Warning and Critical alerts must come from an admin.' },
+  ALERT_ALREADY_SUPERSEDED: { status: 409, message: 'This alert already has an update.' },
+  SIGNED_IN_USE_ME: { status: 409, message: 'You are signed in. Your settings are saved to your account.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

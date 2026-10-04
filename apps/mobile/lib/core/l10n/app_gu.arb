@@ -2642,5 +2642,481 @@
   "linkCcrsSaved": "ફરિયાદ નંબર સાચવ્યો.",
   "@linkCcrsSaved": {
     "x-review": "pending"
+  },
+  "alertsTitle": "ચેતવણીઓ",
+  "@alertsTitle": {
+    "x-review": "pending"
+  },
+  "alertsSettingsAction": "ચેતવણી સેટિંગ્સ",
+  "@alertsSettingsAction": {
+    "x-review": "pending"
+  },
+  "alertsTabActive": "ચાલુ",
+  "@alertsTabActive": {
+    "x-review": "pending"
+  },
+  "alertsTabPast": "પહેલાંની",
+  "@alertsTabPast": {
+    "x-review": "pending"
+  },
+  "alertsEmptyActive": "તમારા વોર્ડ માટે હાલ કોઈ ચેતવણી નથી.",
+  "@alertsEmptyActive": {
+    "x-review": "pending"
+  },
+  "alertsEmptyPast": "છેલ્લા 30 દિવસમાં કોઈ ચેતવણી નથી.",
+  "@alertsEmptyPast": {
+    "x-review": "pending"
+  },
+  "alertsLoadError": "અમે ચેતવણીઓ લોડ કરી શક્યા નહીં.",
+  "@alertsLoadError": {
+    "x-review": "pending"
+  },
+  "alertsOfflineCached": "તમે ઑફલાઇન છો. છેલ્લે લોડ થયેલી ચેતવણીઓ બતાવીએ છીએ.",
+  "@alertsOfflineCached": {
+    "x-review": "pending"
+  },
+  "alertsNoWard": "ચેતવણીઓ જોવા માટે તમારો વોર્ડ પસંદ કરો.",
+  "@alertsNoWard": {
+    "x-review": "pending"
+  },
+  "alertsAreaWard": "વોર્ડ {number} {name}",
+  "@alertsAreaWard": {
+    "x-review": "pending"
+  },
+  "alertsAreaWards": "વોર્ડ {numbers}",
+  "@alertsAreaWards": {
+    "x-review": "pending"
+  },
+  "alertsAreaZone": "{zone} ઝોન",
+  "@alertsAreaZone": {
+    "x-review": "pending"
+  },
+  "alertsAreaCity": "આખું અમદાવાદ",
+  "@alertsAreaCity": {
+    "x-review": "pending"
+  },
+  "alertsValidityToday": "આજે {from}–{to}",
+  "@alertsValidityToday": {
+    "x-review": "pending"
+  },
+  "alertsValidityRange": "{from} – {to}",
+  "@alertsValidityRange": {
+    "x-review": "pending"
+  },
+  "alertsValidityUntil": "{time} સુધી",
+  "@alertsValidityUntil": {
+    "x-review": "pending"
+  },
+  "alertsCardSemantics": "{severity} ચેતવણી: {title}, {time} સુધી",
+  "@alertsCardSemantics": {
+    "x-review": "pending"
+  },
+  "alertsDetailWhere": "ક્યાં",
+  "@alertsDetailWhere": {
+    "x-review": "pending"
+  },
+  "alertsDetailWhen": "ક્યારે",
+  "@alertsDetailWhen": {
+    "x-review": "pending"
+  },
+  "alertsDetailEnded": "આ ચેતવણી પૂરી થઈ ગઈ છે.",
+  "@alertsDetailEnded": {
+    "x-review": "pending"
+  },
+  "alertsDetailCancelled": "સારથીએ રદ કરી: {reason}",
+  "@alertsDetailCancelled": {
+    "x-review": "pending"
+  },
+  "alertsDetailNewer": "નવી માહિતી ઉપલબ્ધ છે",
+  "@alertsDetailNewer": {
+    "x-review": "pending"
+  },
+  "alertsDetailNotAvailable": "આ ચેતવણી ઉપલબ્ધ નથી.",
+  "@alertsDetailNotAvailable": {
+    "x-review": "pending"
+  },
+  "alertsTurnOff": "આવી ચેતવણીઓ બંધ કરો",
+  "@alertsTurnOff": {
+    "x-review": "pending"
+  },
+  "alertsOpenSourceLink": "સ્રોત પેજ ખોલો",
+  "@alertsOpenSourceLink": {
+    "x-review": "pending"
+  },
+  "alertsSettingsTitle": "ચેતવણી સેટિંગ્સ",
+  "@alertsSettingsTitle": {
+    "x-review": "pending"
+  },
+  "alertsSettingsYourWards": "તમારા વોર્ડ",
+  "@alertsSettingsYourWards": {
+    "x-review": "pending"
+  },
+  "alertsSettingsHomeWard": "ઘરનો વોર્ડ: {ward}",
+  "@alertsSettingsHomeWard": {
+    "x-review": "pending"
+  },
+  "alertsSettingsChangeInProfile": "પ્રોફાઇલમાં બદલો",
+  "@alertsSettingsChangeInProfile": {
+    "x-review": "pending"
+  },
+  "alertsSettingsAddWard": "વોર્ડ ઉમેરો",
+  "@alertsSettingsAddWard": {
+    "x-review": "pending"
+  },
+  "alertsSettingsRemoveWard": "{ward} દૂર કરો",
+  "@alertsSettingsRemoveWard": {
+    "x-review": "pending"
+  },
+  "alertsSettingsMaxWards": "તમે વધુમાં વધુ 5 વધારાના વોર્ડ ઉમેરી શકો છો.",
+  "@alertsSettingsMaxWards": {
+    "x-review": "pending"
+  },
+  "alertsSettingsTypes": "ચેતવણીના પ્રકાર",
+  "@alertsSettingsTypes": {
+    "x-review": "pending"
+  },
+  "alertsSettingsCriticalOnly": "ફક્ત ગંભીર ચેતવણીઓ",
+  "@alertsSettingsCriticalOnly": {
+    "x-review": "pending"
+  },
+  "alertsSettingsQuietHours": "રાત્રે 10 થી સવારે 7 વચ્ચે ગંભીર સિવાયની ચેતવણીઓ સવારે 7 સુધી રોકી રાખીએ છીએ. ગંભીર ચેતવણીઓ હંમેશાં આવે છે.",
+  "@alertsSettingsQuietHours": {
+    "x-review": "pending"
+  },
+  "alertsSettingsMutedNote": "બંધ કરેલી ચેતવણીઓ પણ તમારી સૂચનાઓની યાદીમાં દેખાશે.",
+  "@alertsSettingsMutedNote": {
+    "x-review": "pending"
+  },
+  "alertsSettingsVisitor": "આ સેટિંગ્સ તમારા બધા ફોનમાં રાખવા માટે સાઇન ઇન કરો.",
+  "@alertsSettingsVisitor": {
+    "x-review": "pending"
+  },
+  "alertsSettingsSaveError": "સાચવી શક્યા નહીં. ફરી પ્રયાસ કરો.",
+  "@alertsSettingsSaveError": {
+    "x-review": "pending"
+  },
+  "alertsSettingsPickWard": "વોર્ડ પસંદ કરો",
+  "@alertsSettingsPickWard": {
+    "x-review": "pending"
+  },
+  "alertTypeWaterCut": "પાણી બંધ",
+  "@alertTypeWaterCut": {
+    "x-review": "pending"
+  },
+  "alertTypeWaterTiming": "પાણીના સમયમાં ફેરફાર",
+  "@alertTypeWaterTiming": {
+    "x-review": "pending"
+  },
+  "alertTypeRoadClosure": "રસ્તો બંધ",
+  "@alertTypeRoadClosure": {
+    "x-review": "pending"
+  },
+  "alertTypeHeat": "ગરમી",
+  "@alertTypeHeat": {
+    "x-review": "pending"
+  },
+  "alertTypeRainFlood": "વરસાદ અને પૂર",
+  "@alertTypeRainFlood": {
+    "x-review": "pending"
+  },
+  "alertTypeHealth": "આરોગ્ય",
+  "@alertTypeHealth": {
+    "x-review": "pending"
+  },
+  "alertTypeInitiative": "નાગરિક અભિયાન",
+  "@alertTypeInitiative": {
+    "x-review": "pending"
+  },
+  "alertTypeOther": "અન્ય",
+  "@alertTypeOther": {
+    "x-review": "pending"
+  },
+  "alertsBannerView": "જુઓ",
+  "@alertsBannerView": {
+    "x-review": "pending"
+  },
+  "alertsBannerDismiss": "ચેતવણી બંધ કરો",
+  "@alertsBannerDismiss": {
+    "x-review": "pending"
+  },
+  "alertsBannerAnnounce": "નવી ચેતવણી: {title}",
+  "@alertsBannerAnnounce": {
+    "x-review": "pending"
+  },
+  "alertsBannerAnnounceCritical": "નવી ગંભીર ચેતવણી: {title}",
+  "@alertsBannerAnnounceCritical": {
+    "x-review": "pending"
+  },
+  "alertsIndependenceLine": "નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.",
+  "@alertsIndependenceLine": {
+    "x-review": "pending"
+  },
+  "inboxTitle": "સૂચનાઓ",
+  "@inboxTitle": {
+    "x-review": "pending"
+  },
+  "inboxToday": "આજે",
+  "@inboxToday": {
+    "x-review": "pending"
+  },
+  "inboxEarlier": "પહેલાં",
+  "@inboxEarlier": {
+    "x-review": "pending"
+  },
+  "inboxMarkAll": "બધી વાંચેલી ગણો",
+  "@inboxMarkAll": {
+    "x-review": "pending"
+  },
+  "inboxMarkRead": "વાંચેલી ગણો",
+  "@inboxMarkRead": {
+    "x-review": "pending"
+  },
+  "inboxUnread": "ન વાંચેલી",
+  "@inboxUnread": {
+    "x-review": "pending"
+  },
+  "inboxEmpty": "હજી કોઈ સૂચના નથી.",
+  "@inboxEmpty": {
+    "x-review": "pending"
+  },
+  "inboxSignedOut": "તમારી ફરિયાદો અને ચેતવણીઓની માહિતી જોવા સાઇન ઇન કરો.",
+  "@inboxSignedOut": {
+    "x-review": "pending"
+  },
+  "inboxSignIn": "સાઇન ઇન",
+  "@inboxSignIn": {
+    "x-review": "pending"
+  },
+  "inboxError": "અમે તમારી સૂચનાઓ લોડ કરી શક્યા નહીં.",
+  "@inboxError": {
+    "x-review": "pending"
+  },
+  "inboxUpdateError": "અપડેટ થઈ શક્યું નહીં. ફરી પ્રયાસ કરો.",
+  "@inboxUpdateError": {
+    "x-review": "pending"
+  },
+  "inboxGone": "આ હવે ઉપલબ્ધ નથી.",
+  "@inboxGone": {
+    "x-review": "pending"
+  },
+  "inboxBellLabel": "સૂચનાઓ, {count} ન વાંચેલી",
+  "@inboxBellLabel": {
+    "x-review": "pending"
+  },
+  "staffAlertsTitle": "ચેતવણીઓ",
+  "@staffAlertsTitle": {
+    "x-review": "pending"
+  },
+  "staffAlertsNew": "નવી ચેતવણી",
+  "@staffAlertsNew": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabDrafts": "ડ્રાફ્ટ",
+  "@staffAlertsTabDrafts": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabPending": "મંજૂરી બાકી",
+  "@staffAlertsTabPending": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabPublished": "પ્રકાશિત",
+  "@staffAlertsTabPublished": {
+    "x-review": "pending"
+  },
+  "staffAlertsTabEnded": "પૂર્ણ",
+  "@staffAlertsTabEnded": {
+    "x-review": "pending"
+  },
+  "staffAlertsFromSachet": "NDMA SACHET માંથી",
+  "@staffAlertsFromSachet": {
+    "x-review": "pending"
+  },
+  "staffAlertsApprovals": "{needed} માંથી {count} મંજૂરી",
+  "@staffAlertsApprovals": {
+    "x-review": "pending"
+  },
+  "staffAlertsEmpty": "અહીં કંઈ નથી.",
+  "@staffAlertsEmpty": {
+    "x-review": "pending"
+  },
+  "staffAlertsNoAccess": "તમને આ પેજની ઍક્સેસ નથી.",
+  "@staffAlertsNoAccess": {
+    "x-review": "pending"
+  },
+  "staffAlertsLoadError": "અમે ચેતવણીઓ લોડ કરી શક્યા નહીં.",
+  "@staffAlertsLoadError": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldType": "પ્રકાર",
+  "@staffAlertsFieldType": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldSeverity": "ગંભીરતા",
+  "@staffAlertsFieldSeverity": {
+    "x-review": "pending"
+  },
+  "staffAlertsSeverityHelp": "ચેતવણી અને ગંભીર માટે બે મંજૂરી જોઈએ",
+  "@staffAlertsSeverityHelp": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldTitleEn": "શીર્ષક (English)",
+  "@staffAlertsFieldTitleEn": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldTitleGu": "શીર્ષક (ગુજરાતી)",
+  "@staffAlertsFieldTitleGu": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldBodyEn": "સંદેશ (English)",
+  "@staffAlertsFieldBodyEn": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldBodyGu": "સંદેશ (ગુજરાતી)",
+  "@staffAlertsFieldBodyGu": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldSourceName": "સ્રોતનું નામ",
+  "@staffAlertsFieldSourceName": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldSourceUrl": "સ્રોત લિંક",
+  "@staffAlertsFieldSourceUrl": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldValidFrom": "ક્યારથી",
+  "@staffAlertsFieldValidFrom": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldValidTo": "ક્યાં સુધી",
+  "@staffAlertsFieldValidTo": {
+    "x-review": "pending"
+  },
+  "staffAlertsFieldArea": "વિસ્તાર",
+  "@staffAlertsFieldArea": {
+    "x-review": "pending"
+  },
+  "staffAlertsAreaWards": "વોર્ડ",
+  "@staffAlertsAreaWards": {
+    "x-review": "pending"
+  },
+  "staffAlertsAreaZone": "ઝોન",
+  "@staffAlertsAreaZone": {
+    "x-review": "pending"
+  },
+  "staffAlertsAreaCity": "આખું શહેર",
+  "@staffAlertsAreaCity": {
+    "x-review": "pending"
+  },
+  "staffAlertsPickWards": "વોર્ડ પસંદ કરો",
+  "@staffAlertsPickWards": {
+    "x-review": "pending"
+  },
+  "staffAlertsCounter": "{count}/{max}",
+  "@staffAlertsCounter": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrorSummary": "કૃપા કરીને આ ફીલ્ડ સુધારો:",
+  "@staffAlertsErrorSummary": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrRequired": "આ ભરો.",
+  "@staffAlertsErrRequired": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrTooLong": "ખૂબ લાંબું.",
+  "@staffAlertsErrTooLong": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrTooShort": "ખૂબ ટૂંકું.",
+  "@staffAlertsErrTooShort": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrHttps": "https:// થી શરૂ થતી સુરક્ષિત લિંક વાપરો",
+  "@staffAlertsErrHttps": {
+    "x-review": "pending"
+  },
+  "staffAlertsErrWindow": "અંત શરૂઆત પછી, ભવિષ્યમાં અને વધુમાં વધુ 14 દિવસમાં હોવો જોઈએ.",
+  "@staffAlertsErrWindow": {
+    "x-review": "pending"
+  },
+  "staffAlertsPreview": "પૂર્વાવલોકન",
+  "@staffAlertsPreview": {
+    "x-review": "pending"
+  },
+  "staffAlertsApprovedBy": "{name} ({role}) દ્વારા મંજૂર",
+  "@staffAlertsApprovedBy": {
+    "x-review": "pending"
+  },
+  "staffAlertsNeedsMore": "હજી {count} મંજૂરી જોઈએ",
+  "@staffAlertsNeedsMore": {
+    "x-review": "pending"
+  },
+  "staffAlertsNeedsAdmin": "એડમિનની વધુ 1 મંજૂરી જોઈએ",
+  "@staffAlertsNeedsAdmin": {
+    "x-review": "pending"
+  },
+  "staffAlertsSaveDraft": "ડ્રાફ્ટ સાચવો",
+  "@staffAlertsSaveDraft": {
+    "x-review": "pending"
+  },
+  "staffAlertsSubmit": "મંજૂરી માટે મોકલો",
+  "@staffAlertsSubmit": {
+    "x-review": "pending"
+  },
+  "staffAlertsApprove": "મંજૂર કરો",
+  "@staffAlertsApprove": {
+    "x-review": "pending"
+  },
+  "staffAlertsPublish": "હમણાં પ્રકાશિત કરો",
+  "@staffAlertsPublish": {
+    "x-review": "pending"
+  },
+  "staffAlertsRetract": "પાછી ખેંચો",
+  "@staffAlertsRetract": {
+    "x-review": "pending"
+  },
+  "staffAlertsUpdate": "અપડેટ બનાવો",
+  "@staffAlertsUpdate": {
+    "x-review": "pending"
+  },
+  "staffAlertsConfirmPublish": "આ {area} માં દરેકને હમણાં જાણ કરશે.",
+  "@staffAlertsConfirmPublish": {
+    "x-review": "pending"
+  },
+  "staffAlertsConfirmPublishQuiet": "આ {area} માં દરેકને સવારે 7:00 વાગ્યે જાણ કરશે (શાંત સમય).",
+  "@staffAlertsConfirmPublishQuiet": {
+    "x-review": "pending"
+  },
+  "staffAlertsRetractReason": "પાછી ખેંચવાનું કારણ",
+  "@staffAlertsRetractReason": {
+    "x-review": "pending"
+  },
+  "staffAlertsCancel": "રદ કરો",
+  "@staffAlertsCancel": {
+    "x-review": "pending"
+  },
+  "staffAlertsConfirm": "પુષ્ટિ કરો",
+  "@staffAlertsConfirm": {
+    "x-review": "pending"
+  },
+  "staffAlertsDone": "સાચવ્યું.",
+  "@staffAlertsDone": {
+    "x-review": "pending"
+  },
+  "staffAlertsActionError": "થઈ શક્યું નહીં: {message}",
+  "@staffAlertsActionError": {
+    "x-review": "pending"
+  },
+  "staffAlertsReadOnly": "પ્રકાશિત અને પૂર્ણ ચેતવણીઓ બદલી શકાતી નથી.",
+  "@staffAlertsReadOnly": {
+    "x-review": "pending"
+  },
+  "staffAlertsRoleModerator": "મોડરેટર",
+  "@staffAlertsRoleModerator": {
+    "x-review": "pending"
+  },
+  "staffAlertsRoleAdmin": "એડમિન",
+  "@staffAlertsRoleAdmin": {
+    "x-review": "pending"
   }
 }

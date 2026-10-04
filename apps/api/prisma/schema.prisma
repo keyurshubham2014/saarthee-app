@@ -400,6 +400,7 @@ model User {
   repMessages        RepMessage[]        @relation("RepMessageCitizen")
   uploadedPhotos     Photo[]             @relation("PhotoUploadedBy")
   homeWard           Ward?               @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_users_home_ward")
+  subscriptions      Subscription[]
 
   @@unique([phoneE164], map: "uq_users_phone")
   @@unique([firebaseUid], map: "uq_users_firebase_uid")
@@ -434,9 +435,13 @@ model Device {
   /// TASK-04: push language (topic suffix) and the topics last reported by the app (diagnostic only).
   language   AppLanguage @default(gu)
   topics     String[]    @default([])
+  /// TASK-08: visitor's home ward for filtered alert sends (set by PUT /devices/{installId}/subscriptions).
+  homeWardId String?     @map("home_ward_id") @db.Uuid
 
   user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_devices_user")
   notifications Notification[]
+  homeWard      Ward?          @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_devices_home_ward")
+  subscriptions Subscription[]
 
   @@unique([installId], map: "uq_devices_install")
   @@unique([fcmToken], map: "uq_devices_fcm_token")
@@ -625,6 +630,7 @@ model Zone {
 
   wards  Ward[]
   issues Issue[]
+  alerts Alert[]
 
   @@unique([code], map: "uq_zones_code")
   @@index([geom], map: "idx_zones_geom", type: Gist)
@@ -655,6 +661,8 @@ model Ward {
   /// TASK-09 back-relations.
   repAreas       RepresentativeArea[]
   constituencies WardConstituency[]
+  alertWards  AlertWard[]
+  homeDevices Device[]
 
   @@unique([number], map: "uq_wards_number")
   @@index([zoneId], map: "idx_wards_zone")
@@ -684,6 +692,8 @@ model Notification {
   errorCode          String?   @map("error_code")
   readAt             DateTime? @map("read_at") @db.Timestamptz(6)
   createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// TASK-08: filtered device sends (notifyDevices) — one row per batch of ≤ 500 devices.
+  targetDeviceIds    String[]  @default([]) @map("target_device_ids") @db.Uuid
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_notifications_user")
   device Device? @relation(fields: [deviceId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_notifications_device")
@@ -883,4 +893,140 @@ model AmcProblemType {
   @@unique([sourceKey], map: "uq_amc_problem_types_source_key")
   @@index([categoryId, isActive], map: "idx_amc_problem_types_category")
   @@map("amc_problem_types")
+}
+
+// ---------------------------------------------------------------------------------------------
+// V2 TASK-08: civic alerts. CHECKs (two-person rule, validity, source) and partial indexes are
+// hand-written in 20261008000000_v2_alerts/migration.sql.
+
+enum AlertType {
+  water_cut
+  water_timing
+  road_closure
+  heat
+  rain_flood
+  health
+  initiative
+  other
+
+  @@map("alert_type")
+}
+
+enum AlertSeverity {
+  info
+  advisory
+  warning
+  critical
+
+  @@map("alert_severity")
+}
+
+enum AlertStatus {
+  draft
+  pending_approval
+  published
+  expired
+  retracted
+
+  @@map("alert_status")
+}
+
+enum AlertOrigin {
+  manual
+  sachet
+  imd
+
+  @@map("alert_origin")
+}
+
+enum AlertScope {
+  wards
+  zone
+  city
+
+  @@map("alert_scope")
+}
+
+enum SubscriptionScope {
+  ward
+  zone
+  city
+
+  @@map("subscription_scope")
+}
+
+model Alert {
+  id               String                                       @id(map: "pk_alerts") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type             AlertType
+  severity         AlertSeverity
+  titleEn          String                                       @default("") @map("title_en")
+  titleGu          String                                       @default("") @map("title_gu")
+  bodyEn           String                                       @default("") @map("body_en")
+  bodyGu           String                                       @default("") @map("body_gu")
+  sourceName       String                                       @map("source_name")
+  sourceUrl        String                                       @map("source_url")
+  validFrom        DateTime                                     @map("valid_from") @db.Timestamptz(6)
+  validTo          DateTime                                     @map("valid_to") @db.Timestamptz(6)
+  targetScope      AlertScope                                   @map("target_scope")
+  targetZoneId     String?                                      @map("target_zone_id") @db.Uuid
+  area             Unsupported("geometry(MultiPolygon, 4326)")?
+  status           AlertStatus                                  @default(draft)
+  origin           AlertOrigin                                  @default(manual)
+  originRef        String?                                      @map("origin_ref")
+  /// Staff actor ids (v2 users or v1 admin_users) — no FK by design (TASK-08 §5.6).
+  createdBy        String?                                      @map("created_by") @db.Uuid
+  approvedBy       String[]                                     @default([]) @map("approved_by") @db.Uuid
+  submittedAt      DateTime?                                    @map("submitted_at") @db.Timestamptz(6)
+  publishedAt      DateTime?                                    @map("published_at") @db.Timestamptz(6)
+  /// Set when topic/device pushes were handed to the push service (immediate or held).
+  pushedAt         DateTime?                                    @map("pushed_at") @db.Timestamptz(6)
+  supersedesId     String?                                      @unique(map: "uq_alerts_supersedes") @map("supersedes_id") @db.Uuid
+  retractedAt      DateTime?                                    @map("retracted_at") @db.Timestamptz(6)
+  retractedBy      String?                                      @map("retracted_by") @db.Uuid
+  retractionReason String?                                      @map("retraction_reason")
+  createdAt        DateTime                                     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime                                     @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  targetZone   Zone?       @relation(fields: [targetZoneId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_alerts_zone")
+  supersedes   Alert?      @relation("AlertSupersedes", fields: [supersedesId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_alerts_supersedes")
+  supersededBy Alert?      @relation("AlertSupersedes")
+  wards        AlertWard[]
+
+  @@unique([origin, originRef], map: "uq_alerts_origin_ref")
+  @@index([status, validTo], map: "idx_alerts_status_valid_to")
+  @@index([publishedAt(sort: Desc)], map: "idx_alerts_published_at")
+  @@index([area], map: "idx_alerts_area", type: Gist)
+  @@map("alerts")
+}
+
+model AlertWard {
+  alertId String @map("alert_id") @db.Uuid
+  wardId  String @map("ward_id") @db.Uuid
+
+  alert Alert @relation(fields: [alertId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_alert_wards_alert")
+  ward  Ward  @relation(fields: [wardId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_alert_wards_ward")
+
+  @@id([alertId, wardId], map: "pk_alert_wards")
+  @@index([wardId], map: "idx_alert_wards_ward")
+  @@map("alert_wards")
+}
+
+/// Extra wards (scope ward), zones and one `city` row carrying muted_types / critical_only.
+/// Owner is a user (signed in) or a device (visitor). Partial unique indexes in the migration.
+model Subscription {
+  id           String            @id(map: "pk_subscriptions") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId       String?           @map("user_id") @db.Uuid
+  deviceId     String?           @map("device_id") @db.Uuid
+  scope        SubscriptionScope
+  scopeId      String?           @map("scope_id") @db.Uuid
+  category     String?
+  channel      String            @default("push")
+  mutedTypes   AlertType[]       @default([]) @map("muted_types")
+  criticalOnly Boolean           @default(false) @map("critical_only")
+  createdAt    DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_subscriptions_user")
+  device Device? @relation(fields: [deviceId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_subscriptions_device")
+
+  @@map("subscriptions")
 }

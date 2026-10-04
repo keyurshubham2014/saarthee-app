@@ -9,6 +9,8 @@ export interface PushPayload {
   body: string;
   channel: PushChannel;
   data: { kind: string; refId: string; route: string; notificationId: string };
+  /** TASK-08: Android notification tag (`alert:<id>`) so a device on two matching topics shows one notification. */
+  tag?: string;
 }
 
 export type SendResult = { ok: true; messageId: string } | { ok: false; errorCode: string };
