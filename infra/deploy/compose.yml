@@ -1,0 +1,99 @@
+# Saarthee staging / pilot host stack (V2 TASK-13 step 7). See docs/ops/deploy.md.
+#   api   — the API image; port 3000 is reachable only on the internal network (never published).
+#   caddy — the only service with published ports: 443 (Cloudflare Origin CA cert) and 80 (redirect).
+#   db    — profile `local-db` only: a PostGIS container for local verification of this stack. Staging and
+#           pilot use DigitalOcean Managed PostgreSQL (DATABASE_URL in api.env, sslmode=require).
+#
+# Host:   API_IMAGE=ghcr.io/<owner>/saarthee-api:<sha> docker compose -f compose.yml up -d
+# Local:  docker compose -f compose.yml --env-file local.env --profile local-db up -d   (docs/ops/deploy.md §Local)
+name: ${COMPOSE_PROJECT_NAME:-saarthee}
+
+services:
+  api:
+    image: ${API_IMAGE:-saarthee-api:local}
+    restart: unless-stopped
+    env_file:
+      - ${API_ENV_FILE:-/etc/saarthee/api.env}
+    environment:
+      API_HOST: 0.0.0.0
+      API_PORT: "3000"
+      TRUST_PROXY: "true"
+    expose:
+      - "3000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    volumes:
+      # Local photos/logs (STORAGE_DRIVER=local, LOG_FILE_DIR=/data/logs). R2 deployments keep only logs here.
+      - api_data:/data
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      db:
+        condition: service_healthy
+        required: false
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"
+    networks: [internal]
+
+  caddy:
+    # Config baked into the image (caddy.Dockerfile); only the Origin CA cert directory is mounted.
+    image: ${CADDY_IMAGE:-saarthee-caddy:local}
+    build:
+      context: .
+      dockerfile: caddy.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${CADDY_HTTP_BIND:-0.0.0.0}:${CADDY_HTTP_PORT:-80}:80"
+      - "${CADDY_HTTPS_BIND:-0.0.0.0}:${CADDY_HTTPS_PORT:-443}:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:443}
+      CADDYFILE: /etc/caddy/${CADDYFILE:-Caddyfile}
+    volumes:
+      # Host: /etc/saarthee/certs (origin.pem, origin.key; mode 600). Local: the empty named volume below.
+      - ${CERTS_DIR:-/etc/saarthee/certs}:/etc/caddy/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - api
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"
+    networks: [internal]
+
+  db:
+    profiles: [local-db]
+    image: ${DB_IMAGE:-saarthee/postgis:17-3}
+    build: ../postgis
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-saarthee}
+      POSTGRES_USER: ${POSTGRES_USER:-saarthee}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    ports:
+      - "127.0.0.1:${DB_PORT:-5440}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [internal]
+
+volumes:
+  api_data:
+  certs_local:
+  caddy_data:
+  caddy_config:
+  db_data:
+
+networks:
+  internal:
