@@ -10,7 +10,26 @@ Future<void> waitFor(WidgetTester t, Finder finder, {int seconds = 20}) async {
     await t.pump(SaartheeMotion.short.duration);
     if (finder.evaluate().isNotEmpty) return;
   }
-  throw TestFailure('Timed out waiting for $finder');
+  // Print what is on screen so a timeout says why (texts and status chips).
+  final texts = find
+      .byType(RichText)
+      .evaluate()
+      .map((e) => (e.widget as RichText).text.toPlainText())
+      .where((s) => s.trim().isNotEmpty)
+      .take(40)
+      .join(' | ');
+  final chips = find
+      .byWidgetPredicate(
+        (w) =>
+            w.key is ValueKey<String> &&
+            (w.key! as ValueKey<String>).value.startsWith('statusChip.'),
+      )
+      .evaluate()
+      .map((e) => (e.widget.key! as ValueKey<String>).value)
+      .join(', ');
+  throw TestFailure(
+    'Timed out waiting for $finder. Chips: [$chips]. On screen: $texts',
+  );
 }
 
 /// "Is it fixed?" → Yes / Still not fixed → take the (fake) photo → the

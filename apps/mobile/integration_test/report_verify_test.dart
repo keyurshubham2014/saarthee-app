@@ -20,6 +20,7 @@ import 'package:saarthee/core/l10n/app_localizations.dart';
 import 'package:saarthee/core/settings/app_settings.dart';
 import 'package:saarthee/core/theme/app_theme.dart';
 import 'package:saarthee/core/theme/motion.dart';
+import 'package:saarthee/features/auth/data/secure_store.dart';
 import 'package:saarthee/features/issue_actions/issue_actions_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +44,11 @@ Future<void> pumpAs(WidgetTester t, String token, String issueId) async {
     ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
+        // Signed in: without a stored session the verify route's account
+        // redirect sends /verify/photo to /sign-in, absent from this router.
+        secureStoreProvider.overrideWithValue(
+          MemorySecureStore()..values[SecureKeys.sessionToken] = token,
+        ),
         apiClientProvider.overrideWithValue(ApiClient(dio)),
         evidenceCaptureProvider.overrideWithValue(
           FakeEvidenceCapture(

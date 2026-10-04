@@ -114,6 +114,14 @@ Future<int> myIssueCount(Dio dio) async {
   return (res.data!['items'] as List).length;
 }
 
+/// "Fixed" chip: neighbours see `markedFixed`; while a fix awaits checks the
+/// detail may show the "Fixed (not yet verified)" variant (TASK-06).
+final Finder fixedChip = find.byWidgetPredicate(
+  (w) =>
+      w.key == const ValueKey('statusChip.markedFixed') ||
+      w.key == const ValueKey('statusChip.fixedUnverified'),
+);
+
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -143,8 +151,11 @@ void main() {
 
     // The app refreshes the detail on re-entry (as after a push tap).
     await goTo(t, c, '/');
+    // Let the detail's autoDispose providers drop (a user takes far longer
+    // than one frame to come back); re-entry then refetches.
+    await t.pump(const Duration(seconds: 1));
     await goTo(t, c, '/issues/$id');
-    await waitFor(t, find.byKey(const ValueKey('statusChip.markedFixed')));
+    await waitFor(t, fixedChip);
     expect(find.text('Fixed'), findsWidgets, reason: 'timeline shows Fixed');
     expect(await myIssueCount(userDio(reporterToken)), 1);
     return (id, reporterToken);
@@ -159,7 +170,7 @@ void main() {
     final b = await signIn(newTestPhone());
     final c = await pumpCitizenApp(t, token: b, fix: thirtyMetresFrom());
     await goTo(t, c, '/issues/$id');
-    await waitFor(t, find.byKey(const ValueKey('statusChip.markedFixed')));
+    await waitFor(t, fixedChip);
     await answer(t, fixed: true);
     await waitFor(t, find.byKey(const ValueKey('statusChip.verified')));
     expect(find.text('Verified'), findsWidgets);
@@ -176,7 +187,7 @@ void main() {
     final (id, reporter) = await reportedThenFixed(t);
     final c = await pumpCitizenApp(t, token: reporter, fix: thirtyMetresFrom());
     await goTo(t, c, '/issues/$id');
-    await waitFor(t, find.byKey(const ValueKey('statusChip.markedFixed')));
+    await waitFor(t, fixedChip);
     await answer(t, fixed: false);
     await waitFor(t, find.byKey(const ValueKey('statusChip.reopened')));
     expect(await lifecycleStatus(moderator, id), 'reopened');
