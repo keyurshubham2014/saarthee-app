@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Profile builds are local demo/performance builds only (never shipped): same dev-machine
-         cleartext exception as debug (10.0.2.2). Release keeps no exception. -->
-    <application
-        android:networkSecurityConfig="@xml/network_security_config" />
+    <!-- No cleartext exception in profile builds (V2 TASK-13, REQ-S-013): profile and release talk
+         HTTPS only. The only cleartext exception lives in src/debug/ (10.0.2.2, localhost);
+         scripts/check-cleartext.sh enforces this in CI. -->
 </manifest>

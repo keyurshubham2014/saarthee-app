@@ -1270,5 +1270,6 @@
   "verifyCheckPhoto": "Photo now",
   "verifyDoneTitle": "Thank you.",
   "verifyDoneBody": "Your answer helps show which complaints really get fixed.",
-  "verifySessionEnded": "This follow-up was closed. Open the link from WhatsApp again, or enter the code."
+  "verifySessionEnded": "This follow-up was closed. Open the link from WhatsApp again, or enter the code.",
+  "configErrorBody": "This build is misconfigured. Please install the latest version from Play."
 }

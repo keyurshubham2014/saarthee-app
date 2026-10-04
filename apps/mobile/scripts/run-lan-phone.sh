@@ -8,4 +8,5 @@ PORT="${2:-4000}"
 cd "$(dirname "$0")/.."
 flutter run \
   --dart-define=APP_ENV=development \
-  --dart-define=API_BASE_URL="http://${LAN_IP}:${PORT}/api/v1"
+  --dart-define=API_BASE_URL="http://${LAN_IP}:${PORT}/api/v1" \
+  --dart-define=DEV_CLEARTEXT_HOST="${LAN_IP}"

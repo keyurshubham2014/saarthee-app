@@ -1,0 +1,6 @@
+# Copy to android/key.properties (git-ignored) on the release machine. NEVER commit the real file.
+# The keystore lives outside the repository and is backed up in the founder's password-manager vault.
+storeFile=/Users/<you>/saarthee-keys/saarthee-upload.jks
+storePassword=<from vault>
+keyAlias=saarthee-upload
+keyPassword=<from vault>
