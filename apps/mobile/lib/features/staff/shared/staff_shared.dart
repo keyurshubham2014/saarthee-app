@@ -179,6 +179,7 @@ class StaffPageScaffold extends ConsumerWidget {
           showLanguageToggle: false,
         ),
         floatingActionButton: role == null ? null : floatingActionButton,
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
         body: role == null
             ? EmptyState(
                 message: AppLocalizations.of(context).staffAlertsNoAccess,

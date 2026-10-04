@@ -160,6 +160,7 @@ Future<void> staffSignOut(WidgetRef ref) async {
 Future<String?> staffSignedInRedirect(BuildContext context, GoRouterStateLike state) async {
   final container = ProviderScope.containerOf(context, listen: false);
   await container.read(sessionProvider.notifier).ready;
+  if (container.read(sessionProvider).signedIn) return null;
   container.read(staffEmailSessionProvider);
   await container.read(staffEmailSessionProvider.notifier).ready;
   final signedIn = container.read(sessionProvider).signedIn || container.read(staffEmailSessionProvider) != null;
