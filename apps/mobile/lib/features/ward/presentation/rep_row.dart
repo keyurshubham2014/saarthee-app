@@ -100,7 +100,9 @@ class WardRepRow extends StatelessWidget {
                 ...[
                   const SizedBox(width: AppSpacing.s8),
                   Semantics(
+                    container: true,
                     button: true,
+                    enabled: onMessage != null,
                     label: messageLabel,
                     excludeSemantics: true,
                     child: OutlinedButton.icon(

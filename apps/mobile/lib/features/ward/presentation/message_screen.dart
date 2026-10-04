@@ -53,7 +53,7 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
     final l10n = AppLocalizations.of(context);
     final ok = await showSaartheeSheet<bool>(
       context: context,
-      builder: (ctx) => Padding(
+      builder: (ctx) => SingleChildScrollView(
         key: const Key('relay.consentSheet'),
         padding: const EdgeInsets.all(AppSpacing.gutter),
         child: Column(
@@ -123,11 +123,10 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
     if (!mounted) return;
     _clientMessageId = newClientMessageId();
     final l10n = AppLocalizations.of(context);
-    final rootContext = Navigator.of(context, rootNavigator: true).context;
+    // The toast lives in the root overlay, so it stays up while this page
+    // pops back to the profile.
+    showSaartheeToast(context, l10n.relaySent(repName));
     if (context.canPop()) context.pop(true);
-    if (rootContext.mounted) {
-      showSaartheeToast(rootContext, l10n.relaySent(repName));
-    }
   }
 
   String? _failureText(AppLocalizations l10n) => switch (_failure) {
