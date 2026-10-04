@@ -60,7 +60,9 @@ class SubmitController extends Notifier<SubmitState> {
     final draft = ref.read(reportDraftProvider);
     if (draft == null || state.sending) return null;
     final cats = ref.read(reportCategoriesProvider).value;
-    final sensitive = cats?.bySlug(draft.categorySlug)?.sensitive ?? false;
+    final sensitive =
+        cats?.bySlug(draft.categorySlug)?.sensitive ??
+        kStructuredReasons.containsKey(draft.categorySlug);
     state = const SubmitState(sending: true);
     try {
       final res = await ref

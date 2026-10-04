@@ -23,10 +23,16 @@ class StepDetails extends ConsumerStatefulWidget {
 }
 
 class _StepDetailsState extends ConsumerState<StepDetails> {
-  late final TextEditingController _text = TextEditingController(
-    text: ref.read(reportDraftProvider)?.description ?? '',
-  );
+  late final TextEditingController _text;
   bool _reasonMissing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _text = TextEditingController(
+      text: ref.read(reportDraftProvider)?.description ?? '',
+    );
+  }
 
   @override
   void dispose() {
