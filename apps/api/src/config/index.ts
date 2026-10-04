@@ -108,6 +108,11 @@ const schema = z.object({
   CCRS_REMINDER_AFTER_HOURS: int(1).max(240).default(20),
   QUOTA_STATUS_CHANGES_PER_DAY: int(1).default(30),
   QUOTA_ESCALATIONS_PER_DAY: int(1).default(10),
+  // TASK-07 (discovery: feed, lists, map).
+  FEED_CACHE_SECONDS: int(0).max(3600).default(30),
+  MAP_CLUSTER_MAX_ZOOM: int(1).max(20).default(15),
+  MAP_POINTS_MAX: int(1).max(5000).default(500),
+  ISSUES_PAGE_MAX: int(1).max(200).default(50),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;
