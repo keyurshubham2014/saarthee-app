@@ -27,7 +27,7 @@ void main() {
       expect(prefs.getString(PrefKeys.languageCode), 'gu');
       await t.tap(find.byKey(const Key('onboarding.language.continue')));
       await t.pumpAndSettle();
-      expect(find.text('જણાવો. અનુસરો. સુધરતું જુઓ.'), findsOneWidget);
+      expect(find.text('ફરિયાદ કરો. ફોલો કરો. ઉકેલ જુઓ.'), findsOneWidget);
     });
   });
 

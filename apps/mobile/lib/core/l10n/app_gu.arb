@@ -876,7 +876,7 @@
   "@commonOpenSettings": {
     "x-review": "pending"
   },
-  "commonIndependenceNotice": "સ્વતંત્ર નાગરિક ઍપ. AMC દ્વારા ચલાવાતી નથી કે તેની સાથે જોડાયેલી નથી.",
+  "commonIndependenceNotice": "નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.",
   "@commonIndependenceNotice": {
     "x-review": "pending"
   },
@@ -1176,7 +1176,7 @@
   "@onboardingLanguageTitleGu": {
     "x-review": "pending"
   },
-  "introTagline": "જણાવો. અનુસરો. સુધરતું જુઓ.",
+  "introTagline": "ફરિયાદ કરો. ફોલો કરો. ઉકેલ જુઓ.",
   "@introTagline": {
     "x-review": "pending"
   },
