@@ -3,6 +3,8 @@
  * HEAD with our User-Agent, ≤ 5 redirects followed by hand, GET fallback on 403/405/501 (body discarded
  * after the headers), one retry after `retryDelayMs` on a network error. Never stores response bodies.
  */
+import { httpsFetch } from './https-fetch';
+
 export type FetchLike = (url: string, init: { method: string; headers: Record<string, string>; redirect: 'manual'; signal: AbortSignal }) => Promise<{
   status: number;
   headers: { get(name: string): string | null };
@@ -74,7 +76,7 @@ async function attempt(url: string, o: Required<Omit<CheckOptions, 'sleep' | 're
 
 export async function checkUrl(url: string, opts: CheckOptions = {}): Promise<CheckResult> {
   const o = {
-    fetch: opts.fetch ?? (globalThis.fetch as unknown as FetchLike),
+    fetch: opts.fetch ?? httpsFetch,
     userAgent: opts.userAgent ?? process.env.LINK_CHECK_USER_AGENT ?? 'SaartheeLinkCheck/1.0',
     timeoutMs: opts.timeoutMs ?? Number(process.env.LINK_CHECK_TIMEOUT_MS ?? 10_000),
     maxRedirects: opts.maxRedirects ?? 5,
