@@ -102,9 +102,18 @@ describe('approvals', () => {
     await act(m.auth, id, 'submit');
     const results = await Promise.all([act(m.auth, id, 'approve'), act(m.auth, id, 'approve'), act(a.auth, id, 'approve')]);
     const row = await prisma.alert.findUniqueOrThrow({ where: { id } });
+    // W-INT10 de-flake: the row lock serialises the three requests, but which one wins is up to the
+    // scheduler. Moderator first → [m, a] and the repeat is 409 ALERT_ALREADY_APPROVED; admin first → [a]
+    // and both moderator calls are 403 ALERT_SECOND_APPROVER_ADMIN (a Warning's second approver must be an
+    // admin). The old assertions (m approved once, ≥ 1 409) failed in the admin-first order (~1 in 3).
     expect(new Set(row.approvedBy).size).toBe(row.approvedBy.length);
-    expect(row.approvedBy.filter((x) => x === m.user.id)).toHaveLength(1);
-    expect(results.filter((r) => r.status === 409).length).toBeGreaterThanOrEqual(1);
+    expect(row.approvedBy.filter((x) => x === m.user.id).length).toBeLessThanOrEqual(1);
+    expect(row.approvedBy).toContain(a.user.id);
+    expect([[m.user.id, a.user.id], [a.user.id]]).toContainEqual(row.approvedBy);
+    expect(results.filter((r) => r.status === 200)).toHaveLength(row.approvedBy.length);
+    for (const r of results.filter((x) => x.status !== 200)) {
+      expect([`409 ALERT_ALREADY_APPROVED`, `403 ALERT_SECOND_APPROVER_ADMIN`]).toContain(`${r.status} ${r.body.error.code}`);
+    }
   });
 
   it('editing a pending Critical returns it to draft and clears approvals (T-08-06)', async () => {
