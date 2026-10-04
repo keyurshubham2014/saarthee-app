@@ -34,7 +34,7 @@ export default defineSeedModule({
         titleEn: 'Monsoon: report waterlogging early',
         titleGu: 'ચોમાસું: પાણી ભરાવાની જાણ વહેલી કરો',
         bodyEn: "Report waterlogging and open drains early. Keep AMC's flood helpline handy.",
-        bodyGu: 'પાણી ભરાવું અને ખુલ્લી ગટરની જાણ વહેલી કરો. AMCની પૂર હેલ્પલાઇન હાથવગી રાખો.',
+        bodyGu: 'પાણી ભરાવું અને ખુલ્લી ગટરની જાણ વહેલી કરો. AMC ની પૂર હેલ્પલાઇન હાથવગી રાખો.',
         serviceId: null,
         activeFrom: day(6, 1),
         activeTo: day(10, 15),

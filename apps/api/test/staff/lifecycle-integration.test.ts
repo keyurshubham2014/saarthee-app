@@ -74,7 +74,9 @@ describe('reject and merge via transition()', () => {
     const { issue, reporter, follower } = await followedIssue();
     await post(mod.auth, `/staff/issues/${issue.id}/reject`, { reason: 'not_civic' }).expect(200);
     expect((await notes(reporter.user.id)).map((n) => n.bodyEn)).toEqual(["Your report wasn't accepted: Not a civic issue"]);
+    expect((await notes(reporter.user.id)).map((n) => n.bodyGu)).toEqual(['તમારો રિપોર્ટ સ્વીકારાયો નથી. કારણ: નાગરિક સમસ્યા નથી.']);
     expect((await notes(follower.user.id)).map((n) => n.titleEn)).toEqual(['Issue closed']);
+    expect((await notes(follower.user.id)).map((n) => n.titleGu)).toEqual(['સમસ્યા બંધ કરાઈ']);
     const after = await prisma.issue.findUniqueOrThrow({ where: { id: issue.id } });
     expect(after).toMatchObject({ status: 'rejected', moderatedBy: mod.user.id, statusVersion: issue.statusVersion + 1 });
   });

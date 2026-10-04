@@ -58,7 +58,7 @@ repClaimsRouter.post('/representatives/:id/claims', requireUser, claimLimiter, v
 });
 
 repClaimsRouter.get('/me/rep-claims', requireUser, async (req, res) => {
-  res.json(await myClaims(req.user!.id));
+  res.json(await myClaims(req.user!.id, req.user!.language));
 });
 
 repClaimsRouter.delete('/me/rep-claims/:claimId', requireUser, validate({ params: claimIdParams }), async (req, res) => {

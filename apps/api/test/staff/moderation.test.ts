@@ -70,6 +70,7 @@ describe('reject (T-10-05)', () => {
     expect(await prisma.moderationFlag.count({ where: { issueId: issue.id, status: 'actioned' } })).toBe(1);
     const note = await prisma.notification.findFirstOrThrow({ where: { userId: reporter.user.id } });
     expect(note.bodyEn).toBe("Your report wasn't accepted: Spam");
+    expect(note).toMatchObject({ titleGu: 'તમારો રિપોર્ટ સ્વીકારાયો નથી', bodyGu: 'તમારો રિપોર્ટ સ્વીકારાયો નથી. કારણ: સ્પામ.' });
     const again = await post(mod.auth, `/staff/issues/${issue.id}/reject`, { reason: 'spam' });
     expect(again.status).toBe(409);
     expect(again.body.error.code).toBe('ISSUE_STATE_INVALID');

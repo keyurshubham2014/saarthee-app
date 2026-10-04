@@ -21,7 +21,12 @@ interface Names {
 type Text = { en: string; gu: string };
 type Template = (n: Names, extra: { days?: number; until?: Date }) => { title: Text; body: Text };
 
-const at = (n: Names) => ({ en: `${n.catEn} in ${n.wardEn}`, gu: `${n.wardGu}માં ${n.catGu}` });
+/**
+ * "Roads & potholes in Paldi" / "પાલડીમાં ‘રસ્તા અને ખાડા’ની સમસ્યા". The category is quoted so it never has to
+ * inflect; the Gujarati subject is always સમસ્યા (feminine), so verbs agree as સ્વીકારાઈ / ઉકેલાઈ ગઈ / ફરી ખૂલી
+ * (the app's status words).
+ */
+const at = (n: Names) => ({ en: `${n.catEn} in ${n.wardEn}`, gu: `${n.wardGu}માં ‘${n.catGu}’ની સમસ્યા` });
 
 export const TEMPLATES: Partial<Record<IssueStatus | 'overdue' | 'ccrs_reminder', Template>> = {
   acknowledged: (n) => ({
@@ -33,36 +38,36 @@ export const TEMPLATES: Partial<Record<IssueStatus | 'overdue' | 'ccrs_reminder'
     body: { en: `${at(n).en} is in progress.`, gu: `${at(n).gu} પર કામ ચાલુ છે.` },
   }),
   marked_fixed: (n) => ({
-    title: { en: 'Is it fixed? Help check', gu: 'ઉકેલાયું? તપાસવામાં મદદ કરો' },
+    title: { en: 'Is it fixed? Help check', gu: 'ઉકેલાયું છે? તપાસવામાં મદદ કરો' },
     body: {
       en: `${at(n).en} was marked fixed. If you're nearby, take a photo to confirm.`,
-      gu: `${at(n).gu} ઉકેલાયેલ તરીકે ચિહ્નિત થયું. તમે નજીક હો તો ખાતરી માટે ફોટો લો.`,
+      gu: `${at(n).gu} ઉકેલાયેલી તરીકે ચિહ્નિત થઈ છે. તમે નજીક હો, તો ખાતરી કરવા ફોટો લો.`,
     },
   }),
   verified: (n) => ({
     title: { en: 'Fix verified', gu: 'ઉકેલ ચકાસાયો' },
-    body: { en: `Neighbours confirmed ${n.catEn} in ${n.wardEn} is fixed.`, gu: `પડોશીઓએ ખાતરી કરી કે ${at(n).gu} ઉકેલાઈ ગયું છે.` },
+    body: { en: `Neighbours confirmed ${n.catEn} in ${n.wardEn} is fixed.`, gu: `પડોશીઓએ ખાતરી કરી છે કે ${at(n).gu} ઉકેલાઈ ગઈ છે.` },
   }),
   reopened: (n) => ({
-    title: { en: 'Issue reopened', gu: 'સમસ્યા ફરી ખોલાઈ' },
-    body: { en: `${at(n).en} was reopened — it's not fixed yet.`, gu: `${at(n).gu} ફરી ખોલાયું — તે હજી ઉકેલાયું નથી.` },
+    title: { en: 'Issue reopened', gu: 'સમસ્યા ફરી ખૂલી' },
+    body: { en: `${at(n).en} was reopened — it's not fixed yet.`, gu: `${at(n).gu} ફરી ખૂલી છે — તે હજી ઉકેલાઈ નથી.` },
   }),
   rejected: (n) => ({
     title: { en: 'Issue closed', gu: 'સમસ્યા બંધ કરાઈ' },
-    body: { en: `${at(n).en} was closed by Saarthee moderators.`, gu: `${at(n).gu} સારથી મોડરેટરે બંધ કર્યું.` },
+    body: { en: `${at(n).en} was closed by Saarthee moderators.`, gu: `સારથીના મોડરેટરે ${at(n).gu} બંધ કરી છે.` },
   }),
   overdue: (n, x) => ({
     title: { en: 'Past its target date', gu: 'લક્ષ્ય તારીખ વીતી ગઈ' },
     body: {
       en: `${at(n).en} is past Saarthee's ${x.days}-day target. You can escalate it.`,
-      gu: `${at(n).gu} સારથીના ${x.days} દિવસના લક્ષ્ય કરતાં મોડું છે. તમે આગળ રજૂઆત કરી શકો છો.`,
+      gu: `${at(n).gu} સારથીના ${x.days} દિવસના લક્ષ્યમાં ઉકેલાઈ નથી. તમે આગળ રજૂઆત કરી શકો છો.`,
     },
   }),
   ccrs_reminder: (_n, x) => ({
     title: { en: 'Reopen on AMC soon', gu: 'AMC પર જલ્દી ફરી ખોલો' },
     body: {
       en: `AMC closed your complaint. You can reopen it on AMC's site only until ${formatCityTime(x.until!, 'en')}.`,
-      gu: `AMCએ તમારી ફરિયાદ બંધ કરી. તમે AMCની સાઇટ પર ${formatCityTime(x.until!, 'gu')} સુધી જ તેને ફરી ખોલી શકો છો.`,
+      gu: `AMC એ તમારી ફરિયાદ બંધ કરી છે. જો સમસ્યા ઉકેલાઈ ન હોય, તો ${formatCityTime(x.until!, 'gu')} સુધીમાં AMC ની સાઇટ પર ફરી ખોલો.`,
     },
   }),
 };

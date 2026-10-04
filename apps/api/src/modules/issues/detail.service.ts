@@ -9,6 +9,7 @@ import { listEvents } from '../lifecycle/events.service';
 import { readLifecycle } from '../lifecycle/read.service';
 import { OPEN_STATUSES } from './engage.service';
 import { publicIssueInclude, toPublicIssue, type Lang } from './public';
+import { rejectionReasonText } from '../staff/reject-reasons';
 
 export async function getIssueDetail(id: string, viewer: AuthenticatedUser | undefined, lang: Lang) {
   const row = await prisma.issue.findUnique({ where: { id }, include: publicIssueInclude });
@@ -31,7 +32,7 @@ export async function getIssueDetail(id: string, viewer: AuthenticatedUser | und
   let rejectionReason: string | null = null;
   if (row.status === 'rejected' && (isReporter || staff)) {
     const e = await prisma.issueEvent.findFirst({ where: { issueId: id, toStatus: 'rejected' }, orderBy: { createdAt: 'desc' }, select: { note: true } });
-    rejectionReason = e?.note ?? null;
+    rejectionReason = rejectionReasonText(e?.note ?? null, lang);
   }
   return {
     issue: { ...toPublicIssue(row, lang), visibility: isReporter || staff ? row.visibility : undefined, rejectionReason },

@@ -6,6 +6,7 @@
  */
 import { Prisma, type IssueStatus } from '@prisma/client';
 import { deriveIssue, type DisplayStatus } from './derive';
+import { localDescription } from './issues.schemas';
 
 export type Lang = 'en' | 'gu';
 
@@ -47,7 +48,7 @@ export function toPublicIssue(i: PublicIssueRow, lang: Lang) {
     ward: i.ward ? { id: i.ward.id, number: i.ward.number, nameEn: i.ward.nameEn, nameGu: i.ward.nameGu } : null,
     zone: i.zone ? { code: i.zone.code, nameEn: i.zone.nameEn, nameGu: i.zone.nameGu } : null,
     location: { lat: Number(i.lat), lng: Number(i.lng) },
-    description: i.description,
+    description: localDescription(i.category.slug, i.description, lang),
     photos: { report: urls('report'), after: urls('after'), verification: urls('verification') },
     blurApplied: i.photos.some((p) => p.kind === 'report' && p.photo.blurApplied),
     reporterLabel: reporterLabel(i.ward?.nameEn ?? null, i.ward?.nameGu ?? null),

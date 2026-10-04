@@ -57,9 +57,35 @@ export function quietHoursEnd(now: Date, window = DEFAULT_QUIET_HOURS, tz = DEFA
   return new Date(localAsUtc - offsetMinutes(now, tz) * 60_000);
 }
 
-/** "Sun 12 Oct, 7:00 am" style local time for push bodies. */
+/** Gujarati part of day for an hour 0–23 (સવારે 4–11, બપોરે 12–15, સાંજે 16–19, રાત્રે otherwise). */
+function guDayPeriod(hour: number): string {
+  if (hour >= 4 && hour < 12) return 'સવારે';
+  if (hour >= 12 && hour < 16) return 'બપોરે';
+  if (hour >= 16 && hour < 20) return 'સાંજે';
+  return 'રાત્રે';
+}
+
+/**
+ * "Sun 12 Oct, 7:00 pm" / "રવિ, 12 ઑક્ટો, સાંજે 7:00" local time for push bodies. Gujarati uses the CLDR
+ * weekday and month names with a Gujarati part of day instead of the Latin "AM/PM" that ICU prints for gu.
+ */
 export function formatCityTime(at: Date, lang: 'en' | 'gu', tz = DEFAULT_TZ): string {
-  return new Intl.DateTimeFormat(lang === 'gu' ? 'gu-IN' : 'en-IN', {
+  if (lang === 'gu') {
+    const parts = new Intl.DateTimeFormat('gu-IN', {
+      timeZone: tz,
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      hour: 'numeric',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(at);
+    const v = (t: Intl.DateTimeFormatPartTypes) => parts.find((p) => p.type === t)?.value ?? '';
+    const hour24 = Number(v('hour')) % 24;
+    const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+    return `${v('weekday')}, ${v('day')} ${v('month')}, ${guDayPeriod(hour24)} ${hour12}:${v('minute')}`;
+  }
+  return new Intl.DateTimeFormat('en-IN', {
     timeZone: tz,
     weekday: 'short',
     day: 'numeric',
@@ -67,4 +93,9 @@ export function formatCityTime(at: Date, lang: 'en' | 'gu', tz = DEFAULT_TZ): st
     hour: 'numeric',
     minute: '2-digit',
   }).format(at);
+}
+
+/** "4 Oct 2026" / "4 ઑક્ટો, 2026" city-local date for messages. */
+export function formatCityDate(at: Date, lang: 'en' | 'gu', tz = DEFAULT_TZ): string {
+  return new Intl.DateTimeFormat(lang === 'gu' ? 'gu-IN' : 'en-IN', { timeZone: tz, day: 'numeric', month: 'short', year: 'numeric' }).format(at);
 }

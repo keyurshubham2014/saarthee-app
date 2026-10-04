@@ -2,6 +2,7 @@
 // count and independence line; never reporter information.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:saarthee/core/l10n/app_localizations.dart';
 import 'package:saarthee/features/discovery/data/discovery_models.dart';
 import 'package:saarthee/features/discovery/presentation/share_issue.dart';
 
@@ -33,4 +34,16 @@ void main() {
       expect(find.textContaining('રહેવાસીએ'), findsNothing);
     });
   }
+
+  test(
+    'Gujarati share links open the Gujarati page; English links stay plain',
+    () {
+      final d = IssueDetail.fromJson(detailJson('i-9'));
+      final gu = issueShareText(lookupAppLocalizations(const Locale('gu')), d);
+      final en = issueShareText(lookupAppLocalizations(const Locale('en')), d);
+      expect(gu, contains('/i/i-9?lang=gu'));
+      expect(en, contains('/i/i-9'));
+      expect(en, isNot(contains('lang=')));
+    },
+  );
 }

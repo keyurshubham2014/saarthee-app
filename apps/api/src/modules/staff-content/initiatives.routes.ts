@@ -48,8 +48,8 @@ async function notifyCancelled(i: Initiative) {
         refId: i.id,
         route: `/initiatives/${i.id}`,
         channel: 'updates',
-        title: { en: `Cancelled: ${i.titleEn}`, gu: `રદ: ${i.titleGu}` },
-        body: { en: 'The organiser cancelled this drive.', gu: 'આયોજકે આ કાર્યક્રમ રદ કર્યો છે.' },
+        title: { en: `Cancelled: ${i.titleEn}`, gu: `રદ: ${i.titleGu || i.titleEn}` },
+        body: { en: 'The organiser cancelled this drive.', gu: 'આયોજકે આ અભિયાન રદ કર્યું છે.' },
       });
     } catch (err) {
       logger.error({ err, initiativeId: i.id }, 'initiative cancel notify failed');

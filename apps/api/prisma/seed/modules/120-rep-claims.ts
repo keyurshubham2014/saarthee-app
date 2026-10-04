@@ -49,7 +49,7 @@ export default defineSeedModule({
     if (ward31 && !(await prisma.representative.findUnique({ where: { id: former }, select: { id: true } }))) {
       await prisma.representative.create({
         data: {
-          id: former, nameEn: 'Sample Corporator 31-Former', nameGu: 'નમૂના કોર્પોરેટર 31-પૂર્વ', role: 'corporator', partyText: 'Independent',
+          id: former, nameEn: 'Sample Corporator 31-Former', nameGu: 'નમૂના પૂર્વ કોર્પોરેટર 31', role: 'corporator', partyText: 'Independent',
           termStart: new Date('2021-03-01T00:00:00Z'), termEnd: new Date('2026-02-28T00:00:00Z'), sourceUrl: 'https://example.org/saarthee-sample-roster',
           lastVerifiedAt: new Date('2026-09-12T00:00:00Z'), isActive: true, areas: { create: [{ wardId: ward31.id }] },
         },

@@ -47,10 +47,10 @@ export async function remindInitiatives(opts: RemindOptions = {}): Promise<{ ini
         refId: i.id,
         route: `/initiatives/${i.id}`,
         channel: 'updates',
-        title: { en: `Tomorrow: ${i.titleEn}`, gu: `આવતીકાલે: ${i.titleGu}` },
+        title: { en: `Tomorrow: ${i.titleEn}`, gu: `આવતીકાલે: ${i.titleGu || i.titleEn}` },
         body: {
           en: `${formatCityTime(i.startsAt, 'en', tz)} at ${i.locationTextEn}. Tap for details.`,
-          gu: `${formatCityTime(i.startsAt, 'gu', tz)}, ${i.locationTextGu}. વિગતો માટે ટૅપ કરો.`,
+          gu: `${formatCityTime(i.startsAt, 'gu', tz)}, ${i.locationTextGu || i.locationTextEn} ખાતે. વિગતો માટે ટેપ કરો.`,
         },
         sendAfter,
       });

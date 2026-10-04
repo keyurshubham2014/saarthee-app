@@ -40,7 +40,7 @@ const schema = z.object({
     .min(1)
     .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
   // Known reminder template versions (modules/reminders); an unknown version fails startup.
-  REMINDER_TEMPLATE_VERSION: z.enum(['v1']),
+  REMINDER_TEMPLATE_VERSION: z.enum(['v1', 'v2']),
   CORS_ORIGINS: z
     .string()
     .default('')

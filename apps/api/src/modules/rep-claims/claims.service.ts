@@ -70,7 +70,15 @@ export async function submitClaim(userId: string, representativeId: string, inpu
   }
 }
 
-export async function myClaims(userId: string) {
+export const AUTO_REJECT_REASON = 'Another claim was approved';
+export const AUTO_REJECT_REASON_GU = 'આ પ્રતિનિધિ માટે બીજો દાવો મંજૂર થયો';
+
+/** The stored reject reason in the reader's language: the automatic one is translated, staff text is as written. */
+export function localRejectReason(reason: string | null, lang: 'en' | 'gu'): string | null {
+  return lang === 'gu' && reason === AUTO_REJECT_REASON ? AUTO_REJECT_REASON_GU : reason;
+}
+
+export async function myClaims(userId: string, lang: 'en' | 'gu' = 'en') {
   const rows = await prisma.repClaim.findMany({
     where: { userId },
     orderBy: { createdAt: 'desc' },
@@ -82,7 +90,7 @@ export async function myClaims(userId: string) {
   return {
     items: rows.map((c) => ({
       claimId: c.id, representative: c.representative, status: c.status, createdAt: c.createdAt.toISOString(),
-      decidedAt: c.decidedAt?.toISOString() ?? null, rejectReason: c.rejectReason,
+      decidedAt: c.decidedAt?.toISOString() ?? null, rejectReason: localRejectReason(c.rejectReason, lang),
     })),
   };
 }

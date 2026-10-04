@@ -43,7 +43,7 @@ describe('T-12-08 initiatives:remind', () => {
     for (const r of rows) {
       expect(r).toMatchObject({ refId: i.id, route: `/initiatives/${i.id}`, channel: 'updates', titleEn: 'Tomorrow: Canal clean-up', titleGu: 'આવતીકાલે: કેનાલ સફાઈ' });
       expect(r.bodyEn).toMatch(/ at Gate 1\. Tap for details\.$/);
-      expect(r.bodyGu).toContain('ગેટ 1');
+      expect(r.bodyGu).toMatch(/^[઀-૿]+, \d{1,2} [઀-૿]+, (સવારે|બપોરે|સાંજે|રાત્રે) \d{1,2}:\d{2}, ગેટ 1 ખાતે\. વિગતો માટે ટેપ કરો\.$/);
       expect(r.status).not.toBe('queued');
     }
     expect((await prisma.initiative.findUniqueOrThrow({ where: { id: i.id } })).reminderSentAt).toBeInstanceOf(Date);

@@ -19,7 +19,7 @@ export const SERVICES_A: readonly ServiceSeed[] = [
       'Download the receipt and keep it.',
     ),
     howToGu: steps(
-      'AMCનું મિલકત વેરા પેજ ખોલો.',
+      'AMC નું મિલકત વેરા પેજ ખોલો.',
       'તમારો ટેનામેન્ટ નંબર લખો અને Search દબાવો.',
       'માલિકનું નામ અને બાકી રકમ તપાસો.',
       'UPI, કાર્ડ કે નેટ બેન્કિંગથી ચૂકવણી કરો.',
@@ -47,7 +47,7 @@ export const SERVICES_A: readonly ServiceSeed[] = [
       'Download or print it if you need a copy.',
     ),
     howToGu: steps(
-      'AMCનું મિલકત વેરા બિલ પેજ ખોલો.',
+      'AMC નું મિલકત વેરા બિલ પેજ ખોલો.',
       'તમારો ટેનામેન્ટ નંબર લખો.',
       'બિલ ખોલીને વિગતો તપાસો.',
       'નકલ જોઈએ તો ડાઉનલોડ કે પ્રિન્ટ કરો.',
@@ -74,10 +74,10 @@ export const SERVICES_A: readonly ServiceSeed[] = [
       'Take the receipt and your documents to the ward office if they ask you to.',
     ),
     howToGu: steps(
-      'AMCનું નામ ટ્રાન્સફર ચાર્જ પેજ ખોલો.',
+      'AMC નું નામ ટ્રાન્સફર ચાર્જ પેજ ખોલો.',
       'ટેનામેન્ટ નંબર લખીને શોધો.',
       'બતાવેલો ચાર્જ ઓનલાઇન ભરો અને રસીદ સાચવો.',
-      'જરૂર પડે તો રસીદ અને દસ્તાવેજો લઈને વોર્ડ ઓફિસ જાઓ.',
+      'જરૂર પડે તો રસીદ અને દસ્તાવેજો લઈને વોર્ડ ઑફિસ જાઓ.',
     ),
     url: 'https://ahmedabadcity.gov.in/PTAX/TSFChargeSearch',
     online: true,
@@ -101,7 +101,7 @@ export const SERVICES_A: readonly ServiceSeed[] = [
       'Pay online and keep the receipt.',
     ),
     howToGu: steps(
-      'AMCનું વ્યવસાય વેરા પેજ ખોલો.',
+      'AMC નું વ્યવસાય વેરા પેજ ખોલો.',
       'નોંધણી કે ચૂકવણી પસંદ કરો.',
       'પેજ પૂછે તે પ્રમાણે વિગતો ભરો.',
       'ઓનલાઇન ચૂકવણી કરો અને રસીદ રાખો.',
@@ -120,7 +120,7 @@ export const SERVICES_A: readonly ServiceSeed[] = [
     department: 'Births and Deaths Registration',
     departmentGu: 'જન્મ-મરણ નોંધણી વિભાગ',
     summaryEn: 'Search AMC birth and death records; collect certified copies at a civic centre.',
-    summaryGu: 'AMCના જન્મ-મરણના રેકોર્ડ શોધો; પ્રમાણિત નકલ સિવિક સેન્ટરથી મેળવો.',
+    summaryGu: 'AMC ના જન્મ-મરણના રેકોર્ડ શોધો; પ્રમાણિત નકલ સિવિક સેન્ટરથી મેળવો.',
     howToEn: steps(
       'Open the AMC registration search page.',
       'Choose birth or death and enter the details you know.',
@@ -128,10 +128,10 @@ export const SERVICES_A: readonly ServiceSeed[] = [
       'Visit a civic centre or your ward office with ID for a certified copy.',
     ),
     howToGu: steps(
-      'AMCનું નોંધણી શોધ પેજ ખોલો.',
+      'AMC નું નોંધણી શોધ પેજ ખોલો.',
       'જન્મ કે મરણ પસંદ કરીને જાણતા હો તે વિગતો લખો.',
       'પરિણામમાંથી નોંધણી નંબર લખી લો.',
-      'પ્રમાણિત નકલ માટે ઓળખપત્ર લઈને સિવિક સેન્ટર કે વોર્ડ ઓફિસ જાઓ.',
+      'પ્રમાણિત નકલ માટે ઓળખપત્ર લઈને સિવિક સેન્ટર કે વોર્ડ ઑફિસ જાઓ.',
     ),
     url: 'https://ahmedabadcity.gov.in/OnlineSerWithoutLogin/RegistrationSearch',
     online: true,
@@ -147,7 +147,7 @@ export const SERVICES_A: readonly ServiceSeed[] = [
     department: 'Town Development',
     departmentGu: 'ટાઉન ડેવલપમેન્ટ વિભાગ',
     summaryEn: 'How to apply for building plan permission through AMC’s Town Development department.',
-    summaryGu: 'AMCના ટાઉન ડેવલપમેન્ટ વિભાગ મારફતે બાંધકામ પ્લાન મંજૂરી માટે અરજી કેવી રીતે કરવી.',
+    summaryGu: 'AMC ના ટાઉન ડેવલપમેન્ટ વિભાગ મારફતે બાંધકામ પ્લાન મંજૂરી માટે અરજી કેવી રીતે કરવી.',
     howToEn: steps(
       'Open the AMC building permission page.',
       'Read the list of documents and plans needed.',
@@ -155,7 +155,7 @@ export const SERVICES_A: readonly ServiceSeed[] = [
       'Track the application status on the same portal.',
     ),
     howToGu: steps(
-      'AMCનું બાંધકામ મંજૂરી પેજ ખોલો.',
+      'AMC નું બાંધકામ મંજૂરી પેજ ખોલો.',
       'જરૂરી દસ્તાવેજો અને પ્લાનની યાદી વાંચો.',
       'એ પેજ પરની લિંકથી ઓનલાઇન અરજી કરો, સામાન્ય રીતે આર્કિટેક્ટ સાથે.',
       'એ જ પોર્ટલ પર અરજીની સ્થિતિ જુઓ.',

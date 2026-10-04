@@ -76,10 +76,10 @@ function message(alert: Alert, cancel: { reasonEn: string; reasonGu: string } | 
     channel: alert.severity === 'critical' ? 'critical_alerts' : 'alerts',
     title: cancel
       ? { en: trim(`Cancelled: ${alert.titleEn}`, 120), gu: trim(`રદ: ${alert.titleGu || alert.titleEn}`, 120) }
-      : { en: alert.titleEn, gu: alert.titleGu },
+      : { en: alert.titleEn, gu: alert.titleGu || alert.titleEn },
     body: cancel
-      ? { en: trim(cancel.reasonEn, 150), gu: trim(cancel.reasonGu, 150) }
-      : { en: trim(alert.bodyEn, 150), gu: trim(alert.bodyGu, 150) },
+      ? { en: trim(cancel.reasonEn, 150), gu: trim(cancel.reasonGu || cancel.reasonEn, 150) }
+      : { en: trim(alert.bodyEn, 150), gu: trim(alert.bodyGu || alert.bodyEn, 150) },
     sendAfter,
   };
 }

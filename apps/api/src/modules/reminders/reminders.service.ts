@@ -4,12 +4,21 @@ import { AppError } from '../../lib/errors';
 import { recordServerEvent } from '../../lib/events';
 import { newVerifyToken } from '../../lib/tokens';
 
-/** Server-side reminder templates (English, v1 — TASK-06 §5.3). Selected by REMINDER_TEMPLATE_VERSION. */
+/**
+ * Server-side reminder templates (TASK-06 §5.3), selected by REMINDER_TEMPLATE_VERSION. v1 is English only;
+ * v2 is the same message in Gujarati first, then English (legacy complaints have no language preference).
+ */
+const REMINDER_TEMPLATES_V1 = ({ ccrsNumber, verifyLink }: { ccrsNumber: string; verifyLink: string }) =>
+  `Hello! About a week ago you recorded AMC complaint ${ccrsNumber} in our app. Has it been fixed? ` +
+  `Tap to answer (less than a minute): ${verifyLink}. If the link doesn't open, open the app and tap ` +
+  `'Answer a follow-up'. — Saarthee, an independent citizen project (not AMC).`;
+
 export const REMINDER_TEMPLATES: Record<string, (v: { ccrsNumber: string; verifyLink: string }) => string> = {
-  v1: ({ ccrsNumber, verifyLink }) =>
-    `Hello! About a week ago you recorded AMC complaint ${ccrsNumber} in our app. Has it been fixed? ` +
-    `Tap to answer (less than a minute): ${verifyLink}. If the link doesn't open, open the app and tap ` +
-    `'Answer a follow-up'. — Saarthee, an independent citizen project (not AMC).`,
+  v1: REMINDER_TEMPLATES_V1,
+  v2: ({ ccrsNumber, verifyLink }) =>
+    `નમસ્તે! લગભગ એક અઠવાડિયા પહેલાં તમે અમારી એપમાં AMC ફરિયાદ ${ccrsNumber} નોંધી હતી. શું સમસ્યા ઉકેલાઈ ગઈ છે? ` +
+    `જવાબ આપવા ટેપ કરો (એક મિનિટથી ઓછો સમય): ${verifyLink} — સારથી, એક સ્વતંત્ર નાગરિક પ્રોજેક્ટ (AMC નહીં).\n\n` +
+    REMINDER_TEMPLATES_V1({ ccrsNumber, verifyLink }),
 };
 
 export interface ReminderResult {

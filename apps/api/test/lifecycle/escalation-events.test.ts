@@ -24,7 +24,7 @@ describe('escalation (T-06-09, AC-8)', () => {
     await prisma.ward.update({ where: { id: w1.id }, data: { officePhone: '07900000001' } });
     await prisma.escalationContact.createMany({
       data: [
-        { level: 'zone_office', zoneId: w1.zoneId, titleEn: 'Zone office', titleGu: 'ઝોન કચેરી', email: 'zone@example.org', sourceUrl: 'https://example.org/z', lastVerifiedAt: new Date() },
+        { level: 'zone_office', zoneId: w1.zoneId, titleEn: 'Zone office', titleGu: 'ઝોન ઑફિસ', email: 'zone@example.org', sourceUrl: 'https://example.org/z', lastVerifiedAt: new Date() },
         { level: 'deputy_commissioner', zoneId: w1.zoneId, titleEn: 'DMC', titleGu: 'ડીએમસી', email: 'dmc@example.org', sourceUrl: 'https://example.org/d', lastVerifiedAt: new Date() },
         { level: 'commissioner', zoneId: null, titleEn: 'Commissioner', titleGu: 'કમિશનર', email: 'mc@example.org', sourceUrl: 'https://example.org/c', lastVerifiedAt: new Date() },
       ],

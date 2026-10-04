@@ -40,8 +40,9 @@ export function setPushDriver(next: PushDriver | undefined): void {
 
 function payloadFor(row: Notification, lang: Lang) {
   return {
-    title: lang === 'gu' ? row.titleGu : row.titleEn,
-    body: lang === 'gu' ? row.bodyGu : row.bodyEn,
+    // An empty Gujarati text (e.g. an ingested alert without a Gujarati version) falls back to English.
+    title: lang === 'gu' ? row.titleGu || row.titleEn : row.titleEn,
+    body: lang === 'gu' ? row.bodyGu || row.bodyEn : row.bodyEn,
     channel: row.channel as PushChannel,
     data: { kind: row.kind, refId: row.refId ?? '', route: row.route ?? '', notificationId: row.id },
     ...(row.kind === 'alert' && row.refId ? { tag: `alert:${row.refId}` } : {}),

@@ -10,7 +10,8 @@ import { seedUserId } from './040-citizens';
 const alertId = (nn: number) => `5eed0008-0000-4000-8000-0000000000${String(nn).padStart(2, '0')}`;
 const HOUR = 3_600_000;
 const MOD = seedUserId(25);
-const SRC = { sourceName: 'AMC (sample data)', sourceUrl: 'https://ahmedabadcity.gov.in' };
+// alerts.source_name has no Gujarati column; this form reads in both app languages and keeps the sample marker.
+const SRC = { sourceName: 'AMC (નમૂનો / sample)', sourceUrl: 'https://ahmedabadcity.gov.in' };
 
 interface Sample {
   nn: number;
@@ -29,13 +30,13 @@ interface Sample {
 }
 
 const SAMPLES: Sample[] = [
-  { nn: 1, type: 'water_timing', severity: 'info', status: 'published', en: ['Water timing changed in Paldi', 'Morning supply will be from 6:30 to 8:30 this week (sample).'], gu: ['પાલડીમાં પાણીનો સમય બદલાયો', 'આ અઠવાડિયે સવારે 6:30 થી 8:30 પાણી આવશે (નમૂનો).'], fromH: -2, toH: 48, wards: [12], approvals: 1 },
-  { nn: 2, type: 'road_closure', severity: 'advisory', status: 'published', en: ['Road closed near the ward office', 'One lane closed for drainage work until evening (sample).'], gu: ['વોર્ડ ઓફિસ પાસે રસ્તો બંધ', 'ગટર કામ માટે સાંજ સુધી એક લેન બંધ (નમૂનો).'], fromH: -1, toH: 10, wards: [12, 15], approvals: 1 },
-  { nn: 3, type: 'water_cut', severity: 'warning', status: 'published', en: ['Water cut tomorrow morning', 'No supply from 10:00 to 16:00 for pipeline repair (sample).'], gu: ['આવતીકાલે સવારે પાણી બંધ', 'પાઇપલાઇન સમારકામ માટે 10:00 થી 16:00 પાણી બંધ (નમૂનો).'], fromH: 20, toH: 30, wards: [12], approvals: 2 },
-  { nn: 4, type: 'heat', severity: 'critical', status: 'published', en: ['Severe heat today', 'Stay indoors from noon to 4 pm and drink water often (sample).'], gu: ['આજે તીવ્ર ગરમી', 'બપોરે 12 થી 4 ઘરમાં રહો અને વારંવાર પાણી પીઓ (નમૂનો).'], fromH: -3, toH: 12, wards: 'city', approvals: 2 },
+  { nn: 1, type: 'water_timing', severity: 'info', status: 'published', en: ['Water timing changed in Naroda', 'Morning supply will be from 6:30 to 8:30 this week (sample).'], gu: ['નરોડામાં પાણીનો સમય બદલાયો', 'આ અઠવાડિયે સવારે 6:30 થી 8:30 વાગ્યા સુધી પાણી આવશે (નમૂનો).'], fromH: -2, toH: 48, wards: [12], approvals: 1 },
+  { nn: 2, type: 'road_closure', severity: 'advisory', status: 'published', en: ['Road closed near the ward office', 'One lane closed for drainage work until evening (sample).'], gu: ['વોર્ડ ઑફિસ પાસે રસ્તો બંધ', 'ગટરના કામ માટે સાંજ સુધી એક લેન બંધ રહેશે (નમૂનો).'], fromH: -1, toH: 10, wards: [12, 15], approvals: 1 },
+  { nn: 3, type: 'water_cut', severity: 'warning', status: 'published', en: ['Water cut tomorrow morning', 'No supply from 10:00 to 16:00 for pipeline repair (sample).'], gu: ['આવતીકાલે સવારે પાણી બંધ', 'પાઇપલાઇનના સમારકામ માટે 10:00 થી 16:00 સુધી પાણી બંધ રહેશે (નમૂનો).'], fromH: 20, toH: 30, wards: [12], approvals: 2 },
+  { nn: 4, type: 'heat', severity: 'critical', status: 'published', en: ['Severe heat today', 'Stay indoors from noon to 4 pm and drink water often (sample).'], gu: ['આજે તીવ્ર ગરમી', 'બપોરે 12 થી 4 વાગ્યા સુધી ઘરમાં રહો અને વારંવાર પાણી પીતા રહો (નમૂનો).'], fromH: -3, toH: 12, wards: 'city', approvals: 2 },
   { nn: 5, type: 'rain_flood', severity: 'warning', status: 'pending_approval', en: ['Waterlogging likely in low areas', 'Avoid underpasses during heavy rain tonight (sample).'], gu: ['નીચાણવાળા વિસ્તારમાં પાણી ભરાવાની શક્યતા', 'આજે રાત્રે ભારે વરસાદમાં અંડરપાસ ટાળો (નમૂનો).'], fromH: 2, toH: 20, wards: [12, 15], approvals: 1 },
   { nn: 6, type: 'health', severity: 'advisory', status: 'expired', en: ['Dengue check drive ended', 'Thank you for clearing standing water (sample).'], gu: ['ડેન્ગ્યુ તપાસ અભિયાન પૂર્ણ', 'ભરાયેલું પાણી સાફ કરવા બદલ આભાર (નમૂનો).'], fromH: -72, toH: -24, wards: [12], approvals: 1 },
-  { nn: 7, type: 'road_closure', severity: 'info', status: 'retracted', en: ['Road closure (sent by mistake)', 'This closure notice was sent to the wrong ward (sample).'], gu: ['રસ્તો બંધ (ભૂલથી મોકલ્યું)', 'આ સૂચના ખોટા વોર્ડમાં મોકલાઈ હતી (નમૂનો).'], fromH: -30, toH: 20, wards: [15], approvals: 1, retracted: 'Sent to the wrong ward' },
+  { nn: 7, type: 'road_closure', severity: 'info', status: 'retracted', en: ['Road closure (sent by mistake)', 'This closure notice was sent to the wrong ward (sample).'], gu: ['રસ્તો બંધ (ભૂલથી મોકલ્યું)', 'આ સૂચના ખોટા વોર્ડમાં મોકલાઈ હતી (નમૂનો).'], fromH: -30, toH: 20, wards: [15], approvals: 1, retracted: 'ખોટા વોર્ડમાં મોકલાઈ હતી / Sent to the wrong ward' },
   { nn: 8, type: 'water_cut', severity: 'advisory', status: 'expired', en: ['Water cut on Friday', 'Supply off on Friday morning (sample).'], gu: ['શુક્રવારે પાણી બંધ', 'શુક્રવારે સવારે પાણી બંધ (નમૂનો).'], fromH: -10, toH: -1, wards: [15], approvals: 1 },
   { nn: 9, type: 'water_cut', severity: 'advisory', status: 'published', en: ['Water cut moved to Saturday', 'Supply off on Saturday morning instead of Friday (sample).'], gu: ['પાણી બંધ શનિવારે ખસેડાયું', 'શુક્રવારને બદલે શનિવારે સવારે પાણી બંધ (નમૂનો).'], fromH: -1, toH: 40, wards: [15], approvals: 1, supersedes: 8 },
   { nn: 10, type: 'heat', severity: 'warning', status: 'draft', en: ['Heat wave likely over Ahmedabad', 'Maximum temperature 44–45 °C likely (sample SACHET draft).'], gu: ['', ''], fromH: 1, toH: 30, wards: 'city', approvals: 0, sachet: true },
@@ -90,8 +91,8 @@ export default defineSeedModule({
       await prisma.notification.createMany({
         data: [
           row('alert', alertId(4), `/alerts/${alertId(4)}`, 'Severe heat today', 'આજે તીવ્ર ગરમી', 3, false),
-          row('alert', alertId(1), `/alerts/${alertId(1)}`, 'Water timing changed in Paldi', 'પાલડીમાં પાણીનો સમય બદલાયો', 2, false),
-          row('issue_update', null, '/me/notifications', 'Your report is in progress (sample)', 'તમારી ફરિયાદ પર કામ ચાલુ છે (નમૂનો)', 30, true),
+          row('alert', alertId(1), `/alerts/${alertId(1)}`, 'Water timing changed in Naroda', 'નરોડામાં પાણીનો સમય બદલાયો', 2, false),
+          row('issue_update', null, '/me/notifications', 'Your report is in progress (sample)', 'તમારા રિપોર્ટ પર કામ ચાલુ છે (નમૂનો)', 30, true),
           row('initiative', null, '/me/notifications', 'Tree planting drive on Sunday (sample)', 'રવિવારે વૃક્ષારોપણ અભિયાન (નમૂનો)', 50, false),
         ],
       });

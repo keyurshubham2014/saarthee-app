@@ -9,14 +9,14 @@ import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { logger } from '../../lib/logger';
 import { notifyUser } from '../../lib/push';
-import { termEnded } from './claims.service';
+import { AUTO_REJECT_REASON, AUTO_REJECT_REASON_GU, termEnded } from './claims.service';
+
+export { AUTO_REJECT_REASON } from './claims.service';
 
 type Tx = Prisma.TransactionClient;
 
 export const VERIFIED_METHODS = ['certificate_of_election', 'official_gazette', 'in_person', 'official_email'] as const;
 export type VerifiedMethod = (typeof VERIFIED_METHODS)[number];
-export const AUTO_REJECT_REASON = 'Another claim was approved';
-
 const claimSelect = {
   id: true, status: true, createdAt: true, decidedAt: true, phoneMatch: true, otpVerified: true, evidencePhotoIds: true,
   claimantNote: true, rejectReason: true, verifiedMethod: true, termEnd: true,
@@ -112,20 +112,42 @@ export async function decideClaim(claimId: string, reviewerUserId: string | null
   });
   const rep = out.claim.representative;
   const approved = d.decision === 'approve';
-  await safeNotify(out.claim.userId, approved
-    ? { en: `Your claim for ${rep.nameEn} was approved`, gu: `${rep.nameGu} માટેનો તમારો દાવો મંજૂર થયો` }
-    : { en: `Your claim for ${rep.nameEn} was not approved: ${d.reason}`, gu: `${rep.nameGu} માટેનો તમારો દાવો મંજૂર ન થયો: ${d.reason}` }, claimId);
+  await safeNotify(
+    out.claim.userId,
+    approved
+      ? { en: `Your claim for ${rep.nameEn} was approved`, gu: `${rep.nameGu} માટેનો તમારો દાવો મંજૂર થયો` }
+      : { en: `Your claim for ${rep.nameEn} was not approved`, gu: `${rep.nameGu} માટેનો તમારો દાવો મંજૂર ન થયો` },
+    claimId,
+    approved ? undefined : { en: `Reason: ${d.reason}`, gu: `કારણ: ${d.reason}` },
+  );
   for (const userId of out.others) {
-    await safeNotify(userId, { en: `Your claim for ${rep.nameEn} was not approved: ${AUTO_REJECT_REASON}`, gu: `${rep.nameGu} માટેનો તમારો દાવો મંજૂર ન થયો: બીજો દાવો મંજૂર થયો` }, claimId);
+    await safeNotify(
+      userId,
+      { en: `Your claim for ${rep.nameEn} was not approved`, gu: `${rep.nameGu} માટેનો તમારો દાવો મંજૂર ન થયો` },
+      claimId,
+      { en: `Reason: ${AUTO_REJECT_REASON}`, gu: `કારણ: ${AUTO_REJECT_REASON_GU}` },
+    );
   }
   return { claimId, status: approved ? 'approved' : 'rejected', autoRejected: out.others.length };
 }
 
-async function safeNotify(userId: string, title: { en: string; gu: string }, claimId: string) {
+/** Push titles are capped at 120 characters (TASK-04); representative names can be up to 120 on their own. */
+const clip = (s: string, max: number) => (s.length <= max ? s : `${s.slice(0, max - 1)}…`);
+const sentence = (s: string) => (/[.!?…]$/.test(s.trim()) ? s.trim() : `${s.trim()}.`);
+
+/**
+ * One claim-decision push + inbox row. The reason (free text from staff, in the language they wrote it) goes in
+ * the body, never the title, so a long reason cannot push the title over its limit.
+ */
+async function safeNotify(userId: string, title: { en: string; gu: string }, claimId: string, reason?: { en: string; gu: string }) {
+  const open = { en: 'Open Saarthee to see your representative claim.', gu: 'તમારો પ્રતિનિધિ દાવો જોવા સારથી ખોલો.' };
   try {
     await notifyUser(userId, {
-      kind: 'system', refId: claimId, route: '/me', channel: 'updates', title,
-      body: { en: 'Open Saarthee to see your representative claim.', gu: 'તમારો પ્રતિનિધિ દાવો જોવા સાર્થી ખોલો.' },
+      kind: 'system', refId: claimId, route: '/me', channel: 'updates',
+      title: { en: clip(title.en, 120), gu: clip(title.gu, 120) },
+      body: reason
+        ? { en: clip(`${sentence(reason.en)} ${open.en}`, 400), gu: clip(`${sentence(reason.gu)} ${open.gu}`, 400) }
+        : open,
     });
   } catch (err) {
     logger.error({ claimId, reason: err instanceof Error ? err.message : 'unknown' }, 'claim notification failed');

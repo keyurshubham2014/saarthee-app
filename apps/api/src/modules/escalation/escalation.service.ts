@@ -8,6 +8,7 @@ import { config } from '../../config';
 import { now as clockNow } from '../../lib/clock';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
+import { formatCityDate } from '../../lib/time';
 import type { AuthenticatedUser } from '../../middleware/requireUser';
 import { deriveIssue } from '../issues/derive';
 import { transitionInTx, type TransitionResult } from '../lifecycle/lifecycle.service';
@@ -47,7 +48,7 @@ async function targetsFor(level: EscalationLevel, lang: Lang, issue: { wardId: s
   const out: EscalationTarget[] = [];
   if (level === 'zone_office' && issue.wardId) {
     const ward = await prisma.ward.findUnique({ where: { id: issue.wardId }, select: { officePhone: true, sourceUrl: true } });
-    if (ward?.officePhone) out.push({ kind: 'phone', label: lang === 'gu' ? 'વોર્ડ કચેરી' : 'Ward office', phone: ward.officePhone, sourceUrl: ward.sourceUrl });
+    if (ward?.officePhone) out.push({ kind: 'phone', label: lang === 'gu' ? 'વોર્ડ ઑફિસ' : 'Ward office', phone: ward.officePhone, sourceUrl: ward.sourceUrl });
   }
   const contacts = await prisma.escalationContact.findMany({
     where: { level, isActive: true, OR: level === 'commissioner' ? [{ zoneId: null }] : [{ zoneId: issue.zoneId }, { zoneId: null }] },
@@ -89,7 +90,7 @@ export async function prepareEscalation(user: AuthenticatedUser, issueId: string
   const recommendedLevel = recommendLevel(previous, deriveIssue(issue, now).isOverdue, now);
 
   const evidenceUrl = `${config.PUBLIC_WEB_BASE_URL.replace(/\/$/, '')}/i/${issue.id}`;
-  const reportedOn = new Intl.DateTimeFormat(lang === 'gu' ? 'gu-IN' : 'en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric' }).format(issue.createdAt);
+  const reportedOn = formatCityDate(issue.createdAt, lang);
   const { subject, message } = renderEscalation(level, lang, {
     wardEn: issue.ward?.nameEn ?? 'Ahmedabad', wardGu: issue.ward?.nameGu ?? 'અમદાવાદ', catEn: issue.category.nameEn, catGu: issue.category.nameGu,
     reportedOn, evidenceUrl, status: issue.status, daysOpen: Math.max(0, Math.floor((now.getTime() - issue.createdAt.getTime()) / DAY_MS)),

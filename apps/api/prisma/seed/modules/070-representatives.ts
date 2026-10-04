@@ -14,11 +14,14 @@ const TERM_END = new Date('2031-02-28T00:00:00.000Z');
 const PILOT_WARDS = [6, 9, 18, 30, 31];
 const LETTERS = ['A', 'B', 'C', 'D'];
 const GU_LETTERS = ['ક', 'ખ', 'ગ', 'ઘ'];
-const PARTIES = ['Sample Party One', 'Sample Party Two', 'Independent', 'Sample Party One'];
+// party_text is one column shown in both app languages, so sample parties carry both.
+const PARTY_ONE = 'નમૂના પક્ષ 1 / Sample Party One';
+const PARTY_TWO = 'નમૂના પક્ષ 2 / Sample Party Two';
+const PARTIES = [PARTY_ONE, PARTY_TWO, 'અપક્ષ / Independent', PARTY_ONE];
 const ACS = [
-  { number: 901, nameEn: 'Sample Constituency North', nameGu: 'નમૂના મતવિસ્તાર ઉત્તર', wards: [18, 30] },
-  { number: 902, nameEn: 'Sample Constituency South', nameGu: 'નમૂના મતવિસ્તાર દક્ષિણ', wards: [30, 31] },
-  { number: 903, nameEn: 'Sample Constituency West', nameGu: 'નમૂના મતવિસ્તાર પશ્ચિમ', wards: [6, 9] },
+  { number: 901, nameEn: 'Sample Constituency North', nameGu: 'નમૂના મતવિસ્તાર ઉત્તર', short: { en: 'North', gu: 'ઉત્તર' }, wards: [18, 30] },
+  { number: 902, nameEn: 'Sample Constituency South', nameGu: 'નમૂના મતવિસ્તાર દક્ષિણ', short: { en: 'South', gu: 'દક્ષિણ' }, wards: [30, 31] },
+  { number: 903, nameEn: 'Sample Constituency West', nameGu: 'નમૂના મતવિસ્તાર પશ્ચિમ', short: { en: 'West', gu: 'પશ્ચિમ' }, wards: [6, 9] },
 ];
 
 /** Fixed v4-shaped UUIDs: 00000009-<ward>-4000-8000-<n>. */
@@ -84,8 +87,8 @@ export default defineSeedModule({
       await upsertRep(
         rid(900, i + 1),
         {
-          nameEn: `Sample MLA ${ac.nameEn.replace('Sample Constituency ', '')}`,
-          nameGu: `નમૂના ધારાસભ્ય ${i + 1}`,
+          nameEn: `Sample MLA ${ac.short.en}`,
+          nameGu: `નમૂના ધારાસભ્ય ${ac.short.gu}`,
           role: 'mla',
           partyText: PARTIES[i]!,
           termStart: new Date('2022-12-08T00:00:00.000Z'),
@@ -103,7 +106,7 @@ export default defineSeedModule({
         nameEn: 'Sample MP Ahmedabad',
         nameGu: 'નમૂના સાંસદ અમદાવાદ',
         role: 'mp',
-        partyText: 'Sample Party Two',
+        partyText: PARTY_TWO,
         termStart: new Date('2024-06-04T00:00:00.000Z'),
         termEnd: new Date('2029-06-03T00:00:00.000Z'),
         publicEmail: 'sample.mp@example.org',

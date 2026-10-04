@@ -22,13 +22,16 @@ final issueSharerProvider = Provider<IssueSharer>(
 );
 
 /// `<title> — <status>. See it on Saarthee: <base>/i/<id>` (REQ-F-032).
-/// Never includes reporter information.
-String issueShareText(AppLocalizations l10n, IssueDetail d) =>
-    l10n.discoveryShareText(
-      d.title,
-      issueStatusLabel(l10n, d.status),
-      '${kPublicWebBaseUrl.replaceAll(RegExp(r'/$'), '')}/i/${d.id}',
-    );
+/// Never includes reporter information. Gujarati shares link to `?lang=gu`,
+/// so the page and its WhatsApp preview are Gujarati too.
+String issueShareText(AppLocalizations l10n, IssueDetail d) {
+  final base = '${kPublicWebBaseUrl.replaceAll(RegExp(r'/$'), '')}/i/${d.id}';
+  return l10n.discoveryShareText(
+    d.title,
+    issueStatusLabel(l10n, d.status),
+    l10n.localeName.startsWith('gu') ? '$base?lang=gu' : base,
+  );
+}
 
 Future<void> shareIssue(BuildContext context, WidgetRef ref, IssueDetail d) =>
     ref.read(issueSharerProvider)(

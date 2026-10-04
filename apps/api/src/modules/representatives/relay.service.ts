@@ -118,13 +118,14 @@ export async function attemptSend(messageId: string, now = new Date()): Promise<
   const msg = await prisma.repMessage.findUniqueOrThrow({
     where: { id: messageId },
     include: {
-      representative: true,
-      citizen: { select: { displayName: true, phoneE164: true, homeWard: { select: { number: true, nameEn: true } } } },
+      representative: { include: { user: { select: { language: true } } } },
+      citizen: { select: { displayName: true, phoneE164: true, homeWard: { select: { number: true, nameEn: true, nameGu: true } } } },
     },
   });
   try {
     if (!msg.representative.publicEmail) throw Object.assign(new Error('no contact'), { code: 'REP_NO_CONTACT' });
-    const mail = renderRelayEmail(msg);
+    // A representative with a linked account reads their app language; an official inbox gets both languages.
+    const mail = renderRelayEmail(msg, msg.representative.user?.language ?? 'both');
     // TASK-11: per-message Reply-To so replies sent by email are tracked (inbound webhook).
     const replyToken = msg.replyToken ?? newReplyToken();
     if (!msg.replyToken) await prisma.repMessage.update({ where: { id: messageId }, data: { replyToken } });

@@ -21,9 +21,10 @@ export interface TemplateVars {
   meTooCount: number;
 }
 
+/** Status words as the app shows them (ARB status*), used as a label: "status: In progress" / "સ્થિતિ: કામ ચાલુ". */
 const STATUS_WORD: Record<Lang, Partial<Record<IssueStatus, string>>> = {
   en: { reported: 'reported', sent: 'sent to AMC', acknowledged: 'acknowledged', in_progress: 'in progress', reopened: 'reopened' },
-  gu: { reported: 'નોંધાયેલ', sent: 'AMCને મોકલેલ', acknowledged: 'સ્વીકારાયેલ', in_progress: 'કામ ચાલુ', reopened: 'ફરી ખોલાયેલ' },
+  gu: { reported: 'નોંધાઈ', sent: 'AMC ને મોકલાઈ', acknowledged: 'સ્વીકારાઈ', in_progress: 'કામ ચાલુ', reopened: 'ફરી ખૂલી' },
 };
 
 const GREETING: Record<Lang, Record<EscalationLevel, string>> = {
@@ -35,7 +36,7 @@ const GREETING: Record<Lang, Record<EscalationLevel, string>> = {
   },
   gu: {
     corporators: 'આદરણીય કોર્પોરેટરશ્રી',
-    zone_office: 'આદરણીય ઝોન કચેરી',
+    zone_office: 'આદરણીય ઝોન ઑફિસ',
     deputy_commissioner: 'આદરણીય ડેપ્યુટી મ્યુનિસિપલ કમિશનરશ્રી',
     commissioner: 'આદરણીય મ્યુનિસિપલ કમિશનરશ્રી',
   },
@@ -53,15 +54,15 @@ export function renderEscalation(level: EscalationLevel, lang: Lang, v: Template
       subject: `Overdue civic issue in ward ${v.wardEn} — ${v.catEn}`,
       message:
         `${GREETING.en[level]}, a ${v.catEn.toLowerCase()} problem reported on ${v.reportedOn} at ${v.evidenceUrl} is still ${status} ` +
-        `after ${v.daysOpen} days (Saarthee target: ${v.slaDays} days). ${v.meTooCount} residents are affected. ` +
+        `after ${v.daysOpen} days (Saarthee target: ${v.slaDays} days). ${v.meTooCount === 1 ? '1 resident is' : `${v.meTooCount} residents are`} affected. ` +
         `Please arrange for it to be fixed. — A resident of ${v.wardEn}, sent via Saarthee (independent citizen app, not an official AMC complaint).`,
     };
   }
   return {
     subject: `વોર્ડ ${v.wardGu}માં બાકી નાગરિક સમસ્યા — ${v.catGu}`,
     message:
-      `${GREETING.gu[level]}, ${v.reportedOn}ના રોજ નોંધાયેલી ${v.catGu} સમસ્યા (${v.evidenceUrl}) ${v.daysOpen} દિવસ પછી પણ ${status} છે ` +
-      `(સારથી લક્ષ્ય: ${v.slaDays} દિવસ). ${v.meTooCount} રહેવાસીઓ અસરગ્રસ્ત છે. કૃપા કરીને તેને ઉકેલવાની વ્યવસ્થા કરો. ` +
-      `— ${v.wardGu}ના એક રહેવાસી, સારથી દ્વારા મોકલેલ (સ્વતંત્ર નાગરિક એપ, AMCની સત્તાવાર ફરિયાદ નથી).`,
+      `${GREETING.gu[level]}, ${v.reportedOn}ના રોજ નોંધાયેલી ‘${v.catGu}’ની સમસ્યા (${v.evidenceUrl}) ${v.daysOpen} દિવસ પછી પણ ઉકેલાઈ નથી ` +
+      `(હાલની સ્થિતિ: ${status}; સારથી લક્ષ્ય: ${v.slaDays} દિવસ). ${v.meTooCount === 1 ? '1 રહેવાસી' : `${v.meTooCount} રહેવાસીઓ`} અસરગ્રસ્ત છે. ` +
+      `કૃપા કરીને તેને ઉકેલવાની વ્યવસ્થા કરશો. — ${v.wardGu}ના એક રહેવાસી, સારથી દ્વારા મોકલેલ (સ્વતંત્ર નાગરિક એપ, AMC ની સત્તાવાર ફરિયાદ નથી).`,
   };
 }

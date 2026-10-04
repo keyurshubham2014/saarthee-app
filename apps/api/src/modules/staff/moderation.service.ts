@@ -8,19 +8,10 @@ import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
 import { logger } from '../../lib/logger';
 import { notifyUser } from '../../lib/push';
+import { REASON_TEXT, type RejectReason } from './reject-reasons';
 import { lockIssue, TERMINAL_OPEN, transitionAsStaff, type StatusActor } from './status.service';
 
-export const REJECT_REASONS = ['spam', 'duplicate', 'out_of_area', 'private_individual', 'not_civic', 'other'] as const;
-export type RejectReason = (typeof REJECT_REASONS)[number];
-
-const REASON_TEXT: Record<RejectReason, { en: string; gu: string }> = {
-  spam: { en: 'Spam', gu: 'સ્પામ' },
-  duplicate: { en: 'Duplicate', gu: 'ડુપ્લિકેટ' },
-  out_of_area: { en: 'Outside city wards', gu: 'શહેરના વોર્ડની બહાર' },
-  private_individual: { en: 'About a private person', gu: 'ખાનગી વ્યક્તિ વિશે' },
-  not_civic: { en: 'Not a civic issue', gu: 'નાગરિક સમસ્યા નથી' },
-  other: { en: 'Other reason', gu: 'અન્ય કારણ' },
-};
+export { REJECT_REASONS, type RejectReason } from './reject-reasons';
 
 const stamp = (actor: StatusActor) => ({ moderatedAt: now(), moderatedBy: actor.actorId });
 
@@ -50,7 +41,7 @@ export async function rejectIssue(id: string, actor: StatusActor, reason: Reject
     await notifyUser(issue.reporter_id, {
       kind: 'issue_update', refId: id, route: `/issues/${id}`, channel: 'updates',
       title: { en: "Your report wasn't accepted", gu: 'તમારો રિપોર્ટ સ્વીકારાયો નથી' },
-      body: { en: `Your report wasn't accepted: ${text.en}`, gu: `તમારો રિપોર્ટ સ્વીકારાયો નથી: ${text.gu}` },
+      body: { en: `Your report wasn't accepted: ${text.en}`, gu: `તમારો રિપોર્ટ સ્વીકારાયો નથી. કારણ: ${text.gu}.` },
     }).catch((err: unknown) => logger.warn({ err, issueId: id }, 'reject_notify_failed'));
   }
 }

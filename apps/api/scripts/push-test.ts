@@ -12,7 +12,7 @@ const message: PushMessage = {
   route: '/alerts',
   channel: 'alerts',
   title: { en: 'Saarthee test notification', gu: 'સારથી પરીક્ષણ સૂચના' },
-  body: { en: 'If you see this, push works. Tap to open Alerts.', gu: 'આ દેખાય તો પુશ કામ કરે છે. ચેતવણીઓ ખોલવા ટૅપ કરો.' },
+  body: { en: 'If you see this, push works. Tap to open Alerts.', gu: 'આ દેખાય તો પુશ કામ કરે છે. ચેતવણીઓ ખોલવા ટેપ કરો.' },
 };
 
 async function main() {

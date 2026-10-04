@@ -91,8 +91,8 @@ export async function recordReply(id: string, body: string, channel: 'email' | '
     try {
       await notifyUser(m.citizenId, {
         kind: 'system', refId: id, route: '/me/messages', channel: 'updates',
-        title: { en: `${m.representative.nameEn} replied`, gu: `${m.representative.nameGu}એ જવાબ આપ્યો` },
-        body: { en: 'Open Saarthee to read the reply.', gu: 'જવાબ વાંચવા સાર્થી ખોલો.' },
+        title: { en: clip(`${m.representative.nameEn} replied`), gu: clip(`${m.representative.nameGu} તરફથી જવાબ આવ્યો`) },
+        body: { en: 'Open Saarthee to read the reply.', gu: 'જવાબ વાંચવા સારથી ખોલો.' },
       });
     } catch (err) {
       logger.error({ messageId: id, reason: err instanceof Error ? err.message : 'unknown' }, 'reply notification failed');
@@ -100,6 +100,9 @@ export async function recordReply(id: string, body: string, channel: 'email' | '
   }
   return { status: 'replied' as const, repliedAt: at.toISOString() };
 }
+
+/** Push titles are capped at 120 characters (TASK-04); representative names can be up to 120 on their own. */
+const clip = (s: string) => (s.length <= 120 ? s : `${s.slice(0, 119)}…`);
 
 /** Removes quoted history: everything from the first line starting with '>' or "On … wrote:". */
 export function stripQuoted(text: string): string {
