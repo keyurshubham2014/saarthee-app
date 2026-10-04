@@ -4222,5 +4222,832 @@
         "type": "String"
       }
     }
+  },
+  "staffConsoleTitle": "Saarthee staff",
+  "@staffConsoleTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleAdmin": "Admin",
+  "@staffRoleAdmin": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleModerator": "Moderator",
+  "@staffRoleModerator": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleRepresentative": "Representative",
+  "@staffRoleRepresentative": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleCitizen": "Citizen",
+  "@staffRoleCitizen": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSignOut": "Sign out",
+  "@staffSignOut": {
+    "description": "TASK-10 staff console"
+  },
+  "staffMenu": "Menu",
+  "@staffMenu": {
+    "description": "TASK-10 staff console"
+  },
+  "staffForbidden": "You don't have access to this page.",
+  "@staffForbidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffGoDashboard": "Go to dashboard",
+  "@staffGoDashboard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoadError": "We couldn't load this. Check your connection and try again.",
+  "@staffLoadError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffActionError": "That didn't work: {message}",
+  "@staffActionError": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "staffNavSectionWork": "Work",
+  "@staffNavSectionWork": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavSectionContent": "Content",
+  "@staffNavSectionContent": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavSectionAdmin": "Administration",
+  "@staffNavSectionAdmin": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavDashboard": "Dashboard",
+  "@staffNavDashboard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavModeration": "Moderation",
+  "@staffNavModeration": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavCategories": "Categories",
+  "@staffNavCategories": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavUsers": "Users & roles",
+  "@staffNavUsers": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavSettings": "Settings",
+  "@staffNavSettings": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavExports": "Exports",
+  "@staffNavExports": {
+    "description": "TASK-10 staff console"
+  },
+  "staffToolsRow": "Staff tools",
+  "@staffToolsRow": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNoSections": "Your staff tools will appear here once they are ready.",
+  "@staffNoSections": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginTitle": "Sign in to Saarthee staff",
+  "@staffLoginTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginPhone": "Sign in with phone",
+  "@staffLoginPhone": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginEmailLink": "Admin sign-in with email",
+  "@staffLoginEmailLink": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginEmail": "Email",
+  "@staffLoginEmail": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginPassword": "Password",
+  "@staffLoginPassword": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginSubmit": "Sign in",
+  "@staffLoginSubmit": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginNotStaff": "This account doesn't have staff access.",
+  "@staffLoginNotStaff": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginSuspended": "This account is suspended.",
+  "@staffLoginSuspended": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginFailed": "Email or password is incorrect.",
+  "@staffLoginFailed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashTitle": "Dashboard",
+  "@staffDashTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashSensitive": "Sensitive reports to review",
+  "@staffDashSensitive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashFlagged": "Flagged",
+  "@staffDashFlagged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashOutside": "Outside city wards",
+  "@staffDashOutside": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashAlerts": "Alerts awaiting approval",
+  "@staffDashAlerts": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashAllClear": "Nothing waiting. Good work.",
+  "@staffDashAllClear": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationTitle": "Moderation",
+  "@moderationTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationTabSensitive": "Sensitive ({count})",
+  "@moderationTabSensitive": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationTabFlagged": "Flagged ({count})",
+  "@moderationTabFlagged": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationTabOutside": "Outside city wards ({count})",
+  "@moderationTabOutside": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationEmpty": "Nothing to review here.",
+  "@moderationEmpty": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationStale": "Already handled by another moderator.",
+  "@moderationStale": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationNoWard": "No ward",
+  "@moderationNoWard": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationRowMeta": "{ward} · {date}",
+  "@moderationRowMeta": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationSelectIssue": "Choose a report to review.",
+  "@moderationSelectIssue": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationFlagCount": "{reason} · {count}",
+  "@moderationFlagCount": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "flagReasonSpam": "Spam or advertising",
+  "@flagReasonSpam": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonAbusive": "Abusive or hateful",
+  "@flagReasonAbusive": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonPrivateInfo": "Shows private information",
+  "@flagReasonPrivateInfo": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonNotCivic": "Not a civic issue",
+  "@flagReasonNotCivic": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonWrongLocation": "Wrong location",
+  "@flagReasonWrongLocation": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonDuplicate": "Duplicate",
+  "@flagReasonDuplicate": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonOther": "Something else",
+  "@flagReasonOther": {
+    "description": "TASK-10 staff console"
+  },
+  "flagSheetTitle": "Report a problem with this post",
+  "@flagSheetTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "flagNote": "Add a note (optional)",
+  "@flagNote": {
+    "description": "TASK-10 staff console"
+  },
+  "flagCounter": "{count}/200",
+  "@flagCounter": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "flagSend": "Send",
+  "@flagSend": {
+    "description": "TASK-10 staff console"
+  },
+  "flagThanks": "Thanks. Our moderators will look at it.",
+  "@flagThanks": {
+    "description": "TASK-10 staff console"
+  },
+  "flagAlready": "You've already reported this.",
+  "@flagAlready": {
+    "description": "TASK-10 staff console"
+  },
+  "flagError": "Couldn't send. Try again.",
+  "@flagError": {
+    "description": "TASK-10 staff console"
+  },
+  "flagLimit": "You've reported a lot today. Please try again tomorrow.",
+  "@flagLimit": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReportButton": "Report a problem",
+  "@flagReportButton": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueTitle": "Issue tools",
+  "@staffIssueTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueResident": "A resident of {ward}",
+  "@staffIssueResident": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "staffIssueResidentUnknown": "A resident",
+  "@staffIssueResidentUnknown": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueHiddenBanner": "Hidden from the public",
+  "@staffIssueHiddenBanner": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueFlags": "Flags",
+  "@staffIssueFlags": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueTimeline": "Timeline",
+  "@staffIssueTimeline": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssuePhotos": "Photos",
+  "@staffIssuePhotos": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAfter": "After photo",
+  "@staffIssueAfter": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueActions": "Actions",
+  "@staffIssueActions": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueLooksFine": "Looks fine",
+  "@staffIssueLooksFine": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueChange": "Change category or ward",
+  "@staffIssueChange": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMerge": "Merge into…",
+  "@staffIssueMerge": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueHide": "Hide",
+  "@staffIssueHide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueUnhide": "Show to the public",
+  "@staffIssueUnhide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueReject": "Not accepted…",
+  "@staffIssueReject": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueSuspend": "Suspend reporter…",
+  "@staffIssueSuspend": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAcknowledge": "Acknowledge",
+  "@staffIssueAcknowledge": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueInProgress": "Mark in progress",
+  "@staffIssueInProgress": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMarkFixed": "Mark as fixed",
+  "@staffIssueMarkFixed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAfterPhoto": "Add an after photo (optional)",
+  "@staffIssueAfterPhoto": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAfterPhotoAdded": "After photo added",
+  "@staffIssueAfterPhotoAdded": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueNote": "Note (optional)",
+  "@staffIssueNote": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueReason": "Reason",
+  "@staffIssueReason": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmReject": "The report will be closed as not accepted and the reporter will be told why.",
+  "@staffIssueConfirmReject": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmHide": "The report will be hidden from the public. Staff can still see it.",
+  "@staffIssueConfirmHide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmMerge": "This report will be closed and its supporters moved to the other report.",
+  "@staffIssueConfirmMerge": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmSuspend": "The reporter will be signed out and can't use their account until reinstated.",
+  "@staffIssueConfirmSuspend": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmFixed": "Neighbours will be asked to confirm with a photo.",
+  "@staffIssueConfirmFixed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCancel": "Cancel",
+  "@staffCancel": {
+    "description": "TASK-10 staff console"
+  },
+  "staffConfirm": "Confirm",
+  "@staffConfirm": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDone": "Done.",
+  "@staffDone": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSave": "Save",
+  "@staffSave": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueChanged": "This issue changed while you were here. Reloaded.",
+  "@staffIssueChanged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMergeEmpty": "No open reports within 500 m.",
+  "@staffIssueMergeEmpty": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMergeDistance": "{metres} m away",
+  "@staffIssueMergeDistance": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "staffIssueMergeFar": "More than 200 m away. Check it is the same problem.",
+  "@staffIssueMergeFar": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueCategory": "Category",
+  "@staffIssueCategory": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueWard": "Ward",
+  "@staffIssueWard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueWardNumber": "Ward {number}",
+  "@staffIssueWardNumber": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "staffRejectSpam": "Spam",
+  "@staffRejectSpam": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectDuplicate": "Duplicate",
+  "@staffRejectDuplicate": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectOutOfArea": "Outside city wards",
+  "@staffRejectOutOfArea": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectPrivate": "About a private person",
+  "@staffRejectPrivate": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectNotCivic": "Not a civic issue",
+  "@staffRejectNotCivic": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectOther": "Other reason",
+  "@staffRejectOther": {
+    "description": "TASK-10 staff console"
+  },
+  "staffFlagDismiss": "Dismiss",
+  "@staffFlagDismiss": {
+    "description": "TASK-10 staff console"
+  },
+  "staffFlagHandled": "Handled",
+  "@staffFlagHandled": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCommentHide": "Hide comment",
+  "@staffCommentHide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCommentHidden": "Hidden comment",
+  "@staffCommentHidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffStatusMerged": "Merged",
+  "@staffStatusMerged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventReviewed": "Checked by a moderator",
+  "@staffEventReviewed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventHidden": "Hidden",
+  "@staffEventHidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventUnhidden": "Shown again",
+  "@staffEventUnhidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventRecategorised": "Category changed",
+  "@staffEventRecategorised": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventWardChanged": "Ward changed",
+  "@staffEventWardChanged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventMerged": "Merged",
+  "@staffEventMerged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventComment": "Comment",
+  "@staffEventComment": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventOther": "Update",
+  "@staffEventOther": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersTitle": "Users & roles",
+  "@staffUsersTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSearch": "Name or last 4 digits",
+  "@staffUsersSearch": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersEmpty": "No matching people.",
+  "@staffUsersEmpty": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersMakeMod": "Make moderator",
+  "@staffUsersMakeMod": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersRemoveMod": "Remove moderator",
+  "@staffUsersRemoveMod": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSuspend": "Suspend",
+  "@staffUsersSuspend": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersReinstate": "Reinstate",
+  "@staffUsersReinstate": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSelf": "You can't change your own role.",
+  "@staffUsersSelf": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersActive": "Active",
+  "@staffUsersActive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSuspended": "Suspended",
+  "@staffUsersSuspended": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersNoName": "No name",
+  "@staffUsersNoName": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersReasonHint": "Reason (required)",
+  "@staffUsersReasonHint": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesTitle": "Categories",
+  "@staffCategoriesTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesInactive": "Inactive",
+  "@staffCategoriesInactive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesEdit": "Edit category",
+  "@staffCategoriesEdit": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesNameEn": "Name (English)",
+  "@staffCategoriesNameEn": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesNameGu": "Name (ગુજરાતી)",
+  "@staffCategoriesNameGu": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesIcon": "Icon",
+  "@staffCategoriesIcon": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesColour": "Colour",
+  "@staffCategoriesColour": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesSla": "Target days (1–90)",
+  "@staffCategoriesSla": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesSensitive": "Sensitive: a moderator checks before it is public",
+  "@staffCategoriesSensitive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesActive": "Active",
+  "@staffCategoriesActive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesOrder": "Order",
+  "@staffCategoriesOrder": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesSlaError": "Enter a number from 1 to 90.",
+  "@staffCategoriesSlaError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesNameError": "Enter 2 to 60 characters.",
+  "@staffCategoriesNameError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesOrderError": "Enter a number from 0 to 999.",
+  "@staffCategoriesOrderError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesDays": "{days} days",
+  "@staffCategoriesDays": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSettingsTitle": "Settings",
+  "@staffSettingsTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsReadOnly": "Only admins can change settings.",
+  "@staffSettingsReadOnly": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsElection": "Election mode",
+  "@staffSettingsElection": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsElectionOn": "Election mode on",
+  "@staffSettingsElectionOn": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScope": "Where",
+  "@staffSettingsScope": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScopeCity": "Whole city",
+  "@staffSettingsScopeCity": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScopeWards": "Chosen wards",
+  "@staffSettingsScopeWards": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsWardsCount": "{count} wards chosen",
+  "@staffSettingsWardsCount": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSettingsFrom": "From",
+  "@staffSettingsFrom": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsTo": "To",
+  "@staffSettingsTo": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsNoteEn": "Note (English)",
+  "@staffSettingsNoteEn": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsNoteGu": "Note (ગુજરાતી)",
+  "@staffSettingsNoteGu": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsPreview": "Banner preview",
+  "@staffSettingsPreview": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsSaveElection": "Save election mode",
+  "@staffSettingsSaveElection": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsFeatures": "Features",
+  "@staffSettingsFeatures": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsRelay": "Messages to representatives",
+  "@staffSettingsRelay": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsRelayHelp": "Let residents send messages to their representatives.",
+  "@staffSettingsRelayHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsDrafts": "Alert drafts from feeds",
+  "@staffSettingsDrafts": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsDraftsHelp": "Create draft alerts from official feeds for review.",
+  "@staffSettingsDraftsHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScorecard": "Public ward scorecard",
+  "@staffSettingsScorecard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScorecardHelp": "Show ward scorecards to everyone.",
+  "@staffSettingsScorecardHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsSensitive": "Review sensitive reports",
+  "@staffSettingsSensitive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsSensitiveHelp": "Sensitive reports stay hidden until a moderator checks them.",
+  "@staffSettingsSensitiveHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsDateError": "The end must be after the start, at most 120 days later.",
+  "@staffSettingsDateError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsWardsError": "Choose at least one ward.",
+  "@staffSettingsWardsError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportTitle": "Exports",
+  "@staffExportTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportDataset": "Data",
+  "@staffExportDataset": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportIssues": "Issues",
+  "@staffExportIssues": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportEvents": "Issue history",
+  "@staffExportEvents": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportVerifications": "Verifications",
+  "@staffExportVerifications": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportFrom": "From",
+  "@staffExportFrom": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportTo": "To",
+  "@staffExportTo": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportAllWards": "All wards",
+  "@staffExportAllWards": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportPhone": "Include phone numbers",
+  "@staffExportPhone": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportPhoneWarning": "Phone numbers are personal data. Only include them if you must.",
+  "@staffExportPhoneWarning": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportReason": "Why do you need phone numbers? (10 to 200 characters)",
+  "@staffExportReason": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportReasonError": "Give a reason of 10 to 200 characters.",
+  "@staffExportReasonError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportDownload": "Download CSV",
+  "@staffExportDownload": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportTooMany": "Too many rows. Narrow the date range.",
+  "@staffExportTooMany": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportRangeError": "Choose a range of up to 366 days.",
+  "@staffExportRangeError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportReady": "CSV ready: {rows} rows.",
+  "@staffExportReady": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -145,4 +145,12 @@ class SaartheeIcons {
   static const IconData badge = Symbols.badge_rounded;
   static const IconData attractions = Symbols.attractions_rounded;
   static const IconData services = Symbols.home_repair_service_rounded;
+
+  // TASK-10 staff console (additive).
+  static const IconData dashboard = Symbols.dashboard_rounded;
+  static const IconData menu = Symbols.menu_rounded;
+  static const IconData moderation = Symbols.shield_rounded;
+  static const IconData merge = Symbols.merge_rounded;
+  static const IconData edit = Symbols.edit_rounded;
+  static const IconData adminPanel = Symbols.admin_panel_settings_rounded;
 }
