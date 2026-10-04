@@ -44,6 +44,11 @@ done
 for w in Regular Medium SemiBold; do
   subset "$WORK/MuktaVaani-$w.ttf" "$OUT/MuktaVaani-$w.ttf"
 done
+# Upstream Mukta Vaani's Gujarati language system lacks the conjunct
+# features; give it the script default (tool/fonts/fix_langsys.py).
+PY="${PYTHON:-python3}"
+"$PY" "$(dirname "$0")/fix_langsys.py" "$OUT"/MuktaVaani-*.ttf "$OUT"/BalooBhai2-*.ttf
+"$PY" "$(dirname "$0")/fix_langsys.py" --check "$OUT"/*.ttf
 cp "$WORK/BalooBhai2-OFL.txt" "$OUT/BalooBhai2-OFL.txt"
 cp "$WORK/MuktaVaani-OFL.txt" "$OUT/MuktaVaani-OFL.txt"
 ls -l "$OUT"

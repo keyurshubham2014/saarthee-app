@@ -9,7 +9,10 @@ Built with `tool/fonts/subset_fonts.sh` (fonttools 4.x): Baloo Bhai 2 static
 instances cut at `wght=600/700/800` with `varLib.instancer`, then both
 families subset to Basic Latin, Latin-1, General Punctuation, ₹ (U+20B9),
 Gujarati (U+0A80–0AFF), danda (U+0964–0965), ZWNJ/ZWJ and the dotted circle,
-keeping **all** OpenType layout features (Gujarati conjuncts need GSUB/GPOS,
+keeping **all** OpenType layout features, then `tool/fonts/fix_langsys.py` gives
+Mukta Vaani's Gujarati language system (`GUJ ` under `gjr2`/`gujr`) the script's
+default feature list — upstream it lacks the conjunct features, so text shaped
+as Gujarati (the app's `gu` locale) showed broken conjuncts such as "પ્‌ર" (Gujarati conjuncts need GSUB/GPOS,
 Baloo's `tnum` is kept for tabular figures) and dropping TrueType hinting.
 
 Total ≈ 2.2 MB for the six files (Baloo ≈ 467 KB each, Mukta ≈ 275 KB each);
