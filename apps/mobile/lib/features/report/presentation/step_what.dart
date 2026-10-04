@@ -118,23 +118,34 @@ class _StepWhatState extends ConsumerState<StepWhat> {
               AppSpacing.gutter,
               AppSpacing.s24,
             ),
-            sliver: SliverGrid.builder(
-              itemCount: slugs.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: AppSpacing.cardGap,
-                crossAxisSpacing: AppSpacing.cardGap,
-                mainAxisExtent: 112,
-              ),
-              itemBuilder: (context, i) {
-                final slug = slugs[i];
-                return CategoryTile(
-                  slug: slug,
-                  label: categoryLabel(l10n, slug),
-                  index: i,
-                  selected: selected == slug,
-                  popIn: widget.popIn,
-                  onTap: () => _select(slug),
+            // Rows of two tiles with natural heights (2.0× font safe).
+            sliver: SliverList.separated(
+              itemCount: (slugs.length + 1) ~/ 2,
+              separatorBuilder: (_, _) =>
+                  const SizedBox(height: AppSpacing.cardGap),
+              itemBuilder: (context, row) {
+                Widget tile(int i) {
+                  if (i >= slugs.length) return const SizedBox.shrink();
+                  final slug = slugs[i];
+                  return CategoryTile(
+                    slug: slug,
+                    label: categoryLabel(l10n, slug),
+                    index: i,
+                    selected: selected == slug,
+                    popIn: widget.popIn,
+                    onTap: () => _select(slug),
+                  );
+                }
+
+                return IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(child: tile(row * 2)),
+                      const SizedBox(width: AppSpacing.cardGap),
+                      Expanded(child: tile(row * 2 + 1)),
+                    ],
+                  ),
                 );
               },
             ),
