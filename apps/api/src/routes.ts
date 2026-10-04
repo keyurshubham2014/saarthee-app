@@ -6,6 +6,7 @@ import { reportsRouter } from './modules/reports';
 import { adminLoginRouter } from './modules/admin-auth';
 import { verifyRouter } from './modules/verify';
 import { adminRouter } from './modules/admin';
+import { geoRouter } from './modules/geo';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -15,3 +16,4 @@ apiRouter.use(reportsRouter);
 apiRouter.use(verifyRouter);
 apiRouter.use(adminLoginRouter);
 apiRouter.use('/admin', adminRouter);
+apiRouter.use(geoRouter);

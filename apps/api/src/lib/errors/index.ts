@@ -21,6 +21,7 @@ export const ERROR_CODES = {
   SERVICE_UNAVAILABLE: { status: 503, message: 'The service is unavailable. Please try again later.' },
   // v2 (append new codes below; one line per code).
   ENDPOINT_RETIRED: { status: 410, message: 'Please update Saarthee to report issues.' },
+  OUTSIDE_SERVICE_AREA: { status: 422, message: "This place is outside Ahmedabad's municipal wards." },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;
