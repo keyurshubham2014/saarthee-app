@@ -9,3 +9,5 @@
 - **Logging:** use `src/lib/logger`. Never log request bodies, phone numbers, tokens or passwords. Routes by template.
 - **Rate limits:** `rateLimit({windowMs, max, keyGenerator})` from `src/middleware/rateLimit`.
 - `src/app.ts` builds the app; `src/server.ts` listens.
+- **Tests (REQ-N-009):** `test/platform/` (platform suites) and `test/<module>/` per feature module; harness, guard and helpers in `test/README.md`. Every new endpoint ships with Supertest tests in the same commit.
+- **Geo:** `src/lib/geo` (`pointSql`, `distanceMetres`) — use these instead of hand-writing `ST_*` fragments.
