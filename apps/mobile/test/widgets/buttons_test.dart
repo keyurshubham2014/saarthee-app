@@ -18,7 +18,9 @@ void main() {
     testWidgets('primary is 50 dp, radius 14, primary fill', (tester) async {
       await pumpMotion(
         tester,
-        Center(child: PrimaryButton(label: 'Go', onPressed: () {})),
+        Center(
+          child: PrimaryButton(label: 'Go', onPressed: () {}),
+        ),
       );
       final size = tester.getSize(find.byType(FilledButton));
       expect(size.height, AppSpacing.buttonHeight);
@@ -28,10 +30,7 @@ void main() {
       expect(resolved, SaartheeColors.of(ctx).primary);
       final theme = Theme.of(ctx).filledButtonTheme.style!;
       final shape = theme.shape!.resolve({}) as RoundedRectangleBorder;
-      expect(
-        (shape.borderRadius as BorderRadius).topLeft.x,
-        AppRadii.control,
-      );
+      expect((shape.borderRadius as BorderRadius).topLeft.x, AppRadii.control);
     });
 
     testWidgets('pinned primary is 56 dp', (tester) async {
@@ -71,7 +70,9 @@ void main() {
     testWidgets('SubmitReportButton uses sunrise', (tester) async {
       await pumpMotion(
         tester,
-        Center(child: SubmitReportButton(label: 'Send', onPressed: () {})),
+        Center(
+          child: SubmitReportButton(label: 'Send', onPressed: () {}),
+        ),
       );
       final b = tester.widget<FilledButton>(find.byType(FilledButton));
       final ctx = tester.element(find.byType(FilledButton));
@@ -112,11 +113,7 @@ void main() {
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => taps++,
-              child: const SizedBox(
-                key: Key('target'),
-                width: 100,
-                height: 60,
-              ),
+              child: const SizedBox(key: Key('target'), width: 100, height: 60),
             ),
           ),
         ),
@@ -136,7 +133,9 @@ void main() {
       final fake = FakeSaartheeHaptics();
       await pumpMotion(
         tester,
-        Center(child: PrimaryButton(label: 'Go', onPressed: () {})),
+        Center(
+          child: PrimaryButton(label: 'Go', onPressed: () {}),
+        ),
         haptics: fake,
       );
       await tester.tap(find.byType(FilledButton));

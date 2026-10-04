@@ -165,7 +165,8 @@ class SkeletonListState extends State<SkeletonList>
   void didChangeDependencies() {
     super.didChangeDependencies();
     // TickerMode off = content has arrived (SkeletonSwitcher): stop sweeping.
-    if (SaartheeMotion.of(context).shimmer && TickerMode.valuesOf(context).enabled) {
+    if (SaartheeMotion.of(context).shimmer &&
+        TickerMode.valuesOf(context).enabled) {
       if (!_c.isAnimating) _c.repeat();
     } else {
       _c.stop();

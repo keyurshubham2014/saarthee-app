@@ -29,9 +29,7 @@ Future<void> tab(WidgetTester t, int i) async {
 }
 
 void main() {
-  testWidgets('five labelled destinations, Report glyph in sunrise', (
-    t,
-  ) async {
+  testWidgets('five labelled destinations, Report glyph in sunrise', (t) async {
     await pumpApp(t, prefs: onboardedPrefs());
     final nav = find.byType(NavigationBar);
     for (final label in ['Home', 'Map', 'Report', 'Alerts', 'My Ward']) {
@@ -69,16 +67,16 @@ void main() {
     }
   });
 
-  testWidgets('tabs keep their pushed page and scroll; re-tap pops', (
-    t,
-  ) async {
+  testWidgets('tabs keep their pushed page and scroll; re-tap pops', (t) async {
     await pumpApp(t, prefs: onboardedPrefs());
     ScrollPosition homePos() => t
         .state<ScrollableState>(
-          find.descendant(
-            of: find.byKey(const PageStorageKey('home.scroll')),
-            matching: find.byType(Scrollable),
-          ).first,
+          find
+              .descendant(
+                of: find.byKey(const PageStorageKey('home.scroll')),
+                matching: find.byType(Scrollable),
+              )
+              .first,
         )
         .position;
     homePos().jumpTo(120);
@@ -119,11 +117,14 @@ void main() {
     );
     final router = c.read(noGallery);
     addTearDown(router.dispose);
-    final paths = router.configuration.routes
-        .whereType<GoRoute>()
-        .map((r) => r.path);
+    final paths = router.configuration.routes.whereType<GoRoute>().map(
+      (r) => r.path,
+    );
     expect(paths, isNot(contains('/dev/gallery')));
-    final withGallery = c.read(appRouterProvider).configuration.routes
+    final withGallery = c
+        .read(appRouterProvider)
+        .configuration
+        .routes
         .whereType<GoRoute>()
         .map((r) => r.path);
     expect(withGallery, contains('/dev/gallery'));

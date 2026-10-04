@@ -16,14 +16,16 @@ Widget _journey() => ListView(
   ],
 );
 
-double _check(WidgetTester t) => (t
-        .widget<CustomPaint>(
-          find.byWidgetPredicate(
-            (w) => w is CustomPaint && w.painter is CheckPainter,
-          ),
-        )
-        .painter! as CheckPainter)
-    .progress;
+double _check(WidgetTester t) =>
+    (t
+                .widget<CustomPaint>(
+                  find.byWidgetPredicate(
+                    (w) => w is CustomPaint && w.painter is CheckPainter,
+                  ),
+                )
+                .painter!
+            as CheckPainter)
+        .progress;
 
 Future<void> _expectEndStateFast(WidgetTester t) async {
   await t.pump(const Duration(milliseconds: 100));
@@ -31,7 +33,9 @@ Future<void> _expectEndStateFast(WidgetTester t) async {
   expect(find.text('37'), findsOneWidget);
   for (var i = 0; i < 8; i++) {
     final o = t.widget<Opacity>(
-      find.ancestor(of: find.text('item$i'), matching: find.byType(Opacity)).first,
+      find
+          .ancestor(of: find.text('item$i'), matching: find.byType(Opacity))
+          .first,
     );
     expect(o.opacity, 1, reason: 'item$i');
   }
@@ -61,10 +65,16 @@ void main() {
     testWidgets('same text with motion on and off', (t) async {
       await pumpMotion(t, _journey(), reduced: true);
       await t.pumpAndSettle();
-      final reduced = t.widgetList<Text>(find.byType(Text)).map((w) => w.data).toList();
+      final reduced = t
+          .widgetList<Text>(find.byType(Text))
+          .map((w) => w.data)
+          .toList();
       await pumpMotion(t, _journey(), reduced: false);
       await t.pumpAndSettle();
-      final full = t.widgetList<Text>(find.byType(Text)).map((w) => w.data).toList();
+      final full = t
+          .widgetList<Text>(find.byType(Text))
+          .map((w) => w.data)
+          .toList();
       expect(full, reduced);
     });
   });
@@ -89,7 +99,9 @@ void main() {
       expect(scheme.springIn, SaartheeMotion.short);
       expect(scheme.stagger, Duration.zero);
       expect(scheme.riseOffset, 0);
-      final g = await t.startGesture(t.getCenter(find.byKey(const Key('press'))));
+      final g = await t.startGesture(
+        t.getCenter(find.byKey(const Key('press'))),
+      );
       await t.pump(const Duration(milliseconds: 100));
       expect(t.widget<AnimatedScale>(find.byType(AnimatedScale)).scale, 1);
       await g.up();

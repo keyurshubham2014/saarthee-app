@@ -2,18 +2,8 @@ import 'package:saarthee/core/wards/ward.dart';
 import 'package:saarthee/core/wards/ward_providers.dart';
 import 'package:saarthee/core/wards/wards_repository.dart';
 
-const westZone = Zone(
-  id: 'z-w',
-  code: 'W',
-  nameEn: 'West',
-  nameGu: 'પશ્ચિમ',
-);
-const northZone = Zone(
-  id: 'z-n',
-  code: 'N',
-  nameEn: 'North',
-  nameGu: 'ઉત્તર',
-);
+const westZone = Zone(id: 'z-w', code: 'W', nameEn: 'West', nameGu: 'પશ્ચિમ');
+const northZone = Zone(id: 'z-n', code: 'N', nameEn: 'North', nameGu: 'ઉત્તર');
 
 const paldi = Ward(
   id: 'w12',

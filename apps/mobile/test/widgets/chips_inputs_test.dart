@@ -32,9 +32,7 @@ void main() {
       await pumpMotion(
         t,
         Wrap(
-          children: [
-            for (final s in IssueStatus.values) StatusChip(status: s),
-          ],
+          children: [for (final s in IssueStatus.values) StatusChip(status: s)],
         ),
       );
       for (final s in IssueStatus.values) {
@@ -53,11 +51,7 @@ void main() {
     testWidgets('status words switch to Gujarati', (t) async {
       await pumpMotion(
         t,
-        Wrap(
-          children: [
-            for (final s in _statusGu.keys) StatusChip(status: s),
-          ],
-        ),
+        Wrap(children: [for (final s in _statusGu.keys) StatusChip(status: s)]),
         locale: const Locale('gu'),
       );
       _statusGu.forEach((s, w) => expect(find.text(w), findsOneWidget));
@@ -103,9 +97,7 @@ void main() {
       expect(find.byType(InlineFieldError), findsOneWidget);
     });
 
-    testWidgets('ErrorSummary takes focus and items are tappable', (
-      t,
-    ) async {
+    testWidgets('ErrorSummary takes focus and items are tappable', (t) async {
       var tapped = 0;
       await pumpMotion(
         t,
@@ -118,7 +110,10 @@ void main() {
       final focus = FocusManager.instance.primaryFocus;
       expect(focus, isNotNull);
       expect(
-        find.ancestor(of: find.text('There is a problem'), matching: find.byType(Focus)),
+        find.ancestor(
+          of: find.text('There is a problem'),
+          matching: find.byType(Focus),
+        ),
         findsWidgets,
       );
       await t.tap(find.text('Enter a name'));

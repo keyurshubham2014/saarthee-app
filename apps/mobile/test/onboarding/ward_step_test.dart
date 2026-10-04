@@ -35,7 +35,9 @@ void main() {
     await t.tap(find.byKey(const Key('ward.useLocation')));
     await t.pumpAndSettle();
     expect(
-      find.text("You're in Ward 12 · Paldi (West zone). Is this your home ward?"),
+      find.text(
+        "You're in Ward 12 · Paldi (West zone). Is this your home ward?",
+      ),
       findsOneWidget,
     );
     await t.tap(find.byKey(const Key('ward.yes')));

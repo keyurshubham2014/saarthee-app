@@ -53,9 +53,7 @@ void main() {
     expect(_pillX(t), end);
   });
 
-  testWidgets('Animations switch: off + disabled under system flag', (
-    t,
-  ) async {
+  testWidgets('Animations switch: off + disabled under system flag', (t) async {
     final c = await pumpApp(t, prefs: onboardedPrefs());
     c.read(systemDisableAnimationsProvider.notifier).set(true);
     await t.tap(find.byKey(const Key('nav.4')));

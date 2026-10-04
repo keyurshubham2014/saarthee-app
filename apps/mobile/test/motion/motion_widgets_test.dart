@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:saarthee/core/motion/motion_widgets.dart';
-import 'package:saarthee/core/widgets/rolling_count.dart';
 
 import '../helpers/motion.dart';
 
@@ -65,9 +64,7 @@ void main() {
   testWidgets('StaggeredColumn: 60 ms apart, 7+ with item 6', (t) async {
     await pumpMotion(
       t,
-      StaggeredColumn(
-        children: [for (var i = 0; i < 10; i++) Text('item$i')],
-      ),
+      StaggeredColumn(children: [for (var i = 0; i < 10; i++) Text('item$i')]),
     );
     await t.pump(_ms * 30);
     expect(_opacityOf(t, 'item0'), greaterThan(0));
