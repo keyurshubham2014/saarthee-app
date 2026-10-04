@@ -461,6 +461,7 @@ Prediction only — exact paths may differ.
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | Integrator wave-2 gate on merged main (4554216): `auth:emulator-check` against the running Firebase Auth Emulator (demo-saarthee) → POST /auth/firebase 201 (phone masked), GET /me 200, DELETE /me 204, emulator user deleted; `push:test --topic city_all__en` → notifications row kind=system status=sent channel=alerts (log driver). App-UI sign-in on the emulator (M-04-01) still Not Verified: the emulator's system_server was CPU-starved while 4 wave-3 workers ran; re-run at the wave-3 gate | 4554216 |
 | 2026-10-04 | Migration `20261005040000_v2_auth_push_foundation` (users.age_confirmed_at, devices.language/topics, idx_consents_user_purpose, notifications) + firebase-admin 13.10.0; drift gate clean | 35e07c6 |
 | 2026-10-04 | Config, error codes, redaction + log capture tap, user session JWT (`typ:user`, own audience), FirebaseGateway google/emulator/fake | ff6eb53 |
 | 2026-10-04 | requireUser / optionalUser / requireRole; push service (notifyTopic, notifyUser, flushQueued; fcm/log/memory) | 7b1345d |
