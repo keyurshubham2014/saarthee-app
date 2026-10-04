@@ -58,9 +58,24 @@ async function existing(clientSubmissionId: string, userId: string): Promise<Cre
   return respond(prev, false);
 }
 
-export async function createIssue(user: AuthenticatedUser, b: CreateIssueBody, opts: { res?: import('express').Response } = {}): Promise<CreateIssueResult> {
+type Opts = { res?: import('express').Response };
+
+export async function createIssue(user: AuthenticatedUser, b: CreateIssueBody, opts: Opts = {}): Promise<CreateIssueResult> {
   const repeat = await existing(b.clientSubmissionId, user.id);
   if (repeat) return repeat;
+  try {
+    return await createNew(user, b, opts);
+  } catch (err) {
+    // A concurrent retry with the same key may have committed meanwhile (its photos are now attached, so this
+    // attempt fails a business rule): the client must still get 200 with that issue.
+    const again = await existing(b.clientSubmissionId, user.id);
+    if (again) return again;
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') throw new AppError('PHOTO_UNUSABLE');
+    throw err;
+  }
+}
+
+async function createNew(user: AuthenticatedUser, b: CreateIssueBody, opts: Opts): Promise<CreateIssueResult> {
 
   const photoIds = [...new Set(b.photoIds)];
   if (photoIds.length !== b.photoIds.length) throw invalid('photoIds', 'Each photo can be added once.');
@@ -102,38 +117,28 @@ export async function createIssue(user: AuthenticatedUser, b: CreateIssueBody, o
   const note = b.pinAdjusted
     ? `pinAdjusted${b.fixLatitude !== undefined && b.fixLongitude !== undefined ? `; pinDistanceFromFixM=${metres(b.fixLatitude, b.fixLongitude, b.latitude, b.longitude)}` : ''}`
     : null;
-  try {
-    const issue = await prisma.$transaction(async (tx) => {
-      const row = await tx.issue.create({
-        data: {
-          clientSubmissionId: b.clientSubmissionId, reporterId: user.id, categoryId: category.id,
-          title: `${category.nameEn} · ${located.ward.nameEn}`.slice(0, 120), description,
-          lat: b.latitude, lng: b.longitude, gpsAccuracyM: b.gpsAccuracyM ?? null,
-          wardId: located.ward.id, zoneId: located.zone.id, status: 'reported', statusChangedAt: now,
-          slaDueAt: new Date(now.getTime() + category.slaDays * DAY_MS), meTooCount: 0, followerCount: 1,
-          visibility: category.sensitive ? 'hidden' : 'public', isSensitive: category.sensitive,
-        },
-      });
-      await createIssueHooks.afterInsert?.();
-      await tx.issuePhoto.createMany({ data: photoIds.map((photoId, position) => ({ issueId: row.id, photoId, kind: 'report' as const, position })) });
-      const attached = await tx.photo.updateMany({ where: { id: { in: photoIds }, attachedAt: null }, data: { attachedAt: now } });
-      if (attached.count !== photoIds.length) throw new AppError('PHOTO_UNUSABLE');
-      await tx.issueEvent.create({
-        data: { issueId: row.id, actorId: user.id, actorRole: 'citizen', type: 'status_change', fromStatus: null, toStatus: 'reported', note },
-      });
-      await tx.follow.create({ data: { issueId: row.id, userId: user.id } });
-      return row;
+  const issue = await prisma.$transaction(async (tx) => {
+    const row = await tx.issue.create({
+      data: {
+        clientSubmissionId: b.clientSubmissionId, reporterId: user.id, categoryId: category.id,
+        title: `${category.nameEn} · ${located.ward.nameEn}`.slice(0, 120), description,
+        lat: b.latitude, lng: b.longitude, gpsAccuracyM: b.gpsAccuracyM ?? null,
+        wardId: located.ward.id, zoneId: located.zone.id, status: 'reported', statusChangedAt: now,
+        slaDueAt: new Date(now.getTime() + category.slaDays * DAY_MS), meTooCount: 0, followerCount: 1,
+        visibility: category.sensitive ? 'hidden' : 'public', isSensitive: category.sensitive,
+      },
     });
-    // Analytics: the v1 events table only accepts v1 names (ck_events_name), so this is a structured log line.
-    logger.info({ event: 'issue_submitted', categorySlug: category.slug, wardNumber: located.ward.number, photoCount: photoIds.length, pinAdjusted: b.pinAdjusted }, 'issue submitted');
-    return respond(issue, true);
-  } catch (err) {
-    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
-      const again = await existing(b.clientSubmissionId, user.id);
-      if (again) return again;
-      // Otherwise the photo was attached to another issue concurrently (uq_issue_photos_photo).
-      throw new AppError('PHOTO_UNUSABLE');
-    }
-    throw err;
-  }
+    await createIssueHooks.afterInsert?.();
+    await tx.issuePhoto.createMany({ data: photoIds.map((photoId, position) => ({ issueId: row.id, photoId, kind: 'report' as const, position })) });
+    const attached = await tx.photo.updateMany({ where: { id: { in: photoIds }, attachedAt: null }, data: { attachedAt: now } });
+    if (attached.count !== photoIds.length) throw new AppError('PHOTO_UNUSABLE');
+    await tx.issueEvent.create({
+      data: { issueId: row.id, actorId: user.id, actorRole: 'citizen', type: 'status_change', fromStatus: null, toStatus: 'reported', note },
+    });
+    await tx.follow.create({ data: { issueId: row.id, userId: user.id } });
+    return row;
+  });
+  // Analytics: the v1 events table only accepts v1 names (ck_events_name), so this is a structured log line.
+  logger.info({ event: 'issue_submitted', categorySlug: category.slug, wardNumber: located.ward.number, photoCount: photoIds.length, pinAdjusted: b.pinAdjusted }, 'issue submitted');
+  return respond(issue, true);
 }

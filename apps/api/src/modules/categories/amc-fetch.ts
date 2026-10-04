@@ -40,7 +40,7 @@ function report(log: (l: string) => void, r: SyncResult) {
 
 /** Returns the process exit code: 0 ok, 1 failed, 2 refused (interval guard). */
 export async function runAmcFetch(deps: FetchDeps): Promise<number> {
-  const log = deps.log ?? ((l: string) => console.log(l));
+  const log = deps.log ?? ((l: string) => void process.stdout.write(`${l}\n`));
   const now = deps.now ?? (() => new Date());
   const file = deps.snapshotPath ?? SNAPSHOT_PATH;
 

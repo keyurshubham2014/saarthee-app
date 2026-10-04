@@ -686,7 +686,7 @@ model Notification {
 
 // V2 TASK-05: AMC CCRS problem types (snapshot of the public CCRS list, refreshed only by
 // `npm run amc:problems:fetch`). Partial unique index uq_amc_problem_types_primary (one primary per
-// category) is hand-written in migration 20261006050500_v2_reporting.
+// category) is hand-written in migration 20261006050500_v2_reporting_amc_problem_types.
 model AmcProblemType {
   id                String   @id(map: "pk_amc_problem_types") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   categoryId        String   @map("category_id") @db.Uuid
