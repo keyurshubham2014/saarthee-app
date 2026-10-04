@@ -54,7 +54,9 @@ describe('v2 development seed', () => {
 
   it('has 14 categories and 6 sample users (1 moderator, 1 suspended)', async () => {
     expect(await prisma.category.count()).toBe(14);
-    expect(await prisma.user.count()).toBe(6);
+    // 6 sample users (TASK-01) + Sample Representative Demo (TASK-11 rep.demo).
+    expect(await prisma.user.count()).toBe(7);
+    expect(await prisma.user.count({ where: { role: 'representative' } })).toBe(1);
     expect(await prisma.user.count({ where: { role: 'moderator' } })).toBe(1);
     expect(await prisma.user.count({ where: { status: 'suspended' } })).toBe(1);
     expect(await prisma.user.count({ where: { language: 'en' } })).toBeGreaterThan(0);
