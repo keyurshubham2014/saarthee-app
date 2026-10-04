@@ -1,12 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/push/foreground_push.dart';
+import '../../auth/application/session_controller.dart';
 import '../data/issue_actions_api.dart';
 import '../data/issue_models.dart';
 
 /// Lifecycle view of an issue (status, derived fields, viewer actions).
 final issueLifecycleProvider = FutureProvider.autoDispose
     .family<IssueLifecycle, String>((ref, id) {
+      // The viewer's actions (verify, mark fixed …) depend on who is signed in:
+      // refetch when the session is restored at start-up or changes.
+      ref.watch(sessionProvider.select((s) => s.token));
       _refreshOnPush(ref, id);
       return ref.watch(issueActionsApiProvider).lifecycle(id);
     });

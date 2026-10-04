@@ -35,6 +35,11 @@ Future<void> waitFor(WidgetTester t, Finder finder, {int seconds = 20}) async {
 /// "Is it fixed?" → Yes / Still not fixed → take the (fake) photo → the
 /// distance line for a fix 30 m away → Send.
 Future<void> answer(WidgetTester t, {required bool fixed}) async {
+  // The TASK-07 detail puts the lifecycle panel below the fold.
+  final verify = find.byKey(const Key('lifecycle.verify'), skipOffstage: false);
+  await waitFor(t, verify);
+  await t.ensureVisible(verify);
+  await t.pump(SaartheeMotion.short.duration);
   await t.tap(find.byKey(const Key('lifecycle.verify')));
   await waitFor(t, find.byKey(const Key('verify.yes')));
   await t.tap(find.byKey(Key(fixed ? 'verify.yes' : 'verify.no')));

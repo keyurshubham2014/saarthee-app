@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../auth/application/session_controller.dart';
+
 import '../../../core/api/app_error.dart';
 import '../../../core/settings/app_settings.dart';
 import '../../../core/settings/locale_controller.dart';
@@ -74,6 +76,8 @@ class LoadedDetail {
 final issueDetailProvider = FutureProvider.autoDispose
     .family<LoadedDetail, String>((ref, id) async {
       final lang = ref.watch(localeProvider).languageCode;
+      // Capabilities depend on the viewer: refetch when the session changes.
+      ref.watch(sessionProvider.select((s) => s.token));
       final prefs = ref.read(sharedPreferencesProvider);
       final key = 'saarthee.issue.cache.$id.$lang';
       try {
