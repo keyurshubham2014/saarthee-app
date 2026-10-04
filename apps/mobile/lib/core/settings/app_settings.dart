@@ -7,73 +7,62 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError('sharedPreferencesProvider not overridden'),
 );
 
+/// Device storage keys (TASK-03 §5.2). v2 keys are prefixed `v2.`.
+class PrefKeys {
+  const PrefKeys._();
+
+  static const installId = 'installId';
+  static const languageCode = 'v2.languageCode';
+  static const themeMode = 'v2.themeMode';
+  static const animationsEnabled = 'v2.animationsEnabled';
+  static const onboardingDone = 'v2.onboardingDone';
+  static const homeWard = 'v2.homeWard';
+  static const wardsCache = 'v2.wardsCache';
+
+  /// v1 keys removed on the first v2 launch (D11 retirement).
+  static const retiredV1 = <String>[
+    'inviteCode',
+    'groupLabel',
+    'onboardingDone',
+    'reportDraft',
+    'myReports',
+    'lastCategories',
+  ];
+}
+
 class AppSettings {
-  const AppSettings({
-    required this.installId,
-    required this.onboardingDone,
-    this.inviteCode,
-    this.groupLabel,
-  });
+  const AppSettings({required this.installId, required this.onboardingDone});
 
   final String installId;
-  final String? inviteCode;
-  final String? groupLabel;
   final bool onboardingDone;
 }
 
-/// Install ID, invite code, group label, onboarding flag (02 §5.2).
+/// Install ID and the v2 onboarding flag. `build` also migrates v1 storage:
+/// the invite code, group label, v1 onboarding flag and v1 report draft are
+/// deleted so the app opens v2 onboarding (AC-15).
 class AppSettingsNotifier extends Notifier<AppSettings> {
-  static const _kInstallId = 'installId';
-  static const _kInviteCode = 'inviteCode';
-  static const _kGroupLabel = 'groupLabel';
-  static const _kOnboardingDone = 'onboardingDone';
-
   SharedPreferences get _prefs => ref.read(sharedPreferencesProvider);
 
   @override
   AppSettings build() {
     final prefs = ref.watch(sharedPreferencesProvider);
-    var installId = prefs.getString(_kInstallId);
+    for (final key in PrefKeys.retiredV1) {
+      if (prefs.containsKey(key)) prefs.remove(key);
+    }
+    var installId = prefs.getString(PrefKeys.installId);
     if (installId == null || installId.isEmpty) {
       installId = const Uuid().v4();
-      prefs.setString(_kInstallId, installId);
+      prefs.setString(PrefKeys.installId, installId);
     }
     return AppSettings(
       installId: installId,
-      inviteCode: prefs.getString(_kInviteCode),
-      groupLabel: prefs.getString(_kGroupLabel),
-      onboardingDone: prefs.getBool(_kOnboardingDone) ?? false,
-    );
-  }
-
-  Future<void> setInviteCode(String code, String groupLabel) async {
-    await _prefs.setString(_kInviteCode, code);
-    await _prefs.setString(_kGroupLabel, groupLabel);
-    state = AppSettings(
-      installId: state.installId,
-      inviteCode: code,
-      groupLabel: groupLabel,
-      onboardingDone: state.onboardingDone,
-    );
-  }
-
-  Future<void> clearInviteCode() async {
-    await _prefs.remove(_kInviteCode);
-    await _prefs.remove(_kGroupLabel);
-    state = AppSettings(
-      installId: state.installId,
-      onboardingDone: state.onboardingDone,
+      onboardingDone: prefs.getBool(PrefKeys.onboardingDone) ?? false,
     );
   }
 
   Future<void> completeOnboarding() async {
-    await _prefs.setBool(_kOnboardingDone, true);
-    state = AppSettings(
-      installId: state.installId,
-      inviteCode: state.inviteCode,
-      groupLabel: state.groupLabel,
-      onboardingDone: true,
-    );
+    await _prefs.setBool(PrefKeys.onboardingDone, true);
+    state = AppSettings(installId: state.installId, onboardingDone: true);
   }
 }
 

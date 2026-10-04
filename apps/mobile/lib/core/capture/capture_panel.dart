@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../l10n/app_localizations.dart';
+import '../theme/icons.dart';
 import '../theme/tokens.dart';
 import '../widgets/widgets.dart';
 import 'capture_controller.dart';
@@ -71,45 +72,45 @@ class _CapturePanelState extends ConsumerState<CapturePanel>
               accuracyMeters: s.fix?.accuracy,
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.s12),
           if (s.busy) const LinearProgressIndicator(),
           if (s.locationFailed) ...[
             InlineFieldError(message: l10n.reportPhotoLocationUnavailable),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.s8),
             SecondaryButton(
               label: l10n.reportPhotoWeakGpsRetry,
-              icon: Icons.my_location_rounded,
+              icon: SaartheeIcons.myLocation,
               onPressed: c.retryLocation,
             ),
           ],
           if (s.fix != null && s.fix!.isWeak && !s.weakAccepted) ...[
             _Warning(text: l10n.reportPhotoWeakGps),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.s8),
             SecondaryButton(
               key: Key('${widget.keyPrefix}.weakRetry'),
               label: l10n.reportPhotoWeakGpsRetry,
-              icon: Icons.my_location_rounded,
+              icon: SaartheeIcons.myLocation,
               onPressed: c.retryLocation,
             ),
-            const SizedBox(height: AppSpacing.sm),
+            const SizedBox(height: AppSpacing.s8),
             SecondaryButton(
               key: Key('${widget.keyPrefix}.weakContinue'),
               label: l10n.reportPhotoWeakGpsContinue,
               onPressed: c.acceptWeak,
             ),
           ],
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.s12),
           Row(
             children: [
               Expanded(
                 child: SecondaryButton(
                   key: Key('${widget.keyPrefix}.retake'),
                   label: l10n.reportPhotoRetake,
-                  icon: Icons.photo_camera_rounded,
+                  icon: SaartheeIcons.camera,
                   onPressed: s.busy ? null : c.takePhoto,
                 ),
               ),
-              const SizedBox(width: AppSpacing.md),
+              const SizedBox(width: AppSpacing.s12),
               Expanded(
                 child: FilledButton(
                   key: Key('${widget.keyPrefix}.use'),
@@ -142,24 +143,24 @@ class _CapturePanelState extends ConsumerState<CapturePanel>
                 ? l10n.reportPhotoLocationOff
                 : l10n.reportPhotoLocationDenied,
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.s8),
           SecondaryButton(
             key: Key('${widget.keyPrefix}.openSettings'),
             label: l10n.commonOpenSettings,
-            icon: Icons.settings_rounded,
+            icon: SaartheeIcons.settings,
             onPressed: c.openSettings,
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.s12),
         ],
         SecondaryButton(
           key: Key('${widget.keyPrefix}.take'),
           label: widget.takeLabel ?? l10n.reportPhotoTake,
-          icon: Icons.photo_camera_rounded,
-          loading: s.busy,
+          icon: SaartheeIcons.camera,
+          isLoading: s.busy,
           onPressed: c.takePhoto,
         ),
         if (s.busy) ...[
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.s8),
           Text(l10n.commonLoading, style: theme.textTheme.bodySmall),
         ],
       ],
@@ -177,16 +178,19 @@ class _Warning extends StatelessWidget {
     return Semantics(
       liveRegion: true,
       child: Container(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        decoration: const BoxDecoration(
-          color: AppColors.waitingTint,
+        padding: const EdgeInsets.all(AppSpacing.s16),
+        decoration: BoxDecoration(
+          color: SaartheeColors.of(context).warningTint,
           borderRadius: AppRadii.cardRadius,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.warning_amber_rounded, color: AppColors.ink),
-            const SizedBox(width: AppSpacing.md),
+            Icon(
+              SaartheeIcons.warning,
+              color: SaartheeColors.of(context).warning,
+            ),
+            const SizedBox(width: AppSpacing.s12),
             Expanded(
               child: Text(text, style: Theme.of(context).textTheme.bodyLarge),
             ),

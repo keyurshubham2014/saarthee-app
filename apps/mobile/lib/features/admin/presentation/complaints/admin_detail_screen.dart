@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/widgets/widgets.dart' as core;
 import '../../application/admin_complaints.dart';
 import '../../data/admin_api_error.dart';
 import '../../data/models/complaint_detail.dart';
@@ -13,14 +15,15 @@ import '../admin_l10n.dart';
 import '../admin_paths.dart';
 import '../due/reminder_sheet.dart';
 import '../shell/admin_session_guard.dart';
+import '../widgets/admin_status.dart';
 import '../widgets/admin_tokens.dart';
 import '../widgets/admin_widgets.dart';
 
-core.ComplaintStatus _coreStatus(ComplaintStatus s) => switch (s) {
-  ComplaintStatus.filed => core.ComplaintStatus.filed,
-  ComplaintStatus.reminded => core.ComplaintStatus.waiting,
-  ComplaintStatus.verifiedFixed => core.ComplaintStatus.fixed,
-  ComplaintStatus.verifiedNotFixed => core.ComplaintStatus.notFixed,
+AdminStampStatus _stampStatus(ComplaintStatus s) => switch (s) {
+  ComplaintStatus.filed => AdminStampStatus.filed,
+  ComplaintStatus.reminded => AdminStampStatus.waiting,
+  ComplaintStatus.verifiedFixed => AdminStampStatus.fixed,
+  ComplaintStatus.verifiedNotFixed => AdminStampStatus.notFixed,
 };
 
 /// `/admin/complaints/:id` (02 §4.20).
@@ -48,7 +51,7 @@ class AdminDetailScreen extends ConsumerWidget {
       final error = asAdminError(detail.error!);
       body = error.code == AdminErrorCodes.notFound
           ? AdminEmptyState(
-              icon: Icons.search_off_rounded,
+              icon: SaartheeIcons.searchOff,
               message: l10n.adminDetailNotFound,
               actionLabel: l10n.adminBack,
               onAction: () => context.canPop()
@@ -257,7 +260,7 @@ class _DetailBody extends ConsumerWidget {
           minTileHeight: 48,
           title: Text(
             label,
-            style: theme.textTheme.bodySmall?.copyWith(color: tokens.inkMuted),
+            style: theme.textTheme.bodySmall?.copyWith(color: tokens.textMuted),
           ),
           subtitle: Text(value, style: theme.textTheme.bodyLarge),
           trailing: trailing,
@@ -277,12 +280,12 @@ class _DetailBody extends ConsumerWidget {
       physics: const AlwaysScrollableScrollPhysics(),
       padding: adminScreenPadding,
       children: <Widget>[
-        core.BeforeAfterCard(
+        AdminBeforeAfterCard(
           before: before,
           after: after,
           beforeDate: s.createdAt,
           afterDate: latest?.createdAt,
-          status: _coreStatus(s.status),
+          status: _stampStatus(s.status),
           beforeOnly: latest == null,
         ),
         if (d.isAnonymized) ...<Widget>[
@@ -293,7 +296,7 @@ class _DetailBody extends ConsumerWidget {
           const SizedBox(height: 8),
           AdminMessageBanner(
             message: l10n.adminSameImageWarning,
-            icon: Icons.warning_amber_rounded,
+            icon: SaartheeIcons.warning,
           ),
         ],
         if (latest != null &&
@@ -304,7 +307,7 @@ class _DetailBody extends ConsumerWidget {
             message: l10n.adminDistanceWarning(
               formatMeters(latest.distanceFromReportM!, locale),
             ),
-            icon: Icons.location_off_rounded,
+            icon: SaartheeIcons.locationOff,
           ),
         ],
         const SizedBox(height: 16),
@@ -315,21 +318,21 @@ class _DetailBody extends ConsumerWidget {
             AdminStatusChip(status: s.status),
             if (s.isExcluded)
               AdminTag(
-                icon: Icons.block_rounded,
+                icon: SaartheeIcons.block,
                 label: s.exclusionReason == null
                     ? l10n.adminTagExcluded
                     : l10n.adminExcludedBecause(
                         exclusionReasonLabel(l10n, s.exclusionReason!),
                       ),
                 background: tokens.notFixedTint,
-                foreground: tokens.ink,
+                foreground: tokens.text,
               ),
             if (d.isAnonymized)
               AdminTag(
-                icon: Icons.person_off_rounded,
+                icon: SaartheeIcons.personOff,
                 label: l10n.adminTagAnonymized,
                 background: tokens.neutralTint,
-                foreground: tokens.ink,
+                foreground: tokens.text,
               ),
           ],
         ),
@@ -344,10 +347,10 @@ class _DetailBody extends ConsumerWidget {
           s.ccrsNumber,
           trailing: s.ccrsDuplicate
               ? AdminTag(
-                  icon: Icons.content_copy_rounded,
+                  icon: SaartheeIcons.copy,
                   label: l10n.adminTagDuplicate,
                   background: tokens.waitingTint,
-                  foreground: tokens.ink,
+                  foreground: tokens.text,
                 )
               : null,
         ),
@@ -374,7 +377,7 @@ class _DetailBody extends ConsumerWidget {
             title: Text(
               l10n.adminFactPhone,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: tokens.inkMuted,
+                color: tokens.textMuted,
               ),
             ),
             subtitle: Text(
@@ -383,7 +386,7 @@ class _DetailBody extends ConsumerWidget {
             ),
             trailing: Tooltip(
               message: l10n.adminTapToCopy,
-              child: const Icon(Icons.copy_rounded),
+              child: const Icon(SaartheeIcons.copy),
             ),
             onTap: () async {
               await Clipboard.setData(ClipboardData(text: d.phoneE164!));
@@ -403,7 +406,7 @@ class _DetailBody extends ConsumerWidget {
             contentPadding: EdgeInsets.zero,
             minTileHeight: 56,
             leading: Icon(
-              r.isActive ? Icons.send_rounded : Icons.link_off_rounded,
+              r.isActive ? SaartheeIcons.send : SaartheeIcons.linkOff,
             ),
             title: Text(
               r.sentBy == null
@@ -513,7 +516,7 @@ class _DetailBody extends ConsumerWidget {
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: v.distanceWarning
                                 ? tokens.notFixed
-                                : tokens.inkMuted,
+                                : tokens.textMuted,
                           ),
                         ),
                       if (v.sameImageAsReport)
@@ -604,7 +607,7 @@ class _ActionBar extends ConsumerWidget {
                 Expanded(
                   child: AdminPrimaryButton(
                     key: const Key('adminDetailSendReminder'),
-                    icon: Icons.send_rounded,
+                    icon: SaartheeIcons.send,
                     label: l10n.adminSendReminder,
                     busy: sending,
                     onPressed: reminderBlocked || busy != null

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -86,7 +89,7 @@ class _AdminInviteCodesScreenState
               physics: const AlwaysScrollableScrollPhysics(),
               children: <Widget>[
                 AdminEmptyState(
-                  icon: Icons.qr_code_rounded,
+                  icon: SaartheeIcons.qrCode,
                   message: l10n.adminInviteCodesEmpty,
                   actionLabel: l10n.adminNewCode,
                   onAction: _newCode,
@@ -125,22 +128,22 @@ class _AdminInviteCodesScreenState
                           runSpacing: 4,
                           children: <Widget>[
                             AdminTag(
-                              icon: Icons.group_rounded,
+                              icon: SaartheeIcons.group,
                               label: sourceLabel(l10n, c.sourceTag),
-                              background: tokens.indigoTint,
-                              foreground: tokens.ink,
+                              background: tokens.accentTint,
+                              foreground: tokens.text,
                             ),
                             AdminTag(
                               icon: c.isActive
-                                  ? Icons.check_circle_rounded
-                                  : Icons.pause_circle_rounded,
+                                  ? SaartheeIcons.success
+                                  : SaartheeIcons.pauseCircle,
                               label: c.isActive
                                   ? l10n.adminActive
                                   : l10n.adminInactive,
                               background: c.isActive
                                   ? tokens.fixedTint
                                   : tokens.neutralTint,
-                              foreground: tokens.ink,
+                              foreground: tokens.text,
                             ),
                             Text(
                               l10n.adminInviteCodeComplaints(c.complaintCount),
@@ -158,8 +161,8 @@ class _AdminInviteCodesScreenState
                               onPressed: busy ? null : () => _toggle(c),
                               icon: Icon(
                                 c.isActive
-                                    ? Icons.pause_rounded
-                                    : Icons.play_arrow_rounded,
+                                    ? SaartheeIcons.pause
+                                    : SaartheeIcons.play,
                               ),
                               label: Text(
                                 c.isActive
@@ -172,7 +175,7 @@ class _AdminInviteCodesScreenState
                                 minimumSize: const Size(48, 48),
                               ),
                               onPressed: () => _share(c),
-                              icon: const Icon(Icons.share_rounded),
+                              icon: const Icon(SaartheeIcons.share),
                               label: Text(l10n.adminShare),
                             ),
                           ],
@@ -204,7 +207,7 @@ class _AdminInviteCodesScreenState
         floatingActionButton: FloatingActionButton.extended(
           key: const Key('adminNewCode'),
           onPressed: _newCode,
-          icon: const Icon(Icons.add_rounded),
+          icon: const Icon(SaartheeIcons.add),
           label: Text(l10n.adminNewCode),
         ),
         body: SafeArea(

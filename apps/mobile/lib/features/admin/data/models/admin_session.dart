@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../../../core/config/timings.dart';
+
 import 'json_read.dart';
 
 /// The signed-in operator.
@@ -42,7 +44,7 @@ class AdminSession {
       accessToken: readString(json, 'accessToken'),
       expiresAt:
           readDateOrNull(json, 'expiresAt')?.toUtc() ??
-          DateTime.now().toUtc().add(const Duration(hours: 8)),
+          DateTime.now().toUtc().add(AppTimings.adminSessionFallback),
       admin: AdminProfile.fromJson(
         adminJson is Map<String, dynamic> ? adminJson : <String, dynamic>{},
       ),

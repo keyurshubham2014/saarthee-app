@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/icons.dart';
+
 import '../admin_l10n.dart';
 import '../../application/admin_complaints.dart';
 import '../../data/models/complaint_summary.dart';
@@ -38,7 +40,7 @@ class ComplaintListItem extends StatelessWidget {
         AdminPhotoPlaceholder(
           size: 72,
           label: l10n.adminErrorPhotoDeleted,
-          icon: Icons.hide_image_rounded,
+          icon: SaartheeIcons.hideImage,
         )
       else
         AdminPhoto(
@@ -77,13 +79,13 @@ class ComplaintListItem extends StatelessWidget {
                         Text(
                           c.groupLabel ?? l10n.adminNoGroup,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: tokens.inkMuted,
+                            color: tokens.textMuted,
                           ),
                         ),
                         Text(
                           '$ageLine · ${l10n.adminReminderCount(c.reminderCount)}',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: tokens.inkMuted,
+                            color: tokens.textMuted,
                           ),
                         ),
                       ],
@@ -103,24 +105,24 @@ class ComplaintListItem extends StatelessWidget {
                     if (showStatus) AdminStatusChip(status: c.status),
                     if (c.isExcluded)
                       AdminTag(
-                        icon: Icons.block_rounded,
+                        icon: SaartheeIcons.block,
                         label: l10n.adminTagExcluded,
                         background: tokens.notFixedTint,
-                        foreground: tokens.ink,
+                        foreground: tokens.text,
                       ),
                     if (c.ccrsDuplicate)
                       AdminTag(
-                        icon: Icons.content_copy_rounded,
+                        icon: SaartheeIcons.copy,
                         label: l10n.adminTagDuplicate,
                         background: tokens.waitingTint,
-                        foreground: tokens.ink,
+                        foreground: tokens.text,
                       ),
                     if (c.anonymized)
                       AdminTag(
-                        icon: Icons.person_off_rounded,
+                        icon: SaartheeIcons.personOff,
                         label: l10n.adminTagAnonymized,
                         background: tokens.neutralTint,
-                        foreground: tokens.ink,
+                        foreground: tokens.text,
                       ),
                   ],
                 ),

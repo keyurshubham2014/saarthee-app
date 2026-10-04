@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,31 +6,31 @@ import 'package:go_router/go_router.dart';
 
 import '../core/errors/global_error.dart';
 import '../core/settings/app_settings.dart';
-import '../core/theme/tokens.dart';
-import '../features/home/presentation/about_screen.dart';
-import '../features/home/presentation/home_screen.dart';
-import '../features/onboarding/presentation/invite_screen.dart';
-import '../features/onboarding/presentation/welcome_screen.dart';
-import '../features/report/application/report_draft_controller.dart';
+import '../features/dev/gallery_screen.dart';
+import '../features/onboarding/presentation/intro_screen.dart';
+import '../features/onboarding/presentation/language_screen.dart';
+import '../features/onboarding/presentation/ward_screen.dart';
 import 'admin_routes.dart';
-import 'citizen_routes.dart';
+import 'route_helpers.dart';
+import 'shell_routes.dart';
 
 /// Root navigator key, used by the global error handler.
-final rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-/// Page with a short fade between steps; no motion when reduce-motion is on.
-Page<void> stepPage(GoRouterState state, Widget child) => CustomTransitionPage(
-  key: state.pageKey,
-  child: child,
-  transitionDuration: AppMotion.step,
-  reverseTransitionDuration: AppMotion.step,
-  transitionsBuilder: (context, animation, _, child) {
-    if (MediaQuery.maybeDisableAnimationsOf(context) == true) return child;
-    return FadeTransition(opacity: animation, child: child);
-  },
-);
+/// Full-screen routes above the shell, appended by feature tasks in their
+/// own `// TASK-NN` block (see apps/mobile/README.md).
+final List<RouteBase> rootFeatureRoutes = <RouteBase>[
+  // TASK-04 accounts: sign-in flow.
+];
 
-/// Citizen routes are portrait-locked; admin routes rotate (02 §2.2).
+/// Paths reachable before onboarding is done.
+bool _isPreOnboardingPath(String path) =>
+    path.startsWith('/onboarding') ||
+    path.startsWith('/admin') ||
+    path.startsWith('/dev') ||
+    path == '/error';
+
+/// Citizen routes are portrait-locked; admin routes rotate.
 void _applyOrientation(String path) {
   SystemChrome.setPreferredOrientations(
     path.startsWith('/admin')
@@ -38,63 +39,56 @@ void _applyOrientation(String path) {
   );
 }
 
-final appRouterProvider = Provider<GoRouter>((ref) {
-  final settings = ref.read(appSettingsProvider);
-  final draft = ref.read(reportDraftProvider);
-
-  // Cold start resumes an unfinished report on its saved step (02 §4.5).
-  final initial = !settings.onboardingDone
-      ? '/welcome'
-      : (draft != null ? draft.step : '/');
-
+/// Builds the app router. [enableGallery] registers `/dev/gallery`; it is
+/// true only in debug builds (absent in profile and release).
+GoRouter buildAppRouter(Ref ref, {bool enableGallery = kDebugMode}) {
+  final done = ref.read(appSettingsProvider).onboardingDone;
+  final initial = done ? '/' : '/onboarding/language';
   final router = GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: initial,
     redirect: (context, state) {
       final path = state.uri.path;
-      final done = ref.read(appSettingsProvider).onboardingDone;
-      if (!done &&
-          path != '/welcome' &&
-          path != '/invite' &&
-          !path.startsWith('/admin') &&
-          !path.startsWith('/verify')) {
-        return '/welcome';
+      final onboarded = ref.read(appSettingsProvider).onboardingDone;
+      if (!onboarded && !_isPreOnboardingPath(path)) {
+        return '/onboarding/language';
       }
       return null;
     },
     routes: [
-      GoRoute(
-        path: '/welcome',
-        pageBuilder: (c, s) => stepPage(s, const WelcomeScreen()),
+      saartheeRoute(
+        path: '/onboarding/language',
+        builder: (_, _) => const LanguageScreen(),
       ),
-      GoRoute(
-        path: '/invite',
-        pageBuilder: (c, s) => stepPage(s, const InviteScreen()),
+      saartheeRoute(
+        path: '/onboarding/intro',
+        builder: (_, _) => const IntroScreen(),
       ),
-      GoRoute(
-        path: '/',
-        pageBuilder: (c, s) => stepPage(s, const HomeScreen()),
+      saartheeRoute(
+        path: '/onboarding/ward',
+        builder: (_, _) => const WardScreen(),
       ),
-      GoRoute(
-        path: '/about',
-        pageBuilder: (c, s) => stepPage(s, const AboutScreen()),
-      ),
-      GoRoute(
+      buildCitizenShell(),
+      saartheeRoute(
         path: '/error',
-        pageBuilder: (c, s) => stepPage(
-          s,
-          GlobalErrorView(onGoHome: () => GoRouter.of(c).go('/')),
-        ),
+        builder: (c, _) =>
+            GlobalErrorView(onGoHome: () => GoRouter.of(c).go('/')),
       ),
-      ...citizenRoutes,
+      if (enableGallery)
+        GoRoute(path: '/dev/gallery', builder: (_, _) => const GalleryScreen()),
+      ...rootFeatureRoutes,
       ...adminRoutes,
     ],
   );
-
   _applyOrientation(initial);
   router.routerDelegate.addListener(() {
     _applyOrientation(router.routerDelegate.currentConfiguration.uri.path);
   });
+  return router;
+}
+
+final appRouterProvider = Provider<GoRouter>((ref) {
+  final router = buildAppRouter(ref);
   ref.onDispose(router.dispose);
   return router;
 });

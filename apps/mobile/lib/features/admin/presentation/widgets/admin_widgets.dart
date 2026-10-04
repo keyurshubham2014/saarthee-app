@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart';
@@ -191,7 +194,7 @@ class AdminErrorView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(
-            error.isNetwork ? Icons.cloud_off_rounded : Icons.error_rounded,
+            error.isNetwork ? SaartheeIcons.offline : SaartheeIcons.error,
             size: 48,
             color: theme.colorScheme.error,
           ),
@@ -211,7 +214,7 @@ class AdminErrorView extends StatelessWidget {
           OutlinedButton.icon(
             style: OutlinedButton.styleFrom(minimumSize: const Size(48, 48)),
             onPressed: onRetry,
-            icon: const Icon(Icons.refresh_rounded),
+            icon: const Icon(SaartheeIcons.refresh),
             label: Text(l10n.adminRetry),
           ),
         ],
@@ -225,7 +228,7 @@ class AdminMessageBanner extends StatefulWidget {
   const AdminMessageBanner({
     super.key,
     required this.message,
-    this.icon = Icons.error_rounded,
+    this.icon = SaartheeIcons.error,
     this.isError = true,
     this.onRetry,
   });
@@ -273,10 +276,10 @@ class _AdminMessageBannerState extends State<AdminMessageBanner> {
     final l10n = adminL10n(context);
     final background = widget.isError
         ? scheme.errorContainer
-        : scheme.secondaryContainer;
+        : scheme.primaryContainer;
     final foreground = widget.isError
         ? scheme.onErrorContainer
-        : scheme.onSecondaryContainer;
+        : scheme.onPrimaryContainer;
     return Semantics(
       liveRegion: true,
       container: true,
@@ -321,24 +324,24 @@ class AdminStatusChip extends StatelessWidget {
     final tokens = AdminTokens.of(context);
     final (IconData icon, Color bg, Color fg) = switch (status) {
       ComplaintStatus.verifiedFixed => (
-        Icons.check_circle_rounded,
+        SaartheeIcons.success,
         tokens.fixedTint,
         tokens.fixed,
       ),
       ComplaintStatus.verifiedNotFixed => (
-        Icons.cancel_rounded,
+        SaartheeIcons.cancel,
         tokens.notFixedTint,
         tokens.notFixed,
       ),
       ComplaintStatus.reminded => (
-        Icons.hourglass_top_rounded,
+        SaartheeIcons.hourglass,
         tokens.waitingTint,
-        tokens.ink,
+        tokens.text,
       ),
       ComplaintStatus.filed => (
-        Icons.description_rounded,
+        SaartheeIcons.description,
         tokens.neutralTint,
-        tokens.ink,
+        tokens.text,
       ),
     };
     return AdminTag(
@@ -460,16 +463,16 @@ class AdminPhoto extends ConsumerWidget {
         semanticLabel: semanticLabel,
         gaplessPlayback: true,
         errorBuilder: (_, _, _) =>
-            placeholder(Icons.broken_image_rounded, l10n.adminPhotoUnavailable),
+            placeholder(SaartheeIcons.brokenImage, l10n.adminPhotoUnavailable),
       ),
-      loading: () => placeholder(Icons.image_rounded, null),
+      loading: () => placeholder(SaartheeIcons.image, null),
       error: (e, _) {
         final deleted =
             e is AdminApiError && e.code == AdminErrorCodes.photoDeleted;
         return Semantics(
           label: deleted ? l10n.adminErrorPhotoDeleted : semanticLabel,
           child: placeholder(
-            deleted ? Icons.hide_image_rounded : Icons.broken_image_rounded,
+            deleted ? SaartheeIcons.hideImage : SaartheeIcons.brokenImage,
             deleted ? l10n.adminErrorPhotoDeleted : l10n.adminPhotoUnavailable,
           ),
         );
@@ -491,7 +494,7 @@ class AdminPhotoPlaceholder extends StatelessWidget {
   const AdminPhotoPlaceholder({
     super.key,
     required this.label,
-    this.icon = Icons.image_not_supported_rounded,
+    this.icon = SaartheeIcons.imageMissing,
     this.size,
   });
 

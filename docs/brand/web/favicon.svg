@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Saarthee">
+  <!-- Saarthee master mark (DS §1), variant E "road turn". Source of truth for
+       BrandMarkPainter (apps/mobile/lib/core/widgets/brand.dart) and the Android
+       vectors; test/brand/brand_mark_test.dart parses the ids below. -->
+  <rect id="square" width="100" height="100" rx="28" fill="#14674A"/>
+  <path id="route" d="M24 73 L24 51 Q24 33 42 33 L50 33" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle id="dot" cx="72.5" cy="33" r="10.5" fill="#C24A1F"/>
+</svg>

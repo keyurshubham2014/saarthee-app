@@ -17,9 +17,9 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-F-001 | `GET /geo/locate?lat&lng` returns ward and zone via PostGIS point-in-polygon; nearest ward with `confirm:tr... | TASK-02 | Not Verified | — | — |
 | REQ-F-002 | `GET /wards`, `GET /wards/{id}`, `GET /zones` with Gujarati and English names, zone, ward office address an... | TASK-02 | Not Verified | — | — |
 | REQ-F-003 | Ward picker data: searchable list of 48 wards grouped by 7 zones | TASK-02 | Not Verified | — | — |
-| REQ-F-004 | Onboarding: language first (ગુજરાતી / English), one intro screen with independence notice, set home ward by... | TASK-03 | Not Verified | — | — |
-| REQ-F-005 | Citizen app shell with five tabs (Home, Map, Report, Alerts, My Ward), state kept per tab | TASK-03 | Not Verified | — | — |
-| REQ-F-006 | Language switch in settings changes the whole app instantly; preference stored on device and on the account | TASK-03 | Not Verified | — | — |
+| REQ-F-004 | Onboarding: language first (ગુજરાતી / English), one intro screen with independence notice, set home ward by... | TASK-03 | Not Verified | Widget tests T-03-13/T-03-15/T-03-16 green (test/onboarding/*, 587a72b); emulator M-03-01 pending (integrator) | — |
+| REQ-F-005 | Citizen app shell with five tabs (Home, Map, Report, Alerts, My Ward), state kept per tab | TASK-03 | Not Verified | Widget test T-03-12 green (test/shell/shell_test.dart, 587a72b); emulator M-03-07 pending | — |
+| REQ-F-006 | Language switch in settings changes the whole app instantly; preference stored on device and on the account | TASK-03 | Not Verified | T-03-14 green (device + PreferenceSync port called once); account half via TASK-04; emulator M-03-07 pending | — |
 | REQ-F-007 | Phone OTP sign-in (Firebase Authentication) shown only when an action needs an account; returns to the acti... | TASK-04 | Not Verified | — | — |
 | REQ-F-008 | `POST /auth/firebase` exchanges a verified Firebase ID token for a Saarthee session JWT; `POST /auth/logout` | TASK-04 | Not Verified | — | — |
 | REQ-F-009 | `GET/PATCH /me` (display name, language, home ward); profile screen | TASK-04 | Not Verified | — | — |
@@ -88,12 +88,12 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-D-011 | `moderation_flags` and `app_settings` (election mode, flags) tables | TASK-10 | Not Verified | — | — |
 | REQ-D-012 | Ward scorecard computed by a SQL view or materialised view refreshed hourly | TASK-09 | Not Verified | — | — |
 | REQ-D-013 | Development seed for v2: wards, categories, sample citizens, issues in every status, representatives (ficti... | TASK-01 | Pass | T-01-11 seed.test.ts (twice, idempotent) + dev DB saarthee_dev_task01 seeded twice: 14 categories, 6 users (1 mod, 1 suspended), all 9 statuses, 11 legacy; later modules logged skipped (wards/reps/alerts/services/initiatives filled by TASK-02/08/09/12) | 2026-10-04 |
-| REQ-N-001 | Design tokens per DS §2 replace v1 tokens; no colour literal outside the theme; semantic token names | TASK-03 | Not Verified | — | — |
-| REQ-N-002 | Typography per DS §3 with bundled Gujarati + Latin fonts (subset), Indic line heights, scale to 200% withou... | TASK-03 | Not Verified | — | — |
-| REQ-N-003 | Component library per DS §5 (app bar, bottom nav, buttons, inputs, chips, list rows, cards, status timeline... | TASK-03 | Not Verified | — | — |
-| REQ-N-004 | Accessibility: 48 dp targets, labels on all controls, contrast AA, icon + text for every status, TalkBack o... | TASK-03 | Not Verified | — | — |
-| REQ-N-005 | Complete Gujarati and English ARB translations for every string; no hard-coded strings | TASK-03 | Not Verified | — | — |
-| REQ-N-006 | Dark theme from the same tokens | TASK-03 | Not Verified | — | — |
+| REQ-N-001 | Design tokens per DS §2 replace v1 tokens; no colour literal outside the theme; semantic token names | TASK-03 | Pass | T-03-01 test/theme/tokens_test.dart + T-03-03 test/theme/source_guards_test.dart (587a72b) | 2026-10-04 |
+| REQ-N-002 | Typography per DS §3 with bundled Gujarati + Latin fonts (subset), Indic line heights, scale to 200% withou... | TASK-03 | Not Verified | T-03-04 test/theme/typography_test.dart green; 200% text + Gujarati conjunct goldens/emulator M-03-03 pending; fonts 2.2 MB > 1.2 MB budget (§5.6) | — |
+| REQ-N-003 | Component library per DS §5 (app bar, bottom nav, buttons, inputs, chips, list rows, cards, status timeline... | TASK-03 | Not Verified | T-03-05..09, T-03-11 green; gallery visual review M-03-08 pending | — |
+| REQ-N-004 | Accessibility: 48 dp targets, labels on all controls, contrast AA, icon + text for every status, TalkBack o... | TASK-03 | Not Verified | T-03-02 contrast + T-03-19 guideline tests green; TalkBack M-03-02 pending | — |
+| REQ-N-005 | Complete Gujarati and English ARB translations for every string; no hard-coded strings | TASK-03 | Pass | T-03-17/T-03-18 test/l10n/arb_parity_test.dart; build/untranslated.json = {} (587a72b). Gujarati copy x-review pending (native editor, Open Question #5) | 2026-10-04 |
+| REQ-N-006 | Dark theme from the same tokens | TASK-03 | Not Verified | T-03-02 dark contrast green; dark goldens/emulator M-03-04 pending | — |
 | REQ-N-007 | Report sheet completes in ≤ 4 taps after the photo for a typical issue; cold start ≤ 3 s on a low-end phone... | TASK-05 | Not Verified | — | — |
 | REQ-N-008 | Map renders 2,000 issues smoothly using server clustering and client clustering | TASK-07 | Not Verified | — | — |
 | REQ-N-009 | Automated tests: API integration tests (Vitest + Supertest) for auth, issue lifecycle, permissions and rate... | TASK-01 | Not Verified | Local: 11 files / 75 tests pass in 24 s (+1 opt-in perf) + guard T-01-12 pass; CI api job written (.github/workflows/ci.yml) but C-01-01 needs a push (integrator) | 2026-10-04 |
@@ -131,5 +131,5 @@ Statuses: `Not Verified` · `Pass` · `Fixed` · `Fail` · `Deferred` (Evidence 
 | REQ-F-064 | Discovery motion per DS §6: Home first-load stagger, Report card spring and one-time first-launch pulse, fe... | TASK-07 | Not Verified | — | — |
 | REQ-F-065 | Alert motion per DS §6: in-app banner slides in under the app bar, single attention pulse for Critical (no ... | TASK-08 | Not Verified | — | — |
 | REQ-F-066 | Dashboard motion per DS §6: numbers count up and bars grow on first view only (representative ward dashboar... | TASK-11 | Not Verified | — | — |
-| REQ-N-012 | Motion system per DS §6: `SaartheeMotion` tokens (durations, curves, stagger, spring) used by every animati... | TASK-03 | Not Verified | — | — |
+| REQ-N-012 | Motion system per DS §6: `SaartheeMotion` tokens (durations, curves, stagger, spring) used by every animati... | TASK-03 | Not Verified | T-03-21..28 green (test/motion/*, test/theme/motion_test.dart); recordings M-03-09 and profile M-03-10 pending | — |
 | REQ-N-013 | Motion performance and safety: every DS §6 catalogue moment holds 60 fps with no frame > 16 ms on the refer... | TASK-14 | Not Verified | — | — |

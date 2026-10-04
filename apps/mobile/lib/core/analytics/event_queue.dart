@@ -6,17 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/api_client.dart';
 import '../api/app_error.dart';
+import '../config/timings.dart';
 import '../settings/app_settings.dart';
 
 /// App-sent analytics event names (03 §11). Properties must never contain
-/// phone numbers, tokens, invite codes, coordinates or notes.
+/// phone numbers, tokens, coordinates or notes.
 class AppEvents {
   const AppEvents._();
 
-  static const inviteCodeEntered = 'invite_code_entered';
-  static const reportOpened = 'report_opened';
-  static const ccrsHandoffClicked = 'ccrs_handoff_clicked';
-  static const deepLinkFailed = 'deep_link_failed';
+  static const onboardingCompleted = 'onboarding_completed';
+  static const languageChanged = 'language_changed';
 }
 
 /// Persisted, capped queue flushed to POST /events (02 §7):
@@ -33,7 +32,7 @@ class EventQueue with WidgetsBindingObserver {
   static const int flushAt = 20;
   static const int cap = 500;
   static const int batchMax = 50;
-  static const Duration flushInterval = Duration(seconds: 60);
+  static const Duration flushInterval = AppTimings.eventFlushInterval;
   static const _kQueue = 'eventQueue';
 
   final Ref _ref;

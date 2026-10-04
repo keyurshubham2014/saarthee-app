@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/tokens.dart';
 
-/// Centers content at max 560 wide with 20 px screen padding (02 §2.2).
+/// Centers content at max 600 dp wide with the 16 dp page gutter (DS §4).
 class ContentWidth extends StatelessWidget {
   const ContentWidth({super.key, required this.child, this.padded = true});
 
@@ -13,11 +13,11 @@ class ContentWidth extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: AppSpacing.maxContentWidth),
+        constraints: const BoxConstraints(maxWidth: AppSpacing.maxContent),
         child: padded
             ? Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.screen,
+                  horizontal: AppSpacing.gutter,
                 ),
                 child: child,
               )
@@ -50,8 +50,8 @@ class PinnedBottomLayout extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.only(
-                top: AppSpacing.lg,
-                bottom: AppSpacing.xl,
+                top: AppSpacing.s16,
+                bottom: AppSpacing.s24,
               ),
               child: ContentWidth(
                 child: Column(
@@ -63,13 +63,15 @@ class PinnedBottomLayout extends StatelessWidget {
           ),
           if (bottom.isNotEmpty)
             Container(
-              decoration: const BoxDecoration(
-                color: AppColors.surface,
-                border: Border(top: BorderSide(color: AppColors.divider)),
+              decoration: BoxDecoration(
+                color: SaartheeColors.of(context).surface,
+                border: Border(
+                  top: BorderSide(color: SaartheeColors.of(context).border),
+                ),
               ),
               padding: const EdgeInsets.only(
-                top: AppSpacing.md,
-                bottom: AppSpacing.lg,
+                top: AppSpacing.s12,
+                bottom: AppSpacing.s16,
               ),
               child: ContentWidth(
                 child: Column(
@@ -77,7 +79,7 @@ class PinnedBottomLayout extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     for (var i = 0; i < bottom.length; i++) ...[
-                      if (i > 0) const SizedBox(height: AppSpacing.sm),
+                      if (i > 0) const SizedBox(height: AppSpacing.s8),
                       bottom[i],
                     ],
                   ],

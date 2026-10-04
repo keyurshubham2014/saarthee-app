@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
+import '../theme/icons.dart';
 import '../theme/tokens.dart';
 import '../widgets/widgets.dart';
 
 /// Generic "Something went wrong" view with "Go home" (02 §9.1). Shown for
-/// uncaught errors in release builds. Never touches local storage, so the
-/// report draft survives.
+/// uncaught errors in release builds. Never touches local storage.
 class GlobalErrorView extends StatelessWidget {
   const GlobalErrorView({super.key, required this.onGoHome});
 
@@ -26,22 +26,22 @@ class GlobalErrorView extends StatelessWidget {
           ),
         ],
         children: [
-          const SizedBox(height: AppSpacing.xxxl),
-          const Icon(
-            Icons.error_outline_rounded,
-            size: 48,
-            color: AppColors.notFixed,
+          const SizedBox(height: AppSpacing.s40),
+          Icon(
+            SaartheeIcons.errorOutline,
+            size: AppSpacing.touchTarget,
+            color: SaartheeColors.of(context).error,
           ),
-          const SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.s16),
           Semantics(
             header: true,
             liveRegion: true,
             child: Text(
               l10n.globalErrorTitle,
-              style: theme.textTheme.headlineMedium,
+              style: theme.textTheme.headlineSmall,
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          const SizedBox(height: AppSpacing.s12),
           Text(l10n.globalErrorBody, style: theme.textTheme.bodyLarge),
         ],
       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../application/admin_reference.dart';
@@ -109,7 +112,7 @@ class _AdminExportScreenState extends ConsumerState<AdminExportScreen> {
                 if (_includePhone)
                   AdminMessageBanner(
                     message: l10n.adminExportPhoneWarning,
-                    icon: Icons.warning_amber_rounded,
+                    icon: SaartheeIcons.warning,
                   ),
                 const SizedBox(height: 24),
                 if (_error != null) ...<Widget>[
@@ -125,14 +128,14 @@ class _AdminExportScreenState extends ConsumerState<AdminExportScreen> {
                   AdminMessageBanner(
                     key: const Key('adminExportSaved'),
                     message: _savedMessage!,
-                    icon: Icons.check_circle_rounded,
+                    icon: SaartheeIcons.success,
                     isError: false,
                   ),
                   const SizedBox(height: 12),
                 ],
                 AdminPrimaryButton(
                   key: const Key('adminExportButton'),
-                  icon: Icons.download_rounded,
+                  icon: SaartheeIcons.download,
                   label: l10n.adminExportButton,
                   busy: _busy,
                   onPressed: _export,

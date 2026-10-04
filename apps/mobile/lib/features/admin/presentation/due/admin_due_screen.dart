@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../../core/theme/icons.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -56,7 +59,7 @@ class AdminDueScreen extends ConsumerWidget {
             ),
           AdminEmptyState(
             key: const Key('adminDueEmpty'),
-            icon: Icons.task_alt_rounded,
+            icon: SaartheeIcons.taskAlt,
             message: l10n.adminDueEmpty,
           ),
         ],
@@ -96,7 +99,7 @@ class AdminDueScreen extends ConsumerWidget {
               onTap: () => context.push(AdminPaths.complaint(c.id)),
               action: AdminPrimaryButton(
                 key: Key('adminSendReminder-${c.id}'),
-                icon: Icons.send_rounded,
+                icon: SaartheeIcons.send,
                 label: l10n.adminSendReminder,
                 busy: sending.contains(c.id),
                 onPressed: () => sendReminderFlow(context, ref, c.id),

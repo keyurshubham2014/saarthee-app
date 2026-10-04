@@ -480,28 +480,6 @@
   "@adminDetailLoadFailed": {
     "description": "Admin: DetailLoadFailed"
   },
-  "adminBeforeLabel": "Reported, {date}",
-  "@adminBeforeLabel": {
-    "description": "Admin: BeforeLabel",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "adminNowLabel": "Now, {date}",
-  "@adminNowLabel": {
-    "description": "Admin: NowLabel",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "adminNoAnswerYet": "No answer yet",
-  "@adminNoAnswerYet": {
-    "description": "Admin: NoAnswerYet"
-  },
   "adminSameImageWarning": "Same image as report",
   "@adminSameImageWarning": {
     "description": "Admin: SameImageWarning"
@@ -983,18 +961,11 @@
   "@appTitle": {
     "description": "App name"
   },
-  "commonSeparatorA": "—",
-  "commonSeparatorB": "·",
-  "commonSeparatorC": "…",
   "commonContinue": "Continue",
   "commonBack": "Back",
   "commonRetry": "Try again",
   "commonGoHome": "Go home",
-  "commonDone": "Done",
-  "commonSkip": "Skip",
   "commonChange": "Change",
-  "commonSend": "Send",
-  "commonSending": "Sending",
   "commonLoading": "Loading",
   "commonStepOf": "Step {current} of {total}",
   "@commonStepOf": {
@@ -1008,15 +979,14 @@
       }
     }
   },
-  "commonOfflineBanner": "You're offline. Your answers are saved.",
+  "commonOfflineBanner": "You're offline. Your report is saved and will send automatically.",
   "commonErrorSummaryTitle": "There is a problem",
   "commonOpenSettings": "Open settings",
-  "commonIndependenceNotice": "Independent app. Not run by or linked to AMC.",
+  "commonIndependenceNotice": "Independent citizen app. Not run by or linked to AMC.",
   "statusFixed": "Fixed",
   "statusNotFixed": "Not fixed",
   "statusWaiting": "Waiting",
   "statusFiled": "Filed",
-  "statusReminded": "Reminded",
   "photoMissing": "Photo not available",
   "photoReportedOn": "Reported, {date}",
   "@photoReportedOn": {
@@ -1098,81 +1068,8 @@
   "errorServiceUnavailable": "The service is unavailable. Please try again later.",
   "errorOffline": "You're offline. Your answers are saved.",
   "errorTimeout": "That took too long. Please try again.",
-  "welcomeTitle": "Check that complaints to AMC really get fixed.",
-  "welcomeBody": "You file your complaint with AMC as usual. This app records it, and in about a week asks you whether it was fixed.",
-  "welcomeIndependence": "This is an independent app. It is not run by or linked to AMC.",
-  "inviteTitle": "Do you have a group code?",
-  "inviteBody": "Someone may have shared a code with you, like your society or a local group. It links your reports to that group.",
-  "inviteFieldLabel": "Group code",
-  "inviteFieldHint": "Letters and numbers, 6 to 20",
-  "inviteFieldInvalidFormat": "Enter 6 to 20 letters or numbers.",
-  "inviteNoCode": "I don't have a code",
-  "inviteSuccess": "You're part of {groupLabel}",
-  "@inviteSuccess": {
-    "placeholders": {
-      "groupLabel": {
-        "type": "String"
-      }
-    }
-  },
-  "homeRecordTitle": "Record a complaint",
-  "homeRecordBody": "File it with AMC, then record it here with a photo.",
-  "homeContinueTitle": "Continue your report",
-  "homeContinueBody": "Your answers so far are saved.",
-  "homeFollowUpTitle": "Answer a follow-up",
-  "homeFollowUpBody": "Got a message asking if your complaint was fixed? Answer it here.",
-  "homeAboutLink": "About this app",
-  "homeGroupLabel": "Group: {groupLabel}",
-  "@homeGroupLabel": {
-    "placeholders": {
-      "groupLabel": {
-        "type": "String"
-      }
-    }
-  },
   "aboutTitle": "About",
-  "aboutHeading": "What this app does",
-  "aboutBody": "Saarthee records complaints you have filed with AMC and, about a week later, asks you whether the problem was fixed. Together, these answers show how many complaints really get fixed.",
-  "aboutPrivacyHeading": "Your privacy",
-  "aboutPrivacyBody": "We store your WhatsApp number, your photos with their location and time, and your answers. We use them only to follow up on your complaint. You can ask for your data to be deleted.",
-  "aboutIndependenceHeading": "Independent",
-  "aboutIndependenceBody": "This is an independent citizen project. It is not run by or linked to AMC or any government body.",
-  "aboutGroupHeading": "Group code",
-  "aboutGroupNone": "No group code",
-  "aboutChangeCode": "Change group code",
   "aboutOperatorLogin": "Operator login",
-  "reportCategoryTitle": "What kind of problem?",
-  "reportCategoryEmpty": "No categories are available right now.",
-  "reportCategoryLoadFailed": "We couldn't load the list of problems.",
-  "reportCategoryRequired": "Choose the kind of problem.",
-  "reportAmcTitle": "File it with AMC",
-  "reportAmcBody": "First, file your complaint with AMC. They'll give you a complaint number. Come back here when you have it — your answers so far are saved.",
-  "reportAmcChosenCategory": "You chose: {category}",
-  "@reportAmcChosenCategory": {
-    "placeholders": {
-      "category": {
-        "type": "String"
-      }
-    }
-  },
-  "reportAmcWeb": "Open AMC complaint website",
-  "reportAmcWhatsapp": "Use AMC's WhatsApp",
-  "reportAmcCall": "Call {number}",
-  "@reportAmcCall": {
-    "placeholders": {
-      "number": {
-        "type": "String"
-      }
-    }
-  },
-  "reportAmcHaveNumber": "I have my complaint number",
-  "reportAmcOpenFailed": "We couldn't open that. Try another option.",
-  "reportNumberTitle": "Your AMC complaint number",
-  "reportNumberLabel": "Complaint number",
-  "reportNumberHelp": "It's in the SMS or WhatsApp message AMC sent you.",
-  "reportNumberError": "Enter the complaint number you got from AMC.",
-  "reportPhotoTitle": "Photo of the problem",
-  "reportPhotoRationale": "Take a new photo of the problem. We'll also record where you are, so we can tell it's the same spot later.",
   "reportPhotoTake": "Take photo",
   "reportPhotoRetake": "Retake",
   "reportPhotoUse": "Use this photo",
@@ -1182,93 +1079,525 @@
   "reportPhotoWeakGps": "Location is approximate. Move into the open and try again?",
   "reportPhotoWeakGpsRetry": "Try location again",
   "reportPhotoWeakGpsContinue": "Continue anyway",
-  "reportPhotoUploading": "Uploading photo",
-  "reportPhotoUploaded": "Photo uploaded",
-  "reportPhotoUploadFailed": "The photo didn't upload. It's saved on your phone.",
-  "reportPhotoRetryUpload": "Retry upload",
-  "reportPhotoRequired": "Take a photo to continue.",
-  "reportPhotoUploadRequired": "Wait for the photo to upload, or retry the upload.",
   "reportPhotoPreviewLabel": "Preview of your photo",
-  "reportPhoneTitle": "Your WhatsApp number",
-  "reportPhoneBody": "We'll send you one message in about a week asking whether it was fixed.",
-  "reportPhoneLabel": "WhatsApp number",
-  "reportPhonePrefix": "+91",
-  "reportPhoneError": "Enter a valid 10-digit Indian mobile number.",
-  "reportConsentText": "I agree that this app may store my WhatsApp number, my photos, their location and time, and my answers, and may contact me on WhatsApp about this complaint. I can ask for my data to be deleted.",
-  "reportConsentError": "Please agree to the consent statement to continue.",
-  "reportWhyWeAsk": "Why we ask",
-  "reportWhyWeAskBody": "Your number lets us ask you, once, whether AMC fixed the problem. We never share it and never use it for anything else.",
-  "reportCheckTitle": "Check your answers",
-  "reportCheckCategory": "Kind of problem",
-  "reportCheckNumber": "AMC complaint number",
-  "reportCheckPhoto": "Photo",
-  "reportCheckPhone": "WhatsApp number",
-  "reportCheckChangeLabel": "Change {item}",
-  "@reportCheckChangeLabel": {
+  "brandNameEn": "Saarthee",
+  "@brandNameEn": {
+    "description": "TASK-03 v2"
+  },
+  "brandNameGu": "સારથી",
+  "@brandNameGu": {
+    "description": "TASK-03 v2"
+  },
+  "languageNameGu": "ગુજરાતી",
+  "@languageNameGu": {
+    "description": "TASK-03 v2"
+  },
+  "languageNameEn": "English",
+  "@languageNameEn": {
+    "description": "TASK-03 v2"
+  },
+  "languageGlyphGu": "અ",
+  "@languageGlyphGu": {
+    "description": "TASK-03 v2"
+  },
+  "languageGlyphEn": "A",
+  "@languageGlyphEn": {
+    "description": "TASK-03 v2"
+  },
+  "languageSwitchToEnglish": "Switch to English",
+  "@languageSwitchToEnglish": {
+    "description": "TASK-03 v2"
+  },
+  "languageSwitchToGujarati": "ગુજરાતીમાં બદલો",
+  "@languageSwitchToGujarati": {
+    "description": "TASK-03 v2"
+  },
+  "commonClose": "Close",
+  "@commonClose": {
+    "description": "TASK-03 v2"
+  },
+  "commonNotifications": "Notifications",
+  "@commonNotifications": {
+    "description": "TASK-03 v2"
+  },
+  "commonOptional": "(optional)",
+  "@commonOptional": {
+    "description": "TASK-03 v2"
+  },
+  "commonWorking": "Working",
+  "@commonWorking": {
+    "description": "TASK-03 v2"
+  },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "TASK-03 v2"
+  },
+  "navMap": "Map",
+  "@navMap": {
+    "description": "TASK-03 v2"
+  },
+  "navReport": "Report",
+  "@navReport": {
+    "description": "TASK-03 v2"
+  },
+  "navAlerts": "Alerts",
+  "@navAlerts": {
+    "description": "TASK-03 v2"
+  },
+  "navMyWard": "My Ward",
+  "@navMyWard": {
+    "description": "TASK-03 v2"
+  },
+  "homeGreeting": "Namaste",
+  "@homeGreeting": {
+    "description": "TASK-03 v2"
+  },
+  "homeSetYourWard": "Set your ward",
+  "@homeSetYourWard": {
+    "description": "TASK-03 v2"
+  },
+  "homeReportCardTitle": "Report a problem",
+  "@homeReportCardTitle": {
+    "description": "TASK-03 v2"
+  },
+  "homeReportCardHint": "Pothole, garbage, water, anything",
+  "@homeReportCardHint": {
+    "description": "TASK-03 v2"
+  },
+  "homeSectionAlerts": "Alerts for your ward",
+  "@homeSectionAlerts": {
+    "description": "TASK-03 v2"
+  },
+  "homeSectionNearby": "Near you",
+  "@homeSectionNearby": {
+    "description": "TASK-03 v2"
+  },
+  "homeSectionDrives": "Drives and services",
+  "@homeSectionDrives": {
+    "description": "TASK-03 v2"
+  },
+  "onboardingLanguageTitleEn": "Choose your language",
+  "@onboardingLanguageTitleEn": {
+    "description": "TASK-03 v2"
+  },
+  "onboardingLanguageTitleGu": "ભાષા પસંદ કરો",
+  "@onboardingLanguageTitleGu": {
+    "description": "TASK-03 v2"
+  },
+  "introTagline": "Report it. Track it. See it fixed.",
+  "@introTagline": {
+    "description": "TASK-03 v2"
+  },
+  "introBenefitReport": "Report any civic problem with a photo.",
+  "@introBenefitReport": {
+    "description": "TASK-03 v2"
+  },
+  "introBenefitFollow": "Follow it until neighbours confirm the fix.",
+  "@introBenefitFollow": {
+    "description": "TASK-03 v2"
+  },
+  "introBenefitAlerts": "Get alerts and reach your corporators.",
+  "@introBenefitAlerts": {
+    "description": "TASK-03 v2"
+  },
+  "wardStepTitle": "Set your home ward",
+  "@wardStepTitle": {
+    "description": "TASK-03 v2"
+  },
+  "wardStepHelper": "We use it to show issues, alerts and representatives near you. You can change it later.",
+  "@wardStepHelper": {
+    "description": "TASK-03 v2"
+  },
+  "wardUseLocation": "Use my location",
+  "@wardUseLocation": {
+    "description": "TASK-03 v2"
+  },
+  "wardChooseFromList": "Choose from list",
+  "@wardChooseFromList": {
+    "description": "TASK-03 v2"
+  },
+  "wardSkip": "Skip for now",
+  "@wardSkip": {
+    "description": "TASK-03 v2"
+  },
+  "wardLocating": "Finding your ward…",
+  "@wardLocating": {
+    "description": "TASK-03 v2"
+  },
+  "wardLocationRationale": "Saarthee uses your location once to find your ward. It is not stored.",
+  "@wardLocationRationale": {
+    "description": "TASK-03 v2"
+  },
+  "wardLocateResult": "You're in {ward} ({zone} zone). Is this your home ward?",
+  "@wardLocateResult": {
+    "description": "TASK-03 v2",
     "placeholders": {
-      "item": {
+      "ward": {
+        "type": "String"
+      },
+      "zone": {
         "type": "String"
       }
     }
   },
-  "reportCheckMissing": "Not answered yet",
-  "reportErrorClock": "Your phone's clock looks wrong. Please check the date and time.",
-  "reportErrorLocation": "We couldn't read your location. Please try again.",
-  "reportErrorPhotoExpired": "Your photo upload expired. Please retake the photo.",
-  "reportDoneTitle": "Recorded. Thank you.",
-  "reportDoneBody": "In about a week, we'll send you a WhatsApp message asking whether it's been fixed. Answering takes less than a minute.",
-  "homeMyReportsTitle": "Your reports on this phone",
-  "homeMyReportsEmpty": "Reports you record will appear here.",
-  "homeMyReportsItem": "{number} · {category} · {date}",
-  "@homeMyReportsItem": {
+  "wardLocateConfirm": "You seem to be just outside {ward}. Is this right?",
+  "@wardLocateConfirm": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "wardYesContinue": "Yes, continue",
+  "@wardYesContinue": {
+    "description": "TASK-03 v2"
+  },
+  "wardChooseAnother": "Choose another",
+  "@wardChooseAnother": {
+    "description": "TASK-03 v2"
+  },
+  "wardLocationDenied": "Location is off. You can choose your ward from the list instead.",
+  "@wardLocationDenied": {
+    "description": "TASK-03 v2"
+  },
+  "wardOutsideCity": "You seem to be outside Ahmedabad. Choose your ward from the list.",
+  "@wardOutsideCity": {
+    "description": "TASK-03 v2"
+  },
+  "wardApiDown": "We couldn't load wards right now. Try again, or skip and set it later.",
+  "@wardApiDown": {
+    "description": "TASK-03 v2"
+  },
+  "wardPickerTitle": "Choose your ward",
+  "@wardPickerTitle": {
+    "description": "TASK-03 v2"
+  },
+  "wardPickerSearch": "Search ward name or number",
+  "@wardPickerSearch": {
+    "description": "TASK-03 v2"
+  },
+  "wardPickerError": "We couldn't load wards right now.",
+  "@wardPickerError": {
+    "description": "TASK-03 v2"
+  },
+  "wardPickerNoMatch": "No ward matches “{query}”.",
+  "@wardPickerNoMatch": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "wardDisplayName": "Ward {number} · {name}",
+  "@wardDisplayName": {
+    "description": "TASK-03 v2",
     "placeholders": {
       "number": {
-        "type": "String"
+        "type": "int"
       },
-      "category": {
-        "type": "String"
-      },
-      "date": {
+      "name": {
         "type": "String"
       }
     }
   },
-  "verifyEntryTitle": "Your complaint from {date}",
-  "@verifyEntryTitle": {
+  "wardZone": "{zone} zone",
+  "@wardZone": {
+    "description": "TASK-03 v2",
     "placeholders": {
-      "date": {
+      "zone": {
         "type": "String"
       }
     }
   },
-  "verifyEntryCategory": "Kind of problem",
-  "verifyEntryNumber": "AMC complaint number",
-  "verifyEntryAnsweredBefore": "You've answered before. You can update your answer.",
-  "verifyEntryNoPhoto": "The original photo is no longer available.",
-  "verifyEntryLoading": "Opening your complaint",
-  "verifyLinkInvalid": "This link isn't valid.",
-  "verifyLinkRevoked": "This link is no longer active.",
-  "verifyEnterCodeInstead": "Enter a code instead",
-  "verifyEnterCodeTitle": "Enter your follow-up code",
-  "verifyEnterCodeBody": "Paste the whole link from the WhatsApp message, or just the code after 't='.",
-  "verifyEnterCodeLabel": "Link or code",
-  "verifyEnterCodeError": "That doesn't look like a follow-up link or code. Check the WhatsApp message and try again.",
-  "verifyAnswerTitle": "Is it fixed?",
-  "verifyAnswerFixed": "Yes, it's fixed",
-  "verifyAnswerNotFixed": "No, it's not fixed",
-  "verifyAnswerRequired": "Choose an answer.",
-  "verifyPhotoTitle": "Take a photo of the same spot now",
-  "verifyPhotoReference": "Your earlier photo, to help you frame the same view",
-  "verifyNoteTitle": "What's still wrong?",
-  "verifyNoteBody": "Optional. Tell us briefly what still needs fixing.",
-  "verifyNoteLabel": "Note",
-  "verifyNoteTooLong": "Your note is too long.",
-  "verifyCheckTitle": "Check and send",
-  "verifyCheckAnswer": "Your answer",
-  "verifyCheckNote": "Your note",
-  "verifyCheckNoNote": "No note",
-  "verifyCheckPhoto": "Photo now",
-  "verifyDoneTitle": "Thank you.",
-  "verifyDoneBody": "Your answer helps show which complaints really get fixed.",
-  "verifySessionEnded": "This follow-up was closed. Open the link from WhatsApp again, or enter the code."
+  "myWardNoWard": "No home ward set",
+  "@myWardNoWard": {
+    "description": "TASK-03 v2"
+  },
+  "myWardSectionRepresentatives": "Your representatives",
+  "@myWardSectionRepresentatives": {
+    "description": "TASK-03 v2"
+  },
+  "myWardSectionServices": "Services and drives",
+  "@myWardSectionServices": {
+    "description": "TASK-03 v2"
+  },
+  "myWardSectionYou": "You",
+  "@myWardSectionYou": {
+    "description": "TASK-03 v2"
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "TASK-03 v2"
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "TASK-03 v2"
+  },
+  "settingsAppearance": "Appearance",
+  "@settingsAppearance": {
+    "description": "TASK-03 v2"
+  },
+  "settingsThemeSystem": "Same as phone",
+  "@settingsThemeSystem": {
+    "description": "TASK-03 v2"
+  },
+  "settingsThemeLight": "Light",
+  "@settingsThemeLight": {
+    "description": "TASK-03 v2"
+  },
+  "settingsThemeDark": "Dark",
+  "@settingsThemeDark": {
+    "description": "TASK-03 v2"
+  },
+  "settingsAnimations": "Animations",
+  "@settingsAnimations": {
+    "description": "TASK-03 v2"
+  },
+  "settingsAnimationsHelper": "Turn off to reduce movement on screen.",
+  "@settingsAnimationsHelper": {
+    "description": "TASK-03 v2"
+  },
+  "settingsAnimationsSystemOff": "Off because Remove animations is on in your phone settings.",
+  "@settingsAnimationsSystemOff": {
+    "description": "TASK-03 v2"
+  },
+  "settingsHomeWard": "Home ward",
+  "@settingsHomeWard": {
+    "description": "TASK-03 v2"
+  },
+  "settingsHomeWardNone": "No home ward set",
+  "@settingsHomeWardNone": {
+    "description": "TASK-03 v2"
+  },
+  "aboutVersion": "Version {version}",
+  "@aboutVersion": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutIndependenceLineEn": "Independent citizen app. Not run by or linked to AMC.",
+  "@aboutIndependenceLineEn": {
+    "description": "TASK-03 v2"
+  },
+  "aboutIndependenceLineGu": "નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.",
+  "@aboutIndependenceLineGu": {
+    "description": "TASK-03 v2"
+  },
+  "aboutIndependenceStatement": "Saarthee is an independent citizen project. It is not run by, funded by or linked to the Amdavad Municipal Corporation.",
+  "@aboutIndependenceStatement": {
+    "description": "TASK-03 v2"
+  },
+  "aboutNameOrigin": "Saarthee means the one who guides the way. Its green comes from the neem, the tree that shades Amdavad's streets.",
+  "@aboutNameOrigin": {
+    "description": "TASK-03 v2"
+  },
+  "aboutGrievance": "Questions or complaints about this app: {email}",
+  "@aboutGrievance": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutGrievancePending": "A grievance contact will be published before launch.",
+  "@aboutGrievancePending": {
+    "description": "TASK-03 v2"
+  },
+  "aboutLicenses": "Open-source licences",
+  "@aboutLicenses": {
+    "description": "TASK-03 v2"
+  },
+  "statusReported": "Reported",
+  "@statusReported": {
+    "description": "TASK-03 v2"
+  },
+  "statusAcknowledged": "Acknowledged",
+  "@statusAcknowledged": {
+    "description": "TASK-03 v2"
+  },
+  "statusInProgress": "In progress",
+  "@statusInProgress": {
+    "description": "TASK-03 v2"
+  },
+  "statusVerified": "Verified",
+  "@statusVerified": {
+    "description": "TASK-03 v2"
+  },
+  "statusReopened": "Reopened",
+  "@statusReopened": {
+    "description": "TASK-03 v2"
+  },
+  "statusRejected": "Not accepted",
+  "@statusRejected": {
+    "description": "TASK-03 v2"
+  },
+  "severityInfo": "Info",
+  "@severityInfo": {
+    "description": "TASK-03 v2"
+  },
+  "severityAdvisory": "Advisory",
+  "@severityAdvisory": {
+    "description": "TASK-03 v2"
+  },
+  "severityWarning": "Warning",
+  "@severityWarning": {
+    "description": "TASK-03 v2"
+  },
+  "severityCritical": "Critical",
+  "@severityCritical": {
+    "description": "TASK-03 v2"
+  },
+  "categoryRoads": "Roads",
+  "@categoryRoads": {
+    "description": "TASK-03 v2"
+  },
+  "categoryWater": "Water supply",
+  "@categoryWater": {
+    "description": "TASK-03 v2"
+  },
+  "categoryDrainage": "Drainage",
+  "@categoryDrainage": {
+    "description": "TASK-03 v2"
+  },
+  "categoryGarbage": "Garbage",
+  "@categoryGarbage": {
+    "description": "TASK-03 v2"
+  },
+  "categoryStreetlight": "Streetlights",
+  "@categoryStreetlight": {
+    "description": "TASK-03 v2"
+  },
+  "categoryTrees": "Trees and gardens",
+  "@categoryTrees": {
+    "description": "TASK-03 v2"
+  },
+  "categoryAnimals": "Stray animals",
+  "@categoryAnimals": {
+    "description": "TASK-03 v2"
+  },
+  "categoryHealth": "Mosquitoes and health",
+  "@categoryHealth": {
+    "description": "TASK-03 v2"
+  },
+  "categoryToilets": "Public toilets",
+  "@categoryToilets": {
+    "description": "TASK-03 v2"
+  },
+  "categoryEncroachment": "Encroachment",
+  "@categoryEncroachment": {
+    "description": "TASK-03 v2"
+  },
+  "categoryTraffic": "Traffic",
+  "@categoryTraffic": {
+    "description": "TASK-03 v2"
+  },
+  "categoryProperty": "Property tax",
+  "@categoryProperty": {
+    "description": "TASK-03 v2"
+  },
+  "categoryBuilding": "Buildings",
+  "@categoryBuilding": {
+    "description": "TASK-03 v2"
+  },
+  "categoryOther": "Other",
+  "@categoryOther": {
+    "description": "TASK-03 v2"
+  },
+  "componentAlertSource": "Source: {source} · Relayed by Saarthee",
+  "@componentAlertSource": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "componentDone": "Done",
+  "@componentDone": {
+    "description": "TASK-03 v2"
+  },
+  "componentElectionBanner": "Election code of conduct is in force. Some representative features are paused.",
+  "@componentElectionBanner": {
+    "description": "TASK-03 v2"
+  },
+  "componentMeTooCount": "{count, plural, =0{No one yet} =1{1 person} other{{count} people}}",
+  "@componentMeTooCount": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "componentMessage": "Message",
+  "@componentMessage": {
+    "description": "TASK-03 v2"
+  },
+  "componentOfflineState": "You're offline. Connect to the internet and try again.",
+  "@componentOfflineState": {
+    "description": "TASK-03 v2"
+  },
+  "componentOverdue": "Overdue",
+  "@componentOverdue": {
+    "description": "TASK-03 v2"
+  },
+  "componentStepNext": "Next: {next}",
+  "@componentStepNext": {
+    "description": "TASK-03 v2",
+    "placeholders": {
+      "next": {
+        "type": "String"
+      }
+    }
+  },
+  "photoBlurredCaption": "Faces and number plates blurred",
+  "@photoBlurredCaption": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderNearbyIssues": "Issues near you will appear here.",
+  "@placeholderNearbyIssues": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderAlertsStrip": "Alerts for your ward will appear here.",
+  "@placeholderAlertsStrip": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderDrives": "Drives and services are coming soon.",
+  "@placeholderDrives": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderMap": "The issues map is coming soon.",
+  "@placeholderMap": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderReport": "Reporting is being rebuilt. It will be back in the next update.",
+  "@placeholderReport": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderAlerts": "Ward alerts are coming soon.",
+  "@placeholderAlerts": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderRepresentatives": "Your corporators, MLA and MP will appear here.",
+  "@placeholderRepresentatives": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderWardServices": "Services and drives for your ward are coming soon.",
+  "@placeholderWardServices": {
+    "description": "TASK-03 v2"
+  },
+  "placeholderProfile": "Your profile is coming soon.",
+  "@placeholderProfile": {
+    "description": "TASK-03 v2"
+  },
+  "settingsDevGallery": "Component gallery (debug)",
+  "@settingsDevGallery": {
+    "description": "Debug-only settings row opening /dev/gallery"
+  }
 }
