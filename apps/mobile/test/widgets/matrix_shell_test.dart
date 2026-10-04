@@ -67,7 +67,7 @@ void main() {
       expect(bar.selectedIndex, 3);
       expect(bar.destinations, hasLength(5));
       final node = t.getSemantics(find.byKey(const Key('nav.3')));
-      expect(node, containsSemantics(isSelected: true));
+      expect(node, isSemantics(isSelected: true));
     },
   );
 
