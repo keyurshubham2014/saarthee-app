@@ -44,6 +44,9 @@ final homeWardProvider = NotifierProvider<HomeWardController, Ward?>(
 /// Ward list for the picker, falling back to the cache when offline.
 final wardsListProvider = FutureProvider.autoDispose<WardsResult>(
   (ref) => ref.watch(wardsRepositoryProvider).listWards(),
+  // The repository already retries once; Riverpod's automatic retry would
+  // keep the picker in its loading state instead of showing the error.
+  retry: (_, _) => null,
 );
 
 /// Why the device could not give a position.
