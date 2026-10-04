@@ -14,6 +14,7 @@ class DraftPhoto {
     this.blurApplied = false,
     this.uploadState = UploadState.pending,
     this.progress = 0,
+    this.revision = 0,
   });
 
   factory DraftPhoto.fromJson(Map<String, dynamic> j) => DraftPhoto(
@@ -36,6 +37,11 @@ class DraftPhoto {
   /// Upload progress 0–1 (memory only).
   final double progress;
 
+  /// Bumped every time the file at [localPath] is rewritten (blur pass,
+  /// manual blur), so the thumbnail reloads it instead of a cached or
+  /// failed image for the same path (memory only).
+  final int revision;
+
   bool get uploaded => uploadState == UploadState.uploaded && photoId != null;
 
   DraftPhoto copy({
@@ -43,6 +49,7 @@ class DraftPhoto {
     bool? blurApplied,
     UploadState? uploadState,
     double? progress,
+    int? revision,
   }) => DraftPhoto(
     localPath: localPath,
     capturedAt: capturedAt,
@@ -50,6 +57,7 @@ class DraftPhoto {
     blurApplied: blurApplied ?? this.blurApplied,
     uploadState: uploadState ?? this.uploadState,
     progress: progress ?? this.progress,
+    revision: revision ?? this.revision,
   );
 
   Map<String, Object?> toJson() => {

@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -35,33 +38,74 @@ class ReportPhotoPipeline {
       ),
     );
     final boxes = await detectBoxes(original);
-    await renderBlurredFile(original, target, boxes ?? const [], pad: false);
+    var applied = boxes != null;
+    final render = Stopwatch()..start();
+    try {
+      await renderBlurredFile(original, target, boxes ?? const [], pad: false);
+    } on Object {
+      // A render error must not drop the photo or mark it blurred: keep the
+      // original and offer the manual tool with its note.
+      await File(original).copy(target);
+      applied = false;
+    }
+    _logTiming('render', render, applied ? 'ok' : 'failed');
     await _deleteQuietly(original);
     _draft.updatePhoto(
       target,
-      (p) =>
-          p.copy(blurApplied: boxes != null, uploadState: UploadState.pending),
+      (p) => p.copy(
+        blurApplied: applied,
+        uploadState: UploadState.pending,
+        revision: p.revision + 1,
+      ),
     );
     await upload(target);
     return target;
   }
 
-  /// Uprights the photo, then runs the automatic detector with a timeout.
-  /// Null (manual tool only, with its note) when detection is unavailable,
-  /// fails or times out (REQ-S-007).
+  /// Uprights the photo, then runs the automatic detector. [timeout] covers
+  /// detection only; orientation and rendering are timed separately (logged
+  /// as non-personal timings, no paths). Null (manual tool only, with its
+  /// note) when detection is unavailable, fails or times out (REQ-S-007).
+  /// An empty list means the pass ran and found nothing (still "blurred").
   Future<List<BlurBox>?> detectBoxes(
     String path, {
     Duration timeout = AppTimings.blurDetectTimeout,
   }) async {
     final detector = _ref.read(faceAndPlateDetectorProvider);
-    if (detector is UnavailableDetector) return null;
+    if (detector is UnavailableDetector) {
+      _logTiming('detect', Stopwatch(), 'unavailable');
+      return null;
+    }
+    final orient = Stopwatch()..start();
     try {
       await normaliseOrientation(path);
-      return await detector.detect(path).timeout(timeout);
+      _logTiming('orient', orient, 'ok');
     } on Object {
+      _logTiming('orient', orient, 'failed');
+      return null;
+    }
+    final detect = Stopwatch()..start();
+    try {
+      final boxes = await detector.detect(path).timeout(timeout);
+      _logTiming(
+        'detect',
+        detect,
+        boxes == null ? 'none' : '${boxes.length} boxes',
+      );
+      return boxes;
+    } on TimeoutException {
+      _logTiming('detect', detect, 'timeout');
+      return null;
+    } on Object {
+      _logTiming('detect', detect, 'error');
       return null;
     }
   }
+
+  /// Phase timings for the blur pass. Only the phase, milliseconds and a
+  /// result word are printed: no file paths, boxes or image content.
+  static void _logTiming(String phase, Stopwatch sw, String result) =>
+      debugPrint('saarthee.blur $phase ${sw.elapsedMilliseconds}ms $result');
 
   /// Applies the manual blur tool's boxes to a draft photo and re-uploads it.
   Future<void> applyManualBlur(String localPath, List<BlurBox> boxes) async {
@@ -81,6 +125,7 @@ class ReportPhotoPipeline {
         localPath: p.localPath,
         capturedAt: p.capturedAt,
         blurApplied: true,
+        revision: p.revision + 1,
       ),
     );
     await upload(localPath);

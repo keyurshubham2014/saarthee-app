@@ -57,6 +57,8 @@ class AppTimings {
   static const Duration composerDefaultSpan = Duration(hours: 6);
 
   /// On-device face and plate detection per photo (REQ-S-007); on timeout
-  /// the flow falls back to the manual blur tool.
-  static const Duration blurDetectTimeout = Duration(seconds: 6);
+  /// the flow falls back to the manual blur tool. Covers detection only
+  /// (orientation and rendering are timed separately); 10 s leaves room for
+  /// ML Kit's first-use model load on slow phones and emulators.
+  static const Duration blurDetectTimeout = Duration(seconds: 10);
 }

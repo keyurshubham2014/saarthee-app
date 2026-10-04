@@ -1,5 +1,6 @@
 // W-05-15 (AC-11, REQ-S-007): the photo step after automatic blurring, and
 // the manual-tool fallback when detection fails.
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:image/image.dart' as img;
 import 'package:saarthee/core/capture/blur/face_plate_detector.dart';
 import 'package:saarthee/core/capture/evidence_capture.dart';
 import 'package:saarthee/features/report/application/report_draft_controller.dart';
+import 'package:saarthee/features/report/presentation/photo_strip.dart';
 import 'package:saarthee/router/app_router.dart';
 
 import 'auto_detector_test.dart' show FakeDetector;
@@ -39,12 +41,35 @@ class CheckerCapture extends FakeEvidenceCapture {
   }
 }
 
+/// A camera that returns PNG bytes under a .jpg name, so the pixelation
+/// renderer fails (render-error fallback).
+class NotJpegCapture extends FakeEvidenceCapture {
+  @override
+  Future<CapturedPhoto?> takePhoto() async {
+    cameraOpens++;
+    final dir = Directory.systemTemp.createTempSync('auto-blur-png');
+    final f = File('${dir.path}/odd.jpg')
+      ..writeAsBytesSync(img.encodePng(img.Image(width: 8, height: 8)));
+    return CapturedPhoto(path: f.path, capturedAt: DateTime(2026, 10, 4));
+  }
+}
+
+/// A detector held open until [release], to look at the blurring state.
+class GatedDetector implements FaceAndPlateDetector {
+  final _gate = Completer<List<BlurBox>?>();
+  void release(List<BlurBox>? boxes) => _gate.complete(boxes);
+
+  @override
+  Future<List<BlurBox>?> detect(String imagePath) => _gate.future;
+}
+
 /// Opens the photo step on an empty draft; the fake camera returns a photo
 /// that goes through detect → blur → upload.
 Future<(ProviderContainer, FakeReportApi)> captureWith(
   WidgetTester t,
-  FaceAndPlateDetector detector,
-) async {
+  FaceAndPlateDetector detector, {
+  FakeEvidenceCapture? capture,
+}) async {
   final api = FakeReportApi();
   final d = draftAt(ReportStep.photo);
   final c = await pumpReportApp(
@@ -55,7 +80,7 @@ Future<(ProviderContainer, FakeReportApi)> captureWith(
       categorySlug: 'roads',
       step: ReportStep.photo,
     ),
-    capture: CheckerCapture(),
+    capture: capture ?? CheckerCapture(),
     reduced: true,
     settle: false,
     extraOverrides: [faceAndPlateDetectorProvider.overrideWithValue(detector)],
@@ -143,5 +168,87 @@ void main() {
         );
     await t.pumpAndSettle();
     expect(find.text('Tap or drag to blur more'), findsOneWidget);
+  });
+
+  testWidgets('empty pass: still blurApplied=true with the caption (§5.6)', (
+    t,
+  ) async {
+    final (c, api) = await captureWith(t, FakeDetector(const []));
+    expect(api.uploads.single, endsWith('blur=true'));
+    expect(c.read(reportDraftProvider)!.photos.single.blurApplied, isTrue);
+    expect(find.text(_blurred), findsOneWidget);
+  });
+
+  testWidgets('render error: photo kept, unblurred flag, no caption', (
+    t,
+  ) async {
+    final (c, api) = await captureWith(
+      t,
+      FakeDetector(const [BlurBox(0, 0, 0.5, 0.5)]),
+      capture: NotJpegCapture(),
+    );
+    expect(api.uploads.single, endsWith('blur=false'));
+    expect(c.read(reportDraftProvider)!.photos.single.blurApplied, isFalse);
+    expect(find.text(_blurred), findsNothing);
+  });
+
+  testWidgets('thumbnail shows the processed file, not a stale failed load', (
+    t,
+  ) async {
+    final detector = GatedDetector();
+    final api = FakeReportApi();
+    final d = draftAt(ReportStep.photo);
+    final c = await pumpReportApp(
+      t,
+      api: api,
+      draft: ReportDraft(
+        clientSubmissionId: d.clientSubmissionId,
+        categorySlug: 'roads',
+        step: ReportStep.photo,
+      ),
+      capture: CheckerCapture(),
+      reduced: true,
+      settle: false,
+      extraOverrides: [
+        faceAndPlateDetectorProvider.overrideWithValue(detector),
+      ],
+    );
+    const thumb = ValueKey('report.thumb.0');
+    for (var i = 0; i < 20; i++) {
+      await t.pump(const Duration(milliseconds: 50));
+      await t.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+    }
+    // While blurring the processed file does not exist yet: no image load.
+    expect(
+      c.read(reportDraftProvider)!.photos.single.uploadState,
+      UploadState.blurring,
+    );
+    expect(find.byKey(thumb), findsNothing);
+    detector.release(const [BlurBox(0, 0, 0.5, 0.5)]);
+    for (var i = 0; i < 40 && api.uploads.isEmpty; i++) {
+      await t.pump(const Duration(milliseconds: 50));
+      await t.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 50)),
+      );
+    }
+    await t.pumpAndSettle();
+    final photo = c.read(reportDraftProvider)!.photos.single;
+    final provider =
+        t.widget<Image>(find.byKey(thumb)).image as DraftPhotoImage;
+    expect(provider.file.path, photo.localPath);
+    expect(provider.revision, photo.revision);
+    expect(photo.revision, greaterThan(0));
+    // The provider's file is the written, blurred JPEG.
+    final decodes = await t.runAsync(
+      () async => img.decodeJpg(provider.file.readAsBytesSync()) != null,
+    );
+    expect(decodes, isTrue);
+  });
+
+  test('DraftPhotoImage cache key includes the revision', () {
+    expect(DraftPhotoImage('/a.jpg', 1), DraftPhotoImage('/a.jpg', 1));
+    expect(DraftPhotoImage('/a.jpg', 1), isNot(DraftPhotoImage('/a.jpg', 2)));
   });
 }

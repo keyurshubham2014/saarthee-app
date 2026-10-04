@@ -112,12 +112,21 @@ class _Thumb extends StatelessWidget {
                 Semantics(
                   image: true,
                   label: l10n.reportFlowPhotoLabel(index + 1, time),
-                  child: Image.file(
-                    File(photo.localPath),
-                    key: ValueKey('report.thumb.$index'),
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => ColoredBox(color: c.surfaceAlt),
-                  ),
+                  // The processed file does not exist until the blur pass
+                  // has written it; loading it earlier fails and the failed
+                  // image would stick for this path (emulator bug, §13).
+                  child: state == UploadState.blurring
+                      ? ColoredBox(color: c.surfaceAlt)
+                      : Image(
+                          key: ValueKey('report.thumb.$index'),
+                          image: DraftPhotoImage(
+                            photo.localPath,
+                            photo.revision,
+                          ),
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) =>
+                              ColoredBox(color: c.surfaceAlt),
+                        ),
                 ),
                 if (busy)
                   ColoredBox(
@@ -167,4 +176,24 @@ class _Thumb extends StatelessWidget {
       ],
     );
   }
+}
+
+/// A [FileImage] whose cache key includes the draft photo's [revision], so a
+/// rewritten file at the same path (blur pass, manual blur) is read again
+/// instead of the cached or failed image for that path.
+@visibleForTesting
+class DraftPhotoImage extends FileImage {
+  DraftPhotoImage(String path, this.revision) : super(File(path));
+
+  final int revision;
+
+  @override
+  bool operator ==(Object other) =>
+      other is DraftPhotoImage &&
+      other.file.path == file.path &&
+      other.scale == scale &&
+      other.revision == revision;
+
+  @override
+  int get hashCode => Object.hash(file.path, scale, revision);
 }
