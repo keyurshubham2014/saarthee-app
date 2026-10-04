@@ -84,18 +84,36 @@ Uint8List pixelateJpeg(Uint8List jpeg, List<BlurBox> boxes, {int block = 12}) {
 
 /// Reads [sourcePath], pixelates [boxes] off the UI thread and writes the
 /// result to [targetPath]. With no boxes the file is copied unchanged.
+/// Boxes are grown 15 % per side unless [pad] is false (the automatic
+/// detector pads its own boxes).
 Future<void> renderBlurredFile(
   String sourcePath,
   String targetPath,
-  List<BlurBox> boxes,
-) async {
+  List<BlurBox> boxes, {
+  bool pad = true,
+}) async {
   if (boxes.isEmpty) {
     await File(sourcePath).copy(targetPath);
     return;
   }
-  final padded = [for (final b in boxes) b.padded()];
+  final padded = [for (final b in boxes) pad ? b.padded() : b];
   await Isolate.run(() {
     final bytes = File(sourcePath).readAsBytesSync();
     File(targetPath).writeAsBytesSync(pixelateJpeg(bytes, padded));
   });
 }
+
+/// Rotates a JPEG upright in place when its EXIF orientation is not 1, so
+/// detector boxes, the renderer and the on-screen preview share one frame.
+/// Runs in a background isolate; a file without EXIF is left untouched.
+Future<void> normaliseOrientation(String path) => Isolate.run(() {
+  final file = File(path);
+  final bytes = file.readAsBytesSync();
+  final o = img.decodeJpgExif(bytes)?.imageIfd.orientation;
+  if (o == null || o == 1) return;
+  final decoded = img.decodeJpg(bytes);
+  if (decoded == null) return;
+  file.writeAsBytesSync(
+    img.encodeJpg(img.bakeOrientation(decoded), quality: 90),
+  );
+});

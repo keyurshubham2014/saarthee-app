@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/api/app_error.dart';
 import '../../../core/capture/blur/face_plate_detector.dart';
 import '../../../core/capture/evidence_capture.dart';
+import '../../../core/config/timings.dart';
 import '../data/report_api.dart';
 import 'report_draft_controller.dart';
 
@@ -33,11 +34,8 @@ class ReportPhotoPipeline {
         uploadState: UploadState.blurring,
       ),
     );
-    final boxes = await _ref
-        .read(faceAndPlateDetectorProvider)
-        .detect(original)
-        .catchError((Object _) => null);
-    await renderBlurredFile(original, target, boxes ?? const []);
+    final boxes = await detectBoxes(original);
+    await renderBlurredFile(original, target, boxes ?? const [], pad: false);
     await _deleteQuietly(original);
     _draft.updatePhoto(
       target,
@@ -46,6 +44,23 @@ class ReportPhotoPipeline {
     );
     await upload(target);
     return target;
+  }
+
+  /// Uprights the photo, then runs the automatic detector with a timeout.
+  /// Null (manual tool only, with its note) when detection is unavailable,
+  /// fails or times out (REQ-S-007).
+  Future<List<BlurBox>?> detectBoxes(
+    String path, {
+    Duration timeout = AppTimings.blurDetectTimeout,
+  }) async {
+    final detector = _ref.read(faceAndPlateDetectorProvider);
+    if (detector is UnavailableDetector) return null;
+    try {
+      await normaliseOrientation(path);
+      return await detector.detect(path).timeout(timeout);
+    } on Object {
+      return null;
+    }
   }
 
   /// Applies the manual blur tool's boxes to a draft photo and re-uploads it.

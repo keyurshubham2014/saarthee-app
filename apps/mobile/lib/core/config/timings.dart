@@ -55,4 +55,8 @@ class AppTimings {
 
   /// Default validity of a new alert in the composer.
   static const Duration composerDefaultSpan = Duration(hours: 6);
+
+  /// On-device face and plate detection per photo (REQ-S-007); on timeout
+  /// the flow falls back to the manual blur tool.
+  static const Duration blurDetectTimeout = Duration(seconds: 6);
 }
