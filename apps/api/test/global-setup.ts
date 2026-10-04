@@ -30,20 +30,27 @@ export default async function setup() {
     await admin.end();
   }
 
-  const db = new Client({ connectionString: url });
-  await db.connect();
-  try {
-    await db.query('DROP SCHEMA IF EXISTS public CASCADE');
-    await db.query('CREATE SCHEMA public');
-  } finally {
-    await db.end();
-  }
+  await resetSchema(url);
 
-  execFileSync('npx', ['prisma', 'migrate', 'deploy'], {
-    cwd: apiRoot,
-    env: { ...process.env, ...env, PRISMA_HIDE_UPDATE_MESSAGE: '1' },
-    stdio: ['ignore', 'ignore', 'inherit'],
-  });
+  // `prisma migrate deploy` occasionally stalls forever on this machine (seen: one run in ~3 hung > 15 min
+  // before any test ran). Cap each attempt at 90 s and retry on a freshly reset schema; a normal run takes ~3 s.
+  const prismaBin = path.join(apiRoot, 'node_modules', '.bin', 'prisma');
+  for (let attempt = 1; ; attempt++) {
+    try {
+      execFileSync(prismaBin, ['migrate', 'deploy'], {
+        cwd: apiRoot,
+        env: { ...process.env, ...env, PRISMA_HIDE_UPDATE_MESSAGE: '1' },
+        stdio: ['ignore', 'ignore', 'inherit'],
+        timeout: 90_000,
+        killSignal: 'SIGKILL',
+      });
+      break;
+    } catch (err) {
+      if (attempt >= 3) throw err;
+      console.error(`prisma migrate deploy attempt ${attempt} failed or stalled; resetting schema and retrying`);
+      await resetSchema(url);
+    }
+  }
 
   return async function teardown() {
     if (process.env.TEST_KEEP_DBS === '1') return;
@@ -65,5 +72,20 @@ async function dropWorkerDatabases(admin: Client, template: string) {
   );
   for (const r of rows.rows) {
     await admin.query(`DROP DATABASE IF EXISTS "${safeDbName(r.datname)}" WITH (FORCE)`);
+  }
+}
+
+/** Drops and recreates the template's `public` schema (terminating any session left by a killed attempt). */
+async function resetSchema(url: string) {
+  const db = new Client({ connectionString: url });
+  await db.connect();
+  try {
+    await db.query(
+      'SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = current_database() AND pid <> pg_backend_pid()',
+    );
+    await db.query('DROP SCHEMA IF EXISTS public CASCADE');
+    await db.query('CREATE SCHEMA public');
+  } finally {
+    await db.end();
   }
 }
