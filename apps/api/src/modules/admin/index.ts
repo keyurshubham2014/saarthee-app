@@ -6,6 +6,7 @@ import { adminComplaintsRouter } from '../admin-complaints';
 import { ratesRouter } from '../rates';
 import { exportRouter } from '../export';
 import { referenceRouter } from '../reference';
+import { opsAdminRouter } from '../ops';
 
 /**
  * Every route on this router is behind the JWT guard and the per-admin limiter (03 §10: 300/admin/min).
@@ -19,3 +20,4 @@ adminRouter.use(adminComplaintsRouter);
 adminRouter.use(ratesRouter);
 adminRouter.use(exportRouter);
 adminRouter.use(referenceRouter);
+adminRouter.use(opsAdminRouter);
