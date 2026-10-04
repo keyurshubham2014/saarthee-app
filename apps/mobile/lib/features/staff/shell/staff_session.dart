@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_client.dart';
@@ -46,9 +49,14 @@ class StaffEmailSession extends Notifier<String?> {
   /// 12 h in milliseconds (no `Duration` literals in features).
   static const maxAgeMs = 12 * 60 * 60 * 1000;
 
+  late Future<void> _restored;
+
+  /// Completes once the stored token has been read (router guard waits).
+  Future<void> get ready => _restored;
+
   @override
   String? build() {
-    _restore();
+    _restored = _restore();
     return null;
   }
 
@@ -146,3 +154,17 @@ Future<void> staffSignOut(WidgetRef ref) async {
   }
   ref.invalidate(staffMeProvider);
 }
+
+/// Router guard for `/staff/*` (UX only — the API is authoritative): no
+/// phone session and no email session → `/staff/login`.
+Future<String?> staffSignedInRedirect(BuildContext context, GoRouterStateLike state) async {
+  final container = ProviderScope.containerOf(context, listen: false);
+  await container.read(sessionProvider.notifier).ready;
+  container.read(staffEmailSessionProvider);
+  await container.read(staffEmailSessionProvider.notifier).ready;
+  final signedIn = container.read(sessionProvider).signedIn || container.read(staffEmailSessionProvider) != null;
+  return signedIn ? null : '/staff/login';
+}
+
+/// The part of `GoRouterState` the guard needs (keeps this file router-free).
+typedef GoRouterStateLike = Object?;

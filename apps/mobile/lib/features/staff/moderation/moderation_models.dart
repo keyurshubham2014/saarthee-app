@@ -51,7 +51,7 @@ class QueueItem {
 
   factory QueueItem.fromJson(Json j) => QueueItem(
     id: '${j['id']}',
-    title: '${j['title']}',
+    title: j['title'].toString(),
     status: '${j['status']}',
     categorySlug: '${(j['category'] as Map)['slug']}',
     createdAt: DateTime.parse('${j['createdAt']}'),

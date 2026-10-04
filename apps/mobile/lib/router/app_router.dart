@@ -13,8 +13,6 @@ import '../features/onboarding/presentation/language_screen.dart';
 import '../features/onboarding/presentation/ward_screen.dart';
 import '../features/report/report_routes.dart';
 import '../features/services/services_routes.dart';
-import '../features/staff/content/staff_content_routes.dart';
-import 'admin_routes.dart';
 import 'route_helpers.dart';
 import 'shell_routes.dart';
 import 'staff_routes.dart';
@@ -29,22 +27,23 @@ final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   ...authRoutes,
   // TASK-05 report: link an AMC complaint number.
   ...reportRootRoutes,
-  // TASK-12 services and initiatives (+ staff content screens).
+  // TASK-12 services and initiatives (staff content screens live in the
+  // TASK-10 staff shell, `staff_routes.dart`).
   ...servicesRoutes,
-  ...staffContentRoutes,
 ];
 
 /// Paths reachable before onboarding is done.
 bool _isPreOnboardingPath(String path) =>
     path.startsWith('/onboarding') ||
     path.startsWith('/admin') ||
+    path.startsWith('/staff') ||
     path.startsWith('/dev') ||
     path == '/error';
 
-/// Citizen routes are portrait-locked; admin routes rotate.
+/// Citizen routes are portrait-locked; staff routes rotate.
 void _applyOrientation(String path) {
   SystemChrome.setPreferredOrientations(
-    path.startsWith('/admin')
+    path.startsWith('/staff')
         ? DeviceOrientation.values
         : const [DeviceOrientation.portraitUp],
   );
@@ -60,6 +59,9 @@ GoRouter buildAppRouter(Ref ref, {bool enableGallery = kDebugMode}) {
     initialLocation: initial,
     redirect: (context, state) {
       final path = state.uri.path;
+      // TASK-10 (D11): the v1 admin screens are retired; old links open the
+      // staff console.
+      if (path == '/admin' || path.startsWith('/admin/')) return '/staff';
       final onboarded = ref.read(appSettingsProvider).onboardingDone;
       if (!onboarded && !_isPreOnboardingPath(path)) {
         return '/onboarding/language';
@@ -88,8 +90,7 @@ GoRouter buildAppRouter(Ref ref, {bool enableGallery = kDebugMode}) {
       if (enableGallery)
         GoRoute(path: '/dev/gallery', builder: (_, _) => const GalleryScreen()),
       ...rootFeatureRoutes,
-      ...adminRoutes,
-      // TASK-08: staff alert composer and approval (TASK-10 mounts the shell).
+      // TASK-10 staff console shell (TASK-08 alerts, TASK-12 content inside).
       ...staffRoutes,
     ],
   );

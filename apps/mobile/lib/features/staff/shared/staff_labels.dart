@@ -1,4 +1,5 @@
 import '../../../core/l10n/app_localizations.dart';
+import '../../../core/wards/ward.dart';
 import '../../../core/widgets/widgets.dart';
 import '../moderation/moderation_models.dart';
 
@@ -43,3 +44,6 @@ String staffEventLabel(AppLocalizations l10n, String type, String? toStatus) => 
   'comment' => l10n.staffEventComment,
   _ => l10n.staffEventOther,
 };
+
+/// "12 · Paldi" in the current language.
+String staffWardText(Ward w, String lang) => '${w.number} · ${lang == 'gu' ? w.nameGu : w.nameEn}';

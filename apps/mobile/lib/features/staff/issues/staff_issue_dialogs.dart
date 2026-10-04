@@ -97,7 +97,7 @@ Future<({String? categoryId, String? wardId})?> showRecategoriseDialog(BuildCont
             key: const Key('staff.recat.ward'),
             initialValue: wards.any((w) => w.id == wardId) ? wardId : null,
             decoration: InputDecoration(labelText: l10n.staffIssueWard),
-            items: [for (final w in wards) DropdownMenuItem(value: w.id, child: Text('${w.number} · ${lang == 'gu' ? w.nameGu : w.nameEn}'))],
+            items: [for (final w in wards) DropdownMenuItem(value: w.id, child: Text(staffWardText(w, lang)))],
             onChanged: (v) => setState(() => wardId = v),
           ),
           const SizedBox(height: AppSpacing.s16),

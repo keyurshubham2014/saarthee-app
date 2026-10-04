@@ -44,7 +44,15 @@ class _StaffIssueActionsState extends ConsumerState<StaffIssueActions> {
       if (leavesQueue) widget.onHandled?.call();
     } catch (e) {
       if (!mounted) return;
-      showStaffToast(context, isStaleError(e) ? l10n.staffIssueChanged : staffErrorText(l10n, e), error: true);
+      final stale = isStaleError(e);
+      // Already handled by someone else: say so and drop the row from the queue.
+      showStaffToast(context, stale ? (leavesQueue ? l10n.moderationStale : l10n.staffIssueChanged) : staffErrorText(l10n, e), error: true);
+      if (stale) {
+        for (final q in staffQueues) {
+          ref.invalidate(staffQueueProvider(q));
+        }
+        if (leavesQueue) widget.onHandled?.call();
+      }
     } finally {
       if (mounted) setState(() => _busy = null);
       ref.invalidate(staffIssueProvider(issue.id));

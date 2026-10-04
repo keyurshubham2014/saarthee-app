@@ -60,7 +60,7 @@ class StaffIssue {
     final cat = (j['category'] as Map).cast<String, dynamic>();
     return StaffIssue(
       id: '${j['id']}',
-      title: '${j['title']}',
+      title: j['title'].toString(),
       description: j['description'] as String?,
       status: '${j['status']}',
       hidden: j['visibility'] == 'hidden',
@@ -139,7 +139,7 @@ final mergeCandidatesProvider = FutureProvider.autoDispose.family<List<MergeCand
     for (final c in (j['items'] as List))
       MergeCandidate(
         id: '${(c as Map)['id']}',
-        title: '${c['title']}',
+        title: c['title'].toString(),
         distanceM: (c['distanceM'] as num).toInt(),
         far: c['farWarning'] == true,
         categorySlug: '${(c['category'] as Map)['slug']}',

@@ -31,12 +31,14 @@ void main() {
       expect(find.text('Choose your language'), findsOneWidget);
     });
 
-    testWidgets('/admin/login still resolves', (t) async {
+    // TASK-10 (D11): v1 admin screens are retired; old links open the staff
+    // console, which asks a signed-out operator to sign in.
+    testWidgets('/admin/login redirects to the staff console sign-in', (t) async {
       FlutterSecureStorage.setMockInitialValues({});
       await pumpApp(t, prefs: onboardedPrefs());
       GoRouter.of(t.element(find.byType(NavigationBar))).go('/admin/login');
       await t.pumpAndSettle();
-      expect(find.text('Operator login'), findsWidgets);
+      expect(find.text('Sign in to Saarthee staff'), findsWidgets);
     });
   });
 

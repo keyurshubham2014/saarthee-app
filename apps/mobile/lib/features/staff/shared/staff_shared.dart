@@ -144,6 +144,7 @@ final staffRoleProvider = Provider<String?>((ref) {
   final role = ref.watch(sessionProvider.select((s) => s.me?.role));
   if (role == 'moderator' || role == 'admin') return role;
   // TASK-10: the v1 email admin sign-in has no citizen session.
+  if (ref.watch(staffEmailSessionProvider) == null) return null;
   final me = ref.watch(staffMeProvider).value;
   return me != null && (me.role == 'moderator' || me.role == 'admin')
       ? me.role
