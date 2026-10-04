@@ -62,9 +62,17 @@ export function codeTable(seenCodes) {
       f.lines.forEach((line, i) => {
         if (!line.includes(`'${code}'`)) return;
         files.add(rel(f.p));
+        // Scan this case body only: stop at the next `case`/`default` once a non-case line was seen.
+        let body = false;
         for (let j = i; j < Math.min(i + 6, f.lines.length); j++) {
-          if (j > i && /^\s*case '/.test(f.lines[j]) === false && /^\s*(case|default)\b/.test(f.lines[j]) && keys.size) break;
-          const m = f.lines[j].match(/\b(?:l10n|l|loc|s|t|strings)\.([a-z][A-Za-z0-9]+)\b/);
+          const l = f.lines[j];
+          if (j > i && /^\s*(case\b|default\b)/.test(l) && body) break;
+          if (j > i && !/^\s*case\b/.test(l)) body = true;
+          if (/rateLimitMessage\(/.test(l)) {
+            keys.add('errorRateLimited');
+            break;
+          }
+          const m = l.match(/\b(?:l10n|l|loc|s|t|strings)\.([a-z][A-Za-z0-9]+)\b/);
           if (m && m[1] in arbEn) {
             keys.add(m[1]);
             break;
