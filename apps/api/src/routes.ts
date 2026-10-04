@@ -24,6 +24,8 @@ import { lifecycleRouter } from './modules/lifecycle';
 import { escalationRouter } from './modules/escalation';
 import { staffRouter } from './modules/staff';
 import { flagsRouter } from './modules/flags';
+import { feedRouter } from './modules/feed';
+import { mapRouter } from './modules/map';
 
 export const apiRouter = Router();
 apiRouter.use(publicRouter);
@@ -58,3 +60,6 @@ apiRouter.use(escalationRouter);
 // TASK-10: staff console (moderation, issue tools, users & roles, categories, settings, exports) and citizen flags.
 apiRouter.use(staffRouter);
 apiRouter.use(flagsRouter);
+// TASK-07: discovery — Home feed (provider registry) and map clusters/points. /issues list/detail live in issuesRouter.
+apiRouter.use(feedRouter);
+apiRouter.use(mapRouter);

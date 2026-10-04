@@ -34,6 +34,15 @@ class CivicMap extends ConsumerWidget {
     this.onCenterChanged,
     this.mapController,
     this.height = 180,
+    // TASK-07 discovery map (additive): extra layers, no centre pin, free
+    // pan/zoom, muted tiles, full height (null), camera callbacks.
+    this.layers = const [],
+    this.showCenterPin = true,
+    this.interactive = false,
+    this.muted = false,
+    this.initialZoom = 17,
+    this.onPositionChanged,
+    this.onMapEvent,
   });
 
   final LatLng center;
@@ -43,7 +52,24 @@ class CivicMap extends ConsumerWidget {
   final bool dropPin;
   final ValueChanged<LatLng>? onCenterChanged;
   final MapController? mapController;
-  final double height;
+
+  /// Null: fill the available height (Map tab).
+  final double? height;
+  final List<Widget> layers;
+  final bool showCenterPin;
+  final bool interactive;
+  final bool muted;
+  final double initialZoom;
+  final void Function(MapCamera camera, bool hasGesture)? onPositionChanged;
+  final void Function(MapEvent event)? onMapEvent;
+
+  /// Desaturates and lightens raster tiles (DS §5 "muted basemap").
+  static const ColorFilter mutedFilter = ColorFilter.matrix(<double>[
+    0.55, 0.35, 0.10, 0, 30, //
+    0.25, 0.65, 0.10, 0, 30, //
+    0.25, 0.35, 0.40, 0, 30, //
+    0, 0, 0, 1, 0, //
+  ]);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,7 +79,7 @@ class CivicMap extends ConsumerWidget {
       label: semanticLabel,
       container: true,
       child: ClipRRect(
-        borderRadius: AppRadii.cardRadius,
+        borderRadius: height == null ? BorderRadius.zero : AppRadii.cardRadius,
         child: SizedBox(
           height: height,
           child: RepaintBoundary(
@@ -66,32 +92,44 @@ class CivicMap extends ConsumerWidget {
                       mapController: mapController,
                       options: MapOptions(
                         initialCenter: center,
-                        initialZoom: 17,
+                        initialZoom: initialZoom,
                         interactionOptions: InteractionOptions(
-                          flags: adjusting
+                          flags: interactive
+                              ? InteractiveFlag.all & ~InteractiveFlag.rotate
+                              : adjusting
                               ? InteractiveFlag.drag | InteractiveFlag.pinchZoom
                               : InteractiveFlag.none,
                         ),
                         onPositionChanged: (camera, hasGesture) {
                           if (hasGesture) onCenterChanged?.call(camera.center);
+                          onPositionChanged?.call(camera, hasGesture);
                         },
+                        onMapEvent: onMapEvent,
                       ),
                       children: [
                         if (tiles)
                           TileLayer(
                             urlTemplate: kMapTileUrl,
                             userAgentPackageName: 'in.saarthee.app',
+                            tileBuilder: muted
+                                ? (context, tile, _) => ColorFiltered(
+                                    colorFilter: mutedFilter,
+                                    child: tile,
+                                  )
+                                : null,
                           ),
+                        ...layers,
                       ],
                     ),
                   ),
                 ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: AppSpacing.s32),
-                    child: PinDrop(animate: dropPin, color: c.primary),
+                if (showCenterPin)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.s32),
+                      child: PinDrop(animate: dropPin, color: c.primary),
+                    ),
                   ),
-                ),
                 Positioned(
                   right: AppSpacing.s4,
                   bottom: AppSpacing.s4,

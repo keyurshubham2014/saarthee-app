@@ -5,6 +5,7 @@ import { requestId } from './middleware/requestId';
 import { requestLog } from './middleware/requestLog';
 import { errorHandler, notFound } from './middleware/errorHandler';
 import { apiRouter } from './routes';
+import { sharePageRouter } from './modules/share-page';
 
 /** Builds the Express app without listening (server.ts listens). */
 export function createApp() {
@@ -45,6 +46,8 @@ export function createApp() {
   }
   app.use(express.json({ limit: '64kb' }));
   app.use('/api/v1', apiRouter);
+  // TASK-07: public share/evidence page /i/{id} (outside /api/v1).
+  app.use(sharePageRouter);
   app.use(notFound);
   app.use(errorHandler);
   return app;

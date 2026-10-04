@@ -55,10 +55,11 @@ describe('POST /issues/{id}/me-too (T-05-07)', () => {
     const issue = await makeIssue({ reporterId: owner.user.id, categoryId: await categoryId('garbage') });
     const first = await api().post(`/api/v1/issues/${issue.id}/me-too`).set(other.auth);
     expect(first.status).toBe(201);
-    expect(first.body).toEqual({ meTooCount: 1 });
+    // TASK-07: Me too also follows (followerCount from the issue row).
+    expect(first.body).toMatchObject({ meTooCount: 1, isFollowing: true });
     const again = await api().post(`/api/v1/issues/${issue.id}/me-too`).set(other.auth);
     expect(again.status).toBe(200);
-    expect(again.body).toEqual({ meTooCount: 1 });
+    expect(again.body).toMatchObject({ meTooCount: 1, isFollowing: true });
     expect((await prisma.issue.findUniqueOrThrow({ where: { id: issue.id } })).meTooCount).toBe(1);
     const own = await api().post(`/api/v1/issues/${issue.id}/me-too`).set(owner.auth);
     expect(own.status).toBe(409);

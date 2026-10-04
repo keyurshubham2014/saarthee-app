@@ -79,6 +79,8 @@ export const ERROR_CODES = {
   SELF_SUSPEND: { status: 409, message: "You can't suspend yourself." },
   USER_STATE_INVALID: { status: 409, message: 'This account is already in that state.' },
   ROLE_CHANGE_INVALID: { status: 422, message: "This person's role can't be changed here." },
+  // TASK-07 (discovery).
+  WARD_REQUIRED: { status: 400, message: 'Choose a ward to see its feed.' },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

@@ -117,6 +117,11 @@ const schema = z.object({
   AUDIT_RETENTION_DAYS: int(1).default(365),
   EXPORT_MAX_ROWS: int(1).default(50_000),
   EXPORT_HMAC_SECRET: optionalEmpty(z.string().min(16)),
+  // TASK-07 (discovery: feed, lists, map).
+  FEED_CACHE_SECONDS: int(0).max(3600).default(30),
+  MAP_CLUSTER_MAX_ZOOM: int(1).max(20).default(15),
+  MAP_POINTS_MAX: int(1).max(5000).default(500),
+  ISSUES_PAGE_MAX: int(1).max(200).default(50),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;

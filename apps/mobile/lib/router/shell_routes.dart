@@ -11,7 +11,8 @@ import '../features/settings/presentation/settings_screen.dart';
 import '../features/shell/my_ward_screen.dart';
 import '../features/shell/shell_scaffold.dart';
 import '../features/report/report_routes.dart';
-import '../features/shell/tab_placeholders.dart';
+import '../features/discovery/discovery_routes.dart';
+import '../features/discovery/presentation/map/map_tab_screen.dart';
 import '../features/ward/ward_routes.dart';
 import 'app_router.dart' show rootNavigatorKey;
 import '../features/alerts/data/alert_models.dart';
@@ -102,6 +103,8 @@ final List<RouteBase> meRoutes = <RouteBase>[
     path: '/me/notifications',
     builder: (_, _) => const InboxScreen(),
   ),
+  // TASK-07 discovery: My reports, Following.
+  ...discoveryMeRoutes,
 ];
 
 StatefulShellRoute buildCitizenShell() => StatefulShellRoute(

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../router/route_helpers.dart';
 import '../auth/application/ensure_signed_in.dart';
 import 'presentation/escalate_screen.dart';
-import 'presentation/issue_lifecycle_screen.dart';
+import '../discovery/presentation/issue_detail_screen.dart';
 import 'presentation/mark_fixed_screen.dart';
 import 'presentation/verify_photo_screen.dart';
 import 'presentation/verify_screen.dart';
@@ -17,7 +17,8 @@ String _id(GoRouterState s) => s.pathParameters['id']!;
 final List<RouteBase> issueActionsRoutes = <RouteBase>[
   saartheeRoute(
     path: '/issues/:id',
-    builder: (_, s) => IssueLifecycleScreen(issueId: _id(s)),
+    // TASK-07: the real issue detail (embeds IssueLifecyclePanel).
+    builder: (_, s) => IssueDetailScreen(issueId: _id(s)),
     routes: [
       saartheeRoute(
         path: 'verify',

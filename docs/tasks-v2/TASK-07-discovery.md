@@ -3,14 +3,14 @@
 | Field | Value |
 |---|---|
 | Task ID | TASK-07 |
-| Status | Not Started |
+| Status | In Review |
 | Priority | P0 |
 | Size | L |
 | Depends On | TASK-06 |
 | Blocks | TASK-14 |
 | Requirement IDs | REQ-F-028, REQ-F-029, REQ-F-030, REQ-F-031, REQ-F-032, REQ-F-033, REQ-F-034, REQ-N-008, REQ-N-011, REQ-S-006, REQ-F-064 |
 | Primary Spec Refs | Spec §7 (Issues, Feed & map endpoints, rate limits), §8 (`/`, `/map`, `/issues/:id`, `/me/reports`, `/me/following`), §11 (reporter privacy); DS §2 (Neem tokens, `sunrise` for the Report card only, status, category colours), §3 (Baloo Bhai 2 / Mukta Vaani), §4 (radii, Home header band, Material Symbols Rounded, photos), §5 (Home header, Report card, app bar, issue card, status timeline, map, empty/loading/error), §6 (Motion: Home first load, Report card, Feed card → detail, "Me too", Pull to refresh, Map), §7 (accessibility), §8 |
-| Last Updated | 2026-10-03 |
+| Last Updated | 2026-10-04 |
 
 ## 1. Objective
 
@@ -165,6 +165,19 @@ Accessibility: motion never carries meaning alone (count text and button label c
 - ASSUMPTION: Pull-to-refresh is a custom indicator built on `RefreshIndicator`'s gesture handling (or `CustomRefreshIndicator`, *candidate*, pin on pub.dev) with the chevron drawn by `CustomPainter`; no Lottie/Rive (DS §6).
 - ASSUMPTION: Home Report-card copy is "Report a problem" / hint "Pothole, garbage, water, anything" (DS §5); the earlier "Report an issue" label is retired on Home.
 - ASSUMPTION: p95 measured locally on the perf seed with autocannon (*candidate*) at 50 concurrent connections; re-measured on staging in TASK-13/14.
+
+#### 5.6 Build assumptions (2026-10-04, W-DISC)
+- ASSUMPTION: Client clustering is a small in-house Web-Mercator grid (`features/discovery/application/clustering.dart`, 64 px cells) instead of `flutter_map_marker_cluster`: no new dependency, and pin-drop/no-re-drop bookkeeping stays under our control. Server grid clustering (`ST_SnapToGrid`) is built too (below zoom 15, or when points exceed `MAP_POINTS_MAX`).
+- ASSUMPTION: The Map tab uses the existing `CivicMap`, extended additively (`layers`, `showCenterPin`, `interactive`, `muted` colour-matrix tiles, `height: null` = fill, camera callbacks). The default camera is Paldi (wards carry no centroid in the app model); "My location" animates there when permitted.
+- ASSUMPTION: Home's alerts come from TASK-08's `alertsListProvider(true)` (home ward + extra alert wards, the same list as the Alerts tab) rather than `GET /feed`'s `alerts` section, so the Home card and the Alerts tab never disagree; drives, tips and services stay TASK-12's `HomeServicesSection`. `GET /feed` still composes every section through a provider registry (`modules/feed/registry.ts`); the app reads its `nearbyIssues`.
+- ASSUMPTION: Stat tiles on Home are computed from the feed's nearby issues (open nearby, overdue, residents affected); no extra endpoint.
+- ASSUMPTION: Hero tags come from an optional `heroId` on the TASK-03 `IssueCard` (additive). The Report-card spring + one-time ring wraps the card through a new optional `HomeHeader.decorateReportCard` hook; the pulse flag key is `saarthee.home.reportPulseShown`.
+- ASSUMPTION: Pull to refresh is a dependency-free `ChevronRefreshIndicator` (scroll notifications + `CustomPainter` reusing `BrandMarkPainter` geometry, route and dot in `primary`); it spins for `SaartheeMotion.shimmerPeriod` per turn only while the request runs.
+- ASSUMPTION: Me too creation now increments `me_too_count` by one only when a row was inserted (was a `count(*)` recompute, which can drift under concurrent inserts) and also inserts a follow; `DELETE …/me-too` has its own 100/user/day limiter.
+- ASSUMPTION: `perf:read` is a dependency-free fetch loop (not autocannon) that varies `X-Forwarded-For` per request so per-IP limits do not throttle the run (server needs `TRUST_PROXY=true`). An in-CI perf test (`test/discovery/perf.test.ts`) asserts p95 < 400 ms on the seeded volume.
+- ASSUMPTION: The share PNG (1080×1350 via `RepaintBoundary`) is deferred; Share sends the text + `/i/{id}` link and `IssueShareCard` holds the card content. `/i/{id}` is English-only.
+- ASSUMPTION: `nearby` (TASK-05) and `events` (TASK-06) keep their own already-PII-free shapes; T-07-12 scans them with the new routes instead of rewriting them onto `toCard`.
+- ASSUMPTION: TASK-03's placeholder register (`features/shell/placeholders.dart`, `tab_placeholders.dart`) is deleted now that P-01…P-09 are all replaced; the unused `placeholder*` ARB keys are left for the integrator to prune (ARB files are append-only for workers).
 
 ## 6. Implementation Steps
 
@@ -388,30 +401,34 @@ Prediction only — exact paths may differ.
 
 ## 13. Progress Status
 
-**Current status:** Not Started
+**Current status:** In Review (emulator checks pending)
 
-**Progress:** 0%
+**Progress:** 90% (all code and automated tests; emulator/manual M-07-01…08 and the share PNG remain)
 
 | Date | Progress | Commit |
 |---|---|---|
+| 2026-10-04 | API: `toPublicIssue`/`toCard`, `GET /issues` keyset cursors, `GET /issues/{id}`, me-too DELETE, follow, `GET /feed` registry, `GET /map/issues`, `/i/{id}`, indexes migration, privacy scan | 1cf9957…2b59724 |
+| 2026-10-04 | Perf seed + `perf:read`; in-CI p95 test. Results — in-process p95 (ms): feed 12, list 3–8, detail 16, map clusters 11, points 4. `perf:read` 50 conns × 15 s, local server: p95 feed 14, list 40, detail 61, map 118; 0 errors | 8ed9248 |
+| 2026-10-04 | App: data layer, Home feed (P-01/P-02 replaced), Map tab (P-04), issue detail replacing TASK-06's interim `/issues/:id` (embeds `IssueLifecyclePanel`), `/issues`, My reports, Following, share, all REQ-F-064 motion moments; placeholders removed; widget tests W-07-01…10; I-07-01 written | e1351ca…HEAD |
+| 2026-10-04 | Not done here (emulator/device only): M-07-01…M-07-08 recordings and frame charts, I-07-01 run, share PNG render | — |
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete
+- [x] All implementation steps complete (except the share PNG render, deferred)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the tests and manual checks in §8
-- [ ] Automated tests added and passing
+- [x] Automated tests added and passing
 - [ ] Frontend and backend integrated end to end (no mocked data left in place)
 - [ ] Error, loading, empty, and unauthorized states verified
 - [ ] Code reviewed against the patterns established in earlier tasks
-- [ ] Assumptions documented and, where possible, confirmed
+- [x] Assumptions documented and, where possible, confirmed
 - [ ] Coverage matrix rows for this task's requirements set to Pass with evidence (`check_coverage.py --task TASK-07` shows 0 unverified)
-- [ ] Task file progress log and status updated
+- [x] Task file progress log and status updated
 - [ ] `00-task-summary.md` updated
-- [ ] Committed as `V2-TASK-07: …`
+- [x] Committed as `V2-TASK-07: …`
 - [ ] Validator passes
 - [ ] Home matches DS §5 "Home header" and "Report card" (green band, `sunrise` card only, Neem type, radii and Rounded icons)
-- [ ] REQ-F-064 motion implemented with `SaartheeMotion` tokens only; W-07-08…W-07-10 pass
+- [x] REQ-F-064 motion implemented with `SaartheeMotion` tokens only; W-07-08…W-07-10 pass
 - [ ] Reduced-motion variants verified (system setting and in-app switch)
 - [ ] Motion screen recordings saved to `docs/demo/v2-evidence/motion/` (M-07-07, M-07-08)

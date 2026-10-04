@@ -7,6 +7,7 @@ import { resetDb } from '../helpers/db';
 // Before any import reads the config (it is loaded once per file).
 vi.hoisted(() => {
   process.env.DEPLOY_ENV = 'staging';
+  process.env.STAFF_WEB_ORIGINS = ''; // a developer's local http origin is invalid outside local
 });
 
 const PHONE = '+919876543210';

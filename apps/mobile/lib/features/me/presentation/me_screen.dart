@@ -169,6 +169,19 @@ class _Profile extends ConsumerWidget {
           showChevron: false,
         ),
         const Divider(),
+        // TASK-07: My reports and Following.
+        ListRow(
+          key: const Key('me.reports'),
+          leading: Icon(SaartheeIcons.report, color: c.textSecondary),
+          title: l10n.discoveryMyReportsTitle,
+          onTap: () => context.push('/me/reports'),
+        ),
+        ListRow(
+          key: const Key('me.following'),
+          leading: Icon(SaartheeIcons.follow, color: c.textSecondary),
+          title: l10n.discoveryFollowingTitle,
+          onTap: () => context.push('/me/following'),
+        ),
         ListRow(
           key: const Key('me.privacy'),
           leading: Icon(SaartheeIcons.lock, color: c.textSecondary),

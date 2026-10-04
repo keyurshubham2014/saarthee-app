@@ -64,8 +64,13 @@ export async function nearby(lat: number, lng: number, categorySlug: string): Pr
   }));
 }
 
-/** POST /issues/{id}/me-too (create only): 201 new, 200 repeat. */
-export async function addMeToo(userId: string, issueId: string, res?: import('express').Response): Promise<{ created: boolean; meTooCount: number }> {
+/**
+ * POST /issues/{id}/me-too (create only): 201 new, 200 repeat. TASK-07: also follows (ignore conflict);
+ * counters move by ±1 only when a row was inserted, in the same transaction (no drift under concurrency).
+ */
+export async function addMeToo(
+  userId: string, issueId: string, res?: import('express').Response,
+): Promise<{ created: boolean; meTooCount: number; followerCount: number; isFollowing: true }> {
   const issue = await prisma.issue.findUnique({ where: { id: issueId }, select: { reporterId: true, status: true, visibility: true } });
   if (!issue || issue.visibility !== 'public') throw new AppError('NOT_FOUND');
   if (issue.reporterId === userId) throw new AppError('OWN_ISSUE');
@@ -75,10 +80,13 @@ export async function addMeToo(userId: string, issueId: string, res?: import('ex
   return prisma.$transaction(async (tx) => {
     const inserted = await tx.$executeRaw`
       INSERT INTO me_toos (issue_id, user_id) VALUES (${issueId}::uuid, ${userId}::uuid) ON CONFLICT DO NOTHING`;
-    const [r] = await tx.$queryRaw<{ me_too_count: number }[]>`
-      UPDATE issues SET me_too_count = (SELECT count(*) FROM me_toos WHERE issue_id = ${issueId}::uuid)
-      WHERE id = ${issueId}::uuid RETURNING me_too_count`;
-    return { created: inserted > 0, meTooCount: Number(r?.me_too_count ?? 0) };
+    const followed = await tx.$executeRaw`
+      INSERT INTO follows (issue_id, user_id) VALUES (${issueId}::uuid, ${userId}::uuid) ON CONFLICT DO NOTHING`;
+    const [r] = await tx.$queryRaw<{ me_too_count: number; follower_count: number }[]>`
+      UPDATE issues SET me_too_count = me_too_count + ${inserted > 0 ? 1 : 0}::int,
+                        follower_count = follower_count + ${followed > 0 ? 1 : 0}::int
+      WHERE id = ${issueId}::uuid RETURNING me_too_count, follower_count`;
+    return { created: inserted > 0, meTooCount: Number(r?.me_too_count ?? 0), followerCount: Number(r?.follower_count ?? 0), isFollowing: true as const };
   });
 }
 

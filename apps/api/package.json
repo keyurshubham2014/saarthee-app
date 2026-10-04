@@ -42,7 +42,9 @@
     "amc:problems:fetch": "tsx --env-file=.env scripts/fetch-amc-problems.ts",
     "services:seed": "tsx --env-file=.env scripts/seed-services.ts",
     "services:check-links": "tsx --env-file=.env scripts/check-service-links.ts",
-    "initiatives:remind": "tsx --env-file=.env scripts/remind-initiatives.ts"
+    "initiatives:remind": "tsx --env-file=.env scripts/remind-initiatives.ts",
+    "seed:perf": "tsx --env-file=.env prisma/seed/perf-run.ts",
+    "perf:read": "tsx scripts/perf-read.ts"
   },
   "prisma": {
     "seed": "tsx --env-file=.env prisma/seed/index.ts"
