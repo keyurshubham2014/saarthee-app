@@ -69,7 +69,7 @@ describe('authorisation matrix (T-10-01)', () => {
 describe('assertWardScope (T-10-03)', () => {
   const app = express();
   app.get('/ward/:wardId', requireStaff('admin', 'moderator', 'representative'), (req, res) => {
-    assertWardScope(req.staff, req.params.wardId);
+    assertWardScope(req.staff, req.params.wardId as string);
     res.json({ ok: true });
   });
   app.use(errorHandler);
