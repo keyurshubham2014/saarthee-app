@@ -51,8 +51,7 @@ Future<void> waitForWidget(WidgetTester t, Finder finder, {int seconds = 10}) =>
 
 /// Scrolls [key] into view (outside the trace) and taps it.
 Future<void> tapKey(WidgetTester t, Key key) async {
-  final f = find.byKey(key).first;
-  await t.ensureVisible(f);
+  await t.ensureVisible(find.byKey(key, skipOffstage: false).first);
   await t.pump();
-  await t.tap(f);
+  await t.tap(find.byKey(key).first);
 }

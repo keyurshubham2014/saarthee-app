@@ -45,7 +45,7 @@ Fix fixAt(double lat, double lng) =>
 
 /// Taps [key] once its button is enabled (upload / ward lookup finished).
 Future<void> tapWhenEnabled(WidgetTester t, Key key, {int seconds = 30}) async {
-  final f = find.byKey(key);
+  final f = find.byKey(key, skipOffstage: false);
   for (var i = 0; i < seconds * 10; i++) {
     await t.pump(const Duration(milliseconds: 100));
     final buttons = find.descendant(
@@ -56,9 +56,9 @@ Future<void> tapWhenEnabled(WidgetTester t, Key key, {int seconds = 30}) async {
         ? null
         : buttons.evaluate().first.widget as ButtonStyleButton;
     if (b != null && b.onPressed != null) {
-      await t.ensureVisible(f);
+      await t.ensureVisible(find.byKey(key, skipOffstage: false).first);
       await t.pump();
-      await t.tap(f);
+      await t.tap(find.byKey(key).first);
       return;
     }
   }
@@ -67,11 +67,11 @@ Future<void> tapWhenEnabled(WidgetTester t, Key key, {int seconds = 30}) async {
 
 /// Taps [key] if it is on screen (optional prompts: duplicate, ward edge).
 Future<void> tapIfShown(WidgetTester t, Key key) async {
-  final f = find.byKey(key);
-  if (f.evaluate().isEmpty) return;
-  await t.ensureVisible(f);
+  final all = find.byKey(key, skipOffstage: false);
+  if (all.evaluate().isEmpty) return;
+  await t.ensureVisible(all.first);
   await t.pump();
-  await t.tap(f);
+  await t.tap(find.byKey(key).first);
   await t.pump(const Duration(milliseconds: 500));
 }
 
