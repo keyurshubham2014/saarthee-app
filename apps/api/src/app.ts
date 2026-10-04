@@ -33,7 +33,7 @@ export function createApp() {
         res.setHeader('Vary', 'Origin');
         if (req.method === 'OPTIONS') {
           res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-          res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept-Language');
+          res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept-Language, X-Install-Id, X-App-Version, X-Platform, X-Request-Id');
           res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
           res.setHeader('Access-Control-Max-Age', '600');
           return void res.status(204).end();

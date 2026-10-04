@@ -36,6 +36,8 @@ describe('CORS for the staff web origin', () => {
       expect(ok.status).toBe(204);
       expect(ok.headers['access-control-allow-origin']).toBe('http://localhost:5050');
       expect(ok.headers['access-control-allow-headers']).toContain('Authorization');
+      // The app's client headers (api_client.dart) must pass preflight or every web call fails.
+      for (const h of ['X-Install-Id', 'X-App-Version', 'X-Platform', 'X-Request-Id']) expect(ok.headers['access-control-allow-headers']).toContain(h);
       expect(ok.headers['access-control-allow-credentials']).toBeUndefined();
       const bad = await request(app).options('/api/v1/staff/me').set('Origin', 'https://evil.example');
       expect(bad.headers['access-control-allow-origin']).toBeUndefined();
