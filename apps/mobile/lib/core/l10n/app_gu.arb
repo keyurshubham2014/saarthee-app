@@ -4026,5 +4026,386 @@
   "issueActionsCcrsVerify": "ઉકેલાયું છે — ચકાસો",
   "@issueActionsCcrsVerify": {
     "x-review": "pending"
+  },
+  "reporterResidentOf": "{ward}ના રહેવાસી",
+  "@reporterResidentOf": {
+    "x-review": "pending",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryReportedBy": "{ward}ના રહેવાસીએ નોંધાવ્યું",
+  "@discoveryReportedBy": {
+    "x-review": "pending",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverySeeAll": "બધું જુઓ",
+  "@discoverySeeAll": {
+    "x-review": "pending"
+  },
+  "discoveryAllAlerts": "બધી ચેતવણીઓ",
+  "@discoveryAllAlerts": {
+    "x-review": "pending"
+  },
+  "discoveryNoIssuesInWard": "{ward}માં હજી કોઈ સમસ્યા નોંધાઈ નથી.",
+  "@discoveryNoIssuesInWard": {
+    "x-review": "pending",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryFeedError": "અમે તમારો વોર્ડ લોડ કરી શક્યા નહીં. ફરી પ્રયાસ કરો",
+  "@discoveryFeedError": {
+    "x-review": "pending"
+  },
+  "discoveryOfflineSince": "તમે ઑફલાઇન છો. {time} વાગ્યે જે હતું તે બતાવીએ છીએ.",
+  "@discoveryOfflineSince": {
+    "x-review": "pending",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryChooseWardPrompt": "નજીકમાં શું થઈ રહ્યું છે તે જોવા તમારો વોર્ડ પસંદ કરો.",
+  "@discoveryChooseWardPrompt": {
+    "x-review": "pending"
+  },
+  "discoveryChooseWard": "વોર્ડ પસંદ કરો",
+  "@discoveryChooseWard": {
+    "x-review": "pending"
+  },
+  "discoveryStatOpen": "નજીકમાં ખુલ્લી",
+  "@discoveryStatOpen": {
+    "x-review": "pending"
+  },
+  "discoveryStatOverdue": "મુદત વીતી",
+  "@discoveryStatOverdue": {
+    "x-review": "pending"
+  },
+  "discoveryStatAffected": "અસરગ્રસ્ત રહેવાસીઓ",
+  "@discoveryStatAffected": {
+    "x-review": "pending"
+  },
+  "discoveryIssuesTitle": "{ward}ની સમસ્યાઓ",
+  "@discoveryIssuesTitle": {
+    "x-review": "pending",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryIssuesTitleAll": "સમસ્યાઓ",
+  "@discoveryIssuesTitleAll": {
+    "x-review": "pending"
+  },
+  "discoveryFilterCategory": "શ્રેણી",
+  "@discoveryFilterCategory": {
+    "x-review": "pending"
+  },
+  "discoveryFilterStatus": "સ્થિતિ",
+  "@discoveryFilterStatus": {
+    "x-review": "pending"
+  },
+  "discoveryStatusOpen": "ખુલ્લી",
+  "@discoveryStatusOpen": {
+    "x-review": "pending"
+  },
+  "discoveryStatusOverdue": "મુદત વીતી",
+  "@discoveryStatusOverdue": {
+    "x-review": "pending"
+  },
+  "discoveryStatusFixed": "ઉકેલાઈ",
+  "@discoveryStatusFixed": {
+    "x-review": "pending"
+  },
+  "discoveryStatusVerified": "ચકાસાયેલ",
+  "@discoveryStatusVerified": {
+    "x-review": "pending"
+  },
+  "discoverySort": "ક્રમ",
+  "@discoverySort": {
+    "x-review": "pending"
+  },
+  "discoverySortNewest": "સૌથી નવી",
+  "@discoverySortNewest": {
+    "x-review": "pending"
+  },
+  "discoverySortAffected": "સૌથી વધુ અસર",
+  "@discoverySortAffected": {
+    "x-review": "pending"
+  },
+  "discoverySortOverdue": "મુદત વીતેલી પહેલાં",
+  "@discoverySortOverdue": {
+    "x-review": "pending"
+  },
+  "discoveryDone": "થઈ ગયું",
+  "@discoveryDone": {
+    "x-review": "pending"
+  },
+  "discoveryNoMatch": "આ ફિલ્ટર સાથે કોઈ સમસ્યા મળી નથી.",
+  "@discoveryNoMatch": {
+    "x-review": "pending"
+  },
+  "discoveryClearFilters": "ફિલ્ટર દૂર કરો",
+  "@discoveryClearFilters": {
+    "x-review": "pending"
+  },
+  "discoveryEndOfList": "બસ આટલું જ.",
+  "@discoveryEndOfList": {
+    "x-review": "pending"
+  },
+  "discoveryRefreshing": "તાજું થઈ રહ્યું છે…",
+  "@discoveryRefreshing": {
+    "x-review": "pending"
+  },
+  "discoveryLoadError": "અમે સમસ્યાઓ લોડ કરી શક્યા નહીં. ફરી પ્રયાસ કરો",
+  "@discoveryLoadError": {
+    "x-review": "pending"
+  },
+  "discoveryMapMine": "મારી",
+  "@discoveryMapMine": {
+    "x-review": "pending"
+  },
+  "discoveryMapMyLocation": "મારું સ્થાન",
+  "@discoveryMapMyLocation": {
+    "x-review": "pending"
+  },
+  "discoveryMapShowList": "યાદી તરીકે બતાવો",
+  "@discoveryMapShowList": {
+    "x-review": "pending"
+  },
+  "discoveryMapLoadError": "અહીંની સમસ્યાઓ લોડ થઈ નહીં. ફરી પ્રયાસ કરો",
+  "@discoveryMapLoadError": {
+    "x-review": "pending"
+  },
+  "discoveryMapEmpty": "આ વિસ્તારમાં કોઈ સમસ્યા નથી",
+  "@discoveryMapEmpty": {
+    "x-review": "pending"
+  },
+  "discoveryMapOffline": "તમે ઑફલાઇન છો. છેલ્લી પિન બતાવીએ છીએ.",
+  "@discoveryMapOffline": {
+    "x-review": "pending"
+  },
+  "discoveryMapViewDetails": "વિગતો જુઓ",
+  "@discoveryMapViewDetails": {
+    "x-review": "pending"
+  },
+  "discoveryMapLabel": "નોંધાયેલી સમસ્યાઓનો નકશો",
+  "@discoveryMapLabel": {
+    "x-review": "pending"
+  },
+  "discoveryMapClusterLabel": "અહીં {count} સમસ્યાઓ, નજીકથી જુઓ",
+  "@discoveryMapClusterLabel": {
+    "x-review": "pending",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryMapPinLabel": "{category}, {status}",
+  "@discoveryMapPinLabel": {
+    "x-review": "pending",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryBefore": "પહેલાં",
+  "@discoveryBefore": {
+    "x-review": "pending"
+  },
+  "discoveryAfter": "પછી",
+  "@discoveryAfter": {
+    "x-review": "pending"
+  },
+  "discoveryBlurCaption": "ચહેરા અને નંબર પ્લેટ ઝાંખા કર્યા છે",
+  "@discoveryBlurCaption": {
+    "x-review": "pending"
+  },
+  "discoveryMetaLine": "{category} · {ward} · {age}",
+  "@discoveryMetaLine": {
+    "x-review": "pending",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "ward": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryAgeToday": "આજે",
+  "@discoveryAgeToday": {
+    "x-review": "pending"
+  },
+  "discoveryAgeDays": "{count, plural, =1{1 દિવસ પહેલાં} other{{count} દિવસ પહેલાં}}",
+  "@discoveryAgeDays": {
+    "x-review": "pending",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryTarget": "સારથી લક્ષ્ય: {date} સુધીમાં ઉકેલ",
+  "@discoveryTarget": {
+    "x-review": "pending",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryTargetHelper": "આ સારથીનું લક્ષ્ય છે, AMCની સમયમર્યાદા નથી.",
+  "@discoveryTargetHelper": {
+    "x-review": "pending"
+  },
+  "discoveryMeToo": "મને પણ",
+  "@discoveryMeToo": {
+    "x-review": "pending"
+  },
+  "discoveryMeTooSemantics": "મને પણ, {count} લોકો અસરગ્રસ્ત",
+  "@discoveryMeTooSemantics": {
+    "x-review": "pending",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryMeTooAdded": "નોંધ્યું: આ તમને પણ અસર કરે છે",
+  "@discoveryMeTooAdded": {
+    "x-review": "pending"
+  },
+  "discoveryFollow": "અનુસરો",
+  "@discoveryFollow": {
+    "x-review": "pending"
+  },
+  "discoveryFollowing": "અનુસરો છો",
+  "@discoveryFollowing": {
+    "x-review": "pending"
+  },
+  "discoveryShare": "શેર કરો",
+  "@discoveryShare": {
+    "x-review": "pending"
+  },
+  "discoveryActionFailed": "એ સાચવી શકાયું નહીં. ફરી પ્રયાસ કરો.",
+  "@discoveryActionFailed": {
+    "x-review": "pending"
+  },
+  "discoveryAddCcrs": "AMC ફરિયાદ નંબર ઉમેરો",
+  "@discoveryAddCcrs": {
+    "x-review": "pending"
+  },
+  "discoveryEscalateSuggested": "આગળ લઈ જાઓ (સૂચવેલ)",
+  "@discoveryEscalateSuggested": {
+    "x-review": "pending"
+  },
+  "discoveryNotAvailable": "આ સમસ્યા ઉપલબ્ધ નથી. કદાચ તે દૂર કરવામાં આવી છે.",
+  "@discoveryNotAvailable": {
+    "x-review": "pending"
+  },
+  "discoveryMergedBanner": "આ ફરિયાદ બીજી એક સાથે જોડી દેવામાં આવી છે.",
+  "@discoveryMergedBanner": {
+    "x-review": "pending"
+  },
+  "discoveryOpenIt": "તે ખોલો",
+  "@discoveryOpenIt": {
+    "x-review": "pending"
+  },
+  "discoveryRejected": "સ્વીકારાયું નથી: {reason}",
+  "@discoveryRejected": {
+    "x-review": "pending",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryOfflineActions": "તમે ઑફલાઇન છો",
+  "@discoveryOfflineActions": {
+    "x-review": "pending"
+  },
+  "discoveryPendingReview": "મોડરેટરની તપાસ બાકી",
+  "@discoveryPendingReview": {
+    "x-review": "pending"
+  },
+  "discoveryMyReportsTitle": "મારી ફરિયાદો",
+  "@discoveryMyReportsTitle": {
+    "x-review": "pending"
+  },
+  "discoveryMyReportsSignedOut": "તમારી ફરિયાદો જોવા સાઇન ઇન કરો",
+  "@discoveryMyReportsSignedOut": {
+    "x-review": "pending"
+  },
+  "discoveryMyReportsEmpty": "તમે હજી કંઈ નોંધાવ્યું નથી.",
+  "@discoveryMyReportsEmpty": {
+    "x-review": "pending"
+  },
+  "discoveryFollowingTitle": "અનુસરેલી",
+  "@discoveryFollowingTitle": {
+    "x-review": "pending"
+  },
+  "discoveryFollowingSignedOut": "તમે અનુસરો છો તે સમસ્યાઓ જોવા સાઇન ઇન કરો",
+  "@discoveryFollowingSignedOut": {
+    "x-review": "pending"
+  },
+  "discoveryFollowingEmpty": "કોઈ સમસ્યાની સ્થિતિ બદલાય ત્યારે અપડેટ મેળવવા તેને અનુસરો.",
+  "@discoveryFollowingEmpty": {
+    "x-review": "pending"
+  },
+  "discoveryUnfollow": "અનુસરવાનું બંધ કરો",
+  "@discoveryUnfollow": {
+    "x-review": "pending"
+  },
+  "discoverySignIn": "સાઇન ઇન કરો",
+  "@discoverySignIn": {
+    "x-review": "pending"
+  },
+  "discoveryShareText": "{title} — {status}. સારથી પર જુઓ: {url}",
+  "@discoveryShareText": {
+    "x-review": "pending",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryShareAffected": "{count} રહેવાસીઓ અસરગ્રસ્ત",
+  "@discoveryShareAffected": {
+    "x-review": "pending",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryShareIndependence": "સ્વતંત્ર નાગરિક એપ. AMC દ્વારા ચલાવાતી નથી કે તેની સાથે જોડાયેલી નથી.",
+  "@discoveryShareIndependence": {
+    "x-review": "pending"
   }
 }

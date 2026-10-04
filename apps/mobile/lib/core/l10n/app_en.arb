@@ -4571,5 +4571,386 @@
   "issueActionsCcrsVerify": "It's fixed — verify",
   "@issueActionsCcrsVerify": {
     "description": "TASK-06 issue lifecycle"
+  },
+  "reporterResidentOf": "A resident of {ward}",
+  "@reporterResidentOf": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryReportedBy": "Reported by a resident of {ward}",
+  "@discoveryReportedBy": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverySeeAll": "See all",
+  "@discoverySeeAll": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryAllAlerts": "All alerts",
+  "@discoveryAllAlerts": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryNoIssuesInWard": "No issues reported in {ward} yet.",
+  "@discoveryNoIssuesInWard": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryFeedError": "We couldn't load your ward. Try again",
+  "@discoveryFeedError": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryOfflineSince": "You're offline. Showing what we had at {time}.",
+  "@discoveryOfflineSince": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryChooseWardPrompt": "Choose your ward to see what's happening nearby.",
+  "@discoveryChooseWardPrompt": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryChooseWard": "Choose ward",
+  "@discoveryChooseWard": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatOpen": "Open nearby",
+  "@discoveryStatOpen": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatOverdue": "Overdue",
+  "@discoveryStatOverdue": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatAffected": "Residents affected",
+  "@discoveryStatAffected": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryIssuesTitle": "Issues in {ward}",
+  "@discoveryIssuesTitle": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryIssuesTitleAll": "Issues",
+  "@discoveryIssuesTitleAll": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFilterCategory": "Category",
+  "@discoveryFilterCategory": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFilterStatus": "Status",
+  "@discoveryFilterStatus": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatusOpen": "Open",
+  "@discoveryStatusOpen": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatusOverdue": "Overdue",
+  "@discoveryStatusOverdue": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatusFixed": "Fixed",
+  "@discoveryStatusFixed": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryStatusVerified": "Verified",
+  "@discoveryStatusVerified": {
+    "description": "TASK-07 discovery"
+  },
+  "discoverySort": "Sort",
+  "@discoverySort": {
+    "description": "TASK-07 discovery"
+  },
+  "discoverySortNewest": "Newest",
+  "@discoverySortNewest": {
+    "description": "TASK-07 discovery"
+  },
+  "discoverySortAffected": "Most affected",
+  "@discoverySortAffected": {
+    "description": "TASK-07 discovery"
+  },
+  "discoverySortOverdue": "Overdue first",
+  "@discoverySortOverdue": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryDone": "Done",
+  "@discoveryDone": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryNoMatch": "No issues match these filters.",
+  "@discoveryNoMatch": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryClearFilters": "Clear filters",
+  "@discoveryClearFilters": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryEndOfList": "That's all.",
+  "@discoveryEndOfList": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryRefreshing": "Refreshing…",
+  "@discoveryRefreshing": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryLoadError": "We couldn't load issues. Try again",
+  "@discoveryLoadError": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapMine": "Mine",
+  "@discoveryMapMine": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapMyLocation": "My location",
+  "@discoveryMapMyLocation": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapShowList": "Show as list",
+  "@discoveryMapShowList": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapLoadError": "Couldn't load issues here. Try again",
+  "@discoveryMapLoadError": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapEmpty": "No issues in this area",
+  "@discoveryMapEmpty": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapOffline": "You're offline. Showing the last pins.",
+  "@discoveryMapOffline": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapViewDetails": "View details",
+  "@discoveryMapViewDetails": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapLabel": "Map of reported issues",
+  "@discoveryMapLabel": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMapClusterLabel": "{count} issues here, zoom in",
+  "@discoveryMapClusterLabel": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryMapPinLabel": "{category}, {status}",
+  "@discoveryMapPinLabel": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryBefore": "Before",
+  "@discoveryBefore": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryAfter": "After",
+  "@discoveryAfter": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryBlurCaption": "Faces and number plates blurred",
+  "@discoveryBlurCaption": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMetaLine": "{category} · {ward} · {age}",
+  "@discoveryMetaLine": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "ward": {
+        "type": "String"
+      },
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryAgeToday": "today",
+  "@discoveryAgeToday": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryAgeDays": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@discoveryAgeDays": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryTarget": "Saarthee target: fixed by {date}",
+  "@discoveryTarget": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryTargetHelper": "This is Saarthee's target, not an AMC deadline.",
+  "@discoveryTargetHelper": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMeToo": "Me too",
+  "@discoveryMeToo": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMeTooSemantics": "Me too, {count, plural, =1{1 person affected} other{{count} people affected}}",
+  "@discoveryMeTooSemantics": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryMeTooAdded": "Marked: this affects you too",
+  "@discoveryMeTooAdded": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFollow": "Follow",
+  "@discoveryFollow": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFollowing": "Following",
+  "@discoveryFollowing": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryShare": "Share",
+  "@discoveryShare": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryActionFailed": "Couldn't save that. Try again.",
+  "@discoveryActionFailed": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryAddCcrs": "Add AMC complaint number",
+  "@discoveryAddCcrs": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryEscalateSuggested": "Escalate (suggested)",
+  "@discoveryEscalateSuggested": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryNotAvailable": "This issue isn't available. It may have been removed.",
+  "@discoveryNotAvailable": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMergedBanner": "This report was merged into another one.",
+  "@discoveryMergedBanner": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryOpenIt": "Open it",
+  "@discoveryOpenIt": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryRejected": "Not accepted: {reason}",
+  "@discoveryRejected": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryOfflineActions": "You're offline",
+  "@discoveryOfflineActions": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryPendingReview": "Moderator check pending",
+  "@discoveryPendingReview": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMyReportsTitle": "My reports",
+  "@discoveryMyReportsTitle": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMyReportsSignedOut": "Sign in to see your reports",
+  "@discoveryMyReportsSignedOut": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryMyReportsEmpty": "You haven't reported anything yet.",
+  "@discoveryMyReportsEmpty": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFollowingTitle": "Following",
+  "@discoveryFollowingTitle": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFollowingSignedOut": "Sign in to see the issues you follow",
+  "@discoveryFollowingSignedOut": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryFollowingEmpty": "Follow an issue to get updates when its status changes.",
+  "@discoveryFollowingEmpty": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryUnfollow": "Unfollow",
+  "@discoveryUnfollow": {
+    "description": "TASK-07 discovery"
+  },
+  "discoverySignIn": "Sign in",
+  "@discoverySignIn": {
+    "description": "TASK-07 discovery"
+  },
+  "discoveryShareText": "{title} — {status}. See it on Saarthee: {url}",
+  "@discoveryShareText": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      },
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryShareAffected": "{count, plural, =1{1 resident affected} other{{count} residents affected}}",
+  "@discoveryShareAffected": {
+    "description": "TASK-07 discovery",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryShareIndependence": "Independent citizen app. Not run by or linked to AMC.",
+  "@discoveryShareIndependence": {
+    "description": "TASK-07 discovery"
   }
 }
