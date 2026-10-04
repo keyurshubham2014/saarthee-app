@@ -20,13 +20,16 @@ Everything runs without a real project:
 - **Firebase Auth Emulator** (projects named `demo-*` need no Google account):
 
   ```bash
-  npx firebase-tools@14 emulators:start --only auth --project demo-saarthee
-  # UI: http://127.0.0.1:4000 is used by the API on this machine → pass a free UI port if needed:
-  #   add  "emulators": {"auth": {"port": 9099}, "ui": {"enabled": false}}  to a local firebase.json
+  # from the repository root (firebase.json: auth on 0.0.0.0:9099, emulator UI off — port 4000 is the API's)
+  npx -y firebase-tools@15.32.1 emulators:start --only auth --project demo-saarthee
+  # one-shot API check (starts the emulator, runs the check, stops it):
+  npx -y firebase-tools@15.32.1 emulators:exec --only auth --project demo-saarthee \
+    "npm --prefix apps/api run auth:emulator-check"
   ```
 
-  The emulator does not send SMS. Either add a fictional number with a fixed code in the emulator UI, or read
-  the code the emulator generated: `curl -s http://127.0.0.1:9099/emulator/v1/projects/demo-saarthee/verificationCodes`.
+  No Java is needed for the Auth Emulator. It does not send SMS: it prints
+  `To verify the phone number +919000000001, use the code NNNNNN.` in its console, and the codes are also at
+  `curl -s http://127.0.0.1:9099/emulator/v1/projects/demo-saarthee/verificationCodes`.
 - **App against the emulator**: `flutter run --dart-define=AUTH_EMULATOR_HOST=10.0.2.2:9099
   --dart-define=API_BASE_URL=http://10.0.2.2:4000/api/v1` (Android emulator → host loopback). The app then
   uses the Identity Toolkit REST endpoints of the emulator (`EmulatorAuthGateway`); see TASK-04 §5.6.
@@ -50,7 +53,7 @@ Test phone numbers are fictional: `+91 90000 000NN` (e.g. `+919000000001`). Neve
 ## 3. Android app
 
 1. *Project settings → Your apps → Add app → Android*. Package name = `applicationId` in
-   `apps/mobile/android/app/build.gradle.kts` (currently `in.saarthee.app`; keep them identical).
+   `apps/mobile/android/app/build.gradle.kts` (currently `in.saarthee.saarthee`; keep them identical).
 2. SHA fingerprints (needed for phone auth / Play Integrity):
    - debug: `cd apps/mobile/android && ./gradlew signingReport` → copy SHA-1 and SHA-256 of `debug`.
    - release: the upload key **and** the Play App Signing key (Play Console → *App integrity*), TASK-13.
