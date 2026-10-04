@@ -244,6 +244,10 @@ The motion layer lives in presentation only (`features/report/presentation/motio
 - ASSUMPTION (W-REP): Seed samples (TASK-01 module 050) keep "exactly one overdue open issue" under the real SLAs by creating four samples 1–2 days ago instead of 3–6; TASK-01's legacy SLA test now reads the category's `sla_days`.
 - ASSUMPTION (W-REP): Camera only, as above — no gallery fallback; the Android emulator's virtual-scene camera works with image_picker.
 - ASSUMPTION (W-REP): Automatic face/plate detection is behind `FaceAndPlateDetector`; the default `UnavailableDetector` returns "unavailable", so the flow offers the manual blur tool with the "isn't available" note. ML Kit (`google_mlkit_*`) and `speech_to_text` are native plugins that could not be Gradle-verified against AGP 9.1 in a worker (no builds allowed), so they were not added; the pure-Dart `image` renderer pixelates 12 px blocks over the padded boxes in a background isolate.
+- ASSUMPTION (W-BLUR, supersedes the W-REP ML Kit note above): Automatic detection is `AutoFaceAndPlateDetector` (`lib/core/capture/blur/mlkit_detector.dart`) on Android: `google_mlkit_face_detection` 0.15.1 (accurate mode, faces ≥ 5 % of the image) and `google_mlkit_text_recognition` 0.17.1 (Latin, bundled models, pinned exactly). Every box is padded 15 % per side by the detector (the renderer is called with `pad: false`, so boxes are not padded twice); manual-tool boxes keep the renderer's 15 % padding. Other platforms and tests use `UnavailableDetector`. Debug arm64 APK builds with AGP 9.1.0 / Kotlin 2.4.0; merged minSdk 24 (`flutter.minSdkVersion`; the plugins need 21).
+- ASSUMPTION (W-BLUR): Plate heuristic (`plate_heuristic.dart`): ML Kit has no plate model, so a text block (and each line of a multi-line block) is a plate when (1) after upper-casing, dropping non-alphanumerics and fixing O/0 and I/1 by position (state code and series → letters; district code and number → digits) it matches `^[A-Z]{2}\d{1,2}[A-Z]{0,3}\d{3,4}$` or the Bharat series `^\d{2}BH\d{4}[A-Z]{1,2}$`; or (2) it is 4–12 letters/digits with ≥ 1 letter and ≥ 2 digits and its box is 1.5–6.5× as wide as tall (single-line plates ≈ 4.3:1, two-line/motorcycle ≈ 1.7–2:1). It leans towards blurring: a shop sign blurred by mistake costs nothing. The number part accepts 3–4 digits (was 4).
+- ASSUMPTION (W-BLUR): ML Kit runs on its own native worker threads (platform channels cannot run in a plain `Isolate.run`); the UI isolate only awaits. Before detection the photo is rotated upright in a background isolate when its EXIF orientation is not 1, so detector boxes, the pixelation renderer and the preview share one frame. Detection is capped by `AppTimings.blurDetectTimeout` (6 s, new token); on timeout, error or a missing plugin the photo uploads with `blurApplied=false`, no "blurred" caption, and the blur screen shows the "isn't available" note (manual tool). A pass that ran but found nothing still sets `blurApplied=true` (the photo was checked).
+- ASSUMPTION (W-BLUR): The blur screen does not yet outline the automatically blurred boxes (boxes are not stored in the draft); the pixelation itself is visible in the photo.
 - ASSUMPTION (W-REP): The `/report` tab keeps one `ReportFlowScreen` with a persistent `StepHeader` and a `PageTransitionSwitcher` body; `/report/what|photo|details` and the retired v1 paths redirect to `/report?step=…`; `/report/done` and `/report/photo/blur` open on the root navigator. "Adjust pin" pans the map under a fixed centre pin (plus 5 m arrow buttons) instead of dragging a marker.
 - ASSUMPTION (W-REP): Under reduced motion the step-header bar uses TASK-03's reduced `medium` (100 ms), the allowed cross-fade length, rather than a 0 ms jump.
 
@@ -441,6 +445,9 @@ The motion layer lives in presentation only (`features/report/presentation/motio
 | Widget | W-05-10 | Photo and pin: fake capture returns a file → overlay thumbnail at the button rect at frame 0, at the slot rect after `long`, overlay removed; pin offset −24 dp at frame 0, 0 after `springIn`, no re-drop after "Move pin"; reduced variant: thumbnail in slot and pin placed on the first frame | AC-16, AC-18 |
 | Widget | W-05-11 | Duplicate card: translated above the map edge at frame 0, settled after `springIn`; "Add me too" with a fake API completer → in-button progress, then "Added ✓" + `MotionCheck` complete after `short` + `drawCheck`; confirmation opens only after the check; reduced variant instant | AC-16, AC-18 |
 | Widget | W-05-12 | Success screen: circle scale 0 → 1 over `springIn`; `MotionCheck` progress 0 before 150 ms and 1 after `drawCheck`; issue-number opacity 1 after `rise`; fake haptics records exactly one `success`; no Lottie/Rive/particle widgets in the tree and no animation still running after 2 s (`tester.hasRunningAnimations` false); semantics live region text "Report sent. Issue SA-…"; reduced variant: final state on the first frame, one `success` haptic; `issueRef()` unit cases | AC-17, AC-18 |
+| Unit | W-05-13 | Plate heuristic: 19 real-format positives (incl. O/0, I/1 fixes, two-line, BH series), 12 negatives, plate-shape rule, `plateBoxes` (test/report/plate_heuristic_test.dart) | AC-11 |
+| Unit | W-05-14 | `AutoFaceAndPlateDetector` with fake face/text sources: padded fractional boxes, empty pass, failure → null, close; pipeline timeout/error/unavailable → null (test/report/auto_detector_test.dart) | AC-11 |
+| Widget | W-05-15 | Auto-blur: fake detector box pixelated before upload, `blur=true`, caption "Faces and number plates blurred"; detector failure → `blur=false`, no caption, blur screen "isn't available" note (test/report/auto_blur_widget_test.dart) | AC-11 |
 | Static | S-05-02 | TASK-03's `no_duration_literals_test` passes for `lib/features/report/**`; `sunrise` referenced only by the Submit button in `features/report` (grep) | AC-18 |
 | Integration | I-05-01 | Emulator: full report with fake camera + mock location against the local API; asserts tap count ≤ 4 after the photo | AC-3, AC-13 |
 | Manual | M-05-01 | Kill with `adb shell am force-stop` during camera; relaunch; lost-data recovery (enable "Don't keep activities") | AC-7 |
@@ -517,7 +524,12 @@ Prediction only — exact paths may differ.
 | 2026-10-04 | Three-step flow, motion layer, done + AMC hand-off, link CCRS, blur tool, routes | 3564b54 |
 | 2026-10-04 | W-05-01..12, S-05-02, tap-budget test, I-05-01 file (flutter test 242 passed) | c0ea77d…6cd3c49 |
 
-Blocked / skipped (> 10 min rule): ML Kit face/plate detection and `speech_to_text` voice input not added (native plugins, AGP 9.1, no Gradle in workers) — manual blur tool covers AC-11; AC-12 open.
+| 2026-10-04 | W-BLUR: ML Kit 0.15.1/0.17.1 pinned; debug arm64 APK builds (AGP 9.1.0, minSdk 24) | 2de2076 |
+| 2026-10-04 | W-BLUR: auto face + plate detector, plate heuristic, timeout + fallback; W-05-13..15 (flutter test 318 passed) | 788cb41…cedfd5b |
+
+Blocked / skipped (> 10 min rule): `speech_to_text` voice input not added — AC-12 open. ML Kit auto-blur is now built (W-BLUR); REQ-S-007 stays Not Verified until M-05-04 runs on the emulator.
+
+Auto-blur evidence (W-BLUR, 2026-10-04): `flutter build apk --debug --target-platform android-arm64` → exit 0 with the plugins (77 s cold) and again with the detector wired in; APK contains `libface_detector_v2_jni.so` (8.5 MB arm64) and `libmlkit_google_ocr_pipeline.so` (11.1 MB arm64); merged manifest minSdkVersion 24.
 
 Performance (M-05-06, M-05-10): not measured — needs a profile build on the emulator (integrator). Tap budget measured in tests: 2 taps after the photo (Continue, Submit report); 3 with a duplicate dismissed.
 
@@ -525,7 +537,7 @@ Motion recordings (M-05-08/09): not recorded — integrator owns the emulator; t
 
 ## 14. Completion Checklist
 
-- [ ] All implementation steps complete (steps 1–19, 21 done; 14 ML Kit part and 20 voice not built; 22–23 integrator)
+- [ ] All implementation steps complete (steps 1–19, 21 done incl. step 14 ML Kit auto-blur; 20 voice not built; 22–23 integrator)
 - [ ] All behavioral acceptance criteria verified in the running application
 - [ ] Non-functional checklist fully ticked
 - [ ] Static checks pass and every AC verified by the tests and manual checks in §8
