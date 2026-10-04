@@ -24,7 +24,7 @@ export class FcmPushDriver implements PushDriver {
       data: payload.data,
       android: {
         priority: payload.channel === 'updates' ? 'normal' : 'high',
-        notification: { channelId: payload.channel },
+        notification: { channelId: payload.channel, ...(payload.tag ? { tag: payload.tag } : {}) },
       },
     };
   }

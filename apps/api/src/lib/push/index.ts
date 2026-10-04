@@ -44,7 +44,30 @@ function payloadFor(row: Notification, lang: Lang) {
     body: lang === 'gu' ? row.bodyGu : row.bodyEn,
     channel: row.channel as PushChannel,
     data: { kind: row.kind, refId: row.refId ?? '', route: row.route ?? '', notificationId: row.id },
+    ...(row.kind === 'alert' && row.refId ? { tag: `alert:${row.refId}` } : {}),
   };
+}
+
+/** TASK-08: one batch of explicit devices (notifyDevices), each in its own push language. */
+async function sendToDeviceBatch(db: Db, row: Notification): Promise<{ results: SendResult[]; noDevice: boolean }> {
+  const devices = await db.device.findMany({
+    where: { id: { in: row.targetDeviceIds }, fcmToken: { not: null } },
+    select: { id: true, fcmToken: true, language: true },
+  });
+  if (devices.length === 0) return { results: [], noDevice: true };
+  const results: SendResult[] = [];
+  const dead: string[] = [];
+  for (const lang of LANGS) {
+    const group = devices.filter((d) => d.language === lang);
+    if (group.length === 0) continue;
+    const res = await pushDriver().sendToTokens(group.map((d) => d.fcmToken!), payloadFor(row, lang));
+    res.forEach((r, i) => {
+      results.push(r);
+      if (!r.ok && DEAD_TOKEN_CODES.has(r.errorCode)) dead.push(group[i]!.id);
+    });
+  }
+  if (dead.length > 0) await db.device.updateMany({ where: { id: { in: dead } }, data: { fcmToken: null } });
+  return { results, noDevice: false };
 }
 
 function rowData(msg: PushMessage, now: Date) {
@@ -69,7 +92,9 @@ function rowData(msg: PushMessage, now: Date) {
 async function deliver(db: Db, row: Notification): Promise<Notification> {
   let results: SendResult[] = [];
   let noDevice = false;
-  if (row.topic) {
+  if (row.targetDeviceIds.length > 0) {
+    ({ results, noDevice } = await sendToDeviceBatch(db, row));
+  } else if (row.topic) {
     results = await Promise.all(LANGS.map((lang) => pushDriver().sendToTopic(`${row.topic}__${lang}`, payloadFor(row, lang))));
   } else {
     const where = row.deviceId ? { id: row.deviceId } : { userId: row.userId ?? '00000000-0000-0000-0000-000000000000' };
@@ -102,7 +127,7 @@ async function deliver(db: Db, row: Notification): Promise<Notification> {
     {
       notificationId: row.id,
       kind: row.kind,
-      ...(row.topic ? { topic: row.topic } : { userId: row.userId }),
+      ...(row.topic ? { topic: row.topic } : row.targetDeviceIds.length > 0 ? { deviceCount: row.targetDeviceIds.length } : { userId: row.userId }),
       status,
       okCount: ok.length,
       failCount: failed.length,
@@ -142,4 +167,37 @@ export async function flushQueued(now: Date = new Date(), batch = 100): Promise<
     },
     { timeout: 120_000 },
   );
+}
+
+/** Max devices per filtered send (FCM sendEach limit). */
+export const DEVICE_BATCH = 500;
+
+/**
+ * TASK-08: filtered per-device sends for devices with custom alert preferences. One delivery-log row per
+ * batch of ≤ 500 devices (`target_device_ids`); each device gets its own push language. Held like other
+ * sends when `sendAfter` is in the future.
+ */
+export async function notifyDevices(deviceIds: readonly string[], msg: PushMessage): Promise<NotificationRow[]> {
+  const unique = [...new Set(deviceIds)];
+  const rows: NotificationRow[] = [];
+  for (let i = 0; i < unique.length; i += DEVICE_BATCH) {
+    const data = rowData(msg, new Date());
+    const row = await prisma.notification.create({
+      data: { ...data, targetDeviceIds: unique.slice(i, i + DEVICE_BATCH), status: data.status === 'queued' ? 'queued' : 'failed' },
+    });
+    rows.push(data.status === 'queued' ? row : await deliver(prisma, row));
+  }
+  return rows;
+}
+
+/**
+ * TASK-08: withdraws held (queued) push rows for one item — alert retracted, expired or superseded before
+ * the quiet hours ended. Inbox copies (user rows with status sent) are untouched. Returns the count.
+ */
+export async function withdrawQueued(kind: PushMessage['kind'], refId: string, db: Db = prisma): Promise<number> {
+  const res = await db.notification.updateMany({
+    where: { kind, refId, status: 'queued' },
+    data: { status: 'failed', errorCode: 'alert_withdrawn' },
+  });
+  return res.count;
 }

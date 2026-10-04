@@ -68,6 +68,16 @@ const schema = z.object({
   GRIEVANCE_EMAIL: z.email().default('privacy@saarthee.in'),
   // Shared in-process job runner (src/jobs, TASK-06 contract). Off unless set; one advisory lock per job.
   JOBS_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
+  // TASK-08 civic alerts.
+  ALERT_MAX_VALIDITY_DAYS: int(1).max(60).default(14),
+  QUIET_HOURS: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d-([01]\d|2[0-3]):[0-5]\d$/, 'must look like 22:00-07:00').default('22:00-07:00'),
+  /** Only India Standard Time is supported (fixed +05:30, no DST). */
+  APP_TIMEZONE: z.enum(['Asia/Kolkata']).default('Asia/Kolkata'),
+  SACHET_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
+  SACHET_FEED_URL: z.string().regex(/^https:\/\//, 'must be https').default('https://sachet.ndma.gov.in/CapFeed'),
+  SACHET_POLL_MINUTES: int(1).max(1440).default(10),
+  IMD_ENABLED: z.enum(['true', 'false']).default('false').transform((v) => v === 'true'),
+  IMD_DISTRICT_WARNINGS_URL: optionalEmpty(z.string().regex(/^https:\/\//, 'must be https')),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;
