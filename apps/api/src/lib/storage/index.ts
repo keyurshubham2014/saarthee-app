@@ -1,101 +1,78 @@
-import { randomUUID } from 'node:crypto';
-import { createReadStream } from 'node:fs';
-import { access, mkdir, realpath, rename, rm, stat, writeFile, constants } from 'node:fs/promises';
+import { access, mkdir, realpath, constants } from 'node:fs/promises';
 import path from 'node:path';
-import type { Readable } from 'node:stream';
 import type { StorageDriver } from '@prisma/client';
 import { config } from '../../config';
+import { LocalPhotoStorage, type PhotoStorage } from './core';
+import { R2PhotoStorage } from './r2';
+
+export * from './core';
+export { R2PhotoStorage } from './r2';
+
+const instances = new Map<StorageDriver, PhotoStorage>();
+
+function build(driver: StorageDriver): PhotoStorage {
+  if (driver === 'local') {
+    if (!config.PHOTO_STORAGE_DIR) throw new Error('PHOTO_STORAGE_DIR is not set; local photos cannot be read');
+    return new LocalPhotoStorage(config.PHOTO_STORAGE_DIR);
+  }
+  const { R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET, R2_ENDPOINT } = config;
+  if (!R2_ACCOUNT_ID || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY || !R2_BUCKET) {
+    throw new Error('R2_* variables are not set; cloudflare_r2 photos cannot be read');
+  }
+  return new R2PhotoStorage({
+    accountId: R2_ACCOUNT_ID,
+    accessKeyId: R2_ACCESS_KEY_ID,
+    secretAccessKey: R2_SECRET_ACCESS_KEY,
+    bucket: R2_BUCKET,
+    endpoint: R2_ENDPOINT,
+  });
+}
 
 /**
- * Storage interface (03 §6.1). Keys are opaque, server-generated (`photos/<yyyy>/<mm>/<uuid>.jpg`).
- * Every implementation must behave identically: delete of a missing key succeeds.
+ * The driver that stored a given row (`photos.storage_driver`) — reads resolve per row so photos saved
+ * by an earlier driver stay readable after STORAGE_DRIVER changes (V2 TASK-13 §5.2).
  */
-export interface PhotoStorage {
-  readonly driver: StorageDriver;
-  save(bytes: Buffer): Promise<string>;
-  open(key: string): Promise<Readable>;
-  delete(key: string): Promise<void>;
-  exists(key: string): Promise<boolean>;
+export function storageFor(driver: StorageDriver): PhotoStorage {
+  let s = instances.get(driver);
+  if (!s) {
+    s = build(driver);
+    instances.set(driver, s);
+  }
+  return s;
 }
 
-const KEY_PATTERN = /^photos\/\d{4}\/\d{2}\/[0-9a-f-]{36}\.jpg$/;
-
-export function newPhotoKey(now = new Date()): string {
-  const yyyy = String(now.getUTCFullYear());
-  const mm = String(now.getUTCMonth() + 1).padStart(2, '0');
-  return `photos/${yyyy}/${mm}/${randomUUID()}.jpg`;
+/** Replaces a driver instance (tests only). */
+export function setStorageForTesting(driver: StorageDriver, s: PhotoStorage | undefined): void {
+  if (s) instances.set(driver, s);
+  else instances.delete(driver);
 }
 
-export class StorageKeyError extends Error {
-  constructor() {
-    super('invalid storage key');
-  }
-}
+/** The active driver for new writes (STORAGE_DRIVER). Resolved lazily on each access. */
+export const storage: PhotoStorage = {
+  get driver() {
+    return storageFor(config.STORAGE_DRIVER).driver;
+  },
+  save: (bytes) => storageFor(config.STORAGE_DRIVER).save(bytes),
+  open: (key) => storageFor(config.STORAGE_DRIVER).open(key),
+  delete: (key) => storageFor(config.STORAGE_DRIVER).delete(key),
+  exists: (key) => storageFor(config.STORAGE_DRIVER).exists(key),
+};
 
-/** Local-disk driver: files live under PHOTO_STORAGE_DIR; keys resolving outside it are refused. */
-export class LocalPhotoStorage implements PhotoStorage {
-  readonly driver = 'local' as const;
-  private readonly root: string;
-
-  constructor(root: string) {
-    this.root = path.resolve(root);
-  }
-
-  /** Maps a key to an absolute path, refusing anything that is malformed or escapes the root. */
-  resolve(key: string): string {
-    if (!KEY_PATTERN.test(key)) throw new StorageKeyError();
-    const full = path.resolve(this.root, key);
-    if (!full.startsWith(this.root + path.sep)) throw new StorageKeyError();
-    return full;
-  }
-
-  async save(bytes: Buffer): Promise<string> {
-    const key = newPhotoKey();
-    const full = this.resolve(key);
-    await mkdir(path.dirname(full), { recursive: true, mode: 0o700 });
-    const tmp = `${full}.${randomUUID()}.tmp`;
-    await writeFile(tmp, bytes, { mode: 0o600, flag: 'wx' });
-    await rename(tmp, full);
-    return key;
-  }
-
-  async open(key: string): Promise<Readable> {
-    const full = this.resolve(key);
-    await access(full, constants.R_OK);
-    return createReadStream(full);
-  }
-
-  async delete(key: string): Promise<void> {
-    await rm(this.resolve(key), { force: true });
-  }
-
-  async exists(key: string): Promise<boolean> {
-    try {
-      return (await stat(this.resolve(key))).isFile();
-    } catch (err) {
-      if (err instanceof StorageKeyError) throw err;
-      return false;
-    }
-  }
-}
-
-function createStorage(): PhotoStorage {
-  if (config.STORAGE_DRIVER !== 'local') {
-    // The Cloudflare driver is a deployment-time addition (03 §6); refuse to start rather than misbehave.
-    throw new Error(`STORAGE_DRIVER=${config.STORAGE_DRIVER} is not available in this build; use local`);
-  }
-  return new LocalPhotoStorage(config.PHOTO_STORAGE_DIR);
-}
-
-export const storage: PhotoStorage = createStorage();
-
-/** Startup check (TASK-04 step 2): the photo folder exists, is writable, and is outside the repository. */
+/**
+ * Startup check. Local: the photo folder exists, is writable, and is outside the repository (TASK-04
+ * step 2). R2: the client can be built (the bucket is reached on first use; `storage:check` probes it).
+ */
 export async function assertStorageReady(): Promise<void> {
-  const dir = path.resolve(config.PHOTO_STORAGE_DIR);
+  if (config.STORAGE_DRIVER === 'cloudflare_r2') {
+    storageFor('cloudflare_r2');
+    return;
+  }
+  const dir = path.resolve(config.PHOTO_STORAGE_DIR ?? '');
   await mkdir(dir, { recursive: true, mode: 0o700 });
   await access(dir, constants.W_OK | constants.R_OK);
   const realDir = await realpath(dir);
-  // apps/api/src/lib/storage → repository root is five levels up.
+  // apps/api/src/lib/storage → repository root is five levels up (dist/src/lib/storage in the image:
+  // the check still holds because the image has no repository around it).
   const repoRoot = await realpath(path.resolve(__dirname, '../../../../..'));
   if (realDir === repoRoot || realDir.startsWith(repoRoot + path.sep)) {
     throw new Error('PHOTO_STORAGE_DIR must be outside the repository');

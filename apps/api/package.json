@@ -26,7 +26,9 @@
     "seed": "tsx --env-file=.env prisma/seed/index.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1146.0",
     "@prisma/client": "6.19.3",
+    "@sentry/node": "11.4.0",
     "argon2": "0.45.1",
     "express": "5.2.1",
     "express-rate-limit": "8.7.0",
