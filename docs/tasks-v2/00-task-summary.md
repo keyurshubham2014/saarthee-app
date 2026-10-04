@@ -26,12 +26,12 @@ Prompt template:
 | TASK-03 | Neem design system, motion system, app shell and onboarding | In Review | P0 | L | None | 90% |
 | TASK-04 | Citizen accounts, privacy and push foundation | In Review | P0 | L | TASK-01, TASK-03 | 90% |
 | TASK-05 | Standalone issue reporting | In Review | P0 | L | TASK-02, TASK-04 | 90% |
-| TASK-06 | Issue lifecycle, verification and escalation | Not Started | P0 | L | TASK-05 | 0% |
-| TASK-07 | Discovery: home feed, map, issue detail and social actions | Not Started | P0 | L | TASK-06 | 0% |
+| TASK-06 | Issue lifecycle, verification and escalation | In Review | P0 | L | TASK-05 | 90% |
+| TASK-07 | Discovery: home feed, map, issue detail and social actions | In Review | P0 | L | TASK-06 | 90% |
 | TASK-08 | Civic alerts and notification inbox | In Review | P0 | L | TASK-02, TASK-04 | 90% |
 | TASK-09 | Representatives, My Ward and message relay | In Review | P0 | M | TASK-02, TASK-04 | 90% |
-| TASK-10 | Staff console, roles and moderation | Not Started | P0 | L | TASK-04, TASK-05 | 0% |
-| TASK-11 | Representative claim and ward dashboard | Not Started | P1 | M | TASK-06, TASK-09, TASK-10 | 0% |
+| TASK-10 | Staff console, roles and moderation | In Review | P0 | L | TASK-04, TASK-05 | 90% |
+| TASK-11 | Representative claim and ward dashboard | In Review | P1 | M | TASK-06, TASK-09, TASK-10 | 85% |
 | TASK-12 | AMC services directory and civic initiatives | In Review | P1 | M | TASK-02, TASK-03, TASK-04 | 90% |
 | TASK-13 | Deployment, storage, backups and release | In Review | P0 | M | TASK-01 | 80% |
 | TASK-14 | End-to-end verification, accessibility and pilot launch | Not Started | P0 | L | TASK-07, TASK-08, TASK-11, TASK-12, TASK-13 | 0% |
@@ -50,7 +50,7 @@ Status vocabulary: `Not Started`, `In Progress`, `Blocked`, `In Review`, `Comple
 | Ops | TASK-13 (any time after TASK-01; must finish before TASK-14) |
 | Launch | TASK-14 last |
 
-**Ready now:** TASK-06, TASK-10 (in progress); then TASK-07, TASK-11
+**Ready now:** TASK-14 (end-to-end verification, accessibility, pilot launch)
 **Blocked:** none
 
 ### Milestones
@@ -146,6 +146,7 @@ A task is `Complete` only when its acceptance criteria are verified in the runni
 
 | Date | Change |
 |---|---|
+| 2026-10-04 | Waves 4–5 merged: TASK-06, TASK-10 (+ INT-10: staff writes via `transitionInTx`), TASK-07, TASK-11. Emulator (cold-booted after a wedged system_server): staff moderation → acknowledge → mark fixed with after photo (EXIF-free), follower inbox rows; TASK-07 `discovery_test` 1/1, Home feed/map/detail/Me too (sign-in returns to the action, auto-follow)/Following/route-chevron pull-to-refresh; TASK-11 representative ward dashboard. Staff web console verified in Chrome. Integrator fixes: sign-in takes the app language (inbox was Gujarati under an English UI); CORS allowed client `X-*` headers (every staff-web call was blocked); representative at `/staff` got 'no access'; brand mark on staff login/app bar. Gates: API 433 passed / 4 skipped, Flutter 485, analyze 0, format clean. Tags `v2-m3`, `v2-m5`. |
 | 2026-10-04 | Waves 2–3 merged: TASK-02 mobile, TASK-04, TASK-05 (+ ML Kit auto-blur), TASK-08 (+ shared job runner), TASK-09, TASK-12, TASK-13. Emulator: OTP sign-in via Auth Emulator, report 1→3 submitted with blur caption, My Ward relay (no phone digits in email), two-admin Warning alert → banner + inbox + swipe-read, initiative RSVP. Integrator fixes: report thumbnail/blur flag/pinned buttons/icons, inbox refetch, app-bar title overflow, profile emulator cleartext. Tags v2-m2, v2-m4. API 331+, Flutter 378 |
 | 2026-10-04 | Wave 1 merged to main: TASK-01 (75 API tests green; native arm64 PostGIS image `infra/postgis/Dockerfile`), TASK-03 (114 Flutter tests green) and V2-BRAND identity (mark variant E "road turn", adaptive/themed launcher icons, splash light/dark, notification icon, web/Play assets, brand guide in `docs/brand/`). Both tasks In Review pending emulator checks |
 | 2026-10-03 | Founder chose design direction B "Neem" (from `docs/v2/design-options.html`) and fonts A Baloo Bhai 2 + Mukta Vaani (from `docs/v2/font-options.html`); design system v2.2 adds DS §6 Motion. New requirements REQ-F-062..066 (feature motion, TASK-05/06/07/08/11) and REQ-N-012..013 (motion system TASK-03, motion performance TASK-14). 119 active |
