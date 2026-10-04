@@ -11,6 +11,8 @@ import { auditStaff } from '../../lib/audit';
 import { writeAudit } from '../../lib/audit/staff';
 import { prisma } from '../../lib/db';
 import { AppError } from '../../lib/errors';
+// TASK-14 sweep: claims in GET /me/export and withdrawn by DELETE /me.
+import './privacy';
 import { decodeCursor, encodeCursor } from '../../lib/pagination';
 import { rateLimit } from '../../middleware/rateLimit';
 import { requireStaff } from '../../middleware/requireStaff';
