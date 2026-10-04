@@ -27,7 +27,9 @@ Future<bool> ensureSignedIn(
   if (!context.mounted) return false;
   final router = GoRouter.of(context);
   final from = router.routerDelegate.currentConfiguration.uri.toString();
-  final ok = await router.push<bool>(signInLocation(from: from, reason: reason));
+  final ok = await router.push<bool>(
+    signInLocation(from: from, reason: reason),
+  );
   return ok == true && ref.read(sessionProvider).signedIn;
 }
 

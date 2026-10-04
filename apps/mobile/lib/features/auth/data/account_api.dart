@@ -56,10 +56,7 @@ class HttpAccountApi implements AccountApi {
 
   @override
   Future<void> logout({String? installId}) async {
-    await _client.postJson(
-      '/auth/logout',
-      body: {'installId': ?installId},
-    );
+    await _client.postJson('/auth/logout', body: {'installId': ?installId});
   }
 
   @override

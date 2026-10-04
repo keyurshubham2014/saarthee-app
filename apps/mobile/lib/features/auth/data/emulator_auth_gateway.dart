@@ -105,7 +105,9 @@ class EmulatorAuthGateway implements AuthGateway {
       );
       _idToken = res.data?['id_token'] as String?;
       final next = res.data?['refresh_token'] as String?;
-      if (next != null) await store.write(SecureKeys.firebaseRefreshToken, next);
+      if (next != null) {
+        await store.write(SecureKeys.firebaseRefreshToken, next);
+      }
       return _idToken;
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {

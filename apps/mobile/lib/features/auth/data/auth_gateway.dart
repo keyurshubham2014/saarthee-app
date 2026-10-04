@@ -59,12 +59,15 @@ class UnconfiguredAuthGateway implements AuthGateway {
   bool get isConfigured => false;
 
   @override
-  Future<String> sendCode(String phoneE164) =>
-      Future.error(const AuthGatewayException(AuthGatewayException.unavailable));
+  Future<String> sendCode(String phoneE164) => Future.error(
+    const AuthGatewayException(AuthGatewayException.unavailable),
+  );
 
   @override
   Future<FirebaseSignIn> verifyCode(String verificationId, String code) =>
-      Future.error(const AuthGatewayException(AuthGatewayException.unavailable));
+      Future.error(
+        const AuthGatewayException(AuthGatewayException.unavailable),
+      );
 
   @override
   Future<String?> idToken({bool forceRefresh = false}) async => null;

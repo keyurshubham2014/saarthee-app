@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../core/errors/global_error.dart';
 import '../core/settings/app_settings.dart';
+import '../features/auth/auth_routes.dart';
 import '../features/dev/gallery_screen.dart';
 import '../features/onboarding/presentation/intro_screen.dart';
 import '../features/onboarding/presentation/language_screen.dart';
@@ -21,6 +22,7 @@ final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 /// own `// TASK-NN` block (see apps/mobile/README.md).
 final List<RouteBase> rootFeatureRoutes = <RouteBase>[
   // TASK-04 accounts: sign-in flow.
+  ...authRoutes,
 ];
 
 /// Paths reachable before onboarding is done.

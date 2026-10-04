@@ -100,7 +100,11 @@ class SessionController extends Notifier<SessionState> {
       SecureKeys.sessionExpiresAt,
       grant.expiresAt.toIso8601String(),
     );
-    state = SessionState(token: grant.accessToken, me: grant.me, restored: true);
+    state = SessionState(
+      token: grant.accessToken,
+      me: grant.me,
+      restored: true,
+    );
   }
 
   /// Silent re-exchange after `TOKEN_EXPIRED`; null when not possible.
