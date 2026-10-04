@@ -108,6 +108,15 @@ const schema = z.object({
   CCRS_REMINDER_AFTER_HOURS: int(1).max(240).default(20),
   QUOTA_STATUS_CHANGES_PER_DAY: int(1).default(30),
   QUOTA_ESCALATIONS_PER_DAY: int(1).default(10),
+  // TASK-10 staff console: CORS for the staff web build, audit destination, CSV exports.
+  STAFF_WEB_ORIGINS: z
+    .string()
+    .default('')
+    .transform((v) => v.split(',').map((s) => s.trim()).filter(Boolean)),
+  AUDIT_LOG_FILE: optionalEmpty(z.string().refine((v) => v.startsWith('/'), 'must be an absolute path')),
+  AUDIT_RETENTION_DAYS: int(1).default(365),
+  EXPORT_MAX_ROWS: int(1).default(50_000),
+  EXPORT_HMAC_SECRET: optionalEmpty(z.string().min(16)),
 });
 
 const R2_REQUIRED = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET'] as const;
@@ -133,6 +142,13 @@ const checked = schema.superRefine((c, ctx) => {
   }
   if ((c.PUSH_DRIVER === 'fcm' || c.FIREBASE_AUTH_MODE === 'google') && !c.GOOGLE_APPLICATION_CREDENTIALS) {
     ctx.addIssue({ code: 'custom', path: ['GOOGLE_APPLICATION_CREDENTIALS'], message: 'is required for PUSH_DRIVER=fcm / FIREBASE_AUTH_MODE=google' });
+  }
+  // TASK-10: staff web origins must be https outside local (localhost/127.0.0.1 allowed for dev).
+  for (const origin of c.STAFF_WEB_ORIGINS) {
+    const local = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+    if (!/^https:\/\/[^/]+$/.test(origin) && !(local && c.DEPLOY_ENV === 'local')) {
+      ctx.addIssue({ code: 'custom', path: ['STAFF_WEB_ORIGINS'], message: 'must be https origins (http://localhost only for local)' });
+    }
   }
   // TASK-09 mail driver rules.
   if (c.APP_ENV === 'production' && c.EMAIL_DRIVER === 'memory') {

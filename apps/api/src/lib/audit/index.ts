@@ -1,5 +1,8 @@
 import type { Request } from 'express';
 import { logger } from '../logger';
+import { writeAudit } from './staff';
+
+export { auditStaff, captureAudit, STAFF_AUDIT_ACTIONS, type StaffAuditActionV2 } from './staff';
 
 export const AUDIT_ACTIONS = [
   'logout_all',
@@ -66,10 +69,8 @@ export function staffAudit(
   extra?: Record<string, string | number | boolean | null>,
 ): void {
   const staff = req.staff;
-  logger.info(
-    { requestId: req.id, actorId: staff?.actorId, actorKind: staff?.actorKind, role: staff?.role, action, targetId, ...(extra ?? {}) },
-    'staff_action',
-  );
+  // TASK-10: routed through the audit destination too.
+  writeAudit({ requestId: req.id, actorId: staff?.actorId, actorKind: staff?.actorKind, role: staff?.role, action, targetId, ...(extra ?? {}) });
 }
 
 /** TASK-12 staff content actions (services, initiatives, tips, attendance). */
@@ -97,8 +98,6 @@ export function staffContentAudit(
   targetId: string,
   extra?: Record<string, string | number | boolean | null>,
 ): void {
-  logger.info(
-    { requestId: req.id, actor: req.user?.id, role: req.user?.role, action, targetType, targetId, ...(extra ?? {}) },
-    'staff_action',
-  );
+  // TASK-10: routed through the audit destination too (actorId/actorKind added for the v2 line shape).
+  writeAudit({ requestId: req.id, actor: req.user?.id, actorId: req.user?.id, actorKind: 'user', role: req.user?.role, action, targetType, targetId, ...(extra ?? {}) });
 }

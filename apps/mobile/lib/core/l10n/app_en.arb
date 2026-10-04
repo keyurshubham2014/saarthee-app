@@ -1,962 +1,5 @@
 {
   "@@locale": "en",
-  "adminSectionStart": "Admin",
-  "@adminSectionStart": {
-    "description": "Marker only. Admin keys (prefix 'admin') are inserted directly below this entry; citizen keys are appended at the end of the file."
-  },
-  "adminLoginTitle": "Operator login",
-  "@adminLoginTitle": {
-    "description": "Admin: LoginTitle"
-  },
-  "adminLoginIntro": "For the pilot operator only. Citizens don't need an account.",
-  "@adminLoginIntro": {
-    "description": "Admin: LoginIntro"
-  },
-  "adminLoginEmailLabel": "Email",
-  "@adminLoginEmailLabel": {
-    "description": "Admin: LoginEmailLabel"
-  },
-  "adminLoginPasswordLabel": "Password",
-  "@adminLoginPasswordLabel": {
-    "description": "Admin: LoginPasswordLabel"
-  },
-  "adminLoginShowPassword": "Show password",
-  "@adminLoginShowPassword": {
-    "description": "Admin: LoginShowPassword"
-  },
-  "adminLoginHidePassword": "Hide password",
-  "@adminLoginHidePassword": {
-    "description": "Admin: LoginHidePassword"
-  },
-  "adminLoginSubmit": "Log in",
-  "@adminLoginSubmit": {
-    "description": "Admin: LoginSubmit"
-  },
-  "adminLoginEmailRequired": "Enter your email.",
-  "@adminLoginEmailRequired": {
-    "description": "Admin: LoginEmailRequired"
-  },
-  "adminLoginEmailInvalid": "Enter a valid email address.",
-  "@adminLoginEmailInvalid": {
-    "description": "Admin: LoginEmailInvalid"
-  },
-  "adminLoginPasswordRequired": "Enter your password.",
-  "@adminLoginPasswordRequired": {
-    "description": "Admin: LoginPasswordRequired"
-  },
-  "adminSessionEnded": "Your session ended. Please log in again.",
-  "@adminSessionEnded": {
-    "description": "Admin: SessionEnded"
-  },
-  "adminErrorInvalidCredentials": "Email or password is incorrect.",
-  "@adminErrorInvalidCredentials": {
-    "description": "Admin: ErrorInvalidCredentials"
-  },
-  "adminErrorAdminDisabled": "This account is disabled.",
-  "@adminErrorAdminDisabled": {
-    "description": "Admin: ErrorAdminDisabled"
-  },
-  "adminErrorRateLimitedMinutes": "{minutes, plural, =1{Too many attempts. Try again in 1 minute.} other{Too many attempts. Try again in {minutes} minutes.}}",
-  "@adminErrorRateLimitedMinutes": {
-    "description": "Admin: ErrorRateLimitedMinutes",
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
-  "adminErrorRateLimited": "Too many attempts. Please wait a moment and try again.",
-  "@adminErrorRateLimited": {
-    "description": "Admin: ErrorRateLimited"
-  },
-  "adminErrorGeneric": "Something went wrong. Please try again.",
-  "@adminErrorGeneric": {
-    "description": "Admin: ErrorGeneric"
-  },
-  "adminErrorServiceUnavailable": "The service is unavailable. Please try again later.",
-  "@adminErrorServiceUnavailable": {
-    "description": "Admin: ErrorServiceUnavailable"
-  },
-  "adminErrorNotFound": "Not found.",
-  "@adminErrorNotFound": {
-    "description": "Admin: ErrorNotFound"
-  },
-  "adminErrorComplaintExcluded": "This complaint is excluded.",
-  "@adminErrorComplaintExcluded": {
-    "description": "Admin: ErrorComplaintExcluded"
-  },
-  "adminErrorComplaintAnonymized": "This complaint's personal data was removed.",
-  "@adminErrorComplaintAnonymized": {
-    "description": "Admin: ErrorComplaintAnonymized"
-  },
-  "adminErrorPhotoDeleted": "This photo was deleted.",
-  "@adminErrorPhotoDeleted": {
-    "description": "Admin: ErrorPhotoDeleted"
-  },
-  "adminErrorInviteCodeTaken": "That code already exists.",
-  "@adminErrorInviteCodeTaken": {
-    "description": "Admin: ErrorInviteCodeTaken"
-  },
-  "adminErrorValidation": "Check the highlighted fields.",
-  "@adminErrorValidation": {
-    "description": "Admin: ErrorValidation"
-  },
-  "adminOfflineBanner": "You're offline. Check your connection and try again.",
-  "@adminOfflineBanner": {
-    "description": "Admin: OfflineBanner"
-  },
-  "adminRetry": "Retry",
-  "@adminRetry": {
-    "description": "Admin: Retry"
-  },
-  "adminCancel": "Cancel",
-  "@adminCancel": {
-    "description": "Admin: Cancel"
-  },
-  "adminClose": "Close",
-  "@adminClose": {
-    "description": "Admin: Close"
-  },
-  "adminBack": "Back",
-  "@adminBack": {
-    "description": "Admin: Back"
-  },
-  "adminCopied": "Copied",
-  "@adminCopied": {
-    "description": "Admin: Copied"
-  },
-  "adminTabDue": "Due",
-  "@adminTabDue": {
-    "description": "Admin: TabDue"
-  },
-  "adminTabAll": "All",
-  "@adminTabAll": {
-    "description": "Admin: TabAll"
-  },
-  "adminTabRates": "Rates",
-  "@adminTabRates": {
-    "description": "Admin: TabRates"
-  },
-  "adminTabMore": "More",
-  "@adminTabMore": {
-    "description": "Admin: TabMore"
-  },
-  "adminDueBadgeSemantics": "{count, plural, =1{1 complaint due} other{{count} complaints due}}",
-  "@adminDueBadgeSemantics": {
-    "description": "Admin: DueBadgeSemantics",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "adminMoreTitle": "More",
-  "@adminMoreTitle": {
-    "description": "Admin: MoreTitle"
-  },
-  "adminMoreSignedInAs": "Signed in as {name}",
-  "@adminMoreSignedInAs": {
-    "description": "Admin: MoreSignedInAs",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "adminLogout": "Log out",
-  "@adminLogout": {
-    "description": "Admin: Logout"
-  },
-  "adminLogoutEverywhere": "Log out everywhere",
-  "@adminLogoutEverywhere": {
-    "description": "Admin: LogoutEverywhere"
-  },
-  "adminLogoutEverywhereTitle": "Log out everywhere?",
-  "@adminLogoutEverywhereTitle": {
-    "description": "Admin: LogoutEverywhereTitle"
-  },
-  "adminLogoutEverywhereBody": "This ends every operator session on every device, including this one.",
-  "@adminLogoutEverywhereBody": {
-    "description": "Admin: LogoutEverywhereBody"
-  },
-  "adminLoggedOutEverywhere": "Logged out on all devices.",
-  "@adminLoggedOutEverywhere": {
-    "description": "Admin: LoggedOutEverywhere"
-  },
-  "adminMoreInviteCodes": "Invite codes",
-  "@adminMoreInviteCodes": {
-    "description": "Admin: MoreInviteCodes"
-  },
-  "adminMoreCategories": "Categories",
-  "@adminMoreCategories": {
-    "description": "Admin: MoreCategories"
-  },
-  "adminMoreExport": "Export CSV",
-  "@adminMoreExport": {
-    "description": "Admin: MoreExport"
-  },
-  "adminDueTitle": "Due for a reminder",
-  "@adminDueTitle": {
-    "description": "Admin: DueTitle"
-  },
-  "adminDueEmpty": "Nothing due. Nice.",
-  "@adminDueEmpty": {
-    "description": "Admin: DueEmpty"
-  },
-  "adminFiledDaysAgo": "{days, plural, =0{Filed today} =1{Filed 1 day ago} other{Filed {days} days ago}}",
-  "@adminFiledDaysAgo": {
-    "description": "Admin: FiledDaysAgo",
-    "placeholders": {
-      "days": {
-        "type": "int"
-      }
-    }
-  },
-  "adminLastReminderDaysAgo": "{days, plural, =0{Last reminder today} =1{Last reminder 1 day ago} other{Last reminder {days} days ago}}",
-  "@adminLastReminderDaysAgo": {
-    "description": "Admin: LastReminderDaysAgo",
-    "placeholders": {
-      "days": {
-        "type": "int"
-      }
-    }
-  },
-  "adminReminderCount": "{count, plural, =0{No reminders yet} =1{1 reminder} other{{count} reminders}}",
-  "@adminReminderCount": {
-    "description": "Admin: ReminderCount",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "adminNoGroup": "No group",
-  "@adminNoGroup": {
-    "description": "Admin: NoGroup"
-  },
-  "adminSendReminder": "Send reminder",
-  "@adminSendReminder": {
-    "description": "Admin: SendReminder"
-  },
-  "adminLoadMoreFailed": "Couldn't load more complaints.",
-  "@adminLoadMoreFailed": {
-    "description": "Admin: LoadMoreFailed"
-  },
-  "adminListLoadFailed": "Couldn't load complaints.",
-  "@adminListLoadFailed": {
-    "description": "Admin: ListLoadFailed"
-  },
-  "adminPhotoBeforeSemantics": "Photo of the problem when it was reported",
-  "@adminPhotoBeforeSemantics": {
-    "description": "Admin: PhotoBeforeSemantics"
-  },
-  "adminPhotoAfterSemantics": "Latest photo from the citizen",
-  "@adminPhotoAfterSemantics": {
-    "description": "Admin: PhotoAfterSemantics"
-  },
-  "adminPhotoUnavailable": "Photo not available",
-  "@adminPhotoUnavailable": {
-    "description": "Admin: PhotoUnavailable"
-  },
-  "adminReminderSheetTitle": "Reminder ready to send",
-  "@adminReminderSheetTitle": {
-    "description": "Admin: ReminderSheetTitle"
-  },
-  "adminReminderTo": "To {phone}",
-  "@adminReminderTo": {
-    "description": "Admin: ReminderTo",
-    "placeholders": {
-      "phone": {
-        "type": "String"
-      }
-    }
-  },
-  "adminReminderMessageLabel": "Message",
-  "@adminReminderMessageLabel": {
-    "description": "Admin: ReminderMessageLabel"
-  },
-  "adminReminderLinkLabel": "Verify link",
-  "@adminReminderLinkLabel": {
-    "description": "Admin: ReminderLinkLabel"
-  },
-  "adminOpenWhatsApp": "Open WhatsApp",
-  "@adminOpenWhatsApp": {
-    "description": "Admin: OpenWhatsApp"
-  },
-  "adminCopyMessage": "Copy message",
-  "@adminCopyMessage": {
-    "description": "Admin: CopyMessage"
-  },
-  "adminWhatsAppFailed": "Couldn't open WhatsApp. Copy the message and send it yourself.",
-  "@adminWhatsAppFailed": {
-    "description": "Admin: WhatsAppFailed"
-  },
-  "adminRatesTitle": "Rates",
-  "@adminRatesTitle": {
-    "description": "Admin: RatesTitle"
-  },
-  "adminRatesTrustedTitle": "Trusted sources",
-  "@adminRatesTrustedTitle": {
-    "description": "Admin: RatesTrustedTitle"
-  },
-  "adminRatesNote": "Excluded complaints aren't counted. Network (friends and family) is shown separately but isn't part of the trusted total.",
-  "@adminRatesNote": {
-    "description": "Admin: RatesNote"
-  },
-  "adminRatesComplaints": "Complaints",
-  "@adminRatesComplaints": {
-    "description": "Admin: RatesComplaints"
-  },
-  "adminRatesReminded": "Reminded",
-  "@adminRatesReminded": {
-    "description": "Admin: RatesReminded"
-  },
-  "adminRatesVerified": "Verified",
-  "@adminRatesVerified": {
-    "description": "Admin: RatesVerified"
-  },
-  "adminRatesH1": "H1 answered",
-  "@adminRatesH1": {
-    "description": "Admin: RatesH1"
-  },
-  "adminRatesH2": "H2 not fixed",
-  "@adminRatesH2": {
-    "description": "Admin: RatesH2"
-  },
-  "adminRatesNone": "—",
-  "@adminRatesNone": {
-    "description": "Admin: RatesNone"
-  },
-  "adminRatesSmallSample": "Too few answers to read much into yet",
-  "@adminRatesSmallSample": {
-    "description": "Admin: RatesSmallSample"
-  },
-  "adminRatesComputedAt": "Updated {time}",
-  "@adminRatesComputedAt": {
-    "description": "Admin: RatesComputedAt",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "adminRatesEmpty": "No rates to show yet.",
-  "@adminRatesEmpty": {
-    "description": "Admin: RatesEmpty"
-  },
-  "adminRatesLoadFailed": "Couldn't load the rates.",
-  "@adminRatesLoadFailed": {
-    "description": "Admin: RatesLoadFailed"
-  },
-  "adminSourceRwa": "RWA",
-  "@adminSourceRwa": {
-    "description": "Admin: SourceRwa"
-  },
-  "adminSourceActivist": "Activist",
-  "@adminSourceActivist": {
-    "description": "Admin: SourceActivist"
-  },
-  "adminSourceSocial": "Social",
-  "@adminSourceSocial": {
-    "description": "Admin: SourceSocial"
-  },
-  "adminSourceNetwork": "Network (friends and family)",
-  "@adminSourceNetwork": {
-    "description": "Admin: SourceNetwork"
-  },
-  "adminSourceUnknown": "Unknown source",
-  "@adminSourceUnknown": {
-    "description": "Admin: SourceUnknown"
-  },
-  "adminSourceTrusted": "Trusted (RWA + activist)",
-  "@adminSourceTrusted": {
-    "description": "Admin: SourceTrusted"
-  },
-  "adminStatusFiled": "Filed",
-  "@adminStatusFiled": {
-    "description": "Admin: StatusFiled"
-  },
-  "adminStatusReminded": "Waiting",
-  "@adminStatusReminded": {
-    "description": "Admin: StatusReminded"
-  },
-  "adminStatusFixed": "Fixed",
-  "@adminStatusFixed": {
-    "description": "Admin: StatusFixed"
-  },
-  "adminStatusNotFixed": "Not fixed",
-  "@adminStatusNotFixed": {
-    "description": "Admin: StatusNotFixed"
-  },
-  "adminTagExcluded": "Excluded",
-  "@adminTagExcluded": {
-    "description": "Admin: TagExcluded"
-  },
-  "adminTagDuplicate": "Duplicate",
-  "@adminTagDuplicate": {
-    "description": "Admin: TagDuplicate"
-  },
-  "adminTagAnonymized": "Personal data removed",
-  "@adminTagAnonymized": {
-    "description": "Admin: TagAnonymized"
-  },
-  "adminAllTitle": "All complaints",
-  "@adminAllTitle": {
-    "description": "Admin: AllTitle"
-  },
-  "adminFilterSource": "Source",
-  "@adminFilterSource": {
-    "description": "Admin: FilterSource"
-  },
-  "adminFilterCategory": "Category",
-  "@adminFilterCategory": {
-    "description": "Admin: FilterCategory"
-  },
-  "adminFilterStatus": "Status",
-  "@adminFilterStatus": {
-    "description": "Admin: FilterStatus"
-  },
-  "adminFilterExcluded": "Excluded",
-  "@adminFilterExcluded": {
-    "description": "Admin: FilterExcluded"
-  },
-  "adminFilterDuplicate": "Duplicate",
-  "@adminFilterDuplicate": {
-    "description": "Admin: FilterDuplicate"
-  },
-  "adminFilterAny": "Any",
-  "@adminFilterAny": {
-    "description": "Admin: FilterAny"
-  },
-  "adminFilterExcludedHide": "Hide excluded",
-  "@adminFilterExcludedHide": {
-    "description": "Admin: FilterExcludedHide"
-  },
-  "adminFilterExcludedOnly": "Only excluded",
-  "@adminFilterExcludedOnly": {
-    "description": "Admin: FilterExcludedOnly"
-  },
-  "adminFilterExcludedAll": "Show all",
-  "@adminFilterExcludedAll": {
-    "description": "Admin: FilterExcludedAll"
-  },
-  "adminFilterDuplicateOnly": "Only duplicates",
-  "@adminFilterDuplicateOnly": {
-    "description": "Admin: FilterDuplicateOnly"
-  },
-  "adminFilterDuplicateNone": "No duplicates",
-  "@adminFilterDuplicateNone": {
-    "description": "Admin: FilterDuplicateNone"
-  },
-  "adminFilterChipValue": "{label}: {value}",
-  "@adminFilterChipValue": {
-    "description": "Admin: FilterChipValue",
-    "placeholders": {
-      "label": {
-        "type": "String"
-      },
-      "value": {
-        "type": "String"
-      }
-    }
-  },
-  "adminAllEmpty": "No complaints match these filters",
-  "@adminAllEmpty": {
-    "description": "Admin: AllEmpty"
-  },
-  "adminClearFilters": "Clear filters",
-  "@adminClearFilters": {
-    "description": "Admin: ClearFilters"
-  },
-  "adminDetailTitle": "Complaint",
-  "@adminDetailTitle": {
-    "description": "Admin: DetailTitle"
-  },
-  "adminDetailNotFound": "Complaint not found",
-  "@adminDetailNotFound": {
-    "description": "Admin: DetailNotFound"
-  },
-  "adminDetailLoadFailed": "Couldn't load this complaint.",
-  "@adminDetailLoadFailed": {
-    "description": "Admin: DetailLoadFailed"
-  },
-  "adminSameImageWarning": "Same image as report",
-  "@adminSameImageWarning": {
-    "description": "Admin: SameImageWarning"
-  },
-  "adminDistanceWarning": "Taken {meters} m from the report location",
-  "@adminDistanceWarning": {
-    "description": "Admin: DistanceWarning",
-    "placeholders": {
-      "meters": {
-        "type": "String"
-      }
-    }
-  },
-  "adminFactCcrs": "AMC complaint number",
-  "@adminFactCcrs": {
-    "description": "Admin: FactCcrs"
-  },
-  "adminFactCategory": "Category",
-  "@adminFactCategory": {
-    "description": "Admin: FactCategory"
-  },
-  "adminFactSource": "Source and group",
-  "@adminFactSource": {
-    "description": "Admin: FactSource"
-  },
-  "adminFactFiled": "Filed (server time)",
-  "@adminFactFiled": {
-    "description": "Admin: FactFiled"
-  },
-  "adminFactCaptured": "Photo taken (device time)",
-  "@adminFactCaptured": {
-    "description": "Admin: FactCaptured"
-  },
-  "adminFactGps": "Location",
-  "@adminFactGps": {
-    "description": "Admin: FactGps"
-  },
-  "adminGpsValue": "{lat}, {lng} (±{accuracy} m)",
-  "@adminGpsValue": {
-    "description": "Admin: GpsValue",
-    "placeholders": {
-      "lat": {
-        "type": "String"
-      },
-      "lng": {
-        "type": "String"
-      },
-      "accuracy": {
-        "type": "String"
-      }
-    }
-  },
-  "adminFactPhone": "Phone",
-  "@adminFactPhone": {
-    "description": "Admin: FactPhone"
-  },
-  "adminPhoneRemoved": "Removed",
-  "@adminPhoneRemoved": {
-    "description": "Admin: PhoneRemoved"
-  },
-  "adminTapToCopy": "Tap to copy",
-  "@adminTapToCopy": {
-    "description": "Admin: TapToCopy"
-  },
-  "adminNotRecorded": "Not recorded",
-  "@adminNotRecorded": {
-    "description": "Admin: NotRecorded"
-  },
-  "adminRemindersTitle": "Reminders",
-  "@adminRemindersTitle": {
-    "description": "Admin: RemindersTitle"
-  },
-  "adminNoReminders": "No reminders sent yet.",
-  "@adminNoReminders": {
-    "description": "Admin: NoReminders"
-  },
-  "adminReminderSentBy": "Sent {time} by {name}",
-  "@adminReminderSentBy": {
-    "description": "Admin: ReminderSentBy",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      },
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "adminReminderSent": "Sent {time}",
-  "@adminReminderSent": {
-    "description": "Admin: ReminderSent",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "adminRevoke": "Revoke",
-  "@adminRevoke": {
-    "description": "Admin: Revoke"
-  },
-  "adminRevokedAt": "Revoked {time}",
-  "@adminRevokedAt": {
-    "description": "Admin: RevokedAt",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "adminRevokeTitle": "Revoke this reminder?",
-  "@adminRevokeTitle": {
-    "description": "Admin: RevokeTitle"
-  },
-  "adminRevokeBody": "The link in this reminder will stop working.",
-  "@adminRevokeBody": {
-    "description": "Admin: RevokeBody"
-  },
-  "adminReminderRevoked": "Reminder revoked",
-  "@adminReminderRevoked": {
-    "description": "Admin: ReminderRevoked"
-  },
-  "adminVerificationsTitle": "Answers",
-  "@adminVerificationsTitle": {
-    "description": "Admin: VerificationsTitle"
-  },
-  "adminNoVerifications": "No answers yet.",
-  "@adminNoVerifications": {
-    "description": "Admin: NoVerifications"
-  },
-  "adminVerificationTime": "Answered {time}",
-  "@adminVerificationTime": {
-    "description": "Admin: VerificationTime",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "adminVerificationNote": "Note: {note}",
-  "@adminVerificationNote": {
-    "description": "Admin: VerificationNote",
-    "placeholders": {
-      "note": {
-        "type": "String"
-      }
-    }
-  },
-  "adminVerificationDistance": "{meters} m from the report location",
-  "@adminVerificationDistance": {
-    "description": "Admin: VerificationDistance",
-    "placeholders": {
-      "meters": {
-        "type": "String"
-      }
-    }
-  },
-  "adminExclude": "Exclude",
-  "@adminExclude": {
-    "description": "Admin: Exclude"
-  },
-  "adminIncludeAgain": "Include again",
-  "@adminIncludeAgain": {
-    "description": "Admin: IncludeAgain"
-  },
-  "adminIncludeTitle": "Include this complaint again?",
-  "@adminIncludeTitle": {
-    "description": "Admin: IncludeTitle"
-  },
-  "adminIncludeBody": "It will count in the rates again.",
-  "@adminIncludeBody": {
-    "description": "Admin: IncludeBody"
-  },
-  "adminExcludedDone": "Excluded",
-  "@adminExcludedDone": {
-    "description": "Admin: ExcludedDone"
-  },
-  "adminIncludedAgainDone": "Included again",
-  "@adminIncludedAgainDone": {
-    "description": "Admin: IncludedAgainDone"
-  },
-  "adminExcludeSheetTitle": "Exclude from the rates",
-  "@adminExcludeSheetTitle": {
-    "description": "Admin: ExcludeSheetTitle"
-  },
-  "adminExcludeReasonLabel": "Reason",
-  "@adminExcludeReasonLabel": {
-    "description": "Admin: ExcludeReasonLabel"
-  },
-  "adminReasonTest": "Test entry",
-  "@adminReasonTest": {
-    "description": "Admin: ReasonTest"
-  },
-  "adminReasonInvalid": "Not a valid complaint",
-  "@adminReasonInvalid": {
-    "description": "Admin: ReasonInvalid"
-  },
-  "adminReasonDuplicate": "Duplicate",
-  "@adminReasonDuplicate": {
-    "description": "Admin: ReasonDuplicate"
-  },
-  "adminReasonOther": "Other",
-  "@adminReasonOther": {
-    "description": "Admin: ReasonOther"
-  },
-  "adminExcludeNoteLabel": "Note (optional)",
-  "@adminExcludeNoteLabel": {
-    "description": "Admin: ExcludeNoteLabel"
-  },
-  "adminChooseReason": "Choose a reason.",
-  "@adminChooseReason": {
-    "description": "Admin: ChooseReason"
-  },
-  "adminExcludedBecause": "Excluded: {reason}",
-  "@adminExcludedBecause": {
-    "description": "Admin: ExcludedBecause",
-    "placeholders": {
-      "reason": {
-        "type": "String"
-      }
-    }
-  },
-  "adminMoreActions": "More actions",
-  "@adminMoreActions": {
-    "description": "Admin: MoreActions"
-  },
-  "adminRemovePersonalData": "Remove personal data",
-  "@adminRemovePersonalData": {
-    "description": "Admin: RemovePersonalData"
-  },
-  "adminAnonymizeTitle": "Remove personal data?",
-  "@adminAnonymizeTitle": {
-    "description": "Admin: AnonymizeTitle"
-  },
-  "adminAnonymizeBody": "This deletes the phone number and every photo of this complaint, and stops its reminder links. The complaint number, category, times and answers are kept for the rates. This can't be undone.",
-  "@adminAnonymizeBody": {
-    "description": "Admin: AnonymizeBody"
-  },
-  "adminAnonymizeTypeLabel": "Type the complaint number {ccrs} to confirm",
-  "@adminAnonymizeTypeLabel": {
-    "description": "Admin: AnonymizeTypeLabel",
-    "placeholders": {
-      "ccrs": {
-        "type": "String"
-      }
-    }
-  },
-  "adminPersonalDataRemoved": "Personal data removed",
-  "@adminPersonalDataRemoved": {
-    "description": "Admin: PersonalDataRemoved"
-  },
-  "adminReminderOffExcluded": "Reminders are off because this complaint is excluded.",
-  "@adminReminderOffExcluded": {
-    "description": "Admin: ReminderOffExcluded"
-  },
-  "adminReminderOffAnonymized": "Reminders are off because personal data was removed.",
-  "@adminReminderOffAnonymized": {
-    "description": "Admin: ReminderOffAnonymized"
-  },
-  "adminInviteCodesTitle": "Invite codes",
-  "@adminInviteCodesTitle": {
-    "description": "Admin: InviteCodesTitle"
-  },
-  "adminInviteCodesEmpty": "No invite codes yet",
-  "@adminInviteCodesEmpty": {
-    "description": "Admin: InviteCodesEmpty"
-  },
-  "adminInviteCodesLoadFailed": "Couldn't load invite codes.",
-  "@adminInviteCodesLoadFailed": {
-    "description": "Admin: InviteCodesLoadFailed"
-  },
-  "adminNewCode": "New code",
-  "@adminNewCode": {
-    "description": "Admin: NewCode"
-  },
-  "adminInviteCodeComplaints": "{count, plural, =0{No complaints} =1{1 complaint} other{{count} complaints}}",
-  "@adminInviteCodeComplaints": {
-    "description": "Admin: InviteCodeComplaints",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "adminActive": "Active",
-  "@adminActive": {
-    "description": "Admin: Active"
-  },
-  "adminInactive": "Inactive",
-  "@adminInactive": {
-    "description": "Admin: Inactive"
-  },
-  "adminActivate": "Activate",
-  "@adminActivate": {
-    "description": "Admin: Activate"
-  },
-  "adminDeactivate": "Deactivate",
-  "@adminDeactivate": {
-    "description": "Admin: Deactivate"
-  },
-  "adminShare": "Share",
-  "@adminShare": {
-    "description": "Admin: Share"
-  },
-  "adminShareCodeMessage": "Install the app and enter code {code}",
-  "@adminShareCodeMessage": {
-    "description": "Admin: ShareCodeMessage",
-    "placeholders": {
-      "code": {
-        "type": "String"
-      }
-    }
-  },
-  "adminCodeShareCopied": "Invite message copied. Paste it into any chat.",
-  "@adminCodeShareCopied": {
-    "description": "Admin: CodeShareCopied"
-  },
-  "adminNewCodeTitle": "New invite code",
-  "@adminNewCodeTitle": {
-    "description": "Admin: NewCodeTitle"
-  },
-  "adminSourceTagLabel": "Source",
-  "@adminSourceTagLabel": {
-    "description": "Admin: SourceTagLabel"
-  },
-  "adminGroupLabelLabel": "Group label",
-  "@adminGroupLabelLabel": {
-    "description": "Admin: GroupLabelLabel"
-  },
-  "adminGroupLabelRequired": "Enter a group label.",
-  "@adminGroupLabelRequired": {
-    "description": "Admin: GroupLabelRequired"
-  },
-  "adminWardHintLabel": "Ward hint (optional)",
-  "@adminWardHintLabel": {
-    "description": "Admin: WardHintLabel"
-  },
-  "adminCustomCodeLabel": "Custom code (optional)",
-  "@adminCustomCodeLabel": {
-    "description": "Admin: CustomCodeLabel"
-  },
-  "adminCustomCodeHelp": "6 to 20 letters or digits. Leave empty to generate one.",
-  "@adminCustomCodeHelp": {
-    "description": "Admin: CustomCodeHelp"
-  },
-  "adminCodeInvalid": "That code is invalid or already in use.",
-  "@adminCodeInvalid": {
-    "description": "Admin: CodeInvalid"
-  },
-  "adminCreate": "Create",
-  "@adminCreate": {
-    "description": "Admin: Create"
-  },
-  "adminSave": "Save",
-  "@adminSave": {
-    "description": "Admin: Save"
-  },
-  "adminCodeCreated": "Invite code created",
-  "@adminCodeCreated": {
-    "description": "Admin: CodeCreated"
-  },
-  "adminSaved": "Saved",
-  "@adminSaved": {
-    "description": "Admin: Saved"
-  },
-  "adminCategoriesTitle": "Categories",
-  "@adminCategoriesTitle": {
-    "description": "Admin: CategoriesTitle"
-  },
-  "adminCategoriesPlaceholderNote": "Placeholder list — replace with AMC's real categories",
-  "@adminCategoriesPlaceholderNote": {
-    "description": "Admin: CategoriesPlaceholderNote"
-  },
-  "adminCategoriesEmpty": "No categories yet",
-  "@adminCategoriesEmpty": {
-    "description": "Admin: CategoriesEmpty"
-  },
-  "adminCategoriesLoadFailed": "Couldn't load categories.",
-  "@adminCategoriesLoadFailed": {
-    "description": "Admin: CategoriesLoadFailed"
-  },
-  "adminAddCategory": "Add category",
-  "@adminAddCategory": {
-    "description": "Admin: AddCategory"
-  },
-  "adminEditCategory": "Edit category",
-  "@adminEditCategory": {
-    "description": "Admin: EditCategory"
-  },
-  "adminCategoryNameLabel": "Name",
-  "@adminCategoryNameLabel": {
-    "description": "Admin: CategoryNameLabel"
-  },
-  "adminCategoryNameRequired": "Enter a name of up to 100 characters.",
-  "@adminCategoryNameRequired": {
-    "description": "Admin: CategoryNameRequired"
-  },
-  "adminCategoryCcrsLabel": "CCRS label (optional)",
-  "@adminCategoryCcrsLabel": {
-    "description": "Admin: CategoryCcrsLabel"
-  },
-  "adminCategorySortLabel": "Sort order",
-  "@adminCategorySortLabel": {
-    "description": "Admin: CategorySortLabel"
-  },
-  "adminCategorySortInvalid": "Enter a whole number, 0 or more.",
-  "@adminCategorySortInvalid": {
-    "description": "Admin: CategorySortInvalid"
-  },
-  "adminCategoryDuplicate": "A category with this name already exists.",
-  "@adminCategoryDuplicate": {
-    "description": "Admin: CategoryDuplicate"
-  },
-  "adminMoveUp": "Move up",
-  "@adminMoveUp": {
-    "description": "Admin: MoveUp"
-  },
-  "adminMoveDown": "Move down",
-  "@adminMoveDown": {
-    "description": "Admin: MoveDown"
-  },
-  "adminEdit": "Edit",
-  "@adminEdit": {
-    "description": "Admin: Edit"
-  },
-  "adminReorderFailed": "Couldn't save the new order. It has been put back.",
-  "@adminReorderFailed": {
-    "description": "Admin: ReorderFailed"
-  },
-  "adminExportTitle": "Export CSV",
-  "@adminExportTitle": {
-    "description": "Admin: ExportTitle"
-  },
-  "adminExportTypeLabel": "What to export",
-  "@adminExportTypeLabel": {
-    "description": "Admin: ExportTypeLabel"
-  },
-  "adminExportComplaints": "Complaints",
-  "@adminExportComplaints": {
-    "description": "Admin: ExportComplaints"
-  },
-  "adminExportVerifications": "Verifications",
-  "@adminExportVerifications": {
-    "description": "Admin: ExportVerifications"
-  },
-  "adminExportReminders": "Reminders",
-  "@adminExportReminders": {
-    "description": "Admin: ExportReminders"
-  },
-  "adminExportIncludePhone": "Include phone numbers",
-  "@adminExportIncludePhone": {
-    "description": "Admin: ExportIncludePhone"
-  },
-  "adminExportPhoneWarning": "Only turn this on if you need to contact people. Don't share this file.",
-  "@adminExportPhoneWarning": {
-    "description": "Admin: ExportPhoneWarning"
-  },
-  "adminExportButton": "Export",
-  "@adminExportButton": {
-    "description": "Admin: ExportButton"
-  },
-  "adminExportSaved": "Saved {fileName} to {folder}",
-  "@adminExportSaved": {
-    "description": "Admin: ExportSaved",
-    "placeholders": {
-      "fileName": {
-        "type": "String"
-      },
-      "folder": {
-        "type": "String"
-      }
-    }
-  },
-  "adminExportFailed": "Couldn't export. Please try again.",
-  "@adminExportFailed": {
-    "description": "Admin: ExportFailed"
-  },
   "appTitle": "Saarthee",
   "@appTitle": {
     "description": "App name"
@@ -4571,5 +3614,832 @@
   "issueActionsCcrsVerify": "It's fixed — verify",
   "@issueActionsCcrsVerify": {
     "description": "TASK-06 issue lifecycle"
+  },
+  "staffConsoleTitle": "Saarthee staff",
+  "@staffConsoleTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleAdmin": "Admin",
+  "@staffRoleAdmin": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleModerator": "Moderator",
+  "@staffRoleModerator": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleRepresentative": "Representative",
+  "@staffRoleRepresentative": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRoleCitizen": "Citizen",
+  "@staffRoleCitizen": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSignOut": "Sign out",
+  "@staffSignOut": {
+    "description": "TASK-10 staff console"
+  },
+  "staffMenu": "Menu",
+  "@staffMenu": {
+    "description": "TASK-10 staff console"
+  },
+  "staffForbidden": "You don't have access to this page.",
+  "@staffForbidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffGoDashboard": "Go to dashboard",
+  "@staffGoDashboard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoadError": "We couldn't load this. Check your connection and try again.",
+  "@staffLoadError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffActionError": "That didn't work: {message}",
+  "@staffActionError": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "staffNavSectionWork": "Work",
+  "@staffNavSectionWork": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavSectionContent": "Content",
+  "@staffNavSectionContent": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavSectionAdmin": "Administration",
+  "@staffNavSectionAdmin": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavDashboard": "Dashboard",
+  "@staffNavDashboard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavModeration": "Moderation",
+  "@staffNavModeration": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavCategories": "Categories",
+  "@staffNavCategories": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavUsers": "Users & roles",
+  "@staffNavUsers": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavSettings": "Settings",
+  "@staffNavSettings": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNavExports": "Exports",
+  "@staffNavExports": {
+    "description": "TASK-10 staff console"
+  },
+  "staffToolsRow": "Staff tools",
+  "@staffToolsRow": {
+    "description": "TASK-10 staff console"
+  },
+  "staffNoSections": "Your staff tools will appear here once they are ready.",
+  "@staffNoSections": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginTitle": "Sign in to Saarthee staff",
+  "@staffLoginTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginPhone": "Sign in with phone",
+  "@staffLoginPhone": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginEmailLink": "Admin sign-in with email",
+  "@staffLoginEmailLink": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginEmail": "Email",
+  "@staffLoginEmail": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginPassword": "Password",
+  "@staffLoginPassword": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginSubmit": "Sign in",
+  "@staffLoginSubmit": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginNotStaff": "This account doesn't have staff access.",
+  "@staffLoginNotStaff": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginSuspended": "This account is suspended.",
+  "@staffLoginSuspended": {
+    "description": "TASK-10 staff console"
+  },
+  "staffLoginFailed": "Email or password is incorrect.",
+  "@staffLoginFailed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashTitle": "Dashboard",
+  "@staffDashTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashSensitive": "Sensitive reports to review",
+  "@staffDashSensitive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashFlagged": "Flagged",
+  "@staffDashFlagged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashOutside": "Outside city wards",
+  "@staffDashOutside": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashAlerts": "Alerts awaiting approval",
+  "@staffDashAlerts": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDashAllClear": "Nothing waiting. Good work.",
+  "@staffDashAllClear": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationTitle": "Moderation",
+  "@moderationTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationTabSensitive": "Sensitive ({count})",
+  "@moderationTabSensitive": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationTabFlagged": "Flagged ({count})",
+  "@moderationTabFlagged": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationTabOutside": "Outside city wards ({count})",
+  "@moderationTabOutside": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "moderationEmpty": "Nothing to review here.",
+  "@moderationEmpty": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationStale": "Already handled by another moderator.",
+  "@moderationStale": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationNoWard": "No ward",
+  "@moderationNoWard": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationRowMeta": "{ward} · {date}",
+  "@moderationRowMeta": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "moderationSelectIssue": "Choose a report to review.",
+  "@moderationSelectIssue": {
+    "description": "TASK-10 staff console"
+  },
+  "moderationFlagCount": "{reason} · {count}",
+  "@moderationFlagCount": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "flagReasonSpam": "Spam or advertising",
+  "@flagReasonSpam": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonAbusive": "Abusive or hateful",
+  "@flagReasonAbusive": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonPrivateInfo": "Shows private information",
+  "@flagReasonPrivateInfo": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonNotCivic": "Not a civic issue",
+  "@flagReasonNotCivic": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonWrongLocation": "Wrong location",
+  "@flagReasonWrongLocation": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonDuplicate": "Duplicate",
+  "@flagReasonDuplicate": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReasonOther": "Something else",
+  "@flagReasonOther": {
+    "description": "TASK-10 staff console"
+  },
+  "flagSheetTitle": "Report a problem with this post",
+  "@flagSheetTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "flagNote": "Add a note (optional)",
+  "@flagNote": {
+    "description": "TASK-10 staff console"
+  },
+  "flagCounter": "{count}/200",
+  "@flagCounter": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "flagSend": "Send",
+  "@flagSend": {
+    "description": "TASK-10 staff console"
+  },
+  "flagThanks": "Thanks. Our moderators will look at it.",
+  "@flagThanks": {
+    "description": "TASK-10 staff console"
+  },
+  "flagAlready": "You've already reported this.",
+  "@flagAlready": {
+    "description": "TASK-10 staff console"
+  },
+  "flagError": "Couldn't send. Try again.",
+  "@flagError": {
+    "description": "TASK-10 staff console"
+  },
+  "flagLimit": "You've reported a lot today. Please try again tomorrow.",
+  "@flagLimit": {
+    "description": "TASK-10 staff console"
+  },
+  "flagReportButton": "Report a problem",
+  "@flagReportButton": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueTitle": "Issue tools",
+  "@staffIssueTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueResident": "A resident of {ward}",
+  "@staffIssueResident": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "ward": {
+        "type": "String"
+      }
+    }
+  },
+  "staffIssueResidentUnknown": "A resident",
+  "@staffIssueResidentUnknown": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueHiddenBanner": "Hidden from the public",
+  "@staffIssueHiddenBanner": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueFlags": "Flags",
+  "@staffIssueFlags": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueTimeline": "Timeline",
+  "@staffIssueTimeline": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssuePhotos": "Photos",
+  "@staffIssuePhotos": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAfter": "After photo",
+  "@staffIssueAfter": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueActions": "Actions",
+  "@staffIssueActions": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueLooksFine": "Looks fine",
+  "@staffIssueLooksFine": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueChange": "Change category or ward",
+  "@staffIssueChange": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMerge": "Merge into…",
+  "@staffIssueMerge": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueHide": "Hide",
+  "@staffIssueHide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueUnhide": "Show to the public",
+  "@staffIssueUnhide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueReject": "Not accepted…",
+  "@staffIssueReject": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueSuspend": "Suspend reporter…",
+  "@staffIssueSuspend": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAcknowledge": "Acknowledge",
+  "@staffIssueAcknowledge": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueInProgress": "Mark in progress",
+  "@staffIssueInProgress": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMarkFixed": "Mark as fixed",
+  "@staffIssueMarkFixed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAfterPhoto": "Add an after photo (optional)",
+  "@staffIssueAfterPhoto": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueAfterPhotoAdded": "After photo added",
+  "@staffIssueAfterPhotoAdded": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueNote": "Note (optional)",
+  "@staffIssueNote": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueReason": "Reason",
+  "@staffIssueReason": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmReject": "The report will be closed as not accepted and the reporter will be told why.",
+  "@staffIssueConfirmReject": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmHide": "The report will be hidden from the public. Staff can still see it.",
+  "@staffIssueConfirmHide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmMerge": "This report will be closed and its supporters moved to the other report.",
+  "@staffIssueConfirmMerge": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmSuspend": "The reporter will be signed out and can't use their account until reinstated.",
+  "@staffIssueConfirmSuspend": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueConfirmFixed": "Neighbours will be asked to confirm with a photo.",
+  "@staffIssueConfirmFixed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCancel": "Cancel",
+  "@staffCancel": {
+    "description": "TASK-10 staff console"
+  },
+  "staffConfirm": "Confirm",
+  "@staffConfirm": {
+    "description": "TASK-10 staff console"
+  },
+  "staffDone": "Done.",
+  "@staffDone": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSave": "Save",
+  "@staffSave": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueChanged": "This issue changed while you were here. Reloaded.",
+  "@staffIssueChanged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMergeEmpty": "No open reports within 500 m.",
+  "@staffIssueMergeEmpty": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueMergeDistance": "{metres} m away",
+  "@staffIssueMergeDistance": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "staffIssueMergeFar": "More than 200 m away. Check it is the same problem.",
+  "@staffIssueMergeFar": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueCategory": "Category",
+  "@staffIssueCategory": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueWard": "Ward",
+  "@staffIssueWard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffIssueWardNumber": "Ward {number}",
+  "@staffIssueWardNumber": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "staffRejectSpam": "Spam",
+  "@staffRejectSpam": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectDuplicate": "Duplicate",
+  "@staffRejectDuplicate": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectOutOfArea": "Outside city wards",
+  "@staffRejectOutOfArea": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectPrivate": "About a private person",
+  "@staffRejectPrivate": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectNotCivic": "Not a civic issue",
+  "@staffRejectNotCivic": {
+    "description": "TASK-10 staff console"
+  },
+  "staffRejectOther": "Other reason",
+  "@staffRejectOther": {
+    "description": "TASK-10 staff console"
+  },
+  "staffFlagDismiss": "Dismiss",
+  "@staffFlagDismiss": {
+    "description": "TASK-10 staff console"
+  },
+  "staffFlagHandled": "Handled",
+  "@staffFlagHandled": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCommentHide": "Hide comment",
+  "@staffCommentHide": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCommentHidden": "Hidden comment",
+  "@staffCommentHidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffStatusMerged": "Merged",
+  "@staffStatusMerged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventReviewed": "Checked by a moderator",
+  "@staffEventReviewed": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventHidden": "Hidden",
+  "@staffEventHidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventUnhidden": "Shown again",
+  "@staffEventUnhidden": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventRecategorised": "Category changed",
+  "@staffEventRecategorised": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventWardChanged": "Ward changed",
+  "@staffEventWardChanged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventMerged": "Merged",
+  "@staffEventMerged": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventComment": "Comment",
+  "@staffEventComment": {
+    "description": "TASK-10 staff console"
+  },
+  "staffEventOther": "Update",
+  "@staffEventOther": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersTitle": "Users & roles",
+  "@staffUsersTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSearch": "Name or last 4 digits",
+  "@staffUsersSearch": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersEmpty": "No matching people.",
+  "@staffUsersEmpty": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersMakeMod": "Make moderator",
+  "@staffUsersMakeMod": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersRemoveMod": "Remove moderator",
+  "@staffUsersRemoveMod": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSuspend": "Suspend",
+  "@staffUsersSuspend": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersReinstate": "Reinstate",
+  "@staffUsersReinstate": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSelf": "You can't change your own role.",
+  "@staffUsersSelf": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersActive": "Active",
+  "@staffUsersActive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersSuspended": "Suspended",
+  "@staffUsersSuspended": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersNoName": "No name",
+  "@staffUsersNoName": {
+    "description": "TASK-10 staff console"
+  },
+  "staffUsersReasonHint": "Reason (required)",
+  "@staffUsersReasonHint": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesTitle": "Categories",
+  "@staffCategoriesTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesInactive": "Inactive",
+  "@staffCategoriesInactive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesEdit": "Edit category",
+  "@staffCategoriesEdit": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesNameEn": "Name (English)",
+  "@staffCategoriesNameEn": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesNameGu": "Name (ગુજરાતી)",
+  "@staffCategoriesNameGu": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesIcon": "Icon",
+  "@staffCategoriesIcon": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesColour": "Colour",
+  "@staffCategoriesColour": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesSla": "Target days (1–90)",
+  "@staffCategoriesSla": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesSensitive": "Sensitive: a moderator checks before it is public",
+  "@staffCategoriesSensitive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesActive": "Active",
+  "@staffCategoriesActive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesOrder": "Order",
+  "@staffCategoriesOrder": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesSlaError": "Enter a number from 1 to 90.",
+  "@staffCategoriesSlaError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesNameError": "Enter 2 to 60 characters.",
+  "@staffCategoriesNameError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesOrderError": "Enter a number from 0 to 999.",
+  "@staffCategoriesOrderError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffCategoriesDays": "{days} days",
+  "@staffCategoriesDays": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSettingsTitle": "Settings",
+  "@staffSettingsTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsReadOnly": "Only admins can change settings.",
+  "@staffSettingsReadOnly": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsElection": "Election mode",
+  "@staffSettingsElection": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsElectionOn": "Election mode on",
+  "@staffSettingsElectionOn": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScope": "Where",
+  "@staffSettingsScope": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScopeCity": "Whole city",
+  "@staffSettingsScopeCity": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScopeWards": "Chosen wards",
+  "@staffSettingsScopeWards": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsWardsCount": "{count} wards chosen",
+  "@staffSettingsWardsCount": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "staffSettingsFrom": "From",
+  "@staffSettingsFrom": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsTo": "To",
+  "@staffSettingsTo": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsNoteEn": "Note (English)",
+  "@staffSettingsNoteEn": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsNoteGu": "Note (ગુજરાતી)",
+  "@staffSettingsNoteGu": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsPreview": "Banner preview",
+  "@staffSettingsPreview": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsSaveElection": "Save election mode",
+  "@staffSettingsSaveElection": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsFeatures": "Features",
+  "@staffSettingsFeatures": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsRelay": "Messages to representatives",
+  "@staffSettingsRelay": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsRelayHelp": "Let residents send messages to their representatives.",
+  "@staffSettingsRelayHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsDrafts": "Alert drafts from feeds",
+  "@staffSettingsDrafts": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsDraftsHelp": "Create draft alerts from official feeds for review.",
+  "@staffSettingsDraftsHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScorecard": "Public ward scorecard",
+  "@staffSettingsScorecard": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsScorecardHelp": "Show ward scorecards to everyone.",
+  "@staffSettingsScorecardHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsSensitive": "Review sensitive reports",
+  "@staffSettingsSensitive": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsSensitiveHelp": "Sensitive reports stay hidden until a moderator checks them.",
+  "@staffSettingsSensitiveHelp": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsDateError": "The end must be after the start, at most 120 days later.",
+  "@staffSettingsDateError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffSettingsWardsError": "Choose at least one ward.",
+  "@staffSettingsWardsError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportTitle": "Exports",
+  "@staffExportTitle": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportDataset": "Data",
+  "@staffExportDataset": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportIssues": "Issues",
+  "@staffExportIssues": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportEvents": "Issue history",
+  "@staffExportEvents": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportVerifications": "Verifications",
+  "@staffExportVerifications": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportFrom": "From",
+  "@staffExportFrom": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportTo": "To",
+  "@staffExportTo": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportAllWards": "All wards",
+  "@staffExportAllWards": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportPhone": "Include phone numbers",
+  "@staffExportPhone": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportPhoneWarning": "Phone numbers are personal data. Only include them if you must.",
+  "@staffExportPhoneWarning": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportReason": "Why do you need phone numbers? (10 to 200 characters)",
+  "@staffExportReason": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportReasonError": "Give a reason of 10 to 200 characters.",
+  "@staffExportReasonError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportDownload": "Download CSV",
+  "@staffExportDownload": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportTooMany": "Too many rows. Narrow the date range.",
+  "@staffExportTooMany": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportRangeError": "Choose a range of up to 366 days.",
+  "@staffExportRangeError": {
+    "description": "TASK-10 staff console"
+  },
+  "staffExportReady": "CSV ready: {rows} rows.",
+  "@staffExportReady": {
+    "description": "TASK-10 staff console",
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      }
+    }
   }
 }

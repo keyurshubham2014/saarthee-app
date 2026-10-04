@@ -45,6 +45,7 @@ class StaffPage extends ConsumerWidget {
           actions: allowed ? actions : const [],
         ),
         floatingActionButton: allowed ? floatingActionButton : null,
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
         body: allowed
             ? Center(
                 child: ConstrainedBox(

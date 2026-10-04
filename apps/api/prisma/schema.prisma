@@ -360,6 +360,12 @@ enum IssueEventType {
   ccrs_closed
   verification
   system
+  // TASK-10 moderation events.
+  recategorised
+  ward_changed
+  hidden
+  unhidden
+  reviewed
 
   @@map("issue_event_type")
 }
@@ -413,6 +419,8 @@ model User {
   serviceTips        ServiceTip[]        @relation("ServiceTipCreatedBy")
   homeWard           Ward?               @relation(fields: [homeWardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_users_home_ward")
   subscriptions      Subscription[]
+  // TASK-10 moderation flags raised by this user.
+  moderationFlags    ModerationFlag[]    @relation("ModerationFlagReporter")
 
   @@unique([phoneE164], map: "uq_users_phone")
   @@unique([firebaseUid], map: "uq_users_firebase_uid")
@@ -511,6 +519,9 @@ model Issue {
   isSensitive        Boolean                                @default(false) @map("is_sensitive")
   mergedIntoId       String?                                @map("merged_into_id") @db.Uuid
   legacyComplaintId  String?                                @map("legacy_complaint_id") @db.Uuid
+  /// TASK-10: set by "Looks fine" / hide (removes the issue from the sensitive and out-of-area queues).
+  moderatedAt        DateTime?                              @map("moderated_at") @db.Timestamptz(6)
+  moderatedBy        String?                                @map("moderated_by") @db.Uuid
   createdAt          DateTime                               @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt          DateTime                               @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
   /// TASK-06 lifecycle. Status is written only through modules/lifecycle transition().
@@ -530,12 +541,14 @@ model Issue {
   ward            Ward?      @relation(fields: [wardId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issues_ward")
   zone            Zone?      @relation(fields: [zoneId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issues_zone")
 
-  photos        IssuePhoto[]
-  events        IssueEvent[]
-  verifications IssueVerification[]
-  meToos        MeToo[]
-  follows       Follow[]
-  repMessages   RepMessage[]
+  photos          IssuePhoto[]
+  events          IssueEvent[]
+  verifications   IssueVerification[]
+  meToos          MeToo[]
+  follows         Follow[]
+  repMessages     RepMessage[]
+  moderationFlags ModerationFlag[]
+  eventHides      IssueEventHide[]
 
   @@unique([clientSubmissionId], map: "uq_issues_client_submission")
   @@unique([legacyComplaintId], map: "uq_issues_legacy_complaint")
@@ -582,9 +595,11 @@ model IssueEvent {
   clientActionId String?        @map("client_action_id") @db.Uuid
   meta           Json?
 
-  issue Issue  @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_events_issue")
-  actor User?  @relation(fields: [actorId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issue_events_actor")
-  photo Photo? @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_events_photo")
+  issue Issue           @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_events_issue")
+  actor User?           @relation(fields: [actorId], references: [id], onDelete: SetNull, onUpdate: Cascade, map: "fk_issue_events_actor")
+  photo Photo?          @relation(fields: [photoId], references: [id], onDelete: Restrict, onUpdate: Cascade, map: "fk_issue_events_photo")
+  /// TASK-10: set when a moderator hides this comment.
+  hide  IssueEventHide?
 
   @@unique([clientActionId], map: "uq_issue_events_client_action")
   @@index([issueId, createdAt], map: "idx_issue_events_issue_created")
@@ -1200,4 +1215,73 @@ model EscalationContact {
 
   @@unique([level, zoneId], map: "uq_escalation_contacts_level_zone")
   @@map("escalation_contacts")
+}
+
+// ---------------------------------------------------------------------------------------------------
+// V2 TASK-10: moderation flags. CHECK ck_moderation_flags_handled, the partial unique index
+// uq_moderation_flags_open (one open flag per reporter and target) and the partial index idx_issues_unmoderated
+// are hand-written in migration 20261010100000_v2_moderation.
+// ---------------------------------------------------------------------------------------------------
+
+enum FlagTarget {
+  issue
+  issue_event
+
+  @@map("flag_target")
+}
+
+enum FlagReason {
+  spam
+  abusive
+  private_info
+  not_civic
+  wrong_location
+  duplicate
+  other
+
+  @@map("flag_reason")
+}
+
+enum FlagStatus {
+  open
+  actioned
+  dismissed
+
+  @@map("flag_status")
+}
+
+model ModerationFlag {
+  id         String     @id(map: "pk_moderation_flags") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  targetType FlagTarget @map("target_type")
+  targetId   String     @map("target_id") @db.Uuid
+  issueId    String     @map("issue_id") @db.Uuid
+  reporterId String     @map("reporter_id") @db.Uuid
+  reason     FlagReason
+  note       String?    @db.VarChar(200)
+  status     FlagStatus @default(open)
+  handledBy  String?    @map("handled_by") @db.Uuid
+  handledAt  DateTime?  @map("handled_at") @db.Timestamptz(6)
+  createdAt  DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  issue    Issue @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_moderation_flags_issue")
+  reporter User  @relation("ModerationFlagReporter", fields: [reporterId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_moderation_flags_reporter")
+
+  @@index([status, createdAt], map: "idx_moderation_flags_status_created")
+  @@index([issueId, status], map: "idx_moderation_flags_issue_status")
+  @@index([reporterId, createdAt], map: "idx_moderation_flags_reporter_created")
+  @@map("moderation_flags")
+}
+
+/// TASK-10: a comment (issue_events row) hidden by a moderator; issue_events itself stays append-only.
+model IssueEventHide {
+  eventId  String   @id(map: "pk_issue_event_hides") @map("event_id") @db.Uuid
+  issueId  String   @map("issue_id") @db.Uuid
+  hiddenBy String   @map("hidden_by") @db.Uuid
+  hiddenAt DateTime @default(now()) @map("hidden_at") @db.Timestamptz(6)
+
+  event IssueEvent @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_event_hides_event")
+  issue Issue      @relation(fields: [issueId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "fk_issue_event_hides_issue")
+
+  @@index([issueId], map: "idx_issue_event_hides_issue")
+  @@map("issue_event_hides")
 }

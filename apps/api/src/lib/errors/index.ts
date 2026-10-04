@@ -68,6 +68,17 @@ export const ERROR_CODES = {
   TOO_FAR_FROM_ISSUE: { status: 422, message: 'You need to be within 100 m of the problem to verify.' },
   LOCATION_TOO_INACCURATE: { status: 422, message: 'Location is approximate. Move into the open and try again.' },
   CCRS_NOT_LINKED: { status: 409, message: 'Link your AMC complaint number first.' },
+  // TASK-10 (staff console, moderation).
+  WARD_OUT_OF_SCOPE: { status: 403, message: 'This issue is outside your wards.' },
+  ISSUE_STATE_INVALID: { status: 409, message: 'This issue was already handled. Reload to see its current state.' },
+  MERGE_INVALID: { status: 422, message: "These issues can't be merged." },
+  SELF_ROLE_CHANGE: { status: 409, message: "You can't change your own role." },
+  SETTING_UNKNOWN: { status: 400, message: 'This setting does not exist.' },
+  EXPORT_TOO_LARGE: { status: 413, message: 'Too many rows. Narrow the date range.' },
+  FLAG_QUOTA: { status: 429, message: "You've reported a lot today. Please try again tomorrow." },
+  SELF_SUSPEND: { status: 409, message: "You can't suspend yourself." },
+  USER_STATE_INVALID: { status: 409, message: 'This account is already in that state.' },
+  ROLE_CHANGE_INVALID: { status: 422, message: "This person's role can't be changed here." },
 } as const;
 
 export type ErrorCode = keyof typeof ERROR_CODES;

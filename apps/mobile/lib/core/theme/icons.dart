@@ -150,4 +150,11 @@ class SaartheeIcons {
   static const IconData arrowUp = Symbols.arrow_upward_rounded;
   static const IconData arrowDown = Symbols.arrow_downward_rounded;
   static const IconData editLocation = Symbols.edit_location_alt_rounded;
+  // TASK-10 staff console (additive).
+  static const IconData dashboard = Symbols.dashboard_rounded;
+  static const IconData menu = Symbols.menu_rounded;
+  static const IconData moderation = Symbols.shield_rounded;
+  static const IconData merge = Symbols.merge_rounded;
+  static const IconData edit = Symbols.edit_rounded;
+  static const IconData adminPanel = Symbols.admin_panel_settings_rounded;
 }

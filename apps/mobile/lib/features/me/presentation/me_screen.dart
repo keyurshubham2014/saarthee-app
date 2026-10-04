@@ -126,6 +126,14 @@ class _Profile extends ConsumerWidget {
           padding: const EdgeInsets.all(AppSpacing.gutter),
           child: DisplayNameEditor(initial: me.displayName, enabled: !readOnly),
         ),
+        // TASK-10: staff roles reach the console from here.
+        if (me.role != 'citizen')
+          ListRow(
+            key: const Key('me.staffTools'),
+            leading: Icon(SaartheeIcons.adminPanel, color: c.textSecondary),
+            title: l10n.staffToolsRow,
+            onTap: () => context.push('/staff'),
+          ),
         ListRow(
           key: const Key('me.phone'),
           leading: Icon(SaartheeIcons.lock, color: c.textSecondary),

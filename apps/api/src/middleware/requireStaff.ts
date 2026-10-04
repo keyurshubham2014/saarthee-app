@@ -56,7 +56,7 @@ async function resolve(token: string): Promise<{ actorId: string; actorKind: 'us
     });
     if (!user || user.status === 'deleted' || user.tokenVersion !== asUser.tokenVersion) throw new AppError('TOKEN_REVOKED');
     if (user.status === 'suspended') throw new AppError('ACCOUNT_SUSPENDED');
-    return { actorId: user.id, actorKind: 'user', role: user.role, wardIds: [] };
+    return { actorId: user.id, actorKind: 'user', role: user.role, wardIds: user.role === 'representative' ? await representativeWardIds(user.id) : [] };
   }
   const asAdmin = verifyAdminToken(token);
   if (asAdmin.status === 'ok' && uuid.safeParse(asAdmin.adminId).success) {
@@ -66,4 +66,16 @@ async function resolve(token: string): Promise<{ actorId: string; actorKind: 'us
   }
   if (asUser.status === 'expired' || asAdmin.status === 'expired') throw new AppError('TOKEN_EXPIRED');
   throw new AppError('TOKEN_REVOKED');
+}
+
+/**
+ * TASK-10: wards a representative serves — `representatives.user_id → representative_areas.ward_id` (verified,
+ * active link only). TASK-11 replaces this with its `rep_scope_wards_v` view (MLA/MP wards via ward_constituency).
+ */
+export async function representativeWardIds(userId: string): Promise<string[]> {
+  const rows = await prisma.representativeArea.findMany({
+    where: { wardId: { not: null }, representative: { userId, isActive: true, verifiedAt: { not: null } } },
+    select: { wardId: true },
+  });
+  return [...new Set(rows.map((r) => r.wardId!))];
 }

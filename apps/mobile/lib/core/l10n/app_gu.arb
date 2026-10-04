@@ -1,837 +1,5 @@
 {
   "@@locale": "gu",
-  "adminSectionStart": "એડમિન",
-  "@adminSectionStart": {
-    "x-review": "pending"
-  },
-  "adminLoginTitle": "ઓપરેટર લૉગિન",
-  "@adminLoginTitle": {
-    "x-review": "pending"
-  },
-  "adminLoginIntro": "ફક્ત પાઇલટ ઓપરેટર માટે. નાગરિકોને એકાઉન્ટની જરૂર નથી.",
-  "@adminLoginIntro": {
-    "x-review": "pending"
-  },
-  "adminLoginEmailLabel": "ઇમેઇલ",
-  "@adminLoginEmailLabel": {
-    "x-review": "pending"
-  },
-  "adminLoginPasswordLabel": "પાસવર્ડ",
-  "@adminLoginPasswordLabel": {
-    "x-review": "pending"
-  },
-  "adminLoginShowPassword": "પાસવર્ડ બતાવો",
-  "@adminLoginShowPassword": {
-    "x-review": "pending"
-  },
-  "adminLoginHidePassword": "પાસવર્ડ છુપાવો",
-  "@adminLoginHidePassword": {
-    "x-review": "pending"
-  },
-  "adminLoginSubmit": "લૉગ ઇન કરો",
-  "@adminLoginSubmit": {
-    "x-review": "pending"
-  },
-  "adminLoginEmailRequired": "તમારો ઇમેઇલ લખો.",
-  "@adminLoginEmailRequired": {
-    "x-review": "pending"
-  },
-  "adminLoginEmailInvalid": "સાચું ઇમેઇલ સરનામું લખો.",
-  "@adminLoginEmailInvalid": {
-    "x-review": "pending"
-  },
-  "adminLoginPasswordRequired": "તમારો પાસવર્ડ લખો.",
-  "@adminLoginPasswordRequired": {
-    "x-review": "pending"
-  },
-  "adminSessionEnded": "તમારું સત્ર પૂરું થયું. કૃપા કરીને ફરી લૉગ ઇન કરો.",
-  "@adminSessionEnded": {
-    "x-review": "pending"
-  },
-  "adminErrorInvalidCredentials": "ઇમેઇલ અથવા પાસવર્ડ ખોટો છે.",
-  "@adminErrorInvalidCredentials": {
-    "x-review": "pending"
-  },
-  "adminErrorAdminDisabled": "આ એકાઉન્ટ બંધ કરેલું છે.",
-  "@adminErrorAdminDisabled": {
-    "x-review": "pending"
-  },
-  "adminErrorRateLimitedMinutes": "{minutes, plural, =1{ઘણા પ્રયાસો થયા. 1 મિનિટ પછી ફરી પ્રયાસ કરો.} other{ઘણા પ્રયાસો થયા. {minutes} મિનિટ પછી ફરી પ્રયાસ કરો.}}",
-  "@adminErrorRateLimitedMinutes": {
-    "x-review": "pending"
-  },
-  "adminErrorRateLimited": "ઘણા પ્રયાસો થયા. થોડી રાહ જોઈને ફરી પ્રયાસ કરો.",
-  "@adminErrorRateLimited": {
-    "x-review": "pending"
-  },
-  "adminErrorGeneric": "કંઈક ખોટું થયું. કૃપા કરીને ફરી પ્રયાસ કરો.",
-  "@adminErrorGeneric": {
-    "x-review": "pending"
-  },
-  "adminErrorServiceUnavailable": "સેવા હાલ ઉપલબ્ધ નથી. પછીથી ફરી પ્રયાસ કરો.",
-  "@adminErrorServiceUnavailable": {
-    "x-review": "pending"
-  },
-  "adminErrorNotFound": "મળ્યું નહીં.",
-  "@adminErrorNotFound": {
-    "x-review": "pending"
-  },
-  "adminErrorComplaintExcluded": "આ ફરિયાદ બાકાત રાખેલી છે.",
-  "@adminErrorComplaintExcluded": {
-    "x-review": "pending"
-  },
-  "adminErrorComplaintAnonymized": "આ ફરિયાદનો વ્યક્તિગત ડેટા દૂર કરાયો છે.",
-  "@adminErrorComplaintAnonymized": {
-    "x-review": "pending"
-  },
-  "adminErrorPhotoDeleted": "આ ફોટો કાઢી નખાયો છે.",
-  "@adminErrorPhotoDeleted": {
-    "x-review": "pending"
-  },
-  "adminErrorInviteCodeTaken": "આ કોડ પહેલેથી અસ્તિત્વમાં છે.",
-  "@adminErrorInviteCodeTaken": {
-    "x-review": "pending"
-  },
-  "adminErrorValidation": "પ્રકાશિત કરેલાં ખાનાં તપાસો.",
-  "@adminErrorValidation": {
-    "x-review": "pending"
-  },
-  "adminOfflineBanner": "તમે ઑફલાઇન છો. કનેક્શન તપાસીને ફરી પ્રયાસ કરો.",
-  "@adminOfflineBanner": {
-    "x-review": "pending"
-  },
-  "adminRetry": "ફરી પ્રયાસ કરો",
-  "@adminRetry": {
-    "x-review": "pending"
-  },
-  "adminCancel": "રદ કરો",
-  "@adminCancel": {
-    "x-review": "pending"
-  },
-  "adminClose": "બંધ કરો",
-  "@adminClose": {
-    "x-review": "pending"
-  },
-  "adminBack": "પાછા",
-  "@adminBack": {
-    "x-review": "pending"
-  },
-  "adminCopied": "કૉપી થયું",
-  "@adminCopied": {
-    "x-review": "pending"
-  },
-  "adminTabDue": "બાકી",
-  "@adminTabDue": {
-    "x-review": "pending"
-  },
-  "adminTabAll": "બધી",
-  "@adminTabAll": {
-    "x-review": "pending"
-  },
-  "adminTabRates": "દર",
-  "@adminTabRates": {
-    "x-review": "pending"
-  },
-  "adminTabMore": "વધુ",
-  "@adminTabMore": {
-    "x-review": "pending"
-  },
-  "adminDueBadgeSemantics": "{count, plural, =1{1 ફરિયાદ બાકી} other{{count} ફરિયાદો બાકી}}",
-  "@adminDueBadgeSemantics": {
-    "x-review": "pending"
-  },
-  "adminMoreTitle": "વધુ",
-  "@adminMoreTitle": {
-    "x-review": "pending"
-  },
-  "adminMoreSignedInAs": "{name} તરીકે સાઇન ઇન",
-  "@adminMoreSignedInAs": {
-    "x-review": "pending"
-  },
-  "adminLogout": "લૉગ આઉટ",
-  "@adminLogout": {
-    "x-review": "pending"
-  },
-  "adminLogoutEverywhere": "બધે લૉગ આઉટ",
-  "@adminLogoutEverywhere": {
-    "x-review": "pending"
-  },
-  "adminLogoutEverywhereTitle": "બધે લૉગ આઉટ કરવું છે?",
-  "@adminLogoutEverywhereTitle": {
-    "x-review": "pending"
-  },
-  "adminLogoutEverywhereBody": "આનાથી આ ઉપકરણ સહિત દરેક ઉપકરણ પરનું દરેક ઓપરેટર સત્ર પૂરું થશે.",
-  "@adminLogoutEverywhereBody": {
-    "x-review": "pending"
-  },
-  "adminLoggedOutEverywhere": "બધાં ઉપકરણો પર લૉગ આઉટ થયું.",
-  "@adminLoggedOutEverywhere": {
-    "x-review": "pending"
-  },
-  "adminMoreInviteCodes": "આમંત્રણ કોડ",
-  "@adminMoreInviteCodes": {
-    "x-review": "pending"
-  },
-  "adminMoreCategories": "શ્રેણીઓ",
-  "@adminMoreCategories": {
-    "x-review": "pending"
-  },
-  "adminMoreExport": "CSV નિકાસ કરો",
-  "@adminMoreExport": {
-    "x-review": "pending"
-  },
-  "adminDueTitle": "રિમાઇન્ડર બાકી",
-  "@adminDueTitle": {
-    "x-review": "pending"
-  },
-  "adminDueEmpty": "કંઈ બાકી નથી. સરસ.",
-  "@adminDueEmpty": {
-    "x-review": "pending"
-  },
-  "adminFiledDaysAgo": "{days, plural, =0{આજે નોંધાઈ} =1{1 દિવસ પહેલાં નોંધાઈ} other{{days} દિવસ પહેલાં નોંધાઈ}}",
-  "@adminFiledDaysAgo": {
-    "x-review": "pending"
-  },
-  "adminLastReminderDaysAgo": "{days, plural, =0{છેલ્લું રિમાઇન્ડર આજે} =1{છેલ્લું રિમાઇન્ડર 1 દિવસ પહેલાં} other{છેલ્લું રિમાઇન્ડર {days} દિવસ પહેલાં}}",
-  "@adminLastReminderDaysAgo": {
-    "x-review": "pending"
-  },
-  "adminReminderCount": "{count, plural, =0{હજી કોઈ રિમાઇન્ડર નથી} =1{1 રિમાઇન્ડર} other{{count} રિમાઇન્ડર}}",
-  "@adminReminderCount": {
-    "x-review": "pending"
-  },
-  "adminNoGroup": "કોઈ જૂથ નથી",
-  "@adminNoGroup": {
-    "x-review": "pending"
-  },
-  "adminSendReminder": "રિમાઇન્ડર મોકલો",
-  "@adminSendReminder": {
-    "x-review": "pending"
-  },
-  "adminLoadMoreFailed": "વધુ ફરિયાદો લોડ ન થઈ.",
-  "@adminLoadMoreFailed": {
-    "x-review": "pending"
-  },
-  "adminListLoadFailed": "ફરિયાદો લોડ ન થઈ.",
-  "@adminListLoadFailed": {
-    "x-review": "pending"
-  },
-  "adminPhotoBeforeSemantics": "નોંધણી વખતે સમસ્યાનો ફોટો",
-  "@adminPhotoBeforeSemantics": {
-    "x-review": "pending"
-  },
-  "adminPhotoAfterSemantics": "નાગરિક તરફથી તાજેતરનો ફોટો",
-  "@adminPhotoAfterSemantics": {
-    "x-review": "pending"
-  },
-  "adminPhotoUnavailable": "ફોટો ઉપલબ્ધ નથી",
-  "@adminPhotoUnavailable": {
-    "x-review": "pending"
-  },
-  "adminReminderSheetTitle": "રિમાઇન્ડર મોકલવા તૈયાર",
-  "@adminReminderSheetTitle": {
-    "x-review": "pending"
-  },
-  "adminReminderTo": "{phone} ને",
-  "@adminReminderTo": {
-    "x-review": "pending"
-  },
-  "adminReminderMessageLabel": "સંદેશ",
-  "@adminReminderMessageLabel": {
-    "x-review": "pending"
-  },
-  "adminReminderLinkLabel": "ચકાસણી લિંક",
-  "@adminReminderLinkLabel": {
-    "x-review": "pending"
-  },
-  "adminOpenWhatsApp": "WhatsApp ખોલો",
-  "@adminOpenWhatsApp": {
-    "x-review": "pending"
-  },
-  "adminCopyMessage": "સંદેશ કૉપી કરો",
-  "@adminCopyMessage": {
-    "x-review": "pending"
-  },
-  "adminWhatsAppFailed": "WhatsApp ખૂલ્યું નહીં. સંદેશ કૉપી કરીને જાતે મોકલો.",
-  "@adminWhatsAppFailed": {
-    "x-review": "pending"
-  },
-  "adminRatesTitle": "દર",
-  "@adminRatesTitle": {
-    "x-review": "pending"
-  },
-  "adminRatesTrustedTitle": "વિશ્વસનીય સ્રોતો",
-  "@adminRatesTrustedTitle": {
-    "x-review": "pending"
-  },
-  "adminRatesNote": "બાકાત ફરિયાદો ગણાતી નથી. નેટવર્ક (મિત્રો અને પરિવાર) અલગ બતાવાય છે પણ વિશ્વસનીય કુલમાં ગણાતું નથી.",
-  "@adminRatesNote": {
-    "x-review": "pending"
-  },
-  "adminRatesComplaints": "ફરિયાદો",
-  "@adminRatesComplaints": {
-    "x-review": "pending"
-  },
-  "adminRatesReminded": "રિમાઇન્ડર મોકલ્યાં",
-  "@adminRatesReminded": {
-    "x-review": "pending"
-  },
-  "adminRatesVerified": "ચકાસાયેલ",
-  "@adminRatesVerified": {
-    "x-review": "pending"
-  },
-  "adminRatesH1": "H1 જવાબ મળ્યો",
-  "@adminRatesH1": {
-    "x-review": "pending"
-  },
-  "adminRatesH2": "H2 સુધર્યું નથી",
-  "@adminRatesH2": {
-    "x-review": "pending"
-  },
-  "adminRatesNone": "—",
-  "@adminRatesNone": {
-    "x-review": "pending"
-  },
-  "adminRatesSmallSample": "હજી તારણ કાઢવા જેટલા જવાબો નથી",
-  "@adminRatesSmallSample": {
-    "x-review": "pending"
-  },
-  "adminRatesComputedAt": "{time} એ અપડેટ થયું",
-  "@adminRatesComputedAt": {
-    "x-review": "pending"
-  },
-  "adminRatesEmpty": "હજી બતાવવા માટે કોઈ દર નથી.",
-  "@adminRatesEmpty": {
-    "x-review": "pending"
-  },
-  "adminRatesLoadFailed": "દર લોડ ન થયા.",
-  "@adminRatesLoadFailed": {
-    "x-review": "pending"
-  },
-  "adminSourceRwa": "RWA",
-  "@adminSourceRwa": {
-    "x-review": "pending"
-  },
-  "adminSourceActivist": "કાર્યકર",
-  "@adminSourceActivist": {
-    "x-review": "pending"
-  },
-  "adminSourceSocial": "સોશિયલ",
-  "@adminSourceSocial": {
-    "x-review": "pending"
-  },
-  "adminSourceNetwork": "નેટવર્ક (મિત્રો અને પરિવાર)",
-  "@adminSourceNetwork": {
-    "x-review": "pending"
-  },
-  "adminSourceUnknown": "અજાણ્યો સ્રોત",
-  "@adminSourceUnknown": {
-    "x-review": "pending"
-  },
-  "adminSourceTrusted": "વિશ્વસનીય (RWA + કાર્યકર)",
-  "@adminSourceTrusted": {
-    "x-review": "pending"
-  },
-  "adminStatusFiled": "નોંધાઈ",
-  "@adminStatusFiled": {
-    "x-review": "pending"
-  },
-  "adminStatusReminded": "રાહ જુએ છે",
-  "@adminStatusReminded": {
-    "x-review": "pending"
-  },
-  "adminStatusFixed": "સુધર્યું",
-  "@adminStatusFixed": {
-    "x-review": "pending"
-  },
-  "adminStatusNotFixed": "સુધર્યું નથી",
-  "@adminStatusNotFixed": {
-    "x-review": "pending"
-  },
-  "adminTagExcluded": "બાકાત",
-  "@adminTagExcluded": {
-    "x-review": "pending"
-  },
-  "adminTagDuplicate": "ડુપ્લિકેટ",
-  "@adminTagDuplicate": {
-    "x-review": "pending"
-  },
-  "adminTagAnonymized": "વ્યક્તિગત ડેટા દૂર કર્યો",
-  "@adminTagAnonymized": {
-    "x-review": "pending"
-  },
-  "adminAllTitle": "બધી ફરિયાદો",
-  "@adminAllTitle": {
-    "x-review": "pending"
-  },
-  "adminFilterSource": "સ્રોત",
-  "@adminFilterSource": {
-    "x-review": "pending"
-  },
-  "adminFilterCategory": "શ્રેણી",
-  "@adminFilterCategory": {
-    "x-review": "pending"
-  },
-  "adminFilterStatus": "સ્થિતિ",
-  "@adminFilterStatus": {
-    "x-review": "pending"
-  },
-  "adminFilterExcluded": "બાકાત",
-  "@adminFilterExcluded": {
-    "x-review": "pending"
-  },
-  "adminFilterDuplicate": "ડુપ્લિકેટ",
-  "@adminFilterDuplicate": {
-    "x-review": "pending"
-  },
-  "adminFilterAny": "કોઈપણ",
-  "@adminFilterAny": {
-    "x-review": "pending"
-  },
-  "adminFilterExcludedHide": "બાકાત છુપાવો",
-  "@adminFilterExcludedHide": {
-    "x-review": "pending"
-  },
-  "adminFilterExcludedOnly": "ફક્ત બાકાત",
-  "@adminFilterExcludedOnly": {
-    "x-review": "pending"
-  },
-  "adminFilterExcludedAll": "બધું બતાવો",
-  "@adminFilterExcludedAll": {
-    "x-review": "pending"
-  },
-  "adminFilterDuplicateOnly": "ફક્ત ડુપ્લિકેટ",
-  "@adminFilterDuplicateOnly": {
-    "x-review": "pending"
-  },
-  "adminFilterDuplicateNone": "ડુપ્લિકેટ નહીં",
-  "@adminFilterDuplicateNone": {
-    "x-review": "pending"
-  },
-  "adminFilterChipValue": "{label}: {value}",
-  "@adminFilterChipValue": {
-    "x-review": "pending"
-  },
-  "adminAllEmpty": "આ ફિલ્ટર સાથે કોઈ ફરિયાદ મેળ ખાતી નથી",
-  "@adminAllEmpty": {
-    "x-review": "pending"
-  },
-  "adminClearFilters": "ફિલ્ટર સાફ કરો",
-  "@adminClearFilters": {
-    "x-review": "pending"
-  },
-  "adminDetailTitle": "ફરિયાદ",
-  "@adminDetailTitle": {
-    "x-review": "pending"
-  },
-  "adminDetailNotFound": "ફરિયાદ મળી નહીં",
-  "@adminDetailNotFound": {
-    "x-review": "pending"
-  },
-  "adminDetailLoadFailed": "આ ફરિયાદ લોડ ન થઈ.",
-  "@adminDetailLoadFailed": {
-    "x-review": "pending"
-  },
-  "adminSameImageWarning": "નોંધણી જેવો જ ફોટો",
-  "@adminSameImageWarning": {
-    "x-review": "pending"
-  },
-  "adminDistanceWarning": "નોંધણીના સ્થળથી {meters} મી. દૂર લીધેલો",
-  "@adminDistanceWarning": {
-    "x-review": "pending"
-  },
-  "adminFactCcrs": "AMC ફરિયાદ નંબર",
-  "@adminFactCcrs": {
-    "x-review": "pending"
-  },
-  "adminFactCategory": "શ્રેણી",
-  "@adminFactCategory": {
-    "x-review": "pending"
-  },
-  "adminFactSource": "સ્રોત અને જૂથ",
-  "@adminFactSource": {
-    "x-review": "pending"
-  },
-  "adminFactFiled": "નોંધણી (સર્વર સમય)",
-  "@adminFactFiled": {
-    "x-review": "pending"
-  },
-  "adminFactCaptured": "ફોટો લીધો (ઉપકરણ સમય)",
-  "@adminFactCaptured": {
-    "x-review": "pending"
-  },
-  "adminFactGps": "સ્થાન",
-  "@adminFactGps": {
-    "x-review": "pending"
-  },
-  "adminGpsValue": "{lat}, {lng} (±{accuracy} મી.)",
-  "@adminGpsValue": {
-    "x-review": "pending"
-  },
-  "adminFactPhone": "ફોન",
-  "@adminFactPhone": {
-    "x-review": "pending"
-  },
-  "adminPhoneRemoved": "દૂર કર્યો",
-  "@adminPhoneRemoved": {
-    "x-review": "pending"
-  },
-  "adminTapToCopy": "કૉપી કરવા ટૅપ કરો",
-  "@adminTapToCopy": {
-    "x-review": "pending"
-  },
-  "adminNotRecorded": "નોંધાયું નથી",
-  "@adminNotRecorded": {
-    "x-review": "pending"
-  },
-  "adminRemindersTitle": "રિમાઇન્ડર",
-  "@adminRemindersTitle": {
-    "x-review": "pending"
-  },
-  "adminNoReminders": "હજી કોઈ રિમાઇન્ડર મોકલાયું નથી.",
-  "@adminNoReminders": {
-    "x-review": "pending"
-  },
-  "adminReminderSentBy": "{time} એ {name} દ્વારા મોકલ્યું",
-  "@adminReminderSentBy": {
-    "x-review": "pending"
-  },
-  "adminReminderSent": "{time} એ મોકલ્યું",
-  "@adminReminderSent": {
-    "x-review": "pending"
-  },
-  "adminRevoke": "રદ કરો",
-  "@adminRevoke": {
-    "x-review": "pending"
-  },
-  "adminRevokedAt": "{time} એ રદ કર્યું",
-  "@adminRevokedAt": {
-    "x-review": "pending"
-  },
-  "adminRevokeTitle": "આ રિમાઇન્ડર રદ કરવું છે?",
-  "@adminRevokeTitle": {
-    "x-review": "pending"
-  },
-  "adminRevokeBody": "આ રિમાઇન્ડરની લિંક કામ કરતી બંધ થઈ જશે.",
-  "@adminRevokeBody": {
-    "x-review": "pending"
-  },
-  "adminReminderRevoked": "રિમાઇન્ડર રદ થયું",
-  "@adminReminderRevoked": {
-    "x-review": "pending"
-  },
-  "adminVerificationsTitle": "જવાબો",
-  "@adminVerificationsTitle": {
-    "x-review": "pending"
-  },
-  "adminNoVerifications": "હજી કોઈ જવાબ નથી.",
-  "@adminNoVerifications": {
-    "x-review": "pending"
-  },
-  "adminVerificationTime": "{time} એ જવાબ આપ્યો",
-  "@adminVerificationTime": {
-    "x-review": "pending"
-  },
-  "adminVerificationNote": "નોંધ: {note}",
-  "@adminVerificationNote": {
-    "x-review": "pending"
-  },
-  "adminVerificationDistance": "નોંધણીના સ્થળથી {meters} મી.",
-  "@adminVerificationDistance": {
-    "x-review": "pending"
-  },
-  "adminExclude": "બાકાત કરો",
-  "@adminExclude": {
-    "x-review": "pending"
-  },
-  "adminIncludeAgain": "ફરી સામેલ કરો",
-  "@adminIncludeAgain": {
-    "x-review": "pending"
-  },
-  "adminIncludeTitle": "આ ફરિયાદ ફરી સામેલ કરવી છે?",
-  "@adminIncludeTitle": {
-    "x-review": "pending"
-  },
-  "adminIncludeBody": "તે ફરીથી દરમાં ગણાશે.",
-  "@adminIncludeBody": {
-    "x-review": "pending"
-  },
-  "adminExcludedDone": "બાકાત કરી",
-  "@adminExcludedDone": {
-    "x-review": "pending"
-  },
-  "adminIncludedAgainDone": "ફરી સામેલ કરી",
-  "@adminIncludedAgainDone": {
-    "x-review": "pending"
-  },
-  "adminExcludeSheetTitle": "દરમાંથી બાકાત કરો",
-  "@adminExcludeSheetTitle": {
-    "x-review": "pending"
-  },
-  "adminExcludeReasonLabel": "કારણ",
-  "@adminExcludeReasonLabel": {
-    "x-review": "pending"
-  },
-  "adminReasonTest": "ટેસ્ટ એન્ટ્રી",
-  "@adminReasonTest": {
-    "x-review": "pending"
-  },
-  "adminReasonInvalid": "માન્ય ફરિયાદ નથી",
-  "@adminReasonInvalid": {
-    "x-review": "pending"
-  },
-  "adminReasonDuplicate": "ડુપ્લિકેટ",
-  "@adminReasonDuplicate": {
-    "x-review": "pending"
-  },
-  "adminReasonOther": "અન્ય",
-  "@adminReasonOther": {
-    "x-review": "pending"
-  },
-  "adminExcludeNoteLabel": "નોંધ (વૈકલ્પિક)",
-  "@adminExcludeNoteLabel": {
-    "x-review": "pending"
-  },
-  "adminChooseReason": "કારણ પસંદ કરો.",
-  "@adminChooseReason": {
-    "x-review": "pending"
-  },
-  "adminExcludedBecause": "બાકાત: {reason}",
-  "@adminExcludedBecause": {
-    "x-review": "pending"
-  },
-  "adminMoreActions": "વધુ ક્રિયાઓ",
-  "@adminMoreActions": {
-    "x-review": "pending"
-  },
-  "adminRemovePersonalData": "વ્યક્તિગત ડેટા દૂર કરો",
-  "@adminRemovePersonalData": {
-    "x-review": "pending"
-  },
-  "adminAnonymizeTitle": "વ્યક્તિગત ડેટા દૂર કરવો છે?",
-  "@adminAnonymizeTitle": {
-    "x-review": "pending"
-  },
-  "adminAnonymizeBody": "આનાથી આ ફરિયાદનો ફોન નંબર અને દરેક ફોટો કાઢી નખાશે અને તેની રિમાઇન્ડર લિંક બંધ થશે. ફરિયાદ નંબર, શ્રેણી, સમય અને જવાબો દર માટે રખાશે. આ પાછું ફેરવી શકાશે નહીં.",
-  "@adminAnonymizeBody": {
-    "x-review": "pending"
-  },
-  "adminAnonymizeTypeLabel": "ખાતરી કરવા ફરિયાદ નંબર {ccrs} લખો",
-  "@adminAnonymizeTypeLabel": {
-    "x-review": "pending"
-  },
-  "adminPersonalDataRemoved": "વ્યક્તિગત ડેટા દૂર કર્યો",
-  "@adminPersonalDataRemoved": {
-    "x-review": "pending"
-  },
-  "adminReminderOffExcluded": "આ ફરિયાદ બાકાત હોવાથી રિમાઇન્ડર બંધ છે.",
-  "@adminReminderOffExcluded": {
-    "x-review": "pending"
-  },
-  "adminReminderOffAnonymized": "વ્યક્તિગત ડેટા દૂર કર્યો હોવાથી રિમાઇન્ડર બંધ છે.",
-  "@adminReminderOffAnonymized": {
-    "x-review": "pending"
-  },
-  "adminInviteCodesTitle": "આમંત્રણ કોડ",
-  "@adminInviteCodesTitle": {
-    "x-review": "pending"
-  },
-  "adminInviteCodesEmpty": "હજી કોઈ આમંત્રણ કોડ નથી",
-  "@adminInviteCodesEmpty": {
-    "x-review": "pending"
-  },
-  "adminInviteCodesLoadFailed": "આમંત્રણ કોડ લોડ ન થયા.",
-  "@adminInviteCodesLoadFailed": {
-    "x-review": "pending"
-  },
-  "adminNewCode": "નવો કોડ",
-  "@adminNewCode": {
-    "x-review": "pending"
-  },
-  "adminInviteCodeComplaints": "{count, plural, =0{કોઈ ફરિયાદ નથી} =1{1 ફરિયાદ} other{{count} ફરિયાદો}}",
-  "@adminInviteCodeComplaints": {
-    "x-review": "pending"
-  },
-  "adminActive": "સક્રિય",
-  "@adminActive": {
-    "x-review": "pending"
-  },
-  "adminInactive": "નિષ્ક્રિય",
-  "@adminInactive": {
-    "x-review": "pending"
-  },
-  "adminActivate": "સક્રિય કરો",
-  "@adminActivate": {
-    "x-review": "pending"
-  },
-  "adminDeactivate": "નિષ્ક્રિય કરો",
-  "@adminDeactivate": {
-    "x-review": "pending"
-  },
-  "adminShare": "શેર કરો",
-  "@adminShare": {
-    "x-review": "pending"
-  },
-  "adminShareCodeMessage": "ઍપ ઇન્સ્ટોલ કરો અને કોડ {code} લખો",
-  "@adminShareCodeMessage": {
-    "x-review": "pending"
-  },
-  "adminCodeShareCopied": "આમંત્રણ સંદેશ કૉપી થયો. કોઈપણ ચૅટમાં પેસ્ટ કરો.",
-  "@adminCodeShareCopied": {
-    "x-review": "pending"
-  },
-  "adminNewCodeTitle": "નવો આમંત્રણ કોડ",
-  "@adminNewCodeTitle": {
-    "x-review": "pending"
-  },
-  "adminSourceTagLabel": "સ્રોત",
-  "@adminSourceTagLabel": {
-    "x-review": "pending"
-  },
-  "adminGroupLabelLabel": "જૂથનું નામ",
-  "@adminGroupLabelLabel": {
-    "x-review": "pending"
-  },
-  "adminGroupLabelRequired": "જૂથનું નામ લખો.",
-  "@adminGroupLabelRequired": {
-    "x-review": "pending"
-  },
-  "adminWardHintLabel": "વોર્ડ સંકેત (વૈકલ્પિક)",
-  "@adminWardHintLabel": {
-    "x-review": "pending"
-  },
-  "adminCustomCodeLabel": "પોતાનો કોડ (વૈકલ્પિક)",
-  "@adminCustomCodeLabel": {
-    "x-review": "pending"
-  },
-  "adminCustomCodeHelp": "6 થી 20 અક્ષર અથવા અંક. આપોઆપ બનાવવા ખાલી રાખો.",
-  "@adminCustomCodeHelp": {
-    "x-review": "pending"
-  },
-  "adminCodeInvalid": "આ કોડ અમાન્ય છે અથવા પહેલેથી વપરાય છે.",
-  "@adminCodeInvalid": {
-    "x-review": "pending"
-  },
-  "adminCreate": "બનાવો",
-  "@adminCreate": {
-    "x-review": "pending"
-  },
-  "adminSave": "સાચવો",
-  "@adminSave": {
-    "x-review": "pending"
-  },
-  "adminCodeCreated": "આમંત્રણ કોડ બન્યો",
-  "@adminCodeCreated": {
-    "x-review": "pending"
-  },
-  "adminSaved": "સચવાયું",
-  "@adminSaved": {
-    "x-review": "pending"
-  },
-  "adminCategoriesTitle": "શ્રેણીઓ",
-  "@adminCategoriesTitle": {
-    "x-review": "pending"
-  },
-  "adminCategoriesPlaceholderNote": "કામચલાઉ યાદી — AMCની સાચી શ્રેણીઓથી બદલો",
-  "@adminCategoriesPlaceholderNote": {
-    "x-review": "pending"
-  },
-  "adminCategoriesEmpty": "હજી કોઈ શ્રેણી નથી",
-  "@adminCategoriesEmpty": {
-    "x-review": "pending"
-  },
-  "adminCategoriesLoadFailed": "શ્રેણીઓ લોડ ન થઈ.",
-  "@adminCategoriesLoadFailed": {
-    "x-review": "pending"
-  },
-  "adminAddCategory": "શ્રેણી ઉમેરો",
-  "@adminAddCategory": {
-    "x-review": "pending"
-  },
-  "adminEditCategory": "શ્રેણી બદલો",
-  "@adminEditCategory": {
-    "x-review": "pending"
-  },
-  "adminCategoryNameLabel": "નામ",
-  "@adminCategoryNameLabel": {
-    "x-review": "pending"
-  },
-  "adminCategoryNameRequired": "100 અક્ષર સુધીનું નામ લખો.",
-  "@adminCategoryNameRequired": {
-    "x-review": "pending"
-  },
-  "adminCategoryCcrsLabel": "CCRS લેબલ (વૈકલ્પિક)",
-  "@adminCategoryCcrsLabel": {
-    "x-review": "pending"
-  },
-  "adminCategorySortLabel": "ક્રમ",
-  "@adminCategorySortLabel": {
-    "x-review": "pending"
-  },
-  "adminCategorySortInvalid": "0 કે તેથી વધુ પૂર્ણ સંખ્યા લખો.",
-  "@adminCategorySortInvalid": {
-    "x-review": "pending"
-  },
-  "adminCategoryDuplicate": "આ નામની શ્રેણી પહેલેથી છે.",
-  "@adminCategoryDuplicate": {
-    "x-review": "pending"
-  },
-  "adminMoveUp": "ઉપર ખસેડો",
-  "@adminMoveUp": {
-    "x-review": "pending"
-  },
-  "adminMoveDown": "નીચે ખસેડો",
-  "@adminMoveDown": {
-    "x-review": "pending"
-  },
-  "adminEdit": "બદલો",
-  "@adminEdit": {
-    "x-review": "pending"
-  },
-  "adminReorderFailed": "નવો ક્રમ સચવાયો નહીં. જૂનો ક્રમ પાછો મૂક્યો છે.",
-  "@adminReorderFailed": {
-    "x-review": "pending"
-  },
-  "adminExportTitle": "CSV નિકાસ કરો",
-  "@adminExportTitle": {
-    "x-review": "pending"
-  },
-  "adminExportTypeLabel": "શું નિકાસ કરવું",
-  "@adminExportTypeLabel": {
-    "x-review": "pending"
-  },
-  "adminExportComplaints": "ફરિયાદો",
-  "@adminExportComplaints": {
-    "x-review": "pending"
-  },
-  "adminExportVerifications": "ચકાસણીઓ",
-  "@adminExportVerifications": {
-    "x-review": "pending"
-  },
-  "adminExportReminders": "રિમાઇન્ડર",
-  "@adminExportReminders": {
-    "x-review": "pending"
-  },
-  "adminExportIncludePhone": "ફોન નંબર સામેલ કરો",
-  "@adminExportIncludePhone": {
-    "x-review": "pending"
-  },
-  "adminExportPhoneWarning": "લોકોનો સંપર્ક કરવો હોય તો જ આ ચાલુ કરો. આ ફાઇલ શેર ન કરો.",
-  "@adminExportPhoneWarning": {
-    "x-review": "pending"
-  },
-  "adminExportButton": "નિકાસ કરો",
-  "@adminExportButton": {
-    "x-review": "pending"
-  },
-  "adminExportSaved": "{fileName} ને {folder} માં સાચવી",
-  "@adminExportSaved": {
-    "x-review": "pending"
-  },
-  "adminExportFailed": "નિકાસ ન થઈ. કૃપા કરીને ફરી પ્રયાસ કરો.",
-  "@adminExportFailed": {
-    "x-review": "pending"
-  },
   "appTitle": "સારથી",
   "@appTitle": {
     "x-review": "pending"
@@ -4025,6 +3193,762 @@
   },
   "issueActionsCcrsVerify": "ઉકેલાયું છે — ચકાસો",
   "@issueActionsCcrsVerify": {
+    "x-review": "pending"
+  },
+  "staffConsoleTitle": "સારથી સ્ટાફ",
+  "@staffConsoleTitle": {
+    "x-review": "pending"
+  },
+  "staffRoleAdmin": "એડમિન",
+  "@staffRoleAdmin": {
+    "x-review": "pending"
+  },
+  "staffRoleModerator": "મોડરેટર",
+  "@staffRoleModerator": {
+    "x-review": "pending"
+  },
+  "staffRoleRepresentative": "પ્રતિનિધિ",
+  "@staffRoleRepresentative": {
+    "x-review": "pending"
+  },
+  "staffRoleCitizen": "નાગરિક",
+  "@staffRoleCitizen": {
+    "x-review": "pending"
+  },
+  "staffSignOut": "સાઇન આઉટ",
+  "@staffSignOut": {
+    "x-review": "pending"
+  },
+  "staffMenu": "મેનુ",
+  "@staffMenu": {
+    "x-review": "pending"
+  },
+  "staffForbidden": "તમને આ પેજની ઍક્સેસ નથી.",
+  "@staffForbidden": {
+    "x-review": "pending"
+  },
+  "staffGoDashboard": "ડેશબોર્ડ પર જાઓ",
+  "@staffGoDashboard": {
+    "x-review": "pending"
+  },
+  "staffLoadError": "આ લોડ થઈ શક્યું નહીં. કનેક્શન તપાસીને ફરી પ્રયાસ કરો.",
+  "@staffLoadError": {
+    "x-review": "pending"
+  },
+  "staffActionError": "તે થયું નહીં: {message}",
+  "@staffActionError": {
+    "x-review": "pending"
+  },
+  "staffNavSectionWork": "કામ",
+  "@staffNavSectionWork": {
+    "x-review": "pending"
+  },
+  "staffNavSectionContent": "સામગ્રી",
+  "@staffNavSectionContent": {
+    "x-review": "pending"
+  },
+  "staffNavSectionAdmin": "વહીવટ",
+  "@staffNavSectionAdmin": {
+    "x-review": "pending"
+  },
+  "staffNavDashboard": "ડેશબોર્ડ",
+  "@staffNavDashboard": {
+    "x-review": "pending"
+  },
+  "staffNavModeration": "મોડરેશન",
+  "@staffNavModeration": {
+    "x-review": "pending"
+  },
+  "staffNavCategories": "શ્રેણીઓ",
+  "@staffNavCategories": {
+    "x-review": "pending"
+  },
+  "staffNavUsers": "વપરાશકર્તાઓ અને ભૂમિકાઓ",
+  "@staffNavUsers": {
+    "x-review": "pending"
+  },
+  "staffNavSettings": "સેટિંગ્સ",
+  "@staffNavSettings": {
+    "x-review": "pending"
+  },
+  "staffNavExports": "નિકાસ",
+  "@staffNavExports": {
+    "x-review": "pending"
+  },
+  "staffToolsRow": "સ્ટાફ સાધનો",
+  "@staffToolsRow": {
+    "x-review": "pending"
+  },
+  "staffNoSections": "તમારાં સ્ટાફ સાધનો તૈયાર થતાં અહીં દેખાશે.",
+  "@staffNoSections": {
+    "x-review": "pending"
+  },
+  "staffLoginTitle": "સારથી સ્ટાફમાં સાઇન ઇન કરો",
+  "@staffLoginTitle": {
+    "x-review": "pending"
+  },
+  "staffLoginPhone": "ફોનથી સાઇન ઇન કરો",
+  "@staffLoginPhone": {
+    "x-review": "pending"
+  },
+  "staffLoginEmailLink": "ઇમેઇલથી એડમિન સાઇન-ઇન",
+  "@staffLoginEmailLink": {
+    "x-review": "pending"
+  },
+  "staffLoginEmail": "ઇમેઇલ",
+  "@staffLoginEmail": {
+    "x-review": "pending"
+  },
+  "staffLoginPassword": "પાસવર્ડ",
+  "@staffLoginPassword": {
+    "x-review": "pending"
+  },
+  "staffLoginSubmit": "સાઇન ઇન",
+  "@staffLoginSubmit": {
+    "x-review": "pending"
+  },
+  "staffLoginNotStaff": "આ એકાઉન્ટને સ્ટાફ ઍક્સેસ નથી.",
+  "@staffLoginNotStaff": {
+    "x-review": "pending"
+  },
+  "staffLoginSuspended": "આ એકાઉન્ટ સસ્પેન્ડ છે.",
+  "@staffLoginSuspended": {
+    "x-review": "pending"
+  },
+  "staffLoginFailed": "ઇમેઇલ અથવા પાસવર્ડ ખોટો છે.",
+  "@staffLoginFailed": {
+    "x-review": "pending"
+  },
+  "staffDashTitle": "ડેશબોર્ડ",
+  "@staffDashTitle": {
+    "x-review": "pending"
+  },
+  "staffDashSensitive": "તપાસવાના સંવેદનશીલ રિપોર્ટ",
+  "@staffDashSensitive": {
+    "x-review": "pending"
+  },
+  "staffDashFlagged": "ફ્લેગ કરેલા",
+  "@staffDashFlagged": {
+    "x-review": "pending"
+  },
+  "staffDashOutside": "શહેરના વોર્ડની બહાર",
+  "@staffDashOutside": {
+    "x-review": "pending"
+  },
+  "staffDashAlerts": "મંજૂરીની રાહ જોતી ચેતવણીઓ",
+  "@staffDashAlerts": {
+    "x-review": "pending"
+  },
+  "staffDashAllClear": "કંઈ બાકી નથી. સરસ કામ.",
+  "@staffDashAllClear": {
+    "x-review": "pending"
+  },
+  "moderationTitle": "મોડરેશન",
+  "@moderationTitle": {
+    "x-review": "pending"
+  },
+  "moderationTabSensitive": "સંવેદનશીલ ({count})",
+  "@moderationTabSensitive": {
+    "x-review": "pending"
+  },
+  "moderationTabFlagged": "ફ્લેગ કરેલા ({count})",
+  "@moderationTabFlagged": {
+    "x-review": "pending"
+  },
+  "moderationTabOutside": "વોર્ડની બહાર ({count})",
+  "@moderationTabOutside": {
+    "x-review": "pending"
+  },
+  "moderationEmpty": "અહીં તપાસવા માટે કંઈ નથી.",
+  "@moderationEmpty": {
+    "x-review": "pending"
+  },
+  "moderationStale": "બીજા મોડરેટરે પહેલેથી સંભાળી લીધું છે.",
+  "@moderationStale": {
+    "x-review": "pending"
+  },
+  "moderationNoWard": "વોર્ડ નથી",
+  "@moderationNoWard": {
+    "x-review": "pending"
+  },
+  "moderationRowMeta": "{ward} · {date}",
+  "@moderationRowMeta": {
+    "x-review": "pending"
+  },
+  "moderationSelectIssue": "તપાસવા માટે રિપોર્ટ પસંદ કરો.",
+  "@moderationSelectIssue": {
+    "x-review": "pending"
+  },
+  "moderationFlagCount": "{reason} · {count}",
+  "@moderationFlagCount": {
+    "x-review": "pending"
+  },
+  "flagReasonSpam": "સ્પામ અથવા જાહેરાત",
+  "@flagReasonSpam": {
+    "x-review": "pending"
+  },
+  "flagReasonAbusive": "અપમાનજનક અથવા દ્વેષપૂર્ણ",
+  "@flagReasonAbusive": {
+    "x-review": "pending"
+  },
+  "flagReasonPrivateInfo": "ખાનગી માહિતી બતાવે છે",
+  "@flagReasonPrivateInfo": {
+    "x-review": "pending"
+  },
+  "flagReasonNotCivic": "નાગરિક સમસ્યા નથી",
+  "@flagReasonNotCivic": {
+    "x-review": "pending"
+  },
+  "flagReasonWrongLocation": "ખોટું સ્થળ",
+  "@flagReasonWrongLocation": {
+    "x-review": "pending"
+  },
+  "flagReasonDuplicate": "ડુપ્લિકેટ",
+  "@flagReasonDuplicate": {
+    "x-review": "pending"
+  },
+  "flagReasonOther": "બીજું કંઈક",
+  "@flagReasonOther": {
+    "x-review": "pending"
+  },
+  "flagSheetTitle": "આ પોસ્ટમાં સમસ્યાની જાણ કરો",
+  "@flagSheetTitle": {
+    "x-review": "pending"
+  },
+  "flagNote": "નોંધ ઉમેરો (વૈકલ્પિક)",
+  "@flagNote": {
+    "x-review": "pending"
+  },
+  "flagCounter": "{count}/200",
+  "@flagCounter": {
+    "x-review": "pending"
+  },
+  "flagSend": "મોકલો",
+  "@flagSend": {
+    "x-review": "pending"
+  },
+  "flagThanks": "આભાર. અમારા મોડરેટર તે જોશે.",
+  "@flagThanks": {
+    "x-review": "pending"
+  },
+  "flagAlready": "તમે આની જાણ પહેલેથી કરી છે.",
+  "@flagAlready": {
+    "x-review": "pending"
+  },
+  "flagError": "મોકલી શકાયું નહીં. ફરી પ્રયાસ કરો.",
+  "@flagError": {
+    "x-review": "pending"
+  },
+  "flagLimit": "તમે આજે ઘણી જાણ કરી છે. કૃપા કરી કાલે પ્રયાસ કરો.",
+  "@flagLimit": {
+    "x-review": "pending"
+  },
+  "flagReportButton": "સમસ્યાની જાણ કરો",
+  "@flagReportButton": {
+    "x-review": "pending"
+  },
+  "staffIssueTitle": "ઇશ્યૂ સાધનો",
+  "@staffIssueTitle": {
+    "x-review": "pending"
+  },
+  "staffIssueResident": "{ward}ના રહેવાસી",
+  "@staffIssueResident": {
+    "x-review": "pending"
+  },
+  "staffIssueResidentUnknown": "એક રહેવાસી",
+  "@staffIssueResidentUnknown": {
+    "x-review": "pending"
+  },
+  "staffIssueHiddenBanner": "જાહેર જનતાથી છુપાવેલું",
+  "@staffIssueHiddenBanner": {
+    "x-review": "pending"
+  },
+  "staffIssueFlags": "ફ્લેગ",
+  "@staffIssueFlags": {
+    "x-review": "pending"
+  },
+  "staffIssueTimeline": "સમયરેખા",
+  "@staffIssueTimeline": {
+    "x-review": "pending"
+  },
+  "staffIssuePhotos": "ફોટા",
+  "@staffIssuePhotos": {
+    "x-review": "pending"
+  },
+  "staffIssueAfter": "પછીનો ફોટો",
+  "@staffIssueAfter": {
+    "x-review": "pending"
+  },
+  "staffIssueActions": "ક્રિયાઓ",
+  "@staffIssueActions": {
+    "x-review": "pending"
+  },
+  "staffIssueLooksFine": "બરાબર છે",
+  "@staffIssueLooksFine": {
+    "x-review": "pending"
+  },
+  "staffIssueChange": "શ્રેણી અથવા વોર્ડ બદલો",
+  "@staffIssueChange": {
+    "x-review": "pending"
+  },
+  "staffIssueMerge": "આમાં મર્જ કરો…",
+  "@staffIssueMerge": {
+    "x-review": "pending"
+  },
+  "staffIssueHide": "છુપાવો",
+  "@staffIssueHide": {
+    "x-review": "pending"
+  },
+  "staffIssueUnhide": "જાહેરમાં બતાવો",
+  "@staffIssueUnhide": {
+    "x-review": "pending"
+  },
+  "staffIssueReject": "સ્વીકાર્ય નથી…",
+  "@staffIssueReject": {
+    "x-review": "pending"
+  },
+  "staffIssueSuspend": "રિપોર્ટ કરનારને સસ્પેન્ડ કરો…",
+  "@staffIssueSuspend": {
+    "x-review": "pending"
+  },
+  "staffIssueAcknowledge": "સ્વીકારો",
+  "@staffIssueAcknowledge": {
+    "x-review": "pending"
+  },
+  "staffIssueInProgress": "કામ ચાલુ તરીકે ચિહ્નિત કરો",
+  "@staffIssueInProgress": {
+    "x-review": "pending"
+  },
+  "staffIssueMarkFixed": "ઉકેલાયેલ તરીકે ચિહ્નિત કરો",
+  "@staffIssueMarkFixed": {
+    "x-review": "pending"
+  },
+  "staffIssueAfterPhoto": "પછીનો ફોટો ઉમેરો (વૈકલ્પિક)",
+  "@staffIssueAfterPhoto": {
+    "x-review": "pending"
+  },
+  "staffIssueAfterPhotoAdded": "પછીનો ફોટો ઉમેરાયો",
+  "@staffIssueAfterPhotoAdded": {
+    "x-review": "pending"
+  },
+  "staffIssueNote": "નોંધ (વૈકલ્પિક)",
+  "@staffIssueNote": {
+    "x-review": "pending"
+  },
+  "staffIssueReason": "કારણ",
+  "@staffIssueReason": {
+    "x-review": "pending"
+  },
+  "staffIssueConfirmReject": "રિપોર્ટ અસ્વીકૃત તરીકે બંધ થશે અને રિપોર્ટ કરનારને કારણ જણાવાશે.",
+  "@staffIssueConfirmReject": {
+    "x-review": "pending"
+  },
+  "staffIssueConfirmHide": "રિપોર્ટ જાહેર જનતાથી છુપાવાશે. સ્ટાફ હજી જોઈ શકશે.",
+  "@staffIssueConfirmHide": {
+    "x-review": "pending"
+  },
+  "staffIssueConfirmMerge": "આ રિપોર્ટ બંધ થશે અને તેના સમર્થકો બીજા રિપોર્ટમાં ખસેડાશે.",
+  "@staffIssueConfirmMerge": {
+    "x-review": "pending"
+  },
+  "staffIssueConfirmSuspend": "રિપોર્ટ કરનાર સાઇન આઉટ થશે અને ફરી સક્રિય થાય ત્યાં સુધી એકાઉન્ટ વાપરી શકશે નહીં.",
+  "@staffIssueConfirmSuspend": {
+    "x-review": "pending"
+  },
+  "staffIssueConfirmFixed": "પડોશીઓને ફોટાથી પુષ્ટિ કરવા કહેવાશે.",
+  "@staffIssueConfirmFixed": {
+    "x-review": "pending"
+  },
+  "staffCancel": "રદ કરો",
+  "@staffCancel": {
+    "x-review": "pending"
+  },
+  "staffConfirm": "પુષ્ટિ કરો",
+  "@staffConfirm": {
+    "x-review": "pending"
+  },
+  "staffDone": "થઈ ગયું.",
+  "@staffDone": {
+    "x-review": "pending"
+  },
+  "staffSave": "સાચવો",
+  "@staffSave": {
+    "x-review": "pending"
+  },
+  "staffIssueChanged": "તમે અહીં હતા ત્યારે આ ઇશ્યૂ બદલાયો. ફરી લોડ કર્યું.",
+  "@staffIssueChanged": {
+    "x-review": "pending"
+  },
+  "staffIssueMergeEmpty": "500 મીટરમાં કોઈ ખુલ્લો રિપોર્ટ નથી.",
+  "@staffIssueMergeEmpty": {
+    "x-review": "pending"
+  },
+  "staffIssueMergeDistance": "{metres} મીટર દૂર",
+  "@staffIssueMergeDistance": {
+    "x-review": "pending"
+  },
+  "staffIssueMergeFar": "200 મીટરથી વધુ દૂર. એ જ સમસ્યા છે તે તપાસો.",
+  "@staffIssueMergeFar": {
+    "x-review": "pending"
+  },
+  "staffIssueCategory": "શ્રેણી",
+  "@staffIssueCategory": {
+    "x-review": "pending"
+  },
+  "staffIssueWard": "વોર્ડ",
+  "@staffIssueWard": {
+    "x-review": "pending"
+  },
+  "staffIssueWardNumber": "વોર્ડ {number}",
+  "@staffIssueWardNumber": {
+    "x-review": "pending"
+  },
+  "staffRejectSpam": "સ્પામ",
+  "@staffRejectSpam": {
+    "x-review": "pending"
+  },
+  "staffRejectDuplicate": "ડુપ્લિકેટ",
+  "@staffRejectDuplicate": {
+    "x-review": "pending"
+  },
+  "staffRejectOutOfArea": "શહેરના વોર્ડની બહાર",
+  "@staffRejectOutOfArea": {
+    "x-review": "pending"
+  },
+  "staffRejectPrivate": "ખાનગી વ્યક્તિ વિશે",
+  "@staffRejectPrivate": {
+    "x-review": "pending"
+  },
+  "staffRejectNotCivic": "નાગરિક સમસ્યા નથી",
+  "@staffRejectNotCivic": {
+    "x-review": "pending"
+  },
+  "staffRejectOther": "અન્ય કારણ",
+  "@staffRejectOther": {
+    "x-review": "pending"
+  },
+  "staffFlagDismiss": "રદ કરો",
+  "@staffFlagDismiss": {
+    "x-review": "pending"
+  },
+  "staffFlagHandled": "સંભાળ્યું",
+  "@staffFlagHandled": {
+    "x-review": "pending"
+  },
+  "staffCommentHide": "ટિપ્પણી છુપાવો",
+  "@staffCommentHide": {
+    "x-review": "pending"
+  },
+  "staffCommentHidden": "છુપાવેલી ટિપ્પણી",
+  "@staffCommentHidden": {
+    "x-review": "pending"
+  },
+  "staffStatusMerged": "મર્જ થયેલ",
+  "@staffStatusMerged": {
+    "x-review": "pending"
+  },
+  "staffEventReviewed": "મોડરેટરે તપાસ્યું",
+  "@staffEventReviewed": {
+    "x-review": "pending"
+  },
+  "staffEventHidden": "છુપાવ્યું",
+  "@staffEventHidden": {
+    "x-review": "pending"
+  },
+  "staffEventUnhidden": "ફરી બતાવ્યું",
+  "@staffEventUnhidden": {
+    "x-review": "pending"
+  },
+  "staffEventRecategorised": "શ્રેણી બદલાઈ",
+  "@staffEventRecategorised": {
+    "x-review": "pending"
+  },
+  "staffEventWardChanged": "વોર્ડ બદલાયો",
+  "@staffEventWardChanged": {
+    "x-review": "pending"
+  },
+  "staffEventMerged": "મર્જ થયું",
+  "@staffEventMerged": {
+    "x-review": "pending"
+  },
+  "staffEventComment": "ટિપ્પણી",
+  "@staffEventComment": {
+    "x-review": "pending"
+  },
+  "staffEventOther": "અપડેટ",
+  "@staffEventOther": {
+    "x-review": "pending"
+  },
+  "staffUsersTitle": "વપરાશકર્તાઓ અને ભૂમિકાઓ",
+  "@staffUsersTitle": {
+    "x-review": "pending"
+  },
+  "staffUsersSearch": "નામ અથવા છેલ્લા 4 અંક",
+  "@staffUsersSearch": {
+    "x-review": "pending"
+  },
+  "staffUsersEmpty": "કોઈ મેળ ખાતી વ્યક્તિ નથી.",
+  "@staffUsersEmpty": {
+    "x-review": "pending"
+  },
+  "staffUsersMakeMod": "મોડરેટર બનાવો",
+  "@staffUsersMakeMod": {
+    "x-review": "pending"
+  },
+  "staffUsersRemoveMod": "મોડરેટર દૂર કરો",
+  "@staffUsersRemoveMod": {
+    "x-review": "pending"
+  },
+  "staffUsersSuspend": "સસ્પેન્ડ કરો",
+  "@staffUsersSuspend": {
+    "x-review": "pending"
+  },
+  "staffUsersReinstate": "ફરી સક્રિય કરો",
+  "@staffUsersReinstate": {
+    "x-review": "pending"
+  },
+  "staffUsersSelf": "તમે તમારી પોતાની ભૂમિકા બદલી શકતા નથી.",
+  "@staffUsersSelf": {
+    "x-review": "pending"
+  },
+  "staffUsersActive": "સક્રિય",
+  "@staffUsersActive": {
+    "x-review": "pending"
+  },
+  "staffUsersSuspended": "સસ્પેન્ડ",
+  "@staffUsersSuspended": {
+    "x-review": "pending"
+  },
+  "staffUsersNoName": "નામ નથી",
+  "@staffUsersNoName": {
+    "x-review": "pending"
+  },
+  "staffUsersReasonHint": "કારણ (જરૂરી)",
+  "@staffUsersReasonHint": {
+    "x-review": "pending"
+  },
+  "staffCategoriesTitle": "શ્રેણીઓ",
+  "@staffCategoriesTitle": {
+    "x-review": "pending"
+  },
+  "staffCategoriesInactive": "નિષ્ક્રિય",
+  "@staffCategoriesInactive": {
+    "x-review": "pending"
+  },
+  "staffCategoriesEdit": "શ્રેણી ફેરફાર કરો",
+  "@staffCategoriesEdit": {
+    "x-review": "pending"
+  },
+  "staffCategoriesNameEn": "નામ (English)",
+  "@staffCategoriesNameEn": {
+    "x-review": "pending"
+  },
+  "staffCategoriesNameGu": "નામ (ગુજરાતી)",
+  "@staffCategoriesNameGu": {
+    "x-review": "pending"
+  },
+  "staffCategoriesIcon": "આઇકન",
+  "@staffCategoriesIcon": {
+    "x-review": "pending"
+  },
+  "staffCategoriesColour": "રંગ",
+  "@staffCategoriesColour": {
+    "x-review": "pending"
+  },
+  "staffCategoriesSla": "લક્ષ્ય દિવસો (1–90)",
+  "@staffCategoriesSla": {
+    "x-review": "pending"
+  },
+  "staffCategoriesSensitive": "સંવેદનશીલ: જાહેર થાય તે પહેલાં મોડરેટર તપાસે",
+  "@staffCategoriesSensitive": {
+    "x-review": "pending"
+  },
+  "staffCategoriesActive": "સક્રિય",
+  "@staffCategoriesActive": {
+    "x-review": "pending"
+  },
+  "staffCategoriesOrder": "ક્રમ",
+  "@staffCategoriesOrder": {
+    "x-review": "pending"
+  },
+  "staffCategoriesSlaError": "1 થી 90 વચ્ચેની સંખ્યા લખો.",
+  "@staffCategoriesSlaError": {
+    "x-review": "pending"
+  },
+  "staffCategoriesNameError": "2 થી 60 અક્ષર લખો.",
+  "@staffCategoriesNameError": {
+    "x-review": "pending"
+  },
+  "staffCategoriesOrderError": "0 થી 999 વચ્ચેની સંખ્યા લખો.",
+  "@staffCategoriesOrderError": {
+    "x-review": "pending"
+  },
+  "staffCategoriesDays": "{days} દિવસ",
+  "@staffCategoriesDays": {
+    "x-review": "pending"
+  },
+  "staffSettingsTitle": "સેટિંગ્સ",
+  "@staffSettingsTitle": {
+    "x-review": "pending"
+  },
+  "staffSettingsReadOnly": "ફક્ત એડમિન સેટિંગ્સ બદલી શકે છે.",
+  "@staffSettingsReadOnly": {
+    "x-review": "pending"
+  },
+  "staffSettingsElection": "ચૂંટણી મોડ",
+  "@staffSettingsElection": {
+    "x-review": "pending"
+  },
+  "staffSettingsElectionOn": "ચૂંટણી મોડ ચાલુ",
+  "@staffSettingsElectionOn": {
+    "x-review": "pending"
+  },
+  "staffSettingsScope": "ક્યાં",
+  "@staffSettingsScope": {
+    "x-review": "pending"
+  },
+  "staffSettingsScopeCity": "આખું શહેર",
+  "@staffSettingsScopeCity": {
+    "x-review": "pending"
+  },
+  "staffSettingsScopeWards": "પસંદ કરેલા વોર્ડ",
+  "@staffSettingsScopeWards": {
+    "x-review": "pending"
+  },
+  "staffSettingsWardsCount": "{count} વોર્ડ પસંદ કર્યા",
+  "@staffSettingsWardsCount": {
+    "x-review": "pending"
+  },
+  "staffSettingsFrom": "થી",
+  "@staffSettingsFrom": {
+    "x-review": "pending"
+  },
+  "staffSettingsTo": "સુધી",
+  "@staffSettingsTo": {
+    "x-review": "pending"
+  },
+  "staffSettingsNoteEn": "નોંધ (English)",
+  "@staffSettingsNoteEn": {
+    "x-review": "pending"
+  },
+  "staffSettingsNoteGu": "નોંધ (ગુજરાતી)",
+  "@staffSettingsNoteGu": {
+    "x-review": "pending"
+  },
+  "staffSettingsPreview": "બેનરનું પૂર્વદર્શન",
+  "@staffSettingsPreview": {
+    "x-review": "pending"
+  },
+  "staffSettingsSaveElection": "ચૂંટણી મોડ સાચવો",
+  "@staffSettingsSaveElection": {
+    "x-review": "pending"
+  },
+  "staffSettingsFeatures": "સુવિધાઓ",
+  "@staffSettingsFeatures": {
+    "x-review": "pending"
+  },
+  "staffSettingsRelay": "પ્રતિનિધિઓને સંદેશા",
+  "@staffSettingsRelay": {
+    "x-review": "pending"
+  },
+  "staffSettingsRelayHelp": "રહેવાસીઓને તેમના પ્રતિનિધિઓને સંદેશા મોકલવા દો.",
+  "@staffSettingsRelayHelp": {
+    "x-review": "pending"
+  },
+  "staffSettingsDrafts": "ફીડમાંથી ચેતવણી ડ્રાફ્ટ",
+  "@staffSettingsDrafts": {
+    "x-review": "pending"
+  },
+  "staffSettingsDraftsHelp": "સત્તાવાર ફીડમાંથી સમીક્ષા માટે ડ્રાફ્ટ ચેતવણી બનાવો.",
+  "@staffSettingsDraftsHelp": {
+    "x-review": "pending"
+  },
+  "staffSettingsScorecard": "જાહેર વોર્ડ સ્કોરકાર્ડ",
+  "@staffSettingsScorecard": {
+    "x-review": "pending"
+  },
+  "staffSettingsScorecardHelp": "વોર્ડ સ્કોરકાર્ડ બધાને બતાવો.",
+  "@staffSettingsScorecardHelp": {
+    "x-review": "pending"
+  },
+  "staffSettingsSensitive": "સંવેદનશીલ રિપોર્ટ તપાસો",
+  "@staffSettingsSensitive": {
+    "x-review": "pending"
+  },
+  "staffSettingsSensitiveHelp": "મોડરેટર તપાસે ત્યાં સુધી સંવેદનશીલ રિપોર્ટ છુપાયેલા રહે છે.",
+  "@staffSettingsSensitiveHelp": {
+    "x-review": "pending"
+  },
+  "staffSettingsDateError": "અંત શરૂઆત પછી અને વધુમાં વધુ 120 દિવસમાં હોવો જોઈએ.",
+  "@staffSettingsDateError": {
+    "x-review": "pending"
+  },
+  "staffSettingsWardsError": "ઓછામાં ઓછો એક વોર્ડ પસંદ કરો.",
+  "@staffSettingsWardsError": {
+    "x-review": "pending"
+  },
+  "staffExportTitle": "નિકાસ",
+  "@staffExportTitle": {
+    "x-review": "pending"
+  },
+  "staffExportDataset": "ડેટા",
+  "@staffExportDataset": {
+    "x-review": "pending"
+  },
+  "staffExportIssues": "ઇશ્યૂ",
+  "@staffExportIssues": {
+    "x-review": "pending"
+  },
+  "staffExportEvents": "ઇશ્યૂ ઇતિહાસ",
+  "@staffExportEvents": {
+    "x-review": "pending"
+  },
+  "staffExportVerifications": "ચકાસણીઓ",
+  "@staffExportVerifications": {
+    "x-review": "pending"
+  },
+  "staffExportFrom": "થી",
+  "@staffExportFrom": {
+    "x-review": "pending"
+  },
+  "staffExportTo": "સુધી",
+  "@staffExportTo": {
+    "x-review": "pending"
+  },
+  "staffExportAllWards": "બધા વોર્ડ",
+  "@staffExportAllWards": {
+    "x-review": "pending"
+  },
+  "staffExportPhone": "ફોન નંબર સામેલ કરો",
+  "@staffExportPhone": {
+    "x-review": "pending"
+  },
+  "staffExportPhoneWarning": "ફોન નંબર વ્યક્તિગત ડેટા છે. જરૂરી હોય તો જ સામેલ કરો.",
+  "@staffExportPhoneWarning": {
+    "x-review": "pending"
+  },
+  "staffExportReason": "ફોન નંબર કેમ જોઈએ છે? (10 થી 200 અક્ષર)",
+  "@staffExportReason": {
+    "x-review": "pending"
+  },
+  "staffExportReasonError": "10 થી 200 અક્ષરનું કારણ આપો.",
+  "@staffExportReasonError": {
+    "x-review": "pending"
+  },
+  "staffExportDownload": "CSV ડાઉનલોડ કરો",
+  "@staffExportDownload": {
+    "x-review": "pending"
+  },
+  "staffExportTooMany": "ઘણી બધી પંક્તિઓ. તારીખની શ્રેણી ટૂંકી કરો.",
+  "@staffExportTooMany": {
+    "x-review": "pending"
+  },
+  "staffExportRangeError": "366 દિવસ સુધીની શ્રેણી પસંદ કરો.",
+  "@staffExportRangeError": {
+    "x-review": "pending"
+  },
+  "staffExportReady": "CSV તૈયાર: {rows} પંક્તિઓ.",
+  "@staffExportReady": {
     "x-review": "pending"
   }
 }
