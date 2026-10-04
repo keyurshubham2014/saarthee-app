@@ -480,28 +480,6 @@
   "@adminDetailLoadFailed": {
     "description": "Admin: DetailLoadFailed"
   },
-  "adminBeforeLabel": "Reported, {date}",
-  "@adminBeforeLabel": {
-    "description": "Admin: BeforeLabel",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "adminNowLabel": "Now, {date}",
-  "@adminNowLabel": {
-    "description": "Admin: NowLabel",
-    "placeholders": {
-      "date": {
-        "type": "String"
-      }
-    }
-  },
-  "adminNoAnswerYet": "No answer yet",
-  "@adminNoAnswerYet": {
-    "description": "Admin: NoAnswerYet"
-  },
   "adminSameImageWarning": "Same image as report",
   "@adminSameImageWarning": {
     "description": "Admin: SameImageWarning"
@@ -1009,7 +987,6 @@
   "statusNotFixed": "Not fixed",
   "statusWaiting": "Waiting",
   "statusFiled": "Filed",
-  "statusReminded": "Reminded",
   "photoMissing": "Photo not available",
   "photoReportedOn": "Reported, {date}",
   "@photoReportedOn": {
