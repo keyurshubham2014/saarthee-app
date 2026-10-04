@@ -32,11 +32,11 @@
   "@commonStepOf": {
     "x-review": "pending"
   },
-  "commonOfflineBanner": "તમે ઑફલાઇન છો. તમારી ફરિયાદ સચવાઈ છે અને આપોઆપ મોકલાશે.",
+  "commonOfflineBanner": "તમે ઑફલાઇન છો. તમારો રિપોર્ટ સચવાયો છે અને આપોઆપ મોકલાશે.",
   "@commonOfflineBanner": {
     "x-review": "pending"
   },
-  "commonErrorSummaryTitle": "એક સમસ્યા છે",
+  "commonErrorSummaryTitle": "કંઈક ભૂલ છે",
   "@commonErrorSummaryTitle": {
     "x-review": "pending"
   },
@@ -48,11 +48,11 @@
   "@commonIndependenceNotice": {
     "x-review": "pending"
   },
-  "statusFixed": "સુધર્યું",
+  "statusFixed": "ઉકેલાઈ",
   "@statusFixed": {
     "x-review": "pending"
   },
-  "statusNotFixed": "સુધર્યું નથી",
+  "statusNotFixed": "ઉકેલાઈ નથી",
   "@statusNotFixed": {
     "x-review": "pending"
   },
@@ -100,11 +100,11 @@
   "@globalErrorBody": {
     "x-review": "pending"
   },
-  "errorValidationFailed": "કૃપા કરીને પ્રકાશિત ખાનાં તપાસો.",
+  "errorValidationFailed": "કૃપા કરીને ચિહ્નિત ખાનાં તપાસો.",
   "@errorValidationFailed": {
     "x-review": "pending"
   },
-  "errorInviteCodeInvalid": "આ કોડ ચાલ્યો નહીં. જેમણે શેર કર્યો તેમની સાથે તપાસો.",
+  "errorInviteCodeInvalid": "આ કોડ ચાલ્યો નહીં. જેમણે શેર કર્યો હોય તેમની સાથે ખાતરી કરો.",
   "@errorInviteCodeInvalid": {
     "x-review": "pending"
   },
@@ -140,7 +140,7 @@
   "@errorVerifyTokenRevoked": {
     "x-review": "pending"
   },
-  "errorInvalidCredentials": "ઇમેઇલ અથવા પાસવર્ડ ખોટો છે.",
+  "errorInvalidCredentials": "ઈમેલ અથવા પાસવર્ડ ખોટો છે.",
   "@errorInvalidCredentials": {
     "x-review": "pending"
   },
@@ -148,7 +148,7 @@
   "@errorAdminDisabled": {
     "x-review": "pending"
   },
-  "errorSessionEnded": "તમારું સત્ર પૂરું થયું. કૃપા કરીને ફરી લૉગ ઇન કરો.",
+  "errorSessionEnded": "તમારું સત્ર પૂરું થયું. કૃપા કરીને ફરી સાઇન ઇન કરો.",
   "@errorSessionEnded": {
     "x-review": "pending"
   },
@@ -164,15 +164,15 @@
   "@errorNotFound": {
     "x-review": "pending"
   },
-  "errorRateLimited": "ઘણા પ્રયાસો થયા. થોડી રાહ જોઈને ફરી પ્રયાસ કરો.",
+  "errorRateLimited": "ઘણા બધા પ્રયાસો થયા. થોડી રાહ જોઈને ફરી પ્રયાસ કરો.",
   "@errorRateLimited": {
     "x-review": "pending"
   },
-  "errorRateLimitedMinutes": "ઘણા પ્રયાસો થયા. {minutes, plural, =1{1 મિનિટ} other{{minutes} મિનિટ}} પછી ફરી પ્રયાસ કરો.",
+  "errorRateLimitedMinutes": "ઘણા બધા પ્રયાસો થયા. {minutes, plural, =1{1 મિનિટ} other{{minutes} મિનિટ}} પછી ફરી પ્રયાસ કરો.",
   "@errorRateLimitedMinutes": {
     "x-review": "pending"
   },
-  "errorRateLimitedSeconds": "ઘણા પ્રયાસો થયા. {seconds} સેકન્ડ પછી ફરી પ્રયાસ કરો.",
+  "errorRateLimitedSeconds": "ઘણા બધા પ્રયાસો થયા. {seconds} સેકન્ડ પછી ફરી પ્રયાસ કરો.",
   "@errorRateLimitedSeconds": {
     "x-review": "pending"
   },
@@ -192,11 +192,11 @@
   "@errorTimeout": {
     "x-review": "pending"
   },
-  "aboutTitle": "વિશે",
+  "aboutTitle": "એપ વિશે",
   "@aboutTitle": {
     "x-review": "pending"
   },
-  "aboutOperatorLogin": "ઓપરેટર લૉગિન",
+  "aboutOperatorLogin": "ઓપરેટર સાઇન ઇન",
   "@aboutOperatorLogin": {
     "x-review": "pending"
   },
@@ -236,7 +236,7 @@
   "@reportPhotoWeakGpsContinue": {
     "x-review": "pending"
   },
-  "reportPhotoPreviewLabel": "તમારા ફોટોનું પૂર્વદર્શન",
+  "reportPhotoPreviewLabel": "તમારા ફોટોનું પૂર્વાવલોકન",
   "@reportPhotoPreviewLabel": {
     "x-review": "pending"
   },
@@ -284,7 +284,7 @@
   "@commonOptional": {
     "x-review": "pending"
   },
-  "commonWorking": "કામ ચાલુ છે",
+  "commonWorking": "પ્રક્રિયા ચાલુ છે",
   "@commonWorking": {
     "x-review": "pending"
   },
@@ -296,7 +296,7 @@
   "@navMap": {
     "x-review": "pending"
   },
-  "navReport": "ફરિયાદ",
+  "navReport": "નોંધાવો",
   "@navReport": {
     "x-review": "pending"
   },
@@ -316,7 +316,7 @@
   "@homeSetYourWard": {
     "x-review": "pending"
   },
-  "homeReportCardTitle": "સમસ્યા જણાવો",
+  "homeReportCardTitle": "સમસ્યા નોંધાવો",
   "@homeReportCardTitle": {
     "x-review": "pending"
   },
@@ -332,7 +332,7 @@
   "@homeSectionNearby": {
     "x-review": "pending"
   },
-  "homeSectionDrives": "અભિયાન અને સેવાઓ",
+  "homeSectionDrives": "અભિયાનો અને સેવાઓ",
   "@homeSectionDrives": {
     "x-review": "pending"
   },
@@ -344,19 +344,19 @@
   "@onboardingLanguageTitleGu": {
     "x-review": "pending"
   },
-  "introTagline": "ફરિયાદ કરો. ફોલો કરો. ઉકેલ જુઓ.",
+  "introTagline": "સમસ્યા નોંધાવો. ફોલો કરો. ઉકેલ જુઓ.",
   "@introTagline": {
     "x-review": "pending"
   },
-  "introBenefitReport": "કોઈપણ નાગરિક સમસ્યા ફોટો સાથે જણાવો.",
+  "introBenefitReport": "કોઈપણ નાગરિક સમસ્યા ફોટા સાથે નોંધાવો.",
   "@introBenefitReport": {
     "x-review": "pending"
   },
-  "introBenefitFollow": "પડોશીઓ સુધારાની ખાતરી કરે ત્યાં સુધી અનુસરો.",
+  "introBenefitFollow": "પડોશીઓ ઉકેલની ખાતરી કરે ત્યાં સુધી તેને ફોલો કરો.",
   "@introBenefitFollow": {
     "x-review": "pending"
   },
-  "introBenefitAlerts": "ચેતવણીઓ મેળવો અને તમારા કોર્પોરેટર સુધી પહોંચો.",
+  "introBenefitAlerts": "ચેતવણીઓ મેળવો અને તમારા કોર્પોરેટરો સુધી પહોંચો.",
   "@introBenefitAlerts": {
     "x-review": "pending"
   },
@@ -448,7 +448,7 @@
   "@myWardSectionRepresentatives": {
     "x-review": "pending"
   },
-  "myWardSectionServices": "સેવાઓ અને અભિયાન",
+  "myWardSectionServices": "સેવાઓ અને અભિયાનો",
   "@myWardSectionServices": {
     "x-review": "pending"
   },
@@ -500,7 +500,7 @@
   "@settingsHomeWardNone": {
     "x-review": "pending"
   },
-  "aboutVersion": "આવૃત્તિ {version}",
+  "aboutVersion": "વર્ઝન {version}",
   "@aboutVersion": {
     "x-review": "pending"
   },
@@ -512,7 +512,7 @@
   "@aboutIndependenceLineGu": {
     "x-review": "pending"
   },
-  "aboutIndependenceStatement": "સારથી એક સ્વતંત્ર નાગરિક પ્રોજેક્ટ છે. તે અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન દ્વારા ચલાવાતો, ભંડોળ મેળવતો કે તેની સાથે જોડાયેલો નથી.",
+  "aboutIndependenceStatement": "સારથી એક સ્વતંત્ર નાગરિક પ્રોજેક્ટ છે. તે અમદાવાદ મ્યુનિસિપલ કોર્પોરેશન દ્વારા ચલાવાતો નથી, તેના ભંડોળથી ચાલતો નથી કે તેની સાથે જોડાયેલો નથી.",
   "@aboutIndependenceStatement": {
     "x-review": "pending"
   },
@@ -520,11 +520,11 @@
   "@aboutNameOrigin": {
     "x-review": "pending"
   },
-  "aboutGrievance": "આ ઍપ વિશે પ્રશ્નો કે ફરિયાદો: {email}",
+  "aboutGrievance": "આ એપ વિશે પ્રશ્નો કે ફરિયાદો: {email}",
   "@aboutGrievance": {
     "x-review": "pending"
   },
-  "aboutGrievancePending": "લોન્ચ પહેલાં ફરિયાદ સંપર્ક જાહેર કરાશે.",
+  "aboutGrievancePending": "લોન્ચ પહેલાં ફરિયાદ નિવારણ માટેનો સંપર્ક જાહેર કરાશે.",
   "@aboutGrievancePending": {
     "x-review": "pending"
   },
@@ -544,11 +544,11 @@
   "@statusInProgress": {
     "x-review": "pending"
   },
-  "statusVerified": "ચકાસાયેલ",
+  "statusVerified": "ચકાસાઈ",
   "@statusVerified": {
     "x-review": "pending"
   },
-  "statusReopened": "ફરી ખોલી",
+  "statusReopened": "ફરી ખૂલી",
   "@statusReopened": {
     "x-review": "pending"
   },
@@ -564,7 +564,7 @@
   "@severityAdvisory": {
     "x-review": "pending"
   },
-  "severityWarning": "ચેતવણી",
+  "severityWarning": "સાવધાન",
   "@severityWarning": {
     "x-review": "pending"
   },
@@ -628,7 +628,7 @@
   "@categoryOther": {
     "x-review": "pending"
   },
-  "componentAlertSource": "સ્રોત: {source} · સારથી દ્વારા પહોંચાડ્યું",
+  "componentAlertSource": "સ્રોત: {source} · સારથી મારફતે",
   "@componentAlertSource": {
     "x-review": "pending"
   },
@@ -660,7 +660,7 @@
   "@componentStepNext": {
     "x-review": "pending"
   },
-  "photoBlurredCaption": "ચહેરા અને નંબર પ્લેટ ઝાંખાં કરેલાં",
+  "photoBlurredCaption": "ચહેરા અને નંબર પ્લેટ ઝાંખાં કરેલાં છે",
   "@photoBlurredCaption": {
     "x-review": "pending"
   },
@@ -668,7 +668,7 @@
   "@settingsDevGallery": {
     "x-review": "pending"
   },
-  "configErrorBody": "આ બિલ્ડ ખોટી રીતે ગોઠવાયેલ છે. કૃપા કરીને Play પરથી નવીનતમ વર્ઝન ઇન્સ્ટોલ કરો.",
+  "configErrorBody": "આ બિલ્ડ ખોટી રીતે ગોઠવાયેલું છે. કૃપા કરીને Play Store પરથી નવું વર્ઝન ઇન્સ્ટોલ કરો.",
   "@configErrorBody": {
     "description": "TASK-13 fatal config screen",
     "x-review": "pending"
@@ -693,7 +693,7 @@
   "@authReasonFollow": {
     "x-review": "pending"
   },
-  "authReasonVerify": "સમારકામ તપાસવા માટે કૃપા કરીને સાઇન ઇન કરો.",
+  "authReasonVerify": "ઉકેલ ચકાસવા માટે કૃપા કરીને સાઇન ઇન કરો.",
   "@authReasonVerify": {
     "x-review": "pending"
   },
@@ -779,7 +779,7 @@
   "@authOtpChangeNumber": {
     "x-review": "pending"
   },
-  "authSignedIn": "સાઇન ઇન થયું",
+  "authSignedIn": "સાઇન ઇન થઈ ગયું",
   "@authSignedIn": {
     "x-review": "pending"
   },
@@ -799,7 +799,7 @@
   "@authAgeNo": {
     "x-review": "pending"
   },
-  "authConsentCore": "આ સેવા ચલાવવા માટે સારથી મારો ફોન નંબર અને મેં કરેલી ફરિયાદો સાચવે તે માટે હું સંમત છું.",
+  "authConsentCore": "આ સેવા ચલાવવા માટે સારથી મારો ફોન નંબર અને મેં કરેલા રિપોર્ટ સાચવે તે માટે હું સંમત છું.",
   "@authConsentCore": {
     "x-review": "pending"
   },
@@ -807,7 +807,7 @@
   "@authPrivacyNotice": {
     "x-review": "pending"
   },
-  "authPrivacyNoticeBody": "સારથી તમને સાઇન ઇન કરાવવા માટે તમારો ફોન નંબર અને આ સેવા ચલાવવા માટે તમે કરેલી ફરિયાદો સાચવે છે. તમારું નામ અને નંબર ક્યારેય જાહેરમાં બતાવાતા નથી. તમે ગમે ત્યારે ‘ગોપનીયતા અને તમારી માહિતી’માંથી તમારી માહિતી ડાઉનલોડ કરી શકો છો અથવા એકાઉન્ટ કાઢી શકો છો.",
+  "authPrivacyNoticeBody": "સારથી તમને સાઇન ઇન કરાવવા માટે તમારો ફોન નંબર અને આ સેવા ચલાવવા માટે તમે કરેલા રિપોર્ટ સાચવે છે. તમારું નામ અને નંબર ક્યારેય જાહેરમાં બતાવાતા નથી. તમે ગમે ત્યારે ‘ગોપનીયતા અને તમારી માહિતી’માંથી તમારી માહિતી ડાઉનલોડ કરી શકો છો અથવા એકાઉન્ટ કાઢી શકો છો.",
   "@authPrivacyNoticeBody": {
     "x-review": "pending"
   },
@@ -839,7 +839,7 @@
   "@authErrorConsentRequired": {
     "x-review": "pending"
   },
-  "authErrorSuspended": "આ એકાઉન્ટ સ્થગિત છે.",
+  "authErrorSuspended": "આ એકાઉન્ટ સસ્પેન્ડ કરાયું છે.",
   "@authErrorSuspended": {
     "x-review": "pending"
   },
@@ -867,7 +867,7 @@
   "@accountSignInWhy": {
     "x-review": "pending"
   },
-  "accountSignedInAs": "{phone} તરીકે સાઇન ઇન",
+  "accountSignedInAs": "{phone} થી સાઇન ઇન કરેલું છે",
   "@accountSignedInAs": {
     "x-review": "pending",
     "placeholders": {
@@ -937,7 +937,7 @@
   "@accountSignedOut": {
     "x-review": "pending"
   },
-  "accountOfflineReadOnly": "તમે ઑફલાઇન છો. ઓનલાઇન થયા પછી ફેરફાર કરી શકશો.",
+  "accountOfflineReadOnly": "તમે ઑફલાઇન છો. ઑનલાઇન થયા પછી ફેરફાર કરી શકશો.",
   "@accountOfflineReadOnly": {
     "x-review": "pending"
   },
@@ -945,7 +945,7 @@
   "@accountLoadError": {
     "x-review": "pending"
   },
-  "accountActionFailed": "તે થયું નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
+  "accountActionFailed": "એ થઈ શક્યું નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
   "@accountActionFailed": {
     "x-review": "pending"
   },
@@ -953,7 +953,7 @@
   "@accountPrivacyTitle": {
     "x-review": "pending"
   },
-  "accountPrivacySummary": "સારથી તમારો ફોન નંબર, તમે કરેલી ફરિયાદો અને નીચેની પસંદગીઓ સાચવે છે. તમારું નામ અને નંબર ક્યારેય જાહેરમાં બતાવાતા નથી. તમે ગમે ત્યારે તમારી માહિતી ડાઉનલોડ કરી શકો છો અથવા એકાઉન્ટ કાઢી શકો છો.",
+  "accountPrivacySummary": "સારથી તમારો ફોન નંબર, તમે કરેલા રિપોર્ટ અને નીચેની પસંદગીઓ સાચવે છે. તમારું નામ અને નંબર ક્યારેય જાહેરમાં બતાવાતા નથી. તમે ગમે ત્યારે તમારી માહિતી ડાઉનલોડ કરી શકો છો અથવા એકાઉન્ટ કાઢી શકો છો.",
   "@accountPrivacySummary": {
     "x-review": "pending"
   },
@@ -969,11 +969,11 @@
   "@accountConsentCoreFixed": {
     "x-review": "pending"
   },
-  "accountConsentShareReps": "મારી ફરિયાદો પ્રતિનિધિઓ સાથે શેર કરો",
+  "accountConsentShareReps": "મારા રિપોર્ટ પ્રતિનિધિઓ સાથે શેર કરો",
   "@accountConsentShareReps": {
     "x-review": "pending"
   },
-  "accountConsentAmcHandoff": "AMC માં ફરિયાદ કરું ત્યારે વિગતો આપો",
+  "accountConsentAmcHandoff": "AMC માં ફરિયાદ નોંધાવું ત્યારે વિગતો આપો",
   "@accountConsentAmcHandoff": {
     "x-review": "pending"
   },
@@ -1014,7 +1014,7 @@
   "@accountDeleteTitle": {
     "x-review": "pending"
   },
-  "accountDeleteBody": "તમારો ફોન નંબર અને નામ દૂર થશે, તમારા ફોટા કાઢી નખાશે અને તમારી ફરિયાદો તમારી વિગતો વિના જાહેર રહેશે. આ પાછું ફેરવી શકાતું નથી.",
+  "accountDeleteBody": "તમારો ફોન નંબર અને નામ દૂર થશે, તમારા ફોટા કાઢી નખાશે અને તમારા રિપોર્ટ તમારી વિગતો વિના જાહેર રહેશે. આ પાછું ફેરવી શકાતું નથી.",
   "@accountDeleteBody": {
     "x-review": "pending"
   },
@@ -1059,7 +1059,7 @@
   "@accountPushNotNow": {
     "x-review": "pending"
   },
-  "accountChannelCritical": "અતિ મહત્વની ચેતવણીઓ",
+  "accountChannelCritical": "ગંભીર ચેતવણીઓ",
   "@accountChannelCritical": {
     "x-review": "pending"
   },
@@ -1067,7 +1067,7 @@
   "@accountChannelAlerts": {
     "x-review": "pending"
   },
-  "accountChannelUpdates": "અપડેટ્સ",
+  "accountChannelUpdates": "અપડેટ",
   "@accountChannelUpdates": {
     "x-review": "pending"
   },
@@ -1087,7 +1087,7 @@
   "@myWardMultiAc": {
     "x-review": "pending"
   },
-  "myWardOffice": "વોર્ડ કચેરી",
+  "myWardOffice": "વોર્ડ ઑફિસ",
   "@myWardOffice": {
     "x-review": "pending"
   },
@@ -1095,7 +1095,7 @@
   "@myWardOfficeCall": {
     "x-review": "pending"
   },
-  "myWardOfficeNone": "કચેરીની વિગતો હજી ઉપલબ્ધ નથી.",
+  "myWardOfficeNone": "ઑફિસની વિગતો હજી ઉપલબ્ધ નથી.",
   "@myWardOfficeNone": {
     "x-review": "pending"
   },
@@ -1103,7 +1103,7 @@
   "@myWardScorecardRow": {
     "x-review": "pending"
   },
-  "myWardScorecardRowHint": "આ વોર્ડમાં નોંધાયેલી સમસ્યાઓનું શું થાય છે",
+  "myWardScorecardRowHint": "આ વોર્ડમાં નોંધાયેલી સમસ્યાઓ કેવી રીતે ઉકેલાય છે",
   "@myWardScorecardRowHint": {
     "x-review": "pending"
   },
@@ -1163,7 +1163,7 @@
   "@repTermOpen": {
     "x-review": "pending"
   },
-  "repOfficePhone": "કચેરીનો ફોન",
+  "repOfficePhone": "ઑફિસનો ફોન",
   "@repOfficePhone": {
     "x-review": "pending"
   },
@@ -1175,11 +1175,11 @@
   "@repSource": {
     "x-review": "pending"
   },
-  "repVerified": "Saarthee દ્વારા ચકાસાયેલ",
+  "repVerified": "સારથી દ્વારા ચકાસાયેલ",
   "@repVerified": {
     "x-review": "pending"
   },
-  "repNeutrality": "Saarthee સ્વતંત્ર છે અને બધા પ્રતિનિધિઓ સાથે એકસરખો વ્યવહાર કરે છે.",
+  "repNeutrality": "સારથી સ્વતંત્ર છે અને બધા પ્રતિનિધિઓ સાથે એકસરખો વ્યવહાર કરે છે.",
   "@repNeutrality": {
     "x-review": "pending"
   },
@@ -1235,7 +1235,7 @@
   "@relayCounter": {
     "x-review": "pending"
   },
-  "relaySharePhone": "{name} ની કચેરી મને પાછો કૉલ કરી શકે તે માટે મારો ફોન નંબર શેર કરો",
+  "relaySharePhone": "{name} ની ઑફિસ મને પાછો કૉલ કરી શકે તે માટે મારો ફોન નંબર શેર કરો",
   "@relaySharePhone": {
     "x-review": "pending"
   },
@@ -1251,7 +1251,7 @@
   "@relaySend": {
     "x-review": "pending"
   },
-  "relaySent": "સંદેશ મોકલાયો. અમે તે {name} ની કચેરીને ઈમેલ કર્યો છે.",
+  "relaySent": "સંદેશ મોકલાયો. અમે તે {name} ની ઑફિસને ઈમેલ કર્યો છે.",
   "@relaySent": {
     "x-review": "pending"
   },
@@ -1271,7 +1271,7 @@
   "@relayErrorOffline": {
     "x-review": "pending"
   },
-  "relayErrorGeneric": "અમે તમારો સંદેશ મોકલી શક્યા નહીં. ફરી પ્રયાસ કરો.",
+  "relayErrorGeneric": "અમે તમારો સંદેશ મોકલી શક્યા નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
   "@relayErrorGeneric": {
     "x-review": "pending"
   },
@@ -1287,7 +1287,7 @@
   "@relayConsentTitle": {
     "x-review": "pending"
   },
-  "relayConsentBody": "તમે જે લખો તે Saarthee પ્રતિનિધિના સત્તાવાર સરનામે ઈમેલ કરશે. તમે બૉક્સ પર ટિક કરો ત્યારે જ તમારો ફોન નંબર શેર થાય છે. તમે ગોપનીયતામાં ગમે ત્યારે આ પાછું ખેંચી શકો છો.",
+  "relayConsentBody": "તમે જે લખો તે સારથી પ્રતિનિધિના સત્તાવાર સરનામે ઈમેલ કરશે. તમે બૉક્સ પર ટિક કરો ત્યારે જ તમારો ફોન નંબર શેર થાય છે. તમે ‘ગોપનીયતા’માં ગમે ત્યારે આ સંમતિ પાછી ખેંચી શકો છો.",
   "@relayConsentBody": {
     "x-review": "pending"
   },
@@ -1307,19 +1307,19 @@
   "@scorecardSubtitle": {
     "x-review": "pending"
   },
-  "scorecardMedianAck": "સ્વીકારવામાં લાગતા સરેરાશ (મધ્યક) દિવસ",
+  "scorecardMedianAck": "સ્વીકારવામાં લાગતા દિવસ (મધ્યક)",
   "@scorecardMedianAck": {
     "x-review": "pending"
   },
-  "scorecardMedianFix": "સુધારવામાં લાગતા સરેરાશ (મધ્યક) દિવસ",
+  "scorecardMedianFix": "ઉકેલવામાં લાગતા દિવસ (મધ્યક)",
   "@scorecardMedianFix": {
     "x-review": "pending"
   },
-  "scorecardVerified": "રહેવાસીઓએ ચકાસેલા સુધારા",
+  "scorecardVerified": "રહેવાસીઓએ ચકાસેલા ઉકેલ",
   "@scorecardVerified": {
     "x-review": "pending"
   },
-  "scorecardReopened": "સુધાર્યા પછી ફરી ખૂલેલી",
+  "scorecardReopened": "ઉકેલાયા પછી ફરી ખૂલેલી",
   "@scorecardReopened": {
     "x-review": "pending"
   },
@@ -1327,15 +1327,15 @@
   "@scorecardBacklog": {
     "x-review": "pending"
   },
-  "scorecardPer1000": "દર 1,000 રહેવાસીએ ફરિયાદો",
+  "scorecardPer1000": "દર 1,000 રહેવાસીએ રિપોર્ટ",
   "@scorecardPer1000": {
     "x-review": "pending"
   },
-  "scorecardIssuesReported": "છેલ્લા {days} દિવસમાં ફરિયાદો: {count}",
+  "scorecardIssuesReported": "છેલ્લા {days} દિવસના રિપોર્ટ: {count}",
   "@scorecardIssuesReported": {
     "x-review": "pending"
   },
-  "scorecardNotEnough": "હજી પૂરતી ફરિયાદો નથી",
+  "scorecardNotEnough": "હજી પૂરતા રિપોર્ટ નથી",
   "@scorecardNotEnough": {
     "x-review": "pending"
   },
@@ -1347,7 +1347,7 @@
   "@scorecardMethodTitle": {
     "x-review": "pending"
   },
-  "scorecardMethodBody": "ફક્ત Saarthee માં થયેલી ફરિયાદો પર આધારિત, AMC ના રેકોર્ડ પર નહીં. મધ્યક છેલ્લા 90 દિવસની ફરિયાદો પરથી ગણાય છે. કોઈ રહેવાસી ફોટા સાથે ખાતરી કરે ત્યારે સુધારો ચકાસાયેલો ગણાય છે. દર 1,000 રહેવાસીએ ફરિયાદો માટે, ઉપલબ્ધ હોય ત્યાં, {source} ની વોર્ડ વસ્તી વપરાય છે. આંકડા માટે ઓછામાં ઓછી 5 ફરિયાદો જરૂરી છે.",
+  "scorecardMethodBody": "ફક્ત સારથી પર થયેલા રિપોર્ટ પર આધારિત, AMC ના રેકોર્ડ પર નહીં. મધ્યક છેલ્લા 90 દિવસના રિપોર્ટ પરથી ગણાય છે. કોઈ રહેવાસી ફોટા સાથે ખાતરી કરે ત્યારે ઉકેલ ચકાસાયેલો ગણાય છે. દર 1,000 રહેવાસીએ રિપોર્ટ ગણવા માટે, ઉપલબ્ધ હોય ત્યાં, {source} ની વોર્ડ વસ્તી વપરાય છે. આંકડા માટે ઓછામાં ઓછા 5 રિપોર્ટ જરૂરી છે.",
   "@scorecardMethodBody": {
     "x-review": "pending"
   },
@@ -1391,7 +1391,7 @@
   "@reportFlowCategoriesError": {
     "x-review": "pending"
   },
-  "reportFlowCategoriesOffline": "તમે ઓફલાઇન છો. સાચવેલી યાદી બતાવીએ છીએ.",
+  "reportFlowCategoriesOffline": "તમે ઑફલાઇન છો. સાચવેલી યાદી બતાવીએ છીએ.",
   "@reportFlowCategoriesOffline": {
     "x-review": "pending"
   },
@@ -1419,7 +1419,7 @@
   "@reportFlowBlurring": {
     "x-review": "pending"
   },
-  "reportFlowBlurred": "ચહેરા અને નંબર પ્લેટ ઝાંખા કર્યા",
+  "reportFlowBlurred": "ચહેરા અને નંબર પ્લેટ ઝાંખાં કરેલાં છે",
   "@reportFlowBlurred": {
     "x-review": "pending"
   },
@@ -1427,7 +1427,7 @@
   "@reportFlowBlurMore": {
     "x-review": "pending"
   },
-  "reportFlowLocationNeeded": "નકશા પર ફરિયાદ મૂકવા માટે અમને તમારું સ્થાન જોઈએ.",
+  "reportFlowLocationNeeded": "નકશા પર રિપોર્ટ મૂકવા માટે અમને તમારું સ્થાન જોઈએ.",
   "@reportFlowLocationNeeded": {
     "x-review": "pending"
   },
@@ -1439,7 +1439,7 @@
   "@reportFlowWeakGps": {
     "x-review": "pending"
   },
-  "reportFlowInWard": "વોર્ડ: {ward} ({zone} ઝોન)",
+  "reportFlowInWard": "વોર્ડ: {ward} ({zone})",
   "@reportFlowInWard": {
     "x-review": "pending"
   },
@@ -1459,7 +1459,7 @@
   "@reportFlowWardMoveHint": {
     "x-review": "pending"
   },
-  "reportFlowOutsideArea": "આ જગ્યા અમદાવાદના વોર્ડની બહાર છે. સારથી ફક્ત શહેરની અંદરની ફરિયાદો લઈ શકે છે.",
+  "reportFlowOutsideArea": "આ જગ્યા અમદાવાદના વોર્ડની બહાર છે. સારથી ફક્ત શહેરની અંદરના રિપોર્ટ લઈ શકે છે.",
   "@reportFlowOutsideArea": {
     "x-review": "pending"
   },
@@ -1487,23 +1487,23 @@
   "@reportFlowMovePinWest": {
     "x-review": "pending"
   },
-  "reportFlowMapLabel": "ફરિયાદના સ્થાનનો નકશો",
+  "reportFlowMapLabel": "રિપોર્ટના સ્થાનનો નકશો",
   "@reportFlowMapLabel": {
     "x-review": "pending"
   },
-  "reportFlowMapAttribution": "નકશા ડેટા © OpenStreetMap યોગદાનકર્તાઓ",
+  "reportFlowMapAttribution": "નકશાનો ડેટા © OpenStreetMap યોગદાનકર્તાઓ",
   "@reportFlowMapAttribution": {
     "x-review": "pending"
   },
-  "reportDupTitle": "નજીકમાં પહેલેથી નોંધાયેલું",
+  "reportDupTitle": "નજીકમાં પહેલેથી નોંધાયેલી સમસ્યા",
   "@reportDupTitle": {
     "x-review": "pending"
   },
-  "reportDupMeta": "{metres} મી દૂર · {count} મારી પણ",
+  "reportDupMeta": "{metres} મી. દૂર · {count} “મને પણ”",
   "@reportDupMeta": {
     "x-review": "pending"
   },
-  "reportDupAddMeToo": "મારી પણ ફરિયાદ",
+  "reportDupAddMeToo": "“મને પણ” ઉમેરો",
   "@reportDupAddMeToo": {
     "x-review": "pending"
   },
@@ -1511,7 +1511,7 @@
   "@reportDupAdded": {
     "x-review": "pending"
   },
-  "reportDupDifferent": "ના, મારી અલગ છે",
+  "reportDupDifferent": "ના, મારી સમસ્યા અલગ છે",
   "@reportDupDifferent": {
     "x-review": "pending"
   },
@@ -1519,7 +1519,7 @@
   "@reportDupConfirmTitle": {
     "x-review": "pending"
   },
-  "reportDupConfirmBody": "તેની સ્થિતિ બદલાશે ત્યારે અમે તમને જણાવીશું. તમારો ડ્રાફ્ટ કાઢી નાખ્યો.",
+  "reportDupConfirmBody": "તેની સ્થિતિ બદલાશે ત્યારે અમે તમને જણાવીશું. તમારો ડ્રાફ્ટ કાઢી નખાયો છે.",
   "@reportDupConfirmBody": {
     "x-review": "pending"
   },
@@ -1595,23 +1595,23 @@
   "@reportFlowNone": {
     "x-review": "pending"
   },
-  "reportFlowConsent": "તમારી ફરિયાદ, ફોટા અને જગ્યા જાહેર રહેશે. તમારું નામ અને ફોન નંબર ક્યારેય બતાવાતા નથી.",
+  "reportFlowConsent": "તમારો રિપોર્ટ, ફોટા અને જગ્યા જાહેર રહેશે. તમારું નામ અને ફોન નંબર ક્યારેય બતાવાતા નથી.",
   "@reportFlowConsent": {
     "x-review": "pending"
   },
-  "reportFlowSubmit": "ફરિયાદ મોકલો",
+  "reportFlowSubmit": "રિપોર્ટ મોકલો",
   "@reportFlowSubmit": {
     "x-review": "pending"
   },
-  "reportFlowQuota": "તમે આજે {count} ફરિયાદો મોકલી છે. તમે કાલે વધુ મોકલી શકો છો.",
+  "reportFlowQuota": "તમે આજે {count} રિપોર્ટ મોકલ્યા છે. કાલે વધુ મોકલી શકશો.",
   "@reportFlowQuota": {
     "x-review": "pending"
   },
-  "reportFlowPhotoExpired": "તમારો ફોટો અપલોડ જૂનો થઈ ગયો. કૃપા કરીને ફરી ફોટો લો.",
+  "reportFlowPhotoExpired": "તમારા ફોટા અપલોડની મુદત પૂરી થઈ ગઈ. કૃપા કરીને ફરી ફોટો લો.",
   "@reportFlowPhotoExpired": {
     "x-review": "pending"
   },
-  "reportFlowWardConfirmNeeded": "કૃપા કરીને આ જગ્યાનો વોર્ડ પુષ્ટિ કરો.",
+  "reportFlowWardConfirmNeeded": "કૃપા કરીને આ જગ્યાના વોર્ડની પુષ્ટિ કરો.",
   "@reportFlowWardConfirmNeeded": {
     "x-review": "pending"
   },
@@ -1627,35 +1627,35 @@
   "@reportFlowReasonRequired": {
     "x-review": "pending"
   },
-  "reportErrorWardConfirmation": "આ જગ્યા વોર્ડની હદની સહેજ બહાર છે. કૃપા કરીને વોર્ડ પુષ્ટિ કરો.",
+  "reportErrorWardConfirmation": "આ જગ્યા વોર્ડની હદની સહેજ બહાર છે. કૃપા કરીને વોર્ડની પુષ્ટિ કરો.",
   "@reportErrorWardConfirmation": {
     "x-review": "pending"
   },
-  "reportErrorOwnIssue": "આ ફરિયાદ તમે નોંધાવી છે.",
+  "reportErrorOwnIssue": "આ સમસ્યા તમે નોંધાવી છે.",
   "@reportErrorOwnIssue": {
     "x-review": "pending"
   },
-  "reportErrorNotOpen": "આ ફરિયાદ હવે ખુલ્લી નથી.",
+  "reportErrorNotOpen": "આ સમસ્યા હવે ખુલ્લી નથી.",
   "@reportErrorNotOpen": {
     "x-review": "pending"
   },
-  "reportErrorSuspended": "આ એકાઉન્ટ સ્થગિત છે.",
+  "reportErrorSuspended": "આ એકાઉન્ટ સસ્પેન્ડ કરાયું છે.",
   "@reportErrorSuspended": {
     "x-review": "pending"
   },
-  "reportDoneTitle": "ફરિયાદ મોકલાઈ. આભાર.",
+  "reportDoneTitle": "રિપોર્ટ મોકલાયો. આભાર.",
   "@reportDoneTitle": {
     "x-review": "pending"
   },
-  "reportDoneIssueNumber": "ફરિયાદ {ref}",
+  "reportDoneIssueNumber": "સમસ્યા {ref}",
   "@reportDoneIssueNumber": {
     "x-review": "pending"
   },
-  "reportDoneAnnounce": "ફરિયાદ મોકલાઈ. ફરિયાદ {ref}",
+  "reportDoneAnnounce": "રિપોર્ટ મોકલાયો. સમસ્યા {ref}",
   "@reportDoneAnnounce": {
     "x-review": "pending"
   },
-  "reportDoneBody": "પડોશીઓ હવે તે જોઈ શકે છે અને \"મારી પણ\" ઉમેરી શકે છે. તેની સ્થિતિ બદલાશે ત્યારે અમે તમને જણાવીશું.",
+  "reportDoneBody": "પડોશીઓ હવે તે જોઈ શકે છે અને “મને પણ” ઉમેરી શકે છે. તેની સ્થિતિ બદલાશે ત્યારે અમે તમને જણાવીશું.",
   "@reportDoneBody": {
     "x-review": "pending"
   },
@@ -1667,7 +1667,7 @@
   "@reportDoneDone": {
     "x-review": "pending"
   },
-  "reportHandoffTitle": "AMC માં પણ ફરિયાદ કરો (વૈકલ્પિક)",
+  "reportHandoffTitle": "AMC માં પણ ફરિયાદ નોંધાવો (વૈકલ્પિક)",
   "@reportHandoffTitle": {
     "x-review": "pending"
   },
@@ -1703,7 +1703,7 @@
   "@reportHandoffFailed": {
     "x-review": "pending"
   },
-  "reportHandoffLinkLater": "પહેલેથી ફરિયાદ કરી છે? તમારો AMC ફરિયાદ નંબર ઉમેરો",
+  "reportHandoffLinkLater": "પહેલેથી ફરિયાદ નોંધાવી છે? તમારો AMC ફરિયાદ નંબર ઉમેરો",
   "@reportHandoffLinkLater": {
     "x-review": "pending"
   },
@@ -1719,7 +1719,7 @@
   "@reportBlurHint": {
     "x-review": "pending"
   },
-  "reportBlurUndo": "પાછું કરો",
+  "reportBlurUndo": "પાછું વાળો",
   "@reportBlurUndo": {
     "x-review": "pending"
   },
@@ -1727,7 +1727,7 @@
   "@reportBlurDone": {
     "x-review": "pending"
   },
-  "reportBlurUnavailable": "આ ફોન પર આપમેળે ઝાંખું કરવાનું ઉપલબ્ધ નથી. ચહેરા અને નંબર પ્લેટ હાથથી ઝાંખા કરો.",
+  "reportBlurUnavailable": "આ ફોન પર આપોઆપ ઝાંખું કરવાની સુવિધા નથી. ચહેરા અને નંબર પ્લેટ હાથથી ઝાંખાં કરો.",
   "@reportBlurUnavailable": {
     "x-review": "pending"
   },
@@ -1743,7 +1743,7 @@
   "@linkCcrsHelp": {
     "x-review": "pending"
   },
-  "linkCcrsHow": "તમે કેવી રીતે ફરિયાદ કરી?",
+  "linkCcrsHow": "તમે ફરિયાદ કેવી રીતે નોંધાવી?",
   "@linkCcrsHow": {
     "x-review": "pending"
   },
@@ -1767,7 +1767,7 @@
   "@linkCcrsRequired": {
     "x-review": "pending"
   },
-  "linkCcrsConflict": "આ ફરિયાદ સાથે બીજો નંબર પહેલેથી જોડાયેલો છે.",
+  "linkCcrsConflict": "આ રિપોર્ટ સાથે બીજો નંબર પહેલેથી જોડાયેલો છે.",
   "@linkCcrsConflict": {
     "x-review": "pending"
   },
@@ -1819,7 +1819,7 @@
   "@alertsAreaWards": {
     "x-review": "pending"
   },
-  "alertsAreaZone": "{zone} ઝોન",
+  "alertsAreaZone": "{zone}",
   "@alertsAreaZone": {
     "x-review": "pending"
   },
@@ -1911,7 +1911,7 @@
   "@alertsSettingsCriticalOnly": {
     "x-review": "pending"
   },
-  "alertsSettingsQuietHours": "રાત્રે 10 થી સવારે 7 વચ્ચે ગંભીર સિવાયની ચેતવણીઓ સવારે 7 સુધી રોકી રાખીએ છીએ. ગંભીર ચેતવણીઓ હંમેશાં આવે છે.",
+  "alertsSettingsQuietHours": "રાત્રે 10 થી સવારે 7 વચ્ચે અમે ગંભીર સિવાયની ચેતવણીઓ સવારે 7 સુધી રોકી રાખીએ છીએ. ગંભીર ચેતવણીઓ હંમેશાં આવે છે.",
   "@alertsSettingsQuietHours": {
     "x-review": "pending"
   },
@@ -1919,7 +1919,7 @@
   "@alertsSettingsMutedNote": {
     "x-review": "pending"
   },
-  "alertsSettingsVisitor": "આ સેટિંગ્સ તમારા બધા ફોનમાં રાખવા માટે સાઇન ઇન કરો.",
+  "alertsSettingsVisitor": "આ સેટિંગ્સ તમારાં બધાં ઉપકરણો પર રાખવા માટે સાઇન ઇન કરો.",
   "@alertsSettingsVisitor": {
     "x-review": "pending"
   },
@@ -2011,11 +2011,11 @@
   "@inboxEmpty": {
     "x-review": "pending"
   },
-  "inboxSignedOut": "તમારી ફરિયાદો અને ચેતવણીઓની માહિતી જોવા સાઇન ઇન કરો.",
+  "inboxSignedOut": "તમારા રિપોર્ટ અને ચેતવણીઓના અપડેટ જોવા સાઇન ઇન કરો.",
   "@inboxSignedOut": {
     "x-review": "pending"
   },
-  "inboxSignIn": "સાઇન ઇન",
+  "inboxSignIn": "સાઇન ઇન કરો",
   "@inboxSignIn": {
     "x-review": "pending"
   },
@@ -2055,7 +2055,7 @@
   "@staffAlertsTabPublished": {
     "x-review": "pending"
   },
-  "staffAlertsTabEnded": "પૂર્ણ",
+  "staffAlertsTabEnded": "પૂરી થયેલી",
   "@staffAlertsTabEnded": {
     "x-review": "pending"
   },
@@ -2087,7 +2087,7 @@
   "@staffAlertsFieldSeverity": {
     "x-review": "pending"
   },
-  "staffAlertsSeverityHelp": "ચેતવણી અને ગંભીર માટે બે મંજૂરી જોઈએ",
+  "staffAlertsSeverityHelp": "‘સાવધાન’ અને ‘ગંભીર’ માટે બે મંજૂરી જોઈએ",
   "@staffAlertsSeverityHelp": {
     "x-review": "pending"
   },
@@ -2147,7 +2147,7 @@
   "@staffAlertsCounter": {
     "x-review": "pending"
   },
-  "staffAlertsErrorSummary": "કૃપા કરીને આ ફીલ્ડ સુધારો:",
+  "staffAlertsErrorSummary": "કૃપા કરીને આ ખાનાં સુધારો:",
   "@staffAlertsErrorSummary": {
     "x-review": "pending"
   },
@@ -2239,7 +2239,7 @@
   "@staffAlertsActionError": {
     "x-review": "pending"
   },
-  "staffAlertsReadOnly": "પ્રકાશિત અને પૂર્ણ ચેતવણીઓ બદલી શકાતી નથી.",
+  "staffAlertsReadOnly": "પ્રકાશિત અને પૂરી થયેલી ચેતવણીઓમાં ફેરફાર કરી શકાતો નથી.",
   "@staffAlertsReadOnly": {
     "x-review": "pending"
   },
@@ -2255,7 +2255,7 @@
   "@servicesTitle": {
     "x-review": "pending"
   },
-  "servicesIndependence": "સ્વતંત્ર માર્ગદર્શિકા. લિંક AMCની સત્તાવાર વેબસાઇટ ખોલે છે.",
+  "servicesIndependence": "સ્વતંત્ર માર્ગદર્શિકા. લિંક AMC ની સત્તાવાર વેબસાઇટ ખોલે છે.",
   "@servicesIndependence": {
     "x-review": "pending"
   },
@@ -2303,11 +2303,11 @@
   "@servicesCategoryBusiness": {
     "x-review": "pending"
   },
-  "servicesBadgeOnline": "ઓનલાઇન",
+  "servicesBadgeOnline": "ઑનલાઇન",
   "@servicesBadgeOnline": {
     "x-review": "pending"
   },
-  "servicesBadgeWardOffice": "વોર્ડ ઓફિસ જવું પડે",
+  "servicesBadgeWardOffice": "વોર્ડ ઑફિસ જવું પડે",
   "@servicesBadgeWardOffice": {
     "x-review": "pending"
   },
@@ -2327,11 +2327,11 @@
   "@servicesOpenOnAmc": {
     "x-review": "pending"
   },
-  "servicesOpensCaption": "{host} ખુલશે. સાર્થી સ્વતંત્ર એપ છે, AMC દ્વારા ચલાવાતી નથી.",
+  "servicesOpensCaption": "{host} ખુલશે. સારથી સ્વતંત્ર એપ છે, AMC દ્વારા ચલાવાતી નથી.",
   "@servicesOpensCaption": {
     "x-review": "pending"
   },
-  "servicesYourWardOffice": "તમારી વોર્ડ ઓફિસ",
+  "servicesYourWardOffice": "તમારી વોર્ડ ઑફિસ",
   "@servicesYourWardOffice": {
     "x-review": "pending"
   },
@@ -2343,11 +2343,11 @@
   "@servicesChangeWard": {
     "x-review": "pending"
   },
-  "servicesSetWardPrompt": "તમારી વોર્ડ ઓફિસ જોવા તમારો ઘરનો વોર્ડ પસંદ કરો",
+  "servicesSetWardPrompt": "તમારી વોર્ડ ઑફિસ જોવા તમારો ઘરનો વોર્ડ પસંદ કરો",
   "@servicesSetWardPrompt": {
     "x-review": "pending"
   },
-  "servicesOfficeAddressMissing": "ઓફિસનું સરનામું હજુ પ્રકાશિત નથી.",
+  "servicesOfficeAddressMissing": "ઑફિસનું સરનામું હજી પ્રકાશિત નથી.",
   "@servicesOfficeAddressMissing": {
     "x-review": "pending"
   },
@@ -2391,15 +2391,15 @@
   "@servicesTipOpen": {
     "x-review": "pending"
   },
-  "servicesTipDismiss": "ટીપ બંધ કરો",
+  "servicesTipDismiss": "ટિપ બંધ કરો",
   "@servicesTipDismiss": {
     "x-review": "pending"
   },
-  "servicesWardOfficeServices": "વોર્ડ ઓફિસ જવું પડે તેવી સેવાઓ",
+  "servicesWardOfficeServices": "વોર્ડ ઑફિસ જવું પડે તેવી સેવાઓ",
   "@servicesWardOfficeServices": {
     "x-review": "pending"
   },
-  "servicesUpcomingDrives": "આગામી કાર્યક્રમો",
+  "servicesUpcomingDrives": "આગામી અભિયાનો",
   "@servicesUpcomingDrives": {
     "x-review": "pending"
   },
@@ -2407,7 +2407,7 @@
   "@servicesSeeAll": {
     "x-review": "pending"
   },
-  "initiativesTitle": "કાર્યક્રમો અને ઇવેન્ટ્સ",
+  "initiativesTitle": "અભિયાનો અને કાર્યક્રમો",
   "@initiativesTitle": {
     "x-review": "pending"
   },
@@ -2419,11 +2419,11 @@
   "@initiativesAllCity": {
     "x-review": "pending"
   },
-  "initiativesEmptyWard": "તમારા વોર્ડમાં કોઈ આગામી કાર્યક્રમ નથી.",
+  "initiativesEmptyWard": "તમારા વોર્ડમાં કોઈ આગામી અભિયાન નથી.",
   "@initiativesEmptyWard": {
     "x-review": "pending"
   },
-  "initiativesEmptyCity": "હમણાં કોઈ આગામી કાર્યક્રમ નથી.",
+  "initiativesEmptyCity": "હમણાં કોઈ આગામી અભિયાન નથી.",
   "@initiativesEmptyCity": {
     "x-review": "pending"
   },
@@ -2431,7 +2431,7 @@
   "@initiativesSeeAllCity": {
     "x-review": "pending"
   },
-  "initiativesLoadError": "કાર્યક્રમો લોડ ન થઈ શક્યા.",
+  "initiativesLoadError": "અભિયાનો લોડ ન થઈ શક્યાં.",
   "@initiativesLoadError": {
     "x-review": "pending"
   },
@@ -2471,35 +2471,35 @@
   "@initiativesGoingSuffix": {
     "x-review": "pending"
   },
-  "initiativesImGoing": "હું આવીશ",
+  "initiativesImGoing": "હું જઈશ",
   "@initiativesImGoing": {
     "x-review": "pending"
   },
-  "initiativesYoureGoing": "તમે આવો છો",
+  "initiativesYoureGoing": "તમે જઈ રહ્યા છો",
   "@initiativesYoureGoing": {
     "x-review": "pending"
   },
-  "initiativesCancelRsvp": "RSVP રદ કરો",
+  "initiativesCancelRsvp": "નોંધણી રદ કરો",
   "@initiativesCancelRsvp": {
     "x-review": "pending"
   },
-  "initiativesRsvpCancelled": "RSVP રદ થયું",
+  "initiativesRsvpCancelled": "નોંધણી રદ થઈ",
   "@initiativesRsvpCancelled": {
     "x-review": "pending"
   },
-  "initiativesFull": "આ કાર્યક્રમ ભરાઈ ગયો છે",
+  "initiativesFull": "આ અભિયાન ભરાઈ ગયું છે",
   "@initiativesFull": {
     "x-review": "pending"
   },
-  "initiativesCancelledBanner": "આયોજકે રદ કર્યો",
+  "initiativesCancelledBanner": "આયોજકે રદ કર્યું",
   "@initiativesCancelledBanner": {
     "x-review": "pending"
   },
-  "initiativesNotOpen": "આ કાર્યક્રમ RSVP લેતો નથી.",
+  "initiativesNotOpen": "આ અભિયાન માટે નોંધણી ચાલુ નથી.",
   "@initiativesNotOpen": {
     "x-review": "pending"
   },
-  "initiativesStarted": "આ કાર્યક્રમ શરૂ થઈ ગયો છે.",
+  "initiativesStarted": "આ અભિયાન શરૂ થઈ ગયું છે.",
   "@initiativesStarted": {
     "x-review": "pending"
   },
@@ -2523,11 +2523,11 @@
   "@initiativesSource": {
     "x-review": "pending"
   },
-  "initiativesNotFound": "આ કાર્યક્રમ હવે યાદીમાં નથી.",
+  "initiativesNotFound": "આ અભિયાન હવે યાદીમાં નથી.",
   "@initiativesNotFound": {
     "x-review": "pending"
   },
-  "initiativesRsvpError": "તમારું RSVP અપડેટ ન થયું. ફરી પ્રયાસ કરો.",
+  "initiativesRsvpError": "તમારી નોંધણી અપડેટ ન થઈ. કૃપા કરીને ફરી પ્રયાસ કરો.",
   "@initiativesRsvpError": {
     "x-review": "pending"
   },
@@ -2543,11 +2543,11 @@
   "@staffContentServicesTitle": {
     "x-review": "pending"
   },
-  "staffContentInitiativesTitle": "કાર્યક્રમો",
+  "staffContentInitiativesTitle": "અભિયાનો",
   "@staffContentInitiativesTitle": {
     "x-review": "pending"
   },
-  "staffContentTipsTitle": "મોસમી ટીપ્સ",
+  "staffContentTipsTitle": "મોસમી ટિપ્સ",
   "@staffContentTipsTitle": {
     "x-review": "pending"
   },
@@ -2607,11 +2607,11 @@
   "@staffContentNewService": {
     "x-review": "pending"
   },
-  "staffContentNewInitiative": "નવો કાર્યક્રમ",
+  "staffContentNewInitiative": "નવું અભિયાન",
   "@staffContentNewInitiative": {
     "x-review": "pending"
   },
-  "staffContentNewTip": "નવી ટીપ",
+  "staffContentNewTip": "નવી ટિપ",
   "@staffContentNewTip": {
     "x-review": "pending"
   },
@@ -2671,11 +2671,11 @@
   "@staffContentFieldUrl": {
     "x-review": "pending"
   },
-  "staffContentFieldOnline": "પૂરેપૂરું ઓનલાઇન થઈ શકે",
+  "staffContentFieldOnline": "પૂરેપૂરું ઑનલાઇન થઈ શકે",
   "@staffContentFieldOnline": {
     "x-review": "pending"
   },
-  "staffContentFieldWardOffice": "વોર્ડ ઓફિસ જવું પડે",
+  "staffContentFieldWardOffice": "વોર્ડ ઑફિસ જવું પડે",
   "@staffContentFieldWardOffice": {
     "x-review": "pending"
   },
@@ -2687,11 +2687,11 @@
   "@staffContentFieldActive": {
     "x-review": "pending"
   },
-  "staffContentMarkVerified": "આજે માહિતી ચકાસી તરીકે નોંધો",
+  "staffContentMarkVerified": "માહિતી આજે ચકાસી હોવાનું નોંધો",
   "@staffContentMarkVerified": {
     "x-review": "pending"
   },
-  "staffContentStepsPreview": "પૂર્વદર્શન",
+  "staffContentStepsPreview": "પૂર્વાવલોકન",
   "@staffContentStepsPreview": {
     "x-review": "pending"
   },
@@ -2715,7 +2715,7 @@
   "@staffContentErrorNumber": {
     "x-review": "pending"
   },
-  "staffContentErrorSummary": "હાઇલાઇટ કરેલાં ખાનાં સુધારો.",
+  "staffContentErrorSummary": "કૃપા કરીને ચિહ્નિત ખાનાં સુધારો.",
   "@staffContentErrorSummary": {
     "x-review": "pending"
   },
@@ -2727,7 +2727,7 @@
   "@staffContentPublish": {
     "x-review": "pending"
   },
-  "staffContentCancelDrive": "કાર્યક્રમ રદ કરો",
+  "staffContentCancelDrive": "અભિયાન રદ કરો",
   "@staffContentCancelDrive": {
     "x-review": "pending"
   },
@@ -2759,11 +2759,11 @@
   "@staffContentSaveAttendance": {
     "x-review": "pending"
   },
-  "staffContentAttendanceLocked": "કાર્યક્રમ શરૂ થાય ત્યારે હાજરી નોંધી શકાશે.",
+  "staffContentAttendanceLocked": "અભિયાન શરૂ થાય ત્યારે હાજરી નોંધી શકાશે.",
   "@staffContentAttendanceLocked": {
     "x-review": "pending"
   },
-  "staffContentNoRsvps": "હજુ કોઈ RSVP નથી.",
+  "staffContentNoRsvps": "હજી કોઈ નોંધણી નથી.",
   "@staffContentNoRsvps": {
     "x-review": "pending"
   },
@@ -2839,7 +2839,7 @@
   "@staffContentErrorDate": {
     "x-review": "pending"
   },
-  "servicesOfflineCached": "તમે ઓફલાઇન છો. છેલ્લી સાચવેલી યાદી બતાવીએ છીએ.",
+  "servicesOfflineCached": "તમે ઑફલાઇન છો. છેલ્લી સાચવેલી યાદી બતાવીએ છીએ.",
   "@servicesOfflineCached": {
     "x-review": "pending"
   },
@@ -2867,7 +2867,7 @@
   "@issueActionsStatusAnnounce": {
     "x-review": "pending"
   },
-  "issueActionsStatusFixedUnverified": "ઉકેલાયેલ (ચકાસાયેલ નથી)",
+  "issueActionsStatusFixedUnverified": "ઉકેલાઈ (ચકાસાઈ નથી)",
   "@issueActionsStatusFixedUnverified": {
     "x-review": "pending"
   },
@@ -2911,7 +2911,7 @@
   "@issueActionsTimelineCcrsLinked": {
     "x-review": "pending"
   },
-  "issueActionsTimelineCcrsClosed": "AMCએ ફરિયાદ બંધ કરી",
+  "issueActionsTimelineCcrsClosed": "AMC એ ફરિયાદ બંધ કરી",
   "@issueActionsTimelineCcrsClosed": {
     "x-review": "pending"
   },
@@ -2923,7 +2923,7 @@
   "@issueActionsTimelineComment": {
     "x-review": "pending"
   },
-  "issueActionsFlagComment": "આ ટિપ્પણીમાં સમસ્યાની જાણ કરો",
+  "issueActionsFlagComment": "આ ટિપ્પણી વિશે જાણ કરો",
   "@issueActionsFlagComment": {
     "x-review": "pending"
   },
@@ -2959,7 +2959,7 @@
   "@issueActionsVerifyNo": {
     "x-review": "pending"
   },
-  "issueActionsVerifyClosed": "આ સમસ્યા હવે તપાસી શકાતી નથી.",
+  "issueActionsVerifyClosed": "આ સમસ્યા હવે ચકાસી શકાતી નથી.",
   "@issueActionsVerifyClosed": {
     "x-review": "pending"
   },
@@ -2987,7 +2987,7 @@
   "@issueActionsVerifyTooFar": {
     "x-review": "pending"
   },
-  "issueActionsVerifyInaccurate": "સ્થાન અંદાજિત છે. ખુલ્લામાં જઈને ફરી પ્રયાસ કરો.",
+  "issueActionsVerifyInaccurate": "સ્થાન અંદાજિત છે. ખુલ્લી જગ્યામાં જઈને ફરી પ્રયાસ કરો.",
   "@issueActionsVerifyInaccurate": {
     "x-review": "pending"
   },
@@ -3011,15 +3011,15 @@
   "@issueActionsVerifyAlready": {
     "x-review": "pending"
   },
-  "issueActionsVerifyOffline": "તમે ઓફલાઇન છો. તમારો જવાબ રાખ્યો છે અને ઓનલાઇન થતાં મોકલાશે.",
+  "issueActionsVerifyOffline": "તમે ઑફલાઇન છો. તમારો જવાબ સચવાયો છે અને ઑનલાઇન થતાં મોકલાશે.",
   "@issueActionsVerifyOffline": {
     "x-review": "pending"
   },
-  "issueActionsVerifyToastVerified": "તપાસવા બદલ આભાર. હવે તે ચકાસાયેલ છે.",
+  "issueActionsVerifyToastVerified": "તપાસવા બદલ આભાર. હવે તેની સ્થિતિ ‘ચકાસાઈ’ છે.",
   "@issueActionsVerifyToastVerified": {
     "x-review": "pending"
   },
-  "issueActionsVerifyToastReopened": "તપાસવા બદલ આભાર. તે ફરી ખોલાયું છે.",
+  "issueActionsVerifyToastReopened": "તપાસવા બદલ આભાર. સમસ્યા ફરી ખોલવામાં આવી છે.",
   "@issueActionsVerifyToastReopened": {
     "x-review": "pending"
   },
@@ -3031,7 +3031,7 @@
   "@issueActionsVerifyCta": {
     "x-review": "pending"
   },
-  "issueActionsMarkFixedTitle": "ઉકેલાયેલ તરીકે ચિહ્નિત કરો",
+  "issueActionsMarkFixedTitle": "‘ઉકેલાઈ’ તરીકે નોંધો",
   "@issueActionsMarkFixedTitle": {
     "x-review": "pending"
   },
@@ -3047,7 +3047,7 @@
   "@issueActionsMarkFixedHelper": {
     "x-review": "pending"
   },
-  "issueActionsMarkFixedDone": "ઉકેલાયેલ તરીકે ચિહ્નિત કર્યું.",
+  "issueActionsMarkFixedDone": "‘ઉકેલાઈ’ તરીકે નોંધ્યું.",
   "@issueActionsMarkFixedDone": {
     "x-review": "pending"
   },
@@ -3079,7 +3079,7 @@
   "@issueActionsReject": {
     "x-review": "pending"
   },
-  "issueActionsRejectReason": "કારણ (નોંધાવનારને દેખાશે)",
+  "issueActionsRejectReason": "કારણ (રિપોર્ટ કરનારને દેખાશે)",
   "@issueActionsRejectReason": {
     "x-review": "pending"
   },
@@ -3099,7 +3099,7 @@
   "@issueActionsLevelCorporators": {
     "x-review": "pending"
   },
-  "issueActionsLevelZoneOffice": "ઝોન કચેરી",
+  "issueActionsLevelZoneOffice": "ઝોન ઑફિસ",
   "@issueActionsLevelZoneOffice": {
     "x-review": "pending"
   },
@@ -3123,7 +3123,7 @@
   "@issueActionsMessageCorporator": {
     "x-review": "pending"
   },
-  "issueActionsEmailTarget": "{label}ને ઇમેઇલ કરો",
+  "issueActionsEmailTarget": "{label}ને ઈમેલ કરો",
   "@issueActionsEmailTarget": {
     "x-review": "pending"
   },
@@ -3147,15 +3147,15 @@
   "@issueActionsEscalateNote": {
     "x-review": "pending"
   },
-  "issueActionsCcrsQuestion": "AMCએ તમારી ફરિયાદ બંધ કરી?",
+  "issueActionsCcrsQuestion": "AMC એ તમારી ફરિયાદ બંધ કરી?",
   "@issueActionsCcrsQuestion": {
     "x-review": "pending"
   },
-  "issueActionsCcrsYes": "હા, AMCએ બંધ કરી",
+  "issueActionsCcrsYes": "હા, AMC એ બંધ કરી",
   "@issueActionsCcrsYes": {
     "x-review": "pending"
   },
-  "issueActionsCcrsBanner": "AMC કહે છે કે તે બંધ છે. જો ઉકેલાયું ન હોય, તો {time} પહેલાં (24 કલાક) AMCની સાઇટ પર ફરી ખોલો.",
+  "issueActionsCcrsBanner": "AMC કહે છે કે ફરિયાદ બંધ થઈ છે. જો સમસ્યા ઉકેલાઈ ન હોય, તો {time} પહેલાં (24 કલાકમાં) AMC ની સાઇટ પર ફરી ખોલો.",
   "@issueActionsCcrsBanner": {
     "x-review": "pending"
   },
@@ -3207,7 +3207,7 @@
   "@staffLoadError": {
     "x-review": "pending"
   },
-  "staffActionError": "તે થયું નહીં: {message}",
+  "staffActionError": "થઈ શક્યું નહીં: {message}",
   "@staffActionError": {
     "x-review": "pending"
   },
@@ -3263,11 +3263,11 @@
   "@staffLoginPhone": {
     "x-review": "pending"
   },
-  "staffLoginEmailLink": "ઇમેઇલથી એડમિન સાઇન-ઇન",
+  "staffLoginEmailLink": "ઈમેલથી એડમિન સાઇન ઇન",
   "@staffLoginEmailLink": {
     "x-review": "pending"
   },
-  "staffLoginEmail": "ઇમેઇલ",
+  "staffLoginEmail": "ઈમેલ",
   "@staffLoginEmail": {
     "x-review": "pending"
   },
@@ -3283,11 +3283,11 @@
   "@staffLoginNotStaff": {
     "x-review": "pending"
   },
-  "staffLoginSuspended": "આ એકાઉન્ટ સસ્પેન્ડ છે.",
+  "staffLoginSuspended": "આ એકાઉન્ટ સસ્પેન્ડ કરાયું છે.",
   "@staffLoginSuspended": {
     "x-review": "pending"
   },
-  "staffLoginFailed": "ઇમેઇલ અથવા પાસવર્ડ ખોટો છે.",
+  "staffLoginFailed": "ઈમેલ અથવા પાસવર્ડ ખોટો છે.",
   "@staffLoginFailed": {
     "x-review": "pending"
   },
@@ -3383,7 +3383,7 @@
   "@flagReasonOther": {
     "x-review": "pending"
   },
-  "flagSheetTitle": "આ પોસ્ટમાં સમસ્યાની જાણ કરો",
+  "flagSheetTitle": "આ પોસ્ટ વિશે જાણ કરો",
   "@flagSheetTitle": {
     "x-review": "pending"
   },
@@ -3411,15 +3411,15 @@
   "@flagError": {
     "x-review": "pending"
   },
-  "flagLimit": "તમે આજે ઘણી જાણ કરી છે. કૃપા કરી કાલે પ્રયાસ કરો.",
+  "flagLimit": "તમે આજે ઘણી વાર જાણ કરી છે. કૃપા કરીને કાલે ફરી પ્રયાસ કરો.",
   "@flagLimit": {
     "x-review": "pending"
   },
-  "flagReportButton": "સમસ્યાની જાણ કરો",
+  "flagReportButton": "જાણ કરો",
   "@flagReportButton": {
     "x-review": "pending"
   },
-  "staffIssueTitle": "ઇશ્યૂ સાધનો",
+  "staffIssueTitle": "સમસ્યા માટેનાં સાધનો",
   "@staffIssueTitle": {
     "x-review": "pending"
   },
@@ -3475,7 +3475,7 @@
   "@staffIssueUnhide": {
     "x-review": "pending"
   },
-  "staffIssueReject": "સ્વીકાર્ય નથી…",
+  "staffIssueReject": "અસ્વીકાર કરો…",
   "@staffIssueReject": {
     "x-review": "pending"
   },
@@ -3487,11 +3487,11 @@
   "@staffIssueAcknowledge": {
     "x-review": "pending"
   },
-  "staffIssueInProgress": "કામ ચાલુ તરીકે ચિહ્નિત કરો",
+  "staffIssueInProgress": "‘કામ ચાલુ’ તરીકે નોંધો",
   "@staffIssueInProgress": {
     "x-review": "pending"
   },
-  "staffIssueMarkFixed": "ઉકેલાયેલ તરીકે ચિહ્નિત કરો",
+  "staffIssueMarkFixed": "‘ઉકેલાઈ’ તરીકે નોંધો",
   "@staffIssueMarkFixed": {
     "x-review": "pending"
   },
@@ -3511,7 +3511,7 @@
   "@staffIssueReason": {
     "x-review": "pending"
   },
-  "staffIssueConfirmReject": "રિપોર્ટ અસ્વીકૃત તરીકે બંધ થશે અને રિપોર્ટ કરનારને કારણ જણાવાશે.",
+  "staffIssueConfirmReject": "રિપોર્ટ ‘સ્વીકારાઈ નથી’ તરીકે બંધ થશે અને રિપોર્ટ કરનારને કારણ જણાવાશે.",
   "@staffIssueConfirmReject": {
     "x-review": "pending"
   },
@@ -3527,7 +3527,7 @@
   "@staffIssueConfirmSuspend": {
     "x-review": "pending"
   },
-  "staffIssueConfirmFixed": "પડોશીઓને ફોટાથી પુષ્ટિ કરવા કહેવાશે.",
+  "staffIssueConfirmFixed": "પડોશીઓને ફોટો સાથે ખાતરી કરવા કહેવામાં આવશે.",
   "@staffIssueConfirmFixed": {
     "x-review": "pending"
   },
@@ -3547,7 +3547,7 @@
   "@staffSave": {
     "x-review": "pending"
   },
-  "staffIssueChanged": "તમે અહીં હતા ત્યારે આ ઇશ્યૂ બદલાયો. ફરી લોડ કર્યું.",
+  "staffIssueChanged": "તમે અહીં હતા ત્યારે આ સમસ્યા બદલાઈ. ફરી લોડ કર્યું.",
   "@staffIssueChanged": {
     "x-review": "pending"
   },
@@ -3599,7 +3599,7 @@
   "@staffRejectOther": {
     "x-review": "pending"
   },
-  "staffFlagDismiss": "રદ કરો",
+  "staffFlagDismiss": "ફગાવો",
   "@staffFlagDismiss": {
     "x-review": "pending"
   },
@@ -3707,7 +3707,7 @@
   "@staffCategoriesInactive": {
     "x-review": "pending"
   },
-  "staffCategoriesEdit": "શ્રેણી ફેરફાર કરો",
+  "staffCategoriesEdit": "શ્રેણીમાં ફેરફાર કરો",
   "@staffCategoriesEdit": {
     "x-review": "pending"
   },
@@ -3791,11 +3791,11 @@
   "@staffSettingsWardsCount": {
     "x-review": "pending"
   },
-  "staffSettingsFrom": "થી",
+  "staffSettingsFrom": "ક્યારથી",
   "@staffSettingsFrom": {
     "x-review": "pending"
   },
-  "staffSettingsTo": "સુધી",
+  "staffSettingsTo": "ક્યાં સુધી",
   "@staffSettingsTo": {
     "x-review": "pending"
   },
@@ -3807,7 +3807,7 @@
   "@staffSettingsNoteGu": {
     "x-review": "pending"
   },
-  "staffSettingsPreview": "બેનરનું પૂર્વદર્શન",
+  "staffSettingsPreview": "બેનરનું પૂર્વાવલોકન",
   "@staffSettingsPreview": {
     "x-review": "pending"
   },
@@ -3867,11 +3867,11 @@
   "@staffExportDataset": {
     "x-review": "pending"
   },
-  "staffExportIssues": "ઇશ્યૂ",
+  "staffExportIssues": "સમસ્યાઓ",
   "@staffExportIssues": {
     "x-review": "pending"
   },
-  "staffExportEvents": "ઇશ્યૂ ઇતિહાસ",
+  "staffExportEvents": "સમસ્યાઓનો ઇતિહાસ",
   "@staffExportEvents": {
     "x-review": "pending"
   },
@@ -3879,11 +3879,11 @@
   "@staffExportVerifications": {
     "x-review": "pending"
   },
-  "staffExportFrom": "થી",
+  "staffExportFrom": "ક્યારથી",
   "@staffExportFrom": {
     "x-review": "pending"
   },
-  "staffExportTo": "સુધી",
+  "staffExportTo": "ક્યાં સુધી",
   "@staffExportTo": {
     "x-review": "pending"
   },
@@ -3932,7 +3932,7 @@
       }
     }
   },
-  "discoveryReportedBy": "{ward}ના રહેવાસીએ નોંધાવ્યું",
+  "discoveryReportedBy": "{ward}ના રહેવાસીએ નોંધાવી",
   "@discoveryReportedBy": {
     "x-review": "pending",
     "placeholders": {
@@ -4024,7 +4024,7 @@
   "@discoveryStatusFixed": {
     "x-review": "pending"
   },
-  "discoveryStatusVerified": "ચકાસાયેલ",
+  "discoveryStatusVerified": "ચકાસાઈ",
   "@discoveryStatusVerified": {
     "x-review": "pending"
   },
@@ -4036,7 +4036,7 @@
   "@discoverySortNewest": {
     "x-review": "pending"
   },
-  "discoverySortAffected": "સૌથી વધુ અસર",
+  "discoverySortAffected": "સૌથી વધુ અસરગ્રસ્ત",
   "@discoverySortAffected": {
     "x-review": "pending"
   },
@@ -4129,7 +4129,7 @@
   "@discoveryAfter": {
     "x-review": "pending"
   },
-  "discoveryBlurCaption": "ચહેરા અને નંબર પ્લેટ ઝાંખા કર્યા છે",
+  "discoveryBlurCaption": "ચહેરા અને નંબર પ્લેટ ઝાંખાં કરેલાં છે",
   "@discoveryBlurCaption": {
     "x-review": "pending"
   },
@@ -4170,7 +4170,7 @@
       }
     }
   },
-  "discoveryTargetHelper": "આ સારથીનું લક્ષ્ય છે, AMCની સમયમર્યાદા નથી.",
+  "discoveryTargetHelper": "આ સારથીનું લક્ષ્ય છે, AMC ની સમયમર્યાદા નથી.",
   "@discoveryTargetHelper": {
     "x-review": "pending"
   },
@@ -4178,7 +4178,7 @@
   "@discoveryMeToo": {
     "x-review": "pending"
   },
-  "discoveryMeTooSemantics": "મને પણ, {count} લોકો અસરગ્રસ્ત",
+  "discoveryMeTooSemantics": "મને પણ, {count, plural, =1{1 વ્યક્તિ અસરગ્રસ્ત} other{{count} લોકો અસરગ્રસ્ત}}",
   "@discoveryMeTooSemantics": {
     "x-review": "pending",
     "placeholders": {
@@ -4191,11 +4191,11 @@
   "@discoveryMeTooAdded": {
     "x-review": "pending"
   },
-  "discoveryFollow": "અનુસરો",
+  "discoveryFollow": "ફોલો કરો",
   "@discoveryFollow": {
     "x-review": "pending"
   },
-  "discoveryFollowing": "અનુસરો છો",
+  "discoveryFollowing": "ફોલો કરો છો",
   "@discoveryFollowing": {
     "x-review": "pending"
   },
@@ -4211,7 +4211,7 @@
   "@discoveryAddCcrs": {
     "x-review": "pending"
   },
-  "discoveryEscalateSuggested": "આગળ લઈ જાઓ (સૂચવેલ)",
+  "discoveryEscalateSuggested": "આગળ રજૂઆત કરો (સૂચવેલ)",
   "@discoveryEscalateSuggested": {
     "x-review": "pending"
   },
@@ -4219,7 +4219,7 @@
   "@discoveryNotAvailable": {
     "x-review": "pending"
   },
-  "discoveryMergedBanner": "આ ફરિયાદ બીજી એક સાથે જોડી દેવામાં આવી છે.",
+  "discoveryMergedBanner": "આ રિપોર્ટ બીજા રિપોર્ટ સાથે જોડી દેવાયો છે.",
   "@discoveryMergedBanner": {
     "x-review": "pending"
   },
@@ -4227,7 +4227,7 @@
   "@discoveryOpenIt": {
     "x-review": "pending"
   },
-  "discoveryRejected": "સ્વીકારાયું નથી: {reason}",
+  "discoveryRejected": "સ્વીકારાઈ નથી: {reason}",
   "@discoveryRejected": {
     "x-review": "pending",
     "placeholders": {
@@ -4244,11 +4244,11 @@
   "@discoveryPendingReview": {
     "x-review": "pending"
   },
-  "discoveryMyReportsTitle": "મારી ફરિયાદો",
+  "discoveryMyReportsTitle": "મારા રિપોર્ટ",
   "@discoveryMyReportsTitle": {
     "x-review": "pending"
   },
-  "discoveryMyReportsSignedOut": "તમારી ફરિયાદો જોવા સાઇન ઇન કરો",
+  "discoveryMyReportsSignedOut": "તમારા રિપોર્ટ જોવા સાઇન ઇન કરો",
   "@discoveryMyReportsSignedOut": {
     "x-review": "pending"
   },
@@ -4256,19 +4256,19 @@
   "@discoveryMyReportsEmpty": {
     "x-review": "pending"
   },
-  "discoveryFollowingTitle": "અનુસરેલી",
+  "discoveryFollowingTitle": "ફોલો કરેલી",
   "@discoveryFollowingTitle": {
     "x-review": "pending"
   },
-  "discoveryFollowingSignedOut": "તમે અનુસરો છો તે સમસ્યાઓ જોવા સાઇન ઇન કરો",
+  "discoveryFollowingSignedOut": "તમે ફોલો કરો છો તે સમસ્યાઓ જોવા સાઇન ઇન કરો",
   "@discoveryFollowingSignedOut": {
     "x-review": "pending"
   },
-  "discoveryFollowingEmpty": "કોઈ સમસ્યાની સ્થિતિ બદલાય ત્યારે અપડેટ મેળવવા તેને અનુસરો.",
+  "discoveryFollowingEmpty": "કોઈ સમસ્યાની સ્થિતિ બદલાય ત્યારે અપડેટ મેળવવા તેને ફોલો કરો.",
   "@discoveryFollowingEmpty": {
     "x-review": "pending"
   },
-  "discoveryUnfollow": "અનુસરવાનું બંધ કરો",
+  "discoveryUnfollow": "ફોલો બંધ કરો",
   "@discoveryUnfollow": {
     "x-review": "pending"
   },
@@ -4291,7 +4291,7 @@
       }
     }
   },
-  "discoveryShareAffected": "{count} રહેવાસીઓ અસરગ્રસ્ત",
+  "discoveryShareAffected": "{count, plural, =1{1 રહેવાસી અસરગ્રસ્ત} other{{count} રહેવાસીઓ અસરગ્રસ્ત}}",
   "@discoveryShareAffected": {
     "x-review": "pending",
     "placeholders": {
@@ -4300,7 +4300,7 @@
       }
     }
   },
-  "discoveryShareIndependence": "સ્વતંત્ર નાગરિક એપ. AMC દ્વારા ચલાવાતી નથી કે તેની સાથે જોડાયેલી નથી.",
+  "discoveryShareIndependence": "નાગરિકોની સ્વતંત્ર એપ. AMC દ્વારા ચલાવાતી કે તેની સાથે જોડાયેલી નથી.",
   "@discoveryShareIndependence": {
     "x-review": "pending"
   },
@@ -4308,11 +4308,11 @@
   "@repClaimVerified": {
     "x-review": "pending"
   },
-  "repClaimVerifiedHelper": "સાર્થીએ {date}એ ચકાસ્યું · {method} · {until} સુધી માન્ય",
+  "repClaimVerifiedHelper": "સારથીએ {date} એ ચકાસ્યું · {method} · {until} સુધી માન્ય",
   "@repClaimVerifiedHelper": {
     "x-review": "pending"
   },
-  "repClaimVerifiedSemantics": "ચકાસાયેલ પ્રતિનિધિ, {date}એ ચકાસ્યું",
+  "repClaimVerifiedSemantics": "ચકાસાયેલ પ્રતિનિધિ, {date} એ ચકાસ્યું",
   "@repClaimVerifiedSemantics": {
     "x-review": "pending"
   },
@@ -4336,7 +4336,7 @@
   "@repClaimMethodInPerson": {
     "x-review": "pending"
   },
-  "repClaimMethodEmail": "સત્તાવાર ઇમેઇલ",
+  "repClaimMethodEmail": "સત્તાવાર ઈમેલ",
   "@repClaimMethodEmail": {
     "x-review": "pending"
   },
@@ -4348,7 +4348,7 @@
   "@repClaimStep": {
     "x-review": "pending"
   },
-  "repClaimBody": "તમારું ચૂંટણી પ્રમાણપત્ર અથવા તમારું નામ અને વોર્ડ દર્શાવતા અન્ય સત્તાવાર દસ્તાવેજનો સ્પષ્ટ ફોટો અપલોડ કરો. ફક્ત સાર્થીના એડમિન જ તે જુએ છે.",
+  "repClaimBody": "તમારા ચૂંટણી પ્રમાણપત્રનો અથવા તમારું નામ અને વોર્ડ દર્શાવતા અન્ય સત્તાવાર દસ્તાવેજનો સ્પષ્ટ ફોટો અપલોડ કરો. ફક્ત સારથીના એડમિન જ તે જોઈ શકે છે.",
   "@repClaimBody": {
     "x-review": "pending"
   },
@@ -4412,7 +4412,7 @@
   "@repClaimChange": {
     "x-review": "pending"
   },
-  "repClaimConsent": "હું પુષ્ટિ કરું છું કે હું {name} છું અને દસ્તાવેજો સાચા છે. ખોટા દાવાથી એકાઉન્ટ સ્થગિત થાય છે.",
+  "repClaimConsent": "હું પુષ્ટિ કરું છું કે હું {name} છું અને દસ્તાવેજો સાચા છે. ખોટા દાવા બદલ એકાઉન્ટ સસ્પેન્ડ થાય છે.",
   "@repClaimConsent": {
     "x-review": "pending"
   },
@@ -4484,7 +4484,7 @@
   "@repClaimErrorPending": {
     "x-review": "pending"
   },
-  "repClaimErrorVerified": "આ પ્રોફાઇલ પહેલેથી ચકાસાયેલ છે. આ ખોટું હોય તો સાર્થીનો સંપર્ક કરો.",
+  "repClaimErrorVerified": "આ પ્રોફાઇલ પહેલેથી ચકાસાયેલી છે. આ ખોટું હોય તો સારથીનો સંપર્ક કરો.",
   "@repClaimErrorVerified": {
     "x-review": "pending"
   },
@@ -4496,11 +4496,11 @@
   "@repClaimErrorRoleConflict": {
     "x-review": "pending"
   },
-  "wardDashErrorOutOfScope": "તમે ફક્ત તમારા વોર્ડની સમસ્યાઓ પર જ કાર્ય કરી શકો છો.",
+  "wardDashErrorOutOfScope": "તમે ફક્ત તમારા વોર્ડની સમસ્યાઓ પર જ કાર્યવાહી કરી શકો છો.",
   "@wardDashErrorOutOfScope": {
     "x-review": "pending"
   },
-  "wardDashErrorFrozen": "ચૂંટણી મોડ ચાલુ છે. ટિપ્પણીઓ અને અપડેટ્સ થોભાવ્યા છે.",
+  "wardDashErrorFrozen": "ચૂંટણી મોડ ચાલુ છે. ટિપ્પણીઓ અને અપડેટ થોભાવેલાં છે.",
   "@wardDashErrorFrozen": {
     "x-review": "pending"
   },
@@ -4556,7 +4556,7 @@
   "@repClaimEvidenceCount": {
     "x-review": "pending"
   },
-  "repClaimSubmitted": "{date}એ મોકલ્યો",
+  "repClaimSubmitted": "{date} એ મોકલ્યો",
   "@repClaimSubmitted": {
     "x-review": "pending"
   },
@@ -4672,7 +4672,7 @@
   "@wardDashVerified30": {
     "x-review": "pending"
   },
-  "wardDashByCategory": "શ્રેણી અને ઉંમર પ્રમાણે ખુલ્લી સમસ્યાઓ",
+  "wardDashByCategory": "શ્રેણી અને સમયગાળા પ્રમાણે ખુલ્લી સમસ્યાઓ",
   "@wardDashByCategory": {
     "x-review": "pending"
   },
@@ -4704,7 +4704,7 @@
   "@wardDashOverdueAge": {
     "x-review": "pending"
   },
-  "wardDashOverdueEmpty": "કંઈ મુદત વીતેલું નથી.",
+  "wardDashOverdueEmpty": "કોઈ સમસ્યાની મુદત વીતી નથી.",
   "@wardDashOverdueEmpty": {
     "x-review": "pending"
   },
@@ -4716,15 +4716,15 @@
   "@wardDashHotspotRow": {
     "x-review": "pending"
   },
-  "wardDashHotspotsEmpty": "ખુલ્લી સમસ્યાઓના કોઈ ઝુમખા નથી.",
+  "wardDashHotspotsEmpty": "ખુલ્લી સમસ્યાઓનાં કોઈ ઝૂમખાં નથી.",
   "@wardDashHotspotsEmpty": {
     "x-review": "pending"
   },
-  "wardDashTrend": "ઉકેલનો વલણ",
+  "wardDashTrend": "ઉકેલનું વલણ",
   "@wardDashTrend": {
     "x-review": "pending"
   },
-  "wardDashTrendLegend": "પટ્ટીઓ: દર અઠવાડિયે ઉકેલાયેલ, છેલ્લા 12 અઠવાડિયા",
+  "wardDashTrendLegend": "પટ્ટીઓ: દર અઠવાડિયે ‘ઉકેલાઈ’ તરીકે નોંધાયેલી, છેલ્લાં 12 અઠવાડિયાં",
   "@wardDashTrendLegend": {
     "x-review": "pending"
   },
@@ -4736,7 +4736,7 @@
   "@wardDashShowChart": {
     "x-review": "pending"
   },
-  "wardDashWeek": "અઠવાડિયું",
+  "wardDashWeek": "અઠવાડિયાની શરૂઆત",
   "@wardDashWeek": {
     "x-review": "pending"
   },
@@ -4744,7 +4744,7 @@
   "@wardDashReported": {
     "x-review": "pending"
   },
-  "wardDashMarkedFixed": "ઉકેલાયેલ ચિહ્નિત",
+  "wardDashMarkedFixed": "‘ઉકેલાઈ’ તરીકે નોંધાયેલી",
   "@wardDashMarkedFixed": {
     "x-review": "pending"
   },
@@ -4768,7 +4768,7 @@
   "@wardDashLoadError": {
     "x-review": "pending"
   },
-  "wardDashStale": "{time}નો ડેટા બતાવે છે",
+  "wardDashStale": "{time} નો ડેટા બતાવીએ છીએ",
   "@wardDashStale": {
     "x-review": "pending"
   },
@@ -4776,7 +4776,7 @@
   "@wardDashElection": {
     "x-review": "pending"
   },
-  "wardDashNoScope": "તમારા એકાઉન્ટ સાથે હજુ કોઈ વોર્ડ જોડાયો નથી.",
+  "wardDashNoScope": "તમારા એકાઉન્ટ સાથે હજી કોઈ વોર્ડ જોડાયો નથી.",
   "@wardDashNoScope": {
     "x-review": "pending"
   },
@@ -4792,7 +4792,7 @@
   "@wardDashActAck": {
     "x-review": "pending"
   },
-  "wardDashActFixed": "ઉકેલાયેલ ચિહ્નિત કરો",
+  "wardDashActFixed": "‘ઉકેલાઈ’ તરીકે નોંધો",
   "@wardDashActFixed": {
     "x-review": "pending"
   },
@@ -4824,7 +4824,7 @@
   "@repMsgTitle": {
     "x-review": "pending"
   },
-  "repMsgEmpty": "હજુ કોઈ સંદેશ નથી.",
+  "repMsgEmpty": "હજી કોઈ સંદેશ નથી.",
   "@repMsgEmpty": {
     "x-review": "pending"
   },
@@ -4832,7 +4832,7 @@
   "@repMsgLoadError": {
     "x-review": "pending"
   },
-  "repMsgUnread": "ન વાંચેલ",
+  "repMsgUnread": "ન વાંચેલા",
   "@repMsgUnread": {
     "x-review": "pending"
   },
@@ -4860,11 +4860,11 @@
   "@repMsgReplySend": {
     "x-review": "pending"
   },
-  "repMsgRepliedEmail": "{date}એ ઇમેઇલથી જવાબ આપ્યો",
+  "repMsgRepliedEmail": "{date} એ ઈમેલથી જવાબ આપ્યો",
   "@repMsgRepliedEmail": {
     "x-review": "pending"
   },
-  "repMsgRepliedApp": "{date}એ સાર્થીમાં જવાબ આપ્યો",
+  "repMsgRepliedApp": "{date} એ સારથીમાં જવાબ આપ્યો",
   "@repMsgRepliedApp": {
     "x-review": "pending"
   },
@@ -4876,7 +4876,7 @@
   "@repMsgMineTitle": {
     "x-review": "pending"
   },
-  "repMsgMineEmpty": "તમે હજુ કોઈ પ્રતિનિધિને સંદેશ મોકલ્યો નથી.",
+  "repMsgMineEmpty": "તમે હજી કોઈ પ્રતિનિધિને સંદેશ મોકલ્યો નથી.",
   "@repMsgMineEmpty": {
     "x-review": "pending"
   },

@@ -17,7 +17,7 @@ const _statusEn = {
 const _statusGu = {
   IssueStatus.reported: 'નોંધાઈ',
   IssueStatus.inProgress: 'કામ ચાલુ',
-  IssueStatus.verified: 'ચકાસાયેલ',
+  IssueStatus.verified: 'ચકાસાઈ',
 };
 const _severityEn = {
   AlertSeverity.info: 'Info',
