@@ -47,6 +47,7 @@ What is not used: seals, circle emblems, architecture, wheels or chakras, and AM
 | `lockup-horizontal-{en,gu}-dark.svg` | on dark #131C18 (wordmark #7BD3A6) |
 | `lockup-horizontal-{en,gu}-reversed.svg` | on primary #14674A |
 | `screens/` | rendered PNG proofs (`logo-family.png`) |
+| `readme/` | artwork for the root README: hero and "For developers" banner (light/dark), feature tiles, lifecycle diagram, phone-framed screenshot rows, staff console frame |
 
 The lockups always place the mark and the wordmark side by side, with a 24-unit gap and the mark
 at 100 units. Never stack English over Gujarati; use one language per lockup. The text is shaped
@@ -55,3 +56,12 @@ converted to outlines, so the SVGs need no font. Regenerate them with `node logo
 
 The scripts live in `apps/mobile/tool/brand/`. They need `@resvg/resvg-js` and `playwright`
 installed in a scratch directory outside the repo; they are not app dependencies.
+
+### README artwork
+
+`node readme.mjs <repoRoot>` writes `docs/brand/readme/`. GitHub shows SVGs through `<img>` and
+cannot load fonts, so every word in the SVGs is shaped with `text.mjs` and converted to paths; the
+feature and status icons are glyphs from Flutter's Material Icons font. The screenshot rows are
+Playwright renders of `docs/demo/v2-evidence/` on a transparent background, so they sit on both
+GitHub themes. It also needs `sharp` and `harfbuzzjs`. Copy comes from approved strings only (the
+`cards.mjs` taglines and `app_*.arb` labels); re-run it after the screenshots or the copy change.
